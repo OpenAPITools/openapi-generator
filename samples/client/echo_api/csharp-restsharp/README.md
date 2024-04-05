@@ -130,6 +130,7 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**TestEchoBodyStringEnum**](docs/BodyApi.md#testechobodystringenum) | **POST** /echo/body/string_enum | Test string enum response body
 *BodyApi* | [**TestEchoBodyTagResponseString**](docs/BodyApi.md#testechobodytagresponsestring) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**TestFormIntegerBooleanString**](docs/FormApi.md#testformintegerbooleanstring) | **POST** /form/integer/boolean/string | Test form parameter(s)
+*FormApi* | [**TestFormObjectMultipart**](docs/FormApi.md#testformobjectmultipart) | **POST** /form/object/multipart | Test form parameter(s) for multipart schema
 *FormApi* | [**TestFormOneof**](docs/FormApi.md#testformoneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
 *HeaderApi* | [**TestHeaderIntegerBooleanStringEnums**](docs/HeaderApi.md#testheaderintegerbooleanstringenums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s)
 *PathApi* | [**TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](docs/PathApi.md#testspathstringpathstringintegerpathintegerenumnonrefstringpathenumrefstringpath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
@@ -157,6 +158,7 @@ Class | Method | HTTP request | Description
  - [Model.Query](docs/Query.md)
  - [Model.StringEnumRef](docs/StringEnumRef.md)
  - [Model.Tag](docs/Tag.md)
+ - [Model.TestFormObjectMultipartRequestMarker](docs/TestFormObjectMultipartRequestMarker.md)
  - [Model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
  - [Model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 

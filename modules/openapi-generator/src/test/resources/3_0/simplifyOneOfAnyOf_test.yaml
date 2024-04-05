@@ -89,3 +89,21 @@ components:
         - type: array
           items:
             type: string
+    AnyOfAnyType:
+      anyOf:
+        - type: boolean
+        - type: array
+          items: {}
+        - type: object
+        - type: string
+        - type: number
+        - type: integer
+    OneOfAnyType:
+      oneOf:
+        - type: object
+        - type: boolean
+        - type: number
+        - type: string
+        - type: integer
+        - type: array
+          items: {}

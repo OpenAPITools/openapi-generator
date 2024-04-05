@@ -50,6 +50,7 @@ from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
 from petstore_api.models.enum_test import EnumTest
 from petstore_api.models.feeding import Feeding
+from petstore_api.models.field import Field
 from petstore_api.models.file import File
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.models.first_ref import FirstRef
@@ -101,6 +102,7 @@ from petstore_api.models.task_activity import TaskActivity
 from petstore_api.models.test_error_responses_with_model400_response import TestErrorResponsesWithModel400Response
 from petstore_api.models.test_error_responses_with_model404_response import TestErrorResponsesWithModel404Response
 from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
+from petstore_api.models.test_object_for_multipart_requests_request_marker import TestObjectForMultipartRequestsRequestMarker
 from petstore_api.models.tiger import Tiger
 from petstore_api.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties
 from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties

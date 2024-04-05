@@ -21,6 +21,7 @@ from petstore_api.api.another_fake_api import AnotherFakeApi
 from petstore_api.api.default_api import DefaultApi
 from petstore_api.api.fake_api import FakeApi
 from petstore_api.api.fake_classname_tags123_api import FakeClassnameTags123Api
+from petstore_api.api.import_test_datetime_api import ImportTestDatetimeApi
 from petstore_api.api.pet_api import PetApi
 from petstore_api.api.store_api import StoreApi
 from petstore_api.api.user_api import UserApi
@@ -90,6 +91,7 @@ from petstore_api.models.map_test import MapTest
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from petstore_api.models.model200_response import Model200Response
 from petstore_api.models.model_api_response import ModelApiResponse
+from petstore_api.models.model_field import ModelField
 from petstore_api.models.model_return import ModelReturn
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
@@ -125,6 +127,7 @@ from petstore_api.models.task_activity import TaskActivity
 from petstore_api.models.test_error_responses_with_model400_response import TestErrorResponsesWithModel400Response
 from petstore_api.models.test_error_responses_with_model404_response import TestErrorResponsesWithModel404Response
 from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
+from petstore_api.models.test_object_for_multipart_requests_request_marker import TestObjectForMultipartRequestsRequestMarker
 from petstore_api.models.tiger import Tiger
 from petstore_api.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties
 from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties

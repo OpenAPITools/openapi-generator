@@ -40,6 +40,10 @@ export const ErrorCode = {
 export type ErrorCode = typeof ErrorCode[keyof typeof ErrorCode];
 
 
+export function instanceOfErrorCode(value: any): boolean {
+    return Object.values(ErrorCode).includes(value);
+}
+
 export function ErrorCodeFromJSON(json: any): ErrorCode {
     return ErrorCodeFromJSONTyped(json, false);
 }

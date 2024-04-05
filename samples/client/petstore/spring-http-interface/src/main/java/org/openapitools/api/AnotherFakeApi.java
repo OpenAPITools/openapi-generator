@@ -30,7 +30,7 @@ public interface AnotherFakeApi {
     @HttpExchange(
         method = "PATCH",
         value = "/another-fake/dummy",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     ResponseEntity<ClientDto> call123testSpecialTags(

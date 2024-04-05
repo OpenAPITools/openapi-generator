@@ -65,6 +65,7 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**Test-EchoBodyAllOfPet**](docs/BodyApi.md#Test-EchoBodyAllOfPet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
 *BodyApi* | [**Test-EchoBodyStringEnum**](docs/BodyApi.md#Test-EchoBodyStringEnum) | **POST** /echo/body/string_enum | Test string enum response body
 *FormApi* | [**Test-FormIntegerBooleanString**](docs/FormApi.md#Test-FormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
+*FormApi* | [**Test-FormObjectMultipart**](docs/FormApi.md#Test-FormObjectMultipart) | **POST** /form/object/multipart | Test form parameter(s) for multipart schema
 *FormApi* | [**Test-FormOneof**](docs/FormApi.md#Test-FormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
 *HeaderApi* | [**Test-HeaderIntegerBooleanStringEnums**](docs/HeaderApi.md#Test-HeaderIntegerBooleanStringEnums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s)
 *PathApi* | [**Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](docs/PathApi.md#Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
@@ -91,6 +92,7 @@ Class | Method | HTTP request | Description
  - [PSOpenAPITools\Model.Query](docs/Query.md)
  - [PSOpenAPITools\Model.StringEnumRef](docs/StringEnumRef.md)
  - [PSOpenAPITools\Model.Tag](docs/Tag.md)
+ - [PSOpenAPITools\Model.TestFormObjectMultipartRequestMarker](docs/TestFormObjectMultipartRequestMarker.md)
  - [PSOpenAPITools\Model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
  - [PSOpenAPITools\Model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 

@@ -25,7 +25,7 @@ class UnnamedDictWithAdditionalStringListProperties(BaseModel):
     """
     UnnamedDictWithAdditionalStringListProperties
     """
-    dict_property: Optional[Dict[str, conlist(StrictStr)]] = Field(None, alias="dictProperty")
+    dict_property: Optional[Dict[str, conlist(StrictStr)]] = Field(default=None, alias="dictProperty")
     additional_properties: Dict[str, Any] = {}
     __properties = ["dictProperty"]
 

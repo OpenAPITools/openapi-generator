@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -54,6 +56,7 @@ public class HealthCheckResult {
    * @return nullableMessage
   **/
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public String getNullableMessage() {

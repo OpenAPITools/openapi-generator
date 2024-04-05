@@ -132,9 +132,10 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
             // return "[" + getTypeDeclaration(inner) + "]";
             return getTypeDeclaration(inner);
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
-
-            return getTypeDeclaration(inner);
+            Object ap = p.getAdditionalProperties();
+            if (ap instanceof Schema) {
+                return getTypeDeclaration((Schema) ap);
+            }
         }
 
         // IMPORTANT NOTE Not using the supertype invocation, because we want to UpperCamelize the type:

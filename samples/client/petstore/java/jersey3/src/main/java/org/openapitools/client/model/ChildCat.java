@@ -33,6 +33,8 @@ import org.openapitools.client.model.ParentPet;
 import java.util.Set;
 import java.util.HashSet;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -70,6 +72,7 @@ public class ChildCat extends ParentPet {
    * @return name
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -103,6 +106,7 @@ public class ChildCat extends ParentPet {
    * @return petType
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

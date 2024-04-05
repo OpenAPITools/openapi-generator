@@ -21,21 +21,21 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for FakeBigDecimalMap200Response
  */
-public class FakeBigDecimalMap200ResponseTest {
+class FakeBigDecimalMap200ResponseTest {
     private final FakeBigDecimalMap200Response model = new FakeBigDecimalMap200Response();
 
     /**
      * Model tests for FakeBigDecimalMap200Response
      */
     @Test
-    public void testFakeBigDecimalMap200Response() {
+    void testFakeBigDecimalMap200Response() {
         // TODO: test FakeBigDecimalMap200Response
     }
 
@@ -43,7 +43,7 @@ public class FakeBigDecimalMap200ResponseTest {
      * Test the property 'someId'
      */
     @Test
-    public void someIdTest() {
+    void someIdTest() {
         // TODO: test someId
     }
 
@@ -51,7 +51,7 @@ public class FakeBigDecimalMap200ResponseTest {
      * Test the property 'someMap'
      */
     @Test
-    public void someMapTest() {
+    void someMapTest() {
         // TODO: test someMap
     }
 

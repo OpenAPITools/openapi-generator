@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.List;
 import org.openapitools.client.model.Scalar;
 
 

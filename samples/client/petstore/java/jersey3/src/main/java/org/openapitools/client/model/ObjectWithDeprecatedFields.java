@@ -27,6 +27,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -69,6 +71,7 @@ public class ObjectWithDeprecatedFields {
    * @return uuid
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -97,6 +100,8 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -126,6 +131,8 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -163,6 +170,7 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

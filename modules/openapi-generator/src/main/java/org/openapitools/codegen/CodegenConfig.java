@@ -350,6 +350,8 @@ public interface CodegenConfig {
     */
     String generatorLanguageVersion();
 
+    boolean isTypeErasedGenerics();
+
     List<VendorExtension> getSupportedVendorExtensions();
 
     boolean getUseInlineModelResolver();

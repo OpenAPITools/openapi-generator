@@ -37,7 +37,7 @@
      {{^isMap}}
      {{#items}}
      {{#isEnumRef}}
-     * @Accessor(getter="getSerialized{{nameInCamelCase}}")
+     * @Accessor(getter="getSerialized{{nameInPascalCase}}")
      * @Type("array<string>")
      {{/isEnumRef}}
      {{^isEnumRef}}
@@ -56,7 +56,7 @@
      * @Type("DateTime")
     {{/isDateTime}}
     {{#isEnumRef}}
-        * @Accessor(getter="getSerialized{{nameInCamelCase}}")
+        * @Accessor(getter="getSerialized{{nameInPascalCase}}")
         * @Type("string")
     {{/isEnumRef}}
     {{^isDate}}

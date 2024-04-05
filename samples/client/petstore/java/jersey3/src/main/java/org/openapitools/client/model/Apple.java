@@ -23,6 +23,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -55,6 +57,7 @@ public class Apple {
    * @return cultivar
   **/
   @jakarta.annotation.Nullable
+ @Pattern(regexp="^[a-zA-Z\\s]*$")
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -80,6 +83,7 @@ public class Apple {
    * @return origin
   **/
   @jakarta.annotation.Nullable
+ @Pattern(regexp="/^[A-Z\\s]*$/i")
   @JsonProperty(JSON_PROPERTY_ORIGIN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

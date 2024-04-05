@@ -64,6 +64,7 @@ Class | Method | HTTP request | Description
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
  - [PropertyTest](docs/PropertyTest.md)
+ - [Ref](docs/Ref.md)
  - [Return](docs/Return.md)
  - [Tag](docs/Tag.md)
  - [TypeTesting](docs/TypeTesting.md)

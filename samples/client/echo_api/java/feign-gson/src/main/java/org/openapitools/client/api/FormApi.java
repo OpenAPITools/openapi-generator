@@ -4,6 +4,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
 import org.openapitools.client.model.ApiResponse;
 
+import org.openapitools.client.model.TestFormObjectMultipartRequestMarker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,6 +46,35 @@ public interface FormApi extends ApiClient.Api {
     "Accept: text/plain",
   })
   ApiResponse<String> testFormIntegerBooleanStringWithHttpInfo(@Param("integer_form") Integer integerForm, @Param("boolean_form") Boolean booleanForm, @Param("string_form") String stringForm);
+
+
+
+  /**
+   * Test form parameter(s) for multipart schema
+   * Test form parameter(s) for multipart schema
+   * @param marker  (required)
+   * @return String
+   */
+  @RequestLine("POST /form/object/multipart")
+  @Headers({
+    "Content-Type: multipart/form-data",
+    "Accept: text/plain",
+  })
+  String testFormObjectMultipart(@Param("marker") TestFormObjectMultipartRequestMarker marker);
+
+  /**
+   * Test form parameter(s) for multipart schema
+   * Similar to <code>testFormObjectMultipart</code> but it also returns the http response headers .
+   * Test form parameter(s) for multipart schema
+   * @param marker  (required)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /form/object/multipart")
+  @Headers({
+    "Content-Type: multipart/form-data",
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testFormObjectMultipartWithHttpInfo(@Param("marker") TestFormObjectMultipartRequestMarker marker);
 
 
 

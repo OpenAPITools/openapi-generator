@@ -17,7 +17,7 @@ require 'tempfile'
 require 'time'
 require 'faraday'
 require 'faraday/multipart' if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new('2.0')
-require 'filemagic'
+require 'marcel'
 
 
 module OpenapiClient
@@ -141,8 +141,7 @@ module OpenapiClient
         form_params.each do |key, value|
           case value
           when ::File, ::Tempfile
-            filemagic = FileMagic.new(FileMagic::MAGIC_MIME)
-            data[key] = Faraday::FilePart.new(value.path, filemagic.file(value.path, true))
+            data[key] = Faraday::FilePart.new(value.path, Marcel::MimeType.for(Pathname.new(value.path)))
           when ::Array, nil
             # let Faraday handle Array and nil parameters
             data[key] = value

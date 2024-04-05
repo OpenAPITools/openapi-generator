@@ -34,7 +34,7 @@ public interface AnotherFakeApi {
     @HttpExchange(
         method = "PATCH",
         value = "/another-fake/dummy",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<Client>> call123testSpecialTags(

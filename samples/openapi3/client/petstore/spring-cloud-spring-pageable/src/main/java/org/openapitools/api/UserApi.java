@@ -164,7 +164,7 @@ public interface UserApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/{username}",
-        produces = "application/json,application/xml"
+        produces = { "application/json", "application/xml" }
     )
     
     ResponseEntity<User> getUserByName(
@@ -195,7 +195,7 @@ public interface UserApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/login",
-        produces = "application/json,application/xml"
+        produces = { "application/json", "application/xml" }
     )
     
     ResponseEntity<String> loginUser(

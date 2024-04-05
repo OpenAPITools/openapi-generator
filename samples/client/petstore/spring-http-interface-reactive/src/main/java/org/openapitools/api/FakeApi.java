@@ -44,7 +44,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "POST",
         value = "/fake/create_xml_item",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/xml"
     )
     Mono<ResponseEntity<Void>> createXmlItem(
@@ -62,7 +62,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "POST",
         value = "/fake/outer/boolean",
-        accept = "*/*",
+        accept = { "*/*" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(
@@ -80,7 +80,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "POST",
         value = "/fake/outer/composite",
-        accept = "*/*",
+        accept = { "*/*" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(
@@ -98,7 +98,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "POST",
         value = "/fake/outer/number",
-        accept = "*/*",
+        accept = { "*/*" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(
@@ -116,7 +116,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "POST",
         value = "/fake/outer/string",
-        accept = "*/*",
+        accept = { "*/*" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<String>> fakeOuterStringSerialize(
@@ -134,7 +134,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "PUT",
         value = "/fake/body-with-file-schema",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> testBodyWithFileSchema(
@@ -152,7 +152,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "PUT",
         value = "/fake/body-with-query-params",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> testBodyWithQueryParams(
@@ -171,7 +171,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "PATCH",
         value = "/fake",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<Client>> testClientModel(
@@ -203,7 +203,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "POST",
         value = "/fake",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> testEndpointParameters(
@@ -242,7 +242,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "GET",
         value = "/fake",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> testEnumParameters(
@@ -272,7 +272,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "DELETE",
         value = "/fake",
-        accept = "application/json"
+        accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> testGroupParameters(
          @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
@@ -294,7 +294,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "POST",
         value = "/fake/inline-additionalProperties",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> testInlineAdditionalProperties(
@@ -313,7 +313,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "GET",
         value = "/fake/jsonFormData",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> testJsonFormData(
@@ -332,7 +332,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "POST",
         value = "/fake/nullable",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> testNullable(
@@ -353,7 +353,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "PUT",
         value = "/fake/test-query-parameters",
-        accept = "application/json"
+        accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(
          @RequestParam(value = "pipe", required = true) List<String> pipe,
@@ -372,7 +372,7 @@ public interface FakeApi {
     @HttpExchange(
         method = "GET",
         value = "/fake/response-with-example",
-        accept = "application/json"
+        accept = { "application/json" }
     )
     Mono<ResponseEntity<Integer>> testWithResultExample(
         

@@ -38,6 +38,8 @@ public class OpenAPINormalizer {
     private Map<String, String> inputRules = new HashMap<>();
     private Map<String, Boolean> rules = new HashMap<>();
 
+    private TreeSet<String> anyTypeTreeSet = new TreeSet<>();
+
     final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
 
     Set<String> ruleNames = new TreeSet<>();
@@ -112,6 +114,14 @@ public class OpenAPINormalizer {
     boolean updateSetToNullable;
     boolean updateMapToNullable;
 
+    // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
+    final String SET_PRIMITIVE_TYPES_TO_NULLABLE = "SET_PRIMITIVE_TYPES_TO_NULLABLE";
+    HashSet<String> setPrimitiveTypesToNullable = new HashSet<>();
+    boolean updateStringToNullable;
+    boolean updateIntegerToNullable;
+    boolean updateNumberToNullable;
+    boolean updateBooleanToNullable;
+
     // ============= end of rules =============
 
     /**
@@ -143,12 +153,23 @@ public class OpenAPINormalizer {
         ruleNames.add(NORMALIZE_31SPEC);
         ruleNames.add(REMOVE_X_INTERNAL);
         ruleNames.add(FILTER);
+        ruleNames.add(SET_CONTAINER_TO_NULLABLE);
+        ruleNames.add(SET_PRIMITIVE_TYPES_TO_NULLABLE);
+
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
         rules.put(SIMPLIFY_BOOLEAN_ENUM, true);
 
         processRules(inputRules);
+
+        // represent any type in tree set
+        anyTypeTreeSet.add("string");
+        anyTypeTreeSet.add("number");
+        anyTypeTreeSet.add("integer");
+        anyTypeTreeSet.add("boolean");
+        anyTypeTreeSet.add("object");
+        anyTypeTreeSet.add("array");
     }
 
     /**
@@ -221,6 +242,26 @@ public class OpenAPINormalizer {
             }
             if (!updateArrayToNullable && !updateSetToNullable && !updateMapToNullable) {
                 LOGGER.error("SET_CONTAINER_TO_NULLABLE rule must be in the form of `array|set|map`, e.g. `set`, `array|map`: {}", inputRules.get(SET_CONTAINER_TO_NULLABLE));
+            }
+        }
+
+        if (inputRules.get(SET_PRIMITIVE_TYPES_TO_NULLABLE) != null) {
+            rules.put(SET_PRIMITIVE_TYPES_TO_NULLABLE, true);
+            setPrimitiveTypesToNullable = new HashSet<>(Arrays.asList(inputRules.get(SET_PRIMITIVE_TYPES_TO_NULLABLE).split("[|]")));
+            if (setPrimitiveTypesToNullable.contains("string")) {
+                updateStringToNullable = true;
+            }
+            if (setPrimitiveTypesToNullable.contains("integer")) {
+                updateIntegerToNullable = true;
+            }
+            if (setPrimitiveTypesToNullable.contains("number")) {
+                updateNumberToNullable = true;
+            }
+            if (setPrimitiveTypesToNullable.contains("boolean")) {
+                updateBooleanToNullable = true;
+            }
+            if (!updateStringToNullable && !updateIntegerToNullable && !updateNumberToNullable && !updateBooleanToNullable) {
+                LOGGER.error("SET_PRIMITIVE_TYPES_TO_NULLABLE rule must be in the form of `string|integer|number|boolean`, e.g. `string`, `integer|number`: {}", inputRules.get(SET_PRIMITIVE_TYPES_TO_NULLABLE));
             }
         }
     }
@@ -533,15 +574,18 @@ public class OpenAPINormalizer {
     }
 
     private Schema normalizeSimpleSchema(Schema schema, Set<Schema> visitedSchemas) {
-        return processNormalize31Spec(schema, visitedSchemas);
+        Schema result = processNormalize31Spec(schema, visitedSchemas);
+        return processSetPrimitiveTypesToNullable(result);
     }
 
     private void normalizeBooleanSchema(Schema schema, Set<Schema> visitedSchemas) {
         processSimplifyBooleanEnum(schema);
+        processSetPrimitiveTypesToNullable(schema);
     }
 
     private void normalizeIntegerSchema(Schema schema, Set<Schema> visitedSchemas) {
         processAddUnsignedToIntegerWithInvalidMaxValue(schema);
+        processSetPrimitiveTypesToNullable(schema);
     }
 
     private void normalizeProperties(Map<String, Schema> properties, Set<Schema> visitedSchemas) {
@@ -852,8 +896,14 @@ public class OpenAPINormalizer {
             }
         }
 
-        if (!(schema instanceof JsonSchema) && (schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
-            return true;
+        if (schema instanceof JsonSchema) { // 3.1 spec
+            if (Boolean.TRUE.equals(schema.getNullable())) {
+                return true;
+            }
+        } else { // 3.0.x or 2.x spec
+            if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
+                return true;
+            }
         }
 
         // convert referenced enum of null only to `nullable:true`
@@ -882,6 +932,27 @@ public class OpenAPINormalizer {
 
         List<Schema> oneOfSchemas = schema.getOneOf();
         if (oneOfSchemas != null) {
+            // simplify any type with 6 sub-schemas (string, integer, etc) in oneOf
+            if (oneOfSchemas.size() == 6) {
+                TreeSet<String> ts = new TreeSet<>();
+                for (Schema s: oneOfSchemas) {
+                    ts.add(s.getType());
+                }
+
+                if (ts.equals(anyTypeTreeSet)) {
+                    Schema anyType = new Schema();
+                    anyType.setDescription(schema.getDescription());
+                    anyType.setNullable(schema.getNullable());
+                    anyType.setExtensions(schema.getExtensions());
+                    anyType.setTitle(schema.getTitle());
+                    anyType.setExample(schema.getExample());
+                    anyType.setExamples(schema.getExamples());
+                    anyType.setDefault(schema.getDefault());
+                    anyType.setDeprecated(schema.getDeprecated());
+                    return anyType;
+                }
+            }
+
             if (oneOfSchemas.removeIf(oneOf -> isNullTypeSchema(oneOf))) {
                 schema.setNullable(true);
 
@@ -911,25 +982,49 @@ public class OpenAPINormalizer {
 
         if (Boolean.TRUE.equals(schema.getUniqueItems())) { // a set
             if (updateSetToNullable) {
-                if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey("x-nullable"))) {
-                    // already set, don't overwrite
-                    return schema;
-                }
-                schema.setNullable(true);
+                return setNullable(schema);
             }
         } else { // array
             if (updateArrayToNullable) {
-                if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey("x-nullable"))) {
-                    // already set, don't overwrite
-                    return schema;
-                }
-                schema.setNullable(true);
+                return setNullable(schema);
             }
         }
 
         return schema;
     }
 
+    /**
+     * Set nullable to true in primitive types (e.g. string) if needed.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private Schema processSetPrimitiveTypesToNullable(Schema schema) {
+        if (!getRule(SET_PRIMITIVE_TYPES_TO_NULLABLE)) {
+            return schema;
+        }
+
+        if (updateStringToNullable && "string".equals(schema.getType())) {
+            return setNullable(schema);
+        } else if (updateIntegerToNullable && "integer".equals(schema.getType())) {
+            return setNullable(schema);
+        } else if (updateNumberToNullable && "number".equals(schema.getType())) {
+            return setNullable(schema);
+        } else if (updateBooleanToNullable && "boolean".equals(schema.getType())) {
+            return setNullable(schema);
+        }
+
+        return schema;
+    }
+
+    private Schema setNullable(Schema schema) {
+        if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey("x-nullable"))) {
+            // already set, don't overwrite
+            return schema;
+        }
+        schema.setNullable(true);
+        return schema;
+    }
     /**
      * Set nullable to true in map if needed.
      *
@@ -942,11 +1037,7 @@ public class OpenAPINormalizer {
         }
 
         if (updateMapToNullable) {
-            if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey("x-nullable"))) {
-                // already set, don't override
-                return schema;
-            }
-            schema.setNullable(true);
+            return setNullable(schema);
         }
 
         return schema;
@@ -966,6 +1057,27 @@ public class OpenAPINormalizer {
 
         List<Schema> anyOfSchemas = schema.getAnyOf();
         if (anyOfSchemas != null) {
+            // simplify any type with 6 sub-schemas (string, integer, etc) in anyOf
+            if (anyOfSchemas.size() == 6) {
+                TreeSet<String> ts = new TreeSet<>();
+                for (Schema s: anyOfSchemas) {
+                    ts.add(s.getType());
+                }
+
+                if (ts.equals(anyTypeTreeSet)) {
+                    Schema anyType = new Schema();
+                    anyType.setDescription(schema.getDescription());
+                    anyType.setNullable(schema.getNullable());
+                    anyType.setExtensions(schema.getExtensions());
+                    anyType.setTitle(schema.getTitle());
+                    anyType.setExample(schema.getExample());
+                    anyType.setExamples(schema.getExamples());
+                    anyType.setDefault(schema.getDefault());
+                    anyType.setDeprecated(schema.getDeprecated());
+                    return anyType;
+                }
+            }
+
             if (anyOfSchemas.removeIf(anyOf -> isNullTypeSchema(anyOf))) {
                 schema.setNullable(true);
             }
