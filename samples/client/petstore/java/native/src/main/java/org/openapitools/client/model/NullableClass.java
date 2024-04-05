@@ -60,7 +60,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class NullableClass extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
@@ -110,7 +110,7 @@ public class NullableClass extends HashMap<String, Object> {
    * Get integerProp
    * @return integerProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonIgnore
 
   public Integer getIntegerProp() {
@@ -143,7 +143,7 @@ public class NullableClass extends HashMap<String, Object> {
    * Get numberProp
    * @return numberProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonIgnore
 
   public BigDecimal getNumberProp() {
@@ -176,7 +176,7 @@ public class NullableClass extends HashMap<String, Object> {
    * Get booleanProp
    * @return booleanProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonIgnore
 
   public Boolean getBooleanProp() {
@@ -209,7 +209,7 @@ public class NullableClass extends HashMap<String, Object> {
    * Get stringProp
    * @return stringProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonIgnore
 
   public String getStringProp() {
@@ -242,7 +242,7 @@ public class NullableClass extends HashMap<String, Object> {
    * Get dateProp
    * @return dateProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonIgnore
 
   public LocalDate getDateProp() {
@@ -275,7 +275,7 @@ public class NullableClass extends HashMap<String, Object> {
    * Get datetimeProp
    * @return datetimeProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonIgnore
 
   public OffsetDateTime getDatetimeProp() {
@@ -320,7 +320,7 @@ public class NullableClass extends HashMap<String, Object> {
    * Get arrayNullableProp
    * @return arrayNullableProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonIgnore
 
   public List<Object> getArrayNullableProp() {
@@ -365,7 +365,7 @@ public class NullableClass extends HashMap<String, Object> {
    * Get arrayAndItemsNullableProp
    * @return arrayAndItemsNullableProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonIgnore
 
   public List<Object> getArrayAndItemsNullableProp() {
@@ -406,7 +406,7 @@ public class NullableClass extends HashMap<String, Object> {
    * Get arrayItemsNullable
    * @return arrayItemsNullable
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -443,7 +443,7 @@ public class NullableClass extends HashMap<String, Object> {
    * Get objectNullableProp
    * @return objectNullableProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonIgnore
 
   public Map<String, Object> getObjectNullableProp() {
@@ -488,7 +488,7 @@ public class NullableClass extends HashMap<String, Object> {
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonIgnore
 
   public Map<String, Object> getObjectAndItemsNullableProp() {
@@ -529,7 +529,7 @@ public class NullableClass extends HashMap<String, Object> {
    * Get objectItemsNullable
    * @return objectItemsNullable
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
 

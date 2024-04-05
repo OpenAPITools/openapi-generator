@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing reserved words
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ModelReturn {
   public static final String SERIALIZED_NAME_RETURN = "return";
   @SerializedName(SERIALIZED_NAME_RETURN)
@@ -67,7 +67,7 @@ public class ModelReturn {
    * Get _return
    * @return _return
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Integer getReturn() {
     return _return;
   }

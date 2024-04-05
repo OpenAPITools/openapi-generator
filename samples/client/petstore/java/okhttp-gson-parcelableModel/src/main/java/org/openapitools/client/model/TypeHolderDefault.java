@@ -54,7 +54,7 @@ import org.openapitools.client.JSON;
 /**
  * TypeHolderDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class TypeHolderDefault implements Parcelable {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -88,7 +88,7 @@ public class TypeHolderDefault implements Parcelable {
    * Get stringItem
    * @return stringItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public String getStringItem() {
     return stringItem;
   }
@@ -107,7 +107,7 @@ public class TypeHolderDefault implements Parcelable {
    * Get numberItem
    * @return numberItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -126,7 +126,7 @@ public class TypeHolderDefault implements Parcelable {
    * Get integerItem
    * @return integerItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -145,7 +145,7 @@ public class TypeHolderDefault implements Parcelable {
    * Get boolItem
    * @return boolItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -172,7 +172,7 @@ public class TypeHolderDefault implements Parcelable {
    * Get arrayItem
    * @return arrayItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

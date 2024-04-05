@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * PropertyNameCollision
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class PropertyNameCollision {
   public static final String SERIALIZED_NAME_UNDERSCORE_TYPE = "_type";
   @SerializedName(SERIALIZED_NAME_UNDERSCORE_TYPE)
@@ -75,7 +75,7 @@ public class PropertyNameCollision {
    * Get underscoreType
    * @return underscoreType
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getUnderscoreType() {
     return underscoreType;
   }
@@ -94,7 +94,7 @@ public class PropertyNameCollision {
    * Get type
    * @return type
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getType() {
     return type;
   }
@@ -113,7 +113,7 @@ public class PropertyNameCollision {
    * Get typeWithUnderscore
    * @return typeWithUnderscore
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getTypeWithUnderscore() {
     return typeWithUnderscore;
   }

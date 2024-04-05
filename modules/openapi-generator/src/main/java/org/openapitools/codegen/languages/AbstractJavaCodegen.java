@@ -140,7 +140,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean implicitHeaders = false;
     protected String implicitHeadersRegex = null;
     protected boolean camelCaseDollarSign = false;
-    protected boolean useJakartaEe = false;
+    protected boolean useJakartaEe = true;
     protected boolean containerDefaultToNull = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();

@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -296,7 +296,7 @@ public class EnumTest {
    * Get enumString
    * @return enumString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -315,7 +315,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -334,7 +334,7 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -353,7 +353,7 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -372,7 +372,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

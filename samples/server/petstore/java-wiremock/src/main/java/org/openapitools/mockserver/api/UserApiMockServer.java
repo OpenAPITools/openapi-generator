@@ -11,7 +11,7 @@ import com.github.tomakehurst.wiremock.http.Fault;
 
 public class UserApiMockServer {
 
-    public static MappingBuilder stubCreateUser0(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubCreateUser0(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/user"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -22,7 +22,7 @@ public class UserApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubCreateUserFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubCreateUserFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/user"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -39,7 +39,7 @@ public class UserApiMockServer {
     }
 
 
-    public static MappingBuilder stubCreateUsersWithArrayInput0(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubCreateUsersWithArrayInput0(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/user/createWithArray"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -50,7 +50,7 @@ public class UserApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubCreateUsersWithArrayInputFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubCreateUsersWithArrayInputFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/user/createWithArray"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -67,7 +67,7 @@ public class UserApiMockServer {
     }
 
 
-    public static MappingBuilder stubCreateUsersWithListInput0(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubCreateUsersWithListInput0(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/user/createWithList"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -78,7 +78,7 @@ public class UserApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubCreateUsersWithListInputFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubCreateUsersWithListInputFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/user/createWithList"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -95,7 +95,7 @@ public class UserApiMockServer {
     }
 
 
-    public static MappingBuilder stubDeleteUser400(@javax.annotation.Nonnull String username) {
+    public static MappingBuilder stubDeleteUser400(@jakarta.annotation.Nonnull String username) {
         MappingBuilder stub = delete(urlPathTemplate("/user/{username}"))
             .willReturn(aResponse()
                 .withStatus(400)
@@ -106,7 +106,7 @@ public class UserApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubDeleteUser404(@javax.annotation.Nonnull String username) {
+    public static MappingBuilder stubDeleteUser404(@jakarta.annotation.Nonnull String username) {
         MappingBuilder stub = delete(urlPathTemplate("/user/{username}"))
             .willReturn(aResponse()
                 .withStatus(404)
@@ -117,7 +117,7 @@ public class UserApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubDeleteUserFault(@javax.annotation.Nonnull String username, Fault fault) {
+    public static MappingBuilder stubDeleteUserFault(@jakarta.annotation.Nonnull String username, Fault fault) {
         MappingBuilder stub = delete(urlPathTemplate("/user/{username}"))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -131,7 +131,7 @@ public class UserApiMockServer {
 
 
 
-    public static MappingBuilder stubGetUserByName200(@javax.annotation.Nonnull String username, String response) {
+    public static MappingBuilder stubGetUserByName200(@jakarta.annotation.Nonnull String username, String response) {
         MappingBuilder stub = get(urlPathTemplate("/user/{username}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .willReturn(aResponse()
@@ -145,7 +145,7 @@ public class UserApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubGetUserByName400(@javax.annotation.Nonnull String username, String response) {
+    public static MappingBuilder stubGetUserByName400(@jakarta.annotation.Nonnull String username, String response) {
         MappingBuilder stub = get(urlPathTemplate("/user/{username}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .willReturn(aResponse()
@@ -159,7 +159,7 @@ public class UserApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubGetUserByName404(@javax.annotation.Nonnull String username, String response) {
+    public static MappingBuilder stubGetUserByName404(@jakarta.annotation.Nonnull String username, String response) {
         MappingBuilder stub = get(urlPathTemplate("/user/{username}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .willReturn(aResponse()
@@ -173,7 +173,7 @@ public class UserApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubGetUserByNameFault(@javax.annotation.Nonnull String username, Fault fault) {
+    public static MappingBuilder stubGetUserByNameFault(@jakarta.annotation.Nonnull String username, Fault fault) {
         MappingBuilder stub = get(urlPathTemplate("/user/{username}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .willReturn(aResponse()
@@ -194,7 +194,7 @@ public class UserApiMockServer {
 
 
 
-    public static MappingBuilder stubLoginUser200(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, String responseXRateLimit, String responseXExpiresAfter, String response) {
+    public static MappingBuilder stubLoginUser200(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password, String responseXRateLimit, String responseXExpiresAfter, String response) {
         MappingBuilder stub = get(urlPathEqualTo("/user/login"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .willReturn(aResponse()
@@ -211,7 +211,7 @@ public class UserApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubLoginUser400(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, String response) {
+    public static MappingBuilder stubLoginUser400(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password, String response) {
         MappingBuilder stub = get(urlPathEqualTo("/user/login"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .willReturn(aResponse()
@@ -226,7 +226,7 @@ public class UserApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubLoginUserFault(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, Fault fault) {
+    public static MappingBuilder stubLoginUserFault(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password, Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/user/login"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .willReturn(aResponse()
@@ -265,7 +265,7 @@ public class UserApiMockServer {
 
 
 
-    public static MappingBuilder stubUpdateUser400(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubUpdateUser400(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = put(urlPathTemplate("/user/{username}"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -277,7 +277,7 @@ public class UserApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubUpdateUser404(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubUpdateUser404(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = put(urlPathTemplate("/user/{username}"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -289,7 +289,7 @@ public class UserApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubUpdateUserFault(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubUpdateUserFault(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = put(urlPathTemplate("/user/{username}"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()

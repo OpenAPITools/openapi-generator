@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * Model for testing model name same as property name
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -66,7 +66,7 @@ public class Name {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
 
   public Integer getName() {
     return name;
@@ -82,7 +82,7 @@ public class Name {
    * Get snakeCase
    * @return snakeCase
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public Integer getSnakeCase() {
     return snakeCase;
@@ -101,7 +101,7 @@ public class Name {
    * Get property
    * @return property
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public String getProperty() {
     return property;
@@ -117,7 +117,7 @@ public class Name {
    * Get _123number
    * @return _123number
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public Integer get123number() {
     return _123number;

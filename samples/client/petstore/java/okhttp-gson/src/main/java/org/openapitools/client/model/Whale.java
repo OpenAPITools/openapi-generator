@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Whale
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Whale {
   public static final String SERIALIZED_NAME_HAS_BALEEN = "hasBaleen";
   @SerializedName(SERIALIZED_NAME_HAS_BALEEN)
@@ -75,7 +75,7 @@ public class Whale {
    * Get hasBaleen
    * @return hasBaleen
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Boolean getHasBaleen() {
     return hasBaleen;
   }
@@ -94,7 +94,7 @@ public class Whale {
    * Get hasTeeth
    * @return hasTeeth
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Boolean getHasTeeth() {
     return hasTeeth;
   }
@@ -113,7 +113,7 @@ public class Whale {
    * Get className
    * @return className
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public String getClassName() {
     return className;
   }

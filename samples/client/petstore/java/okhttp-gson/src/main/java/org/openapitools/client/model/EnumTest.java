@@ -54,7 +54,7 @@ import org.openapitools.client.JSON;
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -368,7 +368,7 @@ public class EnumTest {
    * Get enumString
    * @return enumString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -387,7 +387,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -406,7 +406,7 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -425,7 +425,7 @@ public class EnumTest {
    * Get enumIntegerOnly
    * @return enumIntegerOnly
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public EnumIntegerOnlyEnum getEnumIntegerOnly() {
     return enumIntegerOnly;
   }
@@ -444,7 +444,7 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -463,7 +463,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
@@ -482,7 +482,7 @@ public class EnumTest {
    * Get outerEnumInteger
    * @return outerEnumInteger
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
   }
@@ -501,7 +501,7 @@ public class EnumTest {
    * Get outerEnumDefaultValue
    * @return outerEnumDefaultValue
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public OuterEnumDefaultValue getOuterEnumDefaultValue() {
     return outerEnumDefaultValue;
   }
@@ -520,7 +520,7 @@ public class EnumTest {
    * Get outerEnumIntegerDefaultValue
    * @return outerEnumIntegerDefaultValue
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;
   }

@@ -20,19 +20,19 @@ import java.io.InputStream;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
-import javax.servlet.ServletConfig;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.servlet.ServletConfig;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.*;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 @Path("/pet")
 
 
 @io.swagger.annotations.Api(description = "the pet API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class PetApi  {
    private final PetApiService delegate;
 
@@ -57,7 +57,7 @@ public class PetApi  {
       this.delegate = delegate;
    }
 
-    @javax.ws.rs.POST
+    @jakarta.ws.rs.POST
     
     @Consumes({ "application/json", "application/xml" })
     
@@ -75,7 +75,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.addPet(pet, securityContext);
     }
-    @javax.ws.rs.DELETE
+    @jakarta.ws.rs.DELETE
     @Path("/{petId}")
     
     
@@ -93,7 +93,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.deletePet(petId, apiKey, securityContext);
     }
-    @javax.ws.rs.GET
+    @jakarta.ws.rs.GET
     @Path("/findByStatus")
     
     @Produces({ "application/xml", "application/json" })
@@ -111,7 +111,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.findPetsByStatus(status, securityContext);
     }
-    @javax.ws.rs.GET
+    @jakarta.ws.rs.GET
     @Path("/findByTags")
     
     @Produces({ "application/xml", "application/json" })
@@ -129,7 +129,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.findPetsByTags(tags, securityContext);
     }
-    @javax.ws.rs.GET
+    @jakarta.ws.rs.GET
     @Path("/{petId}")
     
     @Produces({ "application/xml", "application/json" })
@@ -145,7 +145,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.getPetById(petId, securityContext);
     }
-    @javax.ws.rs.PUT
+    @jakarta.ws.rs.PUT
     
     @Consumes({ "application/json", "application/xml" })
     
@@ -165,7 +165,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.updatePet(pet, securityContext);
     }
-    @javax.ws.rs.POST
+    @jakarta.ws.rs.POST
     @Path("/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
     
@@ -183,7 +183,7 @@ public class PetApi  {
     throws NotFoundException {
         return delegate.updatePetWithForm(petId, name, status, securityContext);
     }
-    @javax.ws.rs.POST
+    @jakarta.ws.rs.POST
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })

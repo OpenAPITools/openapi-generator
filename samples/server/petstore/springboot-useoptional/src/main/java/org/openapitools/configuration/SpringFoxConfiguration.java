@@ -16,8 +16,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Optional;
-import javax.annotation.Generated;
-import javax.servlet.ServletContext;
+import jakarta.annotation.Generated;
+import jakarta.servlet.ServletContext;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 @Configuration

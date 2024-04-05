@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * SpecialModelName
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
@@ -67,7 +67,7 @@ public class SpecialModelName {
    * Get $specialPropertyName
    * @return $specialPropertyName
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }

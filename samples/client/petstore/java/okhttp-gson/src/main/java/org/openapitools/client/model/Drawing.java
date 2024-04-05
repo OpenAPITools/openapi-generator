@@ -56,7 +56,7 @@ import org.openapitools.client.JSON;
 /**
  * Drawing
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Drawing {
   public static final String SERIALIZED_NAME_MAIN_SHAPE = "mainShape";
   @SerializedName(SERIALIZED_NAME_MAIN_SHAPE)
@@ -86,7 +86,7 @@ public class Drawing {
    * Get mainShape
    * @return mainShape
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Shape getMainShape() {
     return mainShape;
   }
@@ -105,7 +105,7 @@ public class Drawing {
    * Get shapeOrNull
    * @return shapeOrNull
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
   }
@@ -124,7 +124,7 @@ public class Drawing {
    * Get nullableShape
    * @return nullableShape
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public NullableShape getNullableShape() {
     return nullableShape;
   }
@@ -151,7 +151,7 @@ public class Drawing {
    * Get shapes
    * @return shapes
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public List<Shape> getShapes() {
     return shapes;
   }

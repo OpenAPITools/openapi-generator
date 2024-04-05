@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * Must be named &#x60;File&#x60; for test.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ModelFile {
   public static final String SERIALIZED_NAME_SOURCE_U_R_I = "sourceURI";
   @SerializedName(SERIALIZED_NAME_SOURCE_U_R_I)
@@ -44,7 +44,7 @@ public class ModelFile {
    * Test capitalization
    * @return sourceURI
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public String getSourceURI() {
     return sourceURI;

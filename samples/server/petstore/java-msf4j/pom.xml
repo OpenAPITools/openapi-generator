@@ -62,8 +62,8 @@
       <version>${jackson-version}</version>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.jaxrs</groupId>
-      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+      <artifactId>jackson-jakarta-rs-json-provider</artifactId>
       <version>${jackson-version}</version>
     </dependency>
     <dependency>
@@ -88,7 +88,7 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <servlet-api-version>4.0.4</servlet-api-version>
     <jackson-version>2.15.2</jackson-version>
-        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

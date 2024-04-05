@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class EnumTest implements Parcelable {
   /**
    * Gets or Sets enumString
@@ -298,7 +298,7 @@ public class EnumTest implements Parcelable {
    * Get enumString
    * @return enumString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -317,7 +317,7 @@ public class EnumTest implements Parcelable {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -336,7 +336,7 @@ public class EnumTest implements Parcelable {
    * Get enumInteger
    * @return enumInteger
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -355,7 +355,7 @@ public class EnumTest implements Parcelable {
    * Get enumNumber
    * @return enumNumber
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -374,7 +374,7 @@ public class EnumTest implements Parcelable {
    * Get outerEnum
    * @return outerEnum
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

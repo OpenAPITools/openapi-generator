@@ -57,7 +57,7 @@ import org.openapitools.client.JSON;
 /**
  * NullableClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class NullableClass {
   public static final String SERIALIZED_NAME_INTEGER_PROP = "integer_prop";
   @SerializedName(SERIALIZED_NAME_INTEGER_PROP)
@@ -119,7 +119,7 @@ public class NullableClass {
    * Get integerProp
    * @return integerProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Integer getIntegerProp() {
     return integerProp;
   }
@@ -138,7 +138,7 @@ public class NullableClass {
    * Get numberProp
    * @return numberProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public BigDecimal getNumberProp() {
     return numberProp;
   }
@@ -157,7 +157,7 @@ public class NullableClass {
    * Get booleanProp
    * @return booleanProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Boolean getBooleanProp() {
     return booleanProp;
   }
@@ -176,7 +176,7 @@ public class NullableClass {
    * Get stringProp
    * @return stringProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getStringProp() {
     return stringProp;
   }
@@ -195,7 +195,7 @@ public class NullableClass {
    * Get dateProp
    * @return dateProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public LocalDate getDateProp() {
     return dateProp;
   }
@@ -214,7 +214,7 @@ public class NullableClass {
    * Get datetimeProp
    * @return datetimeProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public OffsetDateTime getDatetimeProp() {
     return datetimeProp;
   }
@@ -241,7 +241,7 @@ public class NullableClass {
    * Get arrayNullableProp
    * @return arrayNullableProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public List<Object> getArrayNullableProp() {
     return arrayNullableProp;
   }
@@ -268,7 +268,7 @@ public class NullableClass {
    * Get arrayAndItemsNullableProp
    * @return arrayAndItemsNullableProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public List<Object> getArrayAndItemsNullableProp() {
     return arrayAndItemsNullableProp;
   }
@@ -295,7 +295,7 @@ public class NullableClass {
    * Get arrayItemsNullable
    * @return arrayItemsNullable
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public List<Object> getArrayItemsNullable() {
     return arrayItemsNullable;
   }
@@ -322,7 +322,7 @@ public class NullableClass {
    * Get objectNullableProp
    * @return objectNullableProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Map<String, Object> getObjectNullableProp() {
     return objectNullableProp;
   }
@@ -349,7 +349,7 @@ public class NullableClass {
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Map<String, Object> getObjectAndItemsNullableProp() {
     return objectAndItemsNullableProp;
   }
@@ -376,7 +376,7 @@ public class NullableClass {
    * Get objectItemsNullable
    * @return objectItemsNullable
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;
   }

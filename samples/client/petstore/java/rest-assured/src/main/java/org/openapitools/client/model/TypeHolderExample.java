@@ -25,14 +25,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * TypeHolderExample
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class TypeHolderExample {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -71,7 +71,7 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @NotNull
 
 
@@ -95,7 +95,7 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @NotNull
   @Valid
 
@@ -120,7 +120,7 @@ public class TypeHolderExample {
    * Get floatItem
    * @return floatItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @NotNull
 
 
@@ -144,7 +144,7 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @NotNull
 
 
@@ -168,7 +168,7 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @NotNull
 
 
@@ -200,7 +200,7 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @NotNull
 
 

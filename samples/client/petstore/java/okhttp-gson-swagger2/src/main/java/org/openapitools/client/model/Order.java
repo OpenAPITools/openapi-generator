@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
  * An order for a pets from the pet store
  */
 @Schema(description = "An order for a pets from the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Order {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -144,7 +144,7 @@ public class Order {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   public Long getId() {
     return id;
@@ -164,7 +164,7 @@ public class Order {
    * Get petId
    * @return petId
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   public Long getPetId() {
     return petId;
@@ -184,7 +184,7 @@ public class Order {
    * Get quantity
    * @return quantity
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   public Integer getQuantity() {
     return quantity;
@@ -204,7 +204,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -224,7 +224,7 @@ public class Order {
    * Order Status
    * @return status
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Order Status")
   public StatusEnum getStatus() {
     return status;
@@ -244,7 +244,7 @@ public class Order {
    * Get complete
    * @return complete
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   public Boolean getComplete() {
     return complete;

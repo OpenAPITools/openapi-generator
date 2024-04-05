@@ -24,14 +24,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * EnumArrays
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -148,7 +148,7 @@ public class EnumArrays {
    * Get justSymbol
    * @return justSymbol
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public JustSymbolEnum getJustSymbol() {
@@ -179,7 +179,7 @@ public class EnumArrays {
    * Get arrayEnum
    * @return arrayEnum
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public List<ArrayEnumEnum> getArrayEnum() {

@@ -71,7 +71,7 @@ public class FakeApiMockServer {
 
 
 
-    public static MappingBuilder stubFakeHttpSignatureTest200(@javax.annotation.Nonnull String body, @javax.annotation.Nullable String query1, @javax.annotation.Nullable String header1) {
+    public static MappingBuilder stubFakeHttpSignatureTest200(@jakarta.annotation.Nonnull String body, @jakarta.annotation.Nullable String query1, @jakarta.annotation.Nullable String header1) {
         MappingBuilder stub = get(urlPathEqualTo("/fake/http-signature-test"))
             .withHeader("Content-Type", havingExactly("application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -90,7 +90,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubFakeHttpSignatureTestFault(@javax.annotation.Nonnull String body, @javax.annotation.Nullable String query1, @javax.annotation.Nullable String header1, Fault fault) {
+    public static MappingBuilder stubFakeHttpSignatureTestFault(@jakarta.annotation.Nonnull String body, @jakarta.annotation.Nullable String query1, @jakarta.annotation.Nullable String header1, Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/fake/http-signature-test"))
             .withHeader("Content-Type", havingExactly("application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -118,7 +118,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubFakeOuterBooleanSerialize200(@javax.annotation.Nullable String body, String response) {
+    public static MappingBuilder stubFakeOuterBooleanSerialize200(@jakarta.annotation.Nullable String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/boolean"))
             .withHeader("Accept", havingExactly("*/*"))
             .withRequestBody(equalToJson(body))
@@ -132,7 +132,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubFakeOuterBooleanSerializeFault(@javax.annotation.Nullable String body, Fault fault) {
+    public static MappingBuilder stubFakeOuterBooleanSerializeFault(@jakarta.annotation.Nullable String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/boolean"))
             .withHeader("Accept", havingExactly("*/*"))
             .withRequestBody(equalToJson(body))
@@ -150,7 +150,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubFakeOuterCompositeSerialize200(@javax.annotation.Nullable String body, String response) {
+    public static MappingBuilder stubFakeOuterCompositeSerialize200(@jakarta.annotation.Nullable String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/composite"))
             .withHeader("Accept", havingExactly("*/*"))
             .withRequestBody(equalToJson(body))
@@ -164,7 +164,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubFakeOuterCompositeSerializeFault(@javax.annotation.Nullable String body, Fault fault) {
+    public static MappingBuilder stubFakeOuterCompositeSerializeFault(@jakarta.annotation.Nullable String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/composite"))
             .withHeader("Accept", havingExactly("*/*"))
             .withRequestBody(equalToJson(body))
@@ -185,7 +185,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubFakeOuterNumberSerialize200(@javax.annotation.Nullable String body, String response) {
+    public static MappingBuilder stubFakeOuterNumberSerialize200(@jakarta.annotation.Nullable String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/number"))
             .withHeader("Accept", havingExactly("*/*"))
             .withRequestBody(equalToJson(body))
@@ -199,7 +199,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubFakeOuterNumberSerializeFault(@javax.annotation.Nullable String body, Fault fault) {
+    public static MappingBuilder stubFakeOuterNumberSerializeFault(@jakarta.annotation.Nullable String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/number"))
             .withHeader("Accept", havingExactly("*/*"))
             .withRequestBody(equalToJson(body))
@@ -217,7 +217,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubFakeOuterStringSerialize200(@javax.annotation.Nullable String body, String response) {
+    public static MappingBuilder stubFakeOuterStringSerialize200(@jakarta.annotation.Nullable String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/string"))
             .withHeader("Accept", havingExactly("*/*"))
             .withRequestBody(equalToJson(body))
@@ -231,7 +231,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubFakeOuterStringSerializeFault(@javax.annotation.Nullable String body, Fault fault) {
+    public static MappingBuilder stubFakeOuterStringSerializeFault(@jakarta.annotation.Nullable String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/outer/string"))
             .withHeader("Accept", havingExactly("*/*"))
             .withRequestBody(equalToJson(body))
@@ -249,7 +249,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubFakePropertyEnumIntegerSerialize200(@javax.annotation.Nonnull String body, String response) {
+    public static MappingBuilder stubFakePropertyEnumIntegerSerialize200(@jakarta.annotation.Nonnull String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/property/enum-int"))
             .withHeader("Accept", havingExactly("*/*"))
             .withRequestBody(equalToJson(body))
@@ -263,7 +263,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubFakePropertyEnumIntegerSerializeFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubFakePropertyEnumIntegerSerializeFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/property/enum-int"))
             .withHeader("Accept", havingExactly("*/*"))
             .withRequestBody(equalToJson(body))
@@ -284,7 +284,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubTestAdditionalPropertiesReference200(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubTestAdditionalPropertiesReference200(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/additionalProperties-reference"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -295,7 +295,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestAdditionalPropertiesReferenceFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubTestAdditionalPropertiesReferenceFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/additionalProperties-reference"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -312,7 +312,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubTestBodyWithBinary200(@javax.annotation.Nullable String body) {
+    public static MappingBuilder stubTestBodyWithBinary200(@jakarta.annotation.Nullable String body) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/body-with-binary"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -323,7 +323,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestBodyWithBinaryFault(@javax.annotation.Nullable String body, Fault fault) {
+    public static MappingBuilder stubTestBodyWithBinaryFault(@jakarta.annotation.Nullable String body, Fault fault) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/body-with-binary"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -340,7 +340,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubTestBodyWithFileSchema200(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubTestBodyWithFileSchema200(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/body-with-file-schema"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -351,7 +351,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestBodyWithFileSchemaFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubTestBodyWithFileSchemaFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/body-with-file-schema"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -368,7 +368,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubTestBodyWithQueryParams200(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubTestBodyWithQueryParams200(@jakarta.annotation.Nonnull String query, @jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/body-with-query-params"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -380,7 +380,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestBodyWithQueryParamsFault(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubTestBodyWithQueryParamsFault(@jakarta.annotation.Nonnull String query, @jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/body-with-query-params"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -398,7 +398,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubTestClientModel200(@javax.annotation.Nonnull String body, String response) {
+    public static MappingBuilder stubTestClientModel200(@jakarta.annotation.Nonnull String body, String response) {
         MappingBuilder stub = patch(urlPathEqualTo("/fake"))
             .withHeader("Accept", havingExactly("application/json"))
             .withRequestBody(equalToJson(body))
@@ -412,7 +412,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestClientModelFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubTestClientModelFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = patch(urlPathEqualTo("/fake"))
             .withHeader("Accept", havingExactly("application/json"))
             .withRequestBody(equalToJson(body))
@@ -433,7 +433,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubTestEndpointParameters400(@javax.annotation.Nonnull String number, @javax.annotation.Nonnull String _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull String _byte, @javax.annotation.Nullable String integer, @javax.annotation.Nullable String int32, @javax.annotation.Nullable String int64, @javax.annotation.Nullable String _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable String binary, @javax.annotation.Nullable String date, @javax.annotation.Nullable String dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) {
+    public static MappingBuilder stubTestEndpointParameters400(@jakarta.annotation.Nonnull String number, @jakarta.annotation.Nonnull String _double, @jakarta.annotation.Nonnull String patternWithoutDelimiter, @jakarta.annotation.Nonnull String _byte, @jakarta.annotation.Nullable String integer, @jakarta.annotation.Nullable String int32, @jakarta.annotation.Nullable String int64, @jakarta.annotation.Nullable String _float, @jakarta.annotation.Nullable String string, @jakarta.annotation.Nullable String binary, @jakarta.annotation.Nullable String date, @jakarta.annotation.Nullable String dateTime, @jakarta.annotation.Nullable String password, @jakarta.annotation.Nullable String paramCallback) {
         MappingBuilder stub = post(urlPathEqualTo("/fake"))
             .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
             .withHeader("Authorization", matching(".*"))
@@ -479,7 +479,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestEndpointParameters404(@javax.annotation.Nonnull String number, @javax.annotation.Nonnull String _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull String _byte, @javax.annotation.Nullable String integer, @javax.annotation.Nullable String int32, @javax.annotation.Nullable String int64, @javax.annotation.Nullable String _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable String binary, @javax.annotation.Nullable String date, @javax.annotation.Nullable String dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) {
+    public static MappingBuilder stubTestEndpointParameters404(@jakarta.annotation.Nonnull String number, @jakarta.annotation.Nonnull String _double, @jakarta.annotation.Nonnull String patternWithoutDelimiter, @jakarta.annotation.Nonnull String _byte, @jakarta.annotation.Nullable String integer, @jakarta.annotation.Nullable String int32, @jakarta.annotation.Nullable String int64, @jakarta.annotation.Nullable String _float, @jakarta.annotation.Nullable String string, @jakarta.annotation.Nullable String binary, @jakarta.annotation.Nullable String date, @jakarta.annotation.Nullable String dateTime, @jakarta.annotation.Nullable String password, @jakarta.annotation.Nullable String paramCallback) {
         MappingBuilder stub = post(urlPathEqualTo("/fake"))
             .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
             .withHeader("Authorization", matching(".*"))
@@ -525,7 +525,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestEndpointParametersFault(@javax.annotation.Nonnull String number, @javax.annotation.Nonnull String _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull String _byte, @javax.annotation.Nullable String integer, @javax.annotation.Nullable String int32, @javax.annotation.Nullable String int64, @javax.annotation.Nullable String _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable String binary, @javax.annotation.Nullable String date, @javax.annotation.Nullable String dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback, Fault fault) {
+    public static MappingBuilder stubTestEndpointParametersFault(@jakarta.annotation.Nonnull String number, @jakarta.annotation.Nonnull String _double, @jakarta.annotation.Nonnull String patternWithoutDelimiter, @jakarta.annotation.Nonnull String _byte, @jakarta.annotation.Nullable String integer, @jakarta.annotation.Nullable String int32, @jakarta.annotation.Nullable String int64, @jakarta.annotation.Nullable String _float, @jakarta.annotation.Nullable String string, @jakarta.annotation.Nullable String binary, @jakarta.annotation.Nullable String date, @jakarta.annotation.Nullable String dateTime, @jakarta.annotation.Nullable String password, @jakarta.annotation.Nullable String paramCallback, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake"))
             .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
             .withHeader("Authorization", matching(".*"))
@@ -574,7 +574,7 @@ public class FakeApiMockServer {
 
 
 
-    public static MappingBuilder stubTestEnumParameters400(@javax.annotation.Nullable String enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable String enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable String enumQueryInteger, @javax.annotation.Nullable String enumQueryDouble, @javax.annotation.Nullable String enumQueryModelArray, @javax.annotation.Nullable String enumFormStringArray, @javax.annotation.Nullable String enumFormString) {
+    public static MappingBuilder stubTestEnumParameters400(@jakarta.annotation.Nullable String enumHeaderStringArray, @jakarta.annotation.Nullable String enumHeaderString, @jakarta.annotation.Nullable String enumQueryStringArray, @jakarta.annotation.Nullable String enumQueryString, @jakarta.annotation.Nullable String enumQueryInteger, @jakarta.annotation.Nullable String enumQueryDouble, @jakarta.annotation.Nullable String enumQueryModelArray, @jakarta.annotation.Nullable String enumFormStringArray, @jakarta.annotation.Nullable String enumFormString) {
         MappingBuilder stub = get(urlPathEqualTo("/fake"))
             .willReturn(aResponse()
                 .withStatus(400)
@@ -611,7 +611,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestEnumParameters404(@javax.annotation.Nullable String enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable String enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable String enumQueryInteger, @javax.annotation.Nullable String enumQueryDouble, @javax.annotation.Nullable String enumQueryModelArray, @javax.annotation.Nullable String enumFormStringArray, @javax.annotation.Nullable String enumFormString) {
+    public static MappingBuilder stubTestEnumParameters404(@jakarta.annotation.Nullable String enumHeaderStringArray, @jakarta.annotation.Nullable String enumHeaderString, @jakarta.annotation.Nullable String enumQueryStringArray, @jakarta.annotation.Nullable String enumQueryString, @jakarta.annotation.Nullable String enumQueryInteger, @jakarta.annotation.Nullable String enumQueryDouble, @jakarta.annotation.Nullable String enumQueryModelArray, @jakarta.annotation.Nullable String enumFormStringArray, @jakarta.annotation.Nullable String enumFormString) {
         MappingBuilder stub = get(urlPathEqualTo("/fake"))
             .willReturn(aResponse()
                 .withStatus(404)
@@ -648,7 +648,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestEnumParametersFault(@javax.annotation.Nullable String enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable String enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable String enumQueryInteger, @javax.annotation.Nullable String enumQueryDouble, @javax.annotation.Nullable String enumQueryModelArray, @javax.annotation.Nullable String enumFormStringArray, @javax.annotation.Nullable String enumFormString, Fault fault) {
+    public static MappingBuilder stubTestEnumParametersFault(@jakarta.annotation.Nullable String enumHeaderStringArray, @jakarta.annotation.Nullable String enumHeaderString, @jakarta.annotation.Nullable String enumQueryStringArray, @jakarta.annotation.Nullable String enumQueryString, @jakarta.annotation.Nullable String enumQueryInteger, @jakarta.annotation.Nullable String enumQueryDouble, @jakarta.annotation.Nullable String enumQueryModelArray, @jakarta.annotation.Nullable String enumFormStringArray, @jakarta.annotation.Nullable String enumFormString, Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/fake"))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -688,7 +688,7 @@ public class FakeApiMockServer {
 
 
 
-    public static MappingBuilder stubTestGroupParameters400(@javax.annotation.Nonnull String requiredStringGroup, @javax.annotation.Nonnull String requiredBooleanGroup, @javax.annotation.Nonnull String requiredInt64Group, @javax.annotation.Nullable String stringGroup, @javax.annotation.Nullable String booleanGroup, @javax.annotation.Nullable String int64Group) {
+    public static MappingBuilder stubTestGroupParameters400(@jakarta.annotation.Nonnull String requiredStringGroup, @jakarta.annotation.Nonnull String requiredBooleanGroup, @jakarta.annotation.Nonnull String requiredInt64Group, @jakarta.annotation.Nullable String stringGroup, @jakarta.annotation.Nullable String booleanGroup, @jakarta.annotation.Nullable String int64Group) {
         MappingBuilder stub = delete(urlPathEqualTo("/fake"))
             .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
@@ -711,7 +711,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestGroupParametersFault(@javax.annotation.Nonnull String requiredStringGroup, @javax.annotation.Nonnull String requiredBooleanGroup, @javax.annotation.Nonnull String requiredInt64Group, @javax.annotation.Nullable String stringGroup, @javax.annotation.Nullable String booleanGroup, @javax.annotation.Nullable String int64Group, Fault fault) {
+    public static MappingBuilder stubTestGroupParametersFault(@jakarta.annotation.Nonnull String requiredStringGroup, @jakarta.annotation.Nonnull String requiredBooleanGroup, @jakarta.annotation.Nonnull String requiredInt64Group, @jakarta.annotation.Nullable String stringGroup, @jakarta.annotation.Nullable String booleanGroup, @jakarta.annotation.Nullable String int64Group, Fault fault) {
         MappingBuilder stub = delete(urlPathEqualTo("/fake"))
             .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
@@ -737,7 +737,7 @@ public class FakeApiMockServer {
 
 
 
-    public static MappingBuilder stubTestInlineAdditionalProperties200(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubTestInlineAdditionalProperties200(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/inline-additionalProperties"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -748,7 +748,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestInlineAdditionalPropertiesFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubTestInlineAdditionalPropertiesFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/inline-additionalProperties"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -765,7 +765,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubTestInlineFreeformAdditionalProperties200(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubTestInlineFreeformAdditionalProperties200(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/inline-freeform-additionalProperties"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -776,7 +776,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestInlineFreeformAdditionalPropertiesFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubTestInlineFreeformAdditionalPropertiesFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/inline-freeform-additionalProperties"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -793,7 +793,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubTestJsonFormData200(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) {
+    public static MappingBuilder stubTestJsonFormData200(@jakarta.annotation.Nonnull String param, @jakarta.annotation.Nonnull String param2) {
         MappingBuilder stub = get(urlPathEqualTo("/fake/jsonFormData"))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -805,7 +805,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestJsonFormDataFault(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2, Fault fault) {
+    public static MappingBuilder stubTestJsonFormDataFault(@jakarta.annotation.Nonnull String param, @jakarta.annotation.Nonnull String param2, Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/fake/jsonFormData"))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -820,7 +820,7 @@ public class FakeApiMockServer {
 
 
 
-    public static MappingBuilder stubTestNullable200(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubTestNullable200(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/nullable"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -831,7 +831,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestNullableFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubTestNullableFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/nullable"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -848,7 +848,7 @@ public class FakeApiMockServer {
     }
 
 
-    public static MappingBuilder stubTestQueryParameterCollectionFormat200(@javax.annotation.Nonnull String pipe, @javax.annotation.Nonnull String ioutil, @javax.annotation.Nonnull String http, @javax.annotation.Nonnull String url, @javax.annotation.Nonnull String context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable String language) {
+    public static MappingBuilder stubTestQueryParameterCollectionFormat200(@jakarta.annotation.Nonnull String pipe, @jakarta.annotation.Nonnull String ioutil, @jakarta.annotation.Nonnull String http, @jakarta.annotation.Nonnull String url, @jakarta.annotation.Nonnull String context, @jakarta.annotation.Nonnull String allowEmpty, @jakarta.annotation.Nullable String language) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/test-query-parameters"))
             .willReturn(aResponse()
                 .withStatus(200)
@@ -867,7 +867,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestQueryParameterCollectionFormatFault(@javax.annotation.Nonnull String pipe, @javax.annotation.Nonnull String ioutil, @javax.annotation.Nonnull String http, @javax.annotation.Nonnull String url, @javax.annotation.Nonnull String context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable String language, Fault fault) {
+    public static MappingBuilder stubTestQueryParameterCollectionFormatFault(@jakarta.annotation.Nonnull String pipe, @jakarta.annotation.Nonnull String ioutil, @jakarta.annotation.Nonnull String http, @jakarta.annotation.Nonnull String url, @jakarta.annotation.Nonnull String context, @jakarta.annotation.Nonnull String allowEmpty, @jakarta.annotation.Nullable String language, Fault fault) {
         MappingBuilder stub = put(urlPathEqualTo("/fake/test-query-parameters"))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -889,7 +889,7 @@ public class FakeApiMockServer {
 
 
 
-    public static MappingBuilder stubTestStringMapReference200(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubTestStringMapReference200(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/stringMap-reference"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()
@@ -900,7 +900,7 @@ public class FakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubTestStringMapReferenceFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubTestStringMapReferenceFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/fake/stringMap-reference"))
             .withRequestBody(equalToJson(body))
             .willReturn(aResponse()

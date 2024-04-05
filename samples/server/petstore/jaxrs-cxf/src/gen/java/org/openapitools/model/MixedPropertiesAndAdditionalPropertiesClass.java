@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;

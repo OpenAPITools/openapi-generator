@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * BananaReq
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class BananaReq {
   public static final String SERIALIZED_NAME_LENGTH_CM = "lengthCm";
   @SerializedName(SERIALIZED_NAME_LENGTH_CM)
@@ -72,7 +72,7 @@ public class BananaReq {
    * Get lengthCm
    * @return lengthCm
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public BigDecimal getLengthCm() {
     return lengthCm;
   }
@@ -91,7 +91,7 @@ public class BananaReq {
    * Get sweet
    * @return sweet
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Boolean getSweet() {
     return sweet;
   }

@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * AnyTypeTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class AnyTypeTest {
   public static final String SERIALIZED_NAME_ANY_TYPE_PROPERTY = "any_type_property";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROPERTY)
@@ -78,7 +78,7 @@ public class AnyTypeTest {
    * Get anyTypeProperty
    * @return anyTypeProperty
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Object getAnyTypeProperty() {
     return anyTypeProperty;
   }
@@ -105,7 +105,7 @@ public class AnyTypeTest {
    * test array in 3.1 spec
    * @return arrayProp
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public List<String> getArrayProp() {
     return arrayProp;
   }
@@ -132,7 +132,7 @@ public class AnyTypeTest {
    * An item that was added to the queue. 
    * @return refArrayPrefixItems
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public List<String> getRefArrayPrefixItems() {
     return refArrayPrefixItems;
   }

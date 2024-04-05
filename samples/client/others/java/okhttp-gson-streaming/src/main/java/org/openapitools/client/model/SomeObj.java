@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * SomeObj
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class SomeObj implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -136,7 +136,7 @@ public class SomeObj implements Serializable {
    * Get $type
    * @return $type
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public TypeEnum get$Type() {
     return $type;
   }
@@ -155,7 +155,7 @@ public class SomeObj implements Serializable {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Long getId() {
     return id;
   }
@@ -174,7 +174,7 @@ public class SomeObj implements Serializable {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getName() {
     return name;
   }
@@ -193,7 +193,7 @@ public class SomeObj implements Serializable {
    * Get active
    * @return active
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Boolean getActive() {
     return active;
   }
@@ -212,7 +212,7 @@ public class SomeObj implements Serializable {
    * Get type
    * @return type
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getType() {
     return type;
   }

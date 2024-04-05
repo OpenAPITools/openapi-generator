@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class User implements Parcelable {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -97,7 +97,7 @@ public class User implements Parcelable {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Long getId() {
     return id;
   }
@@ -116,7 +116,7 @@ public class User implements Parcelable {
    * Get username
    * @return username
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getUsername() {
     return username;
   }
@@ -135,7 +135,7 @@ public class User implements Parcelable {
    * Get firstName
    * @return firstName
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getFirstName() {
     return firstName;
   }
@@ -154,7 +154,7 @@ public class User implements Parcelable {
    * Get lastName
    * @return lastName
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getLastName() {
     return lastName;
   }
@@ -173,7 +173,7 @@ public class User implements Parcelable {
    * Get email
    * @return email
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getEmail() {
     return email;
   }
@@ -192,7 +192,7 @@ public class User implements Parcelable {
    * Get password
    * @return password
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getPassword() {
     return password;
   }
@@ -211,7 +211,7 @@ public class User implements Parcelable {
    * Get phone
    * @return phone
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getPhone() {
     return phone;
   }
@@ -230,7 +230,7 @@ public class User implements Parcelable {
    * User Status
    * @return userStatus
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Integer getUserStatus() {
     return userStatus;
   }

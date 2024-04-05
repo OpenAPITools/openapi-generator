@@ -26,6 +26,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
@@ -133,7 +135,7 @@ public class PetApi {
     }
 
 
-    private ApiResponse<Pet> addPetWithHttpInfo(Pet pet) throws ApiException {
+    private ApiResponse<Pet> addPetWithHttpInfo( @NotNull Pet pet) throws ApiException {
         okhttp3.Call localVarCall = addPetValidateBeforeCall(pet, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -293,7 +295,7 @@ public class PetApi {
     }
 
 
-    private ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
+    private ApiResponse<Void> deletePetWithHttpInfo( @NotNull Long petId, String apiKey) throws ApiException {
         okhttp3.Call localVarCall = deletePetValidateBeforeCall(petId, apiKey, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -456,7 +458,7 @@ public class PetApi {
     }
 
 
-    private ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
+    private ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo( @NotNull List<String> status) throws ApiException {
         okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, null);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -618,7 +620,7 @@ public class PetApi {
     }
 
 
-    private ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
+    private ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo( @NotNull List<String> tags) throws ApiException {
         okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, null);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -786,7 +788,7 @@ public class PetApi {
     }
 
 
-    private ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
+    private ApiResponse<Pet> getPetByIdWithHttpInfo( @NotNull Long petId) throws ApiException {
         okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -950,7 +952,7 @@ public class PetApi {
     }
 
 
-    private ApiResponse<Pet> updatePetWithHttpInfo(Pet pet) throws ApiException {
+    private ApiResponse<Pet> updatePetWithHttpInfo( @NotNull Pet pet) throws ApiException {
         okhttp3.Call localVarCall = updatePetValidateBeforeCall(pet, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1169,7 +1171,7 @@ public class PetApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
+    public ApiResponse<Void> updatePetWithFormWithHttpInfo( @NotNull Long petId, String name, String status) throws ApiException {
         okhttp3.Call localVarCall = updatePetWithFormValidateBeforeCall(petId, name, status, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -1261,7 +1263,7 @@ public class PetApi {
     }
 
 
-    private ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws ApiException {
+    private ApiResponse<ModelApiResponse> uploadFileWithHttpInfo( @NotNull Long petId, String additionalMetadata, File _file) throws ApiException {
         okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, _file, null);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);

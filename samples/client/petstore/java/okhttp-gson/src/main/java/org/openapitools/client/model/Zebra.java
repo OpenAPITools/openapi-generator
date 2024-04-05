@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Zebra
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Zebra {
   /**
    * Gets or Sets type
@@ -125,7 +125,7 @@ public class Zebra {
    * Get type
    * @return type
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public TypeEnum getType() {
     return type;
   }
@@ -144,7 +144,7 @@ public class Zebra {
    * Get className
    * @return className
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public String getClassName() {
     return className;
   }

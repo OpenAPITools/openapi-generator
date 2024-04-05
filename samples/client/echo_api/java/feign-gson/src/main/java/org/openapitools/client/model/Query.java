@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Query
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Query {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -100,7 +100,7 @@ public class Query {
    * Query
    * @return id
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public Long getId() {
     return id;
@@ -130,7 +130,7 @@ public class Query {
    * Get outcomes
    * @return outcomes
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public List<OutcomesEnum> getOutcomes() {
     return outcomes;

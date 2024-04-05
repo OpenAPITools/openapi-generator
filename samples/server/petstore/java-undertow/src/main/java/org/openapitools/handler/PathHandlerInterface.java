@@ -41,7 +41,7 @@ public interface PathHandlerInterface {
      * <li><b>405 (client error)</b>: Invalid input</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler addPet();
 
     /**
@@ -78,7 +78,7 @@ public interface PathHandlerInterface {
      * <li><b>400 (client error)</b>: Invalid pet value</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler deletePet();
 
     /**
@@ -110,7 +110,7 @@ public interface PathHandlerInterface {
      * <li><b>400 (client error)</b>: Invalid status value</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler findPetsByStatus();
 
     /**
@@ -142,7 +142,7 @@ public interface PathHandlerInterface {
      * <li><b>400 (client error)</b>: Invalid tag value</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     @Deprecated
     HttpHandler findPetsByTags();
 
@@ -176,7 +176,7 @@ public interface PathHandlerInterface {
      * <li><b>404 (client error)</b>: Pet not found</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler getPetById();
 
     /**
@@ -204,7 +204,7 @@ public interface PathHandlerInterface {
      * <li><b>405 (client error)</b>: Validation exception</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler updatePet();
 
     /**
@@ -253,7 +253,7 @@ public interface PathHandlerInterface {
      * <li><b>405 (client error)</b>: Invalid input</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler updatePetWithForm();
 
     /**
@@ -304,7 +304,7 @@ public interface PathHandlerInterface {
      * <li><b>200 (success)</b>: successful operation</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler uploadFile();
 
     /**
@@ -334,7 +334,7 @@ public interface PathHandlerInterface {
      * <li><b>404 (client error)</b>: Order not found</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler deleteOrder();
 
     /**
@@ -352,7 +352,7 @@ public interface PathHandlerInterface {
      * <li><b>200 (success)</b>: successful operation</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler getInventory();
 
     /**
@@ -385,7 +385,7 @@ public interface PathHandlerInterface {
      * <li><b>404 (client error)</b>: Order not found</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler getOrderById();
 
     /**
@@ -411,7 +411,7 @@ public interface PathHandlerInterface {
      * <li><b>400 (client error)</b>: Invalid Order</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler placeOrder();
 
     /**
@@ -434,7 +434,7 @@ public interface PathHandlerInterface {
      * <li><b>Default</b>: successful operation</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler createUser();
 
     /**
@@ -457,7 +457,7 @@ public interface PathHandlerInterface {
      * <li><b>Default</b>: successful operation</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler createUsersWithArrayInput();
 
     /**
@@ -480,7 +480,7 @@ public interface PathHandlerInterface {
      * <li><b>Default</b>: successful operation</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler createUsersWithListInput();
 
     /**
@@ -510,7 +510,7 @@ public interface PathHandlerInterface {
      * <li><b>404 (client error)</b>: User not found</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler deleteUser();
 
     /**
@@ -543,7 +543,7 @@ public interface PathHandlerInterface {
      * <li><b>404 (client error)</b>: User not found</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler getUserByName();
 
     /**
@@ -594,7 +594,7 @@ public interface PathHandlerInterface {
      * <li><b>400 (client error)</b>: Invalid username/password supplied</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler loginUser();
 
     /**
@@ -610,7 +610,7 @@ public interface PathHandlerInterface {
      * <li><b>Default</b>: successful operation</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler logoutUser();
 
     /**
@@ -643,6 +643,6 @@ public interface PathHandlerInterface {
      * <li><b>404 (client error)</b>: User not found</li>
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @jakarta.annotation.Nonnull
     HttpHandler updateUser();
 }

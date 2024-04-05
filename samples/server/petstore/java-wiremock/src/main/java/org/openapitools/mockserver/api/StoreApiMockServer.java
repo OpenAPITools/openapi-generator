@@ -11,7 +11,7 @@ import com.github.tomakehurst.wiremock.http.Fault;
 
 public class StoreApiMockServer {
 
-    public static MappingBuilder stubDeleteOrder400(@javax.annotation.Nonnull String orderId) {
+    public static MappingBuilder stubDeleteOrder400(@jakarta.annotation.Nonnull String orderId) {
         MappingBuilder stub = delete(urlPathTemplate("/store/order/{order_id}"))
             .willReturn(aResponse()
                 .withStatus(400)
@@ -22,7 +22,7 @@ public class StoreApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubDeleteOrder404(@javax.annotation.Nonnull String orderId) {
+    public static MappingBuilder stubDeleteOrder404(@jakarta.annotation.Nonnull String orderId) {
         MappingBuilder stub = delete(urlPathTemplate("/store/order/{order_id}"))
             .willReturn(aResponse()
                 .withStatus(404)
@@ -33,7 +33,7 @@ public class StoreApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubDeleteOrderFault(@javax.annotation.Nonnull String orderId, Fault fault) {
+    public static MappingBuilder stubDeleteOrderFault(@jakarta.annotation.Nonnull String orderId, Fault fault) {
         MappingBuilder stub = delete(urlPathTemplate("/store/order/{order_id}"))
             .willReturn(aResponse()
                 .withFault(fault)
@@ -76,7 +76,7 @@ public class StoreApiMockServer {
 
 
 
-    public static MappingBuilder stubGetOrderById200(@javax.annotation.Nonnull String orderId, String response) {
+    public static MappingBuilder stubGetOrderById200(@jakarta.annotation.Nonnull String orderId, String response) {
         MappingBuilder stub = get(urlPathTemplate("/store/order/{order_id}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .willReturn(aResponse()
@@ -90,7 +90,7 @@ public class StoreApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubGetOrderById400(@javax.annotation.Nonnull String orderId, String response) {
+    public static MappingBuilder stubGetOrderById400(@jakarta.annotation.Nonnull String orderId, String response) {
         MappingBuilder stub = get(urlPathTemplate("/store/order/{order_id}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .willReturn(aResponse()
@@ -104,7 +104,7 @@ public class StoreApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubGetOrderById404(@javax.annotation.Nonnull String orderId, String response) {
+    public static MappingBuilder stubGetOrderById404(@jakarta.annotation.Nonnull String orderId, String response) {
         MappingBuilder stub = get(urlPathTemplate("/store/order/{order_id}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .willReturn(aResponse()
@@ -118,7 +118,7 @@ public class StoreApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubGetOrderByIdFault(@javax.annotation.Nonnull String orderId, Fault fault) {
+    public static MappingBuilder stubGetOrderByIdFault(@jakarta.annotation.Nonnull String orderId, Fault fault) {
         MappingBuilder stub = get(urlPathTemplate("/store/order/{order_id}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .willReturn(aResponse()
@@ -139,7 +139,7 @@ public class StoreApiMockServer {
 
 
 
-    public static MappingBuilder stubPlaceOrder200(@javax.annotation.Nonnull String body, String response) {
+    public static MappingBuilder stubPlaceOrder200(@jakarta.annotation.Nonnull String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/store/order"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withRequestBody(equalToJson(body))
@@ -153,7 +153,7 @@ public class StoreApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubPlaceOrder400(@javax.annotation.Nonnull String body, String response) {
+    public static MappingBuilder stubPlaceOrder400(@jakarta.annotation.Nonnull String body, String response) {
         MappingBuilder stub = post(urlPathEqualTo("/store/order"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withRequestBody(equalToJson(body))
@@ -167,7 +167,7 @@ public class StoreApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubPlaceOrderFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubPlaceOrderFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/store/order"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withRequestBody(equalToJson(body))

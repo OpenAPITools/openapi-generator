@@ -30,7 +30,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 /**
  * to test the default value of properties
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class DefaultValue {
   public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
   @SerializedName(SERIALIZED_NAME_ARRAY_STRING_ENUM_REF_DEFAULT)
@@ -134,7 +134,7 @@ public class DefaultValue {
    * Get arrayStringEnumRefDefault
    * @return arrayStringEnumRefDefault
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public List<StringEnumRef> getArrayStringEnumRefDefault() {
     return arrayStringEnumRefDefault;
@@ -164,7 +164,7 @@ public class DefaultValue {
    * Get arrayStringEnumDefault
    * @return arrayStringEnumDefault
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public List<ArrayStringEnumDefaultEnum> getArrayStringEnumDefault() {
     return arrayStringEnumDefault;
@@ -194,7 +194,7 @@ public class DefaultValue {
    * Get arrayStringDefault
    * @return arrayStringDefault
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public List<String> getArrayStringDefault() {
     return arrayStringDefault;
@@ -224,7 +224,7 @@ public class DefaultValue {
    * Get arrayIntegerDefault
    * @return arrayIntegerDefault
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public List<Integer> getArrayIntegerDefault() {
     return arrayIntegerDefault;
@@ -254,7 +254,7 @@ public class DefaultValue {
    * Get arrayString
    * @return arrayString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public List<String> getArrayString() {
     return arrayString;
@@ -284,7 +284,7 @@ public class DefaultValue {
    * Get arrayStringNullable
    * @return arrayStringNullable
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public List<String> getArrayStringNullable() {
     return arrayStringNullable;
@@ -314,7 +314,7 @@ public class DefaultValue {
    * Get arrayStringExtensionNullable
    * @return arrayStringExtensionNullable
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public List<String> getArrayStringExtensionNullable() {
     return arrayStringExtensionNullable;
@@ -336,7 +336,7 @@ public class DefaultValue {
    * Get stringNullable
    * @return stringNullable
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public String getStringNullable() {
     return stringNullable;
