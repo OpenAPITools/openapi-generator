@@ -647,6 +647,24 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/HTTPValidationError"
+  "/fake/api/query/enum":
+    post:
+      summary: op3
+      operationId: op3
+      tags:
+        - fake
+      parameters:
+        - name: query_enum
+          in: query
+          description: query enum test
+          required: true
+          schema:
+            type: array
+            items:
+              "$ref": "#/components/schemas/CodesEnum"
+      responses:
+        '200':
+          description: Successful Response
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -944,3 +962,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Tag'
+    CodesEnum:
+      type: string
+      enum:
+        - Code 1
+        - Code 2
+        - Code 3

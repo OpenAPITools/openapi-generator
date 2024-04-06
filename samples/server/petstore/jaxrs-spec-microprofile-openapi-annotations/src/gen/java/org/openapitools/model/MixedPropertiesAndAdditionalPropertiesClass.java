@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("MixedPropertiesAndAdditionalPropertiesClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
-  private @Valid UUID uuid;
-  private @Valid LocalDateTime dateTime;
+  private UUID uuid;
+  private LocalDateTime dateTime;
   private @Valid Map<String, Animal> map = new HashMap<>();
 
   protected MixedPropertiesAndAdditionalPropertiesClass(MixedPropertiesAndAdditionalPropertiesClassBuilder<?, ?> b) {
@@ -44,7 +44,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("uuid")
-  public UUID getUuid() {
+  @Valid public UUID getUuid() {
     return uuid;
   }
 
@@ -63,7 +63,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("dateTime")
-  public LocalDateTime getDateTime() {
+  @Valid public LocalDateTime getDateTime() {
     return dateTime;
   }
 
@@ -82,7 +82,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("map")
-  public Map<String, Animal> getMap() {
+  @Valid public Map<String, Animal> getMap() {
     return map;
   }
 

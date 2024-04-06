@@ -45,6 +45,7 @@ build_script:
 test_script:
   - dotnet test samples\client\petstore\csharp\generichost\net8\AllOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\AnyOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net8\AnyOfNoCompare\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\FormModels\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\ManualSourceGenerationTests\ManualTests.Latest.UseSourceGeneration\ManualTests.Latest.UseSourceGeneration.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\ManualPetstoreTests\OpenAPIClient-generichost-manual-tests\OpenAPIClient-generichost-manual-tests.csproj

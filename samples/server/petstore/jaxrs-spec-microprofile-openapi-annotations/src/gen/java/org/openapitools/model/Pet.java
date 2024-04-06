@@ -24,9 +24,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Pet  implements Serializable {
-  private @Valid Long id;
-  private @Valid Category category;
-  private @Valid String name;
+  private Long id;
+  private Category category;
+  private String name;
   private @Valid Set<String> photoUrls = new LinkedHashSet<>();
   private @Valid List<@Valid Tag> tags = new ArrayList<>();
   public enum StatusEnum {
@@ -76,7 +76,7 @@ public class Pet  implements Serializable {
     }
 }
 
-  private @Valid StatusEnum status;
+  private StatusEnum status;
 
   protected Pet(PetBuilder<?, ?> b) {
     this.id = b.id;
@@ -119,7 +119,7 @@ public class Pet  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("category")
-  public Category getCategory() {
+  @Valid public Category getCategory() {
     return category;
   }
 
@@ -138,8 +138,7 @@ public class Pet  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "doggie", required = true, description = "")
   @JsonProperty("name")
-  @NotNull
-  public String getName() {
+  @NotNull public String getName() {
     return name;
   }
 
@@ -158,8 +157,7 @@ public class Pet  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("photoUrls")
-  @NotNull
-  public Set<String> getPhotoUrls() {
+  @NotNull public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
@@ -195,7 +193,7 @@ public class Pet  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("tags")
-  public List<Tag> getTags() {
+  @Valid public List<@Valid Tag> getTags() {
     return tags;
   }
 
