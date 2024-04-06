@@ -5,8 +5,9 @@ templateDir: modules/openapi-generator/src/main/resources/scala-cask
 additionalProperties:
   hideGenerationTimestamp: "true"
   artifactId: scala-cask-petstore
-  groupId: "demo.rest"
+  groupId: "cask.groupId"
   package: "sample.cask"
-  modelPackage: "mo.del.pack.age"
+  modelPackage: "sample.cask.model"
+  apiPackage: "sample.cask.api"
   gitRepoId: "sample-cask-repo"
   gitUserId: "sample-cask-user"

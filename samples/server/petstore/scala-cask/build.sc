@@ -12,7 +12,7 @@ object scala-cask-petstore extends SbtModule with ScalafmtModule with PublishMod
 
   def pomSettings = PomSettings(
     description = "scala-cask-petstore",
-    organization = "demo.rest",
+    organization = "cask.groupId",
     url = "https://github.com/<username>/scala-cask-petstore",
     licenses = Seq(License.MIT),
     versionControl = VersionControl.github("<username>", "scala-cask-petstore"),

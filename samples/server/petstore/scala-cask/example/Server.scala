@@ -1,5 +1,5 @@
 //> using scala "3.3.1"
-//> using lib "demo.rest::scala-cask-petstore:0.0.1-SNAPSHOT"
+//> using lib "cask.groupId::scala-cask-petstore:0.0.1-SNAPSHOT"
 //> using repositories https://maven.pkg.github.com/GIT_USER_ID/GIT_REPO_ID
 
 
@@ -40,9 +40,9 @@
 */
 package app
 
-import demo.rest.server.BaseApp
-import demo.rest.server.api.*
-import mo.del.pack.age.*
+import cask.groupId.server.BaseApp
+import sample.cask.api.*
+import sample.cask.model.*
 
 import java.io.File
 
