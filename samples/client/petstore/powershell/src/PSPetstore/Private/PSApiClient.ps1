@@ -42,7 +42,10 @@ function Invoke-PSApiClient {
 
     $Configuration = Get-PSConfiguration
     $RequestUri = $Configuration["BaseUrl"] + $Uri
+    $DefaultHeaders = $Configuration["DefaultHeaders"]
+    # should make sure that SkipCertificateCheck is not set for PowerShell 5
     $SkipCertificateCheck = $Configuration["SkipCertificateCheck"]
+    $Proxy = $Configuration["Proxy"]
 
     # cookie parameters
     foreach ($Parameter in $CookieParameters.GetEnumerator()) {
@@ -62,8 +65,8 @@ function Invoke-PSApiClient {
         $HeaderParameters['Accept'] = $Accept
     }
 
-    [string]$MultiPartBoundary = $null
-    $ContentType= SelectHeaders -Headers $ContentTypes
+    # Content-Type and multipart handling
+    $ContentType = SelectHeaders -Headers $ContentTypes
     if ($ContentType) {
         $HeaderParameters['Content-Type'] = $ContentType
         if ($ContentType -eq 'multipart/form-data') {
@@ -72,7 +75,7 @@ function Invoke-PSApiClient {
     }
 
     # add default headers if any
-    foreach ($header in $Configuration["DefaultHeaders"].GetEnumerator()) {
+    foreach ($header in $DefaultHeaders.GetEnumerator()) {
         $HeaderParameters[$header.Name] = $header.Value
     }
 
@@ -94,7 +97,7 @@ function Invoke-PSApiClient {
     # include form parameters in the request body
     if ($FormParameters -and $FormParameters.Count -gt 0) {
        $RequestBody = $FormParameters
-	}
+    }
 
     if ($Body -or $IsBodyNullable) {
         $RequestBody = $Body
@@ -120,32 +123,29 @@ function Invoke-PSApiClient {
         }
     }
 
-    # syntax must be adapted to version
-	$PSMajorVersion = $PSVersionTable.PSVersion.Major
-
     # use splatting to pass parameters
     $Params = @{}
     $Params.Uri = $UriBuilder.Uri
     $Params.Method = $Method
     $Params.Headers = $HeaderParameters
-    $Params.Body = $RequestBody
     $Params.ErrorAction = 'Stop'
-	# SkipCertificateCheck not defined for PS5
-    if ($SkipCertificateCheck -eq $true -and $PSMajorVersion -gt 5) {
+
+    if ($SkipCertificateCheck -eq $true) {
         $Params.SkipCertificateCheck = $true
     }
-	# do not set proxy if it is null or same as target Uri
-    if ($null -ne $Configuration["Proxy"]) {
-        $proxy = $Configuration["Proxy"].GetProxy($UriBuilder.Uri)
-        if ($null -ne $proxy -and $proxy.AbsoluteUri -ne $UriBuilder.Uri) {
-            $Params.Proxy = $proxy.AbsoluteUri
+
+    if ($null -ne $Proxy) {
+        $effectiveProxy = $Proxy.GetProxy($UriBuilder.Uri)
+    	# do not set proxy if it is null or same as target Uri
+        if ($null -ne $effectiveProxy -and $effectiveProxy.AbsoluteUri -ne $UriBuilder.Uri) {
+            $Params.Proxy = $effectiveProxy.AbsoluteUri
             $Params.ProxyUseDefaultCredentials = $true
         }
     }
 
     # use Invoke-RestApi if Content-Type is 'multipart/form-data', Invoke-WebRequest otherwise
     if ($MultiPart) {
-        if ($PSMajorVersion -eq 5) {
+        if ($PSVersionTable.PSVersion.Major -eq 5) {
             # preset null return values as not supported by Invoke-RestMethod on PS5
             $ResponseHeaders = $null
             $ResponseStatusCode = $null
@@ -163,6 +163,7 @@ function Invoke-PSApiClient {
             Headers = $ResponseHeaders
         }
    } else {
+        $Params.Body = $RequestBody
         $Params.UseBasicParsing = $true
         $Response = Invoke-WebRequest @Params
 

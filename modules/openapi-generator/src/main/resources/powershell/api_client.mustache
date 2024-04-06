@@ -91,7 +91,7 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
     # include form parameters in the request body
     if ($FormParameters -and $FormParameters.Count -gt 0) {
        $RequestBody = $FormParameters
-	}
+    }
 
     if ($Body -or $IsBodyNullable) {
         $RequestBody = $Body
