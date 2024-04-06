@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("FileSchemaTestClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FileSchemaTestClass  implements Serializable {
-  private @Valid ModelFile _file;
+  private ModelFile _file;
   private @Valid List<@Valid ModelFile> files = new ArrayList<>();
 
   protected FileSchemaTestClass(FileSchemaTestClassBuilder<?, ?> b) {
@@ -41,7 +41,7 @@ public class FileSchemaTestClass  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("file")
-  public ModelFile getFile() {
+  @Valid public ModelFile getFile() {
     return _file;
   }
 
@@ -60,7 +60,7 @@ public class FileSchemaTestClass  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("files")
-  public List<ModelFile> getFiles() {
+  @Valid public List<@Valid ModelFile> getFiles() {
     return files;
   }
 
