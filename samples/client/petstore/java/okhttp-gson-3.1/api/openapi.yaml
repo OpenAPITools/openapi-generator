@@ -729,6 +729,28 @@ paths:
       - fake
       x-accepts:
       - application/json
+  /fake/api/query/enum:
+    post:
+      operationId: op3
+      parameters:
+      - description: query enum test
+        explode: true
+        in: query
+        name: query_enum
+        required: true
+        schema:
+          items:
+            $ref: '#/components/schemas/CodesEnum'
+          type: array
+        style: form
+      responses:
+        "200":
+          description: Successful Response
+      summary: op3
+      tags:
+      - fake
+      x-accepts:
+      - application/json
 components:
   parameters:
     ref_to_uuid:
@@ -1041,6 +1063,12 @@ components:
           items:
             $ref: '#/components/schemas/Tag'
           type: array
+    CodesEnum:
+      enum:
+      - Code 1
+      - Code 2
+      - Code 3
+      type: string
     updatePetWithForm_request:
       properties:
         name:
