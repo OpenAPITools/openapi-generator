@@ -160,16 +160,16 @@ namespace Org.OpenAPITools.Model
                 if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
                 {
                     Utf8JsonReader utf8JsonReaderVarBool = utf8JsonReader;
-                    OpenAPIClientUtils.TryDeserialize<bool?>(ref utf8JsonReaderVarBool, jsonSerializerOptions, out varBool);
+                    ClientUtils.TryDeserialize<bool?>(ref utf8JsonReaderVarBool, jsonSerializerOptions, out varBool);
 
                     Utf8JsonReader utf8JsonReaderVarString = utf8JsonReader;
-                    OpenAPIClientUtils.TryDeserialize<string>(ref utf8JsonReaderVarString, jsonSerializerOptions, out varString);
+                    ClientUtils.TryDeserialize<string>(ref utf8JsonReaderVarString, jsonSerializerOptions, out varString);
 
                     Utf8JsonReader utf8JsonReaderObject = utf8JsonReader;
-                    OpenAPIClientUtils.TryDeserialize<Object>(ref utf8JsonReaderObject, jsonSerializerOptions, out varObject);
+                    ClientUtils.TryDeserialize<Object>(ref utf8JsonReaderObject, jsonSerializerOptions, out varObject);
 
                     Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
-                    OpenAPIClientUtils.TryDeserialize<List<string>>(ref utf8JsonReaderList, jsonSerializerOptions, out list);
+                    ClientUtils.TryDeserialize<List<string>>(ref utf8JsonReaderList, jsonSerializerOptions, out list);
                 }
             }
 

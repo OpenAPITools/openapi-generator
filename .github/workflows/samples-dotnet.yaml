@@ -23,6 +23,7 @@ jobs:
         sample:
           - samples/client/petstore/csharp/generichost/net8/AllOf
           - samples/client/petstore/csharp/generichost/net8/AnyOf
+          - samples/client/petstore/csharp/generichost/net8/AnyOfNoCompare
           - samples/client/petstore/csharp/generichost/net8/FormModels
           - samples/client/petstore/csharp/generichost/net8/ManualPetstoreTests
           - samples/client/petstore/csharp/generichost/net8/ManualSourceGenerationTests
