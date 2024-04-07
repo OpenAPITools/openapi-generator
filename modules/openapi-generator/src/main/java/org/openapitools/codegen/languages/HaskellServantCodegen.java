@@ -372,8 +372,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -419,8 +418,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             // Return only the inner type; the wrapping with QueryList is done
             // somewhere else, where we have access to the collection format.
             return inner;

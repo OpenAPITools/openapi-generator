@@ -682,8 +682,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);

@@ -589,4 +589,53 @@ public class OpenAPINormalizerTest {
         assertEquals(((Schema) schema2.getProperties().get("my_enum")).getAnyOf(), null);
         assertEquals(((Schema) schema2.getProperties().get("my_enum")).get$ref(), "#/components/schemas/MyEnum");
     }
+
+    @Test
+    public void testOpenAPINormalizerProcessingArraySchema31Spec() {
+        // to test array schema processing in 3.1 spec
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_18291.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Foo");
+        assertEquals(((Schema) schema.getProperties().get("arrayOfStrings")).getTypes().size(), 1);
+        assertEquals(((Schema) schema.getProperties().get("arrayOfStrings")).getTypes().contains("array"), true);
+        assertEquals(((Schema) schema.getProperties().get("arrayOfStrings")).getType(), null);
+        assertEquals(ModelUtils.isArraySchema((Schema) schema.getProperties().get("arrayOfStrings")), true);
+        assertEquals(((Schema) schema.getProperties().get("arrayOfStrings")).getItems().getType(), null);
+        assertEquals(((Schema) schema.getProperties().get("arrayOfStrings")).getItems().getTypes().contains("string"), true);
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("Bar");
+        assertEquals(((Schema) schema3.getAllOf().get(0)).get$ref(), "#/components/schemas/Foo");
+
+        Schema schema5 = ModelUtils.getSchema(openAPI, ModelUtils.getSimpleRef(((Schema) schema3.getAllOf().get(0)).get$ref()));
+        assertEquals(((Schema) schema5.getProperties().get("arrayOfStrings")).getTypes().size(), 1);
+        assertEquals(((Schema) schema5.getProperties().get("arrayOfStrings")).getTypes().contains("array"), true);
+        assertEquals(((Schema) schema5.getProperties().get("arrayOfStrings")).getType(), null);
+        assertEquals(ModelUtils.isArraySchema((Schema) schema5.getProperties().get("arrayOfStrings")), true);
+        assertEquals(((Schema) schema5.getProperties().get("arrayOfStrings")).getItems().getType(), null);
+        assertEquals(((Schema) schema5.getProperties().get("arrayOfStrings")).getItems().getTypes().contains("string"), true);
+
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Foo");
+        assertEquals(((Schema) schema2.getProperties().get("arrayOfStrings")).getTypes().size(), 1);
+        assertEquals(((Schema) schema2.getProperties().get("arrayOfStrings")).getTypes().contains("array"), true);
+        assertEquals(ModelUtils.isArraySchema((Schema) schema2.getProperties().get("arrayOfStrings")), true);
+        assertEquals(((Schema) schema2.getProperties().get("arrayOfStrings")).getItems().getTypes().contains("string"), true);
+        assertEquals(((Schema) schema2.getProperties().get("arrayOfStrings")).getItems().getType(), "string");
+        assertEquals(((Schema) schema2.getProperties().get("arrayOfStrings")).getType(), "array");
+
+        Schema schema4 = openAPI.getComponents().getSchemas().get("Bar");
+        assertEquals(((Schema) schema4.getAllOf().get(0)).get$ref(), "#/components/schemas/Foo");
+
+        Schema schema6 = ModelUtils.getSchema(openAPI, ModelUtils.getSimpleRef(((Schema) schema4.getAllOf().get(0)).get$ref()));
+        assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getTypes().size(), 1);
+        assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getTypes().contains("array"), true);
+        assertEquals(ModelUtils.isArraySchema((Schema) schema6.getProperties().get("arrayOfStrings")), true);
+        assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getItems().getTypes().contains("string"), true);
+        assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getItems().getType(), "string");
+        assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getType(), "array");
+
+    }
 }
