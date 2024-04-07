@@ -31,7 +31,7 @@ namespace Org.OpenAPITools.Test.Model
     {
         // TODO uncomment below to declare an instance variable for Adult
         //private Adult instance;
-// testing if this fails the pr gate
+
         public AdultTests()
         {
             // TODO uncomment below to create an instance of Adult
