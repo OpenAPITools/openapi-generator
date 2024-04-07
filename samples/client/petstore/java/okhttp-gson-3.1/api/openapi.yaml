@@ -1022,12 +1022,6 @@ components:
       properties: {}
       title: HTTPValidationError
       type: object
-    AnyOfArray:
-      anyOf:
-      - items:
-          type: string
-      - items:
-          type: integer
     ArrayPrefixItems:
       description: |
         An item that was added to the queue.

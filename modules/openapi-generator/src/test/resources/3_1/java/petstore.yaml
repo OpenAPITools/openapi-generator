@@ -909,14 +909,15 @@ components:
       properties: {}
       type: object
       title: HTTPValidationError
-    AnyOfArray:
-      anyOf:
-        - type: array
-          items:
-            type: string
-        - type: array
-          items:
-            type: integer
+    # okhttp-gson doesnot support array of string
+    #AnyOfArray:
+    #  anyOf:
+    #    - type: array
+    #      items:
+    #        type: string
+    #    - type: array
+    #      items:
+    #        type: integer
     ArrayPrefixItems:
       type: array
       description: |

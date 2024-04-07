@@ -509,9 +509,10 @@ public class OpenAPINormalizer {
             visitedSchemas.add(schema);
         }
 
-        if (schema instanceof ArraySchema) { // array
-            normalizeArraySchema(schema);
-            normalizeSchema(schema.getItems(), visitedSchemas);
+        if (ModelUtils.isArraySchema(schema)) { // array
+            Schema result = normalizeArraySchema(schema);
+            normalizeSchema(result.getItems(), visitedSchemas);
+            return result;
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeMapSchema(schema);
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
@@ -566,7 +567,8 @@ public class OpenAPINormalizer {
     }
 
     private Schema normalizeArraySchema(Schema schema) {
-        return processSetArraytoNullable(schema);
+        Schema result = processNormalize31Spec(schema, new HashSet<>());
+        return processSetArraytoNullable(result);
     }
 
     private Schema normalizeMapSchema(Schema schema) {
@@ -1222,7 +1224,7 @@ public class OpenAPINormalizer {
         // only one item (type) left
         if (schema.getTypes().size() == 1) {
             String type = String.valueOf(schema.getTypes().iterator().next());
-            if ("array".equals(type)) {
+            if (ModelUtils.isArraySchema(schema)) {
                 ArraySchema as = new ArraySchema();
                 as.setDescription(schema.getDescription());
                 as.setDefault(schema.getDefault());

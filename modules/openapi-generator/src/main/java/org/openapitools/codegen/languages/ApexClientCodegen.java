@@ -223,7 +223,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     public String toDefaultValue(Schema p) {
         String out = null;
         if (ModelUtils.isArraySchema(p)) {
-            Schema inner = ((ArraySchema) p).getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             out = String.format(
                     Locale.ROOT,
                     "new List<%s>()",

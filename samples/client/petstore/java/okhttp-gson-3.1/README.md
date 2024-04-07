@@ -145,7 +145,6 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Animal](docs/Animal.md)
- - [AnyOfArray](docs/AnyOfArray.md)
  - [AnyTypeTest](docs/AnyTypeTest.md)
  - [ArrayOfSameRef](docs/ArrayOfSameRef.md)
  - [Cat](docs/Cat.md)

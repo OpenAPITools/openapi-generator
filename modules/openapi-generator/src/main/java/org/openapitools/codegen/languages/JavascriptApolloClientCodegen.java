@@ -610,8 +610,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -872,9 +871,9 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             codegenModel = JavascriptApolloClientCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
         if (ModelUtils.isArraySchema(model)) {
-            ArraySchema am = (ArraySchema) model;
-            if (codegenModel != null && am.getItems() != null) {
-                String itemType = getSchemaType(am.getItems());
+            Schema inner = ModelUtils.getSchemaItems(model);
+            if (codegenModel != null && inner != null) {
+                String itemType = getSchemaType(inner);
                 codegenModel.vendorExtensions.put("x-is-array", true);
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             }
