@@ -154,6 +154,8 @@ jobs:
           rm -rf samples/client/petstore/csharp/generichost/standard2.0/Petstore
       - name: Generate samples
         run: bash bin/generate-samples.sh
+      - name: Generate samples (again) # when a sample is deleted, you have to generate it twice for some reason
+        run: bash bin/generate-samples.sh
       - name: Verify git status
         run: |
           if [[ "$(git status --porcelain)" != "" ]]; then
