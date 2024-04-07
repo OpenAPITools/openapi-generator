@@ -120,7 +120,7 @@ function Invoke-ApiClient {
 
     if ($null -ne $Proxy) {
         $effectiveProxy = $Proxy.GetProxy($UriBuilder.Uri)
-    	# do not set proxy if it is null or same as target Uri
+        # do not set proxy if it is null or same as target Uri
         if ($null -ne $effectiveProxy -and $effectiveProxy.AbsoluteUri -ne $UriBuilder.Uri) {
             $Params.Proxy = $effectiveProxy.AbsoluteUri
             $Params.ProxyUseDefaultCredentials = $true
