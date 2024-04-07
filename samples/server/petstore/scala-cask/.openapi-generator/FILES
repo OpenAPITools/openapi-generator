@@ -37,9 +37,3 @@ src/main/scala/sample/cask/model/User.scala
 src/main/scala/sample/cask/model/UserData.scala
 src/main/scala/sample/cask/model/package.scala
 src/main/scala/sample/cask/package.scala
-src/test/scala/sample/cask/model/ApiResponseTest.scala
-src/test/scala/sample/cask/model/CategoryTest.scala
-src/test/scala/sample/cask/model/OrderTest.scala
-src/test/scala/sample/cask/model/PetTest.scala
-src/test/scala/sample/cask/model/TagTest.scala
-src/test/scala/sample/cask/model/UserTest.scala
