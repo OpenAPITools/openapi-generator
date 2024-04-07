@@ -367,8 +367,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         String openAPIType = getSchemaType(p);
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -407,8 +406,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<utility::string_t, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             if (!languageSpecificPrimitives.contains(inner)) {
                 inner = "std::shared_ptr<" + inner + ">";
             }

@@ -338,10 +338,9 @@ public class InlineModelResolver {
             return;
         }
         // Check array items
-        if (schema instanceof ArraySchema) {
-            ArraySchema array = (ArraySchema) schema;
-            Schema items = array.getItems();
-            if (items == null && array.getPrefixItems() == null) {
+        if (ModelUtils.isArraySchema(schema)) {
+            Schema items = ModelUtils.getSchemaItems(schema);
+            if (items == null && schema.getPrefixItems() == null) {
                 LOGGER.debug("Incorrect array schema with no items, prefixItems: {}", schema.toString());
                 return;
             }
@@ -357,7 +356,7 @@ public class InlineModelResolver {
 
             if (isModelNeeded(items)) {
                 // If this schema should be split into its own model, do so
-                array.setItems(this.makeSchemaInComponents(schemaName, items));
+                schema.setItems(this.makeSchemaInComponents(schemaName, items));
             }
         }
         // Check allOf, anyOf, oneOf for inline models
@@ -788,9 +787,8 @@ public class InlineModelResolver {
                     propsToUpdate.put(key, schema);
                     modelsToAdd.put(modelName, model);
                 }
-            } else if (property instanceof ArraySchema) {
-                ArraySchema ap = (ArraySchema) property;
-                Schema inner = ap.getItems();
+            } else if (ModelUtils.isArraySchema(property)) {
+                Schema inner = ModelUtils.getSchemaItems(property);
                 if (inner instanceof ObjectSchema) {
                     ObjectSchema op = (ObjectSchema) inner;
                     if (op.getProperties() != null && op.getProperties().size() > 0) {
@@ -801,12 +799,12 @@ public class InlineModelResolver {
                         if (existing != null) {
                             Schema schema = new Schema().$ref(existing);
                             schema.setRequired(op.getRequired());
-                            ap.setItems(schema);
+                            property.setItems(schema);
                         } else {
                             modelName = addSchemas(modelName, innerModel);
                             Schema schema = new Schema().$ref(modelName);
                             schema.setRequired(op.getRequired());
-                            ap.setItems(schema);
+                            property.setItems(schema);
                         }
                     }
                 } else if (ModelUtils.isComposedSchema(inner)) {
@@ -815,7 +813,7 @@ public class InlineModelResolver {
                     innerModelName = addSchemas(innerModelName, inner);
                     Schema schema = new Schema().$ref(innerModelName);
                     schema.setRequired(inner.getRequired());
-                    ap.setItems(schema);
+                    property.setItems(schema);
                 } else {
                     LOGGER.debug("Schema not yet handled in model resolver: {}", inner);
                 }

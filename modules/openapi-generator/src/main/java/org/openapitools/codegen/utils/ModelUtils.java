@@ -20,6 +20,7 @@ package org.openapitools.codegen.utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.AnnotationsUtils;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -356,8 +357,8 @@ public class ModelUtils {
                     visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
                 }
             }
-        } else if (schema instanceof ArraySchema) {
-            Schema itemsSchema = ((ArraySchema) schema).getItems();
+        } else if (ModelUtils.isArraySchema(schema)) {
+            Schema itemsSchema = ModelUtils.getSchemaItems(schema);
             if (itemsSchema != null) {
                 visitSchema(openAPI, itemsSchema, mimeType, visitedSchemas, visitor);
             }
@@ -594,7 +595,44 @@ public class ModelUtils {
      * @return true if the specified schema is an Array schema.
      */
     public static boolean isArraySchema(Schema schema) {
-        return (schema instanceof ArraySchema);
+        if (schema == null) {
+            return false;
+        }
+
+        if (schema instanceof JsonSchema) { // 3.1 spec
+            if (schema.getTypes() != null && schema.getTypes().contains("array")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else { // 3.0 spec
+            return (schema instanceof ArraySchema) || "array".equals(schema.getType());
+        }
+
+    }
+
+    /**
+     * Return the schema in the array's item. Null if schema is not an array.
+     *
+     * @param schema the OAS schema
+     * @return item schema.
+     */
+    public static Schema<?> getSchemaItems(Schema schema) {
+        if (!isArraySchema(schema)) {
+            return null;
+        }
+
+        Schema<?> items = schema.getItems();
+        if (items == null) {
+            if (schema instanceof JsonSchema) { // 3.1 spec
+                // do nothing as the schema may contain prefixItems only
+            } else { // 3.0 spec, default to string
+                LOGGER.error("Undefined array inner type for `{}`. Default to String.", schema.getName());
+                items = new StringSchema().description("TODO default missing array inner type to string");
+                schema.setItems(items);
+            }
+        }
+        return items;
     }
 
     public static boolean isSet(Schema schema) {
@@ -1272,7 +1310,7 @@ public class ModelUtils {
                 }
             }
         } else if (isArraySchema(schema)) {
-            Schema itemsSchema = ((ArraySchema) schema).getItems();
+            Schema itemsSchema = ModelUtils.getSchemaItems(schema);
             if (itemsSchema != null) {
                 return hasSelfReference(openAPI, itemsSchema, visitedSchemaNames);
             }
