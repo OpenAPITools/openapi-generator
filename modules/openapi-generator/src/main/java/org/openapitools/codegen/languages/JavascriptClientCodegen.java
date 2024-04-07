@@ -610,8 +610,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -874,9 +873,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
         if (ModelUtils.isArraySchema(model)) {
-            ArraySchema am = (ArraySchema) model;
-            if (codegenModel != null && am.getItems() != null) {
-                String itemType = getSchemaType(am.getItems());
+            if (codegenModel != null && ModelUtils.getSchemaItems(model) != null) {
+                String itemType = getSchemaType(ModelUtils.getSchemaItems(model));
                 codegenModel.vendorExtensions.put("x-is-array", true);
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             }

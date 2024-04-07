@@ -416,8 +416,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         String openAPIType = getSchemaType(p);
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            return getSchemaType(p) + "<" + getTypeDeclaration(ap.getItems()) + ">";
+            return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.getSchemaItems(p)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             return getSchemaType(p) + "<FString, " + getTypeDeclaration(ModelUtils.getAdditionalProperties(p)) + ">";
         }

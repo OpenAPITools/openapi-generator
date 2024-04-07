@@ -981,8 +981,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -1000,21 +999,21 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         CodegenModel mdl = super.fromModel(name, model);
 
         if (ModelUtils.isArraySchema(model)) {
-            ArraySchema am = (ArraySchema) model;
+            Schema inner = ModelUtils.getSchemaItems(model);
             String xmlName = null;
 
             // Detect XML list where the inner item is defined directly.
-            if ((am.getItems() != null) &&
-                    (am.getItems().getXml() != null)) {
-                xmlName = am.getItems().getXml().getName();
+            if ((inner != null) &&
+                    (inner.getXml() != null)) {
+                xmlName = inner.getXml().getName();
             }
 
             // Detect XML list where the inner item is a reference.
-            if (am.getXml() != null && am.getXml().getWrapped() &&
-                    am.getItems() != null &&
-                    !StringUtils.isEmpty(am.getItems().get$ref())) {
+            if (model.getXml() != null && model.getXml().getWrapped() &&
+                    inner != null &&
+                    !StringUtils.isEmpty(inner.get$ref())) {
                 Schema inner_schema = allDefinitions.get(
-                        ModelUtils.getSimpleRef(am.getItems().get$ref()));
+                        ModelUtils.getSimpleRef(inner.get$ref()));
 
                 if (inner_schema.getXml() != null &&
                         inner_schema.getXml().getName() != null) {

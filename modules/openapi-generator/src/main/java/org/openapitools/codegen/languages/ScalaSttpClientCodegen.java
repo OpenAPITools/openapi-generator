@@ -431,9 +431,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
-            if (ModelUtils.isSet(ap)) {
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
+            if (ModelUtils.isSet(p)) {
                 return "Set[" + inner + "].empty ";
             }
             return "Seq[" + inner + "].empty ";
