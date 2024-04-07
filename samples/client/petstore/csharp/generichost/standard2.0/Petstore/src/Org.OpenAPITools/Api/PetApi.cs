@@ -1171,7 +1171,7 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["status"] = status.ToString();
+                    parseQueryStringLocalVar["status"] = ClientUtils.ParameterToString(status);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
@@ -1421,7 +1421,7 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["tags"] = tags.ToString();
+                    parseQueryStringLocalVar["tags"] = ClientUtils.ParameterToString(tags);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
