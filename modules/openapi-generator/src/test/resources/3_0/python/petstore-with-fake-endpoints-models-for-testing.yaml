@@ -2714,20 +2714,20 @@ components:
     CircularAllOfRef:
       allOf:
         - $ref: '#/components/schemas/AllOfSuperModel'
-      properties:
-        secondCircularAllOfRef:
-          items:
-            $ref: '#/components/schemas/SecondCircularAllOfRef'
-          type: array
+        - properties:
+            secondCircularAllOfRef:
+              items:
+                $ref: '#/components/schemas/SecondCircularAllOfRef'
+              type: array
       type: object
     SecondCircularAllOfRef:
       allOf:
         - $ref: '#/components/schemas/AllOfSuperModel'
-      properties:
-        circularAllOfRef:
-          items:
-            $ref: '#/components/schemas/CircularAllOfRef'
-          type: array
+        - properties:
+            circularAllOfRef:
+              items:
+                $ref: '#/components/schemas/CircularAllOfRef'
+              type: array
       type: object
     AllOfSuperModel:
       properties:
