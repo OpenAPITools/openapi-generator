@@ -7,6 +7,7 @@ docs/AdditionalPropertiesAnyType.md
 docs/AdditionalPropertiesClass.md
 docs/AdditionalPropertiesObject.md
 docs/AdditionalPropertiesWithDescriptionOnly.md
+docs/AllOfSuperModel.md
 docs/AllOfWithSingleRef.md
 docs/Animal.md
 docs/AnotherFakeApi.md
@@ -22,6 +23,7 @@ docs/Bathing.md
 docs/Capitalization.md
 docs/Cat.md
 docs/Category.md
+docs/CircularAllOfRef.md
 docs/CircularReferenceModel.md
 docs/ClassModel.md
 docs/Client.md
@@ -85,6 +87,7 @@ docs/PoopCleaning.md
 docs/PropertyMap.md
 docs/PropertyNameCollision.md
 docs/ReadOnlyFirst.md
+docs/SecondCircularAllOfRef.md
 docs/SecondRef.md
 docs/SelfReferenceModel.md
 docs/SingleRefType.md
@@ -125,6 +128,7 @@ petstore_api/models/additional_properties_any_type.py
 petstore_api/models/additional_properties_class.py
 petstore_api/models/additional_properties_object.py
 petstore_api/models/additional_properties_with_description_only.py
+petstore_api/models/all_of_super_model.py
 petstore_api/models/all_of_with_single_ref.py
 petstore_api/models/animal.py
 petstore_api/models/any_of_color.py
@@ -139,6 +143,7 @@ petstore_api/models/bathing.py
 petstore_api/models/capitalization.py
 petstore_api/models/cat.py
 petstore_api/models/category.py
+petstore_api/models/circular_all_of_ref.py
 petstore_api/models/circular_reference_model.py
 petstore_api/models/class_model.py
 petstore_api/models/client.py
@@ -197,6 +202,7 @@ petstore_api/models/poop_cleaning.py
 petstore_api/models/property_map.py
 petstore_api/models/property_name_collision.py
 petstore_api/models/read_only_first.py
+petstore_api/models/second_circular_all_of_ref.py
 petstore_api/models/second_ref.py
 petstore_api/models/self_reference_model.py
 petstore_api/models/single_ref_type.py
