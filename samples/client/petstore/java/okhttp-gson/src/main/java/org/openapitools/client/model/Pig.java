@@ -220,6 +220,7 @@ public class Pig extends AbstractOpenApiSchema {
      *
      * @return The actual instance (BasquePig, DanishPig)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();

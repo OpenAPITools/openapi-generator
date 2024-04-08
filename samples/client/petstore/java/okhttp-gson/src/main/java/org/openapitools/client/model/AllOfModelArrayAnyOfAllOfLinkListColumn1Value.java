@@ -95,7 +95,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
                         elementAdapter.write(out, element);
                         return;
                     }
-                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemae: Tag, User");
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: Tag, User");
                 }
 
                 @Override
@@ -194,6 +194,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
      *
      * @return The actual instance (Tag, User)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -220,18 +221,18 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
         return (Tag)super.getActualInstance();
     }
 
-   /**
-    * Validates the JSON Element and throws an exception if issues found
-    *
-    * @param jsonElement JSON Element
-    * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOfAllOfLinkListColumn1Value
-    */
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+     */
     public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-      // validate anyOf schemas one by one
+        // validate anyOf schemas one by one
         ArrayList<String> errorMessages = new ArrayList<>();
         // validate the json string with User
         try {
-          User.validateJsonElement(jsonElement);
+            User.validateJsonElement(jsonElement);
             return;
         } catch (Exception e) {
             errorMessages.add(String.format("Deserialization for User failed with `%s`.", e.getMessage()));
@@ -239,7 +240,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
         }
         // validate the json string with Tag
         try {
-          Tag.validateJsonElement(jsonElement);
+            Tag.validateJsonElement(jsonElement);
             return;
         } catch (Exception e) {
             errorMessages.add(String.format("Deserialization for Tag failed with `%s`.", e.getMessage()));
@@ -268,3 +269,4 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
         return JSON.getGson().toJson(this);
     }
 }
+

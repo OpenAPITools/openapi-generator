@@ -81,7 +81,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{^isPrimitiveType}}
                     {{#isArray}}
                         List<?> list = (List<?>) value.getActualInstance();
-                        if(list.get(0) instanceof {{{items.dataType}}}) {
+                        if (list.get(0) instanceof {{{items.dataType}}}) {
                             JsonArray array = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonArray();
                             elementAdapter.write(out, array);
                             return;
@@ -144,14 +144,14 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         // validate the JSON object to see if any exception is thrown
                     {{^isArray}}
                     {{#isNumber}}
-                        if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
                     {{/isNumber}}
                     {{^isNumber}}
                     {{#isPrimitiveType}}
-                        if(!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                        if (!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
@@ -283,7 +283,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         if (instance instanceof {{#isArray}}List<?>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
         {{#isArray}}
             List<?> list = (List<?>) instance;
-            if(list.get(0) instanceof {{{items.dataType}}}) {
+            if (list.get(0) instanceof {{{items.dataType}}}) {
                 super.setActualInstance(instance);
                 return;
             }
@@ -306,6 +306,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
      *
      * @return The actual instance ({{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}})
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -321,7 +322,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
      * @return The actual instance of `{{{dataType}}}`
      * @throws ClassCastException if the instance is not `{{{dataType}}}`
      */
-    public {{{dataType}}} get{{#isArray}}{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}List{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}() throws ClassCastException {
+    public {{{dataType}}} get{{#isArray}}{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}() throws ClassCastException {
         return ({{{dataType}}})super.getActualInstance();
     }
     {{/vendorExtensions.x-duplicated-data-type}}

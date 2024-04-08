@@ -199,6 +199,7 @@ public class Fruit extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Apple, Banana)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();

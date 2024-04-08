@@ -108,7 +108,7 @@ public class Scalar extends AbstractOpenApiSchema {
                     // deserialize String
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if(!jsonElement.getAsJsonPrimitive().isString()) {
+                        if (!jsonElement.getAsJsonPrimitive().isString()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterString;
@@ -122,7 +122,7 @@ public class Scalar extends AbstractOpenApiSchema {
                     // deserialize BigDecimal
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterBigDecimal;
@@ -136,7 +136,7 @@ public class Scalar extends AbstractOpenApiSchema {
                     // deserialize Boolean
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if(!jsonElement.getAsJsonPrimitive().isBoolean()) {
+                        if (!jsonElement.getAsJsonPrimitive().isBoolean()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type Boolean in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterBoolean;
@@ -226,6 +226,7 @@ public class Scalar extends AbstractOpenApiSchema {
      *
      * @return The actual instance (BigDecimal, Boolean, String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();

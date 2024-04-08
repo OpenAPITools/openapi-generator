@@ -95,7 +95,7 @@ public class GmFruit extends AbstractOpenApiSchema {
                         elementAdapter.write(out, element);
                         return;
                     }
-                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemae: Apple, Banana");
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: Apple, Banana");
                 }
 
                 @Override
@@ -194,6 +194,7 @@ public class GmFruit extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Apple, Banana)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -220,18 +221,18 @@ public class GmFruit extends AbstractOpenApiSchema {
         return (Banana)super.getActualInstance();
     }
 
-   /**
-    * Validates the JSON Element and throws an exception if issues found
-    *
-    * @param jsonElement JSON Element
-    * @throws IOException if the JSON Element is invalid with respect to GmFruit
-    */
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to GmFruit
+     */
     public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-      // validate anyOf schemas one by one
+        // validate anyOf schemas one by one
         ArrayList<String> errorMessages = new ArrayList<>();
         // validate the json string with Apple
         try {
-          Apple.validateJsonElement(jsonElement);
+            Apple.validateJsonElement(jsonElement);
             return;
         } catch (Exception e) {
             errorMessages.add(String.format("Deserialization for Apple failed with `%s`.", e.getMessage()));
@@ -239,7 +240,7 @@ public class GmFruit extends AbstractOpenApiSchema {
         }
         // validate the json string with Banana
         try {
-          Banana.validateJsonElement(jsonElement);
+            Banana.validateJsonElement(jsonElement);
             return;
         } catch (Exception e) {
             errorMessages.add(String.format("Deserialization for Banana failed with `%s`.", e.getMessage()));
@@ -268,3 +269,4 @@ public class GmFruit extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+

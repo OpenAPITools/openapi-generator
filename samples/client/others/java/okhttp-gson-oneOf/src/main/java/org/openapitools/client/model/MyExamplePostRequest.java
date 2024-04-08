@@ -93,7 +93,7 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
                     // deserialize String
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if(!jsonElement.getAsJsonPrimitive().isString()) {
+                        if (!jsonElement.getAsJsonPrimitive().isString()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterString;
@@ -161,6 +161,7 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
      *
      * @return The actual instance (String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -222,3 +223,4 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+

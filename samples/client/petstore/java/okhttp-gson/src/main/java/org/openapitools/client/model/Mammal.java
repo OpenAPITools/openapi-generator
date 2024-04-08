@@ -255,6 +255,7 @@ public class Mammal extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Pig, Whale, Zebra)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();

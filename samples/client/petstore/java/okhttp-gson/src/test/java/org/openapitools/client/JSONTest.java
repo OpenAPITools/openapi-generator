@@ -629,10 +629,10 @@ public class JSONTest {
 
             // make sure deserialization works for pojo object
             ModelWithOneOfAnyOfProperties m2 = json.getGson().fromJson(str2, ModelWithOneOfAnyOfProperties.class);
-            List<String> anyofProp2 = (List<String>) m.getAnyofProp().getActualInstance();
-            assertEquals(anyofProp2, new String[]{"anyof_prop"});
-            List<String> oneofProp2 =  (List<String>) m.getOneofProp().getActualInstance();
-            assertEquals(oneofProp2, new String[]{"oneof_prop"});
+            List<String> anyofProp2 = (List<String>) m2.getAnyofProp().getActualInstance();
+            assertEquals(anyofProp2, Arrays.asList("test anyof"));
+            List<String> oneofProp2 =  (List<String>) m2.getOneofProp().getActualInstance();
+            assertEquals(oneofProp2, Arrays.asList("test oneof"));
         }
         {
             // incorrect payload results in exception
@@ -641,7 +641,16 @@ public class JSONTest {
                 ModelWithOneOfAnyOfProperties o = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
             });
             //assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}", exception.getMessage());
-            assertTrue(exception.getMessage().contains("java.io.IOException: Failed deserialization for ModelWithOneOfAnyOfProperties"));
+            assertTrue(exception.getMessage().contains("java.io.IOException: The JSON string is invalid for"));
+        }
+        {
+            // incorrect payload (array item type mismatch) results in exception
+            String str = "{ \"oneof_prop\": [23], \"anyof_prop\": [true] }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                ModelWithOneOfAnyOfProperties o = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
+            });
+            //assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}", exception.getMessage());
+            assertTrue(exception.getMessage().contains("java.io.IOException: The JSON string is invalid for"));
         }
     }
 }

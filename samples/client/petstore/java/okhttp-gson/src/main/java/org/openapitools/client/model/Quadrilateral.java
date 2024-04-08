@@ -220,6 +220,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
      *
      * @return The actual instance (ComplexQuadrilateral, SimpleQuadrilateral)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();

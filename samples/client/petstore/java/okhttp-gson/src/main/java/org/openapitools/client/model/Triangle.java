@@ -255,6 +255,7 @@ public class Triangle extends AbstractOpenApiSchema {
      *
      * @return The actual instance (EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();

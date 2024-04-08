@@ -225,6 +225,7 @@ public class NullableShape extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Quadrilateral, Triangle)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();

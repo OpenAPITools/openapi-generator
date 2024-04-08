@@ -99,7 +99,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{/vendorExtensions.x-duplicated-data-type}}
                     {{/anyOf}}
                     {{/composedSchemas}}
-                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemae: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
                 }
 
                 @Override
@@ -117,26 +117,28 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     // deserialize {{{dataType}}}
                     try {
                         // validate the JSON object to see if any exception is thrown
+                    {{^isArray}}
                     {{#isNumber}}
-                        if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
                     {{/isNumber}}
                     {{^isNumber}}
                     {{#isPrimitiveType}}
-                        if(!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                        if (!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
                     {{/isPrimitiveType}}
+                    {{/isNumber}}
+                    {{^isNumber}}
                     {{^isPrimitiveType}}
-                    {{^isArray}}
                         {{{dataType}}}.validateJsonElement(jsonElement);
-                        actualAdapter = adapter{{{dataType}}};
-                    {{/isArray}}
+                        actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
                     {{/isPrimitiveType}}
                     {{/isNumber}}
+                    {{/isArray}}
                     {{#isArray}}
                         if (!jsonElement.isJsonArray()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
@@ -145,24 +147,25 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         JsonArray array = jsonElement.getAsJsonArray();
                         // validate array items
                         for(JsonElement element : array) {
-                    {{#items}}
-                    {{#isNumber}}
-                            if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+                        {{#items}}
+                        {{#isNumber}}
+                            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                                 throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                             }
-                            actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
-                    {{/isNumber}}
-                    {{^isNumber}}
-                    {{#isPrimitiveType}}
-                            if(!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                        {{/isNumber}}
+                        {{^isNumber}}
+                        {{#isPrimitiveType}}
+                            if (!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
                                 throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
                             }
-                    {{/isPrimitiveType}}
-                    {{^isPrimitiveType}}
+                        {{/isPrimitiveType}}
+                        {{/isNumber}}
+                        {{^isNumber}}
+                        {{^isPrimitiveType}}
                             {{{dataType}}}.validateJsonElement(element);
-                    {{/isPrimitiveType}}
-                    {{/isNumber}}
-                    {{/items}}
+                        {{/isPrimitiveType}}
+                        {{/isNumber}}
+                        {{/items}}
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
                     {{/isArray}}
@@ -184,7 +187,6 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         {{classname}} ret = new {{classname}}();
                         ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
                         return ret;
-                        log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
                     } catch (Exception e) {
                         // deserialization failed, continue
                         errorMessages.add(String.format("Deserialization for {{{.}}} failed with `%s`.", e.getMessage()));
@@ -252,7 +254,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         if (instance instanceof {{#isArray}}List<?>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
         {{#isArray}}
             List<?> list = (List<?>) instance;
-            if(list.get(0) instanceof List<?>) {
+            if (list.get(0) instanceof {{{items.dataType}}}) {
                 super.setActualInstance(instance);
                 return;
             }
@@ -275,6 +277,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
      *
      * @return The actual instance ({{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}})
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -297,14 +300,14 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     {{/anyOf}}
     {{/composedSchemas}}
 
-   /**
-    * Validates the JSON Element and throws an exception if issues found
-    *
-    * @param jsonElement JSON Element
-    * @throws IOException if the JSON Element is invalid with respect to {{classname}}
-    */
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to {{classname}}
+     */
     public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-      // validate anyOf schemas one by one
+        // validate anyOf schemas one by one
         ArrayList<String> errorMessages = new ArrayList<>();
         {{#composedSchemas}}
         {{#anyOf}}
@@ -312,23 +315,25 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         // validate the json string with {{{dataType}}}
         try {
         {{^hasVars}}
+        {{^isArray}}
         {{#isNumber}}
-            if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
             }
         {{/isNumber}}
         {{^isNumber}}
         {{#isPrimitiveType}}
-            if(!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+            if (!jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
             }
         {{/isPrimitiveType}}
+        {{/isNumber}}
+        {{^isNumber}}
         {{^isPrimitiveType}}
-        {{^isArray}}
-          {{{dataType}}}.validateJsonElement(jsonElement);
-        {{/isArray}}
+            {{{dataType}}}.validateJsonElement(jsonElement);
         {{/isPrimitiveType}}
         {{/isNumber}}
+        {{/isArray}}
         {{#isArray}}
             if (!jsonElement.isJsonArray()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
@@ -336,24 +341,26 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             JsonArray array = jsonElement.getAsJsonArray();
             // validate array items
             for(JsonElement element : array) {
-              {{#items}}
-              {{#isNumber}}
-                if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+            {{#items}}
+            {{#isNumber}}
+                if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                     throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                 }
             {{/isNumber}}
             {{^isNumber}}
             {{#isPrimitiveType}}
-            if(!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
-                throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
-            }
+                if (!element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                    throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
+                }
             {{/isPrimitiveType}}
+            {{/isNumber}}
+            {{^isNumber}}
             {{^isPrimitiveType}}
-            {{{dataType}}}.validateJsonElement(element);
+                {{{dataType}}}.validateJsonElement(element);
             {{/isPrimitiveType}}
             {{/isNumber}}
             {{/items}}
-          }
+            }
         {{/isArray}}
         {{/hasVars}}
         {{#hasVars}}

@@ -101,7 +101,7 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
                     // deserialize String
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if(!jsonElement.getAsJsonPrimitive().isString()) {
+                        if (!jsonElement.getAsJsonPrimitive().isString()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterString;
@@ -115,7 +115,7 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
                     // deserialize Integer
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterInteger;
@@ -194,6 +194,7 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
      *
      * @return The actual instance (Integer, String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -275,3 +276,4 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
         return JSON.getGson().toJson(this);
     }
 }
+

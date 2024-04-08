@@ -100,7 +100,7 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
                     // deserialize String
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if(!jsonElement.getAsJsonPrimitive().isString()) {
+                        if (!jsonElement.getAsJsonPrimitive().isString()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterString;
@@ -114,7 +114,7 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
                     // deserialize Integer
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterInteger;
@@ -193,6 +193,7 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
      *
      * @return The actual instance (Integer, String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -274,3 +275,4 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+

@@ -204,6 +204,7 @@ public class FruitReq extends AbstractOpenApiSchema {
      *
      * @return The actual instance (AppleReq, BananaReq)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();

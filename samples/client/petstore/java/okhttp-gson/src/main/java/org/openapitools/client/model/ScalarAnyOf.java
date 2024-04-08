@@ -93,7 +93,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
                         elementAdapter.write(out, primitive);
                         return;
                     }
-                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemae: BigDecimal, Boolean, String");
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: BigDecimal, Boolean, String");
                 }
 
                 @Override
@@ -107,7 +107,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
                     // deserialize String
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if(!jsonElement.getAsJsonPrimitive().isString()) {
+                        if (!jsonElement.getAsJsonPrimitive().isString()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterString;
@@ -122,7 +122,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
                     // deserialize BigDecimal
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterBigDecimal;
@@ -137,7 +137,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
                     // deserialize Boolean
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        if(!jsonElement.getAsJsonPrimitive().isBoolean()) {
+                        if (!jsonElement.getAsJsonPrimitive().isBoolean()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type Boolean in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterBoolean;
@@ -222,6 +222,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
      *
      * @return The actual instance (BigDecimal, Boolean, String)
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object getActualInstance() {
         return super.getActualInstance();
@@ -258,18 +259,18 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
         return (Boolean)super.getActualInstance();
     }
 
-   /**
-    * Validates the JSON Element and throws an exception if issues found
-    *
-    * @param jsonElement JSON Element
-    * @throws IOException if the JSON Element is invalid with respect to ScalarAnyOf
-    */
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to ScalarAnyOf
+     */
     public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-      // validate anyOf schemas one by one
+        // validate anyOf schemas one by one
         ArrayList<String> errorMessages = new ArrayList<>();
         // validate the json string with String
         try {
-            if(!jsonElement.getAsJsonPrimitive().isString()) {
+            if (!jsonElement.getAsJsonPrimitive().isString()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
             }
             return;
@@ -279,7 +280,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
         }
         // validate the json string with BigDecimal
         try {
-            if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
             }
             return;
@@ -289,7 +290,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
         }
         // validate the json string with Boolean
         try {
-            if(!jsonElement.getAsJsonPrimitive().isBoolean()) {
+            if (!jsonElement.getAsJsonPrimitive().isBoolean()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be of type Boolean in the JSON string but got `%s`", jsonElement.toString()));
             }
             return;
@@ -320,3 +321,4 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+
