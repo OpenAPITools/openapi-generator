@@ -63,19 +63,19 @@ export class DefaultApi extends runtime.BaseAPI {
     async fakeEnumRequestGetInlineRaw(requestParameters: FakeEnumRequestGetInlineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FakeEnumRequestGetInline200Response>> {
         const queryParameters: any = {};
 
-        if (runtime.exists(requestParameters, 'stringEnum')) {
+        if (requestParameters['stringEnum'] != null) {
             queryParameters['string-enum'] = requestParameters['stringEnum'];
         }
 
-        if (runtime.exists(requestParameters, 'nullableStringEnum')) {
+        if (requestParameters['nullableStringEnum'] != null) {
             queryParameters['nullable-string-enum'] = requestParameters['nullableStringEnum'];
         }
 
-        if (runtime.exists(requestParameters, 'numberEnum')) {
+        if (requestParameters['numberEnum'] != null) {
             queryParameters['number-enum'] = requestParameters['numberEnum'];
         }
 
-        if (runtime.exists(requestParameters, 'nullableNumberEnum')) {
+        if (requestParameters['nullableNumberEnum'] != null) {
             queryParameters['nullable-number-enum'] = requestParameters['nullableNumberEnum'];
         }
 
@@ -103,19 +103,19 @@ export class DefaultApi extends runtime.BaseAPI {
     async fakeEnumRequestGetRefRaw(requestParameters: FakeEnumRequestGetRefRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnumPatternObject>> {
         const queryParameters: any = {};
 
-        if (runtime.exists(requestParameters, 'stringEnum')) {
+        if (requestParameters['stringEnum'] != null) {
             queryParameters['string-enum'] = requestParameters['stringEnum'];
         }
 
-        if (runtime.exists(requestParameters, 'nullableStringEnum')) {
+        if (requestParameters['nullableStringEnum'] != null) {
             queryParameters['nullable-string-enum'] = requestParameters['nullableStringEnum'];
         }
 
-        if (runtime.exists(requestParameters, 'numberEnum')) {
+        if (requestParameters['numberEnum'] != null) {
             queryParameters['number-enum'] = requestParameters['numberEnum'];
         }
 
-        if (runtime.exists(requestParameters, 'nullableNumberEnum')) {
+        if (requestParameters['nullableNumberEnum'] != null) {
             queryParameters['nullable-number-enum'] = requestParameters['nullableNumberEnum'];
         }
 

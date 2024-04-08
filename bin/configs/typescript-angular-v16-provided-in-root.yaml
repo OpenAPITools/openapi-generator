@@ -5,3 +5,5 @@ templateDir: modules/openapi-generator/src/main/resources/typescript-angular
 additionalProperties:
   ngVersion: 16.1.2
   supportsES6: true
+enumNameMappings:
+  delivered: SHIPPED

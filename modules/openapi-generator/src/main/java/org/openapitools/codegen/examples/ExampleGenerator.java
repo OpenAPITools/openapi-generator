@@ -37,7 +37,7 @@ public class ExampleGenerator {
     private static final String MIME_TYPE_JSON = "application/json";
     private static final String MIME_TYPE_XML = "application/xml";
 
-    protected final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
+    protected final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
 
     private static final String EXAMPLE = "example";
     private static final String CONTENT_TYPE = "contentType";
@@ -57,7 +57,7 @@ public class ExampleGenerator {
         this.openAPI = openAPI;
         // use a fixed seed to make the "random" numbers reproducible.
         this.random = new Random("ExampleGenerator".hashCode());
-        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
     public List<Map<String, String>> generateFromResponseSchema(String statusCode, Schema responseSchema, Set<String> producesInfo) {
@@ -84,10 +84,9 @@ public class ExampleGenerator {
         }
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
-            ArraySchema as = (ArraySchema) responseSchema;
-            if (as.getItems() != null) { // array of primitive types
+            if (ModelUtils.getSchemaItems(responseSchema) != null) { // array of primitive types
                 return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<>(producesInfo), as);
+                        new ArrayList<>(producesInfo), responseSchema);
             } else {
                 // TODO log warning message as such case is not handled at the moment
                 return null;
@@ -238,7 +237,7 @@ public class ExampleGenerator {
             // When a property is of type Date, we want to ensure that we're returning a formatted Date.
             // And not returning the Date object directly.
             if (property.getExample() instanceof Date) {
-                return DATE_FORMAT.format(property.getExample());
+                return dateFormat.format(property.getExample());
             }
             return property.getExample();
         } else if (ModelUtils.isBooleanSchema(property)) {
@@ -248,9 +247,9 @@ public class ExampleGenerator {
             }
             return Boolean.TRUE;
         } else if (ModelUtils.isArraySchema(property)) {
-            Schema innerType = ((ArraySchema) property).getItems();
+            Schema innerType = ModelUtils.getSchemaItems(property);
             if (innerType != null) {
-                int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
+                int arrayLength = null == property.getMaxItems() ? 2 :  property.getMaxItems();
                 // avoid memory issues by limiting to max. 5 items
                 arrayLength = Math.min(arrayLength, 5);
                 Object[] objectProperties = new Object[arrayLength];

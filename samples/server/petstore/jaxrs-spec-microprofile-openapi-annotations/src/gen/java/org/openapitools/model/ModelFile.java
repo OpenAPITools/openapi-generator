@@ -17,9 +17,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="Must be named `File` for test.")
 @JsonTypeName("File")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ModelFile  implements Serializable {
-  private @Valid String sourceURI;
+  private String sourceURI;
 
   protected ModelFile(ModelFileBuilder<?, ?> b) {
     this.sourceURI = b.sourceURI;

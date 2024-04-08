@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
   IsoscelesTriangle.JSON_PROPERTY_SHAPE_TYPE,
   IsoscelesTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class IsoscelesTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;

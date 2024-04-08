@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { PetPartType } from './PetPartType';
 import {
     PetPartTypeFromJSON,
@@ -59,22 +59,19 @@ export function GetPetPartTypeResponseFromJSON(json: any): GetPetPartTypeRespons
 }
 
 export function GetPetPartTypeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetPetPartTypeResponse {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
         'meta': ResponseMetaFromJSON(json['meta']),
-        'data': !exists(json, 'data') ? undefined : PetPartTypeFromJSON(json['data']),
+        'data': json['data'] == null ? undefined : PetPartTypeFromJSON(json['data']),
     };
 }
 
 export function GetPetPartTypeResponseToJSON(value?: GetPetPartTypeResponse | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

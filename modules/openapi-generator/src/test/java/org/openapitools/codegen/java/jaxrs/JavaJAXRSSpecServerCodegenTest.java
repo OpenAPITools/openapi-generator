@@ -715,6 +715,31 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     @Test
+    public void testValidAnnotation_issue14432() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_14432.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ComplexObject.java"))
+                .fileContains("private @Valid List<LocalDate> dates")
+                .fileDoesNotContains("private @Valid SymbolTypeEnum symbolType")
+                .fileDoesNotContains("@Valid String")
+                .fileDoesNotContains("@Valid Double");
+    }
+
+    @Test
     public void arrayNullableDefaultValueTests() throws Exception {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

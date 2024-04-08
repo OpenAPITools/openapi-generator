@@ -36,7 +36,7 @@ export class AnotherFakeApi extends runtime.BaseAPI {
      * To test special tags
      */
     async _123testSpecialTagsRaw(requestParameters: 123testSpecialTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
-        if (!runtime.exists(requestParameters, 'client')) {
+        if (requestParameters['client'] == null) {
             throw new runtime.RequiredError(
                 'client',
                 'Required parameter "client" was null or undefined when calling _123testSpecialTags().'

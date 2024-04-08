@@ -1,0 +1,15 @@
+generatorName: kotlin
+outputDir: samples/client/echo_api/kotlin-model-prefix-type-mappings
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+typeMappings: 
+  java.io.File: RequestBody
+modelNamePrefix: Api
+additionalProperties:
+  artifactId: kotlin-client-prefix-mapping
+  useCoroutines: true
+  library: jvm-retrofit2
+  enumPropertyNaming: UPPERCASE
+  serializationLibrary: gson
+openapiNormalizer:
+  SIMPLIFY_ONEOF_ANYOF=false

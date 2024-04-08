@@ -295,6 +295,25 @@ public class ModelUtilsTest {
         Assert.assertEquals(decoded, "~1 Hallo/Welt");
     }
 
+    @Test
+    public void testRefToSchemaProperties() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+
+        Schema category = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/properties/category");
+        Assert.assertEquals(category.get$ref(), "#/components/schemas/Category");
+
+        Schema name = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/properties/name");
+        Assert.assertEquals(name.getType(), "string");
+
+        Schema id = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/properties/id");
+        Assert.assertEquals(id.getType(), "integer");
+        Assert.assertEquals(id.getFormat(), "int64");
+
+        Assert.assertEquals(null, ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/prop/category"));
+        Assert.assertEquals(null, ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet/properties/categoryyyy"));
+        Assert.assertEquals(null, ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, "#/components/schemas/Pet"));
+    }
+
 
     // 3.0 spec tests
     @Test

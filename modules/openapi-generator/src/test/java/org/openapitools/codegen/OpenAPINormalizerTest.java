@@ -38,7 +38,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
+import org.openapitools.codegen.templating.mustache.CamelCaseAndSanitizeLambda;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
@@ -168,6 +168,12 @@ public class OpenAPINormalizerTest {
         Schema schema9 = openAPI.getComponents().getSchemas().get("AnyOfStringArrayOfString");
         assertEquals(schema9.getAnyOf().size(), 2);
 
+        Schema schema11 = openAPI.getComponents().getSchemas().get("AnyOfAnyType");
+        assertEquals(schema11.getAnyOf().size(), 6);
+
+        Schema schema13 = openAPI.getComponents().getSchemas().get("OneOfAnyType");
+        assertEquals(schema13.getOneOf().size(), 6);
+
         Map<String, String> options = new HashMap<>();
         options.put("SIMPLIFY_ONEOF_ANYOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
@@ -192,6 +198,15 @@ public class OpenAPINormalizerTest {
 
         Schema schema10 = openAPI.getComponents().getSchemas().get("AnyOfStringArrayOfString");
         assertEquals(schema10.getAnyOf().size(), 2);
+
+        Schema schema12 = openAPI.getComponents().getSchemas().get("AnyOfAnyType");
+        assertEquals(schema12.getAnyOf(), null);
+        assertEquals(schema12.getType(), null);
+
+        Schema schema14 = openAPI.getComponents().getSchemas().get("OneOfAnyType");
+        assertEquals(schema14.getOneOf(), null);
+        assertEquals(schema14.getType(), null);
+
     }
 
     @Test
@@ -474,5 +489,153 @@ public class OpenAPINormalizerTest {
 
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, Collections.emptyMap());
         openAPINormalizer.normalize();
+    }
+
+    @Test
+    public void testSetContainerToNullable() {
+        // test `array|map`
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/setContainerToNullable_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema.getProperties().get("array_property")).getNullable(), null);
+        assertEquals(((Schema) schema.getProperties().get("set_property")).getNullable(), null);
+        assertEquals(((Schema) schema.getProperties().get("map_property")).getNullable(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SET_CONTAINER_TO_NULLABLE", "array|map");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema2.getProperties().get("array_property")).getNullable(), true);
+        assertEquals(((Schema) schema2.getProperties().get("set_property")).getNullable(), null);
+        assertEquals(((Schema) schema2.getProperties().get("map_property")).getNullable(), true);
+
+        // test `set`
+        OpenAPI openAPI2 = TestUtils.parseSpec("src/test/resources/3_0/setContainerToNullable_test.yaml");
+
+        Schema schema3 = openAPI2.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema3.getProperties().get("array_property")).getNullable(), null);
+        assertEquals(((Schema) schema3.getProperties().get("set_property")).getNullable(), null);
+        assertEquals(((Schema) schema3.getProperties().get("map_property")).getNullable(), null);
+
+        options.put("SET_CONTAINER_TO_NULLABLE", "set");
+        OpenAPINormalizer openAPINormalizer2 = new OpenAPINormalizer(openAPI2, options);
+        openAPINormalizer2.normalize();
+
+        Schema schema4 = openAPI2.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema4.getProperties().get("array_property")).getNullable(), null);
+        assertEquals(((Schema) schema4.getProperties().get("set_property")).getNullable(), true);
+        assertEquals(((Schema) schema4.getProperties().get("map_property")).getNullable(), null);
+    }
+
+    @Test
+    public void testSetPrimitiveTypesToNullable() {
+        // test `string|integer|number|boolean`
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0//setPrimitiveTypesToNullable_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema.getProperties().get("lastName")).getNullable(), null);
+        assertEquals(((Schema) schema.getProperties().get("first_integer")).getNullable(), null);
+        assertEquals(((Schema) schema.getProperties().get("first_number")).getNullable(), null);
+        assertEquals(((Schema) schema.getProperties().get("first_boolean")).getNullable(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SET_PRIMITIVE_TYPES_TO_NULLABLE", "string|integer|number|boolean");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema2.getProperties().get("lastName")).getNullable(), true);
+        assertEquals(((Schema) schema2.getProperties().get("first_integer")).getNullable(), true);
+        assertEquals(((Schema) schema2.getProperties().get("first_number")).getNullable(), true);
+        assertEquals(((Schema) schema2.getProperties().get("first_boolean")).getNullable(), true);
+
+        // test `number` only
+        OpenAPI openAPI2 = TestUtils.parseSpec("src/test/resources/3_0//setPrimitiveTypesToNullable_test.yaml");
+
+        Schema schema3 = openAPI2.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema3.getProperties().get("lastName")).getNullable(), null);
+        assertEquals(((Schema) schema3.getProperties().get("first_integer")).getNullable(), null);
+        assertEquals(((Schema) schema3.getProperties().get("first_number")).getNullable(), null);
+        assertEquals(((Schema) schema3.getProperties().get("first_boolean")).getNullable(), null);
+
+        options.put("SET_PRIMITIVE_TYPES_TO_NULLABLE", "number");
+        OpenAPINormalizer openAPINormalizer2 = new OpenAPINormalizer(openAPI2, options);
+        openAPINormalizer2.normalize();
+
+        Schema schema4 = openAPI2.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema4.getProperties().get("lastName")).getNullable(), null);
+        assertEquals(((Schema) schema4.getProperties().get("first_integer")).getNullable(), null);
+        assertEquals(((Schema) schema4.getProperties().get("first_number")).getNullable(), true);
+        assertEquals(((Schema) schema4.getProperties().get("first_boolean")).getNullable(), null);
+    }
+
+    @Test
+    public void testOpenAPINormalizerSimplifyOneOfAnyOf31Spec() {
+        // to test the rule SIMPLIFY_ONEOF_ANYOF in 3.1 spec
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_18184.yaml");
+        // test spec contains anyOf with a ref to enum and another scheme type is null
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Item");
+        assertEquals(((Schema) schema.getProperties().get("my_enum")).getAnyOf().size(), 2);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Item");
+        assertEquals(((Schema) schema2.getProperties().get("my_enum")).getAnyOf(), null);
+        assertEquals(((Schema) schema2.getProperties().get("my_enum")).get$ref(), "#/components/schemas/MyEnum");
+    }
+
+    @Test
+    public void testOpenAPINormalizerProcessingArraySchema31Spec() {
+        // to test array schema processing in 3.1 spec
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_18291.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Foo");
+        assertEquals(((Schema) schema.getProperties().get("arrayOfStrings")).getTypes().size(), 1);
+        assertEquals(((Schema) schema.getProperties().get("arrayOfStrings")).getTypes().contains("array"), true);
+        assertEquals(((Schema) schema.getProperties().get("arrayOfStrings")).getType(), null);
+        assertEquals(ModelUtils.isArraySchema((Schema) schema.getProperties().get("arrayOfStrings")), true);
+        assertEquals(((Schema) schema.getProperties().get("arrayOfStrings")).getItems().getType(), null);
+        assertEquals(((Schema) schema.getProperties().get("arrayOfStrings")).getItems().getTypes().contains("string"), true);
+
+        Schema schema3 = openAPI.getComponents().getSchemas().get("Bar");
+        assertEquals(((Schema) schema3.getAllOf().get(0)).get$ref(), "#/components/schemas/Foo");
+
+        Schema schema5 = ModelUtils.getSchema(openAPI, ModelUtils.getSimpleRef(((Schema) schema3.getAllOf().get(0)).get$ref()));
+        assertEquals(((Schema) schema5.getProperties().get("arrayOfStrings")).getTypes().size(), 1);
+        assertEquals(((Schema) schema5.getProperties().get("arrayOfStrings")).getTypes().contains("array"), true);
+        assertEquals(((Schema) schema5.getProperties().get("arrayOfStrings")).getType(), null);
+        assertEquals(ModelUtils.isArraySchema((Schema) schema5.getProperties().get("arrayOfStrings")), true);
+        assertEquals(((Schema) schema5.getProperties().get("arrayOfStrings")).getItems().getType(), null);
+        assertEquals(((Schema) schema5.getProperties().get("arrayOfStrings")).getItems().getTypes().contains("string"), true);
+
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Foo");
+        assertEquals(((Schema) schema2.getProperties().get("arrayOfStrings")).getTypes().size(), 1);
+        assertEquals(((Schema) schema2.getProperties().get("arrayOfStrings")).getTypes().contains("array"), true);
+        assertEquals(ModelUtils.isArraySchema((Schema) schema2.getProperties().get("arrayOfStrings")), true);
+        assertEquals(((Schema) schema2.getProperties().get("arrayOfStrings")).getItems().getTypes().contains("string"), true);
+        assertEquals(((Schema) schema2.getProperties().get("arrayOfStrings")).getItems().getType(), "string");
+        assertEquals(((Schema) schema2.getProperties().get("arrayOfStrings")).getType(), "array");
+
+        Schema schema4 = openAPI.getComponents().getSchemas().get("Bar");
+        assertEquals(((Schema) schema4.getAllOf().get(0)).get$ref(), "#/components/schemas/Foo");
+
+        Schema schema6 = ModelUtils.getSchema(openAPI, ModelUtils.getSimpleRef(((Schema) schema4.getAllOf().get(0)).get$ref()));
+        assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getTypes().size(), 1);
+        assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getTypes().contains("array"), true);
+        assertEquals(ModelUtils.isArraySchema((Schema) schema6.getProperties().get("arrayOfStrings")), true);
+        assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getItems().getTypes().contains("string"), true);
+        assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getItems().getType(), "string");
+        assertEquals(((Schema) schema6.getProperties().get("arrayOfStrings")).getType(), "array");
+
     }
 }

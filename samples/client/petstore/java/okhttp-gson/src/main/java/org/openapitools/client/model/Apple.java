@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Apple
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Apple {
   public static final String SERIALIZED_NAME_CULTIVAR = "cultivar";
   @SerializedName(SERIALIZED_NAME_CULTIVAR)

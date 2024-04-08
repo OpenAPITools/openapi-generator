@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
  * A User who is purchasing from the pet store
  */
 @Schema(description = "A User who is purchasing from the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)

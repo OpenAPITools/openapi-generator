@@ -166,8 +166,8 @@ namespace {{packageName}}.Test.{{apiPackage}}
         [Fact]
         public void ConfigureApiWithAClientTest()
         {
-            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingConfigureWithAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
-            Assert.True({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.HttpClient.BaseAddress != null);{{^-last}}
+            {{#apiInfo}}{{#apis}}var {{#lambda.camel_case}}{{classname}}{{/lambda.camel_case}} = _hostUsingConfigureWithAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
+            Assert.True({{#lambda.camel_case}}{{classname}}{{/lambda.camel_case}}.HttpClient.BaseAddress != null);{{^-last}}
 
             {{/-last}}{{/apis}}{{/apiInfo}}
         }
@@ -178,8 +178,8 @@ namespace {{packageName}}.Test.{{apiPackage}}
         [Fact]
         public void ConfigureApiWithoutAClientTest()
         {
-            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
-            Assert.True({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.HttpClient.BaseAddress != null);{{^-last}}
+            {{#apiInfo}}{{#apis}}var {{#lambda.camel_case}}{{classname}}{{/lambda.camel_case}} = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
+            Assert.True({{#lambda.camel_case}}{{classname}}{{/lambda.camel_case}}.HttpClient.BaseAddress != null);{{^-last}}
 
             {{/-last}}{{/apis}}{{/apiInfo}}
         }
@@ -190,8 +190,8 @@ namespace {{packageName}}.Test.{{apiPackage}}
         [Fact]
         public void AddApiWithAClientTest()
         {
-            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingAddWithAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
-            Assert.True({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.HttpClient.BaseAddress != null);{{^-last}}
+            {{#apiInfo}}{{#apis}}var {{#lambda.camel_case}}{{classname}}{{/lambda.camel_case}} = _hostUsingAddWithAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
+            Assert.True({{#lambda.camel_case}}{{classname}}{{/lambda.camel_case}}.HttpClient.BaseAddress != null);{{^-last}}
             
             {{/-last}}{{/apis}}{{/apiInfo}}
         }
@@ -202,8 +202,8 @@ namespace {{packageName}}.Test.{{apiPackage}}
         [Fact]
         public void AddApiWithoutAClientTest()
         {
-            {{#apiInfo}}{{#apis}}var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = _hostUsingAddWithoutAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
-            Assert.True({{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.HttpClient.BaseAddress != null);{{^-last}}
+            {{#apiInfo}}{{#apis}}var {{#lambda.camel_case}}{{classname}}{{/lambda.camel_case}} = _hostUsingAddWithoutAClient.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
+            Assert.True({{#lambda.camel_case}}{{classname}}{{/lambda.camel_case}}.HttpClient.BaseAddress != null);{{^-last}}
 
             {{/-last}}{{/apis}}{{/apiInfo}}
         }

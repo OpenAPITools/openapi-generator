@@ -599,13 +599,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
             return objs;
         }
         OperationMap operations = objs.getOperations();
-        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
         HashMap<String, Integer> processedModelMaps = new HashMap<>();
-
-        for (ModelMap modelMap : allModels) {
-            CodegenModel m = modelMap.getModel();
-            modelMaps.put(m.classname, m);
-        }
 
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
@@ -819,7 +814,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Override
     public String getTypeDeclaration(Schema schema) {
         if (ModelUtils.isArraySchema(schema)) {
-            Schema inner = ((ArraySchema) schema).getItems();
+            Schema inner = ModelUtils.getSchemaItems(schema);
             return getSchemaType(schema) + "(" + getTypeDeclaration(inner) + ")";
         } else if (ModelUtils.isMapSchema(schema)) {
             Schema inner = ModelUtils.getAdditionalProperties(schema);

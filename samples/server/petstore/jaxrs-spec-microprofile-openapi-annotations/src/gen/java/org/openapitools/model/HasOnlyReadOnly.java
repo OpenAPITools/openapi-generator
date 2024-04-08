@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("hasOnlyReadOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class HasOnlyReadOnly  implements Serializable {
-  private @Valid String bar;
-  private @Valid String foo;
+  private String bar;
+  private String foo;
 
   protected HasOnlyReadOnly(HasOnlyReadOnlyBuilder<?, ?> b) {
     this.bar = b.bar;

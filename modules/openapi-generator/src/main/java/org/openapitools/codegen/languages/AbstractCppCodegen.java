@@ -280,7 +280,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty property = super.fromProperty(name, p, required);
-        String nameInCamelCase = property.nameInCamelCase;
+        String nameInCamelCase = property.nameInPascalCase;
         if (nameInCamelCase.length() > 1) {
             nameInCamelCase = sanitizeName(Character.toLowerCase(nameInCamelCase.charAt(0)) + nameInCamelCase.substring(1));
         } else {

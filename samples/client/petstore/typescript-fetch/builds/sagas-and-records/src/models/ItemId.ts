@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * Simplified identifier of an item
  * @export
@@ -47,7 +47,7 @@ export function ItemIdFromJSON(json: any): ItemId {
 }
 
 export function ItemIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): ItemId {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
@@ -58,11 +58,8 @@ export function ItemIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): It
 }
 
 export function ItemIdToJSON(value?: ItemId | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

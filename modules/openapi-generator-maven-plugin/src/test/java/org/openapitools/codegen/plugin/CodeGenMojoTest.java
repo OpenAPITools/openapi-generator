@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.plugin;
 
+import static org.junit.Assert.assertThrows;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,6 +33,7 @@ import org.apache.maven.execution.DefaultMavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecution;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectBuilder;
 import org.apache.maven.project.ProjectBuildingRequest;
@@ -179,6 +182,36 @@ public class CodeGenMojoTest extends BaseTestCase {
             .filter(artifact -> artifact.getFile().getName().equals("petstore-full-spec.yaml"))
             .collect(Collectors.toList());
         assertEquals(1, matchingArtifacts.size());
+    }
+
+    public void testAnyInputSpecMustBeProvided() throws Exception {
+        // GIVEN
+        Path folder = Files.createTempDirectory("test");
+        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "executionId");
+        mojo.inputSpec = null;
+        mojo.inputSpecRootDirectory = null;
+
+        // WHEN
+        MojoExecutionException e = assertThrows(MojoExecutionException.class, mojo::execute);
+
+        // THEN
+        assertEquals("inputSpec or inputSpecRootDirectory must be specified", e.getMessage());
+    }
+
+    public void testInputSpecRootDirectoryDoesNotRequireInputSpec() throws Exception {
+        // GIVEN
+        Path folder = Files.createTempDirectory("test");
+        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "executionId");
+        mojo.inputSpec = null;
+        mojo.inputSpecRootDirectory = "src/test/resources/default";
+
+        // WHEN
+        mojo.execute();
+
+        // THEN
+        /* Check the hash file was created */
+        final Path hashFolder = folder.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
+        assertTrue(hashFolder.resolve("_merged_spec.yaml-executionId.sha256").toFile().exists());
     }
 
     protected CodeGenMojo loadMojo(File temporaryFolder, String projectRoot) throws Exception {

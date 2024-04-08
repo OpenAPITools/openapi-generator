@@ -1168,6 +1168,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/request-array-string:
+    post:
+      tags:
+        - fake
+      summary: Array of string
+      operationId: postArrayOfString
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: array
+              items:
+                type: string
+                pattern: "[A-Z0-9]+"
+      responses:
+        200:
+          description: ok
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server

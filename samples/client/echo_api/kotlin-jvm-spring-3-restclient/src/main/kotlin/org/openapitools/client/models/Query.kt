@@ -41,13 +41,13 @@ data class Query (
     /**
      * 
      *
-     * Values: sUCCESS,fAILURE,sKIPPED,unknownDefaultOpenApi
+     * Values: SUCCESS,FAILURE,SKIPPED,unknown_default_open_api
      */
     enum class Outcomes(val value: kotlin.String) {
-        @JsonProperty(value = "SUCCESS") sUCCESS("SUCCESS"),
-        @JsonProperty(value = "FAILURE") fAILURE("FAILURE"),
-        @JsonProperty(value = "SKIPPED") sKIPPED("SKIPPED"),
-        @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue unknownDefaultOpenApi("unknown_default_open_api");
+        @JsonProperty(value = "SUCCESS") SUCCESS("SUCCESS"),
+        @JsonProperty(value = "FAILURE") FAILURE("FAILURE"),
+        @JsonProperty(value = "SKIPPED") SKIPPED("SKIPPED"),
+        @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue unknown_default_open_api("unknown_default_open_api");
     }
 }
 

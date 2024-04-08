@@ -1,0 +1,9 @@
+Apis/ClassicCheckoutSDKApi.http
+Apis/DonationsApi.http
+Apis/ModificationsApi.http
+Apis/OrdersApi.http
+Apis/PaymentLinksApi.http
+Apis/PaymentsApi.http
+Apis/RecurringApi.http
+Apis/UtilityApi.http
+README.md

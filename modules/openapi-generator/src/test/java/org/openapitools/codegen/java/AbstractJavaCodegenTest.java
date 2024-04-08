@@ -83,7 +83,10 @@ public class AbstractJavaCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.getArtifactVersion(), openAPI.getInfo().getVersion());
-        Assert.assertEquals(openAPI.getPaths().get("/pet").getPost().getExtensions().get("x-accepts"), "application/json,application/xml");
+
+        Object xAccepts = openAPI.getPaths().get("/pet").getPost().getExtensions().get("x-accepts");
+        Assert.assertTrue(xAccepts instanceof String[]);
+        Assert.assertTrue(List.of((String[]) xAccepts).containsAll(List.of("application/json", "application/xml")));
     }
 
     @Test
@@ -605,11 +608,11 @@ public class AbstractJavaCodegenTest {
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
-        Assert.assertEquals(defaultValue, null);
+        Assert.assertEquals(defaultValue, "new ArrayList<>()");
 
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
-        Assert.assertEquals(defaultValue, null);
+        Assert.assertEquals(defaultValue, "new ArrayList<>()");
 
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
@@ -895,6 +898,50 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.toDefaultParameterValue(schemas.get("fileEnumWithDefaultEmpty")), "");
         Assert.assertEquals(codegen.toDefaultParameterValue(schemas.get("inlineEnumWithDefault")), "A,B");
         Assert.assertEquals(codegen.toDefaultParameterValue(schemas.get("inlineEnumWithDefaultEmpty")), "");
+    }
+
+    @Test
+    public void ignoreBeanValidationAnnotationsTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.additionalProperties().put("useBeanValidation", true);
+
+        Schema<?> schema = new Schema<>().type("string").format("uuid").pattern("^[a-z]$").maxLength(36);
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "UUID");
+
+        schema = new Schema<>().type("string").format("uri").pattern("^[a-z]$").maxLength(36);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "URI");
+
+        schema = new Schema<>().type("string").format("byte").pattern("^[a-z]$").maxLength(36);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "byte[]");
+
+        schema = new Schema<>().type("string").format("binary").pattern("^[a-z]$").maxLength(36);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "File");
+    }
+
+    @Test
+    public void ignoreBeanValidationAnnotationsContainerTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.additionalProperties().put("useBeanValidation", true);
+
+        Schema<?> schema = new ArraySchema().items(new Schema<>().type("string").format("uuid").pattern("^[a-z]$").maxLength(36));
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<UUID>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").format("uri").pattern("^[a-z]$").maxLength(36));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<URI>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").format("byte").pattern("^[a-z]$").maxLength(36));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<byte[]>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").format("binary").pattern("^[a-z]$").maxLength(36));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<File>");
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

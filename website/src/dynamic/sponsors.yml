@@ -81,7 +81,7 @@
 -
   caption: "dmTECH"
   image: "img/companies/dmtech.jpeg"
-  infoLink: "https://www.dm-jobs.com/"
+  infoLink: "https://www.dmtech.de/"
   bronze: true
 -
   caption: "Adyen"
@@ -112,4 +112,9 @@
   caption: "LITSLINK"
   image: "img/companies/litslink.png"
   infoLink: "https://litslink.com/services/artificial-intelligence/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true
+-
+  caption: "Designli"
+  image: "img/companies/designli.jpg"
+  infoLink: "https://designli.co?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
   bronze: true

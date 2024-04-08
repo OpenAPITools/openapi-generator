@@ -65,13 +65,13 @@ data class DefaultValue (
     /**
      * 
      *
-     * Values: success,failure,unclassified,unknownDefaultOpenApi
+     * Values: success,failure,unclassified,unknown_default_open_api
      */
     enum class ArrayStringEnumDefault(val value: kotlin.String) {
         @JsonProperty(value = "success") success("success"),
         @JsonProperty(value = "failure") failure("failure"),
         @JsonProperty(value = "unclassified") unclassified("unclassified"),
-        @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue unknownDefaultOpenApi("unknown_default_open_api");
+        @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue unknown_default_open_api("unknown_default_open_api");
     }
 }
 

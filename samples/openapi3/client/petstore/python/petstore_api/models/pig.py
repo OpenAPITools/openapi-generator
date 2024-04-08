@@ -20,7 +20,7 @@ from typing import Any, List, Optional
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
 from pydantic import StrictStr, Field
-from typing import Union, List, Optional, Dict
+from typing import Union, List, Set, Optional, Dict
 from typing_extensions import Literal, Self
 
 PIG_ONE_OF_SCHEMAS = ["BasquePig", "DanishPig"]
@@ -34,7 +34,7 @@ class Pig(BaseModel):
     # data type: DanishPig
     oneof_schema_2_validator: Optional[DanishPig] = None
     actual_instance: Optional[Union[BasquePig, DanishPig]] = None
-    one_of_schemas: List[str] = Field(default=Literal["BasquePig", "DanishPig"])
+    one_of_schemas: Set[str] = { "BasquePig", "DanishPig" }
 
     model_config = ConfigDict(
         validate_assignment=True,

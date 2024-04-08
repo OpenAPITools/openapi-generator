@@ -40,7 +40,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   Pet.JSON_PROPERTY_STATUS
 })
 @JsonTypeName("Pet")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 @Introspected
 public class Pet {
     public static final String JSON_PROPERTY_ID = "id";

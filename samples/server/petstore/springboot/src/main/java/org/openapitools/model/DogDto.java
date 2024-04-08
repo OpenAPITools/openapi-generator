@@ -26,7 +26,7 @@ import javax.annotation.Generated;
 
 
 @JsonTypeName("Dog")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class DogDto extends AnimalDto {
 
   private String breed;

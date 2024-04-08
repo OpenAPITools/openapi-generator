@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
@@ -53,22 +53,19 @@ export function GetBehaviorPermissionsResponseFromJSON(json: any): GetBehaviorPe
 }
 
 export function GetBehaviorPermissionsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetBehaviorPermissionsResponse {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
         'meta': ResponseMetaFromJSON(json['meta']),
-        'data': !exists(json, 'data') ? undefined : json['data'],
+        'data': json['data'] == null ? undefined : json['data'],
     };
 }
 
 export function GetBehaviorPermissionsResponseToJSON(value?: GetBehaviorPermissionsResponse | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

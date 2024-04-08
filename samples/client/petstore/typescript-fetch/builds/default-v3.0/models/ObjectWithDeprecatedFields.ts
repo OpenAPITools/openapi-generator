@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { DeprecatedObject } from './DeprecatedObject';
 import {
     DeprecatedObjectFromJSON,
@@ -67,24 +67,21 @@ export function ObjectWithDeprecatedFieldsFromJSON(json: any): ObjectWithDepreca
 }
 
 export function ObjectWithDeprecatedFieldsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ObjectWithDeprecatedFields {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'deprecatedRef': !exists(json, 'deprecatedRef') ? undefined : DeprecatedObjectFromJSON(json['deprecatedRef']),
-        'bars': !exists(json, 'bars') ? undefined : json['bars'],
+        'uuid': json['uuid'] == null ? undefined : json['uuid'],
+        'id': json['id'] == null ? undefined : json['id'],
+        'deprecatedRef': json['deprecatedRef'] == null ? undefined : DeprecatedObjectFromJSON(json['deprecatedRef']),
+        'bars': json['bars'] == null ? undefined : json['bars'],
     };
 }
 
 export function ObjectWithDeprecatedFieldsToJSON(value?: ObjectWithDeprecatedFields | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

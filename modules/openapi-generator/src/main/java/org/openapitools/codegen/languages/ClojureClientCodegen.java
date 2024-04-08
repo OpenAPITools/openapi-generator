@@ -165,15 +165,17 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-
+        if (ModelUtils.isArraySchema(p)) {
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "(s/coll-of " + getTypeDeclaration(inner) + ")";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
-
-            return "(s/map-of string? " + getTypeDeclaration(inner) + ")";
+            Object ap = p.getAdditionalProperties();
+            // additionalProperties is either a Schema or a Boolean
+            if (ap instanceof Schema) {
+                Schema inner = (Schema) ap;
+                return "(s/map-of string? " + getTypeDeclaration(inner) + ")";
+            }
+            return "(s/map-of string? s/any?)";
         }
 
         // If it's a type we defined, we want to append the spec suffix

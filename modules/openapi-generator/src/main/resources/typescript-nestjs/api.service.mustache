@@ -208,24 +208,24 @@ export class {{classname}} {
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
-                formParams.append('{{baseName}}', <any>element);
+                formParams!.append('{{baseName}}', <any>element);
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            formParams!.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
         {{/isCollectionFormatMulti}}
         }
         {{/isArray}}
         {{^isArray}}
         if ({{paramName}} !== undefined) {
-            formParams.append('{{baseName}}', <any>{{paramName}});
+            formParams!.append('{{baseName}}', <any>{{paramName}});
         }
         {{/isArray}}
 {{/formParams}}
 
 {{/hasFormParams}}
         return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams!.toString() : formParams!{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
 {{#hasQueryParams}}
                 params: queryParameters,

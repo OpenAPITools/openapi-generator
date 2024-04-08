@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -40,22 +40,19 @@ export function TestInlineFreeformAdditionalPropertiesRequestFromJSON(json: any)
 }
 
 export function TestInlineFreeformAdditionalPropertiesRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): TestInlineFreeformAdditionalPropertiesRequest {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
             ...json,
-        'someProperty': !exists(json, 'someProperty') ? undefined : json['someProperty'],
+        'someProperty': json['someProperty'] == null ? undefined : json['someProperty'],
     };
 }
 
 export function TestInlineFreeformAdditionalPropertiesRequestToJSON(value?: TestInlineFreeformAdditionalPropertiesRequest | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

@@ -244,8 +244,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             return instantiationTypes.get("array") + " " + inner;
         } else {
             return null;
@@ -464,8 +463,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getTypeDeclaration(inner);
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
