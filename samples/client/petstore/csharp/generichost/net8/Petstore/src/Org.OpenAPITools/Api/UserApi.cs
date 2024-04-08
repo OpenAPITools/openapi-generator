@@ -1745,8 +1745,8 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["username"] = username.ToString();
-                    parseQueryStringLocalVar["password"] = password.ToString();
+                    parseQueryStringLocalVar["username"] = ClientUtils.ParameterToString(username);
+                    parseQueryStringLocalVar["password"] = ClientUtils.ParameterToString(password);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 

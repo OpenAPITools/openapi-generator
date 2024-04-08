@@ -158,7 +158,7 @@ using System.Runtime.CompilerServices;
         /// <param name="obj">The parameter (header, path, query, form).</param>
         /// <param name="format">The DateTime serialization format.</param>
         /// <returns>Formatted string.</returns>
-        public static string{{nrt?}} ParameterToString(object obj, string{{nrt?}} format = ISO8601_DATETIME_FORMAT)
+        public static string{{nrt?}} ParameterToString(object{{nrt?}} obj, string{{nrt?}} format = ISO8601_DATETIME_FORMAT)
         {
             if (obj is DateTime dateTime)
                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
