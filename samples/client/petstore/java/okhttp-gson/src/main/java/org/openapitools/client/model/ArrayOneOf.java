@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -14,6 +14,7 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.List;
 
 
 
@@ -51,45 +52,47 @@ import com.google.gson.JsonParseException;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
-public class OneOfStringOrInt extends AbstractOpenApiSchema {
-    private static final Logger log = Logger.getLogger(OneOfStringOrInt.class.getName());
+public class ArrayOneOf extends AbstractOpenApiSchema {
+    private static final Logger log = Logger.getLogger(ArrayOneOf.class.getName());
 
     public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
         @SuppressWarnings("unchecked")
         @Override
         public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-            if (!OneOfStringOrInt.class.isAssignableFrom(type.getRawType())) {
-                return null; // this class only serializes 'OneOfStringOrInt' and its subtypes
+            if (!ArrayOneOf.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes 'ArrayOneOf' and its subtypes
             }
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-            final TypeAdapter<String> adapterString = gson.getDelegateAdapter(this, TypeToken.get(String.class));
             final TypeAdapter<Integer> adapterInteger = gson.getDelegateAdapter(this, TypeToken.get(Integer.class));
 
-            return (TypeAdapter<T>) new TypeAdapter<OneOfStringOrInt>() {
+            final Type typeInstance = new TypeToken<List<String>>(){}.getType();
+            final TypeAdapter<List<String>> adapterListString = (TypeAdapter<List<String>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+
+            return (TypeAdapter<T>) new TypeAdapter<ArrayOneOf>() {
                 @Override
-                public void write(JsonWriter out, OneOfStringOrInt value) throws IOException {
+                public void write(JsonWriter out, ArrayOneOf value) throws IOException {
                     if (value == null || value.getActualInstance() == null) {
                         elementAdapter.write(out, null);
                         return;
                     }
 
-                    // check if the actual instance is of the type `String`
-                    if (value.getActualInstance() instanceof String) {
-                        JsonPrimitive primitive = adapterString.toJsonTree((String)value.getActualInstance()).getAsJsonPrimitive();
-                        elementAdapter.write(out, primitive);
-                        return;
-                    }
                     // check if the actual instance is of the type `Integer`
                     if (value.getActualInstance() instanceof Integer) {
                         JsonPrimitive primitive = adapterInteger.toJsonTree((Integer)value.getActualInstance()).getAsJsonPrimitive();
                         elementAdapter.write(out, primitive);
                         return;
                     }
-                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: Integer, String");
+                    // check if the actual instance is of the type `List<String>`
+                    if (value.getActualInstance() instanceof List<?>) {
+                        JsonPrimitive primitive = adapterListString.toJsonTree((List<String>)value.getActualInstance()).getAsJsonPrimitive();
+                        elementAdapter.write(out, primitive);
+                        return;
+                    }
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: Integer, List<String>");
                 }
 
                 @Override
-                public OneOfStringOrInt read(JsonReader in) throws IOException {
+                public ArrayOneOf read(JsonReader in) throws IOException {
                     Object deserialized = null;
                     JsonElement jsonElement = elementAdapter.read(in);
 
@@ -97,20 +100,6 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
                     ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
-                    // deserialize String
-                    try {
-                        // validate the JSON object to see if any exception is thrown
-                        if (!jsonElement.getAsJsonPrimitive().isString()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
-                        }
-                        actualAdapter = adapterString;
-                        match++;
-                        log.log(Level.FINER, "Input data matches schema 'String'");
-                    } catch (Exception e) {
-                        // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for String failed with `%s`.", e.getMessage()));
-                        log.log(Level.FINER, "Input data does not match schema 'String'", e);
-                    }
                     // deserialize Integer
                     try {
                         // validate the JSON object to see if any exception is thrown
@@ -125,14 +114,36 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
                         errorMessages.add(String.format("Deserialization for Integer failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Integer'", e);
                     }
+                    // deserialize List<String>
+                    try {
+                        // validate the JSON object to see if any exception is thrown
+                        if (!jsonElement.isJsonArray()) {
+                            throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+
+                        JsonArray array = jsonElement.getAsJsonArray();
+                        // validate array items
+                        for(JsonElement element : array) {
+                            if (!element.getAsJsonPrimitive().isString()) {
+                                throw new IllegalArgumentException(String.format("Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString()));
+                            }
+                        }
+                        actualAdapter = adapterListString;
+                        match++;
+                        log.log(Level.FINER, "Input data matches schema 'List<String>'");
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        errorMessages.add(String.format("Deserialization for List<String> failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'List<String>'", e);
+                    }
 
                     if (match == 1) {
-                        OneOfStringOrInt ret = new OneOfStringOrInt();
+                        ArrayOneOf ret = new ArrayOneOf();
                         ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for OneOfStringOrInt: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format("Failed deserialization for ArrayOneOf: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -141,57 +152,60 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
     // store a list of schema names defined in oneOf
     public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
-    public OneOfStringOrInt() {
+    public ArrayOneOf() {
         super("oneOf", Boolean.FALSE);
     }
 
-    public OneOfStringOrInt(Integer o) {
+    public ArrayOneOf(Integer o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
-    public OneOfStringOrInt(String o) {
+    public ArrayOneOf(List<String> o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     static {
-        schemas.put("String", String.class);
         schemas.put("Integer", Integer.class);
+        schemas.put("List<String>", List.class);
     }
 
     @Override
     public Map<String, Class<?>> getSchemas() {
-        return OneOfStringOrInt.schemas;
+        return ArrayOneOf.schemas;
     }
 
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * Integer, String
+     * Integer, List<String>
      *
      * It could be an instance of the 'oneOf' schemas.
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof String) {
-            super.setActualInstance(instance);
-            return;
-        }
-
         if (instance instanceof Integer) {
             super.setActualInstance(instance);
             return;
         }
 
-        throw new RuntimeException("Invalid instance type. Must be Integer, String");
+        if (instance instanceof List<?>) {
+            List<?> list = (List<?>) instance;
+            if (list.get(0) instanceof String) {
+                super.setActualInstance(instance);
+                return;
+            }
+        }
+
+        throw new RuntimeException("Invalid instance type. Must be Integer, List<String>");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * Integer, String
+     * Integer, List<String>
      *
-     * @return The actual instance (Integer, String)
+     * @return The actual instance (Integer, List<String>)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -199,16 +213,6 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
         return super.getActualInstance();
     }
 
-    /**
-     * Get the actual instance of `String`. If the actual instance is not `String`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `String`
-     * @throws ClassCastException if the instance is not `String`
-     */
-    public String getString() throws ClassCastException {
-        return (String)super.getActualInstance();
-    }
     /**
      * Get the actual instance of `Integer`. If the actual instance is not `Integer`,
      * the ClassCastException will be thrown.
@@ -219,27 +223,27 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
     }
+    /**
+     * Get the actual instance of `List<String>`. If the actual instance is not `List<String>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `List<String>`
+     * @throws ClassCastException if the instance is not `List<String>`
+     */
+    public List<String> getListString() throws ClassCastException {
+        return (List<String>)super.getActualInstance();
+    }
 
     /**
      * Validates the JSON Element and throws an exception if issues found
      *
      * @param jsonElement JSON Element
-     * @throws IOException if the JSON Element is invalid with respect to OneOfStringOrInt
+     * @throws IOException if the JSON Element is invalid with respect to ArrayOneOf
      */
     public static void validateJsonElement(JsonElement jsonElement) throws IOException {
         // validate oneOf schemas one by one
         int validCount = 0;
         ArrayList<String> errorMessages = new ArrayList<>();
-        // validate the json string with String
-        try {
-            if (!jsonElement.getAsJsonPrimitive().isString()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
-            }
-            validCount++;
-        } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for String failed with `%s`.", e.getMessage()));
-            // continue to the next one
-        }
         // validate the json string with Integer
         try {
             if (!jsonElement.getAsJsonPrimitive().isNumber()) {
@@ -250,24 +254,41 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
             errorMessages.add(String.format("Deserialization for Integer failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
+        // validate the json string with List<String>
+        try {
+            if (!jsonElement.isJsonArray()) {
+                throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            JsonArray array = jsonElement.getAsJsonArray();
+            // validate array items
+            for(JsonElement element : array) {
+                if (!element.getAsJsonPrimitive().isString()) {
+                    throw new IllegalArgumentException(String.format("Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString()));
+                }
+            }
+            validCount++;
+        } catch (Exception e) {
+            errorMessages.add(String.format("Deserialization for List<String> failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for OneOfStringOrInt with oneOf schemas: Integer, String. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format("The JSON string is invalid for ArrayOneOf with oneOf schemas: Integer, List<String>. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 
     /**
-     * Create an instance of OneOfStringOrInt given an JSON string
+     * Create an instance of ArrayOneOf given an JSON string
      *
      * @param jsonString JSON string
-     * @return An instance of OneOfStringOrInt
-     * @throws IOException if the JSON string is invalid with respect to OneOfStringOrInt
+     * @return An instance of ArrayOneOf
+     * @throws IOException if the JSON string is invalid with respect to ArrayOneOf
      */
-    public static OneOfStringOrInt fromJson(String jsonString) throws IOException {
-        return JSON.getGson().fromJson(jsonString, OneOfStringOrInt.class);
+    public static ArrayOneOf fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, ArrayOneOf.class);
     }
 
     /**
-     * Convert an instance of OneOfStringOrInt to an JSON string
+     * Convert an instance of ArrayOneOf to an JSON string
      *
      * @return JSON string
      */
