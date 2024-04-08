@@ -25,10 +25,10 @@ class CircularAllOfRef(BaseModel):
     """
     CircularAllOfRef
     """
-    second_circular_all_of_ref: Optional[conlist(SecondCircularAllOfRef)] = Field(default=None, alias="secondCircularAllOfRef")
     name: Optional[StrictStr] = Field(default=None, alias="_name")
+    second_circular_all_of_ref: Optional[conlist(SecondCircularAllOfRef)] = Field(default=None, alias="secondCircularAllOfRef")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["_name"]
+    __properties = ["_name", "secondCircularAllOfRef"]
 
     class Config:
         """Pydantic configuration"""
@@ -55,6 +55,13 @@ class CircularAllOfRef(BaseModel):
                             "additional_properties"
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in second_circular_all_of_ref (list)
+        _items = []
+        if self.second_circular_all_of_ref:
+            for _item in self.second_circular_all_of_ref:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['secondCircularAllOfRef'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -72,7 +79,8 @@ class CircularAllOfRef(BaseModel):
             return CircularAllOfRef.parse_obj(obj)
 
         _obj = CircularAllOfRef.parse_obj({
-            "name": obj.get("_name")
+            "name": obj.get("_name"),
+            "second_circular_all_of_ref": [SecondCircularAllOfRef.from_dict(_item) for _item in obj.get("secondCircularAllOfRef")] if obj.get("secondCircularAllOfRef") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

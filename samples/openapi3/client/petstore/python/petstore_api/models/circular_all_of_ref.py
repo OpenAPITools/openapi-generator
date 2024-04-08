@@ -26,10 +26,10 @@ class CircularAllOfRef(BaseModel):
     """
     CircularAllOfRef
     """ # noqa: E501
-    second_circular_all_of_ref: Optional[List[SecondCircularAllOfRef]] = Field(default=None, alias="secondCircularAllOfRef")
     name: Optional[StrictStr] = Field(default=None, alias="_name")
+    second_circular_all_of_ref: Optional[List[SecondCircularAllOfRef]] = Field(default=None, alias="secondCircularAllOfRef")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["_name"]
+    __properties: ClassVar[List[str]] = ["_name", "secondCircularAllOfRef"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -72,6 +72,13 @@ class CircularAllOfRef(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in second_circular_all_of_ref (list)
+        _items = []
+        if self.second_circular_all_of_ref:
+            for _item in self.second_circular_all_of_ref:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['secondCircularAllOfRef'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -89,7 +96,8 @@ class CircularAllOfRef(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "_name": obj.get("_name")
+            "_name": obj.get("_name"),
+            "secondCircularAllOfRef": [SecondCircularAllOfRef.from_dict(_item) for _item in obj["secondCircularAllOfRef"]] if obj.get("secondCircularAllOfRef") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

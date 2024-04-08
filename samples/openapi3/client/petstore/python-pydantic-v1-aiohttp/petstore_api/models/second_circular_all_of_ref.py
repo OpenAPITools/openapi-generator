@@ -25,9 +25,9 @@ class SecondCircularAllOfRef(BaseModel):
     """
     SecondCircularAllOfRef
     """
-    circular_all_of_ref: Optional[conlist(CircularAllOfRef)] = Field(default=None, alias="circularAllOfRef")
     name: Optional[StrictStr] = Field(default=None, alias="_name")
-    __properties = ["_name"]
+    circular_all_of_ref: Optional[conlist(CircularAllOfRef)] = Field(default=None, alias="circularAllOfRef")
+    __properties = ["_name", "circularAllOfRef"]
 
     class Config:
         """Pydantic configuration"""
@@ -53,6 +53,13 @@ class SecondCircularAllOfRef(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each item in circular_all_of_ref (list)
+        _items = []
+        if self.circular_all_of_ref:
+            for _item in self.circular_all_of_ref:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['circularAllOfRef'] = _items
         return _dict
 
     @classmethod
@@ -65,7 +72,8 @@ class SecondCircularAllOfRef(BaseModel):
             return SecondCircularAllOfRef.parse_obj(obj)
 
         _obj = SecondCircularAllOfRef.parse_obj({
-            "name": obj.get("_name")
+            "name": obj.get("_name"),
+            "circular_all_of_ref": [CircularAllOfRef.from_dict(_item) for _item in obj.get("circularAllOfRef")] if obj.get("circularAllOfRef") is not None else None
         })
         return _obj
 

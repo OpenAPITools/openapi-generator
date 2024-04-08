@@ -4,8 +4,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**circular_all_of_ref** | [**List[CircularAllOfRef]**](CircularAllOfRef.md) |  | [optional] 
 **name** | **str** |  | [optional] 
+**circular_all_of_ref** | [**List[CircularAllOfRef]**](CircularAllOfRef.md) |  | [optional] 
 
 ## Example
 

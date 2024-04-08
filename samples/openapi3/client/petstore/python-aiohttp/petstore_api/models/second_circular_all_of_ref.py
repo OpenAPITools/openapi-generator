@@ -26,9 +26,9 @@ class SecondCircularAllOfRef(BaseModel):
     """
     SecondCircularAllOfRef
     """ # noqa: E501
-    circular_all_of_ref: Optional[List[CircularAllOfRef]] = Field(default=None, alias="circularAllOfRef")
     name: Optional[StrictStr] = Field(default=None, alias="_name")
-    __properties: ClassVar[List[str]] = ["_name"]
+    circular_all_of_ref: Optional[List[CircularAllOfRef]] = Field(default=None, alias="circularAllOfRef")
+    __properties: ClassVar[List[str]] = ["_name", "circularAllOfRef"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -69,6 +69,13 @@ class SecondCircularAllOfRef(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in circular_all_of_ref (list)
+        _items = []
+        if self.circular_all_of_ref:
+            for _item in self.circular_all_of_ref:
+                if _item:
+                    _items.append(_item.to_dict())
+            _dict['circularAllOfRef'] = _items
         return _dict
 
     @classmethod
@@ -81,7 +88,8 @@ class SecondCircularAllOfRef(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "_name": obj.get("_name")
+            "_name": obj.get("_name"),
+            "circularAllOfRef": [CircularAllOfRef.from_dict(_item) for _item in obj["circularAllOfRef"]] if obj.get("circularAllOfRef") is not None else None
         })
         return _obj
 
