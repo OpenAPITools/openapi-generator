@@ -302,3 +302,4 @@ public class NullableShape extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+

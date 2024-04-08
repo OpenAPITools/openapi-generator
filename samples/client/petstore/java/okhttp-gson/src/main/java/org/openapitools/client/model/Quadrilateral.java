@@ -297,3 +297,4 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+

@@ -297,3 +297,4 @@ public class Pig extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+

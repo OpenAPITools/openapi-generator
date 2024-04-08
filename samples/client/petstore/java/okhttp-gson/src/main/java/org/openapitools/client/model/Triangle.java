@@ -350,3 +350,4 @@ public class Triangle extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+

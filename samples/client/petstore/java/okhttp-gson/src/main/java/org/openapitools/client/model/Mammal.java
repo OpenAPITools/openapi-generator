@@ -350,3 +350,4 @@ public class Mammal extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+

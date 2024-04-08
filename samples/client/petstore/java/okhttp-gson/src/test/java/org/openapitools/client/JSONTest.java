@@ -17,13 +17,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 import okio.ByteString;
 import org.junit.jupiter.api.*;
@@ -614,5 +608,40 @@ public class JSONTest {
         t.setName("just a tag");
         z.putAdditionalProperty("new_object_array", Arrays.asList(t));
         assertEquals(z.toJson(), "{\"className\":\"zebra\",\"object_array\":[{\"id\":34.0,\"name\":\"just a tag\"}],\"empty_array\":[],\"array\":[\"1\",\"2\",\"3\"],\"new_array\":[\"1\",\"2\",\"3\"],\"new_empty_array\":[],\"new_object_array\":[{\"id\":34,\"name\":\"just a tag\"}]}");
+    }
+
+    /**
+     * Validate a oneOf, anyOf schema with array sub-schema can be deserialized into the expected class.
+     */
+    @Test
+    public void testOneOfAnyOfArray() throws Exception {
+        {
+            String str = "{\"oneof_prop\":23,\"anyof_prop\":45}";
+
+            // make sure deserialization works for pojo object
+            ModelWithOneOfAnyOfProperties m = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
+            Integer anyofProp = (Integer) m.getAnyofProp().getActualInstance();
+            assertEquals(anyofProp, 45);
+            Integer oneofProp = (Integer) m.getOneofProp().getActualInstance();
+            assertEquals(oneofProp, 23);
+
+            String str2 = "{ \"oneof_prop\": [\"test oneof\"], \"anyof_prop\": [\"test anyof\"] }";
+
+            // make sure deserialization works for pojo object
+            ModelWithOneOfAnyOfProperties m2 = json.getGson().fromJson(str2, ModelWithOneOfAnyOfProperties.class);
+            List<String> anyofProp2 = (List<String>) m.getAnyofProp().getActualInstance();
+            assertEquals(anyofProp2, new String[]{"anyof_prop"});
+            List<String> oneofProp2 =  (List<String>) m.getOneofProp().getActualInstance();
+            assertEquals(oneofProp2, new String[]{"oneof_prop"});
+        }
+        {
+            // incorrect payload results in exception
+            String str = "{ \"oneof_prop\": \"23\", \"anyof_prop\": \"45\" }";
+            Exception exception = assertThrows(com.google.gson.JsonSyntaxException.class, () -> {
+                ModelWithOneOfAnyOfProperties o = json.getGson().fromJson(str, ModelWithOneOfAnyOfProperties.class);
+            });
+            //assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}", exception.getMessage());
+            assertTrue(exception.getMessage().contains("java.io.IOException: Failed deserialization for ModelWithOneOfAnyOfProperties"));
+        }
     }
 }

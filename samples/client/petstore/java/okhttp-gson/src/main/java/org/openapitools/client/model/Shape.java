@@ -297,3 +297,4 @@ public class Shape extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+

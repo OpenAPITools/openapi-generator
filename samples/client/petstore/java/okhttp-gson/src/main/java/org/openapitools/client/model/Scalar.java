@@ -327,3 +327,4 @@ public class Scalar extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+

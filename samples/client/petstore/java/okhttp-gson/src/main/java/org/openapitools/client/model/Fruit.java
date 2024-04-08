@@ -276,3 +276,4 @@ public class Fruit extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+

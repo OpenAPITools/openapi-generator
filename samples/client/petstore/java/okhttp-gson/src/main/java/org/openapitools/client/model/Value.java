@@ -291,3 +291,4 @@ public class Value extends AbstractOpenApiSchema {
         return JSON.getGson().toJson(this);
     }
 }
+

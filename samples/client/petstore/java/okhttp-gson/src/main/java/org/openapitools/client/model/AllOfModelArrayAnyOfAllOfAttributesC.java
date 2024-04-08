@@ -280,3 +280,4 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
         return JSON.getGson().toJson(this);
     }
 }
+

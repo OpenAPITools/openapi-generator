@@ -142,6 +142,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     // deserialize {{{dataType}}}
                     try {
                         // validate the JSON object to see if any exception is thrown
+                    {{^isArray}}
                     {{#isNumber}}
                         if(!jsonElement.getAsJsonPrimitive().isNumber()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
@@ -155,13 +156,14 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
                     {{/isPrimitiveType}}
+                    {{/isNumber}}
+                    {{^isNumber}}
                     {{^isPrimitiveType}}
-                    {{^isArray}}
                         {{{dataType}}}.validateJsonElement(jsonElement);
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
-                    {{/isArray}}
                     {{/isPrimitiveType}}
                     {{/isNumber}}
+                    {{/isArray}}
                     {{#isArray}}
                         if (!jsonElement.isJsonArray()) {
                             throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
@@ -175,7 +177,6 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                             if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                                 throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
                             }
-                            actualAdapter = {{#sanitizeGeneric}}adapter{{{dataType}}}{{/sanitizeGeneric}};
                         {{/isNumber}}
                         {{^isNumber}}
                         {{#isPrimitiveType}}
@@ -183,6 +184,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                                 throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
                             }
                         {{/isPrimitiveType}}
+                        {{/isNumber}}
+                        {{^isNumber}}
                         {{^isPrimitiveType}}
                             {{{dataType}}}.validateJsonElement(element);
                         {{/isPrimitiveType}}
@@ -341,6 +344,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         // validate the json string with {{{dataType}}}
         try {
         {{^hasVars}}
+        {{^isArray}}
         {{#isNumber}}
             if (!jsonElement.getAsJsonPrimitive().isNumber()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
@@ -352,12 +356,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 throw new IllegalArgumentException(String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
             }
         {{/isPrimitiveType}}
+        {{/isNumber}}
+        {{^isNumber}}
         {{^isPrimitiveType}}
-        {{^isArray}}
             {{{dataType}}}.validateJsonElement(jsonElement);
-        {{/isArray}}
         {{/isPrimitiveType}}
         {{/isNumber}}
+        {{/isArray}}
         {{#isArray}}
             if (!jsonElement.isJsonArray()) {
                 throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
@@ -377,6 +382,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     throw new IllegalArgumentException(String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString()));
                 }
             {{/isPrimitiveType}}
+            {{/isNumber}}
+            {{^isNumber}}
             {{^isPrimitiveType}}
                 {{{dataType}}}.validateJsonElement(element);
             {{/isPrimitiveType}}
