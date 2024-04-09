@@ -115,6 +115,7 @@ org.openapitools.codegen.languages.RustClientCodegen
 org.openapitools.codegen.languages.RustServerCodegen
 org.openapitools.codegen.languages.ScalatraServerCodegen
 org.openapitools.codegen.languages.ScalaAkkaClientCodegen
+org.openapitools.codegen.languages.ScalaCaskServerCodegen
 org.openapitools.codegen.languages.ScalaPekkoClientCodegen
 org.openapitools.codegen.languages.ScalaAkkaHttpServerCodegen
 org.openapitools.codegen.languages.ScalaFinchServerCodegen
