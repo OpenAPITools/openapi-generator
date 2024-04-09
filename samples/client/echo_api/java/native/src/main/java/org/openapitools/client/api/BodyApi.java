@@ -801,7 +801,7 @@ public class BodyApi {
         return new ApiResponse<StringEnumRef>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<StringEnumRef>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<StringEnumRef>()) // closes the InputStream
         );
       } finally {
       }

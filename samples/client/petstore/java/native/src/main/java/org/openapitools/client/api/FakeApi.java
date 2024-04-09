@@ -548,7 +548,7 @@ public class FakeApi {
         return new ApiResponse<List<OuterEnum>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<OuterEnum>>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<List<OuterEnum>>()) // closes the InputStream
         );
       } finally {
       }
@@ -1507,7 +1507,7 @@ public class FakeApi {
     }
   }
 
-  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
   private static final class GenericTypeRef<T> extends TypeReference<T> {}
 
   /**
