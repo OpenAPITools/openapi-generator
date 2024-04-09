@@ -130,6 +130,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>_</li>
 <li>abstract</li>
 <li>apiclient</li>
 <li>apiexception</li>

@@ -192,7 +192,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         "ApiClient", "ApiException", "ApiResponse", "Configuration", "StringUtil",
 
                         // language reserved words
-                        "abstract", "continue", "for", "new", "switch", "assert",
+                        "_", "abstract", "continue", "for", "new", "switch", "assert",
                         "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
                         "this", "break", "double", "implements", "protected", "throw", "byte", "else",
                         "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
@@ -1908,10 +1908,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // string
         String var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
         if (var.matches("\\d.*")) {
-            return "_" + var;
-        } else {
-            return var;
+            var = "_" + var;
         }
+        return this.toVarName(var);
     }
 
     @Override
