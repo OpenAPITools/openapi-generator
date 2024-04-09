@@ -204,7 +204,7 @@ public class {{classname}} {
             try {
               String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new GenericTypeRef<{{{returnType}}}>())
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -274,7 +274,7 @@ public class {{classname}} {
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
           {{#returnType}}
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<{{{returnType}}}>()) // closes the InputStream
           {{/returnType}}
           {{^returnType}}
           null
@@ -317,7 +317,7 @@ public class {{classname}} {
                   new ApiResponse<{{{returnType}}}>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new GenericTypeRef<{{{returnType}}}>()))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -587,6 +587,9 @@ public class {{classname}} {
       }
     }
   }
+
+  {{>generatedAnnotation}}
+  private static final class GenericTypeRef<T> extends TypeReference<T> {}
 
   {{/hasParams}}
   {{/vendorExtensions.x-group-parameters}}
