@@ -540,6 +540,7 @@ public class {{classname}} {
     }
     return localVarRequestBuilder;
   }
+
   {{#vendorExtensions.x-group-parameters}}
   {{#hasParams}}
 
@@ -588,11 +589,12 @@ public class {{classname}} {
     }
   }
 
-  {{>generatedAnnotation}}
-  private static final class GenericTypeRef<T> extends TypeReference<T> {}
-
   {{/hasParams}}
   {{/vendorExtensions.x-group-parameters}}
+  {{#-last}}
+  {{>generatedAnnotation}}
+  private static final class GenericTypeRef<T> extends TypeReference<T> {}
+  {{/-last}}
   {{/operation}}
 }
 {{/operations}}
