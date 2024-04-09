@@ -753,6 +753,9 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             } else if (value instanceof Integer) {
                 ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
                         value;
+            } else if (value instanceof Boolean) {
+                ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
+                        value;
             } else if (value instanceof LinkedHashMap) {
                 String in = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": ";
                 ret = traverseMap(((LinkedHashMap<String, Object>) value),  in);
