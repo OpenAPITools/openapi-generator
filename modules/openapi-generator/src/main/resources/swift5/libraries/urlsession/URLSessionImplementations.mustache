@@ -8,6 +8,9 @@ import Foundation
 #if !os(macOS)
 import MobileCoreServices
 #endif
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+#endif
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} protocol URLSessionProtocol {
     func dataTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
@@ -560,9 +563,20 @@ private class FormDataEncoding: ParameterEncoding {
     func mimeType(for url: URL) -> String {
         let pathExtension = url.pathExtension
 
-        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue(),
-                let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
-            return mimetype as String
+        if #available(iOS 15, macOS 11, *) {
+            #if canImport(UniformTypeIdentifiers)
+            if let utType = UTType(filenameExtension: pathExtension) {
+                return utType.preferredMIMEType ?? "application/octet-stream"
+            }
+            #else
+            return "application/octet-stream" 
+            #endif
+        } else {
+            if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue(),
+                    let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
+                return mimetype as String
+            }
+            return "application/octet-stream"
         }
         return "application/octet-stream"
     }
