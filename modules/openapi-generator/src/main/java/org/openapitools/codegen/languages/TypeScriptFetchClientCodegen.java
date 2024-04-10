@@ -93,6 +93,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         embeddedTemplateDir = templateDir = "typescript-fetch";
 
         this.apiTemplateFiles.put("apis.mustache", ".ts");
+        this.modelTemplateFiles.put("models.mustache", ".ts");
+
+        this.modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        this.apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         this.addExtraReservedWords();
 
@@ -251,7 +255,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         if (!withoutRuntimeChecks) {
-            this.modelTemplateFiles.put("models.mustache", ".ts");
             typeMapping.put("date", "Date");
             typeMapping.put("DateTime", "Date");
         }
