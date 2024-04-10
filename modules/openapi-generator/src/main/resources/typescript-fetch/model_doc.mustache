@@ -1,0 +1,37 @@
+{{#models}}{{#model}}
+# {{classname}}
+
+{{#description}}{{&description}}
+{{/description}}
+
+## Properties
+
+Name | Type
+------------ | -------------
+{{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}}
+{{/vars}}
+
+## Example
+
+```typescript
+import { {{classname}} } from '{{npmName}}'
+
+// TODO: Update the object below with actual values
+const example: {{classname}} = {
+{{#vars}}
+    "{{name}}": {{{example}}},
+{{/vars}}
+}
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as {{classname}}
+console.log(exampleParsed)
+```
+
+{{/model}}{{/models}}
