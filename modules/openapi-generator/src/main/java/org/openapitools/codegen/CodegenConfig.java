@@ -358,8 +358,8 @@ public interface CodegenConfig {
 
     boolean getAddSuffixToDuplicateOperationNicknames();
 
-    boolean getUseOpenAPINormalizer();
+    boolean getUseOpenapiNormalizer();
 
-    Set<String> getOpenAPIGeneratorIgnoreList();
+    Set<String> getOpenapiGeneratorIgnoreList();
 
 }

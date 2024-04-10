@@ -304,6 +304,8 @@ You can use also `config.yml` with following equivalent example:
 apiPackage: "petstore"
 ```
 
+Another example of config file can be found in [modules/openapi-generator/src/test/resources/sampleConfig.json](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/test/resources/sampleConfig.json)
+
 Supported config options can be different per language. Running `config-help -g {lang}` will show available options.
 **These options are applied via configuration file (e.g. config.json or config.yml) or by passing them with `-p {optionName}={optionValue}`**. (If `-p {optionName}` does not work, please open a [ticket](https://github.com/openapitools/openapi-generator/issues/new) and we'll look into it)
 
