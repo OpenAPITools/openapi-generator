@@ -346,7 +346,7 @@ public final class GeneratorSettings implements Serializable {
      *
      * @return the openapi generator ignore list
      */
-    public Set<String> getOpenAPIGeneratorIgnoreList() {
+    public Set<String> getOpenapiGeneratorIgnoreList() {
         return openapiGeneratorIgnoreList;
     }
 
@@ -620,8 +620,8 @@ public final class GeneratorSettings implements Serializable {
         if (copy.getLanguageSpecificPrimitives() != null) {
             builder.languageSpecificPrimitives.addAll(copy.getLanguageSpecificPrimitives());
         }
-        if (copy.getOpenAPIGeneratorIgnoreList() != null) {
-            builder.openapiGeneratorIgnoreList.addAll(copy.getOpenAPIGeneratorIgnoreList());
+        if (copy.getOpenapiGeneratorIgnoreList() != null) {
+            builder.openapiGeneratorIgnoreList.addAll(copy.getOpenapiGeneratorIgnoreList());
         }
         if (copy.getReservedWordsMappings() != null) {
             builder.reservedWordsMappings.putAll(copy.getReservedWordsMappings());
@@ -1203,7 +1203,7 @@ public final class GeneratorSettings implements Serializable {
          * @param openapiGeneratorIgnoreList the {@code openapiGeneratorIgnoreList} to set
          * @return a reference to this Builder
          */
-        public Builder withOpenAPIGeneratorIgnoreList(Set<String> openapiGeneratorIgnoreList) {
+        public Builder withOpenapiGeneratorIgnoreList(Set<String> openapiGeneratorIgnoreList) {
             this.openapiGeneratorIgnoreList = openapiGeneratorIgnoreList;
             return this;
         }
@@ -1214,7 +1214,7 @@ public final class GeneratorSettings implements Serializable {
          * @param value The value of entry to set
          * @return a reference to this Builder
          */
-        public Builder withOpenAPIGeneratorIgnoreList(String value) {
+        public Builder withOpenapiGeneratorIgnoreList(String value) {
             if (this.openapiGeneratorIgnoreList == null) {
                 this.openapiGeneratorIgnoreList = new HashSet<>();
             }
@@ -1392,7 +1392,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getOperationIdNameMappings(), that.getOperationIdNameMappings()) &&
                 Objects.equals(getOpenapiNormalizer(), that.getOpenapiNormalizer()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
-                Objects.equals(getOpenAPIGeneratorIgnoreList(), that.getOpenAPIGeneratorIgnoreList()) &&
+                Objects.equals(getOpenapiGeneratorIgnoreList(), that.getOpenapiGeneratorIgnoreList()) &&
                 Objects.equals(getReservedWordsMappings(), that.getReservedWordsMappings()) &&
                 Objects.equals(getGitHost(), that.getGitHost()) &&
                 Objects.equals(getGitUserId(), that.getGitUserId()) &&
@@ -1430,7 +1430,7 @@ public final class GeneratorSettings implements Serializable {
                 getOperationIdNameMappings(),
                 getOpenapiNormalizer(),
                 getLanguageSpecificPrimitives(),
-                getOpenAPIGeneratorIgnoreList(),
+                getOpenapiGeneratorIgnoreList(),
                 getReservedWordsMappings(),
                 getGitHost(),
                 getGitUserId(),

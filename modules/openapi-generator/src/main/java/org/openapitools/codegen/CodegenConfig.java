@@ -360,6 +360,6 @@ public interface CodegenConfig {
 
     boolean getUseOpenAPINormalizer();
 
-    Set<String> getOpenAPIGeneratorIgnoreList();
+    Set<String> getOpenapiGeneratorIgnoreList();
 
 }

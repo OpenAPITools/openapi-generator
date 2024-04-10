@@ -151,8 +151,8 @@ public class CodegenConfigurator {
             if(generatorSettings.getLanguageSpecificPrimitives() != null) {
                 configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
             }
-            if(generatorSettings.getOpenAPIGeneratorIgnoreList() != null) {
-                configurator.openapiGeneratorIgnoreList.addAll(generatorSettings.getOpenAPIGeneratorIgnoreList());
+            if(generatorSettings.getOpenapiGeneratorIgnoreList() != null) {
+                configurator.openapiGeneratorIgnoreList.addAll(generatorSettings.getOpenapiGeneratorIgnoreList());
             }
             if(generatorSettings.getReservedWordsMappings() != null) {
                 configurator.reservedWordsMappings.putAll(generatorSettings.getReservedWordsMappings());
@@ -286,9 +286,9 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public CodegenConfigurator addOpenAPIGeneratorIgnoreList(String value) {
+    public CodegenConfigurator addOpenapiGeneratorIgnoreList(String value) {
         this.openapiGeneratorIgnoreList.add(value);
-        generatorSettingsBuilder.withOpenAPIGeneratorIgnoreList(value);
+        generatorSettingsBuilder.withOpenapiGeneratorIgnoreList(value);
         return this;
     }
 
@@ -515,10 +515,10 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public CodegenConfigurator setOpenAPIGeneratorIgnoreList(
+    public CodegenConfigurator setOpenapiGeneratorIgnoreList(
             Set<String> openapiGeneratorIgnoreList) {
         this.openapiGeneratorIgnoreList = openapiGeneratorIgnoreList;
-        generatorSettingsBuilder.withOpenAPIGeneratorIgnoreList(openapiGeneratorIgnoreList);
+        generatorSettingsBuilder.withOpenapiGeneratorIgnoreList(openapiGeneratorIgnoreList);
         return this;
     }
 
@@ -781,7 +781,7 @@ public class CodegenConfigurator {
         config.operationIdNameMapping().putAll(generatorSettings.getOperationIdNameMappings());
         config.openapiNormalizer().putAll(generatorSettings.getOpenapiNormalizer());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
-        config.openapiGeneratorIgnoreList().addAll(generatorSettings.getOpenAPIGeneratorIgnoreList());
+        config.openapiGeneratorIgnoreList().addAll(generatorSettings.getOpenapiGeneratorIgnoreList());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordsMappings());
         config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());
 

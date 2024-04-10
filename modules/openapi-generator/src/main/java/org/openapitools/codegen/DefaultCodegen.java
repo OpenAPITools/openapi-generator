@@ -8478,7 +8478,7 @@ public class DefaultCodegen implements CodegenConfig {
     public boolean getUseOpenAPINormalizer() { return true; }
 
     @Override
-    public Set<String> getOpenAPIGeneratorIgnoreList() {
+    public Set<String> getOpenapiGeneratorIgnoreList() {
         return openapiGeneratorIgnoreList;
     }
 

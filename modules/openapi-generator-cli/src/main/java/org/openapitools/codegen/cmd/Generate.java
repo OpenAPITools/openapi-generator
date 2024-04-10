@@ -519,7 +519,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
-        applyOpenAPIGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
+        applyOpenapiGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
         applyServerVariablesKvpList(serverVariableOverrides, configurator);
 

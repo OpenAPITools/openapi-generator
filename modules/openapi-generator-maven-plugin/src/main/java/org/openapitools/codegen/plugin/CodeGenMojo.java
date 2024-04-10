@@ -846,7 +846,7 @@ public class CodeGenMojo extends AbstractMojo {
 
                 // Retained for backwards-compatibility with configOptions -> openapi-generator-ignore-list
                 if (openapiGeneratorIgnoreList == null && configOptions.containsKey("openapi-generator-ignore-list")) {
-                    applyOpenAPIGeneratorIgnoreListCsv(configOptions
+                    applyOpenapiGeneratorIgnoreListCsv(configOptions
                             .get("openapi-generator-ignore-list").toString(), configurator);
                 }
 
@@ -936,7 +936,7 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Language Specific Primitives
             if (openapiGeneratorIgnoreList != null
                     && (configOptions == null || !configOptions.containsKey("openapi-generator-ignore-list"))) {
-                applyOpenAPIGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
+                applyOpenapiGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
             }
 
             // Apply Additional Properties

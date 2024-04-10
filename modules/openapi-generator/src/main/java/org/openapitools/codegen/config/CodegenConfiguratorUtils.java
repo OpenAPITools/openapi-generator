@@ -250,16 +250,16 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
-    public static void applyOpenAPIGeneratorIgnoreListCsvList(List<String> openapiGeneratorIgnoreList, CodegenConfigurator configurator) {
+    public static void applyOpenapiGeneratorIgnoreListCsvList(List<String> openapiGeneratorIgnoreList, CodegenConfigurator configurator) {
         for (String propString : openapiGeneratorIgnoreList) {
-            applyOpenAPIGeneratorIgnoreListCsv(propString, configurator);
+            applyOpenapiGeneratorIgnoreListCsv(propString, configurator);
         }
     }
 
-    public static void applyOpenAPIGeneratorIgnoreListCsv(String openapiGeneratorIgnoreList, CodegenConfigurator configurator) {
+    public static void applyOpenapiGeneratorIgnoreListCsv(String openapiGeneratorIgnoreList, CodegenConfigurator configurator) {
         final Set<String> set = createSetFromCsvList(openapiGeneratorIgnoreList);
         for (String item : set) {
-            configurator.addOpenAPIGeneratorIgnoreList(item);
+            configurator.addOpenapiGeneratorIgnoreList(item);
         }
     }
 
