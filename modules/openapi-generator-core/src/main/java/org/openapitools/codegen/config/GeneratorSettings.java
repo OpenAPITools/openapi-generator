@@ -321,7 +321,7 @@ public final class GeneratorSettings implements Serializable {
      *
      * @return a map of rules
      */
-    public Map<String, String> getOpenAPINormalizer() {
+    public Map<String, String> getOpenapiNormalizer() {
         return openapiNormalizer;
     }
 
@@ -614,8 +614,8 @@ public final class GeneratorSettings implements Serializable {
         if (copy.getOperationIdNameMappings() != null) {
             builder.operationIdNameMappings.putAll(copy.getOperationIdNameMappings());
         }
-        if (copy.getOpenAPINormalizer() != null) {
-            builder.openapiNormalizer.putAll(copy.getOpenAPINormalizer());
+        if (copy.getOpenapiNormalizer() != null) {
+            builder.openapiNormalizer.putAll(copy.getOpenapiNormalizer());
         }
         if (copy.getLanguageSpecificPrimitives() != null) {
             builder.languageSpecificPrimitives.addAll(copy.getLanguageSpecificPrimitives());
@@ -1152,7 +1152,7 @@ public final class GeneratorSettings implements Serializable {
          * @param openapiNormalizer the {@code openapiNormalizer} to set
          * @return a reference to this Builder
          */
-        public Builder withOpenAPINormalizer(Map<String, String> openapiNormalizer) {
+        public Builder withOpenapiNormalizer(Map<String, String> openapiNormalizer) {
             this.openapiNormalizer = openapiNormalizer;
             return this;
         }
@@ -1164,7 +1164,7 @@ public final class GeneratorSettings implements Serializable {
          * @param value The value of the OpenAPI normalizer rule
          * @return a reference to this Builder
          */
-        public Builder withOpenAPINormalizer(String key, String value) {
+        public Builder withOpenapiNormalizer(String key, String value) {
             if (this.openapiNormalizer == null) {
                 this.openapiNormalizer = new HashMap<>();
             }
@@ -1390,7 +1390,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getModelNameMappings(), that.getModelNameMappings()) &&
                 Objects.equals(getEnumNameMappings(), that.getEnumNameMappings()) &&
                 Objects.equals(getOperationIdNameMappings(), that.getOperationIdNameMappings()) &&
-                Objects.equals(getOpenAPINormalizer(), that.getOpenAPINormalizer()) &&
+                Objects.equals(getOpenapiNormalizer(), that.getOpenapiNormalizer()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
                 Objects.equals(getOpenAPIGeneratorIgnoreList(), that.getOpenAPIGeneratorIgnoreList()) &&
                 Objects.equals(getReservedWordsMappings(), that.getReservedWordsMappings()) &&
@@ -1428,7 +1428,7 @@ public final class GeneratorSettings implements Serializable {
                 getModelNameMappings(),
                 getEnumNameMappings(),
                 getOperationIdNameMappings(),
-                getOpenAPINormalizer(),
+                getOpenapiNormalizer(),
                 getLanguageSpecificPrimitives(),
                 getOpenAPIGeneratorIgnoreList(),
                 getReservedWordsMappings(),

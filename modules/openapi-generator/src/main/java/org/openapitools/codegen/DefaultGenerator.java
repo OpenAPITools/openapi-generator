@@ -257,10 +257,16 @@ public class DefaultGenerator implements Generator {
             System.out.println(SerializerUtils.toJsonString(openAPI));
         }
 
+        LOGGER.info("enum mapping {}", config.enumNameMapping());
         config.processOpts();
         if (opts != null && opts.getGeneratorSettings() != null) {
+            LOGGER.info("type mapping {}", config.typeMapping());
             config.typeMapping().putAll(opts.getGeneratorSettings().getTypeMappings());
+            LOGGER.info("type mapping {}", config.typeMapping());
             config.importMapping().putAll(opts.getGeneratorSettings().getImportMappings());
+            LOGGER.info("config {}", config.openapiNormalizer());
+            config.openapiNormalizer().putAll(opts.getGeneratorSettings().getOpenapiNormalizer());
+            LOGGER.info("config {}", config.openapiNormalizer());
         }
 
         // normalize the spec

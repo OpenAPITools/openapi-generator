@@ -829,7 +829,7 @@ public class CodeGenMojo extends AbstractMojo {
 
                 // Retained for backwards-compatibility with configOptions -> openapi-normalizer
                 if (openapiNormalizer == null && configOptions.containsKey("openapi-normalizer")) {
-                    applyOpenAPINormalizerKvp(configOptions.get("openapi-normalizer").toString(),
+                    applyOpenapiNormalizerKvp(configOptions.get("openapi-normalizer").toString(),
                             configurator);
                 }
 
@@ -919,7 +919,7 @@ public class CodeGenMojo extends AbstractMojo {
 
             // Apply OpenAPI normalizer rules
             if (openapiNormalizer != null && (configOptions == null || !configOptions.containsKey("openapi-normalizer"))) {
-                applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
+                applyOpenapiNormalizerKvpList(openapiNormalizer, configurator);
             }
 
             // Apply Type Mappings

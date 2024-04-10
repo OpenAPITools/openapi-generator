@@ -145,8 +145,8 @@ public class CodegenConfigurator {
             if(generatorSettings.getOperationIdNameMappings() != null) {
                 configurator.operationIdNameMappings.putAll(generatorSettings.getOperationIdNameMappings());
             }
-            if(generatorSettings.getOpenAPINormalizer() != null) {
-                configurator.openapiNormalizer.putAll(generatorSettings.getOpenAPINormalizer());
+            if(generatorSettings.getOpenapiNormalizer() != null) {
+                configurator.openapiNormalizer.putAll(generatorSettings.getOpenapiNormalizer());
             }
             if(generatorSettings.getLanguageSpecificPrimitives() != null) {
                 configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
@@ -268,9 +268,9 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public CodegenConfigurator addOpenAPINormalizer(String key, String value) {
+    public CodegenConfigurator addOpenapiNormalizer(String key, String value) {
         this.openapiNormalizer.put(key, value);
-        generatorSettingsBuilder.withOpenAPINormalizer(key, value);
+        generatorSettingsBuilder.withOpenapiNormalizer(key, value);
         return this;
     }
 
@@ -482,9 +482,9 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public CodegenConfigurator setOpenAPINormalizer(Map<String, String> openapiNormalizer) {
+    public CodegenConfigurator setOpenapiNormalizer(Map<String, String> openapiNormalizer) {
         this.openapiNormalizer = openapiNormalizer;
-        generatorSettingsBuilder.withOpenAPINormalizer(openapiNormalizer);
+        generatorSettingsBuilder.withOpenapiNormalizer(openapiNormalizer);
         return this;
     }
 
@@ -779,7 +779,7 @@ public class CodegenConfigurator {
         config.modelNameMapping().putAll(generatorSettings.getModelNameMappings());
         config.enumNameMapping().putAll(generatorSettings.getEnumNameMappings());
         config.operationIdNameMapping().putAll(generatorSettings.getOperationIdNameMappings());
-        config.openapiNormalizer().putAll(generatorSettings.getOpenAPINormalizer());
+        config.openapiNormalizer().putAll(generatorSettings.getOpenapiNormalizer());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.openapiGeneratorIgnoreList().addAll(generatorSettings.getOpenAPIGeneratorIgnoreList());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordsMappings());

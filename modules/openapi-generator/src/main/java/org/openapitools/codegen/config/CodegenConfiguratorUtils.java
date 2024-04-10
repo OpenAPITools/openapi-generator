@@ -185,16 +185,16 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
-    public static void applyOpenAPINormalizerKvpList(List<String> openapiNormalizer, CodegenConfigurator configurator) {
+    public static void applyOpenapiNormalizerKvpList(List<String> openapiNormalizer, CodegenConfigurator configurator) {
         for (String propString : openapiNormalizer) {
-            applyOpenAPINormalizerKvp(propString, configurator);
+            applyOpenapiNormalizerKvp(propString, configurator);
         }
     }
 
-    public static void applyOpenAPINormalizerKvp(String openapiNormalizer, CodegenConfigurator configurator) {
+    public static void applyOpenapiNormalizerKvp(String openapiNormalizer, CodegenConfigurator configurator) {
         final Map<String, String> map = createMapFromKeyValuePairs(openapiNormalizer);
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addOpenAPINormalizer(entry.getKey().trim(), entry.getValue().trim());
+            configurator.addOpenapiNormalizer(entry.getKey().trim(), entry.getValue().trim());
         }
     }
 
