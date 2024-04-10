@@ -116,7 +116,7 @@ public class AnotherFakeApi {
         return new ApiResponse<Client>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<Client>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -159,6 +159,4 @@ public class AnotherFakeApi {
     return localVarRequestBuilder;
   }
 
-  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
-  private static final class GenericTypeRef<T> extends TypeReference<T> {}
 }

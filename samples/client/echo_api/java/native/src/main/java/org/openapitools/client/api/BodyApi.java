@@ -123,7 +123,7 @@ public class BodyApi {
         return new ApiResponse<File>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<File>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<File>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -497,7 +497,7 @@ public class BodyApi {
         return new ApiResponse<Pet>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<Pet>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -653,7 +653,7 @@ public class BodyApi {
         return new ApiResponse<Pet>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<Pet>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -809,7 +809,7 @@ public class BodyApi {
         return new ApiResponse<StringEnumRef>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<StringEnumRef>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<StringEnumRef>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -930,6 +930,4 @@ public class BodyApi {
     return localVarRequestBuilder;
   }
 
-  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
-  private static final class GenericTypeRef<T> extends TypeReference<T> {}
 }
