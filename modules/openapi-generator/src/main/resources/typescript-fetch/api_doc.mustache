@@ -6,12 +6,12 @@ All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
 {{#operation}}
-# **{{{operationId}}}**
+## **{{{operationId}}}**
 > {{#returnType}}{{{returnType}}} {{/returnType}}{{{operationId}}}({{#requiredParams}}{{^defaultValue}}{{paramName}}{{^-last}}, {{/-last}}{{/defaultValue}}{{/requiredParams}})
 
 {{#notes}}
@@ -22,11 +22,9 @@ Method | HTTP request | Description
 
 
 ```typescript
-import { {{{moduleName}}} } from '{{{projectName}}}';
-import * as fs from 'fs';
+import { {{classname}} } from '{{{projectName}}}';
 
-const configuration = {{{moduleName}}}.createConfiguration();
-const apiInstance = new {{{moduleName}}}.{{classname}}(configuration);
+const apiInstance = new {{{moduleName}}}.{{classname}}();
 
 {{#hasParams}}
 let body:{{{moduleName}}}.{{classname}}{{operationIdCamelCase}}Request = {
@@ -56,7 +54,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
 
 ### Authorization
 

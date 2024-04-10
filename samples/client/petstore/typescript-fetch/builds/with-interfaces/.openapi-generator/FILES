@@ -1,3 +1,12 @@
+ApiResponse.md
+Category.md
+Order.md
+Pet.md
+PetApi.md
+StoreApi.md
+Tag.md
+User.md
+UserApi.md
 apis/PetApi.ts
 apis/StoreApi.ts
 apis/UserApi.ts
