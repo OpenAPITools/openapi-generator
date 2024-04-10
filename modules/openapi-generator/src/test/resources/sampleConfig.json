@@ -17,8 +17,11 @@
     "globalProperties" : {
         "systemProp1" : "value1"
     },
-    "schemeMappings" : {
+    "modelNameMappings" : {
         "Tag": "Label"
+    },
+    "openapiNormalizer" : {
+        "REFACTOR_ALLOF_WITH_PROPERTIES_ONLY": true
     },
     "instantiationTypes" : {
         "hello" : "world"
