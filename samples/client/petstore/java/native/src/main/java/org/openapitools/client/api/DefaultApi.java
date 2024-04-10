@@ -114,7 +114,7 @@ public class DefaultApi {
         return new ApiResponse<FooGetDefaultResponse>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<FooGetDefaultResponse>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<FooGetDefaultResponse>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -147,6 +147,4 @@ public class DefaultApi {
     return localVarRequestBuilder;
   }
 
-  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
-  private static final class GenericTypeRef<T> extends TypeReference<T> {}
 }
