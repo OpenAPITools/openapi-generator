@@ -1,6 +1,15 @@
 .gitignore
 .npmignore
+ApiResponse.md
+Category.md
+Order.md
+Pet.md
+PetApi.md
 README.md
+StoreApi.md
+Tag.md
+User.md
+UserApi.md
 package.json
 src/apis/PetApi.ts
 src/apis/StoreApi.ts

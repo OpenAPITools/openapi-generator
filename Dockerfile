@@ -3,6 +3,7 @@ FROM maven:3-eclipse-temurin-17
 ENV GEN_DIR /opt/openapi-generator
 WORKDIR ${GEN_DIR}
 VOLUME  ${MAVEN_HOME}/.m2/repository
+ENV JAVA_OPTS="-Xms2g -Xmx20g"
 
 # Required from a licensing standpoint
 COPY ./LICENSE ${GEN_DIR}

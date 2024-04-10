@@ -1,3 +1,8 @@
+DefaultApi.md
+EnumPatternObject.md
+FakeEnumRequestGetInline200Response.md
+NumberEnum.md
+StringEnum.md
 apis/DefaultApi.ts
 apis/index.ts
 index.ts
