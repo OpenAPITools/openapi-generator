@@ -8475,7 +8475,7 @@ public class DefaultCodegen implements CodegenConfig {
     public boolean getUseInlineModelResolver() { return true; }
 
     @Override
-    public boolean getUseOpenAPINormalizer() { return true; }
+    public boolean getUseOpenapiNormalizer() { return true; }
 
     @Override
     public Set<String> getOpenapiGeneratorIgnoreList() {
