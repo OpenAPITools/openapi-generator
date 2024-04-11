@@ -2768,12 +2768,14 @@ pub struct FormatTest {
     pub double: Option<f64>,
 
     #[serde(rename = "string")]
-    #[validate(regex = "RE_FORMATTEST_STRING")]
+    #[validate(
+            regex(path = *RE_FORMATTEST_STRING),
+        )]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub string: Option<String>,
 
     #[serde(rename = "byte")]
-    #[validate(custom = "validate_byte_formattest_byte")]
+    #[validate(custom(function = "validate_byte_formattest_byte"))]
     pub byte: ByteArray,
 
     #[serde(rename = "binary")]
