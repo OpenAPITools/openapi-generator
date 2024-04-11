@@ -22,6 +22,7 @@ cache:
   - $HOME/samples/client/petstore/ruby/vendor/bundle
   - $HOME/samples/client/petstore/python/.venv/
   - $HOME/samples/server/petstore/rust-server/target
+  - $HOME/samples/server/petstore/rust-axum/target
   - $HOME/perl5
   - $HOME/.cargo
   - $HOME/.pub-cache

@@ -81,7 +81,7 @@ class QueryApiTest extends TestCase
     public function testTestEnumRefString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -93,7 +93,7 @@ class QueryApiTest extends TestCase
     public function testTestQueryDatetimeDateString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -105,7 +105,7 @@ class QueryApiTest extends TestCase
     public function testTestQueryIntegerBooleanString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -117,7 +117,7 @@ class QueryApiTest extends TestCase
     public function testTestQueryStyleDeepObjectExplodeTrueObject()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -129,7 +129,7 @@ class QueryApiTest extends TestCase
     public function testTestQueryStyleDeepObjectExplodeTrueObjectAllOf()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -141,7 +141,7 @@ class QueryApiTest extends TestCase
     public function testTestQueryStyleFormExplodeTrueArrayString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -153,7 +153,7 @@ class QueryApiTest extends TestCase
     public function testTestQueryStyleFormExplodeTrueObject()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -165,6 +165,6 @@ class QueryApiTest extends TestCase
     public function testTestQueryStyleFormExplodeTrueObjectAllOf()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

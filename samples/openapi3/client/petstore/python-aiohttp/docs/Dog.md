@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of Dog from a JSON string
 dog_instance = Dog.from_json(json)
 # print the JSON string representation of the object
-print Dog.to_json()
+print(Dog.to_json())
 
 # convert the object into a dict
 dog_dict = dog_instance.to_dict()

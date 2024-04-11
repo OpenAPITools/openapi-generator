@@ -20,7 +20,7 @@ public class FileSchemaTestClass  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<@Valid ModelFile> files;
+  private List<@Valid ModelFile> files = new ArrayList<>();
  /**
    * Get _file
    * @return _file
@@ -71,8 +71,8 @@ public class FileSchemaTestClass  {
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(_file, fileSchemaTestClass._file) &&
-        Objects.equals(files, fileSchemaTestClass.files);
+    return Objects.equals(this._file, fileSchemaTestClass._file) &&
+        Objects.equals(this.files, fileSchemaTestClass.files);
   }
 
   @Override

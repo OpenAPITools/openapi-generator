@@ -32,7 +32,7 @@ import javax.validation.Valid;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class OuterComposite  implements Serializable {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)
@@ -116,9 +116,9 @@ public class OuterComposite  implements Serializable {
       return false;
     }
     OuterComposite outerComposite = (OuterComposite) o;
-    return Objects.equals(myNumber, outerComposite.myNumber) &&
-        Objects.equals(myString, outerComposite.myString) &&
-        Objects.equals(myBoolean, outerComposite.myBoolean);
+    return Objects.equals(this.myNumber, outerComposite.myNumber) &&
+        Objects.equals(this.myString, outerComposite.myString) &&
+        Objects.equals(this.myBoolean, outerComposite.myBoolean);
   }
 
   @Override

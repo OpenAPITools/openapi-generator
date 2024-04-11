@@ -18,10 +18,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("FileSchemaTestClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class FileSchemaTestClass  implements Serializable {
-  private @Valid ModelFile _file;
-  private @Valid List<@Valid ModelFile> files;
+  private ModelFile _file;
+  private @Valid List<@Valid ModelFile> files = new ArrayList<>();
 
   protected FileSchemaTestClass(FileSchemaTestClassBuilder<?, ?> b) {
     this._file = b._file;
@@ -41,7 +41,7 @@ public class FileSchemaTestClass  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("file")
-  public ModelFile getFile() {
+  @Valid public ModelFile getFile() {
     return _file;
   }
 
@@ -60,7 +60,7 @@ public class FileSchemaTestClass  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("files")
-  public List<ModelFile> getFiles() {
+  @Valid public List<@Valid ModelFile> getFiles() {
     return files;
   }
 
@@ -146,7 +146,7 @@ public class FileSchemaTestClass  implements Serializable {
 
   public static abstract class FileSchemaTestClassBuilder<C extends FileSchemaTestClass, B extends FileSchemaTestClassBuilder<C, B>>  {
     private ModelFile _file;
-    private List<@Valid ModelFile> files;
+    private List<@Valid ModelFile> files = new ArrayList<>();
     protected abstract B self();
 
     public abstract C build();

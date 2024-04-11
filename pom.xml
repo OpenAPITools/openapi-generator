@@ -410,11 +410,25 @@
                     <artifactId>git-commit-id-plugin</artifactId>
                     <version>${git-commit-id-plugin.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>com.gradle</groupId>
+                    <artifactId>gradle-enterprise-maven-extension</artifactId>
+                    <configuration>
+                        <gradleEnterprise>
+                            <normalization>
+                                <runtimeClassPath>
+                                    <ignoredFiles>
+                                        <ignoredFile>**/_merged_spec.yaml</ignoredFile>
+                                    </ignoredFiles>
+                                </runtimeClassPath>
+                            </normalization>
+                        </gradleEnterprise>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
     <profiles>
-
         <profile>
             <id>release</id>
             <build>
@@ -447,7 +461,6 @@
                 </plugins>
             </build>
         </profile>
-
         <profile>
             <id>release-sign-artifacts</id>
             <activation>

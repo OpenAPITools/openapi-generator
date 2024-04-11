@@ -19,6 +19,8 @@ public class RestConfiguration extends RouteBuilder {
             .component("servlet")
             .bindingMode(RestBindingMode.auto)
                 .dataFormatProperty("json.out.disableFeatures", "WRITE_DATES_AS_TIMESTAMPS")
-            .clientRequestValidation(true);
+            .clientRequestValidation(true)
+            .apiProperty("api.title", "OpenAPI Petstore")
+            .apiProperty("api.version", "1.0.0");
     }
 }

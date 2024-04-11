@@ -17,6 +17,7 @@ use std::option::Option;
 use hyper;
 use futures::Future;
 
+use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 

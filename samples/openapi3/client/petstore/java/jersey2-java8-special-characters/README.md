@@ -4,6 +4,8 @@ test
 
 - API version: 1.0.0
 
+- Generator version: 8.0.0-SNAPSHOT
+
 test
 
 

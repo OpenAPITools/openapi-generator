@@ -40,6 +40,7 @@ interface UserApi {
     fun getDelegate(): UserApiDelegate = object: UserApiDelegate {}
 
     @Operation(
+        tags = ["user",],
         summary = "Create user",
         operationId = "createUser",
         description = """This can only be done by the logged in user.""",
@@ -58,6 +59,7 @@ interface UserApi {
     }
 
     @Operation(
+        tags = ["user",],
         summary = "Creates list of users with given input array",
         operationId = "createUsersWithArrayInput",
         description = """""",
@@ -76,6 +78,7 @@ interface UserApi {
     }
 
     @Operation(
+        tags = ["user",],
         summary = "Creates list of users with given input array",
         operationId = "createUsersWithListInput",
         description = """""",
@@ -94,6 +97,7 @@ interface UserApi {
     }
 
     @Operation(
+        tags = ["user",],
         summary = "Delete user",
         operationId = "deleteUser",
         description = """This can only be done by the logged in user.""",
@@ -112,6 +116,7 @@ interface UserApi {
     }
 
     @Operation(
+        tags = ["user",],
         summary = "Get user by user name",
         operationId = "getUserByName",
         description = """""",
@@ -131,6 +136,7 @@ interface UserApi {
     }
 
     @Operation(
+        tags = ["user",],
         summary = "Logs user into the system",
         operationId = "loginUser",
         description = """""",
@@ -149,6 +155,7 @@ interface UserApi {
     }
 
     @Operation(
+        tags = ["user",],
         summary = "Logs out current logged in user session",
         operationId = "logoutUser",
         description = """""",
@@ -166,6 +173,7 @@ interface UserApi {
     }
 
     @Operation(
+        tags = ["user",],
         summary = "Updated user",
         operationId = "updateUser",
         description = """This can only be done by the logged in user.""",

@@ -141,7 +141,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel cm = super.fromModel(name, model);
         if(ModelUtils.isArraySchema(model)) {
-            return new CodegenArrayModel(cm, (ArraySchema) model);
+            return new CodegenArrayModel(cm, model);
         } else {
             return cm;
         }
@@ -156,12 +156,9 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     public String getTypeDeclaration(Schema schema) {
         String typeDeclaration = super.getSchemaType(schema);
         if(ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            String complexType = getSchemaType(arraySchema.getItems());
-
+            String complexType = getSchemaType(ModelUtils.getSchemaItems(schema));
             StringBuilder sb = new StringBuilder("list(");
             sb.append(complexType);
-
             return sb.append(")").toString();
         } else if (typeMapping.containsKey(typeDeclaration)) {
             return typeMapping.get(typeDeclaration);
@@ -174,8 +171,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     public String getSchemaType(Schema schema) {
         String schemaType = super.getSchemaType(schema);
         if(ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            String complexType = getSchemaType(arraySchema.getItems());
+            String complexType = getSchemaType(ModelUtils.getSchemaItems(schema));
 
             StringBuilder sb = new StringBuilder("list(");
             sb.append(complexType);
@@ -446,7 +442,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         Integer minItems;
         Integer maxItems;
 
-        public CodegenArrayModel(CodegenModel cm, ArraySchema schema) {
+        public CodegenArrayModel(CodegenModel cm, Schema schema) {
             super();
 
             // Copy all fields of CodegenModel
@@ -489,6 +485,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.isEnum = cm.isEnum;
             this.hasRequired = cm.hasRequired;
             this.hasOptional = cm.hasOptional;
+            this.hasReadOnly = cm.hasReadOnly;
             this.isArray = cm.isArray;
             this.hasChildren = cm.hasChildren;
             this.hasOnlyReadOnly = cm.hasOnlyReadOnly;

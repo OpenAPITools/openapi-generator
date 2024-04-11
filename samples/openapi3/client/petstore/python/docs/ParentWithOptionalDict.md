@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of ParentWithOptionalDict from a JSON string
 parent_with_optional_dict_instance = ParentWithOptionalDict.from_json(json)
 # print the JSON string representation of the object
-print ParentWithOptionalDict.to_json()
+print(ParentWithOptionalDict.to_json())
 
 # convert the object into a dict
 parent_with_optional_dict_dict = parent_with_optional_dict_instance.to_dict()

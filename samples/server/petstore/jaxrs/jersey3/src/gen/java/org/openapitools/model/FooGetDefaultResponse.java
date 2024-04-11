@@ -29,7 +29,7 @@ import jakarta.validation.Valid;
 @JsonPropertyOrder({
   FooGetDefaultResponse.JSON_PROPERTY_STRING
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class FooGetDefaultResponse   {
   public static final String JSON_PROPERTY_STRING = "string";
   @JsonProperty(JSON_PROPERTY_STRING)
@@ -65,7 +65,7 @@ public class FooGetDefaultResponse   {
       return false;
     }
     FooGetDefaultResponse fooGetDefaultResponse = (FooGetDefaultResponse) o;
-    return Objects.equals(string, fooGetDefaultResponse.string);
+    return Objects.equals(this.string, fooGetDefaultResponse.string);
   }
 
   @Override

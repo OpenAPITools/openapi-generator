@@ -1,0 +1,29 @@
+{{>licenseInfo}}
+package {{modelPackage}}
+
+import io.kotlintest.shouldBe
+import io.kotlintest.specs.ShouldSpec
+
+import {{modelPackage}}.{{{classname}}}
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+class {{{classname}}}Test : ShouldSpec() {
+    init {
+        // uncomment below to create an instance of {{{classname}}}
+        //val modelInstance = {{{classname}}}()
+
+        {{#vars}}
+        // to test the property `{{{name}}}`{{#description}} - {{{.}}}{{/description}}
+        should("test {{{name}}}") {
+            // uncomment below to test the property
+            //modelInstance.{{{name}}} shouldBe ("TODO")
+        }
+
+        {{/vars}}
+    }
+}
+{{/model}}
+{{/models}}

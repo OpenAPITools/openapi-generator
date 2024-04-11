@@ -16,6 +16,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -57,6 +60,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumVarName("long Name", null), "long_Name");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1long_Name");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "not1long_Name");
+        assertEquals(codegen.toEnumVarName("data/*", null), "dataSlashStar");
     }
     @Test
     public void pascalCaseEnumConverter() {
@@ -75,6 +79,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("5", "kotlin.Float"), "5f");
         assertEquals(codegen.toEnumValue("1.0", "kotlin.Float"), "1.0f");
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");
+        assertEquals(codegen.toEnumValue("data/*", "Something"), "\"data/*\"");
     }
 
     private static class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {
@@ -278,8 +283,69 @@ public class AbstractKotlinCodegenTest {
         // Assert the enum default value is properly generated
         CodegenProperty cp1 = cm1.vars.get(0);
         Assert.assertEquals(cp1.getEnumName(), "PropertyName");
-        Assert.assertEquals(cp1.getDefaultValue(), "PropertyName.vALUE");
+        Assert.assertEquals(cp1.getDefaultValue(), "PropertyName.VALUE");
     }
+
+    @Test(description = "Issue #3804")
+    public void testEnumPropertyWithCapitalization() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue3804-enum-enum-capitalization.yaml");
+        final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
+        CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
+
+        // We need to postProcess the model for enums to be processed
+        codegen.postProcessModels(createCodegenModelWrapper(cm1));
+
+        // Assert the enums are generated without changing capitalization
+        CodegenProperty cp0 = cm1.vars.get(0);
+        Assert.assertEquals(cp0.getEnumName(), "PropertyName");
+        Assert.assertEquals(((HashMap)((ArrayList) cp0.getAllowableValues().get("enumVars")).get(0)).get("name"), "VALUE");
+        CodegenProperty cp1 = cm1.vars.get(1);
+        Assert.assertEquals(cp1.getEnumName(), "PropertyName2");
+        Assert.assertEquals(((HashMap)((ArrayList) cp1.getAllowableValues().get("enumVars")).get(0)).get("name"), "Value");
+        CodegenProperty cp2 = cm1.vars.get(2);
+        Assert.assertEquals(cp2.getEnumName(), "PropertyName3");
+        Assert.assertEquals(((HashMap)((ArrayList) cp2.getAllowableValues().get("enumVars")).get(0)).get("name"), "nonkeywordvalue");
+    }
+
+    @Test(description = "Issue #3804")
+    public void testEnumPropertyDefaultWithCapitalization() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue3804-enum-enum-capitalization.yaml");
+        final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
+        CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
+
+        // We need to postProcess the model for enums to be processed
+        codegen.postProcessModels(createCodegenModelWrapper(cm1));
+
+        // Assert the enum default value is properly generated
+        CodegenProperty cp0 = cm1.vars.get(0);
+        Assert.assertEquals(cp0.getDefaultValue(), "PropertyName.VALUE");
+        CodegenProperty cp1 = cm1.vars.get(1);
+        Assert.assertEquals(cp1.getDefaultValue(), "PropertyName2.Value");
+        CodegenProperty cp2 = cm1.vars.get(2);
+        Assert.assertEquals(cp2.getDefaultValue(), "PropertyName3.nonkeywordvalue");
+    }
+
+    @Test(description = "Issue #3804")
+    public void testEnumPropertyWithKeyword() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue3804-enum-enum-capitalization.yaml");
+        final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
+        CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
+
+        // We need to postProcess the model for enums to be processed
+        codegen.postProcessModels(createCodegenModelWrapper(cm1));
+
+        // Assert the enum default value is properly generated
+        CodegenProperty cp3 = cm1.vars.get(3);
+        Assert.assertEquals(cp3.getEnumName(), "PropertyName4");
+        Assert.assertEquals(cp3.getDefaultValue(), "PropertyName4.`value`");
+    }
+
 
     @Test(description = "Issue #10792")
     public void handleInheritanceWithObjectTypeShouldNotBeAMap() {

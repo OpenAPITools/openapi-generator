@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 @Validated
 @Tag(name = "fake", description = "the fake API")
 public interface FakeApi {

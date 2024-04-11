@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of File from a JSON string
 file_instance = File.from_json(json)
 # print the JSON string representation of the object
-print File.to_json()
+print(File.to_json())
 
 # convert the object into a dict
 file_dict = file_instance.to_dict()

@@ -318,7 +318,7 @@ ApiClient <- R6::R6Class(
         api_response <- ApiResponse$new()
         api_response$status_code <- httr::status_code(httr_response) 
         api_response$status_code_desc <- httr::http_status(httr_response)$reason
-        api_response$response <- httr::content(httr_response, "text", encoding = "UTF-8")
+        api_response$response <- httr::content(httr_response, "raw")
         api_response$headers <- httr::headers(httr_response)
 
         api_response

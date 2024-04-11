@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { MatchingParts } from './MatchingParts';
 import {
     MatchingPartsFromJSON,
@@ -50,10 +50,8 @@ export interface GetMatchingPartsResponse {
  * Check if a given object implements the GetMatchingPartsResponse interface.
  */
 export function instanceOfGetMatchingPartsResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "meta" in value;
-
-    return isInstance;
+    if (!('meta' in value)) return false;
+    return true;
 }
 
 export function GetMatchingPartsResponseFromJSON(json: any): GetMatchingPartsResponse {
@@ -61,27 +59,24 @@ export function GetMatchingPartsResponseFromJSON(json: any): GetMatchingPartsRes
 }
 
 export function GetMatchingPartsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetMatchingPartsResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
         'meta': ResponseMetaFromJSON(json['meta']),
-        'data': !exists(json, 'data') ? undefined : MatchingPartsFromJSON(json['data']),
+        'data': json['data'] == null ? undefined : MatchingPartsFromJSON(json['data']),
     };
 }
 
 export function GetMatchingPartsResponseToJSON(value?: GetMatchingPartsResponse | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': MatchingPartsToJSON(value.data),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': MatchingPartsToJSON(value['data']),
     };
 }
 

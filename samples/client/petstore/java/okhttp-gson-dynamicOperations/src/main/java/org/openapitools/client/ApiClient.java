@@ -565,6 +565,19 @@ public class ApiClient {
     }
 
     /**
+     * Helper method to set credentials for AWSV4 Signature
+     *
+     * @param accessKey Access Key
+     * @param secretKey Secret Key
+     * @param sessionToken Session Token
+     * @param region Region
+     * @param service Service to access to
+     */
+    public void setAWS4Configuration(String accessKey, String secretKey, String sessionToken, String region, String service) {
+        throw new RuntimeException("No AWS4 authentication configured!");
+    }
+
+    /**
      * Set the User-Agent header's value (by adding to the default header map).
      *
      * @param userAgent HTTP request's user agent
@@ -787,7 +800,7 @@ public class ApiClient {
         List<Pair> params = new ArrayList<Pair>();
 
         // preconditions
-        if (param == null || param.getName() == null || param.getName().isEmpty() || value == null) {
+        if (param == null || param.getName() == null || param.getName().isEmpty() || value == null || value.isEmpty()) {
             return params;
         }
 

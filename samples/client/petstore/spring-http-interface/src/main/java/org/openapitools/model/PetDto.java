@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class PetDto {
 
   private Long id;
@@ -40,7 +40,7 @@ public class PetDto {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   
-  private List<TagDto> tags;
+  private List<TagDto> tags = new ArrayList<>();
 
   /**
    * pet status in the store

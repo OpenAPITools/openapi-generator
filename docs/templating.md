@@ -822,6 +822,7 @@ Many generators (*those extending DefaultCodegen*) come with a small set of lamb
 - `uppercase` - Converts all of the characters in this fragment to upper case using the rules of the `ROOT` locale.
 - `titlecase` - Converts text in a fragment to title case. For example `once upon a time` to `Once Upon A Time`.
 - `camelcase` - Converts text in a fragment to camelCase. For example `Input-text` to `inputText`.
+- `uncamelize` - Converts text in a fragment from camelCase or PascalCase to a string of words separated by whitespaces. For example `inputText` to `Input Text`.
 - `indented` - Prepends 4 spaces indention from second line of a fragment on. First line will be indented by Mustache.
 - `indented_8` - Prepends 8 spaces indention from second line of a fragment on. First line will be indented by Mustache.
 - `indented_12` - Prepends 12 spaces indention from second line of a fragment on. First line will be indented by Mustache.

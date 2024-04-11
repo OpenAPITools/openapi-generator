@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 @Validated
 @Api(value = "pet", description = "Everything about your Pets")
 public interface PetApi {
@@ -146,7 +146,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     
-    default Mono<Flux<Pet>> findPetsByStatus(
+    default Flux<Pet> findPetsByStatus(
         @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status,
         @ApiIgnore final ServerWebExchange exchange
     ) {
@@ -189,7 +189,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     
-    default Mono<Flux<Pet>> findPetsByTags(
+    default Flux<Pet> findPetsByTags(
         @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags,
         @ApiIgnore final ServerWebExchange exchange
     ) {

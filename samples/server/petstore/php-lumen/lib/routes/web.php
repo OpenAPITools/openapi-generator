@@ -87,6 +87,13 @@ $router->delete('/v2/fake', 'FakeApi@testGroupParameters');
 $router->get('/v2/fake/BigDecimalMap', 'FakeApi@fakeBigDecimalMap');
 
 /**
+ * post testAdditionalPropertiesReference
+ * Summary: test referenced additionalProperties
+ * Notes: 
+ */
+$router->post('/v2/fake/additionalProperties-reference', 'FakeApi@testAdditionalPropertiesReference');
+
+/**
  * put testBodyWithBinary
  * Summary: 
  * Notes: For this test, the body has to be a binary file.
@@ -183,6 +190,13 @@ $router->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
  * Notes: Test serialization of enum (int) properties with examples
  */
 $router->post('/v2/fake/property/enum-int', 'FakeApi@fakePropertyEnumIntegerSerialize');
+
+/**
+ * post testStringMapReference
+ * Summary: test referenced string map
+ * Notes: 
+ */
+$router->post('/v2/fake/stringMap-reference', 'FakeApi@testStringMapReference');
 
 /**
  * put testQueryParameterCollectionFormat

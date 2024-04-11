@@ -20,7 +20,7 @@ json = "{}"
 # create an instance of MapTest from a JSON string
 map_test_instance = MapTest.from_json(json)
 # print the JSON string representation of the object
-print MapTest.to_json()
+print(MapTest.to_json())
 
 # convert the object into a dict
 map_test_dict = map_test_instance.to_dict()

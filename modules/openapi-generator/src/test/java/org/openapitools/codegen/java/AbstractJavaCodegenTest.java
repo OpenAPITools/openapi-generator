@@ -17,14 +17,18 @@
 
 package org.openapitools.codegen.java;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.*;
 
+import java.util.stream.Collectors;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -52,6 +56,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void toEnumVarNameShouldNotResultInSingleUnderscore() throws Exception {
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName(" ", "String"), "SPACE");
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("==", "String"), "u");
     }
 
     @Test
@@ -73,14 +78,16 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void testPreprocessOpenAPI() throws Exception {
+    public void testPreprocessOpenApiIncludeAllMediaTypesInAcceptHeader() throws Exception {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.getArtifactVersion(), openAPI.getInfo().getVersion());
-        Assert.assertEquals(openAPI.getPaths().get("/pet").getPost().getExtensions().get("x-accepts"), "application/json");
+
+        Object xAccepts = openAPI.getPaths().get("/pet").getPost().getExtensions().get("x-accepts");
+        Assert.assertTrue(xAccepts instanceof String[]);
+        Assert.assertTrue(List.of((String[]) xAccepts).containsAll(List.of("application/json", "application/xml")));
     }
 
     @Test
@@ -602,11 +609,11 @@ public class AbstractJavaCodegenTest {
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
-        Assert.assertEquals(defaultValue, null);
+        Assert.assertEquals(defaultValue, "new ArrayList<>()");
 
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
-        Assert.assertEquals(defaultValue, null);
+        Assert.assertEquals(defaultValue, "new ArrayList<>()");
 
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
@@ -872,6 +879,70 @@ public class AbstractJavaCodegenTest {
         Assert.assertTrue(cm.imports.contains("BigDecimal"));
         Assert.assertTrue(cm.imports.contains("Date"));
         Assert.assertTrue(cm.imports.contains("UUID"));
+    }
+
+    @Test
+    public void arrayParameterDefaultValueDoesNotNeedBraces() throws Exception {
+        ParseOptions parseOptions = new ParseOptions();
+        parseOptions.setResolve(true);
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_16223.yaml", null, parseOptions)
+                .getOpenAPI();
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Map<String, Schema> schemas = openAPI.getPaths().get("/test").getGet().getParameters().stream()
+                .collect(Collectors.toMap(
+                        Parameter::getName,
+                        p -> ModelUtils.getReferencedSchema(openAPI, p.getSchema())));
+        Assert.assertEquals(codegen.toDefaultParameterValue(schemas.get("fileEnumWithDefault")), "A,B");
+        Assert.assertEquals(codegen.toDefaultParameterValue(schemas.get("fileEnumWithDefaultEmpty")), "");
+        Assert.assertEquals(codegen.toDefaultParameterValue(schemas.get("inlineEnumWithDefault")), "A,B");
+        Assert.assertEquals(codegen.toDefaultParameterValue(schemas.get("inlineEnumWithDefaultEmpty")), "");
+    }
+
+    @Test
+    public void ignoreBeanValidationAnnotationsTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.additionalProperties().put("useBeanValidation", true);
+
+        Schema<?> schema = new Schema<>().type("string").format("uuid").pattern("^[a-z]$").maxLength(36);
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "UUID");
+
+        schema = new Schema<>().type("string").format("uri").pattern("^[a-z]$").maxLength(36);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "URI");
+
+        schema = new Schema<>().type("string").format("byte").pattern("^[a-z]$").maxLength(36);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "byte[]");
+
+        schema = new Schema<>().type("string").format("binary").pattern("^[a-z]$").maxLength(36);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "File");
+    }
+
+    @Test
+    public void ignoreBeanValidationAnnotationsContainerTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.additionalProperties().put("useBeanValidation", true);
+
+        Schema<?> schema = new ArraySchema().items(new Schema<>().type("string").format("uuid").pattern("^[a-z]$").maxLength(36));
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<UUID>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").format("uri").pattern("^[a-z]$").maxLength(36));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<URI>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").format("byte").pattern("^[a-z]$").maxLength(36));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<byte[]>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").format("binary").pattern("^[a-z]$").maxLength(36));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<File>");
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

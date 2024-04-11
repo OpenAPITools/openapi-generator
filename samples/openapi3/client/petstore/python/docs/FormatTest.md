@@ -33,7 +33,7 @@ json = "{}"
 # create an instance of FormatTest from a JSON string
 format_test_instance = FormatTest.from_json(json)
 # print the JSON string representation of the object
-print FormatTest.to_json()
+print(FormatTest.to_json())
 
 # convert the object into a dict
 format_test_dict = format_test_instance.to_dict()

@@ -63,7 +63,7 @@ void OAIPetApiRequest::addPetRequest(){
     ::OpenAPI::fromJsonValue(body, obj);
     
 
-    emit addPet(body);
+    Q_EMIT addPet(body);
 }
 
 
@@ -81,7 +81,7 @@ void OAIPetApiRequest::deletePetRequest(const QString& pet_idstr){
     }
     
 
-    emit deletePet(pet_id, api_key);
+    Q_EMIT deletePet(pet_id, api_key);
 }
 
 
@@ -97,7 +97,7 @@ void OAIPetApiRequest::findPetsByStatusRequest(){
     
 
 
-    emit findPetsByStatus(status);
+    Q_EMIT findPetsByStatus(status);
 }
 
 
@@ -113,7 +113,7 @@ void OAIPetApiRequest::findPetsByTagsRequest(){
     
 
 
-    emit findPetsByTags(tags);
+    Q_EMIT findPetsByTags(tags);
 }
 
 
@@ -126,7 +126,7 @@ void OAIPetApiRequest::getPetByIdRequest(const QString& pet_idstr){
     fromStringValue(pet_idstr, pet_id);
     
 
-    emit getPetById(pet_id);
+    Q_EMIT getPetById(pet_id);
 }
 
 
@@ -144,7 +144,7 @@ void OAIPetApiRequest::updatePetRequest(){
     ::OpenAPI::fromJsonValue(body, obj);
     
 
-    emit updatePet(body);
+    Q_EMIT updatePet(body);
 }
 
 
@@ -159,7 +159,7 @@ void OAIPetApiRequest::updatePetWithFormRequest(const QString& pet_idstr){
     QString name;
     QString status;
 
-    emit updatePetWithForm(pet_id, name, status);
+    Q_EMIT updatePetWithForm(pet_id, name, status);
 }
 
 
@@ -174,7 +174,7 @@ void OAIPetApiRequest::uploadFileRequest(const QString& pet_idstr){
     QString additional_metadata;
     OAIHttpFileElement file;
 
-    emit uploadFile(pet_id, additional_metadata, file);
+    Q_EMIT uploadFile(pet_id, additional_metadata, file);
 }
 
 

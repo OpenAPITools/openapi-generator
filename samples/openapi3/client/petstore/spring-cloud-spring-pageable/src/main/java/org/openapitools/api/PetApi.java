@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 @Validated
 @Tag(name = "pet", description = "Everything about your Pets")
 public interface PetApi {
@@ -124,7 +124,7 @@ public interface PetApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByStatus",
-        produces = "application/json"
+        produces = { "application/json", "application/xml" }
     )
     
     ResponseEntity<List<Pet>> findPetsByStatus(
@@ -163,7 +163,7 @@ public interface PetApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByTags",
-        produces = "application/json"
+        produces = { "application/json", "application/xml" }
     )
     
     ResponseEntity<List<Pet>> findPetsByTags(
@@ -201,7 +201,7 @@ public interface PetApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/{petId}",
-        produces = "application/json"
+        produces = { "application/json", "application/xml" }
     )
     
     ResponseEntity<Pet> getPetById(
@@ -297,7 +297,7 @@ public interface PetApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet/{petId}/uploadImage",
-        produces = "application/json",
+        produces = { "application/json" },
         consumes = "multipart/form-data"
     )
     

@@ -14,13 +14,15 @@
 package org.openapitools.client;
 
 import org.junit.Assert;
-import org.openapitools.client.api.*;
-import org.openapitools.client.model.*;
 import org.junit.Test;
-import org.junit.Ignore;
+import org.openapitools.client.api.BodyApi;
+import org.openapitools.client.api.QueryApi;
+import org.openapitools.client.model.Category;
+import org.openapitools.client.model.Pet;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertNotNull;
 
 
 /**
@@ -43,12 +45,17 @@ public class CustomTest {
                 photoUrls(Arrays.asList(new String[]{"http://a.com", "http://b.com"})).category(new Category().id(987L).name("new category"));
 
         Pet p = bodyApi.testEchoBodyPet(pet);
-        Assert.assertNotNull(p);
+        assertNotNull(p);
         Assert.assertEquals("Hello World", p.getName());
         Assert.assertEquals(Long.valueOf(12345L), p.getId());
 
         // response is empty body
         Pet p2 = bodyApi.testEchoBodyPet(null);
         Assert.assertNull(p2);
+    }
+    
+    @Test
+    public void testQueryParamsExploded_whenQueryParamIsNull() {
+        assertNotNull(api.testQueryStyleFormExplodeTrueObject(null));
     }
 }

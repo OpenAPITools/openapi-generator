@@ -28,7 +28,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   DeprecatedObject.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class DeprecatedObject   {
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -64,7 +64,7 @@ public class DeprecatedObject   {
       return false;
     }
     DeprecatedObject deprecatedObject = (DeprecatedObject) o;
-    return Objects.equals(name, deprecatedObject.name);
+    return Objects.equals(this.name, deprecatedObject.name);
   }
 
   @Override

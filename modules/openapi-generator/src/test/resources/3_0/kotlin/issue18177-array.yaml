@@ -1,0 +1,77 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://example.org/v1'
+info:
+  description: >-
+    Example created
+  version: 1.0.0
+  title: OpenAPI Stuff API created to reproduce issue
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: stuff
+    description: All about the stuff
+security:
+  - bearerAuth: []
+paths:
+  /stuff:
+    get:
+      tags:
+        - stuff
+      summary: Finds stuff
+      description: Finds stuff
+      operationId: findStuff
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Stuff'
+        '400':
+          description: Invalid status value
+  /uniquestuff:
+    get:
+      tags:
+        - stuff
+      summary: Finds unique stuff
+      description: Finds unique stuff
+      operationId: find unique Stuff
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                uniqueItems: true
+                items:
+                  $ref: '#/components/schemas/Stuff'
+        '400':
+          description: Invalid status value
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Stuff:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        tag:
+          type: string
+      required:
+        - name
+

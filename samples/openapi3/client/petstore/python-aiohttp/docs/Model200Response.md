@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of Model200Response from a JSON string
 model200_response_instance = Model200Response.from_json(json)
 # print the JSON string representation of the object
-print Model200Response.to_json()
+print(Model200Response.to_json())
 
 # convert the object into a dict
 model200_response_dict = model200_response_instance.to_dict()

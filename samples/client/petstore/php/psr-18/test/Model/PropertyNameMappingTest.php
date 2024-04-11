@@ -76,7 +76,7 @@ class PropertyNameMappingTest extends TestCase
     public function testPropertyNameMapping()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class PropertyNameMappingTest extends TestCase
     public function testPropertyHttpDebugOperation()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,7 +94,7 @@ class PropertyNameMappingTest extends TestCase
     public function testPropertyUnderscoreType()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -103,7 +103,7 @@ class PropertyNameMappingTest extends TestCase
     public function testPropertyType()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -112,6 +112,6 @@ class PropertyNameMappingTest extends TestCase
     public function testPropertyTypeWithUnderscore()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

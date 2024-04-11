@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of WithNestedOneOf from a JSON string
 with_nested_one_of_instance = WithNestedOneOf.from_json(json)
 # print the JSON string representation of the object
-print WithNestedOneOf.to_json()
+print(WithNestedOneOf.to_json())
 
 # convert the object into a dict
 with_nested_one_of_dict = with_nested_one_of_instance.to_dict()

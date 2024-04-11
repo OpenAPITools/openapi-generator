@@ -8,7 +8,8 @@ wrapper {
 
 buildscript {
     ext.kotlin_version = '1.8.10'
-    ext.ktor_version = '2.2.3'
+    ext.ktor_version = '2.3.9'
+    // 6.13.0 is the latest stable release that supports JDK8
     ext.spotless_version = "6.13.0"
 
     repositories {
@@ -57,7 +58,7 @@ test {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
     implementation "io.ktor:ktor-client-core:$ktor_version"
     implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"

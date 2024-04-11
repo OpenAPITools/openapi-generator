@@ -9,4 +9,5 @@ additionalProperties:
   snapshotVersion: "true"
   useSpringBoot3: true
   useBeanValidation: true
+  withXml: true
   hideGenerationTimestamp: "true"

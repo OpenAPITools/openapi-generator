@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * XmlItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class XmlItem {
 
   private Optional<String> attributeString = Optional.empty();
@@ -35,7 +35,7 @@ public class XmlItem {
   private Optional<Boolean> attributeBoolean = Optional.empty();
 
   @Valid
-  private List<Integer> wrappedArray;
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   private Optional<String> nameString = Optional.empty();
 
@@ -46,10 +46,10 @@ public class XmlItem {
   private Optional<Boolean> nameBoolean = Optional.empty();
 
   @Valid
-  private List<Integer> nameArray;
+  private List<Integer> nameArray = new ArrayList<>();
 
   @Valid
-  private List<Integer> nameWrappedArray;
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   private Optional<String> prefixString = Optional.empty();
 
@@ -60,10 +60,10 @@ public class XmlItem {
   private Optional<Boolean> prefixBoolean = Optional.empty();
 
   @Valid
-  private List<Integer> prefixArray;
+  private List<Integer> prefixArray = new ArrayList<>();
 
   @Valid
-  private List<Integer> prefixWrappedArray;
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   private Optional<String> namespaceString = Optional.empty();
 
@@ -74,10 +74,10 @@ public class XmlItem {
   private Optional<Boolean> namespaceBoolean = Optional.empty();
 
   @Valid
-  private List<Integer> namespaceArray;
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   @Valid
-  private List<Integer> namespaceWrappedArray;
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   private Optional<String> prefixNsString = Optional.empty();
 
@@ -88,10 +88,10 @@ public class XmlItem {
   private Optional<Boolean> prefixNsBoolean = Optional.empty();
 
   @Valid
-  private List<Integer> prefixNsArray;
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   @Valid
-  private List<Integer> prefixNsWrappedArray;
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = Optional.of(attributeString);

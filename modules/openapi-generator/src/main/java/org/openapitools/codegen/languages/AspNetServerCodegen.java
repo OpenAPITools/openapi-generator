@@ -52,6 +52,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     public static final String BUILD_TARGET = "buildTarget";
     public static final String MODEL_CLASS_MODIFIER = "modelClassModifier";
     public static final String TARGET_FRAMEWORK = "targetFramework";
+    public static final String NET_60_OR_LATER = "net60OrLater";
 
     public static final String PROJECT_SDK = "projectSdk";
     public static final String SDK_WEB = "Microsoft.NET.Sdk.Web";
@@ -209,6 +210,10 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 useDateTimeOffsetFlag);
 
+        addSwitch(CodegenConstants.USE_DATETIME_FOR_DATE,
+                CodegenConstants.USE_DATETIME_FOR_DATE_DESC,
+                useDateTimeForDateFlag);
+
         addSwitch(CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
                 useCollection);
@@ -299,7 +304,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     @Override
     protected Set<String> getNullableTypes() {
         return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-            "DateTime", "DateTimeOffset", "Guid"));
+            "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
     }
 
     @Override
@@ -460,6 +465,11 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", packageFolder + File.separator + "Formatters", "InputFormatterStream.cs"));
 
         this.setTypeMapping();
+    }
+
+    @Override
+    protected boolean useNet60OrLater() {
+        return additionalProperties.containsKey(NET_60_OR_LATER);
     }
 
     public void setPackageGuid(String packageGuid) {
@@ -775,6 +785,20 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             useFrameworkReference = true;
             additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             additionalProperties.put(TARGET_FRAMEWORK, "net6.0");
+        } else if (aspnetCoreVersion.getOptValue().startsWith("7.")) {
+            LOGGER.warn(
+                    "ASP.NET core version is {} so changing to use frameworkReference instead of packageReference ",
+                    aspnetCoreVersion.getOptValue());
+            useFrameworkReference = true;
+            additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
+            additionalProperties.put(TARGET_FRAMEWORK, "net7.0");
+        } else if (aspnetCoreVersion.getOptValue().startsWith("8.")) {
+            LOGGER.warn(
+                    "ASP.NET core version is {} so changing to use frameworkReference instead of packageReference ",
+                    aspnetCoreVersion.getOptValue());
+            useFrameworkReference = true;
+            additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
+            additionalProperties.put(TARGET_FRAMEWORK, "net8.0");
         } else {
             if (additionalProperties.containsKey(USE_FRAMEWORK_REFERENCE)) {
                 useFrameworkReference = convertPropertyToBooleanAndWriteBack(USE_FRAMEWORK_REFERENCE);
@@ -782,6 +806,17 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
                 additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             }
             additionalProperties.put(TARGET_FRAMEWORK, "netcoreapp" + aspnetCoreVersion);
+        }
+
+        setAddititonalPropertyForFramework();
+    }
+
+    private void setAddititonalPropertyForFramework() {
+        String targetFramework = ((String)additionalProperties.get(TARGET_FRAMEWORK));
+        if (targetFramework.startsWith("net6.0") ||
+            targetFramework.startsWith("net7.0") || 
+            targetFramework.startsWith("net8.0")) {
+            additionalProperties.put(NET_60_OR_LATER, true);
         }
     }
 

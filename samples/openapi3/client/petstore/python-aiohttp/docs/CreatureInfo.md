@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of CreatureInfo from a JSON string
 creature_info_instance = CreatureInfo.from_json(json)
 # print the JSON string representation of the object
-print CreatureInfo.to_json()
+print(CreatureInfo.to_json())
 
 # convert the object into a dict
 creature_info_dict = creature_info_instance.to_dict()

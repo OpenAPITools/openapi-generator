@@ -1,0 +1,6 @@
+## ExplorerApi
+
+### GET /explorer
+## GET /explorer
+GET https://api.opendota.com/api/explorer
+Accept: application/json; charset=utf-8

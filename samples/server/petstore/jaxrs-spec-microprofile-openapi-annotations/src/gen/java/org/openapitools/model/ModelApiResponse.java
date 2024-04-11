@@ -15,11 +15,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("ApiResponse")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class ModelApiResponse  implements Serializable {
-  private @Valid Integer code;
-  private @Valid String type;
-  private @Valid String message;
+  private Integer code;
+  private String type;
+  private String message;
 
   protected ModelApiResponse(ModelApiResponseBuilder<?, ?> b) {
     this.code = b.code;

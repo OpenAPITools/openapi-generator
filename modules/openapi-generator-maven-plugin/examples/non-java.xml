@@ -13,7 +13,11 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
+<<<<<<< HEAD
                 <version>8.0.0-SNAPSHOT</version>
+=======
+                <version>7.5.0-SNAPSHOT</version>
+>>>>>>> origin/master
                 <!-- /RELEASE_VERSION -->
                 <executions>
                     <execution>

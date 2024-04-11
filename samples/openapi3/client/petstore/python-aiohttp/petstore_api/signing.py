@@ -13,13 +13,16 @@
 from base64 import b64encode
 from Crypto.IO import PEM, PKCS8
 from Crypto.Hash import SHA256, SHA512
+from Crypto.Hash.SHA512 import SHA512Hash
+from Crypto.Hash.SHA256 import SHA256Hash
 from Crypto.PublicKey import RSA, ECC
 from Crypto.Signature import PKCS1_v1_5, pss, DSS
+from datetime import timedelta
 from email.utils import formatdate
-import json
 import os
 import re
 from time import time
+from typing import List, Optional, Union
 from urllib.parse import urlencode, urlparse
 
 # The constants below define a subset of HTTP headers that can be included in the
@@ -68,18 +71,20 @@ HASH_SHA512 = 'sha512'
 
 class HttpSigningConfiguration:
     """The configuration parameters for the HTTP signature security scheme.
+
     The HTTP signature security scheme is used to sign HTTP requests with a private key
     which is in possession of the API client.
-    An 'Authorization' header is calculated by creating a hash of select headers,
+
+    An ``Authorization`` header is calculated by creating a hash of select headers,
     and optionally the body of the HTTP request, then signing the hash value using
-    a private key. The 'Authorization' header is added to outbound HTTP requests.
+    a private key. The ``Authorization`` header is added to outbound HTTP requests.
 
     :param key_id: A string value specifying the identifier of the cryptographic key,
         when signing HTTP requests.
     :param signing_scheme: A string value specifying the signature scheme, when
         signing HTTP requests.
-        Supported value are hs2019, rsa-sha256, rsa-sha512.
-        Avoid using rsa-sha256, rsa-sha512 as they are deprecated. These values are
+        Supported value are: ``hs2019``, ``rsa-sha256``, ``rsa-sha512``.
+        Avoid using ``rsa-sha256``, ``rsa-sha512`` as they are deprecated. These values are
         available for server-side applications that only support the older
         HTTP signature algorithms.
     :param private_key_path: A string value specifying the path of the file containing
@@ -88,18 +93,19 @@ class HttpSigningConfiguration:
         the private key.
     :param signed_headers: A list of strings. Each value is the name of a HTTP header
         that must be included in the HTTP signature calculation.
-        The two special signature headers '(request-target)' and '(created)' SHOULD be
+        The two special signature headers ``(request-target)`` and ``(created)`` SHOULD be
         included in SignedHeaders.
-        The '(created)' header expresses when the signature was created.
-        The '(request-target)' header is a concatenation of the lowercased :method, an
+        The ``(created)`` header expresses when the signature was created.
+        The ``(request-target)`` header is a concatenation of the lowercased :method, an
         ASCII space, and the :path pseudo-headers.
         When signed_headers is not specified, the client defaults to a single value,
-        '(created)', in the list of HTTP headers.
+        ``(created)``, in the list of HTTP headers.
         When SignedHeaders contains the 'Digest' value, the client performs the
         following operations:
-        1. Calculate a digest of request body, as specified in RFC3230, section 4.3.2.
-        2. Set the 'Digest' header in the request body.
-        3. Include the 'Digest' header and value in the HTTP signature.
+        1. Calculate a digest of request body, as specified in `RFC3230,
+          section 4.3.2<https://datatracker.ietf.org/doc/html/rfc3230#section-4.3.2>`_.
+        2. Set the ``Digest`` header in the request body.
+        3. Include the ``Digest`` header and value in the HTTP signature.
     :param signing_algorithm: A string value specifying the signature algorithm, when
         signing HTTP requests.
         Supported values are:
@@ -117,12 +123,16 @@ class HttpSigningConfiguration:
     :param signature_max_validity: The signature max validity, expressed as
         a datetime.timedelta value. It must be a positive value.
     """
-    def __init__(self, key_id, signing_scheme, private_key_path,
-                 private_key_passphrase=None,
-                 signed_headers=None,
-                 signing_algorithm=None,
-                 hash_algorithm=None,
-                 signature_max_validity=None) -> None:
+    def __init__(self,
+        key_id: str,
+        signing_scheme: str,
+        private_key_path: str,
+        private_key_passphrase: Union[None, str]=None,
+        signed_headers: Optional[List[str]]=None,
+        signing_algorithm: Optional[str]=None,
+        hash_algorithm: Optional[str]=None,
+        signature_max_validity: Optional[timedelta]=None,
+    ) -> None:
         self.key_id = key_id
         if signing_scheme not in {SCHEME_HS2019, SCHEME_RSA_SHA256, SCHEME_RSA_SHA512}:
             raise Exception("Unsupported security scheme: {0}".format(signing_scheme))
@@ -166,11 +176,11 @@ class HttpSigningConfiguration:
         if HEADER_AUTHORIZATION in signed_headers:
             raise Exception("'Authorization' header cannot be included in signed headers")
         self.signed_headers = signed_headers
-        self.private_key = None
+        self.private_key: Optional[Union[ECC.EccKey, RSA.RsaKey]] = None
         """The private key used to sign HTTP requests.
            Initialized when the PEM-encoded private key is loaded from a file.
         """
-        self.host = None
+        self.host: Optional[str] = None
         """The host name, optionally followed by a colon and TCP port number.
         """
         self._load_private_key()
@@ -208,7 +218,7 @@ class HttpSigningConfiguration:
     def get_public_key(self):
         """Returns the public key object associated with the private key.
         """
-        pubkey = None
+        pubkey: Optional[Union[ECC.EccKey, RSA.RsaKey]] = None
         if isinstance(self.private_key, RSA.RsaKey):
             pubkey = self.private_key.publickey()
         elif isinstance(self.private_key, ECC.EccKey):
@@ -237,8 +247,11 @@ class HttpSigningConfiguration:
             elif pem_header in {'PRIVATE KEY', 'ENCRYPTED PRIVATE KEY'}:
                 # Key is in PKCS8 format, which is capable of holding many different
                 # types of private keys, not just EC keys.
-                (key_binary, pem_header, is_encrypted) = \
-                    PEM.decode(pem_data, self.private_key_passphrase)
+                if self.private_key_passphrase is not None:
+                    passphrase = self.private_key_passphrase.encode("utf-8")
+                else:
+                    passphrase = None
+                (key_binary, pem_header, is_encrypted) = PEM.decode(pem_data, passphrase)
                 (oid, privkey, params) = \
                     PKCS8.unwrap(key_binary, passphrase=self.private_key_passphrase)
                 if oid == '1.2.840.10045.2.1':
@@ -319,8 +332,11 @@ class HttpSigningConfiguration:
                 request_headers_dict[HEADER_DIGEST] = '{0}{1}'.format(
                     digest_prefix, b64_body_digest.decode('ascii'))
             elif hdr_key == HEADER_HOST.lower():
-                value = target_host
-                request_headers_dict[HEADER_HOST] = '{0}'.format(target_host)
+                if isinstance(target_host, bytes):
+                    value = target_host.decode('ascii')
+                else:
+                    value = target_host
+                request_headers_dict[HEADER_HOST] = value
             else:
                 value = next((v for k, v in headers.items() if k.lower() == hdr_key), None)
                 if value is None:
@@ -341,6 +357,9 @@ class HttpSigningConfiguration:
             The prefix is a string that identifies the cryptographic hash. It is used
             to generate the 'Digest' header as specified in RFC 3230.
         """
+
+        digest: Union[SHA256Hash, SHA512Hash]
+
         if self.hash_algorithm == HASH_SHA512:
             digest = SHA512.new()
             prefix = 'SHA-512='

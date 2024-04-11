@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 @Validated
 public interface StoreApi {
 
@@ -53,7 +53,7 @@ public interface StoreApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/store/inventory",
-        produces = "application/json"
+        produces = { "application/json" }
     )
     
     ResponseEntity<Map<String, Integer>> getInventory(
@@ -73,7 +73,7 @@ public interface StoreApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/store/order/{orderId}",
-        produces = "application/json"
+        produces = { "application/json", "application/xml" }
     )
     
     ResponseEntity<Order> getOrderById(
@@ -92,7 +92,7 @@ public interface StoreApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/store/order",
-        produces = "application/json",
+        produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
     

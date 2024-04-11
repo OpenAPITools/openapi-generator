@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of AnyOfPig from a JSON string
 any_of_pig_instance = AnyOfPig.from_json(json)
 # print the JSON string representation of the object
-print AnyOfPig.to_json()
+print(AnyOfPig.to_json())
 
 # convert the object into a dict
 any_of_pig_dict = any_of_pig_instance.to_dict()

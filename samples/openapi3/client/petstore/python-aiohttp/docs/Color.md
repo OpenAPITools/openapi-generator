@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of Color from a JSON string
 color_instance = Color.from_json(json)
 # print the JSON string representation of the object
-print Color.to_json()
+print(Color.to_json())
 
 # convert the object into a dict
 color_dict = color_instance.to_dict()

@@ -33,7 +33,7 @@ import javax.validation.Valid;
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_ID,
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response   {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
   @JsonProperty(JSON_PROPERTY_SOME_ID)
@@ -101,8 +101,8 @@ public class FakeBigDecimalMap200Response   {
       return false;
     }
     FakeBigDecimalMap200Response fakeBigDecimalMap200Response = (FakeBigDecimalMap200Response) o;
-    return Objects.equals(someId, fakeBigDecimalMap200Response.someId) &&
-        Objects.equals(someMap, fakeBigDecimalMap200Response.someMap);
+    return Objects.equals(this.someId, fakeBigDecimalMap200Response.someId) &&
+        Objects.equals(this.someMap, fakeBigDecimalMap200Response.someMap);
   }
 
   @Override

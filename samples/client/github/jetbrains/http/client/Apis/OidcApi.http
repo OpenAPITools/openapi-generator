@@ -1,0 +1,17 @@
+## OidcApi
+
+### Get the customization template for an OIDC subject claim for an organization
+## Get the customization template for an OIDC subject claim for an organization
+GET https://api.github.com/orgs/{{org}}/actions/oidc/customization/sub
+Accept: application/json
+
+### Set the customization template for an OIDC subject claim for an organization
+## 
+PUT https://api.github.com/orgs/{{org}}/actions/oidc/customization/sub
+Content-Type: application/json
+Accept: application/json
+
+{
+  "include_claim_keys" : [ "repo", "context" ]
+}
+

@@ -1091,8 +1091,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
             }
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            String inner = getSchemaType(arraySchema.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(schema));
             return instantiationTypes.get("array") + "<" + inner + ">";
         } else {
             return null;

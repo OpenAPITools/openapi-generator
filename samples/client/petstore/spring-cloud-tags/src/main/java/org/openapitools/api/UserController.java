@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 @Validated
 @Api(value = "user tag", description = "the user tag API")
 public interface UserController {
@@ -155,7 +155,7 @@ public interface UserController {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/{username}",
-        produces = "application/json"
+        produces = { "application/json", "application/xml" }
     )
     
     ResponseEntity<User> getUserByName(
@@ -185,7 +185,7 @@ public interface UserController {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/user/login",
-        produces = "application/json"
+        produces = { "application/json", "application/xml" }
     )
     
     ResponseEntity<String> loginUser(

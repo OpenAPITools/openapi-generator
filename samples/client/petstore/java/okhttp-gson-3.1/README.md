@@ -2,6 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
+  - Generator version: 8.0.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -91,12 +92,11 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io/v2");
 
     FakeApi apiInstance = new FakeApi(defaultClient);
-    UUID refToUuid = UUID.fromString("61864654-6e6b-4152-a62f-795fdd606bc2"); // UUID | to test ref to parameter (uuid)
     try {
-      String result = apiInstance.refToRefParameter(refToUuid);
+      Object result = apiInstance.op1();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#refToRefParameter");
+      System.err.println("Exception when calling FakeApi#op1");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -113,6 +113,9 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | [**op1**](docs/FakeApi.md#op1) | **POST** /fake/api/changeowner | op1
+*FakeApi* | [**op2**](docs/FakeApi.md#op2) | **POST** /fake/api/changename | op2
+*FakeApi* | [**op3**](docs/FakeApi.md#op3) | **POST** /fake/api/query/enum | op3
 *FakeApi* | [**refToRefParameter**](docs/FakeApi.md#refToRefParameter) | **GET** /ref/ref_to_parameter | 
 *FakeApi* | [**responseNoRef**](docs/FakeApi.md#responseNoRef) | **GET** /no_ref | 
 *FakeApi* | [**responseRefToNoRef**](docs/FakeApi.md#responseRefToNoRef) | **GET** /ref/no_ref | 
@@ -143,8 +146,13 @@ Class | Method | HTTP request | Description
 
  - [Animal](docs/Animal.md)
  - [AnyTypeTest](docs/AnyTypeTest.md)
+ - [ArrayOfSameRef](docs/ArrayOfSameRef.md)
  - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
+ - [CircularReference1](docs/CircularReference1.md)
+ - [CircularReference2](docs/CircularReference2.md)
+ - [CircularReference3](docs/CircularReference3.md)
+ - [CodesEnum](docs/CodesEnum.md)
  - [Dog](docs/Dog.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [OneOfStringOrInt](docs/OneOfStringOrInt.md)

@@ -32,7 +32,7 @@ import jakarta.validation.Valid;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class Capitalization   {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
@@ -188,12 +188,12 @@ public class Capitalization   {
       return false;
     }
     Capitalization capitalization = (Capitalization) o;
-    return Objects.equals(smallCamel, capitalization.smallCamel) &&
-        Objects.equals(capitalCamel, capitalization.capitalCamel) &&
-        Objects.equals(smallSnake, capitalization.smallSnake) &&
-        Objects.equals(capitalSnake, capitalization.capitalSnake) &&
-        Objects.equals(scAETHFlowPoints, capitalization.scAETHFlowPoints) &&
-        Objects.equals(ATT_NAME, capitalization.ATT_NAME);
+    return Objects.equals(this.smallCamel, capitalization.smallCamel) &&
+        Objects.equals(this.capitalCamel, capitalization.capitalCamel) &&
+        Objects.equals(this.smallSnake, capitalization.smallSnake) &&
+        Objects.equals(this.capitalSnake, capitalization.capitalSnake) &&
+        Objects.equals(this.scAETHFlowPoints, capitalization.scAETHFlowPoints) &&
+        Objects.equals(this.ATT_NAME, capitalization.ATT_NAME);
   }
 
   @Override

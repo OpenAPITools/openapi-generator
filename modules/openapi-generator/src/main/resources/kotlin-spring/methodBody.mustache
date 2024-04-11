@@ -7,7 +7,7 @@ return CompletableFuture.supplyAsync(()-> {
 {{#async}}    {{/async}}            for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
     {{/-first}}
 {{#async}}        {{/async}}{{^async}}    {{/async}}            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
-{{#async}}        {{/async}}{{^async}}    {{/async}}                ApiUtil.setExampleResponse(request, "{{{contentType}}}", "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}")
+{{#async}}        {{/async}}{{^async}}    {{/async}}                ApiUtil.setExampleResponse(request, "{{{contentType}}}", "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeInNormalString}}{{{example}}}{{/lambdaEscapeInNormalString}}{{/lambdaRemoveLineBreak}}")
 {{#async}}        {{/async}}{{^async}}    {{/async}}                break
 {{#async}}        {{/async}}{{^async}}    {{/async}}            }
     {{#-last}}

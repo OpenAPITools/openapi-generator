@@ -21,7 +21,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public interface AnotherFakeApi {
 
     /**
@@ -34,7 +34,7 @@ public interface AnotherFakeApi {
     @HttpExchange(
         method = "PATCH",
         value = "/another-fake/dummy",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<Client>> call123testSpecialTags(

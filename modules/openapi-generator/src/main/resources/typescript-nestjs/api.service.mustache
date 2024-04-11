@@ -121,7 +121,7 @@ export class {{classname}} {
         // authentication ({{name}}) required
 {{#isApiKey}}
 {{#isKeyInHeader}}
-        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+        if (this.configuration.apiKeys?.["{{keyParamName}}"]) {
             headers['{{keyParamName}}'] = this.configuration.apiKeys["{{keyParamName}}"];
         }
 
@@ -130,7 +130,7 @@ export class {{classname}} {
         {{^hasQueryParams}}
         let queryParameters = new URLSearchParams();
         {{/hasQueryParams}}
-        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+        if (this.configuration.apiKeys?.["{{keyParamName}}"]) {
             queryParameters.append('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
         }
 
@@ -142,6 +142,13 @@ export class {{classname}} {
         }
 
 {{/isBasicBasic}}
+{{#isBasicBearer}}
+        if (typeof this.configuration.accessToken === 'function') {
+            headers['Authorization'] = `Bearer ${this.configuration.accessToken()}`;
+        } else if (this.configuration.accessToken) {
+            headers['Authorization'] = `Bearer ${this.configuration.accessToken}`;
+        }
+{{/isBasicBearer}}
 {{#isOAuth}}
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'
@@ -201,24 +208,24 @@ export class {{classname}} {
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
-                formParams.append('{{baseName}}', <any>element);
+                formParams!.append('{{baseName}}', <any>element);
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            formParams!.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
         {{/isCollectionFormatMulti}}
         }
         {{/isArray}}
         {{^isArray}}
         if ({{paramName}} !== undefined) {
-            formParams.append('{{baseName}}', <any>{{paramName}});
+            formParams!.append('{{baseName}}', <any>{{paramName}});
         }
         {{/isArray}}
 {{/formParams}}
 
 {{/hasFormParams}}
         return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams!.toString() : formParams!{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
 {{#hasQueryParams}}
                 params: queryParameters,

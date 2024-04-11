@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of ModelReturn from a JSON string
 model_return_instance = ModelReturn.from_json(json)
 # print the JSON string representation of the object
-print ModelReturn.to_json()
+print(ModelReturn.to_json())
 
 # convert the object into a dict
 model_return_dict = model_return_instance.to_dict()

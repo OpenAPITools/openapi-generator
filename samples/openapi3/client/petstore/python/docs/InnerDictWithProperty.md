@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of InnerDictWithProperty from a JSON string
 inner_dict_with_property_instance = InnerDictWithProperty.from_json(json)
 # print the JSON string representation of the object
-print InnerDictWithProperty.to_json()
+print(InnerDictWithProperty.to_json())
 
 # convert the object into a dict
 inner_dict_with_property_dict = inner_dict_with_property_instance.to_dict()

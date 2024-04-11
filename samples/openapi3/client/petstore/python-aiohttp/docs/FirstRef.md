@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of FirstRef from a JSON string
 first_ref_instance = FirstRef.from_json(json)
 # print the JSON string representation of the object
-print FirstRef.to_json()
+print(FirstRef.to_json())
 
 # convert the object into a dict
 first_ref_dict = first_ref_instance.to_dict()

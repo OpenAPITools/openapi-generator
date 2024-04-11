@@ -28,7 +28,7 @@ import jakarta.validation.Valid;
 @JsonPropertyOrder({
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class NumberOnly   {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
@@ -64,7 +64,7 @@ public class NumberOnly   {
       return false;
     }
     NumberOnly numberOnly = (NumberOnly) o;
-    return Objects.equals(justNumber, numberOnly.justNumber);
+    return Objects.equals(this.justNumber, numberOnly.justNumber);
   }
 
   @Override

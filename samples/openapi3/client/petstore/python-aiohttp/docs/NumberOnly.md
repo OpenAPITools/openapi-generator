@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of NumberOnly from a JSON string
 number_only_instance = NumberOnly.from_json(json)
 # print the JSON string representation of the object
-print NumberOnly.to_json()
+print(NumberOnly.to_json())
 
 # convert the object into a dict
 number_only_dict = number_only_instance.to_dict()

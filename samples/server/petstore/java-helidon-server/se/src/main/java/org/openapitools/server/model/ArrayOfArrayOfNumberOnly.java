@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 
 public class ArrayOfArrayOfNumberOnly   {
 
-    private List<List<BigDecimal>> arrayArrayNumber;
+    private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
     /**
      * Default constructor.

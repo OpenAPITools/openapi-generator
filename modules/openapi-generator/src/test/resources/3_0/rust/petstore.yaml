@@ -955,3 +955,9 @@ components:
           nullable: true
         just_string:
           type: string
+    ref:
+      description: using reserved word as model name
+      type: object
+      properties:
+        dummy:
+          type: string

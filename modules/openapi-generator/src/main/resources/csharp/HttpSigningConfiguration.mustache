@@ -102,14 +102,13 @@ namespace {{packageName}}.Client
             const string HEADER_AUTHORIZATION = "Authorization";
 
             //Read the api key from the file
-            if(string.IsNullOrEmpty(this.KeyString))
+            if(File.Exists(KeyFilePath))
             {
                 this.KeyString = ReadApiKeyFromFile(KeyFilePath);
             }
-
-            if(string.IsNullOrEmpty(KeyString))
+            else if(string.IsNullOrEmpty(KeyString))
             {
-                throw new Exception("No API key has been provided.");
+                throw new Exception("No API key has been provided. Supply it using either KeyFilePath or KeyString");
             }
 
             //Hash table to store singed headers
@@ -317,6 +316,10 @@ namespace {{packageName}}.Client
 
         private string GetRSASignature(byte[] stringToSign)
         {
+            if (string.IsNullOrEmpty(KeyString))
+            {
+                throw new Exception("No API key has been provided.");
+            }
             RSA rsa = GetRSAProviderFromPemFile(KeyString, KeyPassPhrase);
             if (SigningAlgorithm == "RSASSA-PSS")
             {
@@ -342,8 +345,10 @@ namespace {{packageName}}.Client
         private string GetECDSASignature(byte[] dataToSign)
         {
             {{#net60OrLater}}
-            if (!File.Exists(KeyFilePath))
-                throw new Exception("key file path does not exist.");
+            if (!File.Exists(KeyFilePath) && string.IsNullOrEmpty(KeyString))
+            {
+                throw new Exception("No API key has been provided.");
+            }
 
             var keyStr = KeyString;
             const string ecKeyHeader = "-----BEGIN EC PRIVATE KEY-----";
@@ -443,6 +448,11 @@ namespace {{packageName}}.Client
 
         private  RSACryptoServiceProvider GetRSAProviderFromPemFile(string keyString, SecureString keyPassPhrase = null)
         {
+            if (string.IsNullOrEmpty(KeyString))
+            {
+                throw new Exception("No API key has been provided.");
+            }
+
             const string pempubheader = "-----BEGIN PUBLIC KEY-----";
             const string pempubfooter = "-----END PUBLIC KEY-----";
             bool isPrivateKeyFile = true;

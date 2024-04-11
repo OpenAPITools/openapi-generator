@@ -15,9 +15,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("List")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class ModelList  implements Serializable {
-  private @Valid String _123list;
+  private String _123list;
 
   protected ModelList(ModelListBuilder<?, ?> b) {
     this._123list = b._123list;

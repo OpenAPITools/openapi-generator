@@ -80,6 +80,6 @@ class DefaultApiTest extends TestCase
     public function testFooGet()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

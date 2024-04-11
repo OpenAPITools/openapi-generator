@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of Foo from a JSON string
 foo_instance = Foo.from_json(json)
 # print the JSON string representation of the object
-print Foo.to_json()
+print(Foo.to_json())
 
 # convert the object into a dict
 foo_dict = foo_instance.to_dict()

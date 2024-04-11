@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of ArrayOfArrayOfModel from a JSON string
 array_of_array_of_model_instance = ArrayOfArrayOfModel.from_json(json)
 # print the JSON string representation of the object
-print ArrayOfArrayOfModel.to_json()
+print(ArrayOfArrayOfModel.to_json())
 
 # convert the object into a dict
 array_of_array_of_model_dict = array_of_array_of_model_instance.to_dict()

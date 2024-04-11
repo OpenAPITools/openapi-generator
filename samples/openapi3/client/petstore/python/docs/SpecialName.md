@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of SpecialName from a JSON string
 special_name_instance = SpecialName.from_json(json)
 # print the JSON string representation of the object
-print SpecialName.to_json()
+print(SpecialName.to_json())
 
 # convert the object into a dict
 special_name_dict = special_name_instance.to_dict()

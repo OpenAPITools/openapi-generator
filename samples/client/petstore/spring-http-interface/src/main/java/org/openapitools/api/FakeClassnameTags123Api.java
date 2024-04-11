@@ -17,7 +17,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public interface FakeClassnameTags123Api {
 
     /**
@@ -30,7 +30,7 @@ public interface FakeClassnameTags123Api {
     @HttpExchange(
         method = "PATCH",
         value = "/fake_classname_test",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     ResponseEntity<ClientDto> testClassname(

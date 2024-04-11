@@ -29,7 +29,7 @@ import jakarta.validation.Valid;
 @JsonPropertyOrder({
   OuterObjectWithEnumProperty.JSON_PROPERTY_VALUE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty   {
   public static final String JSON_PROPERTY_VALUE = "value";
   @JsonProperty(JSON_PROPERTY_VALUE)
@@ -65,7 +65,7 @@ public class OuterObjectWithEnumProperty   {
       return false;
     }
     OuterObjectWithEnumProperty outerObjectWithEnumProperty = (OuterObjectWithEnumProperty) o;
-    return Objects.equals(value, outerObjectWithEnumProperty.value);
+    return Objects.equals(this.value, outerObjectWithEnumProperty.value);
   }
 
   @Override

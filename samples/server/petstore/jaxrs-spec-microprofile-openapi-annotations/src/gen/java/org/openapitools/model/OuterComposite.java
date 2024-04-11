@@ -15,11 +15,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("OuterComposite")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class OuterComposite  implements Serializable {
-  private @Valid BigDecimal myNumber;
-  private @Valid String myString;
-  private @Valid Boolean myBoolean;
+  private BigDecimal myNumber;
+  private String myString;
+  private Boolean myBoolean;
 
   protected OuterComposite(OuterCompositeBuilder<?, ?> b) {
     this.myNumber = b.myNumber;
@@ -40,7 +40,7 @@ public class OuterComposite  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("my_number")
-  public BigDecimal getMyNumber() {
+  @Valid public BigDecimal getMyNumber() {
     return myNumber;
   }
 

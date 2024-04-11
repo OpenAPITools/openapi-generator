@@ -360,8 +360,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             // In OAS 3.0.x, the array "items" attribute is required.
             // In OAS >= 3.1, the array "items" attribute is optional such that the OAS
             // specification is aligned with the JSON schema specification.
@@ -748,10 +747,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             for (CodegenProperty cp : codegenProperties) {
-                if (!addedTimeImport && ("time.Time".equals(cp.dataType) || (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
+                if (!addedTimeImport && ("time.Time".equals(cp.dataType) || (cp.items != null && "time.Time".equals(cp.items.complexType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
+                
                 if (!addedOSImport && ("*os.File".equals(cp.dataType) ||
                         (cp.items != null && "*os.File".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "os"));

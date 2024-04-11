@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_BAR
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class Foo   {
   public static final String JSON_PROPERTY_BAR = "bar";
   @JsonProperty(JSON_PROPERTY_BAR)
@@ -63,7 +63,7 @@ public class Foo   {
       return false;
     }
     Foo foo = (Foo) o;
-    return Objects.equals(bar, foo.bar);
+    return Objects.equals(this.bar, foo.bar);
   }
 
   @Override

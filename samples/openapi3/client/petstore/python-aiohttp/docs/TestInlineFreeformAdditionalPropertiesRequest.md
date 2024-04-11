@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of TestInlineFreeformAdditionalPropertiesRequest from a JSON string
 test_inline_freeform_additional_properties_request_instance = TestInlineFreeformAdditionalPropertiesRequest.from_json(json)
 # print the JSON string representation of the object
-print TestInlineFreeformAdditionalPropertiesRequest.to_json()
+print(TestInlineFreeformAdditionalPropertiesRequest.to_json())
 
 # convert the object into a dict
 test_inline_freeform_additional_properties_request_dict = test_inline_freeform_additional_properties_request_instance.to_dict()

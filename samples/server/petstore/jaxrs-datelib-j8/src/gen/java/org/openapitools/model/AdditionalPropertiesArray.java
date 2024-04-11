@@ -32,7 +32,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   AdditionalPropertiesArray.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 public class AdditionalPropertiesArray extends HashMap<String, List> implements Serializable {
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -68,7 +68,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> implements 
       return false;
     }
     AdditionalPropertiesArray additionalPropertiesArray = (AdditionalPropertiesArray) o;
-    return super.equals(o) && Objects.equals(name, additionalPropertiesArray.name);
+    return super.equals(o) && Objects.equals(this.name, additionalPropertiesArray.name);
   }
 
   @Override

@@ -56,7 +56,7 @@ import io.github.threetenjaxb.core.*;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 8.0.0-SNAPSHOT")
 @XmlRootElement(name = "NullableClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "NullableClass")
@@ -105,7 +105,7 @@ public class NullableClass extends HashMap<String, Object> {
   // items.name=arrayItemsNullable items.baseName=arrayItemsNullable items.xmlName= items.xmlNamespace=
   // items.example= items.type=Object
   @XmlElement(name = "arrayItemsNullable")
-  private List<Object> arrayItemsNullable;
+  private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   // Is a container wrapped=false

@@ -375,7 +375,7 @@ public class UserApi {
 
         public GetUserByNameOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 
@@ -449,7 +449,7 @@ public class UserApi {
 
         public LoginUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 

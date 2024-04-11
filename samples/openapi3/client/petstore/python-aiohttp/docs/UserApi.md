@@ -25,8 +25,6 @@ This can only be done by the logged in user.
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.user import User
 from petstore_api.rest import ApiException
@@ -93,8 +91,6 @@ Creates list of users with given input array
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.user import User
 from petstore_api.rest import ApiException
@@ -161,8 +157,6 @@ Creates list of users with given input array
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.user import User
 from petstore_api.rest import ApiException
@@ -229,8 +223,6 @@ This can only be done by the logged in user.
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -297,8 +289,6 @@ Get user by user name
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.user import User
 from petstore_api.rest import ApiException
@@ -369,8 +359,6 @@ Logs user into the system
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -441,8 +429,6 @@ Logs out current logged in user session
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -504,8 +490,6 @@ This can only be done by the logged in user.
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.user import User
 from petstore_api.rest import ApiException

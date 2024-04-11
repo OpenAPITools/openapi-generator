@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of ReadOnlyFirst from a JSON string
 read_only_first_instance = ReadOnlyFirst.from_json(json)
 # print the JSON string representation of the object
-print ReadOnlyFirst.to_json()
+print(ReadOnlyFirst.to_json())
 
 # convert the object into a dict
 read_only_first_dict = read_only_first_instance.to_dict()

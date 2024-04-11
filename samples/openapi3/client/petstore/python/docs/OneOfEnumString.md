@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of OneOfEnumString from a JSON string
 one_of_enum_string_instance = OneOfEnumString.from_json(json)
 # print the JSON string representation of the object
-print OneOfEnumString.to_json()
+print(OneOfEnumString.to_json())
 
 # convert the object into a dict
 one_of_enum_string_dict = one_of_enum_string_instance.to_dict()

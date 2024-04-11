@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of Cat from a JSON string
 cat_instance = Cat.from_json(json)
 # print the JSON string representation of the object
-print Cat.to_json()
+print(Cat.to_json())
 
 # convert the object into a dict
 cat_dict = cat_instance.to_dict()

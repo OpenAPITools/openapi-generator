@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of AnyOfColor from a JSON string
 any_of_color_instance = AnyOfColor.from_json(json)
 # print the JSON string representation of the object
-print AnyOfColor.to_json()
+print(AnyOfColor.to_json())
 
 # convert the object into a dict
 any_of_color_dict = any_of_color_instance.to_dict()
