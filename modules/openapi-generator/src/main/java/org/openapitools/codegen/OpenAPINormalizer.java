@@ -880,7 +880,6 @@ public class OpenAPINormalizer {
      * @param schema Schema
      */
     public boolean isNullTypeSchema(Schema schema) {
-        LOGGER.info("null? {}", schema);
         if (schema == null) {
             return true;
         }
