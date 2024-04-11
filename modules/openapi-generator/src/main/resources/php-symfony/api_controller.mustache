@@ -101,6 +101,10 @@ class {{controllerName}} extends Controller
         // HTTP basic authentication required
         $security{{name}} = $request->headers->get('authorization');
         {{/isBasicBasic}}
+        {{#isBasicBearer}}
+        // HTTP bearer authentication required
+        $security{{name}} = $request->headers->get('authorization');
+        {{/isBasicBearer}}
         {{#isOAuth}}
         // Oauth required
         $security{{name}} = $request->headers->get('authorization');
