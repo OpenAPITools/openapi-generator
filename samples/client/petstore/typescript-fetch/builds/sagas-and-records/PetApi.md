@@ -4,18 +4,18 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByIds**](PetApi.md#findPetsByIds) | **GET** /pet/findByIds | Finds Pets by ids
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**findPetsByUserIds**](PetApi.md#findPetsByUserIds) | **GET** /pet/findByUserIds | Finds Pets by user ids
-[**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**getPetRegions**](PetApi.md#getPetRegions) | **GET** /pet/{petId}/regions | Gets regions for a single pet.
-[**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetRegions**](PetApi.md#updatePetRegions) | **PUT** /pet/{petId}/regions | Updates the pet regions.
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**addPet**](PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
+[**deletePet**](PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
+[**findPetsByIds**](PetApi.md#findpetsbyids) | **GET** /pet/findByIds | Finds Pets by ids
+[**findPetsByStatus**](PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
+[**findPetsByTags**](PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
+[**findPetsByUserIds**](PetApi.md#findpetsbyuserids) | **GET** /pet/findByUserIds | Finds Pets by user ids
+[**getPetById**](PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
+[**getPetRegions**](PetApi.md#getpetregions) | **GET** /pet/{petId}/regions | Gets regions for a single pet.
+[**updatePet**](PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
+[**updatePetRegions**](PetApi.md#updatepetregions) | **PUT** /pet/{petId}/regions | Updates the pet regions.
+[**updatePetWithForm**](PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**uploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
 
 
 ## **addPet**

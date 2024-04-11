@@ -4,8 +4,8 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getBehaviorPermissions**](BehaviorApi.md#getBehaviorPermissions) | **GET** /fake_behavior/{behavior-id}/permissions | Get permissions for the behavior
-[**getBehaviorType**](BehaviorApi.md#getBehaviorType) | **GET** /fake_behavior/{behavior-id}/type | Get the type of behavior
+[**getBehaviorPermissions**](BehaviorApi.md#getbehaviorpermissions) | **GET** /fake_behavior/{behavior-id}/permissions | Get permissions for the behavior
+[**getBehaviorType**](BehaviorApi.md#getbehaviortype) | **GET** /fake_behavior/{behavior-id}/type | Get the type of behavior
 
 
 ## **getBehaviorPermissions**
