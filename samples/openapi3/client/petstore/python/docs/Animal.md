@@ -23,7 +23,7 @@ print(Animal.to_json())
 # convert the object into a dict
 animal_dict = animal_instance.to_dict()
 # create an instance of Animal from a dict
-animal_form_dict = animal.from_dict(animal_dict)
+animal_from_dict = Animal.from_dict(animal_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

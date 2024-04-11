@@ -25,7 +25,7 @@ print Name.to_json()
 # convert the object into a dict
 name_dict = name_instance.to_dict()
 # create an instance of Name from a dict
-name_form_dict = name.from_dict(name_dict)
+name_from_dict = Name.from_dict(name_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
