@@ -22,10 +22,10 @@
               {{/maxLength}}
               {{#pattern}}
                 {{#isString}}
-                regex = "RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.uppercase}}",
+                  regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.uppercase}}),
                 {{/isString}}
                 {{^isString}}
-                custom ="validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.lowercase}}",
+                  custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.lowercase}}"),
                 {{/isString}}
               {{/pattern}}
               {{#maximum}}
@@ -59,7 +59,7 @@
       {{^x-consumes-plain-text}}
           {{^hasValidation}}
           {{^isMap}}
-            #[validate]
+            #[validate(nested)]
           {{/isMap}}
           {{/hasValidation}}
           body: &'a {{{dataType}}},
