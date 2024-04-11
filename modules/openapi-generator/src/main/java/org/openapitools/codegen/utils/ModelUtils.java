@@ -2127,6 +2127,25 @@ public class ModelUtils {
     }
 
     /**
+     * Returns schema type.
+     * For 3.1 spec, return the first one.
+     *
+     * @param schema the schema
+     * @return schema type
+     */
+    public static String getType(Schema schema) {
+        if (schema == null) {
+            return null;
+        }
+
+        if (schema instanceof JsonSchema) {
+            return String.valueOf(schema.getTypes().iterator().next());
+        } else {
+            return schema.getType();
+        }
+    }
+
+    /**
      * Returns true if any of the common attributes of the schema (e.g. readOnly, default, maximum, etc) is defined.
      *
      * @param schema the schema

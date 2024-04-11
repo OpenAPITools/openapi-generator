@@ -890,7 +890,7 @@ public class OpenAPINormalizer {
 
         if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
             // 3.1 spec
-            if (schema.getTypes().size() ==1) { // 1 type only
+            if (schema.getTypes().size() == 1) { // 1 type only
                 String type = (String) schema.getTypes().iterator().next();
                 return type == null || "null".equals(type);
             } else { // more than 1 type so must not be just null
@@ -900,6 +900,11 @@ public class OpenAPINormalizer {
 
         if (schema instanceof JsonSchema) { // 3.1 spec
             if (Boolean.TRUE.equals(schema.getNullable())) {
+                return true;
+            }
+
+            // for `type: null`
+            if (schema.getTypes() == null && schema.get$ref() == null) {
                 return true;
             }
         } else { // 3.0.x or 2.x spec
@@ -938,7 +943,7 @@ public class OpenAPINormalizer {
             if (oneOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
                 for (Schema s: oneOfSchemas) {
-                    ts.add(s.getType());
+                    ts.add(ModelUtils.getType(s));
                 }
 
                 if (ts.equals(anyTypeTreeSet)) {
@@ -1063,7 +1068,7 @@ public class OpenAPINormalizer {
             if (anyOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
                 for (Schema s: anyOfSchemas) {
-                    ts.add(s.getType());
+                    ts.add(ModelUtils.getType(s));
                 }
 
                 if (ts.equals(anyTypeTreeSet)) {
