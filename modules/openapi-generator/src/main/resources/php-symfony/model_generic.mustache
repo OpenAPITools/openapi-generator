@@ -36,7 +36,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
     *
     * @return string|null
     */
-    public function getSerialized{{nameInCamelCase}}(): string|null
+    public function getSerialized{{nameInPascalCase}}(): string|null
     {
         return $this->{{name}}?->value ? (string) $this->{{name}}->value : null;
     }
@@ -50,7 +50,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
     *
     * @return array
     */
-    public function getSerialized{{nameInCamelCase}}(): array
+    public function getSerialized{{nameInPascalCase}}(): array
     {
         return array_map(
             static fn ($value) => (string) $value->value,

@@ -55,7 +55,7 @@ export function HasOnlyReadOnlyFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function HasOnlyReadOnlyToJSON(value?: HasOnlyReadOnly | null): any {
+export function HasOnlyReadOnlyToJSON(value?: Omit<HasOnlyReadOnly, 'bar'|'foo'> | null): any {
     if (value == null) {
         return value;
     }

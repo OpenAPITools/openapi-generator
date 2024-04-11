@@ -469,9 +469,9 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty property = super.fromProperty(name, p, required);
         if (property != null) {
-            String nameInCamelCase = property.nameInCamelCase;
-            nameInCamelCase = sanitizeName(nameInCamelCase);
-            property.nameInCamelCase = nameInCamelCase;
+            String nameInPascalCase = property.nameInPascalCase;
+            nameInPascalCase = sanitizeName(nameInPascalCase);
+            property.nameInPascalCase = nameInPascalCase;
         }
         return property;
     }
@@ -532,8 +532,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             String itemType = getTypeDeclaration(inner);
             if (itemType.startsWith("OpenAPI.")) {
                 return itemType + "_Vector";
@@ -649,10 +648,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         rsp.vendorExtensions.put("x-produces-plain-text", true);
                     }
                 }
-            }
-            for (CodegenProperty header : rsp.headers) {
-                header.nameInCamelCase = toModelName(header.baseName);
-                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
             }
         }
 
@@ -844,10 +839,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         }
                     }
                 }
-            }
-            for (CodegenProperty header : rsp.headers) {
-                header.nameInCamelCase = toModelName(header.baseName);
-                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
             }
         }
 

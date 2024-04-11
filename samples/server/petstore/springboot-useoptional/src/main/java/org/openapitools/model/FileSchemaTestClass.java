@@ -23,13 +23,13 @@ import javax.annotation.Generated;
  * FileSchemaTestClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.4.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
   private Optional<File> file = Optional.empty();
 
   @Valid
-  private List<@Valid File> files;
+  private List<@Valid File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
     this.file = Optional.of(file);

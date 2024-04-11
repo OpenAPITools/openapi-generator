@@ -83,7 +83,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.4.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
@@ -927,15 +927,11 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   /**
-   * Build full URL by concatenating base path, the given sub path and query parameters.
+   * Returns the URL of the client as defined by the server (if exists) or the base path.
    *
-   * @param path The sub path
-   * @param queryParams The query parameters
-   * @param collectionQueryParams The collection query parameters
-   * @param urlQueryDeepObject URL query string of the deep object parameters
-   * @return The full URL
+   * @return The URL for the client.
    */
-  private String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams, String urlQueryDeepObject) {
+  public String getBaseURL() {
     String baseURL;
     if (serverIndex != null) {
       if (serverIndex < 0 || serverIndex >= servers.size()) {
@@ -947,6 +943,20 @@ public class ApiClient extends JavaTimeFormatter {
     } else {
       baseURL = basePath;
     }
+    return baseURL;
+  }
+
+  /**
+   * Build full URL by concatenating base URL, the given sub path and query parameters.
+   *
+   * @param path The sub path
+   * @param queryParams The query parameters
+   * @param collectionQueryParams The collection query parameters
+   * @param urlQueryDeepObject URL query string of the deep object parameters
+   * @return The full URL
+   */
+  private String buildUrl(String path, List<Pair> queryParams, List<Pair> collectionQueryParams, String urlQueryDeepObject) {
+    String baseURL = getBaseURL();
 
     final StringBuilder url = new StringBuilder();
     url.append(baseURL).append(path);

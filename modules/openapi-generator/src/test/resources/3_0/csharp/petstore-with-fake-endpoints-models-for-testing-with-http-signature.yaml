@@ -1555,6 +1555,16 @@ components:
         return:
           type: integer
           format: int32
+        lock:
+          type: string
+        abstract:
+          type: string
+          nullable: true
+        unsafe:
+          type: string
+      required:
+        - lock
+        - abstract
       xml:
         name: Return
     Name:

@@ -26,12 +26,12 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.util.stream.Collectors;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -986,6 +986,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     class ExtendedCodegenParameter extends CodegenParameter {
         public String dataTypeAlternate;
         public boolean isUniqueId; // this parameter represents a unique id (x-isUniqueId: true)
+        public List<CodegenProperty> readOnlyVars; // a list of read-only properties
+        public boolean hasReadOnly = false; // indicates the type has at least one read-only property
 
         public boolean itemsAreUniqueId() {
             return TypeScriptFetchClientCodegen.itemsAreUniqueId(this.items);
@@ -1081,8 +1083,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.minItems = cp.minItems;
             this.uniqueItems = cp.uniqueItems;
             this.multipleOf = cp.multipleOf;
+            this.setHasVars(cp.getHasVars());
+            this.setHasRequired(cp.getHasRequired());
             this.setMaxProperties(cp.getMaxProperties());
             this.setMinProperties(cp.getMinProperties());
+            setReadOnlyVars();
         }
 
         @Override
@@ -1122,6 +1127,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             sb.append(", isUniqueId=").append(isUniqueId);
             sb.append(", dataTypeAlternate='").append(dataTypeAlternate).append('\'');
             return sb.toString();
+        }
+
+        private void setReadOnlyVars() {
+            readOnlyVars = vars.stream().filter(v -> v.isReadOnly).collect(Collectors.toList());
+            hasReadOnly = !readOnlyVars.isEmpty();
         }
     }
 
@@ -1229,7 +1239,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isInherited = cp.isInherited;
             this.discriminatorValue = cp.discriminatorValue;
             this.nameInLowerCase = cp.nameInLowerCase;
-            this.nameInCamelCase = cp.nameInCamelCase;
+            this.nameInPascalCase = cp.nameInPascalCase;
             this.nameInSnakeCase = cp.nameInSnakeCase;
             this.enumName = cp.enumName;
             this.maxItems = cp.maxItems;

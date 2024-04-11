@@ -92,7 +92,9 @@ pub struct GetUserByNamePathParams {
 pub struct LoginUserQueryParams {
     /// The user name for login
     #[serde(rename = "username")]
-    #[validate(regex = "RE_LOGINUSERQUERYPARAMS_USERNAME")]
+    #[validate(
+                          regex(path = *RE_LOGINUSERQUERYPARAMS_USERNAME),
+                    )]
     pub username: String,
     /// The password for login in clear text
     #[serde(rename = "password")]
@@ -287,7 +289,9 @@ pub struct Category {
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
-    #[validate(regex = "RE_CATEGORY_NAME")]
+    #[validate(
+            regex(path = *RE_CATEGORY_NAME),
+        )]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 }

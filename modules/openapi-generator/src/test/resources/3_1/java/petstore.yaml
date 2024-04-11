@@ -647,6 +647,24 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/HTTPValidationError"
+  "/fake/api/query/enum":
+    post:
+      summary: op3
+      operationId: op3
+      tags:
+        - fake
+      parameters:
+        - name: query_enum
+          in: query
+          description: query enum test
+          required: true
+          schema:
+            type: array
+            items:
+              "$ref": "#/components/schemas/CodesEnum"
+      responses:
+        '200':
+          description: Successful Response
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -891,14 +909,15 @@ components:
       properties: {}
       type: object
       title: HTTPValidationError
-    AnyOfArray:
-      anyOf:
-        - type: array
-          items:
-            type: string
-        - type: array
-          items:
-            type: integer
+    # okhttp-gson doesnot support array of string
+    #AnyOfArray:
+    #  anyOf:
+    #    - type: array
+    #      items:
+    #        type: string
+    #    - type: array
+    #      items:
+    #        type: integer
     ArrayPrefixItems:
       type: array
       description: |
@@ -914,3 +933,39 @@ components:
           description: A list of "good output" node IDs in the prompt.
           items:
             type: string
+    circular_reference_1:
+      type: object
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_2'
+    circular_reference_2:
+      type: object
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_3'
+    circular_reference_3:
+      type: object
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_1'
+    array_of_same_ref:
+      type: object
+      properties:
+        arrayFooOne:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        arrayFooTwo:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        arrayFooThree:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    CodesEnum:
+      type: string
+      enum:
+        - Code 1
+        - Code 2
+        - Code 3

@@ -374,19 +374,25 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 items.add(new PostmanRequestItem(codegenOperation.summary, getJsonFromSchema(codegenOperation.bodyParam)));
             } else {
                 // get from examples
-                if (codegenOperation.bodyParam.example != null) {
+                if (codegenOperation.bodyParam.getContent().get("application/json") != null &&
+                        codegenOperation.bodyParam.getContent().get("application/json").getExamples() != null) {
+                    for (Map.Entry<String, Example> entry : codegenOperation.bodyParam.getContent().get("application/json").getExamples().entrySet()) {
+                        if(entry.getValue().get$ref() != null) {
+                            // find in components/examples
+                            String exampleRef = entry.getValue().get$ref();
+                            Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
+                            String exampleAsString = getJsonFromExample(example);
+
+                            items.add(new PostmanRequestItem(example.getSummary(), exampleAsString));
+                        } else if (entry.getValue().getValue() != null && entry.getValue().getValue() instanceof ObjectNode) {
+                            // find inline
+                            String exampleAsString = convertToJson((ObjectNode) entry.getValue().getValue());
+                            items.add(new PostmanRequestItem(entry.getKey(), exampleAsString));
+                        }
+                    }
+                } else if (codegenOperation.bodyParam.example != null) {
                     // find in bodyParam example
                     items.add(new PostmanRequestItem(codegenOperation.summary, formatJson(codegenOperation.bodyParam.example)));
-                } else if (codegenOperation.bodyParam.getContent().get("application/json") != null &&
-                        codegenOperation.bodyParam.getContent().get("application/json").getExamples() != null) {
-                    // find in components/examples
-                    for (Map.Entry<String, Example> entry : codegenOperation.bodyParam.getContent().get("application/json").getExamples().entrySet()) {
-                        String exampleRef = entry.getValue().get$ref();
-                        Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
-                        String exampleAsString = getJsonFromExample(example);
-
-                        items.add(new PostmanRequestItem(example.getSummary(), exampleAsString));
-                    }
                 } else if (codegenOperation.bodyParam.getSchema() != null) {
                     // find in schema example
                     String exampleAsString = formatJson(codegenOperation.bodyParam.getSchema().getExample());
@@ -747,9 +753,14 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             } else if (value instanceof Integer) {
                 ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
                         value;
+            } else if (value instanceof Boolean) {
+                ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
+                        value;
             } else if (value instanceof LinkedHashMap) {
                 String in = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": ";
                 ret = traverseMap(((LinkedHashMap<String, Object>) value),  in);
+            } else if (value instanceof ArrayList<?>) {
+                ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " + getJsonArray((ArrayList<Object>) value);
             } else {
                 LOGGER.warn("Value type unrecognised: " + value.getClass());
             }
@@ -762,6 +773,38 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         }
 
         ret = ret + JSON_ESCAPE_NEW_LINE + "}";
+
+        return ret;
+    }
+
+    String getJsonArray(ArrayList<Object> list) {
+        String ret = "";
+
+        for(Object element: list) {
+            if(element instanceof String) {
+                ret = ret + getStringArrayElement((String) element) + ", ";
+            } else if(element instanceof LinkedHashMap) {
+                ret = traverseMap((LinkedHashMap<String, Object>) element, ret) + ", ";
+            }
+        }
+
+        if(ret.endsWith(", ")) {
+            ret = ret.substring(0, ret.length() - 2);
+        }
+
+        return "[" + ret + "]";
+    }
+
+    String getStringArrayElement(String element) {
+        String ret = "";
+
+        if(element.startsWith("{")) {
+            // isJson (escape all double quotes)
+            ret = ret + element.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
+        } else {
+            // string element (add escaped double quotes)
+            ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + element + JSON_ESCAPE_DOUBLE_QUOTE;
+        }
 
         return ret;
     }

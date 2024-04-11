@@ -14,14 +14,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Capitalization")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.4.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Capitalization  implements Serializable {
-  private @Valid String smallCamel;
-  private @Valid String capitalCamel;
-  private @Valid String smallSnake;
-  private @Valid String capitalSnake;
-  private @Valid String scAETHFlowPoints;
-  private @Valid String ATT_NAME;
+  private String smallCamel;
+  private String capitalCamel;
+  private String smallSnake;
+  private String capitalSnake;
+  private String scAETHFlowPoints;
+  private String ATT_NAME;
 
   protected Capitalization(CapitalizationBuilder<?, ?> b) {
     this.smallCamel = b.smallCamel;

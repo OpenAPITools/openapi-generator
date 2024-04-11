@@ -3015,7 +3015,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testOpenAPIGeneratorIgnoreListOption() throws IOException {
+    public void testOpenapiGeneratorIgnoreListOption() throws IOException {
         File output = Files.createTempDirectory("openapi_generator_ignore_list_test_folder").toFile().getCanonicalFile();
         output.deleteOnExit();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allof_primitive.yaml");

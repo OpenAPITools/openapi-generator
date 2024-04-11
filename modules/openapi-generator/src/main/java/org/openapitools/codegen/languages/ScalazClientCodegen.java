@@ -193,9 +193,8 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
 
             return "Map.empty[String, " + inner + "] ";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
-            String collectionType = ModelUtils.isSet(ap) ? typeMapping.get("set") : typeMapping.get("array");
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
+            String collectionType = ModelUtils.isSet(p) ? typeMapping.get("set") : typeMapping.get("array");
 
             // We assume that users would map these collections to a monoid with an identity function
             // There's no reason to assume mutable structure here (which may make consumption more difficult)

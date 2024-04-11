@@ -15,7 +15,7 @@ public class ObjectWithDeprecatedFields   {
     private String uuid;
     private BigDecimal id;
     private DeprecatedObject deprecatedRef;
-    private List<String> bars;
+    private List<String> bars = new ArrayList<>();
 
     /**
      * Default constructor.
