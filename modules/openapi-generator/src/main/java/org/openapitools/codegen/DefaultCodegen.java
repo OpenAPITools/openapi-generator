@@ -4742,8 +4742,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (contentType != null) {
                 contentType = contentType.toLowerCase(Locale.ROOT);
             }
-            if (!(this instanceof RustAxumServerCodegen) && contentType != null &&
-                    (contentType.startsWith("application/x-www-form-urlencoded") ||
+            if (contentType != null &&
+                    ((!(this instanceof RustAxumServerCodegen) && contentType.startsWith("application/x-www-form-urlencoded")) ||
                             contentType.startsWith("multipart"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
