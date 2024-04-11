@@ -4,8 +4,8 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getFakePetPartType**](PetPartApi.md#getFakePetPartType) | **GET** /fake_petParts/{fake_petPart-id}/part-type | Returns single pet part type for the petPart id.
-[**getMatchingParts**](PetPartApi.md#getMatchingParts) | **GET** /fake_petParts/{fake_petPart-id}/matching-parts | Get the matching parts for the given pet part.
+[**getFakePetPartType**](PetPartApi.md#getfakepetparttype) | **GET** /fake_petParts/{fake_petPart-id}/part-type | Returns single pet part type for the petPart id.
+[**getMatchingParts**](PetPartApi.md#getmatchingparts) | **GET** /fake_petParts/{fake_petPart-id}/matching-parts | Get the matching parts for the given pet part.
 
 
 ## **getFakePetPartType**

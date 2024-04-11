@@ -4,10 +4,10 @@ All URIs are relative to *http://localhost:3000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**fakeEnumRequestGetInline**](DefaultApi.md#fakeEnumRequestGetInline) | **GET** /fake/enum-request-inline | 
-[**fakeEnumRequestGetRef**](DefaultApi.md#fakeEnumRequestGetRef) | **GET** /fake/enum-request-ref | 
-[**fakeEnumRequestPostInline**](DefaultApi.md#fakeEnumRequestPostInline) | **POST** /fake/enum-request-inline | 
-[**fakeEnumRequestPostRef**](DefaultApi.md#fakeEnumRequestPostRef) | **POST** /fake/enum-request-ref | 
+[**fakeEnumRequestGetInline**](DefaultApi.md#fakeenumrequestgetinline) | **GET** /fake/enum-request-inline | 
+[**fakeEnumRequestGetRef**](DefaultApi.md#fakeenumrequestgetref) | **GET** /fake/enum-request-ref | 
+[**fakeEnumRequestPostInline**](DefaultApi.md#fakeenumrequestpostinline) | **POST** /fake/enum-request-inline | 
+[**fakeEnumRequestPostRef**](DefaultApi.md#fakeenumrequestpostref) | **POST** /fake/enum-request-ref | 
 
 
 ## **fakeEnumRequestGetInline**
