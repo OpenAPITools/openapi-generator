@@ -5,7 +5,7 @@ async-generator==1.10
 certifi==2023.7.22
 chardet==4.0.0
 click==7.1.2
-dnspython==2.1.0
+dnspython==2.6.1
 email-validator==2.0.0
 fastapi==0.109.2
 graphene==2.1.8
