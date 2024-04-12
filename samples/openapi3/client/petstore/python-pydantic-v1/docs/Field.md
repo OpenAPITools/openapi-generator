@@ -21,7 +21,7 @@ print Field.to_json()
 # convert the object into a dict
 field_dict = field_instance.to_dict()
 # create an instance of Field from a dict
-field_form_dict = field.from_dict(field_dict)
+field_from_dict = Field.from_dict(field_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

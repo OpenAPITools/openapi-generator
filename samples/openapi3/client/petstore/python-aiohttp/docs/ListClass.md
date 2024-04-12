@@ -22,7 +22,7 @@ print(ListClass.to_json())
 # convert the object into a dict
 list_class_dict = list_class_instance.to_dict()
 # create an instance of ListClass from a dict
-list_class_form_dict = list_class.from_dict(list_class_dict)
+list_class_from_dict = ListClass.from_dict(list_class_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
