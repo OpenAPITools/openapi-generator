@@ -1,0 +1,56 @@
+<?php
+
+{{>licenseInfo}}
+
+namespace {{apiPackage}};
+
+
+{{#operations}}abstract class {{classname}}
+{
+
+    {{#operation}}
+    /**
+     * Operation {{{operationId}}}
+     *
+     {{#summary}}
+     * {{{summary}}}
+     *
+     {{/summary}}
+  {{#allParams}}
+     * @param {{vendorExtensions.x-parameter-type}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+{{/allParams}}
+     *
+     * @return {{vendorExtensions.x-return-type-comment}}
+  {{#isDeprecated}}
+     * @deprecated
+  {{/isDeprecated}}
+     */
+    public function {{operationId}}({{#allParams}}{{vendorExtensions.x-parameter-type}} ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}): {{vendorExtensions.x-return-type}}
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    {{#returnContainer}}
+    /**
+     * Operation {{{operationId}}} (stream)
+     *
+     {{#summary}}
+     * {{{summary}}}
+     *
+     {{/summary}}
+  {{#allParams}}
+     * @param {{vendorExtensions.x-parameter-type}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
+{{/allParams}}
+     *
+  {{#isDeprecated}}
+     * @deprecated
+  {{/isDeprecated}}
+     */
+    public function {{operationId}}Stream({{#allParams}}{{vendorExtensions.x-parameter-type}} ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    {{/returnContainer}}
+{{/operation}}
+}
+{{/operations}}
