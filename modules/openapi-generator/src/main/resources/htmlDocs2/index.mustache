@@ -454,6 +454,9 @@
                                       if (!schema) {
                                         schema = schemaWrapper.schema;
                                       }
+                                      if (schema == null) {
+                                        return;
+                                      }
                                       if (schema.$ref != null) {
                                         schema = defsParser.$refs.get(schema.$ref);
                                         Object.keys(schema.properties).forEach( (item) => {
