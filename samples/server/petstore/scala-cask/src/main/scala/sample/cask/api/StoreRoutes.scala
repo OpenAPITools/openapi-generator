@@ -43,7 +43,7 @@ class StoreRoutes(service : StoreService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Returns pet inventories by status
@@ -61,7 +61,8 @@ class StoreRoutes(service : StoreService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(value : Map[String, Int]) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Find purchase order by ID
@@ -79,7 +80,8 @@ class StoreRoutes(service : StoreService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(value : Order) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Place an order for a pet
@@ -98,7 +100,8 @@ class StoreRoutes(service : StoreService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(value : Order) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
 

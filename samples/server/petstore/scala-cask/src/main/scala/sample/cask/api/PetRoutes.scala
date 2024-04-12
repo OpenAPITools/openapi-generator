@@ -67,7 +67,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(value : Pet) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Deletes a pet
@@ -87,7 +88,7 @@ class PetRoutes(service : PetService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Finds Pets by status
@@ -105,7 +106,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(value : List[Pet]) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Finds Pets by tags
@@ -123,7 +125,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(value : List[Pet]) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Find pet by ID
@@ -142,7 +145,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(value : Pet) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Update an existing pet
@@ -162,7 +166,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(value : Pet) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Updates a pet in the store with form data
@@ -183,7 +188,7 @@ class PetRoutes(service : PetService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** uploads an image
@@ -204,7 +209,8 @@ class PetRoutes(service : PetService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(value : ApiResponse) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
 

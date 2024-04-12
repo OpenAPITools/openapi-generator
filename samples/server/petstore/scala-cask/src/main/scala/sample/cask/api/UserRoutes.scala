@@ -56,7 +56,7 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Creates list of users with given input array
@@ -75,7 +75,7 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Creates list of users with given input array
@@ -94,7 +94,7 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Delete user
@@ -113,7 +113,7 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Get user by user name
@@ -131,7 +131,8 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(value : User) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Logs user into the system
@@ -148,7 +149,8 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(value : String) => cask.Response(data = write(value), 200, headers = Seq("Content-Type" -> "application/json"))
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Logs out current logged in user session
@@ -166,7 +168,7 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
         /** Updated user
@@ -187,7 +189,7 @@ class UserRoutes(service : UserService) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-            case Right(_) => cask.Response("", 200)
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
 
