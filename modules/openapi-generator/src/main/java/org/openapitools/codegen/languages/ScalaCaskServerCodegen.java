@@ -18,7 +18,6 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -32,7 +31,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -152,6 +150,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             return defaultValue;
         }
     }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -521,13 +520,14 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         List<ScalaCaskServerCodegen.OperationGroup> groups = group(operationList);
         operationList.forEach((op) -> {
-            for (final ScalaCaskServerCodegen.OperationGroup group : groups) {
-                // for the usage/call site
-                final String scalaPath = pathWithBracketPlaceholdersRemovedAndXPathIndexAdded(op);
-                op.vendorExtensions.put("x-cask-path", scalaPath);
+            // for the usage/call site
+            final String scalaPath = pathWithBracketPlaceholdersRemovedAndXPathIndexAdded(op);
+            op.vendorExtensions.put("x-cask-path", scalaPath);
 
-                final String annotation = "@cask." + op.httpMethod.toLowerCase(Locale.ROOT);
-                op.vendorExtensions.put("x-annotation", annotation);
+            final String annotation = "@cask." + op.httpMethod.toLowerCase(Locale.ROOT);
+            op.vendorExtensions.put("x-annotation", annotation);
+
+            for (final ScalaCaskServerCodegen.OperationGroup group : groups) {
                 if (!group.contains(op)) {
                     if (op.path.startsWith(group.pathPrefix) && op.httpMethod.equalsIgnoreCase(group.httpMethod)) {
                         group.add(op);
