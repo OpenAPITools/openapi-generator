@@ -1,8 +1,8 @@
-Club.md
-DefaultApi.md
-Owner.md
 apis/DefaultApi.ts
 apis/index.ts
+docs/Club.md
+docs/DefaultApi.md
+docs/Owner.md
 index.ts
 models/Club.ts
 models/Owner.ts
