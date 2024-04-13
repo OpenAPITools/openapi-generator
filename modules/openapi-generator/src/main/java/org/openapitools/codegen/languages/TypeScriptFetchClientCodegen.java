@@ -125,12 +125,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + File.separator + apiDocPath);
+        return (outputFolder.replace('/', File.separatorChar) + apiDocPath);
     }
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + File.separator + modelDocPath);
+        return (outputFolder.replace('/', File.separatorChar) + modelDocPath);
     }
 
     public String getNpmRepository() {
