@@ -14,7 +14,7 @@ graphql-relay==2.0.1
 h11==0.12.0
 httptools==0.1.2
 httpx==0.24.1
-idna==2.10
+idna==3.7
 itsdangerous==1.1.0
 Jinja2==2.11.3
 MarkupSafe==2.0.1
