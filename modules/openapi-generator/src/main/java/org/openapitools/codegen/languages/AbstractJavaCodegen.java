@@ -999,6 +999,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return getNumberBeanValidation(items);
         }
 
+        if (ModelUtils.isLongSchema(items)) {
+            return getLongBeanValidation(items);
+        }
+
         if (ModelUtils.isIntegerSchema(items)) {
             return getIntegerBeanValidation(items);
         }
@@ -1017,6 +1021,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (items.getMaximum() != null) {
             return String.format(Locale.ROOT, "@Max(%s)", items.getMaximum());
+        }
+        return "";
+    }
+
+    private String getLongBeanValidation(Schema<?> items) {
+        if (items.getMinimum() != null && items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Min(%sL) @Max(%sL)", items.getMinimum(), items.getMaximum());
+        }
+
+        if (items.getMinimum() != null) {
+            return String.format(Locale.ROOT, "@Min(%sL)", items.getMinimum());
+        }
+
+        if (items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Max(%sL)", items.getMaximum());
         }
         return "";
     }
