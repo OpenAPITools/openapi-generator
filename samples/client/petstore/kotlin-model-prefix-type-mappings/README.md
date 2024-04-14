@@ -78,6 +78,7 @@ Class | Method | HTTP request | Description
  - [org.openapitools.client.models.ApiPet](docs/ApiPet.md)
  - [org.openapitools.client.models.ApiTag](docs/ApiTag.md)
  - [org.openapitools.client.models.ApiUser](docs/ApiUser.md)
+ - [org.openapitools.client.models.ApiUserOrPet](docs/ApiUserOrPet.md)
 
 
 <a id="documentation-for-authorization"></a>

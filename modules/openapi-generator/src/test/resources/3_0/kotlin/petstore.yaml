@@ -760,3 +760,7 @@ components:
         id:
           type: string
           format: uuid
+    UserOrPet:
+      oneOf:
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/Pet"

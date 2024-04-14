@@ -6,6 +6,11 @@ package {{modelPackage}}
 
 {{#models}}
 {{#model}}
+{{^enableOneOfWrapper}}
 {{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{>data_class}}{{/isAlias}}{{/isEnum}}
+{{/enableOneOfWrapper}}
+{{#enableOneOfWrapper}}
+{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{#oneOf}}{{#-first}}{{>oneof_class}}{{/-first}}{{/oneOf}}{{^oneOf}}{{>data_class}}{{/oneOf}}{{/isAlias}}{{/isEnum}}
+{{/enableOneOfWrapper}}
 {{/model}}
 {{/models}}
