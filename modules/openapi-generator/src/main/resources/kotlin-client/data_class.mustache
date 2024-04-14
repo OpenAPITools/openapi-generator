@@ -1,5 +1,15 @@
 {{^multiplatform}}
 {{#gson}}
+{{#enableOneOfWrapper}}
+import com.google.gson.Gson
+import com.google.gson.JsonElement
+import com.google.gson.TypeAdapter
+import com.google.gson.TypeAdapterFactory
+import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
+import com.google.gson.annotations.JsonAdapter
+{{/enableOneOfWrapper}}
 import com.google.gson.annotations.SerializedName
 {{/gson}}
 {{#moshi}}
@@ -47,6 +57,8 @@ import java.io.Serializable
 import {{roomModelPackage}}.{{classname}}RoomModel
 import {{packageName}}.infrastructure.ITransformForStorage
 {{/generateRoomModels}}
+import java.io.IOException
+
 
 /**
  * {{{description}}}
@@ -147,6 +159,183 @@ import {{packageName}}.infrastructure.ITransformForStorage
 {{/isEnum}}
 {{/vars}}
 {{/hasEnums}}
+{{#enableOneOfWrapper}}
+    companion object {
+        var openapiFields: HashSet<String>? = null
+        var openapiRequiredFields: HashSet<String>? = null
+      
+        init {
+            // a set of all properties/fields (JSON key names)
+            openapiFields = HashSet()
+            {{#allVars}}
+            openapiFields!!.add("{{baseName}}")
+            {{/allVars}}
+      
+            // a set of required properties/fields (JSON key names)
+            openapiRequiredFields = HashSet()
+            {{#requiredVars}}
+            openapiRequiredFields!!.add("{{baseName}}")
+            {{/requiredVars}}
+        }
+      
+       /**
+        * Validates the JSON Element and throws an exception if issues found
+        *
+        * @param jsonElement JSON Element
+        * @throws IOException if the JSON Element is invalid with respect to {{classname}}
+        */
+        @Throws(IOException::class)
+        fun validateJsonElement(jsonElement: JsonElement?) {
+            if (jsonElement == null) {
+              require(openapiRequiredFields!!.isEmpty()) { // has required fields but JSON element is null
+                String.format("The required field(s) %s in {{{classname}}} is not found in the empty JSON string", {{classname}}.openapiRequiredFields.toString())
+              }
+            }
+            {{^hasChildren}}
+            {{^isAdditionalPropertiesTrue}}
+      
+            val entries = jsonElement!!.getAsJsonObject().entrySet()
+            // check to see if the JSON string contains additional fields
+            for ((key) in entries) {
+              require(openapiFields!!.contains(key)) {
+                String.format("The field `%s` in the JSON string is not defined in the `{{classname}}` properties. JSON: %s", key, jsonElement.toString())
+              }
+            }
+            {{/isAdditionalPropertiesTrue}}
+            {{#requiredVars}}
+            {{#-first}}
+      
+            // check to make sure all required properties/fields are present in the JSON string
+            for (requiredField in openapiRequiredFields!!) {
+              requireNotNull(jsonElement.getAsJsonObject()[requiredField]) {
+                String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString())
+              }
+            }
+            {{/-first}}
+            {{/requiredVars}}
+            {{/hasChildren}}
+            {{^discriminator}}
+            {{#hasVars}}
+            val jsonObj = jsonElement.getAsJsonObject()
+            {{/hasVars}}
+            {{#vars}}
+            {{#isArray}}
+            {{#items.isModel}}
+            {{#required}}
+            // ensure the json data is an array
+            if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
+              throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString()))
+            }
+      
+            JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}")
+            // validate the required field `{{{baseName}}}` (array)
+            for (i in 0 until jsonArray{{name}}.size()) {
+              {{{items.dataType}}}.Companison.validateJsonElement(jsonArray{{name}}.get(i))
+            }
+            {{/required}}
+            {{^required}}
+            if (jsonObj["{{{baseName}}}"] != null && !jsonObj["{{{baseName}}}"].isJsonNull) {
+              val jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}")
+              if (jsonArray{{name}} != null) {
+                // ensure the json data is an array
+                require(jsonObj["{{{baseName}}}"].isJsonArray) {
+                  String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
+                }
+      
+                // validate the optional field `{{{baseName}}}` (array)
+                for (i in 0 until jsonArray{{name}}.size()) {
+                  {{{items.dataType}}}.Companion.validateJsonElement(jsonArray{{name}}[i])
+                }
+              }
+            }
+            {{/required}}
+            {{/items.isModel}}
+            {{^items.isModel}}
+            {{^required}}
+            // ensure the optional json data is an array if present
+            if (jsonObj["{{{baseName}}}"] != null && !jsonObj["{{{baseName}}}"].isJsonNull) {
+              require(jsonObj["{{{baseName}}}"].isJsonArray()) {
+                String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
+              }
+            }
+            {{/required}}
+            {{#required}}
+            // ensure the required json array is present
+            requireNotNull(jsonObj["{{{baseName}}}"]) {
+              "Expected the field `{{{baseName}}}` to be an array in the JSON string but got `null`"
+            }
+            require(jsonObj["{{{baseName}}}"].isJsonArray()) {
+              String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
+            }
+            {{/required}}
+            {{/items.isModel}}
+            {{/isArray}}
+            {{^isContainer}}
+            {{#isString}}
+            {{#notRequiredOrIsNullable}}
+            if (jsonObj["{{{baseName}}}"] != null && !jsonObj["{{{baseName}}}"].isJsonNull) {
+              require(jsonObj.get("{{{baseName}}}").isJsonPrimitive()) {
+                String.format("Expected the field `{{{baseName}}}` to be a primitive type in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
+              }
+            }
+            {{/notRequiredOrIsNullable}}
+            {{^notRequiredOrIsNullable}}
+            require(jsonObj["{{{baseName}}}"].isJsonPrimitive()) {
+              String.format("Expected the field `{{{baseName}}}` to be a primitive type in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
+            }
+            {{/notRequiredOrIsNullable}}
+            {{/isString}}
+            {{#isModel}}
+            {{#required}}
+            // validate the required field `{{{baseName}}}`
+            {{{dataType}}}.Companion.validateJsonElement(jsonObj["{{{baseName}}}"])
+            {{/required}}
+            {{^required}}
+            // validate the optional field `{{{baseName}}}`
+            if (jsonObj["{{{baseName}}}"] != null && !jsonObj["{{{baseName}}}"].isJsonNull) {
+              {{{dataType}}}.Companion.validateJsonElement(jsonObj["{{{baseName}}}"])
+            }
+            {{/required}}
+            {{/isModel}}
+            {{#isEnum}}
+            {{#required}}
+            // validate the required field `{{{baseName}}}`
+            require({{{datatypeWithEnum}}}.values().any { it.name == jsonObj["{{{baseName}}}"].toString() }) {
+                String.format("Expected the field `{{{baseName}}}` to be valid `{{{datatypeWithEnum}}}` enum value in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
+            }
+            {{/required}}
+            {{^required}}
+            // validate the optional field `{{{baseName}}}`
+            if (jsonObj["{{{baseName}}}"] != null && !jsonObj["{{{baseName}}}"].isJsonNull) {
+                require({{{datatypeWithEnum}}}.values().any { it.name == jsonObj["{{{baseName}}}"].toString() }) {
+                    String.format("Expected the field `{{{baseName}}}` to be valid `{{{datatypeWithEnum}}}` enum value in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
+                }
+            }
+            {{/required}}
+            {{/isEnum}}
+            {{#isEnumRef}}
+            {{#required}}
+            // validate the required field `{{{baseName}}}`
+            require({{{dataType}}}.values().any { it.name == jsonObj["{{{baseName}}}"].toString() }) {
+                String.format("Expected the field `{{{baseName}}}` to be valid `{{{dataType}}}` enum value in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
+            }
+            {{/required}}
+            {{^required}}
+            // validate the optional field `{{{baseName}}}`
+            if (jsonObj["{{{baseName}}}"] != null && !jsonObj["{{{baseName}}}"].isJsonNull) {
+                require({{{dataType}}}.values().any { it.name == jsonObj["{{{baseName}}}"].toString() }) {
+                    String.format("Expected the field `{{{baseName}}}` to be valid `{{{dataType}}}` enum value in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
+                }
+            }
+            {{/required}}
+            {{/isEnumRef}}
+            {{/isContainer}}
+            {{/vars}}
+            {{/discriminator}}
+        }
+    }
+{{/enableOneOfWrapper}}
+
 {{#vendorExtensions.x-has-data-class-body}}
 }
 {{/vendorExtensions.x-has-data-class-body}}

@@ -18,7 +18,17 @@ package org.openapitools.client.models
 import org.openapitools.client.models.ApiCategory
 import org.openapitools.client.models.ApiTag
 
+import com.google.gson.Gson
+import com.google.gson.JsonElement
+import com.google.gson.TypeAdapter
+import com.google.gson.TypeAdapterFactory
+import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
+import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
+import java.io.IOException
+
 
 /**
  * A pet for sale in the pet store
@@ -66,5 +76,96 @@ data class ApiPet (
         @SerializedName(value = "pending") PENDING("pending"),
         @SerializedName(value = "sold") SOLD("sold");
     }
+    companion object {
+        var openapiFields: HashSet<String>? = null
+        var openapiRequiredFields: HashSet<String>? = null
+      
+        init {
+            // a set of all properties/fields (JSON key names)
+            openapiFields = HashSet()
+            openapiFields!!.add("name")
+            openapiFields!!.add("photoUrls")
+            openapiFields!!.add("id")
+            openapiFields!!.add("category")
+            openapiFields!!.add("tags")
+            openapiFields!!.add("status")
+      
+            // a set of required properties/fields (JSON key names)
+            openapiRequiredFields = HashSet()
+            openapiRequiredFields!!.add("name")
+            openapiRequiredFields!!.add("photoUrls")
+        }
+      
+       /**
+        * Validates the JSON Element and throws an exception if issues found
+        *
+        * @param jsonElement JSON Element
+        * @throws IOException if the JSON Element is invalid with respect to ApiPet
+        */
+        @Throws(IOException::class)
+        fun validateJsonElement(jsonElement: JsonElement?) {
+            if (jsonElement == null) {
+              require(openapiRequiredFields!!.isEmpty()) { // has required fields but JSON element is null
+                String.format("The required field(s) %s in ApiPet is not found in the empty JSON string", ApiPet.openapiRequiredFields.toString())
+              }
+            }
+      
+            val entries = jsonElement!!.getAsJsonObject().entrySet()
+            // check to see if the JSON string contains additional fields
+            for ((key) in entries) {
+              require(openapiFields!!.contains(key)) {
+                String.format("The field `%s` in the JSON string is not defined in the `ApiPet` properties. JSON: %s", key, jsonElement.toString())
+              }
+            }
+      
+            // check to make sure all required properties/fields are present in the JSON string
+            for (requiredField in openapiRequiredFields!!) {
+              requireNotNull(jsonElement.getAsJsonObject()[requiredField]) {
+                String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString())
+              }
+            }
+            val jsonObj = jsonElement.getAsJsonObject()
+            require(jsonObj["name"].isJsonPrimitive()) {
+              String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj["name"].toString())
+            }
+            // ensure the required json array is present
+            requireNotNull(jsonObj["photoUrls"]) {
+              "Expected the field `photoUrls` to be an array in the JSON string but got `null`"
+            }
+            require(jsonObj["photoUrls"].isJsonArray()) {
+              String.format("Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj["photoUrls"].toString())
+            }
+            // validate the optional field `category`
+            if (jsonObj["category"] != null && !jsonObj["category"].isJsonNull) {
+              ApiCategory.Companion.validateJsonElement(jsonObj["category"])
+            }
+            if (jsonObj["tags"] != null && !jsonObj["tags"].isJsonNull) {
+              val jsonArraytags = jsonObj.getAsJsonArray("tags")
+              if (jsonArraytags != null) {
+                // ensure the json data is an array
+                require(jsonObj["tags"].isJsonArray) {
+                  String.format("Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj["tags"].toString())
+                }
+      
+                // validate the optional field `tags` (array)
+                for (i in 0 until jsonArraytags.size()) {
+                  ApiTag.Companion.validateJsonElement(jsonArraytags[i])
+                }
+              }
+            }
+            if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
+              require(jsonObj.get("status").isJsonPrimitive()) {
+                String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj["status"].toString())
+              }
+            }
+            // validate the optional field `status`
+            if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
+                require(Status.values().any { it.name == jsonObj["status"].toString() }) {
+                    String.format("Expected the field `status` to be valid `Status` enum value in the JSON string but got `%s`", jsonObj["status"].toString())
+                }
+            }
+        }
+    }
+
 }
 
