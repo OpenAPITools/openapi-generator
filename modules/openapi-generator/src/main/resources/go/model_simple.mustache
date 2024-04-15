@@ -13,7 +13,7 @@ type {{classname}} struct {
 	Items {{{parent}}}
 {{/isArray}}
 {{/parent}}
-{{#vars}}
+{{#allVars}}
 {{^-first}}
 {{/-first}}
 {{#description}}
@@ -23,7 +23,7 @@ type {{classname}} struct {
 	// Deprecated
 {{/deprecated}}
 	{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{{baseName}}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{{baseName}}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
-{{/vars}}
+{{/allVars}}
 {{#isAdditionalPropertiesTrue}}
 	AdditionalProperties map[string]interface{}
 {{/isAdditionalPropertiesTrue}}
