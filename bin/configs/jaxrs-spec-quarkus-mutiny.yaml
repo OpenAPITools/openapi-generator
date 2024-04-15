@@ -1,5 +1,5 @@
 generatorName: jaxrs-spec
-outputDir: samples/server/petstore/jaxrs-spec-mutiny
+outputDir: samples/server/petstore/jaxrs-spec-quarkus-mutiny
 inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/spec
 additionalProperties:
