@@ -46,6 +46,33 @@ data class ApiCategory (
 
 ) {
 
+
+    class CustomTypeAdapterFactory : TypeAdapterFactory {
+        override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
+            if (!ApiCategory::class.java.isAssignableFrom(type.rawType)) {
+              return null // this class only serializes 'ApiCategory' and its subtypes
+            }
+            val elementAdapter = gson.getAdapter(JsonElement::class.java)
+            val thisAdapter = gson.getDelegateAdapter(this, TypeToken.get(ApiCategory::class.java))
+
+            @Suppress("UNCHECKED_CAST")
+            return object : TypeAdapter<ApiCategory>() {
+                @Throws(IOException::class)
+                override fun write(out: JsonWriter, value: ApiCategory) {
+                    val obj = thisAdapter.toJsonTree(value).getAsJsonObject()
+                    elementAdapter.write(out, obj)
+                }
+
+                @Throws(IOException::class)
+                override fun read(jsonReader: JsonReader): ApiCategory  {
+                    val jsonElement = elementAdapter.read(jsonReader)
+                    validateJsonElement(jsonElement)
+                    return thisAdapter.fromJsonTree(jsonElement)
+                }
+            }.nullSafe() as TypeAdapter<T>
+        }
+    }
+
     companion object {
         var openapiFields: HashSet<String>? = null
         var openapiRequiredFields: HashSet<String>? = null
@@ -73,17 +100,18 @@ data class ApiCategory (
                 String.format("The required field(s) %s in ApiCategory is not found in the empty JSON string", ApiCategory.openapiRequiredFields.toString())
               }
             }
-      
-            val entries = jsonElement!!.getAsJsonObject().entrySet()
+
+            // TODO
+            //val entries = jsonElement!!.getAsJsonObject().entrySet()
             // check to see if the JSON string contains additional fields
-            for ((key) in entries) {
-              require(openapiFields!!.contains(key)) {
-                String.format("The field `%s` in the JSON string is not defined in the `ApiCategory` properties. JSON: %s", key, jsonElement.toString())
-              }
-            }
-            val jsonObj = jsonElement.getAsJsonObject()
+            //for ((key) in entries) {
+            //  require(openapiFields!!.contains(key)) {
+            //    String.format("The field `%s` in the JSON string is not defined in the `ApiCategory` properties. JSON: %s", key, jsonElement.toString())
+            //  }
+            //}
+            val jsonObj = jsonElement!!.getAsJsonObject()
             if (jsonObj["name"] != null && !jsonObj["name"].isJsonNull) {
-              require(jsonObj.get("name").isJsonPrimitive()) {
+              require(jsonObj.get("name").isJsonPrimitive) {
                 String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj["name"].toString())
               }
             }

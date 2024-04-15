@@ -77,11 +77,10 @@ import java.io.IOException
 {{#nonPublicApi}}internal {{/nonPublicApi}}data class {{classname}}(var actualInstance: Any? = null) {
 
     class CustomTypeAdapterFactory : TypeAdapterFactory {
-        override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T> {
-            // TODO
-            //if (!{{classname}}.class.isAssignableFrom(type.getRawType())) {
-            //    return null; // this class only serializes '{{classname}}' and its subtypes
-            //}
+        override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
+            if (!{{classname}}::class.java.isAssignableFrom(type.rawType)) {
+                return null // this class only serializes '{{classname}}' and its subtypes
+            }
             val elementAdapter = gson.getAdapter(JsonElement::class.java)
             {{#composedSchemas}}
             {{#oneOf}}

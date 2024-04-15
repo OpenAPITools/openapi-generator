@@ -4,10 +4,10 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**username** | **kotlin.String** |  | 
 **name** | **kotlin.String** |  | 
 **photoUrls** | **kotlin.collections.List&lt;kotlin.String&gt;** |  | 
 **id** | **kotlin.Long** |  |  [optional]
-**username** | **kotlin.String** |  |  [optional]
 **firstName** | **kotlin.String** |  |  [optional]
 **lastName** | **kotlin.String** |  |  [optional]
 **email** | **kotlin.String** |  |  [optional]

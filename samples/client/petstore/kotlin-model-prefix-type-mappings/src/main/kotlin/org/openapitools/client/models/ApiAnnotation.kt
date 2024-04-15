@@ -42,6 +42,33 @@ data class ApiAnnotation (
 
 ) {
 
+
+    class CustomTypeAdapterFactory : TypeAdapterFactory {
+        override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
+            if (!ApiAnnotation::class.java.isAssignableFrom(type.rawType)) {
+              return null // this class only serializes 'ApiAnnotation' and its subtypes
+            }
+            val elementAdapter = gson.getAdapter(JsonElement::class.java)
+            val thisAdapter = gson.getDelegateAdapter(this, TypeToken.get(ApiAnnotation::class.java))
+
+            @Suppress("UNCHECKED_CAST")
+            return object : TypeAdapter<ApiAnnotation>() {
+                @Throws(IOException::class)
+                override fun write(out: JsonWriter, value: ApiAnnotation) {
+                    val obj = thisAdapter.toJsonTree(value).getAsJsonObject()
+                    elementAdapter.write(out, obj)
+                }
+
+                @Throws(IOException::class)
+                override fun read(jsonReader: JsonReader): ApiAnnotation  {
+                    val jsonElement = elementAdapter.read(jsonReader)
+                    validateJsonElement(jsonElement)
+                    return thisAdapter.fromJsonTree(jsonElement)
+                }
+            }.nullSafe() as TypeAdapter<T>
+        }
+    }
+
     companion object {
         var openapiFields: HashSet<String>? = null
         var openapiRequiredFields: HashSet<String>? = null
@@ -68,17 +95,18 @@ data class ApiAnnotation (
                 String.format("The required field(s) %s in ApiAnnotation is not found in the empty JSON string", ApiAnnotation.openapiRequiredFields.toString())
               }
             }
-      
-            val entries = jsonElement!!.getAsJsonObject().entrySet()
+
+            // TODO
+            //val entries = jsonElement!!.getAsJsonObject().entrySet()
             // check to see if the JSON string contains additional fields
-            for ((key) in entries) {
-              require(openapiFields!!.contains(key)) {
-                String.format("The field `%s` in the JSON string is not defined in the `ApiAnnotation` properties. JSON: %s", key, jsonElement.toString())
-              }
-            }
-            val jsonObj = jsonElement.getAsJsonObject()
+            //for ((key) in entries) {
+            //  require(openapiFields!!.contains(key)) {
+            //    String.format("The field `%s` in the JSON string is not defined in the `ApiAnnotation` properties. JSON: %s", key, jsonElement.toString())
+            //  }
+            //}
+            val jsonObj = jsonElement!!.getAsJsonObject()
             if (jsonObj["id"] != null && !jsonObj["id"].isJsonNull) {
-              require(jsonObj.get("id").isJsonPrimitive()) {
+              require(jsonObj.get("id").isJsonPrimitive) {
                 String.format("Expected the field `id` to be a primitive type in the JSON string but got `%s`", jsonObj["id"].toString())
               }
             }

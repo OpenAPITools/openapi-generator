@@ -690,6 +690,8 @@ components:
           description: User Status
       xml:
         name: User
+      required:
+        - username
     Tag:
       title: Pet Tag
       description: A tag for a pet

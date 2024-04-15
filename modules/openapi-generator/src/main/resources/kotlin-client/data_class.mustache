@@ -140,7 +140,9 @@ import java.io.IOException
         {{/multiplatform}}
     {{/enumVars}}
     {{/allowableValues}}
-    }{{#kotlinx_serialization}}{{#enumUnknownDefaultCase}}
+    }
+    {{#kotlinx_serialization}}
+    {{#enumUnknownDefaultCase}}
 
     @Serializer(forClass = {{{nameInPascalCase}}}::class)
     internal object {{nameInPascalCase}}Serializer : KSerializer<{{nameInPascalCase}}> {
@@ -155,11 +157,40 @@ import java.io.IOException
         override fun serialize(encoder: Encoder, value: {{nameInPascalCase}}) {
             encoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
         }
-    }{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
+    }
+    {{/enumUnknownDefaultCase}}
+    {{/kotlinx_serialization}}
 {{/isEnum}}
 {{/vars}}
 {{/hasEnums}}
 {{#enableOneOfWrapper}}
+
+    class CustomTypeAdapterFactory : TypeAdapterFactory {
+        override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
+            if (!{{classname}}::class.java.isAssignableFrom(type.rawType)) {
+              return null // this class only serializes '{{classname}}' and its subtypes
+            }
+            val elementAdapter = gson.getAdapter(JsonElement::class.java)
+            val thisAdapter = gson.getDelegateAdapter(this, TypeToken.get({{classname}}::class.java))
+
+            @Suppress("UNCHECKED_CAST")
+            return object : TypeAdapter<{{classname}}>() {
+                @Throws(IOException::class)
+                override fun write(out: JsonWriter, value: {{classname}}) {
+                    val obj = thisAdapter.toJsonTree(value).getAsJsonObject()
+                    elementAdapter.write(out, obj)
+                }
+
+                @Throws(IOException::class)
+                override fun read(jsonReader: JsonReader): {{classname}}  {
+                    val jsonElement = elementAdapter.read(jsonReader)
+                    validateJsonElement(jsonElement)
+                    return thisAdapter.fromJsonTree(jsonElement)
+                }
+            }.nullSafe() as TypeAdapter<T>
+        }
+    }
+
     companion object {
         var openapiFields: HashSet<String>? = null
         var openapiRequiredFields: HashSet<String>? = null
@@ -193,21 +224,22 @@ import java.io.IOException
             }
             {{^hasChildren}}
             {{^isAdditionalPropertiesTrue}}
-      
-            val entries = jsonElement!!.getAsJsonObject().entrySet()
+
+            // TODO
+            //val entries = jsonElement!!.getAsJsonObject().entrySet()
             // check to see if the JSON string contains additional fields
-            for ((key) in entries) {
-              require(openapiFields!!.contains(key)) {
-                String.format("The field `%s` in the JSON string is not defined in the `{{classname}}` properties. JSON: %s", key, jsonElement.toString())
-              }
-            }
+            //for ((key) in entries) {
+            //  require(openapiFields!!.contains(key)) {
+            //    String.format("The field `%s` in the JSON string is not defined in the `{{classname}}` properties. JSON: %s", key, jsonElement.toString())
+            //  }
+            //}
             {{/isAdditionalPropertiesTrue}}
             {{#requiredVars}}
             {{#-first}}
       
             // check to make sure all required properties/fields are present in the JSON string
             for (requiredField in openapiRequiredFields!!) {
-              requireNotNull(jsonElement.getAsJsonObject()[requiredField]) {
+              requireNotNull(jsonElement!!.getAsJsonObject()[requiredField]) {
                 String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString())
               }
             }
@@ -216,7 +248,7 @@ import java.io.IOException
             {{/hasChildren}}
             {{^discriminator}}
             {{#hasVars}}
-            val jsonObj = jsonElement.getAsJsonObject()
+            val jsonObj = jsonElement!!.getAsJsonObject()
             {{/hasVars}}
             {{#vars}}
             {{#isArray}}
@@ -274,13 +306,13 @@ import java.io.IOException
             {{#isString}}
             {{#notRequiredOrIsNullable}}
             if (jsonObj["{{{baseName}}}"] != null && !jsonObj["{{{baseName}}}"].isJsonNull) {
-              require(jsonObj.get("{{{baseName}}}").isJsonPrimitive()) {
+              require(jsonObj.get("{{{baseName}}}").isJsonPrimitive) {
                 String.format("Expected the field `{{{baseName}}}` to be a primitive type in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
               }
             }
             {{/notRequiredOrIsNullable}}
             {{^notRequiredOrIsNullable}}
-            require(jsonObj["{{{baseName}}}"].isJsonPrimitive()) {
+            require(jsonObj["{{{baseName}}}"].isJsonPrimitive) {
               String.format("Expected the field `{{{baseName}}}` to be a primitive type in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
             }
             {{/notRequiredOrIsNullable}}
@@ -300,14 +332,14 @@ import java.io.IOException
             {{#isEnum}}
             {{#required}}
             // validate the required field `{{{baseName}}}`
-            require({{{datatypeWithEnum}}}.values().any { it.name == jsonObj["{{{baseName}}}"].toString() }) {
+            require({{{datatypeWithEnum}}}.values().any { it.value == jsonObj["{{{baseName}}}"].asString }) {
                 String.format("Expected the field `{{{baseName}}}` to be valid `{{{datatypeWithEnum}}}` enum value in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
             }
             {{/required}}
             {{^required}}
             // validate the optional field `{{{baseName}}}`
             if (jsonObj["{{{baseName}}}"] != null && !jsonObj["{{{baseName}}}"].isJsonNull) {
-                require({{{datatypeWithEnum}}}.values().any { it.name == jsonObj["{{{baseName}}}"].toString() }) {
+                require({{{datatypeWithEnum}}}.values().any { it.value == jsonObj["{{{baseName}}}"].asString }) {
                     String.format("Expected the field `{{{baseName}}}` to be valid `{{{datatypeWithEnum}}}` enum value in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
                 }
             }
@@ -316,14 +348,14 @@ import java.io.IOException
             {{#isEnumRef}}
             {{#required}}
             // validate the required field `{{{baseName}}}`
-            require({{{dataType}}}.values().any { it.name == jsonObj["{{{baseName}}}"].toString() }) {
+            require({{{dataType}}}.values().any { it.value == jsonObj["{{{baseName}}}"].asString }) {
                 String.format("Expected the field `{{{baseName}}}` to be valid `{{{dataType}}}` enum value in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
             }
             {{/required}}
             {{^required}}
             // validate the optional field `{{{baseName}}}`
             if (jsonObj["{{{baseName}}}"] != null && !jsonObj["{{{baseName}}}"].isJsonNull) {
-                require({{{dataType}}}.values().any { it.name == jsonObj["{{{baseName}}}"].toString() }) {
+                require({{{dataType}}}.values().any { it.value == jsonObj["{{{baseName}}}"].asString }) {
                     String.format("Expected the field `{{{baseName}}}` to be valid `{{{dataType}}}` enum value in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
                 }
             }

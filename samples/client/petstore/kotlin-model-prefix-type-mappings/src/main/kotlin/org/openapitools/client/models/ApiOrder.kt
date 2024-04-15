@@ -73,6 +73,33 @@ data class ApiOrder (
         @SerializedName(value = "approved") APPROVED("approved"),
         @SerializedName(value = "delivered") DELIVERED("delivered");
     }
+
+    class CustomTypeAdapterFactory : TypeAdapterFactory {
+        override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
+            if (!ApiOrder::class.java.isAssignableFrom(type.rawType)) {
+              return null // this class only serializes 'ApiOrder' and its subtypes
+            }
+            val elementAdapter = gson.getAdapter(JsonElement::class.java)
+            val thisAdapter = gson.getDelegateAdapter(this, TypeToken.get(ApiOrder::class.java))
+
+            @Suppress("UNCHECKED_CAST")
+            return object : TypeAdapter<ApiOrder>() {
+                @Throws(IOException::class)
+                override fun write(out: JsonWriter, value: ApiOrder) {
+                    val obj = thisAdapter.toJsonTree(value).getAsJsonObject()
+                    elementAdapter.write(out, obj)
+                }
+
+                @Throws(IOException::class)
+                override fun read(jsonReader: JsonReader): ApiOrder  {
+                    val jsonElement = elementAdapter.read(jsonReader)
+                    validateJsonElement(jsonElement)
+                    return thisAdapter.fromJsonTree(jsonElement)
+                }
+            }.nullSafe() as TypeAdapter<T>
+        }
+    }
+
     companion object {
         var openapiFields: HashSet<String>? = null
         var openapiRequiredFields: HashSet<String>? = null
@@ -104,23 +131,24 @@ data class ApiOrder (
                 String.format("The required field(s) %s in ApiOrder is not found in the empty JSON string", ApiOrder.openapiRequiredFields.toString())
               }
             }
-      
-            val entries = jsonElement!!.getAsJsonObject().entrySet()
+
+            // TODO
+            //val entries = jsonElement!!.getAsJsonObject().entrySet()
             // check to see if the JSON string contains additional fields
-            for ((key) in entries) {
-              require(openapiFields!!.contains(key)) {
-                String.format("The field `%s` in the JSON string is not defined in the `ApiOrder` properties. JSON: %s", key, jsonElement.toString())
-              }
-            }
-            val jsonObj = jsonElement.getAsJsonObject()
+            //for ((key) in entries) {
+            //  require(openapiFields!!.contains(key)) {
+            //    String.format("The field `%s` in the JSON string is not defined in the `ApiOrder` properties. JSON: %s", key, jsonElement.toString())
+            //  }
+            //}
+            val jsonObj = jsonElement!!.getAsJsonObject()
             if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
-              require(jsonObj.get("status").isJsonPrimitive()) {
+              require(jsonObj.get("status").isJsonPrimitive) {
                 String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj["status"].toString())
               }
             }
             // validate the optional field `status`
             if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
-                require(Status.values().any { it.name == jsonObj["status"].toString() }) {
+                require(Status.values().any { it.value == jsonObj["status"].asString }) {
                     String.format("Expected the field `status` to be valid `Status` enum value in the JSON string but got `%s`", jsonObj["status"].toString())
                 }
             }

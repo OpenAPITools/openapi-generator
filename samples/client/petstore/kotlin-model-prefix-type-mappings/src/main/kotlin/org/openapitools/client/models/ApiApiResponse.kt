@@ -50,6 +50,33 @@ data class ApiApiResponse (
 
 ) {
 
+
+    class CustomTypeAdapterFactory : TypeAdapterFactory {
+        override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
+            if (!ApiApiResponse::class.java.isAssignableFrom(type.rawType)) {
+              return null // this class only serializes 'ApiApiResponse' and its subtypes
+            }
+            val elementAdapter = gson.getAdapter(JsonElement::class.java)
+            val thisAdapter = gson.getDelegateAdapter(this, TypeToken.get(ApiApiResponse::class.java))
+
+            @Suppress("UNCHECKED_CAST")
+            return object : TypeAdapter<ApiApiResponse>() {
+                @Throws(IOException::class)
+                override fun write(out: JsonWriter, value: ApiApiResponse) {
+                    val obj = thisAdapter.toJsonTree(value).getAsJsonObject()
+                    elementAdapter.write(out, obj)
+                }
+
+                @Throws(IOException::class)
+                override fun read(jsonReader: JsonReader): ApiApiResponse  {
+                    val jsonElement = elementAdapter.read(jsonReader)
+                    validateJsonElement(jsonElement)
+                    return thisAdapter.fromJsonTree(jsonElement)
+                }
+            }.nullSafe() as TypeAdapter<T>
+        }
+    }
+
     companion object {
         var openapiFields: HashSet<String>? = null
         var openapiRequiredFields: HashSet<String>? = null
@@ -78,22 +105,23 @@ data class ApiApiResponse (
                 String.format("The required field(s) %s in ApiApiResponse is not found in the empty JSON string", ApiApiResponse.openapiRequiredFields.toString())
               }
             }
-      
-            val entries = jsonElement!!.getAsJsonObject().entrySet()
+
+            // TODO
+            //val entries = jsonElement!!.getAsJsonObject().entrySet()
             // check to see if the JSON string contains additional fields
-            for ((key) in entries) {
-              require(openapiFields!!.contains(key)) {
-                String.format("The field `%s` in the JSON string is not defined in the `ApiApiResponse` properties. JSON: %s", key, jsonElement.toString())
-              }
-            }
-            val jsonObj = jsonElement.getAsJsonObject()
+            //for ((key) in entries) {
+            //  require(openapiFields!!.contains(key)) {
+            //    String.format("The field `%s` in the JSON string is not defined in the `ApiApiResponse` properties. JSON: %s", key, jsonElement.toString())
+            //  }
+            //}
+            val jsonObj = jsonElement!!.getAsJsonObject()
             if (jsonObj["type"] != null && !jsonObj["type"].isJsonNull) {
-              require(jsonObj.get("type").isJsonPrimitive()) {
+              require(jsonObj.get("type").isJsonPrimitive) {
                 String.format("Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj["type"].toString())
               }
             }
             if (jsonObj["message"] != null && !jsonObj["message"].isJsonNull) {
-              require(jsonObj.get("message").isJsonPrimitive()) {
+              require(jsonObj.get("message").isJsonPrimitive) {
                 String.format("Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj["message"].toString())
               }
             }

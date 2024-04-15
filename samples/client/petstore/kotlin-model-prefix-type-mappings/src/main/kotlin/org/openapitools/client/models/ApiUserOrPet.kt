@@ -34,10 +34,10 @@ import java.io.IOException
 /**
  * 
  *
+ * @param username 
  * @param name 
  * @param photoUrls 
  * @param id 
- * @param username 
  * @param firstName 
  * @param lastName 
  * @param email 
@@ -53,11 +53,10 @@ import java.io.IOException
 data class ApiUserOrPet(var actualInstance: Any? = null) {
 
     class CustomTypeAdapterFactory : TypeAdapterFactory {
-        override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T> {
-            // TODO
-            //if (!ApiUserOrPet.class.isAssignableFrom(type.getRawType())) {
-            //    return null; // this class only serializes 'ApiUserOrPet' and its subtypes
-            //}
+        override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
+            if (!ApiUserOrPet::class.java.isAssignableFrom(type.rawType)) {
+                return null // this class only serializes 'ApiUserOrPet' and its subtypes
+            }
             val elementAdapter = gson.getAdapter(JsonElement::class.java)
             val adapterApiUser = gson.getDelegateAdapter(this, TypeToken.get(ApiUser::class.java))
             val adapterApiPet = gson.getDelegateAdapter(this, TypeToken.get(ApiPet::class.java))

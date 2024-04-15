@@ -76,6 +76,33 @@ data class ApiPet (
         @SerializedName(value = "pending") PENDING("pending"),
         @SerializedName(value = "sold") SOLD("sold");
     }
+
+    class CustomTypeAdapterFactory : TypeAdapterFactory {
+        override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
+            if (!ApiPet::class.java.isAssignableFrom(type.rawType)) {
+              return null // this class only serializes 'ApiPet' and its subtypes
+            }
+            val elementAdapter = gson.getAdapter(JsonElement::class.java)
+            val thisAdapter = gson.getDelegateAdapter(this, TypeToken.get(ApiPet::class.java))
+
+            @Suppress("UNCHECKED_CAST")
+            return object : TypeAdapter<ApiPet>() {
+                @Throws(IOException::class)
+                override fun write(out: JsonWriter, value: ApiPet) {
+                    val obj = thisAdapter.toJsonTree(value).getAsJsonObject()
+                    elementAdapter.write(out, obj)
+                }
+
+                @Throws(IOException::class)
+                override fun read(jsonReader: JsonReader): ApiPet  {
+                    val jsonElement = elementAdapter.read(jsonReader)
+                    validateJsonElement(jsonElement)
+                    return thisAdapter.fromJsonTree(jsonElement)
+                }
+            }.nullSafe() as TypeAdapter<T>
+        }
+    }
+
     companion object {
         var openapiFields: HashSet<String>? = null
         var openapiRequiredFields: HashSet<String>? = null
@@ -109,23 +136,24 @@ data class ApiPet (
                 String.format("The required field(s) %s in ApiPet is not found in the empty JSON string", ApiPet.openapiRequiredFields.toString())
               }
             }
-      
-            val entries = jsonElement!!.getAsJsonObject().entrySet()
+
+            // TODO
+            //val entries = jsonElement!!.getAsJsonObject().entrySet()
             // check to see if the JSON string contains additional fields
-            for ((key) in entries) {
-              require(openapiFields!!.contains(key)) {
-                String.format("The field `%s` in the JSON string is not defined in the `ApiPet` properties. JSON: %s", key, jsonElement.toString())
-              }
-            }
+            //for ((key) in entries) {
+            //  require(openapiFields!!.contains(key)) {
+            //    String.format("The field `%s` in the JSON string is not defined in the `ApiPet` properties. JSON: %s", key, jsonElement.toString())
+            //  }
+            //}
       
             // check to make sure all required properties/fields are present in the JSON string
             for (requiredField in openapiRequiredFields!!) {
-              requireNotNull(jsonElement.getAsJsonObject()[requiredField]) {
+              requireNotNull(jsonElement!!.getAsJsonObject()[requiredField]) {
                 String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString())
               }
             }
-            val jsonObj = jsonElement.getAsJsonObject()
-            require(jsonObj["name"].isJsonPrimitive()) {
+            val jsonObj = jsonElement!!.getAsJsonObject()
+            require(jsonObj["name"].isJsonPrimitive) {
               String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj["name"].toString())
             }
             // ensure the required json array is present
@@ -154,13 +182,13 @@ data class ApiPet (
               }
             }
             if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
-              require(jsonObj.get("status").isJsonPrimitive()) {
+              require(jsonObj.get("status").isJsonPrimitive) {
                 String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj["status"].toString())
               }
             }
             // validate the optional field `status`
             if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
-                require(Status.values().any { it.name == jsonObj["status"].toString() }) {
+                require(Status.values().any { it.value == jsonObj["status"].asString }) {
                     String.format("Expected the field `status` to be valid `Status` enum value in the JSON string but got `%s`", jsonObj["status"].toString())
                 }
             }
