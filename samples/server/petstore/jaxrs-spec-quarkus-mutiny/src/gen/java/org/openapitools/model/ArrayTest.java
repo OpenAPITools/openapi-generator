@@ -43,7 +43,7 @@ public class ArrayTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("array_of_string")
-  public List<String> getArrayOfString() {
+   @Size(min=0,max=3)public List<String> getArrayOfString() {
     return arrayOfString;
   }
 

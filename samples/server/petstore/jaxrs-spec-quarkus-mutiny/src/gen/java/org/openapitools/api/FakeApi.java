@@ -1,16 +1,22 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
+import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
+import org.openapitools.model.EnumClass;
+import org.openapitools.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
+import org.openapitools.model.HealthCheckResult;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.OuterObjectWithEnumProperty;
+import org.openapitools.model.Pet;
+import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.model.User;
-import org.openapitools.model.XmlItem;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -62,29 +68,67 @@ import javax.validation.Valid;
          type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
          description = "",
          scheme = "basic"
-    )
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+        securitySchemeName = "bearer_test",
+        type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
+        description = "",
+        scheme = "bearer", bearerFormat = "JWT"
+    ), 
 })
 @Path("/fake")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FakeApi {
 
-    @POST
-    @Path("/create_xml_item")
-    @Consumes({ "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" })
+    @GET
+    @Path("/BigDecimalMap")
+    @Produces({ "*/*" })
     
-    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "createXmlItem", summary = "creates an XmlItem", description = "this route creates an XmlItem")
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeBigDecimalMap", summary = "", description = "for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
-            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = {
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = { 
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="*/*", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = FakeBigDecimalMap200Response.class))
+            })
+        })
+    public Response fakeBigDecimalMap() {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @GET
+    @Path("/health")
+    @Produces({ "application/json" })
+    
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeHealthGet", summary = "Health check endpoint", description = "")
+    @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
+    @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "The instance started successfully",  content = { 
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = HealthCheckResult.class))
+            })
+        })
+    public Response fakeHealthGet() {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @GET
+    @Path("/http-signature-test")
+    @Consumes({ "application/json", "application/xml" })
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "http_signature_test")
+    })
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeHttpSignatureTest", summary = "test http signature authentication", description = "")
+    @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
+    @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "The instance started successfully",  content = {
                 
             })
         })
-    public Response createXmlItem(@Valid @NotNull XmlItem xmlItem) {
+    public Response fakeHttpSignatureTest(@Valid @NotNull Pet pet,@QueryParam("query_1")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="query parameter")  String query1,@HeaderParam("header_1")   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="header parameter") String header1) {
         return Response.ok().entity("magic!").build();
     }
 
     @POST
     @Path("/outer/boolean")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeOuterBooleanSerialize", summary = "", description = "Test serialization of outer boolean types")
@@ -100,6 +144,7 @@ public class FakeApi {
 
     @POST
     @Path("/outer/composite")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeOuterCompositeSerialize", summary = "", description = "Test serialization of object with outer number type")
@@ -109,12 +154,13 @@ public class FakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="*/*", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = OuterComposite.class))
             })
         })
-    public Response fakeOuterCompositeSerialize(@Valid OuterComposite body) {
+    public Response fakeOuterCompositeSerialize(@Valid OuterComposite outerComposite) {
         return Response.ok().entity("magic!").build();
     }
 
     @POST
     @Path("/outer/number")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeOuterNumberSerialize", summary = "", description = "Test serialization of outer number types")
@@ -130,6 +176,7 @@ public class FakeApi {
 
     @POST
     @Path("/outer/string")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakeOuterStringSerialize", summary = "", description = "Test serialization of outer string types")
@@ -143,18 +190,64 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
-    @PUT
-    @Path("/body-with-file-schema")
+    @POST
+    @Path("/property/enum-int")
+    @Consumes({ "application/json" })
+    @Produces({ "*/*" })
+    
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "fakePropertyEnumIntegerSerialize", summary = "", description = "Test serialization of enum (int) properties with examples")
+    @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
+    @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "Output enum (int)",  content = { 
+                @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="*/*", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = OuterObjectWithEnumProperty.class))
+            })
+        })
+    public Response fakePropertyEnumIntegerSerialize(@Valid @NotNull OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/additionalProperties-reference")
     @Consumes({ "application/json" })
     
-    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testBodyWithFileSchema", summary = "", description = "For this test, the body for this request much reference a schema named `File`.")
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testAdditionalPropertiesReference", summary = "test referenced additionalProperties", description = "")
+    @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
+    @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = {
+                
+            })
+        })
+    public Response testAdditionalPropertiesReference(@Valid @NotNull Map<String, Object> requestBody) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @PUT
+    @Path("/body-with-binary")
+    @Consumes({ "image/png" })
+    
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testBodyWithBinary", summary = "", description = "For this test, the body has to be a binary file.")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
             @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "Success",  content = {
                 
             })
         })
-    public Response testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass body) {
+    public Response testBodyWithBinary(@Valid File body) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @PUT
+    @Path("/body-with-file-schema")
+    @Consumes({ "application/json" })
+    
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testBodyWithFileSchema", summary = "", description = "For this test, the body for this request must reference a schema named `File`.")
+    @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
+    @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "Success",  content = {
+                
+            })
+        })
+    public Response testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass fileSchemaTestClass) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -169,7 +262,7 @@ public class FakeApi {
                 
             })
         })
-    public Response testBodyWithQueryParams(@QueryParam("query") @NotNull   String query,@Valid @NotNull User body) {
+    public Response testBodyWithQueryParams(@QueryParam("query") @NotNull   String query,@Valid @NotNull User user) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -184,7 +277,7 @@ public class FakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Client.class))
             })
         })
-    public Response testClientModel(@Valid @NotNull Client body) {
+    public Response testClientModel(@Valid @NotNull Client client) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -193,7 +286,7 @@ public class FakeApi {
     @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
              @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "http_basic_test")
     })
-    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testEndpointParameters", summary = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", description = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트")
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testEndpointParameters", summary = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", description = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
             @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "400", description = "Invalid username supplied",  content = {
@@ -220,12 +313,14 @@ public class FakeApi {
                 
             })
         })
-    public Response testEnumParameters(@HeaderParam("enum_header_string_array")   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Header parameter enum test (string array)") List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string") @DefaultValue("-efg")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
+    public Response testEnumParameters(@HeaderParam("enum_header_string_array")   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Header parameter enum test (string array)") List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string") @DefaultValue("-efg")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="Query parameter enum test (double)")  Double enumQueryDouble,@QueryParam("enum_query_model_array")   List<EnumClass> enumQueryModelArray,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
         return Response.ok().entity("magic!").build();
     }
 
     @DELETE
-    
+    @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
+             @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "bearer_test")
+    })
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testGroupParameters", summary = "Fake endpoint to test group parameters (optional)", description = "Fake endpoint to test group parameters (optional)")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
@@ -248,7 +343,22 @@ public class FakeApi {
                 
             })
         })
-    public Response testInlineAdditionalProperties(@Valid @NotNull Map<String, String> param) {
+    public Response testInlineAdditionalProperties(@Valid @NotNull Map<String, String> requestBody) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/inline-freeform-additionalProperties")
+    @Consumes({ "application/json" })
+    
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testInlineFreeformAdditionalProperties", summary = "test inline free-form additionalProperties", description = "")
+    @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
+    @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = {
+                
+            })
+        })
+    public Response testInlineFreeformAdditionalProperties(@Valid @NotNull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -267,6 +377,21 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+    @POST
+    @Path("/nullable")
+    @Consumes({ "application/json" })
+    
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testNullable", summary = "test nullable parent property", description = "")
+    @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
+    @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = {
+                
+            })
+        })
+    public Response testNullable(@Valid @NotNull ChildWithNullable childWithNullable) {
+        return Response.ok().entity("magic!").build();
+    }
+
     @PUT
     @Path("/test-query-parameters")
     
@@ -277,7 +402,22 @@ public class FakeApi {
                 
             })
         })
-    public Response testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull   List<String> pipe,@QueryParam("ioutil") @NotNull   List<String> ioutil,@QueryParam("http") @NotNull   List<String> http,@QueryParam("url") @NotNull   List<String> url,@QueryParam("context") @NotNull   List<String> context) {
+    public Response testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull   List<String> pipe,@QueryParam("ioutil") @NotNull   List<String> ioutil,@QueryParam("http") @NotNull   List<String> http,@QueryParam("url") @NotNull   List<String> url,@QueryParam("context") @NotNull   List<String> context,@QueryParam("allowEmpty") @NotNull   String allowEmpty,@QueryParam("language")   Map<String, String> language) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/stringMap-reference")
+    @Consumes({ "application/json" })
+    
+    @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "testStringMapReference", summary = "test referenced string map", description = "")
+    @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="fake")
+    @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = {
+                
+            })
+        })
+    public Response testStringMapReference(@Valid @NotNull Map<String, String> requestBody) {
         return Response.ok().entity("magic!").build();
     }
 

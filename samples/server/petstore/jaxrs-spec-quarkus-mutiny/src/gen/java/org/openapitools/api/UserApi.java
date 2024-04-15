@@ -53,13 +53,19 @@ import javax.validation.Valid;
          type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
          description = "",
          scheme = "basic"
-    )
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+        securitySchemeName = "bearer_test",
+        type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
+        description = "",
+        scheme = "bearer", bearerFormat = "JWT"
+    ), 
 })
 @Path("/user")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class UserApi {
 
     @POST
+    @Consumes({ "application/json" })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "createUser", summary = "Create user", description = "This can only be done by the logged in user.")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
@@ -68,12 +74,13 @@ public class UserApi {
                 
             })
         })
-    public Response createUser(@Valid @NotNull User body) {
+    public Response createUser(@Valid @NotNull User user) {
         return Response.ok().entity("magic!").build();
     }
 
     @POST
     @Path("/createWithArray")
+    @Consumes({ "application/json" })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "createUsersWithArrayInput", summary = "Creates list of users with given input array", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
@@ -82,12 +89,13 @@ public class UserApi {
                 
             })
         })
-    public Response createUsersWithArrayInput(@Valid @NotNull List<@Valid User> body) {
+    public Response createUsersWithArrayInput(@Valid @NotNull List<@Valid User> user) {
         return Response.ok().entity("magic!").build();
     }
 
     @POST
     @Path("/createWithList")
+    @Consumes({ "application/json" })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "createUsersWithListInput", summary = "Creates list of users with given input array", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
@@ -96,7 +104,7 @@ public class UserApi {
                 
             })
         })
-    public Response createUsersWithListInput(@Valid @NotNull List<@Valid User> body) {
+    public Response createUsersWithListInput(@Valid @NotNull List<@Valid User> user) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -180,6 +188,7 @@ public class UserApi {
 
     @PUT
     @Path("/{username}")
+    @Consumes({ "application/json" })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "updateUser", summary = "Updated user", description = "This can only be done by the logged in user.")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="user")
@@ -191,7 +200,7 @@ public class UserApi {
                 
             })
         })
-    public Response updateUser(@PathParam("username") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="name that need to be deleted") String username,@Valid @NotNull User body) {
+    public Response updateUser(@PathParam("username") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="name that need to be deleted") String username,@Valid @NotNull User user) {
         return Response.ok().entity("magic!").build();
     }
 }

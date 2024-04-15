@@ -55,7 +55,12 @@ import javax.validation.Valid;
          type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
          description = "",
          scheme = "basic"
-    )
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+        securitySchemeName = "bearer_test",
+        type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
+        description = "",
+        scheme = "bearer", bearerFormat = "JWT"
+    ), 
 })
 @Path("/pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
@@ -69,14 +74,14 @@ public class PetApi {
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "addPet", summary = "Add a new pet to the store", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="pet")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
-            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = {
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "Successful operation",  content = {
                 
             }),
             @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "405", description = "Invalid input",  content = {
                 
             })
         })
-    public Response addPet(@Valid @NotNull Pet body) {
+    public Response addPet(@Valid @NotNull Pet pet) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -88,7 +93,7 @@ public class PetApi {
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "deletePet", summary = "Deletes a pet", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="pet")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
-            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = {
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "Successful operation",  content = {
                 
             }),
             @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "400", description = "Invalid pet value",  content = {
@@ -177,7 +182,7 @@ public class PetApi {
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "updatePet", summary = "Update an existing pet", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="pet")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
-            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "successful operation",  content = {
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "Successful operation",  content = {
                 
             }),
             @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "400", description = "Invalid ID supplied",  content = {
@@ -190,7 +195,7 @@ public class PetApi {
                 
             })
         })
-    public Response updatePet(@Valid @NotNull Pet body) {
+    public Response updatePet(@Valid @NotNull Pet pet) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -203,6 +208,9 @@ public class PetApi {
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "updatePetWithForm", summary = "Updates a pet in the store with form data", description = "")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="pet")
     @org.eclipse.microprofile.openapi.annotations.responses.APIResponses(value = { 
+            @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "200", description = "Successful operation",  content = {
+                
+            }),
             @org.eclipse.microprofile.openapi.annotations.responses.APIResponse(responseCode = "405", description = "Invalid input",  content = {
                 
             })

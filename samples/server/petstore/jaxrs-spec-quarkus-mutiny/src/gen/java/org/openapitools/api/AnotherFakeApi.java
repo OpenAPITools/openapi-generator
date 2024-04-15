@@ -1,7 +1,6 @@
 package org.openapitools.api;
 
 import org.openapitools.model.Client;
-import java.util.UUID;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -53,7 +52,12 @@ import javax.validation.Valid;
          type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
          description = "",
          scheme = "basic"
-    )
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+        securitySchemeName = "bearer_test",
+        type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
+        description = "",
+        scheme = "bearer", bearerFormat = "JWT"
+    ), 
 })
 @Path("/another-fake/dummy")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
@@ -70,7 +74,7 @@ public class AnotherFakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Client.class))
             })
         })
-    public Response call123testSpecialTags(@HeaderParam("uuid_test") @NotNull   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="to test uuid example value") UUID uuidTest,@Valid @NotNull Client body) {
+    public Response call123testSpecialTags(@Valid @NotNull Client client) {
         return Response.ok().entity("magic!").build();
     }
 }

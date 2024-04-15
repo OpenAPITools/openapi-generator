@@ -53,7 +53,12 @@ import javax.validation.Valid;
          type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
          description = "",
          scheme = "basic"
-    )
+    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+        securitySchemeName = "bearer_test",
+        type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
+        description = "",
+        scheme = "bearer", bearerFormat = "JWT"
+    ), 
 })
 @Path("/store")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
@@ -119,6 +124,7 @@ public class StoreApi {
 
     @POST
     @Path("/order")
+    @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "placeOrder", summary = "Place an order for a pet", description = "")
@@ -133,7 +139,7 @@ public class StoreApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response placeOrder(@Valid @NotNull Order body) {
+    public Response placeOrder(@Valid @NotNull Order order) {
         return Response.ok().entity("magic!").build();
     }
 }
