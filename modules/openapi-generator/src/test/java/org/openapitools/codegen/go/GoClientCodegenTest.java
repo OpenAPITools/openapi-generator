@@ -309,7 +309,7 @@ public class GoClientCodegenTest {
 
         TestUtils.assertFileExists(Paths.get(output + "/model_final_item.go"));
         TestUtils.assertFileContains(Paths.get(output + "/model_final_item.go"),
-                "Title string `json:\"title\"");
+                "BaseItem");
     }
 
     @Test

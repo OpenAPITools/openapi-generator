@@ -3,17 +3,15 @@ var _ MappedNullable = &{{classname}}{}
 
 // {{classname}} {{{description}}}{{^description}}struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
-{{#parent}}
-{{^isMap}}
+{{#parentModel.name}}
 {{^isArray}}
-	{{{parent}}}
+	{{{parentModel.name}}}
 {{/isArray}}
-{{/isMap}}
 {{#isArray}}
-	Items {{{parent}}}
+	Items {{{parentModel.name}}}
 {{/isArray}}
-{{/parent}}
-{{#allVars}}
+{{/parentModel.name}}
+{{#vars}}
 {{^-first}}
 {{/-first}}
 {{#description}}
@@ -23,7 +21,7 @@ type {{classname}} struct {
 	// Deprecated
 {{/deprecated}}
 	{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{{baseName}}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{{baseName}}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
-{{/allVars}}
+{{/vars}}
 {{#isAdditionalPropertiesTrue}}
 	AdditionalProperties map[string]interface{}
 {{/isAdditionalPropertiesTrue}}
