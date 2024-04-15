@@ -48,7 +48,7 @@ components:
           example: 9.99
           minimum: 0.0
       required:
-        - sku
+        - prop1
         - quantity
         - unitPrice
         - totalPrice
