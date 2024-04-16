@@ -624,7 +624,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            Schema<?> items = getSchemaItems((ArraySchema) p);
+            Schema<?> items = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "<" + getTypeDeclaration(unaliasSchema(items)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema<?> inner = getSchemaAdditionalProperties(p);
@@ -647,8 +647,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         // handle enums of various data types
         Schema inner;
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema mp1 = (ArraySchema) p;
-            inner = mp1.getItems();
+            inner = ModelUtils.getSchemaItems(p);
             return this.getSchemaType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             inner = ModelUtils.getAdditionalProperties(p);
@@ -1177,8 +1176,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return filteredSchemas.stream().map(schema -> {
             String schemaType = getSchemaType(schema);
             if (ModelUtils.isArraySchema(schema)) {
-                ArraySchema ap = (ArraySchema) schema;
-                Schema inner = ap.getItems();
+                Schema inner = ModelUtils.getSchemaItems(schema);
                 schemaType = schemaType + "<" + getSchemaType(inner) + ">";
             }
             return schemaType;

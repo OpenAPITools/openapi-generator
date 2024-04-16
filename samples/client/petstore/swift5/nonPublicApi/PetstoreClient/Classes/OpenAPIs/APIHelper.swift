@@ -91,7 +91,7 @@ internal struct APIHelper {
         if destination.isEmpty {
             return nil
         }
-        return destination
+        return destination.sorted { $0.name < $1.name }
     }
 
     /// maps all values from source to query parameters
@@ -114,6 +114,6 @@ internal struct APIHelper {
         if destination.isEmpty {
             return nil
         }
-        return destination
+        return destination.sorted { $0.name < $1.name }
     }
 }

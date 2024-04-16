@@ -454,8 +454,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 includedSchemas.add(schema);
             }
-            ArraySchema arrayschema = (ArraySchema) schema;
-            example = "[\n" + indentationString + toExampleValueRecursive(arrayschema.getItems(), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
+            example = "[\n" + indentationString + toExampleValueRecursive(ModelUtils.getSchemaItems(schema), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
         } else if (ModelUtils.isMapSchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 includedSchemas.add(schema);
@@ -656,8 +655,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         p = ModelUtils.unaliasSchema(openAPI, p);
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -1003,6 +1001,11 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             model.getVendorExtensions().putIfAbsent("x-py-pydantic-imports", pydanticImports);
             model.getVendorExtensions().putIfAbsent("x-py-datetime-imports", datetimeImports);
             model.getVendorExtensions().putIfAbsent("x-py-readonly", readOnlyFields);
+
+            // remove the items of postponedModelImports in modelImports to avoid circular imports error
+            if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()){
+                modelImports.removeAll(postponedModelImports);
+            }
 
             // import models one by one
             if (!modelImports.isEmpty()) {

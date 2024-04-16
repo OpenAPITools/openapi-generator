@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Order
+# Org.OpenAPITools.Model.Order
 
 ## Properties
 

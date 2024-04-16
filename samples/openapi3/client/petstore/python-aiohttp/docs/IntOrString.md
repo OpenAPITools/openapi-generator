@@ -21,7 +21,7 @@ print(IntOrString.to_json())
 # convert the object into a dict
 int_or_string_dict = int_or_string_instance.to_dict()
 # create an instance of IntOrString from a dict
-int_or_string_form_dict = int_or_string.from_dict(int_or_string_dict)
+int_or_string_from_dict = IntOrString.from_dict(int_or_string_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -21,14 +21,17 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          - samples/client/petstore/csharp/generichost/net8/ManualTests
-          - samples/client/petstore/csharp/generichost/net8/Petstore
-          - samples/client/petstore/csharp/generichost/net8/NullReferenceTypes
-          - samples/client/petstore/csharp/generichost/net8/SourceGeneration
-          - samples/client/petstore/csharp/generichost/net8/UseDateTimeForDate
           - samples/client/petstore/csharp/generichost/net8/AllOf
           - samples/client/petstore/csharp/generichost/net8/AnyOf
+          - samples/client/petstore/csharp/generichost/net8/AnyOfNoCompare
+          - samples/client/petstore/csharp/generichost/net8/FormModels
+          - samples/client/petstore/csharp/generichost/net8/ManualPetstoreTests
+          - samples/client/petstore/csharp/generichost/net8/ManualSourceGenerationTests
+          - samples/client/petstore/csharp/generichost/net8/NullReferenceTypes
           - samples/client/petstore/csharp/generichost/net8/OneOf
+          - samples/client/petstore/csharp/generichost/net8/Petstore
+          - samples/client/petstore/csharp/generichost/net8/SourceGeneration
+          - samples/client/petstore/csharp/generichost/net8/UseDateTimeForDate
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4.0.0

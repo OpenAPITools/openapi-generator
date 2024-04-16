@@ -31,6 +31,7 @@ from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.models.health_check_result import HealthCheckResult
 from petstore_api.models.outer_composite import OuterComposite
+from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
 from petstore_api.models.pet import Pet
 from petstore_api.models.tag import Tag
@@ -1075,13 +1076,15 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    async def fake_property_enum_integer_serialize(self, outer_object_with_enum_property : Annotated[OuterObjectWithEnumProperty, Field(..., description="Input enum (int) as post body")], **kwargs) -> OuterObjectWithEnumProperty:  # noqa: E501
+    async def fake_property_enum_integer_serialize(self, outer_object_with_enum_property : Annotated[OuterObjectWithEnumProperty, Field(..., description="Input enum (int) as post body")], param : Optional[conlist(OuterEnumInteger)] = None, **kwargs) -> OuterObjectWithEnumProperty:  # noqa: E501
         """fake_property_enum_integer_serialize  # noqa: E501
 
         Test serialization of enum (int) properties with examples  # noqa: E501
 
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
+        :param param:
+        :type param: List[OuterEnumInteger]
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -1095,16 +1098,18 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_property_enum_integer_serialize_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.fake_property_enum_integer_serialize_with_http_info(outer_object_with_enum_property, **kwargs)  # noqa: E501
+        return await self.fake_property_enum_integer_serialize_with_http_info(outer_object_with_enum_property, param, **kwargs)  # noqa: E501
 
     @validate_arguments
-    async def fake_property_enum_integer_serialize_with_http_info(self, outer_object_with_enum_property : Annotated[OuterObjectWithEnumProperty, Field(..., description="Input enum (int) as post body")], **kwargs) -> ApiResponse:  # noqa: E501
+    async def fake_property_enum_integer_serialize_with_http_info(self, outer_object_with_enum_property : Annotated[OuterObjectWithEnumProperty, Field(..., description="Input enum (int) as post body")], param : Optional[conlist(OuterEnumInteger)] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """fake_property_enum_integer_serialize  # noqa: E501
 
         Test serialization of enum (int) properties with examples  # noqa: E501
 
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
+        :param param:
+        :type param: List[OuterEnumInteger]
         :param _preload_content: if False, the ApiResponse.data will
                                  be set to none and raw_data will store the
                                  HTTP response body without reading/decoding.
@@ -1131,7 +1136,8 @@ class FakeApi:
         _params = locals()
 
         _all_params = [
-            'outer_object_with_enum_property'
+            'outer_object_with_enum_property',
+            'param'
         ]
         _all_params.extend(
             [
@@ -1161,6 +1167,10 @@ class FakeApi:
 
         # process the query parameters
         _query_params = []
+        if _params.get('param') is not None:  # noqa: E501
+            _query_params.append(('param', _params['param']))
+            _collection_formats['param'] = 'multi'
+
         # process the header parameters
         _header_params = dict(_params.get('_headers', {}))
         # process the form parameters

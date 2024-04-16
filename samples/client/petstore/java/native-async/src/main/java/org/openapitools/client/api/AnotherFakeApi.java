@@ -180,4 +180,5 @@ public class AnotherFakeApi {
     }
     return localVarRequestBuilder;
   }
+
 }

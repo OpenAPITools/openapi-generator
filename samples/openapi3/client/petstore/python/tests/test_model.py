@@ -619,6 +619,16 @@ class ModelTests(unittest.TestCase):
         assert model is not None
         self.assertEqual(model.to_json(), '{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
 
+    def test_allof_circular_imports(self):
+        # for issue 18271
+        model_a = petstore_api.models.circular_all_of_ref.CircularAllOfRef.from_json('{"_name": "nameA", "second_circular_all_of_ref": {"name": "nameB"}}')
+        model_b = petstore_api.models.second_circular_all_of_ref.SecondCircularAllOfRef.from_json('{"_name": "nameB", "circular_all_of_ref": {"name": "nameA"}}')
+        # shouldn't throw ImportError
+        assert model_a is not None
+        assert model_b is not None
+        self.assertEqual(model_a.to_json(), '{"_name": "nameA", "second_circular_all_of_ref": {"name": "nameB"}}')
+        self.assertEqual(model_b.to_json(), '{"_name": "nameB", "circular_all_of_ref": {"name": "nameA"}}')
+
 
 class TestdditionalPropertiesAnyType(unittest.TestCase):
     def test_additional_properties(self):

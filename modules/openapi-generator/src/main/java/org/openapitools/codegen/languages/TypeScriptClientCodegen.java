@@ -482,7 +482,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     public String getTypeDeclaration(Schema p) {
         Schema inner;
         if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
+            inner = ModelUtils.getSchemaItems(p);
             return this.getSchemaType(p) + "<" + this.getTypeDeclaration(unaliasSchema(inner)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             inner = getSchemaAdditionalProperties(p);
@@ -787,8 +787,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             }
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arrayschema = (ArraySchema) schema;
-            Schema itemSchema = arrayschema.getItems();
+            Schema itemSchema = ModelUtils.getSchemaItems(schema);
             String itemModelName = getModelName(itemSchema);
             if (objExample instanceof Iterable && itemModelName == null) {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
@@ -919,8 +918,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         } else if (simpleStringSchema(schema)) {
             return propName + "_example";
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            Schema itemSchema = arraySchema.getItems();
+            Schema itemSchema = ModelUtils.getSchemaItems(schema);
             example = getObjectExample(itemSchema);
             if (example != null) {
                 return example;

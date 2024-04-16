@@ -351,6 +351,8 @@ class ApiClient:
         """
         if obj is None:
             return None
+        elif isinstance(obj, Enum):
+            return obj.value
         elif isinstance(obj, SecretStr):
             return obj.get_secret_value()
         elif isinstance(obj, self.PRIMITIVE_TYPES):

@@ -21,11 +21,11 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          - samples/client/petstore/csharp/generichost/standard2.0/OpenAPIClient-generichost-netstandard2.0/
-          - samples/client/petstore/csharp/httpclient/standard2.0/OpenAPIClient-httpclient/
-          - samples/client/petstore/csharp/restsharp/standard2.0/OpenAPIClient/
-          - samples/client/petstore/csharp/restsharp/standard2.0/OpenAPIClient-ConditionalSerialization/
-          - samples/client/petstore/csharp/unityWebRequest/standard2.0/OpenAPIClient-unityWebRequest/
+          - samples/client/petstore/csharp/generichost/standard2.0/Petstore/
+          - samples/client/petstore/csharp/httpclient/standard2.0/Petstore/
+          - samples/client/petstore/csharp/restsharp/standard2.0/Petstore/
+          - samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/
+          # - samples/client/petstore/csharp/unityWebRequest/standard2.0/Petstore/
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4.0.0

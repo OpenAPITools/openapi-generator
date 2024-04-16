@@ -39,6 +39,13 @@ class TestParameters(unittest.TestCase):
         # check values
         self.assertTrue(set(data.get("tags")) == {"user", "admin", "guest"})
 
+    def test_request_boolean_field(self):
+        # item
+        item = self.json_data['item'][0]['item'][0]['item'][1]
+        self.assertEqual(item['name'], 'Update Email')
+        self.assertEqual(item['request']["method"], 'PATCH')
+        self.assertEqual(item['request']["body"]["raw"], '{\n  "email" : "rebecca@gmail.com",\n  "verified" : true\n}')
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -68,7 +68,7 @@ public class EnumArrays  implements Serializable {
     }
 }
 
-  private @Valid JustSymbolEnum justSymbol;
+  private JustSymbolEnum justSymbol;
   public enum ArrayEnumEnum {
 
     FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));

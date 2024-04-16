@@ -92,6 +92,14 @@
                     <parallel>methods</parallel>
                     <forkMode>pertest</forkMode>
                 </configuration>
+                <dependencies>
+                    <!--Custom provider and engine for Junit 5 to surefire-->
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit-version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -335,9 +343,15 @@
         </dependency>
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>${junit-platform-runner.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -362,6 +376,7 @@
         <beanvalidation-version>3.0.2</beanvalidation-version>
 {{/useBeanValidation}}
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <junit-version>4.13.2</junit-version>
+        <junit-version>5.10.2</junit-version>
+        <junit-platform-runner.version>1.10.0</junit-platform-runner.version>
     </properties>
 </project>

@@ -69,6 +69,7 @@ public class JSON {
   /**
    * Helper class to register the discriminator mappings.
    */
+  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
   private static class ClassDiscriminatorMapping {
     // The model class name.
     Class<?> modelClass;

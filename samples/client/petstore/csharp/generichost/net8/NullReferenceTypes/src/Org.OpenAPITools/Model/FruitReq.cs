@@ -123,10 +123,10 @@ namespace Org.OpenAPITools.Model
                 if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
                 {
                     Utf8JsonReader utf8JsonReaderAppleReq = utf8JsonReader;
-                    OpenAPIClientUtils.TryDeserialize<AppleReq?>(ref utf8JsonReaderAppleReq, jsonSerializerOptions, out appleReq);
+                    ClientUtils.TryDeserialize<AppleReq?>(ref utf8JsonReaderAppleReq, jsonSerializerOptions, out appleReq);
 
                     Utf8JsonReader utf8JsonReaderBananaReq = utf8JsonReader;
-                    OpenAPIClientUtils.TryDeserialize<BananaReq?>(ref utf8JsonReaderBananaReq, jsonSerializerOptions, out bananaReq);
+                    ClientUtils.TryDeserialize<BananaReq?>(ref utf8JsonReaderBananaReq, jsonSerializerOptions, out bananaReq);
                 }
             }
 

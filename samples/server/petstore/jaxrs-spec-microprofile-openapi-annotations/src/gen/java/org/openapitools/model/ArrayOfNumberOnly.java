@@ -39,7 +39,7 @@ public class ArrayOfNumberOnly  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("ArrayNumber")
-  public List<BigDecimal> getArrayNumber() {
+  @Valid public List<@Valid BigDecimal> getArrayNumber() {
     return arrayNumber;
   }
 

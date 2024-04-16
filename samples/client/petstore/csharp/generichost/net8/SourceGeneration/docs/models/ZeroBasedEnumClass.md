@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.ZeroBasedEnumClass
+# Org.OpenAPITools.Model.ZeroBasedEnumClass
 
 ## Properties
 

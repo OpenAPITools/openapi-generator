@@ -60,6 +60,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumVarName("long Name", null), "long_Name");
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1long_Name");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "not1long_Name");
+        assertEquals(codegen.toEnumVarName("data/*", null), "dataSlashStar");
     }
     @Test
     public void pascalCaseEnumConverter() {
@@ -78,6 +79,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("5", "kotlin.Float"), "5f");
         assertEquals(codegen.toEnumValue("1.0", "kotlin.Float"), "1.0f");
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");
+        assertEquals(codegen.toEnumValue("data/*", "Something"), "\"data/*\"");
     }
 
     private static class P_AbstractKotlinCodegen extends AbstractKotlinCodegen {

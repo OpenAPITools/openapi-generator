@@ -90,7 +90,7 @@ public class MapTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("map_map_of_string")
-  public Map<String, Map<String, String>> getMapMapOfString() {
+  @Valid public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
 

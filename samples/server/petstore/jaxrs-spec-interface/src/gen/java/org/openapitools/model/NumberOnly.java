@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("NumberOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class NumberOnly  implements Serializable {
-  private @Valid BigDecimal justNumber;
+  private BigDecimal justNumber;
 
   /**
    **/
@@ -31,7 +31,7 @@ public class NumberOnly  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")
-  public BigDecimal getJustNumber() {
+  @Valid public BigDecimal getJustNumber() {
     return justNumber;
   }
 

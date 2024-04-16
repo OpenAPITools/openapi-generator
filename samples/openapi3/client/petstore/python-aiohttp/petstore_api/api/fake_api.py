@@ -25,6 +25,7 @@ from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.models.health_check_result import HealthCheckResult
 from petstore_api.models.outer_composite import OuterComposite
+from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
 from petstore_api.models.pet import Pet
 from petstore_api.models.tag import Tag
@@ -2179,6 +2180,7 @@ class FakeApi:
     async def fake_property_enum_integer_serialize(
         self,
         outer_object_with_enum_property: Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")],
+        param: Optional[List[OuterEnumInteger]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2198,6 +2200,8 @@ class FakeApi:
 
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
+        :param param:
+        :type param: List[OuterEnumInteger]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2222,6 +2226,7 @@ class FakeApi:
 
         _param = self._fake_property_enum_integer_serialize_serialize(
             outer_object_with_enum_property=outer_object_with_enum_property,
+            param=param,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2246,6 +2251,7 @@ class FakeApi:
     async def fake_property_enum_integer_serialize_with_http_info(
         self,
         outer_object_with_enum_property: Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")],
+        param: Optional[List[OuterEnumInteger]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2265,6 +2271,8 @@ class FakeApi:
 
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
+        :param param:
+        :type param: List[OuterEnumInteger]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2289,6 +2297,7 @@ class FakeApi:
 
         _param = self._fake_property_enum_integer_serialize_serialize(
             outer_object_with_enum_property=outer_object_with_enum_property,
+            param=param,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2313,6 +2322,7 @@ class FakeApi:
     async def fake_property_enum_integer_serialize_without_preload_content(
         self,
         outer_object_with_enum_property: Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")],
+        param: Optional[List[OuterEnumInteger]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2332,6 +2342,8 @@ class FakeApi:
 
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
+        :param param:
+        :type param: List[OuterEnumInteger]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2356,6 +2368,7 @@ class FakeApi:
 
         _param = self._fake_property_enum_integer_serialize_serialize(
             outer_object_with_enum_property=outer_object_with_enum_property,
+            param=param,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2375,6 +2388,7 @@ class FakeApi:
     def _fake_property_enum_integer_serialize_serialize(
         self,
         outer_object_with_enum_property,
+        param,
         _request_auth,
         _content_type,
         _headers,
@@ -2384,6 +2398,7 @@ class FakeApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
+            'param': 'multi',
         }
 
         _path_params: Dict[str, str] = {}
@@ -2395,6 +2410,10 @@ class FakeApi:
 
         # process the path parameters
         # process the query parameters
+        if param is not None:
+            
+            _query_params.append(('param', param))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter

@@ -68,7 +68,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct AddPetBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::Pet,
 }
 
@@ -79,7 +79,6 @@ fn add_pet_validation(body: models::Pet) -> std::result::Result<(models::Pet,), 
 
     Ok((body,))
 }
-
 /// AddPet - POST /v2/pet
 #[tracing::instrument(skip_all)]
 async fn add_pet<I, A>(
@@ -158,7 +157,6 @@ fn delete_pet_validation(
 
     Ok((header_params, path_params))
 }
-
 /// DeletePet - DELETE /v2/pet/{petId}
 #[tracing::instrument(skip_all)]
 async fn delete_pet<I, A>(
@@ -246,7 +244,6 @@ fn find_pets_by_status_validation(
 
     Ok((query_params,))
 }
-
 /// FindPetsByStatus - GET /v2/pet/findByStatus
 #[tracing::instrument(skip_all)]
 async fn find_pets_by_status<I, A>(
@@ -324,7 +321,6 @@ fn find_pets_by_tags_validation(
 
     Ok((query_params,))
 }
-
 /// FindPetsByTags - GET /v2/pet/findByTags
 #[tracing::instrument(skip_all)]
 async fn find_pets_by_tags<I, A>(
@@ -402,7 +398,6 @@ fn get_pet_by_id_validation(
 
     Ok((path_params,))
 }
-
 /// GetPetById - GET /v2/pet/{petId}
 #[tracing::instrument(skip_all)]
 async fn get_pet_by_id<I, A>(
@@ -478,7 +473,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct UpdatePetBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::Pet,
 }
 
@@ -491,7 +486,6 @@ fn update_pet_validation(
 
     Ok((body,))
 }
-
 /// UpdatePet - PUT /v2/pet
 #[tracing::instrument(skip_all)]
 async fn update_pet<I, A>(
@@ -576,7 +570,6 @@ fn update_pet_with_form_validation(
 
     Ok((path_params,))
 }
-
 /// UpdatePetWithForm - POST /v2/pet/{petId}
 #[tracing::instrument(skip_all)]
 async fn update_pet_with_form<I, A>(
@@ -638,7 +631,6 @@ fn upload_file_validation(
 
     Ok((path_params,))
 }
-
 /// UploadFile - POST /v2/pet/{petId}/uploadImage
 #[tracing::instrument(skip_all)]
 async fn upload_file<I, A>(
@@ -719,7 +711,6 @@ fn delete_order_validation(
 
     Ok((path_params,))
 }
-
 /// DeleteOrder - DELETE /v2/store/order/{orderId}
 #[tracing::instrument(skip_all)]
 async fn delete_order<I, A>(
@@ -780,7 +771,6 @@ where
 fn get_inventory_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// GetInventory - GET /v2/store/inventory
 #[tracing::instrument(skip_all)]
 async fn get_inventory<I, A>(
@@ -856,7 +846,6 @@ fn get_order_by_id_validation(
 
     Ok((path_params,))
 }
-
 /// GetOrderById - GET /v2/store/order/{orderId}
 #[tracing::instrument(skip_all)]
 async fn get_order_by_id<I, A>(
@@ -932,7 +921,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct PlaceOrderBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::Order,
 }
 
@@ -945,7 +934,6 @@ fn place_order_validation(
 
     Ok((body,))
 }
-
 /// PlaceOrder - POST /v2/store/order
 #[tracing::instrument(skip_all)]
 async fn place_order<I, A>(
@@ -1017,7 +1005,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct CreateUserBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::User,
 }
 
@@ -1030,7 +1018,6 @@ fn create_user_validation(
 
     Ok((body,))
 }
-
 /// CreateUser - POST /v2/user
 #[tracing::instrument(skip_all)]
 async fn create_user<I, A>(
@@ -1086,7 +1073,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct CreateUsersWithArrayInputBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a Vec<models::User>,
 }
 
@@ -1099,7 +1086,6 @@ fn create_users_with_array_input_validation(
 
     Ok((body,))
 }
-
 /// CreateUsersWithArrayInput - POST /v2/user/createWithArray
 #[tracing::instrument(skip_all)]
 async fn create_users_with_array_input<I, A>(
@@ -1156,7 +1142,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct CreateUsersWithListInputBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a Vec<models::User>,
 }
 
@@ -1169,7 +1155,6 @@ fn create_users_with_list_input_validation(
 
     Ok((body,))
 }
-
 /// CreateUsersWithListInput - POST /v2/user/createWithList
 #[tracing::instrument(skip_all)]
 async fn create_users_with_list_input<I, A>(
@@ -1231,7 +1216,6 @@ fn delete_user_validation(
 
     Ok((path_params,))
 }
-
 /// DeleteUser - DELETE /v2/user/{username}
 #[tracing::instrument(skip_all)]
 async fn delete_user<I, A>(
@@ -1296,7 +1280,6 @@ fn get_user_by_name_validation(
 
     Ok((path_params,))
 }
-
 /// GetUserByName - GET /v2/user/{username}
 #[tracing::instrument(skip_all)]
 async fn get_user_by_name<I, A>(
@@ -1377,7 +1360,6 @@ fn login_user_validation(
 
     Ok((query_params,))
 }
-
 /// LoginUser - GET /v2/user/login
 #[tracing::instrument(skip_all)]
 async fn login_user<I, A>(
@@ -1430,7 +1412,7 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers.insert(HeaderName::from_static("set-cookie"), set_cookie);
+                        response_headers.insert(HeaderName::from_static(""), set_cookie);
                     }
                 }
                 if let Some(x_rate_limit) = x_rate_limit {
@@ -1445,8 +1427,7 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("x-rate-limit"), x_rate_limit);
+                        response_headers.insert(HeaderName::from_static(""), x_rate_limit);
                     }
                 }
                 if let Some(x_expires_after) = x_expires_after {
@@ -1462,8 +1443,7 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("x-expires-after"), x_expires_after);
+                        response_headers.insert(HeaderName::from_static(""), x_expires_after);
                     }
                 }
 
@@ -1504,7 +1484,6 @@ where
 fn logout_user_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// LogoutUser - GET /v2/user/logout
 #[tracing::instrument(skip_all)]
 async fn logout_user<I, A>(
@@ -1556,7 +1535,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct UpdateUserBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::User,
 }
 
@@ -1571,7 +1550,6 @@ fn update_user_validation(
 
     Ok((path_params, body))
 }
-
 /// UpdateUser - PUT /v2/user/{username}
 #[tracing::instrument(skip_all)]
 async fn update_user<I, A>(
