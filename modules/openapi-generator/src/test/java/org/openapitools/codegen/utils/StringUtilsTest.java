@@ -1,5 +1,6 @@
 package org.openapitools.codegen.utils;
 
+import org.junit.Ignore;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -32,17 +33,25 @@ public class StringUtilsTest {
         Assert.assertEquals(camelize("123", LOWERCASE_FIRST_LETTER), "123");
         Assert.assertEquals(camelize("$123", LOWERCASE_FIRST_LETTER), "$123");
 
-
         Assert.assertEquals(camelize("some-value", LOWERCASE_FIRST_CHAR), "someValue");
         Assert.assertEquals(camelize("$type", LOWERCASE_FIRST_CHAR), "$Type");
 
         Assert.assertEquals(camelize("aVATRate", LOWERCASE_FIRST_CHAR), "aVATRate");
-        //Assert.assertEquals(camelize("VATRate", LOWERCASE_FIRST_CHAR), "vatRate");
-        //Assert.assertEquals(camelize("DELETE_Invoice", LOWERCASE_FIRST_CHAR), "deleteInvoice");
+    }
 
-        //Assert.assertEquals(camelize("aVATRate"), "AVATRate");
-        //Assert.assertEquals(camelize("VATRate"), "VATRate");
-        //Assert.assertEquals(camelize("DELETE_Invoice"), "DELETEInvoice");
+    @Test
+    @Ignore
+    public void testEnhacnedCamelize() throws Exception {
+        org.openapitools.codegen.utils.StringUtils.applyCamelizeFix = true;
+
+        Assert.assertEquals(camelize("VATRate", LOWERCASE_FIRST_CHAR), "vatRate");
+        Assert.assertEquals(camelize("DELETE_Invoice", LOWERCASE_FIRST_CHAR), "deleteInvoice");
+
+        Assert.assertEquals(camelize("aVATRate"), "AVATRate");
+        Assert.assertEquals(camelize("VATRate"), "VATRate");
+        Assert.assertEquals(camelize("DELETE_Invoice"), "DELETEInvoice");
+
+        org.openapitools.codegen.utils.StringUtils.applyCamelizeFix = false;
     }
 
     @Test
