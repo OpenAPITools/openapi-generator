@@ -54,6 +54,16 @@ public class ObjectWithDeprecatedFields {
   public ObjectWithDeprecatedFields() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ObjectWithDeprecatedFields(@JsonProperty(JSON_PROPERTY_UUID) String uuid, @JsonProperty(JSON_PROPERTY_ID) BigDecimal id, @JsonProperty(JSON_PROPERTY_DEPRECATED_REF) DeprecatedObject deprecatedRef, @JsonProperty(JSON_PROPERTY_BARS) List<String> bars) {
+    this.uuid = uuid;
+    this.id = id;
+    this.deprecatedRef = deprecatedRef;
+    this.bars = bars;
+  }
+
   public ObjectWithDeprecatedFields uuid(String uuid) {
     
     this.uuid = uuid;
@@ -78,7 +88,6 @@ public class ObjectWithDeprecatedFields {
   public void setUuid(String uuid) {
     this.uuid = uuid;
   }
-
 
   public ObjectWithDeprecatedFields id(BigDecimal id) {
     
@@ -107,7 +116,6 @@ public class ObjectWithDeprecatedFields {
     this.id = id;
   }
 
-
   public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
     
     this.deprecatedRef = deprecatedRef;
@@ -134,7 +142,6 @@ public class ObjectWithDeprecatedFields {
   public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
-
 
   public ObjectWithDeprecatedFields bars(List<String> bars) {
     

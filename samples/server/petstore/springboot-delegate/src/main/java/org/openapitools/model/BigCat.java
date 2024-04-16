@@ -80,6 +80,14 @@ public class BigCat extends Cat {
     super(className);
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public BigCat(KindEnum kind, Boolean declawed, String className, String color) {
+      super(declawed, className, color);
+      this.kind = kind;
+  }
+
   public BigCat kind(KindEnum kind) {
     this.kind = kind;
     return this;

@@ -42,6 +42,16 @@ public class Name {
     this.name = name;
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Name(Integer name, Integer snakeCase, String property, Integer _123number) {
+      this.name = name;
+      this.snakeCase = snakeCase;
+      this.property = property;
+      this._123number = _123number;
+  }
+
   public Name name(Integer name) {
     this.name = name;
     return this;

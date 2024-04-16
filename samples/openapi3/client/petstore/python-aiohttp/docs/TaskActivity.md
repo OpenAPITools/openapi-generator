@@ -24,7 +24,7 @@ print(TaskActivity.to_json())
 # convert the object into a dict
 task_activity_dict = task_activity_instance.to_dict()
 # create an instance of TaskActivity from a dict
-task_activity_form_dict = task_activity.from_dict(task_activity_dict)
+task_activity_from_dict = TaskActivity.from_dict(task_activity_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

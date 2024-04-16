@@ -153,6 +153,7 @@ public class AuthApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * To test HTTP bearer authentication
    * To test HTTP bearer authentication
@@ -226,4 +227,5 @@ public class AuthApi {
     }
     return localVarRequestBuilder;
   }
+
 }

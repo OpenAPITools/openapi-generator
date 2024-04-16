@@ -131,7 +131,7 @@ public class FakeApi {
         return new ApiResponse<FakeBigDecimalMap200Response>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<FakeBigDecimalMap200Response>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<FakeBigDecimalMap200Response>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -163,6 +163,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Health check endpoint
    * 
@@ -196,7 +197,7 @@ public class FakeApi {
         return new ApiResponse<HealthCheckResult>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<HealthCheckResult>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<HealthCheckResult>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -228,6 +229,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * 
    * Test serialization of outer boolean types
@@ -263,7 +265,7 @@ public class FakeApi {
         return new ApiResponse<Boolean>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<Boolean>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Boolean>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -301,6 +303,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * 
    * Test serialization of object with outer number type
@@ -336,7 +339,7 @@ public class FakeApi {
         return new ApiResponse<OuterComposite>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<OuterComposite>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<OuterComposite>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -374,6 +377,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * 
    * Test serialization of outer number types
@@ -409,7 +413,7 @@ public class FakeApi {
         return new ApiResponse<BigDecimal>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<BigDecimal>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<BigDecimal>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -447,6 +451,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * 
    * Test serialization of outer string types
@@ -482,7 +487,7 @@ public class FakeApi {
         return new ApiResponse<String>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<String>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -515,6 +520,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * application/json UTF8
    * 
@@ -548,7 +554,7 @@ public class FakeApi {
         return new ApiResponse<List<OuterEnum>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<List<OuterEnum>>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<OuterEnum>>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -580,6 +586,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Array of Enums
    * 
@@ -613,7 +620,7 @@ public class FakeApi {
         return new ApiResponse<List<OuterEnum>>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<List<OuterEnum>>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<OuterEnum>>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -645,6 +652,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * test referenced additionalProperties
    * 
@@ -725,6 +733,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -805,6 +814,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * 
    * 
@@ -906,6 +916,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
@@ -941,7 +952,7 @@ public class FakeApi {
         return new ApiResponse<Client>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<Client>()) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {}) // closes the InputStream
         );
       } finally {
       }
@@ -983,6 +994,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -1148,6 +1160,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * To test enum parameters
    * To test enum parameters
@@ -1278,6 +1291,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
@@ -1431,6 +1445,7 @@ public class FakeApi {
     return localVarRequestBuilder;
   }
 
+
   public static final class APItestGroupParametersRequest {
     private Integer requiredStringGroup; // Required String in group parameters (required)
     private Boolean requiredBooleanGroup; // Required Boolean in group parameters (required)
@@ -1506,9 +1521,6 @@ public class FakeApi {
       }
     }
   }
-
-  @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
-  private static final class GenericTypeRef<T> extends TypeReference<T> {}
 
   /**
    * test inline additionalProperties
@@ -1590,6 +1602,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * test inline free-form additionalProperties
    * 
@@ -1670,6 +1683,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * test json serialization of form data
    * 
@@ -1767,6 +1781,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * 
    * To test the collection format in query parameters
@@ -1888,6 +1903,7 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * test referenced string map
    * 
@@ -1968,4 +1984,5 @@ public class FakeApi {
     }
     return localVarRequestBuilder;
   }
+
 }

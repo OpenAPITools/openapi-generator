@@ -74,7 +74,6 @@ public class FileSchemaTestClass {
     this._file = _file;
   }
 
-
   public FileSchemaTestClass files(List<@Valid ModelFile> files) {
     
     this.files = files;

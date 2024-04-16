@@ -38,6 +38,13 @@ public class NumberOnly {
   public NumberOnly() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public NumberOnly(@JsonProperty(JSON_PROPERTY_JUST_NUMBER) BigDecimal justNumber) {
+    this.justNumber = justNumber;
+  }
+
   public NumberOnly justNumber(BigDecimal justNumber) {
     
     this.justNumber = justNumber;

@@ -46,6 +46,15 @@ public class OuterComposite {
   public OuterComposite() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public OuterComposite(@JsonProperty(JSON_PROPERTY_MY_NUMBER) BigDecimal myNumber, @JsonProperty(JSON_PROPERTY_MY_STRING) String myString, @JsonProperty(JSON_PROPERTY_MY_BOOLEAN) Boolean myBoolean) {
+    this.myNumber = myNumber;
+    this.myString = myString;
+    this.myBoolean = myBoolean;
+  }
+
   public OuterComposite myNumber(BigDecimal myNumber) {
     
     this.myNumber = myNumber;
@@ -71,7 +80,6 @@ public class OuterComposite {
     this.myNumber = myNumber;
   }
 
-
   public OuterComposite myString(String myString) {
     
     this.myString = myString;
@@ -96,7 +104,6 @@ public class OuterComposite {
   public void setMyString(String myString) {
     this.myString = myString;
   }
-
 
   public OuterComposite myBoolean(Boolean myBoolean) {
     

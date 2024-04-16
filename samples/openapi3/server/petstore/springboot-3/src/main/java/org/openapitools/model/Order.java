@@ -82,6 +82,18 @@ public class Order {
 
   private Boolean complete = false;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Order(Long id, Long petId, Integer quantity, OffsetDateTime shipDate, StatusEnum status, Boolean complete) {
+      this.id = id;
+      this.petId = petId;
+      this.quantity = quantity;
+      this.shipDate = shipDate;
+      this.status = status;
+      this.complete = complete;
+  }
+
   public Order id(Long id) {
     this.id = id;
     return this;

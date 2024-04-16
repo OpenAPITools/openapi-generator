@@ -127,7 +127,6 @@ public class Pet {
     this.id = id;
   }
 
-
   public Pet name(String name) {
     
     this.name = name;
@@ -153,7 +152,6 @@ public class Pet {
     this.name = name;
   }
 
-
   public Pet category(Category category) {
     
     this.category = category;
@@ -178,7 +176,6 @@ public class Pet {
   public void setCategory(Category category) {
     this.category = category;
   }
-
 
   public Pet photoUrls(List<String> photoUrls) {
     
@@ -213,7 +210,6 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-
   public Pet tags(List<Tag> tags) {
     
     this.tags = tags;
@@ -246,7 +242,6 @@ public class Pet {
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
-
 
   public Pet status(StatusEnum status) {
     

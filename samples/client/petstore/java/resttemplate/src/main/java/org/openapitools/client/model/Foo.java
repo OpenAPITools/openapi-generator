@@ -37,6 +37,13 @@ public class Foo {
   public Foo() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Foo(@JsonProperty(JSON_PROPERTY_BAR) String bar) {
+    this.bar = bar;
+  }
+
   public Foo bar(String bar) {
     
     this.bar = bar;

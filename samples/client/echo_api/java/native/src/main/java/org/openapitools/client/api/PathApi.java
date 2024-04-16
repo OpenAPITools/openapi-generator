@@ -188,4 +188,5 @@ public class PathApi {
     }
     return localVarRequestBuilder;
   }
+
 }

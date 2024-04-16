@@ -187,6 +187,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -285,6 +286,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -383,6 +385,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -475,6 +478,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -567,6 +571,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -657,6 +662,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -747,6 +753,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -837,6 +844,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -932,6 +940,7 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test query parameter(s)
    * Test query parameter(s)
@@ -1022,4 +1031,5 @@ public class QueryApi {
     }
     return localVarRequestBuilder;
   }
+
 }

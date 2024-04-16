@@ -79,7 +79,6 @@ public class AdditionalPropertiesClass {
     this.mapProperty = mapProperty;
   }
 
-
   public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     
     this.mapOfMapProperty = mapOfMapProperty;

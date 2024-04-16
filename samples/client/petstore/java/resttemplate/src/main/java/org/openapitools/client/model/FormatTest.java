@@ -103,6 +103,28 @@ public class FormatTest {
   public FormatTest() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public FormatTest(@JsonProperty(JSON_PROPERTY_INTEGER) Integer integer, @JsonProperty(JSON_PROPERTY_INT32) Integer int32, @JsonProperty(JSON_PROPERTY_INT64) Long int64, @JsonProperty(JSON_PROPERTY_NUMBER) BigDecimal number, @JsonProperty(JSON_PROPERTY_FLOAT) Float _float, @JsonProperty(JSON_PROPERTY_DOUBLE) Double _double, @JsonProperty(JSON_PROPERTY_DECIMAL) BigDecimal decimal, @JsonProperty(JSON_PROPERTY_STRING) String string, @JsonProperty(JSON_PROPERTY_BYTE) byte[] _byte, @JsonProperty(JSON_PROPERTY_BINARY) File binary, @JsonProperty(JSON_PROPERTY_DATE) LocalDate date, @JsonProperty(JSON_PROPERTY_DATE_TIME) OffsetDateTime dateTime, @JsonProperty(JSON_PROPERTY_UUID) UUID uuid, @JsonProperty(JSON_PROPERTY_PASSWORD) String password, @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS) String patternWithDigits, @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER) String patternWithDigitsAndDelimiter) {
+    this.integer = integer;
+    this.int32 = int32;
+    this.int64 = int64;
+    this.number = number;
+    this._float = _float;
+    this._double = _double;
+    this.decimal = decimal;
+    this.string = string;
+    this._byte = _byte;
+    this.binary = binary;
+    this.date = date;
+    this.dateTime = dateTime;
+    this.uuid = uuid;
+    this.password = password;
+    this.patternWithDigits = patternWithDigits;
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+  }
+
   public FormatTest integer(Integer integer) {
     
     this.integer = integer;
@@ -129,7 +151,6 @@ public class FormatTest {
   public void setInteger(Integer integer) {
     this.integer = integer;
   }
-
 
   public FormatTest int32(Integer int32) {
     
@@ -158,7 +179,6 @@ public class FormatTest {
     this.int32 = int32;
   }
 
-
   public FormatTest int64(Long int64) {
     
     this.int64 = int64;
@@ -183,7 +203,6 @@ public class FormatTest {
   public void setInt64(Long int64) {
     this.int64 = int64;
   }
-
 
   public FormatTest number(BigDecimal number) {
     
@@ -212,7 +231,6 @@ public class FormatTest {
     this.number = number;
   }
 
-
   public FormatTest _float(Float _float) {
     
     this._float = _float;
@@ -239,7 +257,6 @@ public class FormatTest {
   public void setFloat(Float _float) {
     this._float = _float;
   }
-
 
   public FormatTest _double(Double _double) {
     
@@ -268,7 +285,6 @@ public class FormatTest {
     this._double = _double;
   }
 
-
   public FormatTest decimal(BigDecimal decimal) {
     
     this.decimal = decimal;
@@ -293,7 +309,6 @@ public class FormatTest {
   public void setDecimal(BigDecimal decimal) {
     this.decimal = decimal;
   }
-
 
   public FormatTest string(String string) {
     
@@ -320,7 +335,6 @@ public class FormatTest {
     this.string = string;
   }
 
-
   public FormatTest _byte(byte[] _byte) {
     
     this._byte = _byte;
@@ -345,7 +359,6 @@ public class FormatTest {
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
-
 
   public FormatTest binary(File binary) {
     
@@ -372,7 +385,6 @@ public class FormatTest {
     this.binary = binary;
   }
 
-
   public FormatTest date(LocalDate date) {
     
     this.date = date;
@@ -397,7 +409,6 @@ public class FormatTest {
   public void setDate(LocalDate date) {
     this.date = date;
   }
-
 
   public FormatTest dateTime(OffsetDateTime dateTime) {
     
@@ -424,7 +435,6 @@ public class FormatTest {
     this.dateTime = dateTime;
   }
 
-
   public FormatTest uuid(UUID uuid) {
     
     this.uuid = uuid;
@@ -449,7 +459,6 @@ public class FormatTest {
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
-
 
   public FormatTest password(String password) {
     
@@ -476,7 +485,6 @@ public class FormatTest {
     this.password = password;
   }
 
-
   public FormatTest patternWithDigits(String patternWithDigits) {
     
     this.patternWithDigits = patternWithDigits;
@@ -501,7 +509,6 @@ public class FormatTest {
   public void setPatternWithDigits(String patternWithDigits) {
     this.patternWithDigits = patternWithDigits;
   }
-
 
   public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
     

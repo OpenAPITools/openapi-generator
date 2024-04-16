@@ -38,6 +38,13 @@ public class SpecialModelName {
   public SpecialModelName() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public SpecialModelName(@JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME) Long $specialPropertyName) {
+    this.$specialPropertyName = $specialPropertyName;
+  }
+
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     
     this.$specialPropertyName = $specialPropertyName;

@@ -39,6 +39,13 @@ public class FooGetDefaultResponse {
   public FooGetDefaultResponse() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public FooGetDefaultResponse(@JsonProperty(JSON_PROPERTY_STRING) Foo string) {
+    this.string = string;
+  }
+
   public FooGetDefaultResponse string(Foo string) {
     
     this.string = string;

@@ -35,6 +35,15 @@ public class ArrayTest {
   @Valid
   private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ArrayTest(List<String> arrayOfString, List<List<Long>> arrayArrayOfInteger, List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+      this.arrayOfString = arrayOfString;
+      this.arrayArrayOfInteger = arrayArrayOfInteger;
+      this.arrayArrayOfModel = arrayArrayOfModel;
+  }
+
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
     return this;

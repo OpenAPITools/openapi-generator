@@ -37,6 +37,13 @@ public class ClassModel {
   public ClassModel() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ClassModel(@JsonProperty(JSON_PROPERTY_PROPERTY_CLASS) String propertyClass) {
+    this.propertyClass = propertyClass;
+  }
+
   public ClassModel propertyClass(String propertyClass) {
     
     this.propertyClass = propertyClass;

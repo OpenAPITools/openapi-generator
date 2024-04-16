@@ -84,7 +84,6 @@ public class FakeBigDecimalMap200Response {
     this.someId = someId;
   }
 
-
   public FakeBigDecimalMap200Response someMap(Map<String, BigDecimal> someMap) {
     
     this.someMap = someMap;

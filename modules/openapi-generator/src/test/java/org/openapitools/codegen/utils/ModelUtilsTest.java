@@ -384,5 +384,11 @@ public class ModelUtilsTest {
         Assert.assertFalse(anyof2.getAnyOf().isEmpty());
         Assert.assertTrue(ModelUtils.hasAnyOf(anyof2));
         Assert.assertTrue(ModelUtils.isAnyOf(anyof2));
+
+        Schema objectSchema = ModelUtils.getSchema(openAPI, "ObjectSchema");
+        Assert.assertTrue(ModelUtils.isMapSchema(objectSchema));
+
+        Schema complexComposedSchema = ModelUtils.getSchema(openAPI, "ComplexComposedSchema");
+        Assert.assertTrue(ModelUtils.isComplexComposedSchema(complexComposedSchema));
     }
 }

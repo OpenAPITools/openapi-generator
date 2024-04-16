@@ -23,7 +23,7 @@ print(NullableProperty.to_json())
 # convert the object into a dict
 nullable_property_dict = nullable_property_instance.to_dict()
 # create an instance of NullableProperty from a dict
-nullable_property_form_dict = nullable_property.from_dict(nullable_property_dict)
+nullable_property_from_dict = NullableProperty.from_dict(nullable_property_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -41,6 +41,13 @@ public class ArrayOfArrayOfNumberOnly {
   public ArrayOfArrayOfNumberOnly() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ArrayOfArrayOfNumberOnly(@JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER) List<List<BigDecimal>> arrayArrayNumber) {
+    this.arrayArrayNumber = arrayArrayNumber;
+  }
+
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     
     this.arrayArrayNumber = arrayArrayNumber;

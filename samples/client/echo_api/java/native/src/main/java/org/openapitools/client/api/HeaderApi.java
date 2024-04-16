@@ -185,4 +185,5 @@ public class HeaderApi {
     }
     return localVarRequestBuilder;
   }
+
 }

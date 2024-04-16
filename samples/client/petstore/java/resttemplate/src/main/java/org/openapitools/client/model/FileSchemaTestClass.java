@@ -45,6 +45,14 @@ public class FileSchemaTestClass {
   public FileSchemaTestClass() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public FileSchemaTestClass(@JsonProperty(JSON_PROPERTY_FILE) ModelFile _file, @JsonProperty(JSON_PROPERTY_FILES) List<ModelFile> files) {
+    this._file = _file;
+    this.files = files;
+  }
+
   public FileSchemaTestClass _file(ModelFile _file) {
     
     this._file = _file;
@@ -69,7 +77,6 @@ public class FileSchemaTestClass {
   public void setFile(ModelFile _file) {
     this._file = _file;
   }
-
 
   public FileSchemaTestClass files(List<ModelFile> files) {
     

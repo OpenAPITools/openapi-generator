@@ -50,6 +50,15 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public MixedPropertiesAndAdditionalPropertiesClass(@JsonProperty(JSON_PROPERTY_UUID) UUID uuid, @JsonProperty(JSON_PROPERTY_DATE_TIME) OffsetDateTime dateTime, @JsonProperty(JSON_PROPERTY_MAP) Map<String, Animal> map) {
+    this.uuid = uuid;
+    this.dateTime = dateTime;
+    this.map = map;
+  }
+
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     
     this.uuid = uuid;
@@ -75,7 +84,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     this.uuid = uuid;
   }
 
-
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
     
     this.dateTime = dateTime;
@@ -100,7 +108,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
-
 
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
     

@@ -57,6 +57,18 @@ public class Capitalization {
   public Capitalization() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Capitalization(@JsonProperty(JSON_PROPERTY_SMALL_CAMEL) String smallCamel, @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL) String capitalCamel, @JsonProperty(JSON_PROPERTY_SMALL_SNAKE) String smallSnake, @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE) String capitalSnake, @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS) String scAETHFlowPoints, @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E) String ATT_NAME) {
+    this.smallCamel = smallCamel;
+    this.capitalCamel = capitalCamel;
+    this.smallSnake = smallSnake;
+    this.capitalSnake = capitalSnake;
+    this.scAETHFlowPoints = scAETHFlowPoints;
+    this.ATT_NAME = ATT_NAME;
+  }
+
   public Capitalization smallCamel(String smallCamel) {
     
     this.smallCamel = smallCamel;
@@ -81,7 +93,6 @@ public class Capitalization {
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
-
 
   public Capitalization capitalCamel(String capitalCamel) {
     
@@ -108,7 +119,6 @@ public class Capitalization {
     this.capitalCamel = capitalCamel;
   }
 
-
   public Capitalization smallSnake(String smallSnake) {
     
     this.smallSnake = smallSnake;
@@ -133,7 +143,6 @@ public class Capitalization {
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
-
 
   public Capitalization capitalSnake(String capitalSnake) {
     
@@ -160,7 +169,6 @@ public class Capitalization {
     this.capitalSnake = capitalSnake;
   }
 
-
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
     
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -185,7 +193,6 @@ public class Capitalization {
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
-
 
   public Capitalization ATT_NAME(String ATT_NAME) {
     

@@ -25,7 +25,7 @@ print(ArrayTest.to_json())
 # convert the object into a dict
 array_test_dict = array_test_instance.to_dict()
 # create an instance of ArrayTest from a dict
-array_test_form_dict = array_test.from_dict(array_test_dict)
+array_test_from_dict = ArrayTest.from_dict(array_test_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

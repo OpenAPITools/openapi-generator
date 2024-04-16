@@ -218,6 +218,20 @@ public class EnumTest {
   public EnumTest() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public EnumTest(@JsonProperty(JSON_PROPERTY_ENUM_STRING) EnumStringEnum enumString, @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED) EnumStringRequiredEnum enumStringRequired, @JsonProperty(JSON_PROPERTY_ENUM_INTEGER) EnumIntegerEnum enumInteger, @JsonProperty(JSON_PROPERTY_ENUM_NUMBER) EnumNumberEnum enumNumber, @JsonProperty(JSON_PROPERTY_OUTER_ENUM) OuterEnum outerEnum, @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER) OuterEnumInteger outerEnumInteger, @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE) OuterEnumDefaultValue outerEnumDefaultValue, @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE) OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+    this.enumString = enumString;
+    this.enumStringRequired = enumStringRequired;
+    this.enumInteger = enumInteger;
+    this.enumNumber = enumNumber;
+    this.outerEnum = outerEnum == null ? JsonNullable.<OuterEnum>undefined() : JsonNullable.of(outerEnum);
+    this.outerEnumInteger = outerEnumInteger;
+    this.outerEnumDefaultValue = outerEnumDefaultValue;
+    this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+  }
+
   public EnumTest enumString(EnumStringEnum enumString) {
     
     this.enumString = enumString;
@@ -242,7 +256,6 @@ public class EnumTest {
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
-
 
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     
@@ -269,7 +282,6 @@ public class EnumTest {
     this.enumStringRequired = enumStringRequired;
   }
 
-
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
     
     this.enumInteger = enumInteger;
@@ -295,7 +307,6 @@ public class EnumTest {
     this.enumInteger = enumInteger;
   }
 
-
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
     
     this.enumNumber = enumNumber;
@@ -320,7 +331,6 @@ public class EnumTest {
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
-
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
     this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
@@ -355,7 +365,6 @@ public class EnumTest {
     this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
   }
 
-
   public EnumTest outerEnumInteger(OuterEnumInteger outerEnumInteger) {
     
     this.outerEnumInteger = outerEnumInteger;
@@ -381,7 +390,6 @@ public class EnumTest {
     this.outerEnumInteger = outerEnumInteger;
   }
 
-
   public EnumTest outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
     
     this.outerEnumDefaultValue = outerEnumDefaultValue;
@@ -406,7 +414,6 @@ public class EnumTest {
   public void setOuterEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
     this.outerEnumDefaultValue = outerEnumDefaultValue;
   }
-
 
   public EnumTest outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
     

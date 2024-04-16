@@ -9,3 +9,4 @@ additionalProperties:
   artifactId: microprofile-rest-client-3-jackson-with-xml
   configKey: petstore
   microprofileRestClientVersion: "3.0"
+  hideGenerationTimestamp: true

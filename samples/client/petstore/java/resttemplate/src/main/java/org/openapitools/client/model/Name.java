@@ -48,7 +48,9 @@ public class Name {
 
   public Name() {
   }
-
+  /**
+  * Constructor with only readonly parameters
+  */
   @JsonCreator
   public Name(
     @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
@@ -56,6 +58,16 @@ public class Name {
   ) {
     this();
     this.snakeCase = snakeCase;
+    this._123number = _123number;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Name(@JsonProperty(JSON_PROPERTY_NAME) Integer name, @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, @JsonProperty(JSON_PROPERTY_PROPERTY) String property, @JsonProperty(JSON_PROPERTY_123NUMBER) Integer _123number) {
+    this.name = name;
+    this.snakeCase = snakeCase;
+    this.property = property;
     this._123number = _123number;
   }
 
@@ -84,7 +96,6 @@ public class Name {
     this.name = name;
   }
 
-
    /**
    * Get snakeCase
    * @return snakeCase
@@ -96,7 +107,6 @@ public class Name {
   public Integer getSnakeCase() {
     return snakeCase;
   }
-
 
 
 
@@ -124,7 +134,6 @@ public class Name {
   public void setProperty(String property) {
     this.property = property;
   }
-
 
    /**
    * Get _123number

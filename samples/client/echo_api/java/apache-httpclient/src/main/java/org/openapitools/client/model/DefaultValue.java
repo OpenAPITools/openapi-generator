@@ -146,7 +146,6 @@ public class DefaultValue {
     this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
   }
 
-
   public DefaultValue arrayStringEnumDefault(List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
     
     this.arrayStringEnumDefault = arrayStringEnumDefault;
@@ -179,7 +178,6 @@ public class DefaultValue {
   public void setArrayStringEnumDefault(List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
     this.arrayStringEnumDefault = arrayStringEnumDefault;
   }
-
 
   public DefaultValue arrayStringDefault(List<String> arrayStringDefault) {
     
@@ -214,7 +212,6 @@ public class DefaultValue {
     this.arrayStringDefault = arrayStringDefault;
   }
 
-
   public DefaultValue arrayIntegerDefault(List<Integer> arrayIntegerDefault) {
     
     this.arrayIntegerDefault = arrayIntegerDefault;
@@ -248,7 +245,6 @@ public class DefaultValue {
     this.arrayIntegerDefault = arrayIntegerDefault;
   }
 
-
   public DefaultValue arrayString(List<String> arrayString) {
     
     this.arrayString = arrayString;
@@ -281,7 +277,6 @@ public class DefaultValue {
   public void setArrayString(List<String> arrayString) {
     this.arrayString = arrayString;
   }
-
 
   public DefaultValue arrayStringNullable(List<String> arrayStringNullable) {
     this.arrayStringNullable = JsonNullable.<List<String>>of(arrayStringNullable);
@@ -328,7 +323,6 @@ public class DefaultValue {
     this.arrayStringNullable = JsonNullable.<List<String>>of(arrayStringNullable);
   }
 
-
   public DefaultValue arrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
     this.arrayStringExtensionNullable = JsonNullable.<List<String>>of(arrayStringExtensionNullable);
     
@@ -373,7 +367,6 @@ public class DefaultValue {
   public void setArrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
     this.arrayStringExtensionNullable = JsonNullable.<List<String>>of(arrayStringExtensionNullable);
   }
-
 
   public DefaultValue stringNullable(String stringNullable) {
     this.stringNullable = JsonNullable.<String>of(stringNullable);

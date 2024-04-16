@@ -20,7 +20,7 @@ print DiscriminatorAllOfSub.to_json()
 # convert the object into a dict
 discriminator_all_of_sub_dict = discriminator_all_of_sub_instance.to_dict()
 # create an instance of DiscriminatorAllOfSub from a dict
-discriminator_all_of_sub_form_dict = discriminator_all_of_sub.from_dict(discriminator_all_of_sub_dict)
+discriminator_all_of_sub_from_dict = DiscriminatorAllOfSub.from_dict(discriminator_all_of_sub_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

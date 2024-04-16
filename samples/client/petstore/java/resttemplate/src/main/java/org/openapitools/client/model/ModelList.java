@@ -38,6 +38,13 @@ public class ModelList {
   public ModelList() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ModelList(@JsonProperty(JSON_PROPERTY_123LIST) String _123list) {
+    this._123list = _123list;
+  }
+
   public ModelList _123list(String _123list) {
     
     this._123list = _123list;

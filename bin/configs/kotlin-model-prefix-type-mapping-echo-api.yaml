@@ -12,4 +12,4 @@ additionalProperties:
   enumPropertyNaming: UPPERCASE
   serializationLibrary: gson
 openapiNormalizer:
-  SIMPLIFY_ONEOF_ANYOF=false
+  SIMPLIFY_ONEOF_ANYOF: false

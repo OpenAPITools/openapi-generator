@@ -93,6 +93,41 @@ public class XmlItem {
   @Valid
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public XmlItem(String attributeString, BigDecimal attributeNumber, Integer attributeInteger, Boolean attributeBoolean, List<Integer> wrappedArray, String nameString, BigDecimal nameNumber, Integer nameInteger, Boolean nameBoolean, List<Integer> nameArray, List<Integer> nameWrappedArray, String prefixString, BigDecimal prefixNumber, Integer prefixInteger, Boolean prefixBoolean, List<Integer> prefixArray, List<Integer> prefixWrappedArray, String namespaceString, BigDecimal namespaceNumber, Integer namespaceInteger, Boolean namespaceBoolean, List<Integer> namespaceArray, List<Integer> namespaceWrappedArray, String prefixNsString, BigDecimal prefixNsNumber, Integer prefixNsInteger, Boolean prefixNsBoolean, List<Integer> prefixNsArray, List<Integer> prefixNsWrappedArray) {
+      this.attributeString = attributeString;
+      this.attributeNumber = attributeNumber;
+      this.attributeInteger = attributeInteger;
+      this.attributeBoolean = attributeBoolean;
+      this.wrappedArray = wrappedArray;
+      this.nameString = nameString;
+      this.nameNumber = nameNumber;
+      this.nameInteger = nameInteger;
+      this.nameBoolean = nameBoolean;
+      this.nameArray = nameArray;
+      this.nameWrappedArray = nameWrappedArray;
+      this.prefixString = prefixString;
+      this.prefixNumber = prefixNumber;
+      this.prefixInteger = prefixInteger;
+      this.prefixBoolean = prefixBoolean;
+      this.prefixArray = prefixArray;
+      this.prefixWrappedArray = prefixWrappedArray;
+      this.namespaceString = namespaceString;
+      this.namespaceNumber = namespaceNumber;
+      this.namespaceInteger = namespaceInteger;
+      this.namespaceBoolean = namespaceBoolean;
+      this.namespaceArray = namespaceArray;
+      this.namespaceWrappedArray = namespaceWrappedArray;
+      this.prefixNsString = prefixNsString;
+      this.prefixNsNumber = prefixNsNumber;
+      this.prefixNsInteger = prefixNsInteger;
+      this.prefixNsBoolean = prefixNsBoolean;
+      this.prefixNsArray = prefixNsArray;
+      this.prefixNsWrappedArray = prefixNsWrappedArray;
+  }
+
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;
     return this;
