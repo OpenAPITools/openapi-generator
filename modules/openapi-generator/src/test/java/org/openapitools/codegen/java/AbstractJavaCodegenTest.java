@@ -24,6 +24,8 @@ import io.swagger.v3.oas.models.media.*;
 
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.parser.core.models.ParseOptions;
+
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -943,6 +945,93 @@ public class AbstractJavaCodegenTest {
         schema = new ArraySchema().items(new Schema<>().type("string").format("binary").pattern("^[a-z]$").maxLength(36));
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<File>");
+    }
+
+    @Test
+    public void AnnotationsContainerTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.additionalProperties().put("useBeanValidation", true);
+
+        // 1. string type
+        Schema<?> schema = new ArraySchema().items(new Schema<>().type("string").pattern("^[a-z]$").minLength(0).maxLength(36));
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@Pattern(regexp = \"^[a-z]$\")@Size(min = 0, max = 36)String>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").pattern("^[a-z]$").minLength(0));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@Pattern(regexp = \"^[a-z]$\")@Size(min = 0)String>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").pattern("^[a-z]$").maxLength(36));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@Pattern(regexp = \"^[a-z]$\")@Size(max = 36)String>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").format("email"));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@Email String>");
+
+        // 2. string type with number format
+        schema = new ArraySchema().items(new Schema<>().type("string").format("number").minimum(BigDecimal.ZERO).maximum(BigDecimal.TEN).exclusiveMinimum(Boolean.TRUE).exclusiveMaximum(Boolean.TRUE));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@DecimalMin(value = \"0\", inclusive = false) @DecimalMax(value = \"10\", inclusive = false)BigDecimal>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").format("number").minimum(BigDecimal.ZERO).exclusiveMinimum(Boolean.TRUE));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@DecimalMin( value = \"0\", inclusive = false)BigDecimal>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").format("number").maximum(BigDecimal.TEN).exclusiveMaximum(Boolean.TRUE));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@DecimalMax( value = \"10\", inclusive = false)BigDecimal>");
+
+        // 3. number type
+        schema = new ArraySchema().items(new Schema<>().type("number").minimum(BigDecimal.ZERO).maximum(BigDecimal.TEN).exclusiveMinimum(Boolean.TRUE).exclusiveMaximum(Boolean.TRUE));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@DecimalMin(value = \"0\", inclusive = false) @DecimalMax(value = \"10\", inclusive = false)BigDecimal>");
+
+        schema = new ArraySchema().items(new Schema<>().type("number").minimum(BigDecimal.ZERO).exclusiveMinimum(Boolean.TRUE));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@DecimalMin( value = \"0\", inclusive = false)BigDecimal>");
+
+        schema = new ArraySchema().items(new Schema<>().type("number").maximum(BigDecimal.TEN).exclusiveMaximum(Boolean.TRUE));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@DecimalMax( value = \"10\", inclusive = false)BigDecimal>");
+
+        schema = new ArraySchema().items(new Schema<>().type("number").minimum(BigDecimal.ZERO).maximum(BigDecimal.TEN));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@DecimalMin(value = \"0\", inclusive = true) @DecimalMax(value = \"10\", inclusive = true)BigDecimal>");
+
+        schema = new ArraySchema().items(new Schema<>().type("number").minimum(BigDecimal.ZERO));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@DecimalMin( value = \"0\", inclusive = true)BigDecimal>");
+
+        schema = new ArraySchema().items(new Schema<>().type("number").maximum(BigDecimal.TEN));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@DecimalMax( value = \"10\", inclusive = true)BigDecimal>");
+
+        // 4. integer type with int64 format
+        schema = new ArraySchema().items(new Schema<>().type("integer").format("int64").minimum(BigDecimal.ZERO).maximum(BigDecimal.TEN));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@Min(0L) @Max(10L)Long>");
+
+        schema = new ArraySchema().items(new Schema<>().type("integer").format("int64").minimum(BigDecimal.ZERO));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@Min(0L)Long>");
+
+        schema = new ArraySchema().items(new Schema<>().type("integer").format("int64").maximum(BigDecimal.TEN));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@Max(10L)Long>");
+
+        // 5. integer type
+        schema = new ArraySchema().items(new Schema<>().type("integer").minimum(BigDecimal.ZERO).maximum(BigDecimal.TEN));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@Min(0) @Max(10)Integer>");
+
+        schema = new ArraySchema().items(new Schema<>().type("integer").minimum(BigDecimal.ZERO));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@Min(0)Integer>");
+
+        schema = new ArraySchema().items(new Schema<>().type("integer").maximum(BigDecimal.TEN));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<@Max(10)Integer>");
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {
