@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -262,7 +261,6 @@ public class DefaultGenerator implements Generator {
         if (config.additionalProperties().containsKey("applyCamelizeFix")) {
             org.openapitools.codegen.utils.StringUtils.applyCamelizeFix =
                     Boolean.parseBoolean(String.valueOf(config.additionalProperties().get("applyCamelizeFix")));
-            config.setApplyCamelizeFix(true);
         }
 
         config.processOpts();

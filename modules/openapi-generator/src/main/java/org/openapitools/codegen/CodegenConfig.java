@@ -361,7 +361,4 @@ public interface CodegenConfig {
     boolean getUseOpenapiNormalizer();
 
     Set<String> getOpenapiGeneratorIgnoreList();
-
-    void setApplyCamelizeFix(boolean applyCamelizeFix);
-
 }

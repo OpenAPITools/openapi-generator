@@ -41,9 +41,6 @@ public class StringUtils {
 
     // A cache of escaped words, used to optimize the performance of the escape() method.
     private static Cache<EscapedNameOptions, String> escapedWordsCache;
-
-
-
     static {
         int cacheSize = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "200"));
         int cacheExpiry = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_EXPIRY_PROPERTY, "5"));
@@ -64,7 +61,6 @@ public class StringUtils {
                 .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
                 .ticker(Ticker.systemTicker())
                 .build();
-
     }
 
     private static Pattern capitalLetterPattern = Pattern.compile("([A-Z]+)([A-Z][a-z][a-z]+)");

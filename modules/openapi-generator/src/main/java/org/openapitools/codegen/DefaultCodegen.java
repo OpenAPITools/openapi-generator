@@ -316,9 +316,6 @@ public class DefaultCodegen implements CodegenConfig {
     // Whether to automatically hardcode params that are considered Constants by OpenAPI Spec
     protected boolean autosetConstants = false;
 
-    // when set to true, apply camelization fix
-    protected boolean applyCamelizeFix = false;
-
     public boolean getAddSuffixToDuplicateOperationNicknames() {
         return addSuffixToDuplicateOperationNicknames;
     }
@@ -6185,30 +6182,13 @@ public class DefaultCodegen implements CodegenConfig {
      * @return camelized string
      */
     protected String removeNonNameElementToCamelCase(final String name, final String nonNameElementPattern) {
-        if (Boolean.parseBoolean(System.getProperty("openapi.generator.fix.camelize"))) {
-            // new behaviour with fix
-            String[] splitString = name.split(nonNameElementPattern);
-
-            if (splitString.length > 0) {
-                splitString[0] = camelize(splitString[0], CamelizeOption.LOWERCASE_FIRST_CHAR);
-            }
-
-            String result = Arrays.stream(splitString)
-                    .map(StringUtils::capitalize)
-                    .collect(Collectors.joining(""));
-            if (result.length() > 0) {
-                result = result.substring(0, 1).toLowerCase(Locale.ROOT) + result.substring(1);
-            }
-            return result;
-        } else { // old behaviour with bug
-            String result = Arrays.stream(name.split(nonNameElementPattern))
-                    .map(StringUtils::capitalize)
-                    .collect(Collectors.joining(""));
-            if (result.length() > 0) {
-                result = result.substring(0, 1).toLowerCase(Locale.ROOT) + result.substring(1);
-            }
-            return result;
+        String result = Arrays.stream(name.split(nonNameElementPattern))
+                .map(StringUtils::capitalize)
+                .collect(Collectors.joining(""));
+        if (result.length() > 0) {
+            result = result.substring(0, 1).toLowerCase(Locale.ROOT) + result.substring(1);
         }
+        return result;
     }
 
     @Override
@@ -8551,8 +8531,6 @@ public class DefaultCodegen implements CodegenConfig {
     public void setAutosetConstants(boolean autosetConstants) {
         this.autosetConstants = autosetConstants;
     }
-
-    public void setApplyCamelizeFix(boolean applyCamelizeFix) { this.applyCamelizeFix = applyCamelizeFix; }
 
     /**
      * This method removes all constant Query, Header and Cookie Params from allParams and sets them as constantParams in the CodegenOperation.

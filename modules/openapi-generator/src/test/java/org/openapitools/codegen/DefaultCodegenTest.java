@@ -4915,6 +4915,7 @@ public class DefaultCodegenTest {
 
     public void testRemoveNonNameElementToCamelCase() {
         final DefaultCodegen codegen = new DefaultCodegen();
+        Assert.assertFalse(org.openapitools.codegen.utils.StringUtils.applyCamelizeFix);
 
         final String alreadyCamelCase = "aVATRate";
         Assert.assertEquals(codegen.removeNonNameElementToCamelCase(alreadyCamelCase), alreadyCamelCase);
