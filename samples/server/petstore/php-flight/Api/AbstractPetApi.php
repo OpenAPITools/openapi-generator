@@ -138,12 +138,10 @@ abstract class AbstractPetApi
      * Updates a pet in the store with form data
      *
      * @param int $petId ID of pet that needs to be updated (required)
-     * @param ?string $name Updated name of the pet (optional)
-     * @param ?string $status Updated status of the pet (optional)
      *
      * @return void
      */
-    public function updatePetWithForm(int $petId, ?string $name, ?string $status): void
+    public function updatePetWithForm(int $petId): void
     {
         throw new \Exception('Not implemented');
     }
@@ -154,12 +152,10 @@ abstract class AbstractPetApi
      * uploads an image
      *
      * @param int $petId ID of pet to update (required)
-     * @param ?string $additionalMetadata Additional data to pass to server (optional)
-     * @param  $file file to upload (optional)
      *
      * @return \OpenAPIServer\Model\ApiResponse|null
      */
-    public function uploadFile(int $petId, ?string $additionalMetadata,  $file): \OpenAPIServer\Model\ApiResponse|null
+    public function uploadFile(int $petId): \OpenAPIServer\Model\ApiResponse|null
     {
         throw new \Exception('Not implemented');
     }

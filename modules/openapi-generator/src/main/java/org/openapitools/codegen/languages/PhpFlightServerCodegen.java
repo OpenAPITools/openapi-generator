@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -117,6 +118,7 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
         variableNamingConvention = "camelCase";
         artifactVersion = "1.0.0";
         setInvokerPackage("OpenAPIServer");
+        testPackage = invokerPackage + "\\Test";
         apiPackage = invokerPackage + "\\" + apiDirName;
         modelPackage = invokerPackage + "\\" + modelDirName;
         outputFolder = "generated-code" + File.separator + "php-flight";
@@ -130,6 +132,7 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
             .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.stream().filter(o -> Objects.equals(o.getOpt(), VARIABLE_NAMING_CONVENTION)).findFirst().ifPresent(o -> o.defaultValue("camelCase"));
     }
 
     @Override
@@ -175,23 +178,26 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
         additionalProperties.put("relativeSrcBasePath", srcBasePath.isEmpty() ? "" : srcBasePath + "/");
         additionalProperties.put("modelSrcPath", "." + "/" + toSrcPath(modelPackage, srcBasePath));
         additionalProperties.put("apiSrcPath", "." + "/" + toSrcPath(apiPackage, srcBasePath));
+        additionalProperties.put("testSrcPath", "." + "/" + toSrcPath(testPackage, srcBasePath));
         additionalProperties.put("escapedModelPackage", modelPackage.replace("\\", "\\\\"));
 
+        if (additionalProperties.containsKey("testPackage")) {
+            // Update model package to contain the specified model package name and the invoker package
+            testPackage = invokerPackage + "\\" + (String) additionalProperties.get("testPackage");
+        }
+        additionalProperties.put("testPackage", testPackage);
+
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("phpunit.mustache", "", "phpunit.xml.dist"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("register_routes.mustache", toSrcPath(invokerPackage, srcBasePath), "RegisterRoutes.php"));
+        supportingFiles.add(new SupportingFile("register_routes_test.mustache", toSrcPath(testPackage, srcBasePath), "RegisterRoutesTest.php"));
     }
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
-        operationList.forEach(operation -> operation.allParams.forEach(param -> {
-            param.vendorExtensions.put("x-parameter-type", param.required ? getTypeHint(param.dataType, false, false) : getTypeHintNullable(param.dataType, false));
-            String commentType = param.required ? getTypeHint(param.dataType, true, false) : getTypeHintNullable(param.dataType, false);
-            param.vendorExtensions.put("x-comment-type", commentType);
-            param.vendorExtensions.put("x-comment-type-escaped", commentType.replace("\\", "\\\\"));
-        }));
         operationList.forEach(operation -> {
             operation.vendorExtensions.put("x-path", mapToFlightPath(operation.path));
             String returnType = operation.responses.stream().filter(r -> r.is2xx && r.dataType != null).map(r -> this.getTypeHint(r.dataType, false, false)).filter(t -> !t.isEmpty()).map(t -> t + "|null").findFirst().orElse("void");
@@ -199,6 +205,14 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
             operation.vendorExtensions.put("x-return-type-is-void", returnType.equals("void"));
             operation.vendorExtensions.put("x-return-type-comment",
                 operation.responses.stream().filter(r -> r.is2xx && r.dataType != null).map(r -> this.getTypeHint(r.dataType, true, false)).filter(t -> !t.isEmpty()).map(t -> t+"|null").findFirst().orElse("void"));
+            operation.vendorExtensions.put("x-nonFormParams", operation.allParams.stream().filter(p -> !p.isFormParam).toArray());
+
+            operation.allParams.forEach(param -> {
+                param.vendorExtensions.put("x-parameter-type", param.required ? getTypeHint(param.dataType, false, false) : getTypeHintNullable(param.dataType, false));
+                String commentType = param.required ? getTypeHint(param.dataType, true, false) : getTypeHintNullable(param.dataType, false);
+                param.vendorExtensions.put("x-comment-type", commentType);
+                param.vendorExtensions.put("x-comment-type-escaped", commentType.replace("\\", "\\\\"));
+            });
         });
         escapeMediaType(operationList);
         return objs;

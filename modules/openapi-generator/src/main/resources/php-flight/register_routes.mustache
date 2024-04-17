@@ -14,16 +14,16 @@ class RegisterRoutes {
         {{#apis}}
         {{#operations}}
         {{#operation}}
-        if ($reflectionClass->hasMethod('{{operationId}}') && $reflectionClass->hasMethod('{{operationId}}Stream')) {
+        if (declaresMethod($reflectionClass, '{{operationId}}') && declaresMethod($reflectionClass, '{{operationId}}Stream')) {
             throw new \Exception('Operation {{operationId}} cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('{{operationId}}')) {
+        if (declaresMethod($reflectionClass, '{{operationId}}')) {
             \Flight::route('{{httpMethod}} {{vendorExtensions.x-path}}', function ({{#pathParams}}string ${{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}) use ($handler) {
                 $r = \Flight::request();
                 {{^vendorExtensions.x-return-type-is-void}}$result = {{/vendorExtensions.x-return-type-is-void}}$handler->{{operationId}}(
-                {{#allParams}}
+                {{#vendorExtensions.x-nonFormParams}}
                     parseParam({{#isBodyParam}}json_decode($r->getBody(), true){{/isBodyParam}}{{#isQueryParam}}$r->query['{{baseName}}'] ?? null{{/isQueryParam}}{{#isPathParam}}${{paramName}}{{/isPathParam}}{{#isHeaderParam}}$r->getHeader('{{baseName}}'){{/isHeaderParam}}, '{{vendorExtensions.x-comment-type-escaped}}'){{^-last}}, {{/-last}}
-                {{/allParams}}
+                {{/vendorExtensions.x-nonFormParams}}
                 );
                 {{^vendorExtensions.x-return-type-is-void}}
                 if ($result === null) {
@@ -38,13 +38,13 @@ class RegisterRoutes {
             });
         }
         {{#returnContainer}}
-        if ($reflectionClass->hasMethod('{{operationId}}Stream')) {
+        if (declaresMethod($reflectionClass, '{{operationId}}Stream')) {
             \Flight::route('{{httpMethod}} {{vendorExtensions.x-path}}', function ({{#pathParams}}string ${{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}) use ($handler) {
                 $r = \Flight::request();
                 $handler->{{operationId}}Stream(
-                {{#allParams}}
+                {{#vendorExtensions.x-nonFormParams}}
                     parseParam({{#isBodyParam}}json_decode($r->getBody(), true){{/isBodyParam}}{{#isQueryParam}}$r->query['{{baseName}}'] ?? null{{/isQueryParam}}{{#isPathParam}}${{paramName}}{{/isPathParam}}{{#isHeaderParam}}$r->getHeader('{{baseName}}'){{/isHeaderParam}}, '{{vendorExtensions.x-comment-type-escaped}}'){{^-last}}, {{/-last}}
-                {{/allParams}}
+                {{/vendorExtensions.x-nonFormParams}}
                 );
                 // ignore return value: streaming expected
             })->streamWithHeaders(['Content-Type' => 'application/json']);
@@ -77,4 +77,9 @@ function parseParam(mixed $param, string $type)
     } else {
         return $param;
     }
+}
+
+function declaresMethod(\ReflectionClass $reflectionClass, string $methodName): bool
+{
+    return $reflectionClass->hasMethod($methodName) && $reflectionClass->getMethod($methodName)->getDeclaringClass()->getName() === $reflectionClass->getName();
 }

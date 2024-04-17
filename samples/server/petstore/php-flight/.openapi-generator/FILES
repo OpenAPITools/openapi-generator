@@ -13,4 +13,6 @@ Model/Tag.php
 Model/User.php
 README.md
 RegisterRoutes.php
+Test/RegisterRoutesTest.php
 composer.json
+phpunit.xml.dist

@@ -23,10 +23,10 @@ class RegisterRoutes {
     {
         $reflectionClass = new \ReflectionClass($handler);
 
-        if ($reflectionClass->hasMethod('addPet') && $reflectionClass->hasMethod('addPetStream')) {
+        if (declaresMethod($reflectionClass, 'addPet') && declaresMethod($reflectionClass, 'addPetStream')) {
             throw new \Exception('Operation addPet cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('addPet')) {
+        if (declaresMethod($reflectionClass, 'addPet')) {
             \Flight::route('POST /pet', function () use ($handler) {
                 $r = \Flight::request();
                 $result = $handler->addPet(
@@ -40,10 +40,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('deletePet') && $reflectionClass->hasMethod('deletePetStream')) {
+        if (declaresMethod($reflectionClass, 'deletePet') && declaresMethod($reflectionClass, 'deletePetStream')) {
             throw new \Exception('Operation deletePet cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('deletePet')) {
+        if (declaresMethod($reflectionClass, 'deletePet')) {
             \Flight::route('DELETE /pet/@petId', function (string $petId) use ($handler) {
                 $r = \Flight::request();
                 $handler->deletePet(
@@ -54,10 +54,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('findPetsByStatus') && $reflectionClass->hasMethod('findPetsByStatusStream')) {
+        if (declaresMethod($reflectionClass, 'findPetsByStatus') && declaresMethod($reflectionClass, 'findPetsByStatusStream')) {
             throw new \Exception('Operation findPetsByStatus cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('findPetsByStatus')) {
+        if (declaresMethod($reflectionClass, 'findPetsByStatus')) {
             \Flight::route('GET /pet/findByStatus', function () use ($handler) {
                 $r = \Flight::request();
                 $result = $handler->findPetsByStatus(
@@ -70,7 +70,7 @@ class RegisterRoutes {
                 }
             });
         }
-        if ($reflectionClass->hasMethod('findPetsByStatusStream')) {
+        if (declaresMethod($reflectionClass, 'findPetsByStatusStream')) {
             \Flight::route('GET /pet/findByStatus', function () use ($handler) {
                 $r = \Flight::request();
                 $handler->findPetsByStatusStream(
@@ -80,10 +80,10 @@ class RegisterRoutes {
             })->streamWithHeaders(['Content-Type' => 'application/json']);
         }
 
-        if ($reflectionClass->hasMethod('findPetsByTags') && $reflectionClass->hasMethod('findPetsByTagsStream')) {
+        if (declaresMethod($reflectionClass, 'findPetsByTags') && declaresMethod($reflectionClass, 'findPetsByTagsStream')) {
             throw new \Exception('Operation findPetsByTags cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('findPetsByTags')) {
+        if (declaresMethod($reflectionClass, 'findPetsByTags')) {
             \Flight::route('GET /pet/findByTags', function () use ($handler) {
                 $r = \Flight::request();
                 $result = $handler->findPetsByTags(
@@ -96,7 +96,7 @@ class RegisterRoutes {
                 }
             });
         }
-        if ($reflectionClass->hasMethod('findPetsByTagsStream')) {
+        if (declaresMethod($reflectionClass, 'findPetsByTagsStream')) {
             \Flight::route('GET /pet/findByTags', function () use ($handler) {
                 $r = \Flight::request();
                 $handler->findPetsByTagsStream(
@@ -106,10 +106,10 @@ class RegisterRoutes {
             })->streamWithHeaders(['Content-Type' => 'application/json']);
         }
 
-        if ($reflectionClass->hasMethod('getPetById') && $reflectionClass->hasMethod('getPetByIdStream')) {
+        if (declaresMethod($reflectionClass, 'getPetById') && declaresMethod($reflectionClass, 'getPetByIdStream')) {
             throw new \Exception('Operation getPetById cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('getPetById')) {
+        if (declaresMethod($reflectionClass, 'getPetById')) {
             \Flight::route('GET /pet/@petId', function (string $petId) use ($handler) {
                 $r = \Flight::request();
                 $result = $handler->getPetById(
@@ -123,10 +123,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('updatePet') && $reflectionClass->hasMethod('updatePetStream')) {
+        if (declaresMethod($reflectionClass, 'updatePet') && declaresMethod($reflectionClass, 'updatePetStream')) {
             throw new \Exception('Operation updatePet cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('updatePet')) {
+        if (declaresMethod($reflectionClass, 'updatePet')) {
             \Flight::route('PUT /pet', function () use ($handler) {
                 $r = \Flight::request();
                 $result = $handler->updatePet(
@@ -140,31 +140,27 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('updatePetWithForm') && $reflectionClass->hasMethod('updatePetWithFormStream')) {
+        if (declaresMethod($reflectionClass, 'updatePetWithForm') && declaresMethod($reflectionClass, 'updatePetWithFormStream')) {
             throw new \Exception('Operation updatePetWithForm cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('updatePetWithForm')) {
+        if (declaresMethod($reflectionClass, 'updatePetWithForm')) {
             \Flight::route('POST /pet/@petId', function (string $petId) use ($handler) {
                 $r = \Flight::request();
                 $handler->updatePetWithForm(
-                    parseParam($petId, 'int'), 
-                    parseParam(, '?string'), 
-                    parseParam(, '?string')
+                    parseParam($petId, 'int')
                 );
                 \Flight::halt(204);
             });
         }
 
-        if ($reflectionClass->hasMethod('uploadFile') && $reflectionClass->hasMethod('uploadFileStream')) {
+        if (declaresMethod($reflectionClass, 'uploadFile') && declaresMethod($reflectionClass, 'uploadFileStream')) {
             throw new \Exception('Operation uploadFile cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('uploadFile')) {
+        if (declaresMethod($reflectionClass, 'uploadFile')) {
             \Flight::route('POST /pet/@petId/uploadImage', function (string $petId) use ($handler) {
                 $r = \Flight::request();
                 $result = $handler->uploadFile(
-                    parseParam($petId, 'int'), 
-                    parseParam(, '?string'), 
-                    parseParam(, '')
+                    parseParam($petId, 'int')
                 );
                 if ($result === null) {
                     \Flight::halt(204);
@@ -174,10 +170,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('deleteOrder') && $reflectionClass->hasMethod('deleteOrderStream')) {
+        if (declaresMethod($reflectionClass, 'deleteOrder') && declaresMethod($reflectionClass, 'deleteOrderStream')) {
             throw new \Exception('Operation deleteOrder cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('deleteOrder')) {
+        if (declaresMethod($reflectionClass, 'deleteOrder')) {
             \Flight::route('DELETE /store/order/@orderId', function (string $orderId) use ($handler) {
                 $r = \Flight::request();
                 $handler->deleteOrder(
@@ -187,10 +183,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('getInventory') && $reflectionClass->hasMethod('getInventoryStream')) {
+        if (declaresMethod($reflectionClass, 'getInventory') && declaresMethod($reflectionClass, 'getInventoryStream')) {
             throw new \Exception('Operation getInventory cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('getInventory')) {
+        if (declaresMethod($reflectionClass, 'getInventory')) {
             \Flight::route('GET /store/inventory', function () use ($handler) {
                 $r = \Flight::request();
                 $handler->getInventory(
@@ -198,7 +194,7 @@ class RegisterRoutes {
                 \Flight::halt(204);
             });
         }
-        if ($reflectionClass->hasMethod('getInventoryStream')) {
+        if (declaresMethod($reflectionClass, 'getInventoryStream')) {
             \Flight::route('GET /store/inventory', function () use ($handler) {
                 $r = \Flight::request();
                 $handler->getInventoryStream(
@@ -207,10 +203,10 @@ class RegisterRoutes {
             })->streamWithHeaders(['Content-Type' => 'application/json']);
         }
 
-        if ($reflectionClass->hasMethod('getOrderById') && $reflectionClass->hasMethod('getOrderByIdStream')) {
+        if (declaresMethod($reflectionClass, 'getOrderById') && declaresMethod($reflectionClass, 'getOrderByIdStream')) {
             throw new \Exception('Operation getOrderById cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('getOrderById')) {
+        if (declaresMethod($reflectionClass, 'getOrderById')) {
             \Flight::route('GET /store/order/@orderId', function (string $orderId) use ($handler) {
                 $r = \Flight::request();
                 $result = $handler->getOrderById(
@@ -224,10 +220,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('placeOrder') && $reflectionClass->hasMethod('placeOrderStream')) {
+        if (declaresMethod($reflectionClass, 'placeOrder') && declaresMethod($reflectionClass, 'placeOrderStream')) {
             throw new \Exception('Operation placeOrder cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('placeOrder')) {
+        if (declaresMethod($reflectionClass, 'placeOrder')) {
             \Flight::route('POST /store/order', function () use ($handler) {
                 $r = \Flight::request();
                 $result = $handler->placeOrder(
@@ -241,10 +237,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('createUser') && $reflectionClass->hasMethod('createUserStream')) {
+        if (declaresMethod($reflectionClass, 'createUser') && declaresMethod($reflectionClass, 'createUserStream')) {
             throw new \Exception('Operation createUser cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('createUser')) {
+        if (declaresMethod($reflectionClass, 'createUser')) {
             \Flight::route('POST /user', function () use ($handler) {
                 $r = \Flight::request();
                 $handler->createUser(
@@ -254,10 +250,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('createUsersWithArrayInput') && $reflectionClass->hasMethod('createUsersWithArrayInputStream')) {
+        if (declaresMethod($reflectionClass, 'createUsersWithArrayInput') && declaresMethod($reflectionClass, 'createUsersWithArrayInputStream')) {
             throw new \Exception('Operation createUsersWithArrayInput cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('createUsersWithArrayInput')) {
+        if (declaresMethod($reflectionClass, 'createUsersWithArrayInput')) {
             \Flight::route('POST /user/createWithArray', function () use ($handler) {
                 $r = \Flight::request();
                 $handler->createUsersWithArrayInput(
@@ -267,10 +263,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('createUsersWithListInput') && $reflectionClass->hasMethod('createUsersWithListInputStream')) {
+        if (declaresMethod($reflectionClass, 'createUsersWithListInput') && declaresMethod($reflectionClass, 'createUsersWithListInputStream')) {
             throw new \Exception('Operation createUsersWithListInput cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('createUsersWithListInput')) {
+        if (declaresMethod($reflectionClass, 'createUsersWithListInput')) {
             \Flight::route('POST /user/createWithList', function () use ($handler) {
                 $r = \Flight::request();
                 $handler->createUsersWithListInput(
@@ -280,10 +276,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('deleteUser') && $reflectionClass->hasMethod('deleteUserStream')) {
+        if (declaresMethod($reflectionClass, 'deleteUser') && declaresMethod($reflectionClass, 'deleteUserStream')) {
             throw new \Exception('Operation deleteUser cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('deleteUser')) {
+        if (declaresMethod($reflectionClass, 'deleteUser')) {
             \Flight::route('DELETE /user/@username', function (string $username) use ($handler) {
                 $r = \Flight::request();
                 $handler->deleteUser(
@@ -293,10 +289,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('getUserByName') && $reflectionClass->hasMethod('getUserByNameStream')) {
+        if (declaresMethod($reflectionClass, 'getUserByName') && declaresMethod($reflectionClass, 'getUserByNameStream')) {
             throw new \Exception('Operation getUserByName cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('getUserByName')) {
+        if (declaresMethod($reflectionClass, 'getUserByName')) {
             \Flight::route('GET /user/@username', function (string $username) use ($handler) {
                 $r = \Flight::request();
                 $result = $handler->getUserByName(
@@ -310,10 +306,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('loginUser') && $reflectionClass->hasMethod('loginUserStream')) {
+        if (declaresMethod($reflectionClass, 'loginUser') && declaresMethod($reflectionClass, 'loginUserStream')) {
             throw new \Exception('Operation loginUser cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('loginUser')) {
+        if (declaresMethod($reflectionClass, 'loginUser')) {
             \Flight::route('GET /user/login', function () use ($handler) {
                 $r = \Flight::request();
                 $result = $handler->loginUser(
@@ -328,10 +324,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('logoutUser') && $reflectionClass->hasMethod('logoutUserStream')) {
+        if (declaresMethod($reflectionClass, 'logoutUser') && declaresMethod($reflectionClass, 'logoutUserStream')) {
             throw new \Exception('Operation logoutUser cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('logoutUser')) {
+        if (declaresMethod($reflectionClass, 'logoutUser')) {
             \Flight::route('GET /user/logout', function () use ($handler) {
                 $r = \Flight::request();
                 $handler->logoutUser(
@@ -340,10 +336,10 @@ class RegisterRoutes {
             });
         }
 
-        if ($reflectionClass->hasMethod('updateUser') && $reflectionClass->hasMethod('updateUserStream')) {
+        if (declaresMethod($reflectionClass, 'updateUser') && declaresMethod($reflectionClass, 'updateUserStream')) {
             throw new \Exception('Operation updateUser cannot be both streaming and non-streaming');
         }
-        if ($reflectionClass->hasMethod('updateUser')) {
+        if (declaresMethod($reflectionClass, 'updateUser')) {
             \Flight::route('PUT /user/@username', function (string $username) use ($handler) {
                 $r = \Flight::request();
                 $handler->updateUser(
@@ -376,4 +372,9 @@ function parseParam(mixed $param, string $type)
     } else {
         return $param;
     }
+}
+
+function declaresMethod(\ReflectionClass $reflectionClass, string $methodName): bool
+{
+    return $reflectionClass->hasMethod($methodName) && $reflectionClass->getMethod($methodName)->getDeclaringClass()->getName() === $reflectionClass->getName();
 }

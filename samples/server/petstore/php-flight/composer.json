@@ -16,6 +16,9 @@
     "flightphp/core": "^3.5.1",
     "ext-json": "*"
   },
+ "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  },
   "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

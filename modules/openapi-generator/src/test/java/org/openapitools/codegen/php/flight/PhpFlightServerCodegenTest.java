@@ -65,6 +65,10 @@ public class PhpFlightServerCodegenTest {
         TestUtils.assertFileContains(registerRoutesFile, "parseParam(json_decode($r->getBody(), true), '\\\\OpenAPIServer\\\\Model\\\\User[]')");
         TestUtils.assertFileContains(registerRoutesFile, "parseParam($r->getHeader('api_key'), '?string')");
 
+        Files.readAllLines(files.stream().filter(f -> f.getName().contains("RegisterRoutesTest.php")).findFirst().orElseThrow().toPath()).forEach(System.out::println);
+        java.nio.file.Path registerRoutesTestFile = files.stream().filter(f -> f.getName().contains("RegisterRoutesTest.php")).findFirst().orElseThrow().toPath();
+        TestUtils.assertFileContains(registerRoutesTestFile, "namespace OpenAPIServer\\Test;");
+
         output.deleteOnExit();
     }
 }

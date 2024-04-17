@@ -16,16 +16,16 @@ namespace {{apiPackage}};
      * {{{summary}}}
      *
      {{/summary}}
-  {{#allParams}}
+  {{#vendorExtensions.x-nonFormParams}}
      * @param {{vendorExtensions.x-parameter-type}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
-{{/allParams}}
+  {{/vendorExtensions.x-nonFormParams}}
      *
      * @return {{vendorExtensions.x-return-type-comment}}
   {{#isDeprecated}}
      * @deprecated
   {{/isDeprecated}}
      */
-    public function {{operationId}}({{#allParams}}{{vendorExtensions.x-parameter-type}} ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}): {{vendorExtensions.x-return-type}}
+    public function {{operationId}}({{#vendorExtensions.x-nonFormParams}}{{vendorExtensions.x-parameter-type}} ${{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-nonFormParams}}): {{vendorExtensions.x-return-type}}
     {
         throw new \Exception('Not implemented');
     }
@@ -38,15 +38,15 @@ namespace {{apiPackage}};
      * {{{summary}}}
      *
      {{/summary}}
-  {{#allParams}}
+  {{#vendorExtensions.x-nonFormParams}}
      * @param {{vendorExtensions.x-parameter-type}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
-{{/allParams}}
+{{/vendorExtensions.x-nonFormParams}}
      *
   {{#isDeprecated}}
      * @deprecated
   {{/isDeprecated}}
      */
-    public function {{operationId}}Stream({{#allParams}}{{vendorExtensions.x-parameter-type}} ${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}): void
+    public function {{operationId}}Stream({{#vendorExtensions.x-nonFormParams}}{{vendorExtensions.x-parameter-type}} ${{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-nonFormParams}}): void
     {
         throw new \Exception('Not implemented');
     }
