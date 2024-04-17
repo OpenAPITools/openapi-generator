@@ -777,6 +777,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             if (generateMarshalJSON) {
                 model.vendorExtensions.put("x-go-generate-marshal-json", true);
             }
+
+            if (!model.vendorExtensions.containsKey("x-go-generate-unmarshal-json")) {
+                model.vendorExtensions.put("x-go-generate-unmarshal-json", true);
+            }
         }
 
         // recursively add import for mapping one type to multiple imports
