@@ -12,6 +12,7 @@
 
 
 export interface Apple { 
+    /** */
     kind?: string;
 }
 

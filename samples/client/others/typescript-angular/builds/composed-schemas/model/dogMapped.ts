@@ -14,6 +14,7 @@ import { PetWithMappedDiscriminatorModel } from './petWithMappedDiscriminator';
 
 
 export interface DogMappedModel extends PetWithMappedDiscriminatorModel { 
+    /** */
     breed?: DogBreedModel;
 }
 

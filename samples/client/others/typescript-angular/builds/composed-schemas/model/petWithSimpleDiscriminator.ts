@@ -12,6 +12,7 @@
 
 
 export interface PetWithSimpleDiscriminatorModel { 
+    /** */
     petType: string;
 }
 

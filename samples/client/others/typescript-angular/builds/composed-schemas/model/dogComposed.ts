@@ -12,7 +12,9 @@
 
 
 export interface DogComposedModel { 
+    /** */
     petType: string;
+    /** */
     inlineBreed?: DogComposedModelInlineBreedEnum;
 }
 export enum DogComposedModelInlineBreedEnum {

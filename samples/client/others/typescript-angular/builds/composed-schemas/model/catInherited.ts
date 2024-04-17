@@ -13,6 +13,7 @@ import { PetWithSimpleDiscriminatorModel } from './petWithSimpleDiscriminator';
 
 
 export interface CatInheritedModel extends PetWithSimpleDiscriminatorModel { 
+    /** */
     hunts?: boolean;
 }
 

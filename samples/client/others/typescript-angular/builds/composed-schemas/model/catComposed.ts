@@ -12,7 +12,9 @@
 
 
 export interface CatComposedModel { 
+    /** */
     petType: string;
+    /** */
     hunts?: boolean;
 }
 

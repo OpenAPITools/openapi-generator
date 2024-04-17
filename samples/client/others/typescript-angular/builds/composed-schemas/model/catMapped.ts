@@ -13,6 +13,7 @@ import { PetWithMappedDiscriminatorModel } from './petWithMappedDiscriminator';
 
 
 export interface CatMappedModel extends PetWithMappedDiscriminatorModel { 
+    /** */
     hunts?: boolean;
 }
 
