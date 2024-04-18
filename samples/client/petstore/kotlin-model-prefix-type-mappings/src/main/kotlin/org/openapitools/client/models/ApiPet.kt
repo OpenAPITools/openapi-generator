@@ -165,7 +165,7 @@ data class ApiPet (
             }
             // validate the optional field `category`
             if (jsonObj["category"] != null && !jsonObj["category"].isJsonNull) {
-              ApiCategory.Companion.validateJsonElement(jsonObj["category"])
+              ApiCategory.validateJsonElement(jsonObj["category"])
             }
             if (jsonObj["tags"] != null && !jsonObj["tags"].isJsonNull) {
               val jsonArraytags = jsonObj.getAsJsonArray("tags")
@@ -177,7 +177,7 @@ data class ApiPet (
       
                 // validate the optional field `tags` (array)
                 for (i in 0 until jsonArraytags.size()) {
-                  ApiTag.Companion.validateJsonElement(jsonArraytags[i])
+                  ApiTag.validateJsonElement(jsonArraytags[i])
                 }
               }
             }

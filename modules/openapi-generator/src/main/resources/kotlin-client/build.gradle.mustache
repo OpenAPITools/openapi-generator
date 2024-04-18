@@ -3,13 +3,13 @@ version '{{artifactVersion}}'
 {{^omitGradleWrapper}}
 
 wrapper {
-    gradleVersion = '7.5'
+    gradleVersion = '7.6.4'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 {{/omitGradleWrapper}}
 
 buildscript {
-    ext.kotlin_version = '1.8.10'
+    ext.kotlin_version = '1.9.10'
     {{#jvm-ktor}}
     ext.ktor_version = '2.3.9'
     {{/jvm-ktor}}

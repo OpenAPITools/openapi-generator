@@ -174,7 +174,7 @@ import java.io.IOException
                     {{/isNumber}}
                     {{/isArray}}
                     {{#isArray}}
-                        require(jsonElement.isJsonArray()) {
+                        require(jsonElement.isJsonArray) {
                             String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString())
                         }
 
