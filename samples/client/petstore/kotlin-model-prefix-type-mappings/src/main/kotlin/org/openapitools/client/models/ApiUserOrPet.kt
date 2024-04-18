@@ -34,19 +34,6 @@ import java.io.IOException
 /**
  * 
  *
- * @param username 
- * @param name 
- * @param photoUrls 
- * @param id 
- * @param firstName 
- * @param lastName 
- * @param email 
- * @param password 
- * @param phone 
- * @param userStatus User Status
- * @param category 
- * @param tags 
- * @param status pet status in the store
  */
 
 
@@ -65,7 +52,7 @@ data class ApiUserOrPet(var actualInstance: Any? = null) {
             return object : TypeAdapter<ApiUserOrPet?>() {
                 @Throws(IOException::class)
                 override fun write(out: JsonWriter,value: ApiUserOrPet?) {
-                    if (value == null || value.actualInstance == null) {
+                    if (value?.actualInstance == null) {
                         elementAdapter.write(out, null)
                         return
                     }
@@ -86,16 +73,16 @@ data class ApiUserOrPet(var actualInstance: Any? = null) {
                 }
 
                 @Throws(IOException::class)
-                override fun read(jsonReader: JsonReader): ApiUserOrPet? {
+                override fun read(jsonReader: JsonReader): ApiUserOrPet {
                     val jsonElement = elementAdapter.read(jsonReader)
                     var match = 0
                     val errorMessages = ArrayList<String>()
-                    var actualAdapter: TypeAdapter<*> = elementAdapter;
+                    var actualAdapter: TypeAdapter<*> = elementAdapter
 
                     // deserialize ApiUser
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        ApiUser.Companion.validateJsonElement(jsonElement)
+                        ApiUser.validateJsonElement(jsonElement)
                         actualAdapter = adapterApiUser
                         match++
                         //log.log(Level.FINER, "Input data matches schema 'ApiUser'")
@@ -107,7 +94,7 @@ data class ApiUserOrPet(var actualInstance: Any? = null) {
                     // deserialize ApiPet
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        ApiPet.Companion.validateJsonElement(jsonElement)
+                        ApiPet.validateJsonElement(jsonElement)
                         actualAdapter = adapterApiPet
                         match++
                         //log.log(Level.FINER, "Input data matches schema 'ApiPet'")

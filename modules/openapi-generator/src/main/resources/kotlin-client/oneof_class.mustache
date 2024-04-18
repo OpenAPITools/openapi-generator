@@ -62,9 +62,6 @@ import java.io.IOException
 /**
  * {{{description}}}
  *
-{{#allVars}}
- * @param {{{name}}} {{{description}}}
-{{/allVars}}
  */
 {{#parcelizeModels}}
 @Parcelize
@@ -91,8 +88,8 @@ import java.io.IOException
             {{/isArray}}
             {{#isArray}}
             // TODO
-            //val Type typeInstance = new TypeToken<{{{dataType}}}>(){}.getType();
-            //val TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            //val Type typeInstance = new TypeToken<{{{dataType}}}>(){}.getType()
+            //val TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance))
             {{/isArray}}
             {{/oneOf}}
             {{/composedSchemas}}
@@ -101,7 +98,7 @@ import java.io.IOException
             return object : TypeAdapter<{{classname}}?>() {
                 @Throws(IOException::class)
                 override fun write(out: JsonWriter,value: {{classname}}?) {
-                    if (value == null || value.actualInstance == null) {
+                    if (value?.actualInstance == null) {
                         elementAdapter.write(out, null)
                         return
                     }
@@ -118,9 +115,9 @@ import java.io.IOException
                     {{/isPrimitiveType}}
                     {{^isPrimitiveType}}
                     {{#isArray}}
-                        List<?> list = (List<?>) value.actualInstance;
+                        List<?> list = (List<?>) value.actualInstance
                         if (list.get(0) is {{{items.dataType}}}) {
-                            val array = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(value.actualInstance as {{{dataType}}}?).getAsJsonArray();
+                            val array = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(value.actualInstance as {{{dataType}}}?).getAsJsonArray()
                             elementAdapter.write(out, array)
                             return
                         }
@@ -141,11 +138,11 @@ import java.io.IOException
                 }
 
                 @Throws(IOException::class)
-                override fun read(jsonReader: JsonReader): {{classname}}? {
+                override fun read(jsonReader: JsonReader): {{classname}} {
                     val jsonElement = elementAdapter.read(jsonReader)
                     var match = 0
                     val errorMessages = ArrayList<String>()
-                    var actualAdapter: TypeAdapter<*> = elementAdapter;
+                    var actualAdapter: TypeAdapter<*> = elementAdapter
 
                     {{#composedSchemas}}
                     {{#oneOf}}
@@ -166,12 +163,12 @@ import java.io.IOException
                         require(jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
                             String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString())
                         }
-                        actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}};
+                        actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}
                     {{/isPrimitiveType}}
                     {{/isNumber}}
                     {{^isNumber}}
                     {{^isPrimitiveType}}
-                        {{{dataType}}}.Companion.validateJsonElement(jsonElement)
+                        {{{dataType}}}.validateJsonElement(jsonElement)
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}
                     {{/isPrimitiveType}}
                     {{/isNumber}}
@@ -199,7 +196,7 @@ import java.io.IOException
                         {{/isNumber}}
                         {{^isNumber}}
                         {{^isPrimitiveType}}
-                            {{{dataType}}}.Companion.validateJsonElement(element)
+                            {{{dataType}}}.validateJsonElement(element)
                         {{/isPrimitiveType}}
                         {{/isNumber}}
                         {{/items}}
@@ -218,7 +215,7 @@ import java.io.IOException
                     // deserialize {{{.}}}
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        {{.}}.Companion.validateJsonElement(jsonElement);
+                        {{.}}.validateJsonElement(jsonElement)
                         actualAdapter = adapter{{.}}
                         match++
                         //log.log(Level.FINER, "Input data matches schema '{{{.}}}'")
