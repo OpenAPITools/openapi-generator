@@ -11,6 +11,11 @@ import {{javaxPackage}}.ws.rs.core.GenericType;
 {{#imports}}import {{import}};
 {{/imports}}
 
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+
+{{/useBeanValidation}}
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;

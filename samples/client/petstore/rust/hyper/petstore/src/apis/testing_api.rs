@@ -17,6 +17,7 @@ use std::option::Option;
 use hyper;
 use futures::Future;
 
+use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
@@ -36,7 +37,7 @@ impl<C: hyper::client::connect::Connect> TestingApiClient<C>
 
 pub trait TestingApi {
     fn tests_file_response_get(&self, ) -> Pin<Box<dyn Future<Output = Result<std::path::PathBuf, Error>>>>;
-    fn tests_type_testing_get(&self, ) -> Pin<Box<dyn Future<Output = Result<crate::models::TypeTesting, Error>>>>;
+    fn tests_type_testing_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::TypeTesting, Error>>>>;
 }
 
 impl<C: hyper::client::connect::Connect>TestingApi for TestingApiClient<C>
@@ -50,7 +51,7 @@ impl<C: hyper::client::connect::Connect>TestingApi for TestingApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn tests_type_testing_get(&self, ) -> Pin<Box<dyn Future<Output = Result<crate::models::TypeTesting, Error>>>> {
+    fn tests_type_testing_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::TypeTesting, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/tests/typeTesting".to_string())
         ;
 

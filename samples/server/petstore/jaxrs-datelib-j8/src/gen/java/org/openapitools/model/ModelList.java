@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ModelList.JSON_PROPERTY_123LIST
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ModelList  implements Serializable {
   public static final String JSON_PROPERTY_123LIST = "123-list";
   @JsonProperty(JSON_PROPERTY_123LIST)
@@ -66,7 +66,7 @@ public class ModelList  implements Serializable {
       return false;
     }
     ModelList _list = (ModelList) o;
-    return Objects.equals(_123list, _list._123list);
+    return Objects.equals(this._123list, _list._123list);
   }
 
   @Override

@@ -58,7 +58,7 @@ public interface {{classname}} {
     @RequestMapping(
         method = RequestMethod.{{httpMethod}},
         value = "{{{path}}}"{{#singleContentTypes}},
-        produces = "{{{vendorExtensions.x-accepts}}}",
+        produces = { {{#vendorExtensions.x-accepts}}"{{.}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} },
         consumes = "{{{vendorExtensions.x-content-type}}}"{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
         produces = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }{{/hasConsumes}}{{/singleContentTypes}}

@@ -148,7 +148,7 @@ void PFXPrimitivesApi::enableResponseCompression() {
 }
 
 void PFXPrimitivesApi::abortRequests() {
-    emit abortRequestsSignal();
+    Q_EMIT abortRequestsSignal();
 }
 
 QString PFXPrimitivesApi::getParamStylePrefix(const QString &style) {
@@ -241,7 +241,7 @@ void PFXPrimitivesApi::primitivesIntegerPost(const ::test_namespace::OptionalPar
     connect(this, &PFXPrimitivesApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -258,8 +258,8 @@ void PFXPrimitivesApi::primitivesIntegerPostCallback(PFXHttpRequestWorker *worke
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit primitivesIntegerPostSignal();
-        emit primitivesIntegerPostSignalFull(worker);
+        Q_EMIT primitivesIntegerPostSignal();
+        Q_EMIT primitivesIntegerPostSignalFull(worker);
     } else {
 
 #if defined(_MSC_VER)
@@ -276,8 +276,8 @@ void PFXPrimitivesApi::primitivesIntegerPostCallback(PFXHttpRequestWorker *worke
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
-        emit primitivesIntegerPostSignalE(error_type, error_str);
-        emit primitivesIntegerPostSignalEFull(worker, error_type, error_str);
+        Q_EMIT primitivesIntegerPostSignalE(error_type, error_str);
+        Q_EMIT primitivesIntegerPostSignalEFull(worker, error_type, error_str);
 
 #if defined(_MSC_VER)
 #pragma warning(pop)
@@ -287,8 +287,8 @@ void PFXPrimitivesApi::primitivesIntegerPostCallback(PFXHttpRequestWorker *worke
 #pragma GCC diagnostic pop
 #endif
 
-        emit primitivesIntegerPostSignalError(error_type, error_str);
-        emit primitivesIntegerPostSignalErrorFull(worker, error_type, error_str);
+        Q_EMIT primitivesIntegerPostSignalError(error_type, error_str);
+        Q_EMIT primitivesIntegerPostSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -319,7 +319,7 @@ void PFXPrimitivesApi::primitivesNumberPut(const ::test_namespace::OptionalParam
     connect(this, &PFXPrimitivesApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -336,8 +336,8 @@ void PFXPrimitivesApi::primitivesNumberPutCallback(PFXHttpRequestWorker *worker)
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit primitivesNumberPutSignal();
-        emit primitivesNumberPutSignalFull(worker);
+        Q_EMIT primitivesNumberPutSignal();
+        Q_EMIT primitivesNumberPutSignalFull(worker);
     } else {
 
 #if defined(_MSC_VER)
@@ -354,8 +354,8 @@ void PFXPrimitivesApi::primitivesNumberPutCallback(PFXHttpRequestWorker *worker)
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
-        emit primitivesNumberPutSignalE(error_type, error_str);
-        emit primitivesNumberPutSignalEFull(worker, error_type, error_str);
+        Q_EMIT primitivesNumberPutSignalE(error_type, error_str);
+        Q_EMIT primitivesNumberPutSignalEFull(worker, error_type, error_str);
 
 #if defined(_MSC_VER)
 #pragma warning(pop)
@@ -365,8 +365,8 @@ void PFXPrimitivesApi::primitivesNumberPutCallback(PFXHttpRequestWorker *worker)
 #pragma GCC diagnostic pop
 #endif
 
-        emit primitivesNumberPutSignalError(error_type, error_str);
-        emit primitivesNumberPutSignalErrorFull(worker, error_type, error_str);
+        Q_EMIT primitivesNumberPutSignalError(error_type, error_str);
+        Q_EMIT primitivesNumberPutSignalErrorFull(worker, error_type, error_str);
     }
 }
 

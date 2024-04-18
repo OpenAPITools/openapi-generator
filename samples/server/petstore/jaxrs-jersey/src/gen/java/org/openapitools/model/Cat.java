@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Cat extends Animal  {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   @JsonProperty(JSON_PROPERTY_DECLAWED)
@@ -65,7 +65,7 @@ public class Cat extends Animal  {
       return false;
     }
     Cat cat = (Cat) o;
-    return super.equals(o) && Objects.equals(declawed, cat.declawed);
+    return super.equals(o) && Objects.equals(this.declawed, cat.declawed);
   }
 
   @Override

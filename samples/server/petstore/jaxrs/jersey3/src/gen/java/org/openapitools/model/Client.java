@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Client   {
   public static final String JSON_PROPERTY_CLIENT = "client";
   @JsonProperty(JSON_PROPERTY_CLIENT)
@@ -63,7 +63,7 @@ public class Client   {
       return false;
     }
     Client client = (Client) o;
-    return Objects.equals(client, client.client);
+    return Objects.equals(this.client, client.client);
   }
 
   @Override

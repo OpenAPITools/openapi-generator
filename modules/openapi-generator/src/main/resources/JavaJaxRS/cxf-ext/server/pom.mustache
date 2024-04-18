@@ -126,6 +126,12 @@
           <groupId>javax.ws.rs</groupId>
           <artifactId>jsr311-api</artifactId>
         </exclusion>
+          <!-- excluded validation-api:1.1.0.Final due to fact that it doesn't support TYPE_USE,
+for this project used jakarta.validation-api -->
+          <exclusion>
+              <groupId>javax.validation</groupId>
+              <artifactId>validation-api</artifactId>
+          </exclusion>
       </exclusions>
     </dependency>
     <dependency>

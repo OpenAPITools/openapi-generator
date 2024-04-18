@@ -40,7 +40,7 @@ import jakarta.validation.Valid;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE,
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class EnumTest   {
   /**
    * Gets or Sets enumString
@@ -372,14 +372,14 @@ public class EnumTest   {
       return false;
     }
     EnumTest enumTest = (EnumTest) o;
-    return Objects.equals(enumString, enumTest.enumString) &&
-        Objects.equals(enumStringRequired, enumTest.enumStringRequired) &&
-        Objects.equals(enumInteger, enumTest.enumInteger) &&
-        Objects.equals(enumNumber, enumTest.enumNumber) &&
-        Objects.equals(outerEnum, enumTest.outerEnum) &&
-        Objects.equals(outerEnumInteger, enumTest.outerEnumInteger) &&
-        Objects.equals(outerEnumDefaultValue, enumTest.outerEnumDefaultValue) &&
-        Objects.equals(outerEnumIntegerDefaultValue, enumTest.outerEnumIntegerDefaultValue);
+    return Objects.equals(this.enumString, enumTest.enumString) &&
+        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
+        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
+        Objects.equals(this.outerEnum, enumTest.outerEnum) &&
+        Objects.equals(this.outerEnumInteger, enumTest.outerEnumInteger) &&
+        Objects.equals(this.outerEnumDefaultValue, enumTest.outerEnumDefaultValue) &&
+        Objects.equals(this.outerEnumIntegerDefaultValue, enumTest.outerEnumIntegerDefaultValue);
   }
 
   @Override

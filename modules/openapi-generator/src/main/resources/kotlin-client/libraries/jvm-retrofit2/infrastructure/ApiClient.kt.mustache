@@ -90,7 +90,7 @@ import okhttp3.MediaType.Companion.toMediaType
         kotlinxSerializationJson.asConverterFactory("application/json".toMediaType()),
         {{/kotlinx_serialization}}
         {{#jackson}}
-        JacksonConverterFactory.create(),
+        JacksonConverterFactory.create(serializerBuilder),
         {{/jackson}}
     )
 ) {

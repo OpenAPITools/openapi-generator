@@ -116,6 +116,7 @@ var supportedSigningSchemes = map[string]bool{
 type HttpSignatureAuth struct {
 	KeyId             string            // A key identifier.
 	PrivateKeyPath    string            // The path to the private key.
+	PrivateKeyReader io.Reader			// provide the APIKey using the types which implement io.Reader interface.
 	Passphrase        string            // The passphrase to decrypt the private key, if the key is encrypted.
 	SigningScheme     string            // The signature scheme, when signing HTTP requests. Supported value is 'hs2019'.
 	// The signature algorithm, when signing HTTP requests.
@@ -143,8 +144,11 @@ func (h *HttpSignatureAuth) ContextWithValue(ctx context.Context) (context.Conte
 	if h.KeyId == "" {
 		return nil, fmt.Errorf("key ID must be specified")
 	}
-	if h.PrivateKeyPath == "" && h.privateKey == nil {
+	if (len(h.PrivateKeyPath) == 0 && h.PrivateKeyReader == nil) && h.privateKey == nil {
 		return nil, fmt.Errorf("private key path must be specified")
+	}
+	if len(h.PrivateKeyPath) > 0 && h.PrivateKeyReader != nil{
+		return nil, fmt.Errorf("Specify only one of PrivateKeyPath or PrivateKeyReader")
 	}
 	if _, ok := supportedSigningSchemes[h.SigningScheme]; !ok {
 		return nil, fmt.Errorf("invalid signing scheme: '%v'", h.SigningScheme)
@@ -193,17 +197,21 @@ func (h *HttpSignatureAuth) loadPrivateKey() (err error) {
 	if h.privateKey != nil {
 		return nil
 	}
-	var file *os.File
-	file, err = os.Open(h.PrivateKeyPath)
-	if err != nil {
-		return fmt.Errorf("cannot load private key '%s'. Error: %v", h.PrivateKeyPath, err)
-	}
-	defer func() {
-		err = file.Close()
-	}()
 	var priv []byte
-	priv, err = io.ReadAll(file)
-	if err != nil {
+	keyReader := h.PrivateKeyReader
+	if keyReader == nil {
+		var file *os.File
+		file, err = os.Open(h.PrivateKeyPath)
+		if err != nil {
+			return fmt.Errorf("cannot load private key '%s'. Error: %v", h.PrivateKeyPath, err)
+		}
+		keyReader = file
+		defer func() {
+			err = file.Close()
+		}()
+	}
+	priv, err = io.ReadAll(keyReader)
+	if err != nil{
 		return err
 	}
 	return h.parsePrivateKey(priv)

@@ -76,7 +76,7 @@ class AdditionalPropertiesClassTest extends TestCase
     public function testAdditionalPropertiesClass()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class AdditionalPropertiesClassTest extends TestCase
     public function testPropertyMapProperty()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,6 +94,6 @@ class AdditionalPropertiesClassTest extends TestCase
     public function testPropertyMapOfMapProperty()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

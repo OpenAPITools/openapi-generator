@@ -22,6 +22,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -59,7 +60,7 @@ import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -153,7 +154,7 @@ public class ApiClient extends JavaTimeFormatter {
     /**
      * Set the max attempts for retry
      *
-     * @param getMaxAttemptsForRetry the max attempts for retry
+     * @param maxAttemptsForRetry the max attempts for retry
      * @return ApiClient this client
      */
     public ApiClient setMaxAttemptsForRetry(int maxAttemptsForRetry) {
@@ -680,20 +681,29 @@ public class ApiClient extends JavaTimeFormatter {
             try {
                 responseEntity = restTemplate.exchange(requestEntity, returnType);
                 break;
-            } catch (HttpServerErrorException ex) {
-                attempts++;
-                if (attempts < maxAttemptsForRetry) {
-                    try {
-                        Thread.sleep(waitTimeMillis);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
+            } catch (HttpServerErrorException | HttpClientErrorException ex) {
+                if (ex instanceof HttpServerErrorException
+                        || ((HttpClientErrorException) ex)
+                        .getStatusCode()
+                        .equals(HttpStatus.TOO_MANY_REQUESTS)) {
+                    attempts++;
+                    if (attempts < maxAttemptsForRetry) {
+                        try {
+                            Thread.sleep(waitTimeMillis);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    } else {
+                        throw ex;
                     }
+                } else {
+                    throw ex;
                 }
             }
         }
 
         if (responseEntity == null) {
-            throw new RestClientException("API returned HttpServerErrorException");
+            throw new RestClientException("ResponseEntity is null");
         }
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {

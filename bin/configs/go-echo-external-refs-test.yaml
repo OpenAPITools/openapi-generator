@@ -1,0 +1,6 @@
+generatorName: go
+outputDir: samples/client/echo_api/go-external-refs
+inputSpec: modules/openapi-generator/src/test/resources/3_0/external-refs/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/go
+additionalProperties:
+  hideGenerationTimestamp: "true"

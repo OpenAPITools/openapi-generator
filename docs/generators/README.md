@@ -12,7 +12,7 @@ The following generators are available:
 * [cpp-restsdk](cpp-restsdk.md)  
 * [cpp-tizen](cpp-tizen.md)  
 * [csharp](csharp.md)  
-* [csharp-netcore](csharp-netcore.md)  
+* [csharp-functions](csharp-functions.md)  
 * [dart](dart.md)  
 * [dart-dio](dart-dio.md)  
 * [eiffel](eiffel.md)  

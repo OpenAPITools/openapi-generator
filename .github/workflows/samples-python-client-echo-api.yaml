@@ -15,7 +15,7 @@ jobs:
         sample:
           # clients
           - samples/client/echo_api/python
-          - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent-true
+          - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent
         python-version:
           - "3.7"
           - "3.8"
@@ -42,3 +42,7 @@ jobs:
       - name: Test
         working-directory: ${{ matrix.sample }}
         run: python -m pytest
+
+      - name: mypy
+        working-directory: ${{ matrix.sample }}
+        run: python -m mypy

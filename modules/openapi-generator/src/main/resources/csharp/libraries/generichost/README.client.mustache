@@ -179,8 +179,11 @@ Class | Method | HTTP request | Description
 {{/authMethods}}
 
 ## Build
-- SDK version: {{packageVersion}}{{^hideGenerationTimestamp}}
-- Build date: {{generatedDate}}{{/hideGenerationTimestamp}}
+- SDK version: {{packageVersion}}
+{{^hideGenerationTimestamp}}
+- Build date: {{generatedDate}}
+{{/hideGenerationTimestamp}}
+- Generator version: {{generatorVersion}}
 - Build package: {{generatorClass}}
 
 ## Api Information

@@ -1,4 +1,4 @@
-name: Samples C# .Net 6
+name: Samples C# .Net 6 Client Echo API
 
 on:
   push:

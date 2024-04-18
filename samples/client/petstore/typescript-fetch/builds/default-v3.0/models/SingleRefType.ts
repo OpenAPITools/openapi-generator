@@ -24,6 +24,10 @@ export const SingleRefType = {
 export type SingleRefType = typeof SingleRefType[keyof typeof SingleRefType];
 
 
+export function instanceOfSingleRefType(value: any): boolean {
+    return Object.values(SingleRefType).includes(value);
+}
+
 export function SingleRefTypeFromJSON(json: any): SingleRefType {
     return SingleRefTypeFromJSONTyped(json, false);
 }

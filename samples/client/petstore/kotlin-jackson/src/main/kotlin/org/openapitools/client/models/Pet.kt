@@ -18,6 +18,7 @@ package org.openapitools.client.models
 import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -58,12 +59,13 @@ data class Pet (
     /**
      * pet status in the store
      *
-     * Values: AVAILABLE,PENDING,SOLD
+     * Values: AVAILABLE,PENDING,SOLD,UNKNOWN_DEFAULT_OPEN_API
      */
     enum class Status(val value: kotlin.String) {
         @JsonProperty(value = "available") AVAILABLE("available"),
         @JsonProperty(value = "pending") PENDING("pending"),
-        @JsonProperty(value = "sold") SOLD("sold");
+        @JsonProperty(value = "sold") SOLD("sold"),
+        @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue UNKNOWN_DEFAULT_OPEN_API("unknown_default_open_api");
     }
 }
 

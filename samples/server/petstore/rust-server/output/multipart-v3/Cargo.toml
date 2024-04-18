@@ -17,7 +17,7 @@ client = [
 ]
 server = [
     "mime_0_2",
-    "multipart", "multipart/server",
+    "multipart", "multipart/server", "swagger/multipart_form",
     "hyper_0_10", "mime_multipart",
    "serde_ignored", "hyper", "regex", "percent-encoding", "url", "lazy_static"
 ]

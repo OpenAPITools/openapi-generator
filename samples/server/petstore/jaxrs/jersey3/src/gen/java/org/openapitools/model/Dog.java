@@ -28,7 +28,7 @@ import jakarta.validation.Valid;
 @JsonPropertyOrder({
   Dog.JSON_PROPERTY_BREED
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Dog extends Animal  {
   public static final String JSON_PROPERTY_BREED = "breed";
   @JsonProperty(JSON_PROPERTY_BREED)
@@ -64,7 +64,7 @@ public class Dog extends Animal  {
       return false;
     }
     Dog dog = (Dog) o;
-    return super.equals(o) && Objects.equals(breed, dog.breed);
+    return super.equals(o) && Objects.equals(this.breed, dog.breed);
   }
 
   @Override

@@ -27,31 +27,23 @@ import javax.annotation.Generated;
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
 
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class User {
 
-  @JacksonXmlProperty(localName = "id")
   private Long id;
 
-  @JacksonXmlProperty(localName = "username")
   private String username;
 
-  @JacksonXmlProperty(localName = "firstName")
   private String firstName;
 
-  @JacksonXmlProperty(localName = "lastName")
   private String lastName;
 
-  @JacksonXmlProperty(localName = "email")
   private String email;
 
-  @JacksonXmlProperty(localName = "password")
   private String password;
 
-  @JacksonXmlProperty(localName = "phone")
   private String phone;
 
-  @JacksonXmlProperty(localName = "userStatus")
   private Integer userStatus;
 
   public User id(Long id) {
@@ -66,6 +58,7 @@ public class User {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
   public Long getId() {
     return id;
   }
@@ -86,6 +79,7 @@ public class User {
   
   @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("username")
+  @JacksonXmlProperty(localName = "username")
   public String getUsername() {
     return username;
   }
@@ -106,6 +100,7 @@ public class User {
   
   @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("firstName")
+  @JacksonXmlProperty(localName = "firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -126,6 +121,7 @@ public class User {
   
   @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastName")
+  @JacksonXmlProperty(localName = "lastName")
   public String getLastName() {
     return lastName;
   }
@@ -146,6 +142,7 @@ public class User {
   
   @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("email")
+  @JacksonXmlProperty(localName = "email")
   public String getEmail() {
     return email;
   }
@@ -166,6 +163,7 @@ public class User {
   
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
+  @JacksonXmlProperty(localName = "password")
   public String getPassword() {
     return password;
   }
@@ -186,6 +184,7 @@ public class User {
   
   @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("phone")
+  @JacksonXmlProperty(localName = "phone")
   public String getPhone() {
     return phone;
   }
@@ -206,6 +205,7 @@ public class User {
   
   @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userStatus")
+  @JacksonXmlProperty(localName = "userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }

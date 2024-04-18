@@ -14,6 +14,10 @@ All URIs are relative to *http://localhost:3000*
 | [**testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s) |
 | [**testQueryStyleDeepObjectExplodeTrueObjectAllOf**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s) |
 | [**testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s) |
+| [**testQueryStyleFormExplodeFalseArrayInteger**](QueryApi.md#testQueryStyleFormExplodeFalseArrayInteger) | **GET** /query/style_form/explode_false/array_integer | Test query parameter(s) |
+| [**testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo**](QueryApi.md#testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo) | **GET** /query/style_form/explode_false/array_integer | Test query parameter(s) |
+| [**testQueryStyleFormExplodeFalseArrayString**](QueryApi.md#testQueryStyleFormExplodeFalseArrayString) | **GET** /query/style_form/explode_false/array_string | Test query parameter(s) |
+| [**testQueryStyleFormExplodeFalseArrayStringWithHttpInfo**](QueryApi.md#testQueryStyleFormExplodeFalseArrayStringWithHttpInfo) | **GET** /query/style_form/explode_false/array_string | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueArrayString**](QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueArrayStringWithHttpInfo**](QueryApi.md#testQueryStyleFormExplodeTrueArrayStringWithHttpInfo) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueObject**](QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s) |
@@ -692,6 +696,274 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **queryObject** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](.md)|  | [optional] |
+
+### Return type
+
+ApiResponse<**String**>
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+
+## testQueryStyleFormExplodeFalseArrayInteger
+
+> String testQueryStyleFormExplodeFalseArrayInteger(queryObject)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.QueryApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+
+        QueryApi apiInstance = new QueryApi(defaultClient);
+        List<Integer> queryObject = Arrays.asList(); // List<Integer> | 
+        try {
+            String result = apiInstance.testQueryStyleFormExplodeFalseArrayInteger(queryObject);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling QueryApi#testQueryStyleFormExplodeFalseArrayInteger");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **queryObject** | [**List&lt;Integer&gt;**](Integer.md)|  | [optional] |
+
+### Return type
+
+**String**
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+## testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo
+
+> ApiResponse<String> testQueryStyleFormExplodeFalseArrayInteger testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.QueryApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+
+        QueryApi apiInstance = new QueryApi(defaultClient);
+        List<Integer> queryObject = Arrays.asList(); // List<Integer> | 
+        try {
+            ApiResponse<String> response = apiInstance.testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject);
+            System.out.println("Status code: " + response.getStatusCode());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
+        } catch (ApiException e) {
+            System.err.println("Exception when calling QueryApi#testQueryStyleFormExplodeFalseArrayInteger");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **queryObject** | [**List&lt;Integer&gt;**](Integer.md)|  | [optional] |
+
+### Return type
+
+ApiResponse<**String**>
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+
+## testQueryStyleFormExplodeFalseArrayString
+
+> String testQueryStyleFormExplodeFalseArrayString(queryObject)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.QueryApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+
+        QueryApi apiInstance = new QueryApi(defaultClient);
+        List<String> queryObject = Arrays.asList(); // List<String> | 
+        try {
+            String result = apiInstance.testQueryStyleFormExplodeFalseArrayString(queryObject);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling QueryApi#testQueryStyleFormExplodeFalseArrayString");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **queryObject** | [**List&lt;String&gt;**](String.md)|  | [optional] |
+
+### Return type
+
+**String**
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+## testQueryStyleFormExplodeFalseArrayStringWithHttpInfo
+
+> ApiResponse<String> testQueryStyleFormExplodeFalseArrayString testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.QueryApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+
+        QueryApi apiInstance = new QueryApi(defaultClient);
+        List<String> queryObject = Arrays.asList(); // List<String> | 
+        try {
+            ApiResponse<String> response = apiInstance.testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject);
+            System.out.println("Status code: " + response.getStatusCode());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
+        } catch (ApiException e) {
+            System.err.println("Exception when calling QueryApi#testQueryStyleFormExplodeFalseArrayString");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **queryObject** | [**List&lt;String&gt;**](String.md)|  | [optional] |
 
 ### Return type
 

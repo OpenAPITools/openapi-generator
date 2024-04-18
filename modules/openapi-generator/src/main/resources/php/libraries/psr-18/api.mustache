@@ -605,16 +605,11 @@ use function sprintf;
         }
         {{/formParams}}
 
-        if ($multipart) {
-            $headers = $this->headerSelector->selectHeadersForMultipart(
-                [{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}]
-            );
-        } else {
-            $headers = $this->headerSelector->selectHeaders(
-                [{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}],
-                [{{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}}]
-            );
-        }
+        $headers = $this->headerSelector->selectHeaders(
+            [{{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}}],
+            '{{#consumes}}{{{mediaType}}}{{/consumes}}',
+            $multipart
+        );
 
         // for model (json/xml)
         {{#bodyParams}}

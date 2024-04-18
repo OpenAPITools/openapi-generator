@@ -76,7 +76,7 @@ class EnumTestTest extends TestCase
     public function testEnumTest()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class EnumTestTest extends TestCase
     public function testPropertyEnumString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,7 +94,7 @@ class EnumTestTest extends TestCase
     public function testPropertyEnumStringRequired()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -103,7 +103,7 @@ class EnumTestTest extends TestCase
     public function testPropertyEnumInteger()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -112,7 +112,7 @@ class EnumTestTest extends TestCase
     public function testPropertyEnumNumber()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -121,7 +121,7 @@ class EnumTestTest extends TestCase
     public function testPropertyOuterEnum()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -130,7 +130,7 @@ class EnumTestTest extends TestCase
     public function testPropertyOuterEnumInteger()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -139,7 +139,7 @@ class EnumTestTest extends TestCase
     public function testPropertyOuterEnumDefaultValue()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -148,6 +148,6 @@ class EnumTestTest extends TestCase
     public function testPropertyOuterEnumIntegerDefaultValue()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

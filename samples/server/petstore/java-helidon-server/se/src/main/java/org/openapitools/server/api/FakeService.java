@@ -41,6 +41,7 @@ public interface FakeService extends Service {
         rules.post("/fake/outer/number", this::fakeOuterNumberSerialize);
         rules.post("/fake/outer/string", this::fakeOuterStringSerialize);
         rules.post("/fake/property/enum-int", Handler.create(OuterObjectWithEnumProperty.class, this::fakePropertyEnumIntegerSerialize));
+        rules.post("/fake/additionalProperties-reference", this::testAdditionalPropertiesReference);
         rules.put("/fake/body-with-binary", this::testBodyWithBinary);
         rules.put("/fake/body-with-file-schema", Handler.create(FileSchemaTestClass.class, this::testBodyWithFileSchema));
         rules.put("/fake/body-with-query-params", Handler.create(User.class, this::testBodyWithQueryParams));
@@ -53,6 +54,7 @@ public interface FakeService extends Service {
         rules.get("/fake/jsonFormData", this::testJsonFormData);
         rules.post("/fake/nullable", Handler.create(ChildWithNullable.class, this::testNullable));
         rules.put("/fake/test-query-parameters", this::testQueryParameterCollectionFormat);
+        rules.post("/fake/stringMap-reference", this::testStringMapReference);
     }
 
 
@@ -114,6 +116,13 @@ public interface FakeService extends Service {
      * @param outerObjectWithEnumProperty Input enum (int) as post body 
      */
     void fakePropertyEnumIntegerSerialize(ServerRequest request, ServerResponse response, OuterObjectWithEnumProperty outerObjectWithEnumProperty);
+
+    /**
+     * POST /fake/additionalProperties-reference : test referenced additionalProperties.
+     * @param request the server request
+     * @param response the server response
+     */
+    void testAdditionalPropertiesReference(ServerRequest request, ServerResponse response);
 
     /**
      * PUT /fake/body-with-binary.
@@ -203,5 +212,12 @@ public interface FakeService extends Service {
      * @param response the server response
      */
     void testQueryParameterCollectionFormat(ServerRequest request, ServerResponse response);
+
+    /**
+     * POST /fake/stringMap-reference : test referenced string map.
+     * @param request the server request
+     * @param response the server response
+     */
+    void testStringMapReference(ServerRequest request, ServerResponse response);
 
 }

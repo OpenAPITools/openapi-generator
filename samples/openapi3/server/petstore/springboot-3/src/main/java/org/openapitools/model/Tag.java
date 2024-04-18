@@ -8,8 +8,11 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import jakarta.xml.bind.annotation.*;
 
 import java.util.*;
 import jakarta.annotation.Generated;
@@ -19,7 +22,11 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Tag", description = "A tag for a pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@JacksonXmlRootElement(localName = "Tag")
+@XmlRootElement(name = "Tag")
+@XmlAccessorType(XmlAccessType.FIELD)
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Tag {
 
   private Long id;
@@ -38,6 +45,7 @@ public class Tag {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
   public Long getId() {
     return id;
   }
@@ -58,6 +66,7 @@ public class Tag {
   
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
+  @JacksonXmlProperty(localName = "name")
   public String getName() {
     return name;
   }

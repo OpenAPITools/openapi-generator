@@ -37,7 +37,7 @@ import javax.validation.Valid;
   TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class TypeHolderDefault  implements Serializable {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
@@ -177,11 +177,11 @@ public class TypeHolderDefault  implements Serializable {
       return false;
     }
     TypeHolderDefault typeHolderDefault = (TypeHolderDefault) o;
-    return Objects.equals(stringItem, typeHolderDefault.stringItem) &&
-        Objects.equals(numberItem, typeHolderDefault.numberItem) &&
-        Objects.equals(integerItem, typeHolderDefault.integerItem) &&
-        Objects.equals(boolItem, typeHolderDefault.boolItem) &&
-        Objects.equals(arrayItem, typeHolderDefault.arrayItem);
+    return Objects.equals(this.stringItem, typeHolderDefault.stringItem) &&
+        Objects.equals(this.numberItem, typeHolderDefault.numberItem) &&
+        Objects.equals(this.integerItem, typeHolderDefault.integerItem) &&
+        Objects.equals(this.boolItem, typeHolderDefault.boolItem) &&
+        Objects.equals(this.arrayItem, typeHolderDefault.arrayItem);
   }
 
   @Override

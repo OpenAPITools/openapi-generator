@@ -31,7 +31,7 @@ import javax.validation.Valid;
   Model200Response.JSON_PROPERTY_NAME,
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Model200Response   {
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -91,8 +91,8 @@ public class Model200Response   {
       return false;
     }
     Model200Response _200response = (Model200Response) o;
-    return Objects.equals(name, _200response.name) &&
-        Objects.equals(propertyClass, _200response.propertyClass);
+    return Objects.equals(this.name, _200response.name) &&
+        Objects.equals(this.propertyClass, _200response.propertyClass);
   }
 
   @Override

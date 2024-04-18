@@ -1,0 +1,8 @@
+generatorName: rust
+outputDir: samples/client/others/rust/hyper/emptyObject
+library: hyper
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/empty-object.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: "false"
+  packageName: empty-object-hyper

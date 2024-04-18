@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Name {
 
   private Integer name;

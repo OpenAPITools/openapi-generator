@@ -5,6 +5,7 @@
 OpenAPI Petstore
 
 - API version: 1.0.0
+- Generator version: 7.6.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -33,7 +34,7 @@ using namespace test_namespace;
 class Example : public QObject {
     Q_OBJECT
     PFXPet create();
-public slots:
+public Q_SLOTS:
    void exampleFunction1();
 };
 

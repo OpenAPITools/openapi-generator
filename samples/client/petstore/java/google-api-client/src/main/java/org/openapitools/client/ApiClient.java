@@ -16,7 +16,7 @@ import com.google.api.client.json.Json;
 import java.io.IOException;
 import java.io.OutputStream;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ApiClient {
     private final String basePath;
     private final HttpRequestFactory httpRequestFactory;

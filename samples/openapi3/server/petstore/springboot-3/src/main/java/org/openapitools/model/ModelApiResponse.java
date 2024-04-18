@@ -9,8 +9,11 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import jakarta.xml.bind.annotation.*;
 
 import java.util.*;
 import jakarta.annotation.Generated;
@@ -21,7 +24,11 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "ApiResponse", description = "Describes the result of uploading an image resource")
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@JacksonXmlRootElement(localName = "ModelApiResponse")
+@XmlRootElement(name = "ModelApiResponse")
+@XmlAccessorType(XmlAccessType.FIELD)
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ModelApiResponse {
 
   private Integer code;
@@ -42,6 +49,7 @@ public class ModelApiResponse {
   
   @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
+  @JacksonXmlProperty(localName = "code")
   public Integer getCode() {
     return code;
   }
@@ -62,6 +70,7 @@ public class ModelApiResponse {
   
   @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
+  @JacksonXmlProperty(localName = "type")
   public String getType() {
     return type;
   }
@@ -82,6 +91,7 @@ public class ModelApiResponse {
   
   @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("message")
+  @JacksonXmlProperty(localName = "message")
   public String getMessage() {
     return message;
   }

@@ -102,6 +102,15 @@ public interface FakeApi  {
     @Produces({ "*/*" })
     OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws ApiException, ProcessingException;
 
+    /**
+     * test referenced additionalProperties
+     * 
+     */
+    @POST
+    @Path("/additionalProperties-reference")
+    @Consumes({ "application/json" })
+    void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws ApiException, ProcessingException;
+
     @PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })
@@ -192,4 +201,13 @@ public interface FakeApi  {
     @PUT
     @Path("/test-query-parameters")
     void testQueryParameterCollectionFormat(@QueryParam("pipe") List<String> pipe, @QueryParam("ioutil") List<String> ioutil, @QueryParam("http") List<String> http, @QueryParam("url") List<String> url, @QueryParam("context") List<String> context, @QueryParam("allowEmpty") String allowEmpty, @QueryParam("language") Map<String, String> language) throws ApiException, ProcessingException;
+
+    /**
+     * test referenced string map
+     * 
+     */
+    @POST
+    @Path("/stringMap-reference")
+    @Consumes({ "application/json" })
+    void testStringMapReference(Map<String, String> requestBody) throws ApiException, ProcessingException;
 }

@@ -16,8 +16,6 @@ Method | HTTP request | Description
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.rest import ApiException

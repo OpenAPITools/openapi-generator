@@ -1,0 +1,5 @@
+generatorName: go
+outputDir: samples/client/others/go/oneof-anyof-required
+inputSpec: modules/openapi-generator/src/test/resources/3_0/go/spec-with-oneof-anyof-required.yaml
+additionalProperties:
+  hideGenerationTimestamp: "true"

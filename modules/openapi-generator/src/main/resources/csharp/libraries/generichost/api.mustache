@@ -217,7 +217,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
-        public {{classname}}(ILogger<{{classname}}> logger, ILoggerFactory loggerFactory, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}}{{#hasApiKeyMethods}},
+        public {{classname}}(ILogger<{{classname}}> logger, ILoggerFactory loggerFactory, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}}{{#hasApiKeyMethods}},
             TokenProvider<ApiKeyToken> apiKeyProvider{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}},
             TokenProvider<BearerToken> bearerTokenProvider{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}},
             TokenProvider<BasicToken> basicTokenProvider{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}},
@@ -229,7 +229,7 @@ namespace {{packageName}}.{{apiPackage}}
             LoggerFactory = loggerFactory;
             Logger = LoggerFactory.CreateLogger<{{classname}}>();
             HttpClient = httpClient;
-            Events = {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}};{{#hasApiKeyMethods}}
+            Events = {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}};{{#hasApiKeyMethods}}
             ApiKeyProvider = apiKeyProvider;{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
             BearerTokenProvider = bearerTokenProvider;{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
             BasicTokenProvider = basicTokenProvider;{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
@@ -390,18 +390,17 @@ namespace {{packageName}}.{{apiPackage}}
                     uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath;
                     {{/-first}}
                     {{/servers}}
+                    {{#constantParams}}
+                    {{#isPathParam}}
+                    // Set client side default value of Path Param "{{baseName}}".
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString(ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}}))); // Constant path parameter
+                    {{/isPathParam}}
+                    {{/constantParams}}
                     {{#pathParams}}
-                    {{#required}}
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));
-                    {{/required}}
-                    {{^required}}
-
-                    if ({{paramName}}.IsSet)
-                        uriBuilderLocalVar.Path = uriBuilderLocalVar.Path + $"/{ Uri.EscapeDataString({{paramName}}.Value).ToString()) }";
                     {{#-last}}
 
                     {{/-last}}
-                    {{/required}}
                     {{/pathParams}}
                     {{#queryParams}}
                     {{#-first}}
@@ -424,16 +423,21 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#-first}}
 
                     {{/-first}}
-                    {{/required}}
-                    {{#required}}
-                    parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}{{#isNullable}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}{{/isNullable}}.ToString();
+                    parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{paramName}});
                     {{/required}}
                     {{/queryParams}}
 
+                    {{#constantParams}}
+                    {{#isQueryParam}}
+                    // Set client side default value of Query Param "{{baseName}}".
+                    parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}}); // Constant query parameter
+                    {{/isQueryParam}}
+                    {{/constantParams}}
                     {{#queryParams}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
-                        parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}.Value{{#isNullable}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}{{/isNullable}}.ToString();
+                        // here too
+                        parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{paramName}}.Value);
 
                     {{/required}}
                     {{#-last}}
@@ -441,6 +445,12 @@ namespace {{packageName}}.{{apiPackage}}
 
                     {{/-last}}
                     {{/queryParams}}
+                    {{#constantParams}}
+                    {{#isHeaderParam}}
+                    // Set client side default value of Header Param "{{baseName}}".
+                    httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
+                    {{/isHeaderParam}}
+                    {{/constantParams}}
                     {{#headerParams}}
                     {{#required}}
                     httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));

@@ -1,0 +1,17 @@
+.gitignore
+.travis.yml
+Cargo.toml
+README.md
+docs/Apple.md
+docs/DefaultApi.md
+docs/Fruit.md
+docs/Grape.md
+git_push.sh
+src/apis/configuration.rs
+src/apis/default_api.rs
+src/apis/mod.rs
+src/lib.rs
+src/models/apple.rs
+src/models/fruit.rs
+src/models/grape.rs
+src/models/mod.rs

@@ -8,8 +8,11 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import jakarta.xml.bind.annotation.*;
 
 import java.util.*;
 import jakarta.annotation.Generated;
@@ -19,7 +22,11 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Category", description = "A category for a pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@JacksonXmlRootElement(localName = "Category")
+@XmlRootElement(name = "Category")
+@XmlAccessorType(XmlAccessType.FIELD)
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Category {
 
   private Long id;
@@ -38,6 +45,7 @@ public class Category {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
   public Long getId() {
     return id;
   }
@@ -58,6 +66,7 @@ public class Category {
   @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
+  @JacksonXmlProperty(localName = "name")
   public String getName() {
     return name;
   }

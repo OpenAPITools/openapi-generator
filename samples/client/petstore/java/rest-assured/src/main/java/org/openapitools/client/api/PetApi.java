@@ -274,7 +274,7 @@ public class PetApi {
 
         public FindPetsByStatusOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 
@@ -349,7 +349,7 @@ public class PetApi {
 
         public FindPetsByTagsOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 
@@ -422,7 +422,7 @@ public class PetApi {
 
         public GetPetByIdOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 

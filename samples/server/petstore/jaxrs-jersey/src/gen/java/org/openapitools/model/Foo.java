@@ -28,7 +28,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_BAR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Foo   {
   public static final String JSON_PROPERTY_BAR = "bar";
   @JsonProperty(JSON_PROPERTY_BAR)
@@ -64,7 +64,7 @@ public class Foo   {
       return false;
     }
     Foo foo = (Foo) o;
-    return Objects.equals(bar, foo.bar);
+    return Objects.equals(this.bar, foo.bar);
   }
 
   @Override

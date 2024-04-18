@@ -22,6 +22,9 @@ import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -101,6 +104,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String APPEND_REQUEST_TO_HANDLER = "appendRequestToHandler";
 
     private String basePackage;
     protected String configPackage;
@@ -203,6 +207,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "@RestController annotations. May be used to prevent bean names clash if multiple generated libraries" +
                 " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
+        addSwitch(APPEND_REQUEST_TO_HANDLER, "Append ServerHttpRequest to handler method for getting request stuff", false);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -375,6 +380,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public void setUseTags(boolean useTags) {
         this.useTags = useTags;
+    }
+
+    public boolean isAppendRequestToHandler() {
+        return Boolean.parseBoolean(additionalProperties.getOrDefault(APPEND_REQUEST_TO_HANDLER, false).toString());
     }
 
     public void setUseSpringBoot3(boolean isSpringBoot3) {
@@ -744,8 +753,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         additionalProperties.put("jackson", "true");
 
         // add lambda for mustache templates
-        additionalProperties.put("lambdaEscapeDoubleQuote",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
+        additionalProperties.put("lambdaEscapeInNormalString",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("([$\"\\\\])", "\\\\$1")));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
     }
@@ -900,6 +909,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
                 final List<CodegenParameter> allParams = operation.allParams;
                 if (allParams != null) {
+                    if (this.isAppendRequestToHandler()) {
+                        allParams.add(new RequestCodegenParameter(true));
+                    }
                     allParams.forEach(param ->
                             // This is necessary in case 'modelMutable' is enabled,
                             // to prevent Spring Request handlers from being generated with
@@ -941,46 +953,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             return type.replaceAll("kotlin\\.collections\\.Mutable", "kotlin.collections.");
         }
         return type;
-    }
-
-    private interface DataTypeAssigner {
-        void setReturnType(String returnType);
-
-        void setReturnContainer(String returnContainer);
-    }
-
-    /**
-     * @param returnType       The return type that needs to be converted
-     * @param dataTypeAssigner An object that will assign the data to the respective fields in the model.
-     */
-    private void doDataTypeAssignment(final String returnType, DataTypeAssigner dataTypeAssigner) {
-        if (returnType == null) {
-            dataTypeAssigner.setReturnType("Unit");
-        } else if (returnType.startsWith("kotlin.collections.List")) {
-            int end = returnType.lastIndexOf(">");
-            if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.List<".length(), end).trim());
-                dataTypeAssigner.setReturnContainer("List");
-            }
-        } else if (returnType.startsWith("kotlin.collections.MutableList")) {
-            int end = returnType.lastIndexOf(">");
-            if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableList<".length(), end).trim());
-                dataTypeAssigner.setReturnContainer("List");
-            }
-        } else if (returnType.startsWith("kotlin.collections.Map")) {
-            int end = returnType.lastIndexOf(">");
-            if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Map<".length(), end).split(",")[1].trim());
-                dataTypeAssigner.setReturnContainer("Map");
-            }
-        } else if (returnType.startsWith("kotlin.collections.MutableMap")) {
-            int end = returnType.lastIndexOf(">");
-            if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableMap<".length(), end).split(",")[1].trim());
-                dataTypeAssigner.setReturnContainer("Map");
-            }
-        }
     }
 
     private static String sanitizeDirectory(String in) {
@@ -1029,5 +1001,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     protected boolean needToImport(String type) {
         // provides extra protection against improperly trying to import language primitives and java types
         return !type.startsWith("org.springframework.") && super.needToImport(type);
+    }
+
+    @AllArgsConstructor
+    @Data
+    @EqualsAndHashCode(callSuper = true)
+    static class RequestCodegenParameter extends CodegenParameter {
+        boolean isRequestObject;
     }
 }

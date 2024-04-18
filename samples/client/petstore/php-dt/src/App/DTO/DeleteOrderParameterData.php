@@ -15,8 +15,7 @@ class DeleteOrderParameterData
      * @DTA\Data(subset="path", field="orderId")
      * @DTA\Strategy(subset="path", name="QueryStringScalar", options={"type":"string"})
      * @DTA\Validator(subset="path", name="QueryStringScalar", options={"type":"string"})
-     * @var string|null
      */
-    public $order_id;
+    public ?string $order_id = null;
 
 }

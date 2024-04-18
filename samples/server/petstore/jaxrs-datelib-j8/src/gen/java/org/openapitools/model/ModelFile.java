@@ -31,7 +31,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ModelFile  implements Serializable {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
@@ -67,7 +67,7 @@ public class ModelFile  implements Serializable {
       return false;
     }
     ModelFile _file = (ModelFile) o;
-    return Objects.equals(sourceURI, _file.sourceURI);
+    return Objects.equals(this.sourceURI, _file.sourceURI);
   }
 
   @Override
