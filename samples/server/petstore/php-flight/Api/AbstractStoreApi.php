@@ -23,6 +23,7 @@ abstract class AbstractStoreApi
 
     /**
      * Operation deleteOrder
+     * Path: /store/order/{orderId}
      *
      * Delete purchase order by ID
      *
@@ -37,6 +38,7 @@ abstract class AbstractStoreApi
 
     /**
      * Operation getInventory
+     * Path: /store/inventory
      *
      * Returns pet inventories by status
      *
@@ -61,6 +63,7 @@ abstract class AbstractStoreApi
     }
     /**
      * Operation getOrderById
+     * Path: /store/order/{orderId}
      *
      * Find purchase order by ID
      *
@@ -75,6 +78,7 @@ abstract class AbstractStoreApi
 
     /**
      * Operation placeOrder
+     * Path: /store/order
      *
      * Place an order for a pet
      *

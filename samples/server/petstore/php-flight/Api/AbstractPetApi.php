@@ -23,6 +23,7 @@ abstract class AbstractPetApi
 
     /**
      * Operation addPet
+     * Path: /pet
      *
      * Add a new pet to the store
      *
@@ -37,6 +38,7 @@ abstract class AbstractPetApi
 
     /**
      * Operation deletePet
+     * Path: /pet/{petId}
      *
      * Deletes a pet
      *
@@ -52,6 +54,7 @@ abstract class AbstractPetApi
 
     /**
      * Operation findPetsByStatus
+     * Path: /pet/findByStatus
      *
      * Finds Pets by status
      *
@@ -78,6 +81,7 @@ abstract class AbstractPetApi
     }
     /**
      * Operation findPetsByTags
+     * Path: /pet/findByTags
      *
      * Finds Pets by tags
      *
@@ -106,6 +110,7 @@ abstract class AbstractPetApi
     }
     /**
      * Operation getPetById
+     * Path: /pet/{petId}
      *
      * Find pet by ID
      *
@@ -120,6 +125,7 @@ abstract class AbstractPetApi
 
     /**
      * Operation updatePet
+     * Path: /pet
      *
      * Update an existing pet
      *
@@ -134,6 +140,7 @@ abstract class AbstractPetApi
 
     /**
      * Operation updatePetWithForm
+     * Path: /pet/{petId}
      *
      * Updates a pet in the store with form data
      *
@@ -148,6 +155,7 @@ abstract class AbstractPetApi
 
     /**
      * Operation uploadFile
+     * Path: /pet/{petId}/uploadImage
      *
      * uploads an image
      *

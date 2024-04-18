@@ -23,6 +23,7 @@ abstract class AbstractUserApi
 
     /**
      * Operation createUser
+     * Path: /user
      *
      * Create user
      *
@@ -37,6 +38,7 @@ abstract class AbstractUserApi
 
     /**
      * Operation createUsersWithArrayInput
+     * Path: /user/createWithArray
      *
      * Creates list of users with given input array
      *
@@ -51,6 +53,7 @@ abstract class AbstractUserApi
 
     /**
      * Operation createUsersWithListInput
+     * Path: /user/createWithList
      *
      * Creates list of users with given input array
      *
@@ -65,6 +68,7 @@ abstract class AbstractUserApi
 
     /**
      * Operation deleteUser
+     * Path: /user/{username}
      *
      * Delete user
      *
@@ -79,6 +83,7 @@ abstract class AbstractUserApi
 
     /**
      * Operation getUserByName
+     * Path: /user/{username}
      *
      * Get user by user name
      *
@@ -93,6 +98,7 @@ abstract class AbstractUserApi
 
     /**
      * Operation loginUser
+     * Path: /user/login
      *
      * Logs user into the system
      *
@@ -108,6 +114,7 @@ abstract class AbstractUserApi
 
     /**
      * Operation logoutUser
+     * Path: /user/logout
      *
      * Logs out current logged in user session
      *
@@ -121,6 +128,7 @@ abstract class AbstractUserApi
 
     /**
      * Operation updateUser
+     * Path: /user/{username}
      *
      * Updated user
      *
