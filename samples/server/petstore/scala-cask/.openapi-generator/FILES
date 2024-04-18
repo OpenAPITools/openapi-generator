@@ -1,6 +1,5 @@
 .github/workflows/buildAndPublish.yml
 .gitignore
-.openapi-generator-ignore
 .scalafmt.conf
 README.md
 README.md
@@ -23,12 +22,6 @@ jvm/src/main/scala/sample/cask/api/UserRoutes.scala
 jvm/src/main/scala/sample/cask/api/UserService.scala
 jvm/src/main/scala/sample/cask/api/package.scala
 jvm/src/main/scala/sample/cask/package.scala
-jvm/src/test/scala/sample/cask/model/ApiResponseTest.scala
-jvm/src/test/scala/sample/cask/model/CategoryTest.scala
-jvm/src/test/scala/sample/cask/model/OrderTest.scala
-jvm/src/test/scala/sample/cask/model/PetTest.scala
-jvm/src/test/scala/sample/cask/model/TagTest.scala
-jvm/src/test/scala/sample/cask/model/UserTest.scala
 project/build.properties
 project/plugins.sbt
 shared/src/main/scala/sample/cask/model/ApiResponse.scala
