@@ -12,11 +12,27 @@ import MobileCoreServices
 import UniformTypeIdentifiers
 #endif
 
-public protocol URLSessionProtocol {
-    func dataTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+// Protocol defined for a resumable task. This allows mocking out the URLSessionProtocol below since
+// you may not want to create or return a real URLSessionDataTask.
+public protocol ResumableTask {
+    func resume()
 }
 
-extension URLSession: URLSessionProtocol {}
+// Protocol allowing implementations to alter what is returned or to test their implementations.
+public protocol URLSessionProtocol {
+    // Task which performs the network fetch. Expected to be from URLSession.dataTask(with:completionHandler:) such that a network request
+    // is sent off when `.resume()` is called.
+    func resumableTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> ResumableTask
+}
+
+extension URLSession: URLSessionProtocol {
+  // Passthrough to URLSession.dataTask(with:completionHandler) since URLSessionDataTask conforms to ResumableTask and fetches the network data.
+  public func resumableTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, (any Error)?) -> Void) -> any ResumableTask {
+    return dataTask(with: request, completionHandler: completionHandler)
+  }
+}
+
+extension URLSessionDataTask: ResumableTask {}
 
 class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
