@@ -59,10 +59,10 @@ import kotlinx.serialization.*
 {{/imports}}
 
 {{#operations}}
-{{#x-koltin-import-models}}
+{{#x-kotlin-import-models}}
 import {{{modelPackage}}}.*
 
-{{/x-koltin-import-models}}
+{{/x-kotlin-import-models}}
 {{#x-kotlin-multipart-import}}
 {{^isMultipart}}
 import okhttp3.MultipartBody
