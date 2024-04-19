@@ -34,9 +34,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |nullableReturnType|Nullable return type| |false|
 |omitGradlePluginVersions|Whether to declare Gradle plugin versions in build files.| |false|
 |omitGradleWrapper|Whether to omit Gradle wrapper for creating a sub project.| |false|
-|apiPackage|Package name of generated API classes.| |{{packageName}}.apis|
-|modelPackage|Package name of generated model classes.| |{{packageName}}.models|
-|packageName|Package name of all classes.| |org.openapitools.client|
+|packageName|Generated artifact package name.| |org.openapitools.client|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |requestDateConverter|JVM-Option. Defines in how to handle date-time objects that are used for a request (as query or parameter)|<dl><dt>**toJson**</dt><dd>[DEFAULT] Date formatter option using a json converter.</dd><dt>**toString**</dt><dd>Use the 'toString'-method of the date-time object to retrieve the related string representation.</dd></dl>|toJson|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
