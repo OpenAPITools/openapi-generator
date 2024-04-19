@@ -38,7 +38,7 @@ extension URLSession: URLSessionProtocol {
   }
 }
 
-extension URLSessionDataTask: ResumableTask {}
+extension URLSessionDataTask: CancellableResumableTask {}
 
 class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
