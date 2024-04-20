@@ -28,8 +28,8 @@ object scala-cask-petstore extends SbtModule with ScalafmtModule with PublishMod
     ivy"com.lihaoyi::upickle:3.2.0"
   )
 
-  override def sources = T.sources(millSourcePath / os.up / "src" / "main" / "scala")
-  override def resources = T.sources(millSourcePath / os.up / "src" / "main" / "resources")
+  override def sources = T.sources(millSourcePath / os.up / "shared" / "src" / "main" / "scala")
+  override def resources = T.sources(millSourcePath / os.up / "shared" / "src" / "main" / "resources")
 
   object test extends SbtModuleTests {
     def ivyDeps = Agg(
