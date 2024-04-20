@@ -586,7 +586,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 if (allOf != null) {
                     for (CodegenProperty property : allOf) {
                         property.name = patchPropertyName(model, camelize(property.baseType));
-                        property.isNullable = property.isNullable || model.isNullable;
                         patchPropertyVendorExtensions(property);
                     }
                 }
@@ -596,7 +595,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for (CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, camelize(property.baseType));
-                        property.isNullable = property.isNullable || model.isNullable;
+                        property.isNullable = true;
                         patchPropertyVendorExtensions(property);
                     }
                 }
@@ -606,7 +605,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for (CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, camelize(property.baseType));
-                        property.isNullable = property.isNullable || model.isNullable;
+                        property.isNullable = true;
                         patchPropertyVendorExtensions(property);
                     }
                 }

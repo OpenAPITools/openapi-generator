@@ -300,14 +300,14 @@
 
             {{/-last}}
             {{/required}}
-            return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}ParsedValue{{#required}}.Value{{^isNullable}}{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{nrt!}}{{/vendorExtensions.x-is-value-type}}{{/isNullable}}{{/required}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#required}}.Value{{nrt!}}{{^isNullable}}{{#vendorExtensions.x-is-value-type}}.Value{{nrt!}}{{/vendorExtensions.x-is-value-type}}{{/isNullable}}{{/required}}  {{/allVars}}{{/lambda.joinWithComma}});
+            return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}ParsedValue{{#required}}.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{nrt!}}{{/vendorExtensions.x-is-value-type}}{{/required}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#required}}.Value{{nrt!}}{{^isNullable}}{{#vendorExtensions.x-is-value-type}}.Value{{nrt!}}{{/vendorExtensions.x-is-value-type}}{{/isNullable}}{{/required}}  {{/allVars}}{{/lambda.joinWithComma}});
             {{/composedSchemas.oneOf}}
             {{^model.discriminator}}
             {{#composedSchemas}}
             {{#oneOf}}
             {{^vendorExtensions.x-duplicated-data-type}}
             if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} != null)
-                return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{#model.composedSchemas.anyOf}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#required}}ParsedValue{{/required}}  {{/allVars}}{{/lambda.joinWithComma}});
+                return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}.Value{{/vendorExtensions.x-is-value-type}}  {{#model.composedSchemas.anyOf}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#required}}ParsedValue{{/required}}  {{/allVars}}{{/lambda.joinWithComma}});
 
             {{/vendorExtensions.x-duplicated-data-type}}
             {{#-last}}
