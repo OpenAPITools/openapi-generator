@@ -136,18 +136,81 @@ namespace OpenAPIClient_generichost_manual_tests
         [TestMethod]
         public void Cat()
         {
-            Cat cat = new("black", false); // TODO: where is the address property?
+            Cat cat = new("black", false);
             string catJson = JsonSerializer.Serialize(cat, _jsonSerializerOptions);
             Cat? cat2 = JsonSerializer.Deserialize<Cat>(catJson, _jsonSerializerOptions);
-            Assert.IsTrue(cat2 != null && cat.Declawed.Equals(cat2.Declawed) && cat.Color != null && cat.Color.Equals(cat2.Color)); // TODO: add the address property
+            Assert.IsTrue(cat2 != null && cat.Declawed.Equals(cat2.Declawed) && cat.Color != null && cat.Color.Equals(cat2.Color));
+        }
+
+        [TestMethod]
+        public void OneOfWhale()
+        {
+            string expected = """{"className":"whale","hasBaleen":true,"hasTeeth":true}""";
+            Whale? whale = JsonSerializer.Deserialize<Whale>(expected, _jsonSerializerOptions);
+            string result = JsonSerializer.Serialize(whale, _jsonSerializerOptions);
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void OneOfMammal()
         {
             string expected = """{"className":"whale","hasBaleen":true,"hasTeeth":true}""";
-            Whale? whale = JsonSerializer.Deserialize<Whale>(expected, _jsonSerializerOptions);
-            string result = JsonSerializer.Serialize(whale, _jsonSerializerOptions);
+            Mammal? mammal = JsonSerializer.Deserialize<Mammal>(expected, _jsonSerializerOptions);
+            string result = JsonSerializer.Serialize(mammal, _jsonSerializerOptions);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void CatFromJson()
+        {
+            string expected = """{"className":"Cat","color":"black","declawed":true}""";
+            Cat? cat = JsonSerializer.Deserialize<Cat>(expected, _jsonSerializerOptions);
+            string result = JsonSerializer.Serialize(cat, _jsonSerializerOptions);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void ParentPet()
+        {
+            string expected = """{"pet_type":"ParentPet"}""";
+            ParentPet? parentPet = JsonSerializer.Deserialize<ParentPet>(expected, _jsonSerializerOptions);
+            string result = JsonSerializer.Serialize(parentPet, _jsonSerializerOptions);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void ChildCatFromJson()
+        {
+            string expected = """{"name":"foo","pet_type":"ChildCat"}""";
+            ChildCat? childCat = JsonSerializer.Deserialize<ChildCat>(expected, _jsonSerializerOptions);
+            string result = JsonSerializer.Serialize(childCat, _jsonSerializerOptions);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void GmFruitFromJson()
+        {
+            string expected = """{"color_code":"red","cultivar":"cultivar","origin":"origin","color":"red"}""";
+            GmFruit? gmFruit = JsonSerializer.Deserialize<GmFruit>(expected, _jsonSerializerOptions);
+            string result = JsonSerializer.Serialize(gmFruit, _jsonSerializerOptions);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void GmFruitFromJsonTwoTypes()
+        {
+            string expected = """{"color_code":"red","cultivar":"cultivar","origin":"origin","lengthCm":1,"color":"red"}""";
+            GmFruit? gmFruit = JsonSerializer.Deserialize<GmFruit>(expected, _jsonSerializerOptions);
+            string result = JsonSerializer.Serialize(gmFruit, _jsonSerializerOptions);
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void AppleFromJson()
+        {
+            string expected = """{"color_code":"red","cultivar":"cultivar","origin":"origin"}""";
+            Apple? apple = JsonSerializer.Deserialize<Apple> (expected, _jsonSerializerOptions);
+            string result = JsonSerializer.Serialize(apple, _jsonSerializerOptions);
             Assert.AreEqual(expected, result);
         }
     }

@@ -233,7 +233,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("quadrilateralType", "Quadrilateral");
+
         }
     }
 }

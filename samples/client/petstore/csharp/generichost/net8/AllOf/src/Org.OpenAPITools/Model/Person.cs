@@ -217,8 +217,6 @@ namespace Org.OpenAPITools.Model
 
             if (person.LastNameOption.IsSet)
                 writer.WriteString("lastName", person.LastName);
-
-            writer.WriteString("$_type", "Person");
         }
     }
 }

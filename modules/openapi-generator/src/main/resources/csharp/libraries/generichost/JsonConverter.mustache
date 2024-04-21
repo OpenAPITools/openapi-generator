@@ -394,8 +394,15 @@
             {{/vendorExtensions.x-is-discriminated}}
             {{#isDiscriminator}}
             {{^vendorExtensions.x-is-discriminated}}
+            {{#lambda.copy}}
             writer.WriteString("{{baseName}}", "{{model.name}}");
+            {{/lambda.copy}}
+            {{#model.composedSchemas.allOf}}
+            {{#-first}}
+            {{#lambda.pasteLine}}{{/lambda.pasteLine}}
 
+            {{/-first}}
+            {{/model.composedSchemas.allOf}}
             {{/vendorExtensions.x-is-discriminated}}
             {{/isDiscriminator}}
             {{^isDiscriminator}}

@@ -190,8 +190,6 @@ namespace Org.OpenAPITools.Model
             if (animal.ColorOption.IsSet && animal.Color == null)
                 throw new ArgumentNullException(nameof(animal.Color), "Property is required for class Animal.");
 
-            writer.WriteString("className", "Animal");
-
             if (animal.ColorOption.IsSet)
                 writer.WriteString("color", animal.Color);
         }
