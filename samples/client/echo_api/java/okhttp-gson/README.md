@@ -2,7 +2,7 @@
 
 Echo Server API
 - API version: 0.1.0
-  - Generator version: 7.5.0-SNAPSHOT
+  - Generator version: 7.6.0-SNAPSHOT
 
 Echo Server API
 
