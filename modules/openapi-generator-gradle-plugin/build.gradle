@@ -7,8 +7,8 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
     id("java-gradle-plugin")
     id("maven-publish")
-    id("org.gradle.kotlin.kotlin-dsl") version "2.4.1"
-    id("org.jetbrains.kotlin.jvm") version "1.7.10"
+    id("org.gradle.kotlin.kotlin-dsl") version "4.3.0"
+    id("org.jetbrains.kotlin.jvm") version "1.9.0"
     id("signing")
 }
 
@@ -41,7 +41,7 @@ repositories {
 
 dependencies {
     implementation("org.openapitools:openapi-generator:$openApiGeneratorVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-testng:1.7.10")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-testng:1.9.10")
 }
 
 tasks.named("test", Test).configure {
@@ -63,7 +63,7 @@ tasks.named("test", Test).configure {
 
 tasks.withType(KotlinCompile).configureEach {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
