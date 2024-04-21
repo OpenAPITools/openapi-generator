@@ -35,25 +35,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Whale" /> class.
         /// </summary>
-        /// <param name="className">className</param>
         /// <param name="hasBaleen">hasBaleen</param>
         /// <param name="hasTeeth">hasTeeth</param>
         [JsonConstructor]
-        public Whale(string className, Option<bool?> hasBaleen = default, Option<bool?> hasTeeth = default)
+        public Whale(Option<bool?> hasBaleen = default, Option<bool?> hasTeeth = default)
         {
-            ClassName = className;
             HasBaleenOption = hasBaleen;
             HasTeethOption = hasTeeth;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Gets or Sets ClassName
-        /// </summary>
-        [JsonPropertyName("className")]
-        public string ClassName { get; set; }
 
         /// <summary>
         /// Used to track the state of HasBaleen
@@ -95,7 +87,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Whale {\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  HasBaleen: ").Append(HasBaleen).Append("\n");
             sb.Append("  HasTeeth: ").Append(HasTeeth).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -184,7 +175,7 @@ namespace Org.OpenAPITools.Model
             if (hasTeeth.IsSet && hasTeeth.Value == null)
                 throw new ArgumentNullException(nameof(hasTeeth), "Property is not nullable for class Whale.");
 
-            return new Whale(className.Value!, hasBaleen, hasTeeth);
+            return new Whale(hasBaleen, hasTeeth);
         }
 
         /// <summary>
@@ -211,10 +202,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Whale whale, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (whale.ClassName == null)
-                throw new ArgumentNullException(nameof(whale.ClassName), "Property is required for class Whale.");
-
-            writer.WriteString("className", whale.ClassName);
+            writer.WriteString("className", "whale");
 
             if (whale.HasBaleenOption.IsSet)
                 writer.WriteBoolean("hasBaleen", whale.HasBaleenOption.Value!.Value);

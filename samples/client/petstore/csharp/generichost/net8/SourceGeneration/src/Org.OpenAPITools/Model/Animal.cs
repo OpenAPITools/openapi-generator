@@ -35,23 +35,15 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>
-        /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Animal(string className, Option<string?> color = default)
+        public Animal(Option<string?> color = default)
         {
-            ClassName = className;
             ColorOption = color;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Gets or Sets ClassName
-        /// </summary>
-        [JsonPropertyName("className")]
-        public string ClassName { get; set; }
 
         /// <summary>
         /// Used to track the state of Color
@@ -80,7 +72,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Animal {\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  Color: ").Append(Color).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -169,7 +160,7 @@ namespace Org.OpenAPITools.Model
             if (color.IsSet && color.Value == null)
                 throw new ArgumentNullException(nameof(color), "Property is not nullable for class Animal.");
 
-            return new Animal(className.Value!, color);
+            return new Animal(color);
         }
 
         /// <summary>
@@ -196,13 +187,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (animal.ClassName == null)
-                throw new ArgumentNullException(nameof(animal.ClassName), "Property is required for class Animal.");
-
             if (animal.ColorOption.IsSet && animal.Color == null)
                 throw new ArgumentNullException(nameof(animal.Color), "Property is required for class Animal.");
 
-            writer.WriteString("className", animal.ClassName);
+            writer.WriteString("className", "Animal");
 
             if (animal.ColorOption.IsSet)
                 writer.WriteString("color", animal.Color);

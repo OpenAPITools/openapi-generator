@@ -36,12 +36,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ChildCat" /> class.
         /// </summary>
         /// <param name="name">name</param>
-        /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
         [JsonConstructor]
-        public ChildCat(Option<string?> name = default, PetTypeEnum petType = PetTypeEnum.ChildCat) : base(ChildCat.PetTypeEnumToJsonValue(petType))
+        public ChildCat(Option<string?> name = default) : base()
         {
             NameOption = name;
-            PetType = petType;
             OnCreated();
         }
 
@@ -100,12 +98,6 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Gets or Sets PetType
-        /// </summary>
-        [JsonPropertyName("pet_type")]
-        public new PetTypeEnum PetType { get; set; }
-
-        /// <summary>
         /// Used to track the state of Name
         /// </summary>
         [JsonIgnore]
@@ -128,7 +120,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("class ChildCat {\n");
             sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  PetType: ").Append(PetType).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -197,7 +188,7 @@ namespace Org.OpenAPITools.Model
             if (petType.IsSet && petType.Value == null)
                 throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ChildCat.");
 
-            return new ChildCat(name, petType.Value!.Value!);
+            return new ChildCat(name);
         }
 
         /// <summary>
@@ -230,8 +221,7 @@ namespace Org.OpenAPITools.Model
             if (childCat.NameOption.IsSet)
                 writer.WriteString("name", childCat.Name);
 
-            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType);
-            writer.WriteString("pet_type", petTypeRawValue);
+            writer.WriteString("pet_type", "ChildCat");
         }
     }
 

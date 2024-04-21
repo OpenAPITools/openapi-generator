@@ -56,26 +56,25 @@ namespace OpenAPIClient_generichost_manual_tests
         [TestMethod]
         public void Pig()
         {
-           BasquePig basquePig = new("BasquePig");
-           Pig pig = new(basquePig, "BasquePig");
+           BasquePig basquePig = new();
+           Pig pig = new(basquePig);
            string pigJson = JsonSerializer.Serialize(pig, _jsonSerializerOptions);
            Pig? pig2 = JsonSerializer.Deserialize<Pig>(pigJson, _jsonSerializerOptions);
-           Assert.IsTrue(
-               pig.DanishPig == null &&
-               pig.BasquePig != null &&
-               pig2 != null &&
-               pig2.BasquePig != null &&
-               pig2.DanishPig == null &&
-               pig2.BasquePig.ClassName.Equals(pig.BasquePig.ClassName));
+            Assert.IsTrue(
+                pig.DanishPig == null &&
+                pig.BasquePig != null &&
+                pig2 != null &&
+                pig2.BasquePig != null &&
+               pig2.DanishPig == null);
         }
 
         [TestMethod]
         public void DanishPig()
         {
-            DanishPig danishPig = new("danishPig");
+            DanishPig danishPig = new();
             string danishPigJson = JsonSerializer.Serialize(danishPig, _jsonSerializerOptions);
             DanishPig? danishPig2 = JsonSerializer.Deserialize<DanishPig>(danishPigJson, _jsonSerializerOptions);
-            Assert.IsTrue(danishPig2 != null && danishPig.ClassName.Equals(danishPig2.ClassName));
+            Assert.IsTrue(danishPig2 != null);
         }
 
         [TestMethod]
@@ -104,17 +103,17 @@ namespace OpenAPIClient_generichost_manual_tests
         [TestMethod]
         public void EquilateralTriangle()
         {
-            EquilateralTriangle equilateralTriangle = new("triangle", "equilateral");
+            EquilateralTriangle equilateralTriangle = new("equilateral");
             string equilateralTriangleJson = JsonSerializer.Serialize(equilateralTriangle, _jsonSerializerOptions);
             EquilateralTriangle? equilateralTriangle2 = JsonSerializer.Deserialize<EquilateralTriangle>(equilateralTriangleJson, _jsonSerializerOptions);
-            Assert.IsTrue(equilateralTriangle2 != null && equilateralTriangle.TriangleType.Equals(equilateralTriangle2.TriangleType) && equilateralTriangle.ShapeType.Equals(equilateralTriangle2.ShapeType));
+            Assert.IsTrue(equilateralTriangle2 != null && equilateralTriangle.ShapeType.Equals(equilateralTriangle2.ShapeType));
         }
 
         [TestMethod]
         public void Quadrilateral()
         {
-           ComplexQuadrilateral complexQuadrilateral = new("ComplexQuadrilateral", "shapeType");
-           Quadrilateral quadrilateral = new(complexQuadrilateral, "ComplexQuadrilateral");
+           ComplexQuadrilateral complexQuadrilateral = new("shapeType");
+           Quadrilateral quadrilateral = new(complexQuadrilateral);
            string quadrilateralJson = JsonSerializer.Serialize(quadrilateral, _jsonSerializerOptions);
            Quadrilateral? quadrilateral2 = JsonSerializer.Deserialize<Quadrilateral>(quadrilateralJson, _jsonSerializerOptions);
            Assert.IsTrue(
@@ -122,14 +121,13 @@ namespace OpenAPIClient_generichost_manual_tests
                quadrilateral2 != null &&
                quadrilateral2.SimpleQuadrilateral == null &&
                quadrilateral2.ComplexQuadrilateral != null &&
-               quadrilateral2.ComplexQuadrilateral.QuadrilateralType.Equals(quadrilateral.ComplexQuadrilateral.QuadrilateralType) &&
                quadrilateral2.ComplexQuadrilateral.ShapeType.Equals(quadrilateral.ComplexQuadrilateral.ShapeType));
         }
 
         [TestMethod]
         public void ChildCat()
         {
-            ChildCat childCat = new("some name", Org.OpenAPITools.Model.ChildCat.PetTypeEnum.ChildCat);
+            ChildCat childCat = new("some name");
             string childCatJson = JsonSerializer.Serialize(childCat, _jsonSerializerOptions);
             ChildCat? childCat2 = JsonSerializer.Deserialize<ChildCat>(childCatJson, _jsonSerializerOptions);
             Assert.IsTrue(childCat2 != null && childCat.PetType.Equals(childCat2.PetType) && childCat.Name != null && childCat.Name.Equals(childCat2.Name));
@@ -138,10 +136,19 @@ namespace OpenAPIClient_generichost_manual_tests
         [TestMethod]
         public void Cat()
         {
-            Cat cat = new("cat", "black", false); // TODO: where is the address property?
+            Cat cat = new("black", false); // TODO: where is the address property?
             string catJson = JsonSerializer.Serialize(cat, _jsonSerializerOptions);
             Cat? cat2 = JsonSerializer.Deserialize<Cat>(catJson, _jsonSerializerOptions);
-            Assert.IsTrue(cat2 != null && cat.Declawed.Equals(cat2.Declawed) && cat.ClassName.Equals(cat2.ClassName) && cat.Color != null && cat.Color.Equals(cat2.Color)); // TODO: add the address property
+            Assert.IsTrue(cat2 != null && cat.Declawed.Equals(cat2.Declawed) && cat.Color != null && cat.Color.Equals(cat2.Color)); // TODO: add the address property
+        }
+
+        [TestMethod]
+        public void OneOfMammal()
+        {
+            string expected = """{"className":"whale","hasBaleen":true,"hasTeeth":true}""";
+            Whale? whale = JsonSerializer.Deserialize<Whale>(expected, _jsonSerializerOptions);
+            string result = JsonSerializer.Serialize(whale, _jsonSerializerOptions);
+            Assert.AreEqual(expected, result);
         }
     }
 }

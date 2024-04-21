@@ -37,10 +37,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="age">age</param>
         /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
-        /// <param name="type">type</param>
         /// <param name="boosterSeat">boosterSeat</param>
         [JsonConstructor]
-        public Child(Option<int?> age = default, Option<string?> firstName = default, Option<string?> lastName = default, Option<string?> type = default, Option<bool?> boosterSeat = default) : base(firstName, lastName, type)
+        public Child(Option<int?> age = default, Option<string?> firstName = default, Option<string?> lastName = default, Option<bool?> boosterSeat = default) : base(firstName, lastName)
         {
             AgeOption = age;
             BoosterSeatOption = boosterSeat;
@@ -172,7 +171,7 @@ namespace Org.OpenAPITools.Model
             if (boosterSeat.IsSet && boosterSeat.Value == null)
                 throw new ArgumentNullException(nameof(boosterSeat), "Property is not nullable for class Child.");
 
-            return new Child(age, firstName, lastName, type, boosterSeat);
+            return new Child(age, firstName, lastName, boosterSeat);
         }
 
         /// <summary>
@@ -205,9 +204,6 @@ namespace Org.OpenAPITools.Model
             if (child.LastNameOption.IsSet && child.LastName == null)
                 throw new ArgumentNullException(nameof(child.LastName), "Property is required for class Child.");
 
-            if (child.TypeOption.IsSet && child.Type == null)
-                throw new ArgumentNullException(nameof(child.Type), "Property is required for class Child.");
-
             if (child.AgeOption.IsSet)
                 writer.WriteNumber("age", child.AgeOption.Value!.Value);
 
@@ -217,8 +213,7 @@ namespace Org.OpenAPITools.Model
             if (child.LastNameOption.IsSet)
                 writer.WriteString("lastName", child.LastName);
 
-            if (child.TypeOption.IsSet)
-                writer.WriteString("$_type", child.Type);
+            writer.WriteString("$_type", "Child");
 
             if (child.BoosterSeatOption.IsSet)
                 writer.WriteBoolean("boosterSeat", child.BoosterSeatOption.Value!.Value);

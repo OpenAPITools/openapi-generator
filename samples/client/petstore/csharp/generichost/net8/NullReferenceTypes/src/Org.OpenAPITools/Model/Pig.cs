@@ -35,11 +35,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         /// <param name="basquePig"></param>
-        /// <param name="className">className</param>
-        public Pig(BasquePig basquePig, string className)
+        public Pig(BasquePig basquePig)
         {
             BasquePig = basquePig;
-            ClassName = className;
             OnCreated();
         }
 
@@ -47,11 +45,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         /// <param name="danishPig"></param>
-        /// <param name="className">className</param>
-        public Pig(DanishPig danishPig, string className)
+        public Pig(DanishPig danishPig)
         {
             DanishPig = danishPig;
-            ClassName = className;
             OnCreated();
         }
 
@@ -68,12 +64,6 @@ namespace Org.OpenAPITools.Model
         public DanishPig? DanishPig { get; set; }
 
         /// <summary>
-        /// Gets or Sets ClassName
-        /// </summary>
-        [JsonPropertyName("className")]
-        public string ClassName { get; set; }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -87,7 +77,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Pig {\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -202,10 +191,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Pig.");
 
             if (basquePig != null)
-                return new Pig(basquePig, className.Value!);
+                return new Pig(basquePig);
 
             if (danishPig != null)
-                return new Pig(danishPig, className.Value!);
+                return new Pig(danishPig);
 
             throw new JsonException();
         }
@@ -244,10 +233,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (pig.ClassName == null)
-                throw new ArgumentNullException(nameof(pig.ClassName), "Property is required for class Pig.");
-
-            writer.WriteString("className", pig.ClassName);
+            writer.WriteString("className", "Pig");
         }
     }
 }

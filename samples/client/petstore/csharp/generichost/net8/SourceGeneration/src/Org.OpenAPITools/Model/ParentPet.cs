@@ -35,9 +35,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ParentPet" /> class.
         /// </summary>
-        /// <param name="petType">petType</param>
         [JsonConstructor]
-        public ParentPet(string petType) : base(petType)
+        public ParentPet() : base()
         {
             OnCreated();
         }
@@ -112,7 +111,7 @@ namespace Org.OpenAPITools.Model
             if (petType.IsSet && petType.Value == null)
                 throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ParentPet.");
 
-            return new ParentPet(petType.Value!);
+            return new ParentPet();
         }
 
         /// <summary>
@@ -139,10 +138,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (parentPet.PetType == null)
-                throw new ArgumentNullException(nameof(parentPet.PetType), "Property is required for class ParentPet.");
-
-            writer.WriteString("pet_type", parentPet.PetType);
+            writer.WriteString("pet_type", "ParentPet");
         }
     }
 

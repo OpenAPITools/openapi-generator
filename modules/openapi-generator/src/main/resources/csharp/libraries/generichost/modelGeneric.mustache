@@ -13,7 +13,11 @@
         /// <param name="{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}"></param>
         {{/composedSchemas.anyOf}}
         {{#allVars}}
+        {{^isDiscriminator}}
+        {{^vendorExtensions.x-is-discriminated}}
         /// <param name="{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}">{{description}}{{^description}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/description}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
+        {{/vendorExtensions.x-is-discriminated}}
+        {{/isDiscriminator}}
         {{/allVars}}
         {{#model.vendorExtensions.x-model-is-mutatable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutatable}}{{^model.vendorExtensions.x-model-is-mutatable}}internal{{/model.vendorExtensions.x-model-is-mutatable}} {{classname}}({{#lambda.joinWithComma}}{{{dataType}}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{#model.composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{baseType}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{/model.composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#parentModel.composedSchemas.oneOf}}{{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{parent}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}.{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}  {{/parentModel.composedSchemas.oneOf}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
         {
@@ -22,6 +26,8 @@
             {{/composedSchemas.anyOf}}
             {{name}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
             {{#allVars}}
+            {{^isDiscriminator}}
+            {{^vendorExtensions.x-is-discriminated}}
             {{^isInherited}}
             {{name}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
             {{/isInherited}}
@@ -30,6 +36,8 @@
             {{name}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
             {{/isNew}}
             {{/isInherited}}
+            {{/vendorExtensions.x-is-discriminated}}
+            {{/isDiscriminator}}
             {{/allVars}}
             OnCreated();
         }
@@ -44,7 +52,11 @@
         /// <param name="{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}"></param>
         {{/composedSchemas.anyOf}}
         {{#allVars}}
+        {{^isDiscriminator}}
+        {{^vendorExtensions.x-is-discriminated}}
         /// <param name="{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}">{{description}}{{^description}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/description}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
+        {{/vendorExtensions.x-is-discriminated}}
+        {{/isDiscriminator}}
         {{/allVars}}
         {{^composedSchemas.anyOf}}
         [JsonConstructor]
@@ -55,6 +67,8 @@
             {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
             {{/composedSchemas.anyOf}}
             {{#allVars}}
+            {{^vendorExtensions.x-is-discriminated}}
+            {{^isDiscriminator}}
             {{^isInherited}}
             {{name}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
             {{/isInherited}}
@@ -63,6 +77,8 @@
             {{name}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
             {{/isNew}}
             {{/isInherited}}
+            {{/isDiscriminator}}
+            {{/vendorExtensions.x-is-discriminated}}
             {{/allVars}}
             OnCreated();
         }
@@ -83,6 +99,8 @@
 {{>modelInnerEnum}}
         {{/complexType}}
         {{/isEnum}}
+        {{^isDiscriminator}}
+        {{^vendorExtensions.x-is-discriminated}}
         {{#isEnum}}
         {{^required}}
         /// <summary>
@@ -109,6 +127,8 @@
         public {{#isNew}}new {{/isNew}}{{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{name}}Option; } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
 
         {{/isEnum}}
+        {{/vendorExtensions.x-is-discriminated}}
+        {{/isDiscriminator}}
         {{/vars}}
         {{#composedSchemas.anyOf}}
         {{^vendorExtensions.x-duplicated-data-type}}
@@ -152,6 +172,8 @@
         {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.oneOf}}
         {{#allVars}}
+        {{^isDiscriminator}}
+        {{^vendorExtensions.x-is-discriminated}}
         {{^isEnum}}
         {{#isInherited}}
         {{#isNew}}
@@ -204,6 +226,8 @@
 
         {{/isInherited}}
         {{/isEnum}}
+        {{/vendorExtensions.x-is-discriminated}}
+        {{/isDiscriminator}}
         {{/allVars}}
         {{#isAdditionalPropertiesTrue}}
         {{^parentModel}}
@@ -227,7 +251,11 @@
             sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             {{/parent}}
             {{#vars}}
+            {{^isDiscriminator}}
+            {{^vendorExtensions.x-is-discriminated}}
             sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+            {{/vendorExtensions.x-is-discriminated}}
+            {{/isDiscriminator}}
             {{/vars}}
             {{#isAdditionalPropertiesTrue}}
             {{^parentModel}}

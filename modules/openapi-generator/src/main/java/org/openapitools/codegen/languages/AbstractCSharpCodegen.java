@@ -592,6 +592,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
                 if (anyOf != null) {
+                    annotateComposedPropertyDiscriminator(objs, model, anyOf);
                     removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for (CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, camelize(property.baseType));
@@ -602,6 +603,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> oneOf = composedSchemas.getOneOf();
                 if (oneOf != null) {
+                    annotateComposedPropertyDiscriminator(objs, model, oneOf);
                     removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for (CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, camelize(property.baseType));
@@ -639,7 +641,36 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 patchProperty(enumRefs, model, property);
             }
         }
+
+        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+
+            if (model.parentModel != null) {
+                for (CodegenProperty property : model.allVars.stream().filter(v -> v.isNew).collect(Collectors.toList())) {
+                    annotateNewComposedPropertyDiscriminator(model, property);
+                }
+
+                for (CodegenProperty property : model.vars.stream().filter(v -> v.isNew).collect(Collectors.toList())) {
+                    annotateNewComposedPropertyDiscriminator(model, property);
+                }
+            }
+        }
+
         return processed;
+    }
+
+    /**
+     * The ChildCat#PetType needs to be annotated as a discriminator
+     * Derived classes that override the discriminator will not have the annotations
+     */
+    private void annotateNewComposedPropertyDiscriminator(CodegenModel model, CodegenProperty property) {
+        Optional<CodegenProperty> inheritedProperty = model.parentModel.allVars.stream().filter(p -> p.name.equals(property.name)).findFirst();
+        if (inheritedProperty.isPresent()) {
+            property.isDiscriminator = inheritedProperty.get().isDiscriminator;
+            if (inheritedProperty.get().vendorExtensions.containsKey("x-is-discriminated")) {
+                property.vendorExtensions.put("x-is-discriminated", inheritedProperty.get().vendorExtensions.get("x-is-discriminated"));
+            }
+        }
     }
 
     /**
@@ -664,6 +695,46 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
+    }
+
+    /**
+     * Mammal#className will be marked as a discriminator already, but Whale#className will not
+     * This just annotates Whale#className so we know it is only present due to being a discriminator
+     * @param objs
+     * @param model
+     * @param composedProperties
+     */
+    protected void annotateComposedPropertyDiscriminator(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
+        if (model.discriminator == null) {
+            return;
+        }
+
+        String discriminatorPropertyName = model.discriminator.getPropertyName();
+        if (discriminatorPropertyName == null) {
+            return;
+        }
+
+        for (CodegenProperty composedProperty : composedProperties) {
+            String ref = composedProperty.getRef();
+            if (ref != null) {
+                for (Map.Entry<String, ModelsMap> composedEntry : objs.entrySet()) {
+                    CodegenModel referencedModel = ModelUtils.getModelByName(composedEntry.getKey(), objs);
+                    if (ref.endsWith("/" + referencedModel.name)) {
+                        for (CodegenProperty referencedProperty : referencedModel.allVars) {
+                            if (referencedProperty.name.equals(discriminatorPropertyName)) {
+                                referencedProperty.vendorExtensions.put("x-is-discriminated", model.discriminator.getPropertyBaseName());
+                            }
+                        }
+
+                        for (CodegenProperty referencedProperty : referencedModel.vars) {
+                            if (referencedProperty.name.equals(discriminatorPropertyName)) {
+                                referencedProperty.vendorExtensions.put("x-is-discriminated", model.discriminator.getPropertyBaseName());
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private String patchPropertyName(CodegenModel model, String value) {

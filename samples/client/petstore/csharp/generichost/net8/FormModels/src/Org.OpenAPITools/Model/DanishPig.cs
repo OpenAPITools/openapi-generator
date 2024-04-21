@@ -32,21 +32,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="DanishPig" /> class.
         /// </summary>
-        /// <param name="className">className</param>
         [JsonConstructor]
-        public DanishPig(string className)
+        public DanishPig()
         {
-            ClassName = className;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Gets or Sets ClassName
-        /// </summary>
-        [JsonPropertyName("className")]
-        public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -62,7 +54,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class DanishPig {\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -133,7 +124,7 @@ namespace Org.OpenAPITools.Model
             if (className.IsSet && className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class DanishPig.");
 
-            return new DanishPig(className.Value);
+            return new DanishPig();
         }
 
         /// <summary>
@@ -160,10 +151,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, DanishPig danishPig, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (danishPig.ClassName == null)
-                throw new ArgumentNullException(nameof(danishPig.ClassName), "Property is required for class DanishPig.");
-
-            writer.WriteString("className", danishPig.ClassName);
+            writer.WriteString("className", "DanishPig");
         }
     }
 }

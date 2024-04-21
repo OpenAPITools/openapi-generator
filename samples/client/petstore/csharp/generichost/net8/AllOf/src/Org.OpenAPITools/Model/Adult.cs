@@ -37,9 +37,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="children">children</param>
         /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
-        /// <param name="type">type</param>
         [JsonConstructor]
-        public Adult(Option<List<Child>?> children = default, Option<string?> firstName = default, Option<string?> lastName = default, Option<string?> type = default) : base(firstName, lastName, type)
+        public Adult(Option<List<Child>?> children = default, Option<string?> firstName = default, Option<string?> lastName = default) : base(firstName, lastName)
         {
             ChildrenOption = children;
             OnCreated();
@@ -148,7 +147,7 @@ namespace Org.OpenAPITools.Model
             if (type.IsSet && type.Value == null)
                 throw new ArgumentNullException(nameof(type), "Property is not nullable for class Adult.");
 
-            return new Adult(children, firstName, lastName, type);
+            return new Adult(children, firstName, lastName);
         }
 
         /// <summary>
@@ -184,9 +183,6 @@ namespace Org.OpenAPITools.Model
             if (adult.LastNameOption.IsSet && adult.LastName == null)
                 throw new ArgumentNullException(nameof(adult.LastName), "Property is required for class Adult.");
 
-            if (adult.TypeOption.IsSet && adult.Type == null)
-                throw new ArgumentNullException(nameof(adult.Type), "Property is required for class Adult.");
-
             if (adult.ChildrenOption.IsSet)
             {
                 writer.WritePropertyName("children");
@@ -198,8 +194,7 @@ namespace Org.OpenAPITools.Model
             if (adult.LastNameOption.IsSet)
                 writer.WriteString("lastName", adult.LastName);
 
-            if (adult.TypeOption.IsSet)
-                writer.WriteString("$_type", adult.Type);
+            writer.WriteString("$_type", "Adult");
         }
     }
 }

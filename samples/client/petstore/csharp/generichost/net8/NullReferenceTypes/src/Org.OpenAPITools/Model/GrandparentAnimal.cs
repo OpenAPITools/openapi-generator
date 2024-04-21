@@ -34,21 +34,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
-        /// <param name="petType">petType</param>
         [JsonConstructor]
-        public GrandparentAnimal(string petType)
+        public GrandparentAnimal()
         {
-            PetType = petType;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Gets or Sets PetType
-        /// </summary>
-        [JsonPropertyName("pet_type")]
-        public string PetType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -64,7 +56,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class GrandparentAnimal {\n");
-            sb.Append("  PetType: ").Append(PetType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -145,7 +136,7 @@ namespace Org.OpenAPITools.Model
             if (petType.IsSet && petType.Value == null)
                 throw new ArgumentNullException(nameof(petType), "Property is not nullable for class GrandparentAnimal.");
 
-            return new GrandparentAnimal(petType.Value!);
+            return new GrandparentAnimal();
         }
 
         /// <summary>
@@ -172,10 +163,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (grandparentAnimal.PetType == null)
-                throw new ArgumentNullException(nameof(grandparentAnimal.PetType), "Property is required for class GrandparentAnimal.");
-
-            writer.WriteString("pet_type", grandparentAnimal.PetType);
+            writer.WriteString("pet_type", "GrandparentAnimal");
         }
     }
 }
