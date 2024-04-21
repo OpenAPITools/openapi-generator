@@ -120,6 +120,7 @@ The following generators are available:
 * [kotlin-spring](generators/kotlin-spring.md)  
 * [kotlin-vertx (beta)](generators/kotlin-vertx.md)  
 * [nodejs-express-server (beta)](generators/nodejs-express-server.md)  
+* [php-flight (experimental)](generators/php-flight.md)  
 * [php-laravel](generators/php-laravel.md)  
 * [php-lumen](generators/php-lumen.md)  
 * [php-mezzio-ph](generators/php-mezzio-ph.md)  
