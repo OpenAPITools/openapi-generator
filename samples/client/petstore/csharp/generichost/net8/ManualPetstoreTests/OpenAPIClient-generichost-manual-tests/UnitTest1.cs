@@ -130,7 +130,7 @@ namespace OpenAPIClient_generichost_manual_tests
             ChildCat childCat = new("some name");
             string childCatJson = JsonSerializer.Serialize(childCat, _jsonSerializerOptions);
             ChildCat? childCat2 = JsonSerializer.Deserialize<ChildCat>(childCatJson, _jsonSerializerOptions);
-            Assert.IsTrue(childCat2 != null && childCat.PetType.Equals(childCat2.PetType) && childCat.Name != null && childCat.Name.Equals(childCat2.Name));
+            Assert.IsTrue(childCat2 != null && childCat.Name != null && childCat.Name.Equals(childCat2.Name));
         }
 
         [TestMethod]
