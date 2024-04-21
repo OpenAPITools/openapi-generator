@@ -48,6 +48,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean generateInterfaces = false;
     protected boolean withGoMod = false;
     protected boolean generateMarshalJSON = true;
+    protected boolean generateUnmarshalJSON = true;
+
 
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
@@ -775,11 +777,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             if (generateMarshalJSON) {
-                model.vendorExtensions.put("x-go-generate-marshal-json", true);
+                model.vendorExtensions.putIfAbsent("x-go-generate-marshal-json", true);
             }
 
-            if (!model.vendorExtensions.containsKey("x-go-generate-unmarshal-json")) {
-                model.vendorExtensions.put("x-go-generate-unmarshal-json", true);
+            if (generateUnmarshalJSON) {
+                model.vendorExtensions.putIfAbsent("x-go-generate-unmarshal-json", true);
             }
         }
 
@@ -934,6 +936,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public void setGenerateMarshalJSON(boolean generateMarshalJSON) {
         this.generateMarshalJSON = generateMarshalJSON;
+    }
+
+    public void setGenerateUnmarshalJSON(boolean generateUnmarshalJSON) {
+        this.generateUnmarshalJSON = generateUnmarshalJSON;
     }
 
     @Override
