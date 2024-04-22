@@ -23,9 +23,9 @@ export interface Pet {
     photoUrls: Array<string>;
     tags?: Array<Tag>;
     /** 
-    * pet status in the store
-    * @deprecated
-    */
+     * pet status in the store
+     * @deprecated
+     */
     status?: Pet.StatusEnum;
 }
 export namespace Pet {

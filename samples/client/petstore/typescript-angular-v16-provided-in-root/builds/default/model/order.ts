@@ -20,8 +20,8 @@ export interface Order {
     quantity?: number;
     shipDate?: string;
     /** 
-    * Order Status
-    */
+     * Order Status
+     */
     status?: Order.StatusEnum;
     complete?: boolean;
 }

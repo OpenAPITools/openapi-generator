@@ -23,8 +23,8 @@ export interface Pet {
     photoUrls: Array<string>;
     tags?: Array<Tag>;
     /** 
-    * pet status in the store
-    */
+     * pet status in the store
+     */
     status?: Pet.StatusEnum;
 }
 export namespace Pet {
