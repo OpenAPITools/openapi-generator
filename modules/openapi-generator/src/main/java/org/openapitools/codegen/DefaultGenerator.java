@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.comparator.PathFileComparator;
 import org.apache.commons.lang3.ObjectUtils;
@@ -65,6 +66,7 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.removeStart;
@@ -81,6 +83,7 @@ public class DefaultGenerator implements Generator {
     protected CodegenIgnoreProcessor ignoreProcessor;
     private Boolean generateApis = null;
     private Boolean generateModels = null;
+    private Boolean generateRecursiveDependentModels = null;
     private Boolean generateSupportingFiles = null;
     private Boolean generateWebhooks = null;
     private Boolean generateApiTests = null;
@@ -232,6 +235,7 @@ public class DefaultGenerator implements Generator {
         generateModelDocumentation = GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_DOCS, true);
         generateApiTests = GlobalSettings.getProperty(CodegenConstants.API_TESTS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
         generateApiDocumentation = GlobalSettings.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
+        generateRecursiveDependentModels = GlobalSettings.getProperty(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, false);
 
         // Additional properties added for tests to exclude references in project related files
         config.additionalProperties().put(CodegenConstants.GENERATE_API_TESTS, generateApiTests);
@@ -243,6 +247,7 @@ public class DefaultGenerator implements Generator {
         config.additionalProperties().put(CodegenConstants.GENERATE_APIS, generateApis);
         config.additionalProperties().put(CodegenConstants.GENERATE_MODELS, generateModels);
         config.additionalProperties().put(CodegenConstants.GENERATE_WEBHOOKS, generateWebhooks);
+        config.additionalProperties().put(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, generateRecursiveDependentModels);
 
         if (!generateApiTests && !generateModelTests) {
             config.additionalProperties().put(CodegenConstants.EXCLUDE_TESTS, true);
@@ -443,34 +448,19 @@ public class DefaultGenerator implements Generator {
     }
 
     void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels) {
+    	generateModels(files, allModels, unusedModels, new ArrayList<>(), DefaultGenerator.this::modelKeys);
+    }
+
+    void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<String> processedModels, Supplier<Set<String>> modelKeysSupplier) {
         if (!generateModels) {
             // TODO: Process these anyway and add to dryRun info
             LOGGER.info("Skipping generation of models.");
             return;
         }
 
-        final Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
-        if (schemas == null) {
-            LOGGER.warn("Skipping generation of models because specification document has no schemas.");
-            return;
-        }
-
-        String modelNames = GlobalSettings.getProperty("models");
-        Set<String> modelsToGenerate = null;
-        if (modelNames != null && !modelNames.isEmpty()) {
-            modelsToGenerate = new HashSet<>(Arrays.asList(modelNames.split(",")));
-        }
-
-        Set<String> modelKeys = schemas.keySet();
-        if (modelsToGenerate != null && !modelsToGenerate.isEmpty()) {
-            Set<String> updatedKeys = new HashSet<>();
-            for (String m : modelKeys) {
-                if (modelsToGenerate.contains(m)) {
-                    updatedKeys.add(m);
-                }
-            }
-
-            modelKeys = updatedKeys;
+        Set<String> modelKeys = modelKeysSupplier.get();
+        if(modelKeys.isEmpty()) {
+        	return;
         }
 
         // store all processed models
@@ -508,7 +498,7 @@ public class DefaultGenerator implements Generator {
                     }
                 }
 
-                Schema schema = schemas.get(name);
+                Schema schema = ModelUtils.getSchemas(this.openAPI).get(name);
 
                 if (schema.getExtensions() != null && Boolean.TRUE.equals(schema.getExtensions().get("x-internal"))) {
                     LOGGER.info("Model {} not generated since x-internal is set to true", name);
@@ -549,6 +539,19 @@ public class DefaultGenerator implements Generator {
         // post process all processed models
         allProcessedModels = config.postProcessAllModels(allProcessedModels);
 
+        if (generateRecursiveDependentModels) {
+        	for(ModelsMap modelsMap : allProcessedModels.values()) {
+        		for(ModelMap mm: modelsMap.getModels()) {
+        			CodegenModel cm = mm.getModel();
+        			if (cm != null) {
+        				for(CodegenProperty variable : cm.getVars()) {
+        					generateModelsForVariable(files, allModels, unusedModels, processedModels, variable);
+        				}
+        			}
+        		}
+        	}
+        }
+        
         // generate files based on processed models
         for (String modelName : allProcessedModels.keySet()) {
             ModelsMap models = allProcessedModels.get(modelName);
@@ -591,6 +594,68 @@ public class DefaultGenerator implements Generator {
             Json.prettyPrint(allModels);
         }
 
+    }
+    
+    private void generateModelsForVariable(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<String> processedModels, CodegenProperty variable) {
+    	if (variable == null) {
+    		return;
+    	}
+    	
+    	final String schemaKey = calculateModelKey(variable.getOpenApiType(), variable.getRef());
+    	Map<String, Schema> allSchemas = ModelUtils.getSchemas(this.openAPI);
+		if (!processedModels.contains(schemaKey) && allSchemas.containsKey(schemaKey)) {
+    		generateModels(files, allModels, unusedModels, processedModels, () -> Set.of(schemaKey));
+    	} else if (variable.getComplexType() != null && variable.getComposedSchemas() == null) {
+    		String ref = variable.getHasItems() ? variable.getItems().getRef() : variable.getRef();
+    		final String key = calculateModelKey(variable.getComplexType(), ref);
+    		if (allSchemas.containsKey(key)) {
+    			generateModels(files, allModels, unusedModels, processedModels, () -> Set.of(key));
+    		} else {
+    			LOGGER.info("Type " + variable.getComplexType()+" of variable " + variable.getName() + " could not be resolve because it is not declared as a model.");
+    		}
+    	} else {
+			LOGGER.info("Type " + variable.getOpenApiType()+" of variable " + variable.getName() + " could not be resolve because it is not declared as a model.");    		
+    	}
+    }
+    
+    private String calculateModelKey(String type, String ref) {
+    	Map<String, Schema> schemaMap = ModelUtils.getSchemas(this.openAPI);
+    	Set<String> keys = schemaMap.keySet();
+    	String simpleRef;
+    	if(keys.contains(type)) {
+    		return type;
+    	} else if (keys.contains(simpleRef = ModelUtils.getSimpleRef(ref))) {
+    		return simpleRef;
+    	} else {
+    		return type;
+    	}
+    }
+    
+    private Set<String> modelKeys() {
+        final Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
+        if (schemas == null) {
+            LOGGER.warn("Skipping generation of models because specification document has no schemas.");
+            return Collections.emptySet();
+        }
+
+        String modelNames = GlobalSettings.getProperty("models");
+        Set<String> modelsToGenerate = null;
+        if (modelNames != null && !modelNames.isEmpty()) {
+            modelsToGenerate = new HashSet<>(Arrays.asList(modelNames.split(",")));
+        }
+
+        Set<String> modelKeys = schemas.keySet();
+        if (modelsToGenerate != null && !modelsToGenerate.isEmpty()) {
+            Set<String> updatedKeys = new HashSet<>();
+            for (String m : modelKeys) {
+                if (modelsToGenerate.contains(m)) {
+                    updatedKeys.add(m);
+                }
+            }
+
+            modelKeys = updatedKeys;
+        }
+        return modelKeys;
     }
 
     @SuppressWarnings("unchecked")
