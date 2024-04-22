@@ -52,7 +52,6 @@ public class AllOfWithSingleRef   {
   @JsonProperty(value = "username")
   @Schema(description = "")
   
-
   public String getUsername() {
     return username;
   }
@@ -72,8 +71,7 @@ public class AllOfWithSingleRef   {
    **/
   @JsonProperty(value = "SingleRefType")
   @Schema(description = "")
-  
-
+  @Valid 
   public SingleRefType getSingleRefType() {
     return singleRefType;
   }

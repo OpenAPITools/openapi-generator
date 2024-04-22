@@ -70,7 +70,6 @@ public class Capitalization   {
   @JsonProperty(value = "smallCamel")
   @Schema(description = "")
   
-
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -91,7 +90,6 @@ public class Capitalization   {
   @JsonProperty(value = "CapitalCamel")
   @Schema(description = "")
   
-
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -112,7 +110,6 @@ public class Capitalization   {
   @JsonProperty(value = "small_Snake")
   @Schema(description = "")
   
-
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -133,7 +130,6 @@ public class Capitalization   {
   @JsonProperty(value = "Capital_Snake")
   @Schema(description = "")
   
-
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -154,7 +150,6 @@ public class Capitalization   {
   @JsonProperty(value = "SCA_ETH_Flow_Points")
   @Schema(description = "")
   
-
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -175,7 +170,6 @@ public class Capitalization   {
   @JsonProperty(value = "ATT_NAME")
   @Schema(description = "Name of the pet ")
   
-
   public String getATTNAME() {
     return ATT_NAME;
   }

@@ -46,7 +46,6 @@ public class Client   {
   @JsonProperty(value = "client")
   @ApiModelProperty(value = "")
   
-
   public String getClient() {
     return client;
   }

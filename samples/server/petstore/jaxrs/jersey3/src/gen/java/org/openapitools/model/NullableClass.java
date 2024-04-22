@@ -107,7 +107,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "integer_prop")
   @Schema(description = "")
   
-
   public Integer getIntegerProp() {
     return integerProp;
   }
@@ -127,8 +126,7 @@ public class NullableClass extends HashMap<String, Object>  {
    **/
   @JsonProperty(value = "number_prop")
   @Schema(description = "")
-  
-
+  @Valid 
   public BigDecimal getNumberProp() {
     return numberProp;
   }
@@ -149,7 +147,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "boolean_prop")
   @Schema(description = "")
   
-
   public Boolean getBooleanProp() {
     return booleanProp;
   }
@@ -170,7 +167,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "string_prop")
   @Schema(description = "")
   
-
   public String getStringProp() {
     return stringProp;
   }
@@ -191,7 +187,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "date_prop")
   @Schema(description = "")
   
-
   public Date getDateProp() {
     return dateProp;
   }
@@ -212,7 +207,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "datetime_prop")
   @Schema(description = "")
   
-
   public Date getDatetimeProp() {
     return datetimeProp;
   }
@@ -241,7 +235,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "array_nullable_prop")
   @Schema(description = "")
   
-
   public List<Object> getArrayNullableProp() {
     return arrayNullableProp;
   }
@@ -270,7 +263,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "array_and_items_nullable_prop")
   @Schema(description = "")
   
-
   public List<Object> getArrayAndItemsNullableProp() {
     return arrayAndItemsNullableProp;
   }
@@ -299,7 +291,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "array_items_nullable")
   @Schema(description = "")
   
-
   public List<Object> getArrayItemsNullable() {
     return arrayItemsNullable;
   }
@@ -328,7 +319,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "object_nullable_prop")
   @Schema(description = "")
   
-
   public Map<String, Object> getObjectNullableProp() {
     return objectNullableProp;
   }
@@ -357,7 +347,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "object_and_items_nullable_prop")
   @Schema(description = "")
   
-
   public Map<String, Object> getObjectAndItemsNullableProp() {
     return objectAndItemsNullableProp;
   }
@@ -386,7 +375,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "object_items_nullable")
   @Schema(description = "")
   
-
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;
   }

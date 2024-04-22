@@ -50,7 +50,6 @@ public class Tag   {
   @JsonProperty(value = "id")
   @Schema(description = "")
   
-
   public Long getId() {
     return id;
   }
@@ -71,7 +70,6 @@ public class Tag   {
   @JsonProperty(value = "name")
   @Schema(description = "")
   
-
   public String getName() {
     return name;
   }

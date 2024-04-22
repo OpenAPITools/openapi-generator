@@ -55,8 +55,7 @@ public class OuterComposite   {
    **/
   @JsonProperty(value = "my_number")
   @Schema(description = "")
-  
-
+  @Valid 
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -77,7 +76,6 @@ public class OuterComposite   {
   @JsonProperty(value = "my_string")
   @Schema(description = "")
   
-
   public String getMyString() {
     return myString;
   }
@@ -98,7 +96,6 @@ public class OuterComposite   {
   @JsonProperty(value = "my_boolean")
   @Schema(description = "")
   
-
   public Boolean getMyBoolean() {
     return myBoolean;
   }

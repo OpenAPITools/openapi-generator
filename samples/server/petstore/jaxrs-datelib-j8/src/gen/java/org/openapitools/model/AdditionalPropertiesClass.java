@@ -109,7 +109,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   @JsonProperty(value = "map_string")
   @ApiModelProperty(value = "")
   
-
   public Map<String, String> getMapString() {
     return mapString;
   }
@@ -138,7 +137,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   @JsonProperty(value = "map_number")
   @ApiModelProperty(value = "")
   @Valid 
-
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
@@ -167,7 +165,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   @JsonProperty(value = "map_integer")
   @ApiModelProperty(value = "")
   
-
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
@@ -196,7 +193,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   @JsonProperty(value = "map_boolean")
   @ApiModelProperty(value = "")
   
-
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
@@ -225,7 +221,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   @JsonProperty(value = "map_array_integer")
   @ApiModelProperty(value = "")
   @Valid 
-
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
@@ -254,7 +249,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   @JsonProperty(value = "map_array_anytype")
   @ApiModelProperty(value = "")
   @Valid 
-
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
@@ -283,7 +277,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   @JsonProperty(value = "map_map_string")
   @ApiModelProperty(value = "")
   @Valid 
-
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
@@ -312,7 +305,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   @JsonProperty(value = "map_map_anytype")
   @ApiModelProperty(value = "")
   @Valid 
-
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
@@ -333,7 +325,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   @JsonProperty(value = "anytype_1")
   @ApiModelProperty(value = "")
   
-
   public Object getAnytype1() {
     return anytype1;
   }
@@ -354,7 +345,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   @JsonProperty(value = "anytype_2")
   @ApiModelProperty(value = "")
   
-
   public Object getAnytype2() {
     return anytype2;
   }
@@ -375,7 +365,6 @@ public class AdditionalPropertiesClass  implements Serializable {
   @JsonProperty(value = "anytype_3")
   @ApiModelProperty(value = "")
   
-
   public Object getAnytype3() {
     return anytype3;
   }

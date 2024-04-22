@@ -108,7 +108,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "integer_prop")
   @ApiModelProperty(value = "")
   
-
   public Integer getIntegerProp() {
     return integerProp;
   }
@@ -128,8 +127,7 @@ public class NullableClass extends HashMap<String, Object>  {
    **/
   @JsonProperty(value = "number_prop")
   @ApiModelProperty(value = "")
-  
-
+  @Valid 
   public BigDecimal getNumberProp() {
     return numberProp;
   }
@@ -150,7 +148,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "boolean_prop")
   @ApiModelProperty(value = "")
   
-
   public Boolean getBooleanProp() {
     return booleanProp;
   }
@@ -171,7 +168,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "string_prop")
   @ApiModelProperty(value = "")
   
-
   public String getStringProp() {
     return stringProp;
   }
@@ -192,7 +188,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "date_prop")
   @ApiModelProperty(value = "")
   
-
   public Date getDateProp() {
     return dateProp;
   }
@@ -213,7 +208,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "datetime_prop")
   @ApiModelProperty(value = "")
   
-
   public Date getDatetimeProp() {
     return datetimeProp;
   }
@@ -242,7 +236,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "array_nullable_prop")
   @ApiModelProperty(value = "")
   
-
   public List<Object> getArrayNullableProp() {
     return arrayNullableProp;
   }
@@ -271,7 +264,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "array_and_items_nullable_prop")
   @ApiModelProperty(value = "")
   
-
   public List<Object> getArrayAndItemsNullableProp() {
     return arrayAndItemsNullableProp;
   }
@@ -300,7 +292,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "array_items_nullable")
   @ApiModelProperty(value = "")
   
-
   public List<Object> getArrayItemsNullable() {
     return arrayItemsNullable;
   }
@@ -329,7 +320,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "object_nullable_prop")
   @ApiModelProperty(value = "")
   
-
   public Map<String, Object> getObjectNullableProp() {
     return objectNullableProp;
   }
@@ -358,7 +348,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "object_and_items_nullable_prop")
   @ApiModelProperty(value = "")
   
-
   public Map<String, Object> getObjectAndItemsNullableProp() {
     return objectAndItemsNullableProp;
   }
@@ -387,7 +376,6 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "object_items_nullable")
   @ApiModelProperty(value = "")
   
-
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;
   }

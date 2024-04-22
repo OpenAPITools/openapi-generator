@@ -75,7 +75,6 @@ public class TypeHolderExample   {
   @JsonProperty(value = "string_item")
   @ApiModelProperty(example = "what", required = true, value = "")
   @NotNull 
-
   public String getStringItem() {
     return stringItem;
   }
@@ -95,8 +94,7 @@ public class TypeHolderExample   {
    **/
   @JsonProperty(value = "number_item")
   @ApiModelProperty(example = "1.234", required = true, value = "")
-  @NotNull 
-
+  @NotNull @Valid 
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -117,7 +115,6 @@ public class TypeHolderExample   {
   @JsonProperty(value = "float_item")
   @ApiModelProperty(example = "1.234", required = true, value = "")
   @NotNull 
-
   public Float getFloatItem() {
     return floatItem;
   }
@@ -138,7 +135,6 @@ public class TypeHolderExample   {
   @JsonProperty(value = "integer_item")
   @ApiModelProperty(example = "-2", required = true, value = "")
   @NotNull 
-
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -159,7 +155,6 @@ public class TypeHolderExample   {
   @JsonProperty(value = "bool_item")
   @ApiModelProperty(example = "true", required = true, value = "")
   @NotNull 
-
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -188,7 +183,6 @@ public class TypeHolderExample   {
   @JsonProperty(value = "array_item")
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
   @NotNull 
-
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

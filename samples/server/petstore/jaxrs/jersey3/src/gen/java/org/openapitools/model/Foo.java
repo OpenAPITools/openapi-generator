@@ -45,7 +45,6 @@ public class Foo   {
   @JsonProperty(value = "bar")
   @Schema(description = "")
   
-
   public String getBar() {
     return bar;
   }

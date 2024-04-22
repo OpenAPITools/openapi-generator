@@ -60,7 +60,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty(value = "uuid")
   @Schema(description = "")
   
-
   public UUID getUuid() {
     return uuid;
   }
@@ -81,7 +80,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty(value = "dateTime")
   @Schema(description = "")
   
-
   public Date getDateTime() {
     return dateTime;
   }
@@ -110,7 +108,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty(value = "map")
   @Schema(description = "")
   @Valid 
-
   public Map<String, Animal> getMap() {
     return map;
   }

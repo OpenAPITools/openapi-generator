@@ -48,7 +48,6 @@ public class ModelFile   {
   @JsonProperty(value = "sourceURI")
   @ApiModelProperty(value = "Test capitalization")
   
-
   public String getSourceURI() {
     return sourceURI;
   }

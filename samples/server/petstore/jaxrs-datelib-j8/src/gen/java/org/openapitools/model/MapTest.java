@@ -104,7 +104,6 @@ public class MapTest  implements Serializable {
   @JsonProperty(value = "map_map_of_string")
   @ApiModelProperty(value = "")
   @Valid 
-
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -133,7 +132,6 @@ public class MapTest  implements Serializable {
   @JsonProperty(value = "map_of_enum_string")
   @ApiModelProperty(value = "")
   
-
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -162,7 +160,6 @@ public class MapTest  implements Serializable {
   @JsonProperty(value = "direct_map")
   @ApiModelProperty(value = "")
   
-
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -191,7 +188,6 @@ public class MapTest  implements Serializable {
   @JsonProperty(value = "indirect_map")
   @ApiModelProperty(value = "")
   
-
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }

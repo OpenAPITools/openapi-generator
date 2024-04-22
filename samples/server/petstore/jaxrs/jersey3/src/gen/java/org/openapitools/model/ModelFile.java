@@ -47,7 +47,6 @@ public class ModelFile   {
   @JsonProperty(value = "sourceURI")
   @Schema(description = "Test capitalization")
   
-
   public String getSourceURI() {
     return sourceURI;
   }

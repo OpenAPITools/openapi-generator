@@ -50,7 +50,6 @@ public class Category   {
   @JsonProperty(value = "id")
   @Schema(description = "")
   
-
   public Long getId() {
     return id;
   }
@@ -71,7 +70,6 @@ public class Category   {
   @JsonProperty(value = "name")
   @Schema(required = true, description = "")
   @NotNull 
-
   public String getName() {
     return name;
   }

@@ -112,7 +112,6 @@ public class Pet   {
   @JsonProperty(value = "id")
   @Schema(description = "")
   
-
   public Long getId() {
     return id;
   }
@@ -132,8 +131,7 @@ public class Pet   {
    **/
   @JsonProperty(value = "category")
   @Schema(description = "")
-  
-
+  @Valid 
   public Category getCategory() {
     return category;
   }
@@ -154,7 +152,6 @@ public class Pet   {
   @JsonProperty(value = "name")
   @Schema(example = "doggie", required = true, description = "")
   @NotNull 
-
   public String getName() {
     return name;
   }
@@ -183,7 +180,6 @@ public class Pet   {
   @JsonProperty(value = "photoUrls")
   @Schema(required = true, description = "")
   @NotNull 
-
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -213,7 +209,6 @@ public class Pet   {
   @JsonProperty(value = "tags")
   @Schema(description = "")
   @Valid 
-
   public List<@Valid Tag> getTags() {
     return tags;
   }
@@ -234,7 +229,6 @@ public class Pet   {
   @JsonProperty(value = "status")
   @Schema(description = "pet status in the store")
   
-
   public StatusEnum getStatus() {
     return status;
   }

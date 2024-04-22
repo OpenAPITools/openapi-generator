@@ -48,7 +48,6 @@ public class AdditionalPropertiesObject extends HashMap<String, Map>  {
   @JsonProperty(value = "name")
   @ApiModelProperty(value = "")
   
-
   public String getName() {
     return name;
   }

@@ -5,7 +5,6 @@
 .travis.yml
 DESCRIPTION
 NAMESPACE
-README.md
 R/api_client.R
 R/api_response.R
 R/auth_api.R
@@ -26,6 +25,7 @@ R/tag.R
 R/test_form_object_multipart_request_marker.R
 R/test_query_style_deep_object_explode_true_object_all_of_query_object_parameter.R
 R/test_query_style_form_explode_true_array_string_query_object_parameter.R
+README.md
 docs/AuthApi.md
 docs/Bird.md
 docs/BodyApi.md

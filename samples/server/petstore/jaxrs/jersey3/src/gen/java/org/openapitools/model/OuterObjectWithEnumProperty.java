@@ -46,8 +46,7 @@ public class OuterObjectWithEnumProperty   {
    **/
   @JsonProperty(value = "value")
   @Schema(required = true, description = "")
-  @NotNull 
-
+  @NotNull @Valid 
   public OuterEnumInteger getValue() {
     return value;
   }

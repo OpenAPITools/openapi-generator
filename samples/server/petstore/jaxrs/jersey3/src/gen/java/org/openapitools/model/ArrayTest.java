@@ -67,7 +67,6 @@ public class ArrayTest   {
   @JsonProperty(value = "array_of_string")
   @Schema(description = "")
    @Size(min=0,max=3)
-
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -96,7 +95,6 @@ public class ArrayTest   {
   @JsonProperty(value = "array_array_of_integer")
   @Schema(description = "")
   @Valid 
-
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -125,7 +123,6 @@ public class ArrayTest   {
   @JsonProperty(value = "array_array_of_model")
   @Schema(description = "")
   @Valid 
-
   public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
