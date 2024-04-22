@@ -67,7 +67,7 @@ public class UserApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "user", }) 
-    public Response createUser(@Schema(description = "Created user object", required = true) @NotNull @Valid  User user,@Context SecurityContext securityContext)
+    public Response createUser(@Schema(description = "Created user object", required = true) @NotNull  User user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUser(user, securityContext);
     }
@@ -159,7 +159,7 @@ public class UserApi  {
             @ApiResponse(responseCode = "404", description = "User not found", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "user", }) 
-    public Response updateUser(@Schema(description= "name that need to be deleted", required = true) @PathParam("username") @NotNull  String username,@Schema(description = "Updated user object", required = true) @NotNull @Valid  User user,@Context SecurityContext securityContext)
+    public Response updateUser(@Schema(description= "name that need to be deleted", required = true) @PathParam("username") @NotNull  String username,@Schema(description = "Updated user object", required = true) @NotNull  User user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updateUser(username, user, securityContext);
     }

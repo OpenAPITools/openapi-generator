@@ -71,7 +71,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class)
     })
-    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet body,@Context SecurityContext securityContext)
+    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull  Pet body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.addPet(body, securityContext);
     }
@@ -107,7 +107,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid status value", response = Void.class)
     })
-    public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", required = true) @QueryParam("status") @NotNull @Valid  List<String> status,@Context SecurityContext securityContext)
+    public Response findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", required = true) @QueryParam("status") @NotNull  List<String> status,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.findPetsByStatus(status, securityContext);
     }
@@ -161,7 +161,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class)
     })
-    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet body,@Context SecurityContext securityContext)
+    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull  Pet body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updatePet(body, securityContext);
     }

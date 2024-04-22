@@ -54,7 +54,7 @@ public class FileSchemaTestClass   {
    **/
   @JsonProperty(value = "file")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public ModelFile getFile() {
     return _file;
   }

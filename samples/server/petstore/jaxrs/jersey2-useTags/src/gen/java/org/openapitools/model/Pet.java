@@ -132,7 +132,7 @@ public class Pet   {
    **/
   @JsonProperty(value = "category")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Category getCategory() {
     return category;
   }

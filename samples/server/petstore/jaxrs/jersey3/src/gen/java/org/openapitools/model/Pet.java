@@ -131,7 +131,7 @@ public class Pet   {
    **/
   @JsonProperty(value = "category")
   @Schema(description = "")
-  @Valid 
+  
   public Category getCategory() {
     return category;
   }

@@ -133,7 +133,7 @@ public class Pet  implements Serializable {
    **/
   @JsonProperty(value = "category")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Category getCategory() {
     return category;
   }
