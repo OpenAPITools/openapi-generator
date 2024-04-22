@@ -22,7 +22,7 @@ export interface Pet {
     name: string;
     photoUrls: Array<string>;
     tags?: Array<Tag>;
-    /** 
+    /**
      * pet status in the store
      * @deprecated
      */

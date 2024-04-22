@@ -19,7 +19,7 @@ export interface Order {
     petId?: number;
     quantity?: number;
     shipDate?: string;
-    /** 
+    /**
      * Order Status
      */
     status?: Order.StatusEnum;
