@@ -56,6 +56,7 @@ public class ModelApiResponse   {
   @JsonProperty(value = "code")
   @Schema(description = "")
   
+
   public Integer getCode() {
     return code;
   }
@@ -76,6 +77,7 @@ public class ModelApiResponse   {
   @JsonProperty(value = "type")
   @Schema(description = "")
   
+
   public String getType() {
     return type;
   }
@@ -96,6 +98,7 @@ public class ModelApiResponse   {
   @JsonProperty(value = "message")
   @Schema(description = "")
   
+
   public String getMessage() {
     return message;
   }

@@ -69,7 +69,8 @@ public class StoreApi  {
             @ApiResponse(responseCode = "404", description = "Order not found", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "store", }) 
-    public Response deleteOrder(@Schema(description= "ID of the order that needs to be deleted", required = true) @PathParam("order_id") @NotNull  String orderId,@Context SecurityContext securityContext)
+    public Response deleteOrder(@Schema(description= "ID of the order that needs to be deleted", required = true) @PathParam("order_id") @NotNull 
+ String orderId,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.deleteOrder(orderId, securityContext);
     }
@@ -99,7 +100,8 @@ public class StoreApi  {
             @ApiResponse(responseCode = "404", description = "Order not found", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "store", }) 
-    public Response getOrderById(@Schema(description= "ID of pet that needs to be fetched", required = true) @PathParam("order_id") @NotNull  @Min(1L) @Max(5L) Long orderId,@Context SecurityContext securityContext)
+    public Response getOrderById(@Schema(description= "ID of pet that needs to be fetched", required = true) @PathParam("order_id") @NotNull  @Min(1L) @Max(5L)
+ Long orderId,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getOrderById(orderId, securityContext);
     }
@@ -114,7 +116,8 @@ public class StoreApi  {
             @ApiResponse(responseCode = "400", description = "Invalid Order", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "store", }) 
-    public Response placeOrder(@Schema(description = "order placed for purchasing the pet", required = true) @NotNull @Valid  Order order,@Context SecurityContext securityContext)
+    public Response placeOrder(@Schema(description = "order placed for purchasing the pet", required = true) @NotNull 
+ Order order,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.placeOrder(order, securityContext);
     }

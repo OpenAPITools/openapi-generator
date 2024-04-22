@@ -46,7 +46,8 @@ public class FooGetDefaultResponse   {
    **/
   @JsonProperty(value = "string")
   @Schema(description = "")
-  @Valid 
+  
+
   public Foo getString() {
     return string;
   }

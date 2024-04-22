@@ -52,6 +52,7 @@ public class Category  implements Serializable {
   @JsonProperty(value = "id")
   @ApiModelProperty(value = "")
   
+
   public Long getId() {
     return id;
   }
@@ -72,6 +73,7 @@ public class Category  implements Serializable {
   @JsonProperty(value = "name")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
+
   public String getName() {
     return name;
   }

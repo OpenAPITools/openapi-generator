@@ -65,6 +65,7 @@ public class ObjectWithDeprecatedFields   {
   @JsonProperty(value = "uuid")
   @Schema(description = "")
   
+
   public String getUuid() {
     return uuid;
   }
@@ -84,7 +85,8 @@ public class ObjectWithDeprecatedFields   {
    **/
   @JsonProperty(value = "id")
   @Schema(description = "")
-  @Valid 
+  
+
   public BigDecimal getId() {
     return id;
   }
@@ -104,7 +106,8 @@ public class ObjectWithDeprecatedFields   {
    **/
   @JsonProperty(value = "deprecatedRef")
   @Schema(description = "")
-  @Valid 
+  
+
   public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
   }
@@ -133,6 +136,7 @@ public class ObjectWithDeprecatedFields   {
   @JsonProperty(value = "bars")
   @Schema(description = "")
   
+
   public List<String> getBars() {
     return bars;
   }

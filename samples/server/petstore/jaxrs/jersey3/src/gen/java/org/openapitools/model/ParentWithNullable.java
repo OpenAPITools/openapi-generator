@@ -87,6 +87,7 @@ public class ParentWithNullable   {
   @JsonProperty(value = "type")
   @Schema(description = "")
   
+
   public TypeEnum getType() {
     return type;
   }
@@ -107,6 +108,7 @@ public class ParentWithNullable   {
   @JsonProperty(value = "nullableProperty")
   @Schema(description = "")
   
+
   public String getNullableProperty() {
     return nullableProperty;
   }

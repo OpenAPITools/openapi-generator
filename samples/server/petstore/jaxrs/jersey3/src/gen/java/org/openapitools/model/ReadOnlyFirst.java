@@ -50,6 +50,7 @@ public class ReadOnlyFirst   {
   @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   @Schema(description = "")
   
+
   public String getBar() {
     return bar;
   }
@@ -70,6 +71,7 @@ public class ReadOnlyFirst   {
   @JsonProperty(value = "baz")
   @Schema(description = "")
   
+
   public String getBaz() {
     return baz;
   }

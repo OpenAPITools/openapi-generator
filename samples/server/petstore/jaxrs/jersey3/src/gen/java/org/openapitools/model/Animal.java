@@ -58,6 +58,7 @@ public class Animal   {
   @JsonProperty(value = "className")
   @Schema(required = true, description = "")
   @NotNull 
+
   public String getClassName() {
     return className;
   }
@@ -78,6 +79,7 @@ public class Animal   {
   @JsonProperty(value = "color")
   @Schema(description = "")
   
+
   public String getColor() {
     return color;
   }

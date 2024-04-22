@@ -61,6 +61,7 @@ public class Name   {
   @JsonProperty(value = "name")
   @Schema(required = true, description = "")
   @NotNull 
+
   public Integer getName() {
     return name;
   }
@@ -81,6 +82,7 @@ public class Name   {
   @JsonProperty(value = "snake_case", access = JsonProperty.Access.READ_ONLY)
   @Schema(description = "")
   
+
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -101,6 +103,7 @@ public class Name   {
   @JsonProperty(value = "property")
   @Schema(description = "")
   
+
   public String getProperty() {
     return property;
   }
@@ -121,6 +124,7 @@ public class Name   {
   @JsonProperty(value = "123Number", access = JsonProperty.Access.READ_ONLY)
   @Schema(description = "")
   
+
   public Integer get123number() {
     return _123number;
   }

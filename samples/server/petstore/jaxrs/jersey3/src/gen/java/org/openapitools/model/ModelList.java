@@ -46,6 +46,7 @@ public class ModelList   {
   @JsonProperty(value = "123-list")
   @Schema(description = "")
   
+
   public String get123list() {
     return _123list;
   }

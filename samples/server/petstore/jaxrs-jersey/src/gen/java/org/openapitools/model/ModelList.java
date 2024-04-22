@@ -47,6 +47,7 @@ public class ModelList   {
   @JsonProperty(value = "123-list")
   @ApiModelProperty(value = "")
   
+
   public String get123list() {
     return _123list;
   }

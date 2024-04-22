@@ -46,6 +46,7 @@ public class DeprecatedObject   {
   @JsonProperty(value = "name")
   @ApiModelProperty(value = "")
   
+
   public String getName() {
     return name;
   }

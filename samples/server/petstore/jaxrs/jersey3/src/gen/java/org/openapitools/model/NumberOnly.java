@@ -45,7 +45,8 @@ public class NumberOnly   {
    **/
   @JsonProperty(value = "JustNumber")
   @Schema(description = "")
-  @Valid 
+  
+
   public BigDecimal getJustNumber() {
     return justNumber;
   }
