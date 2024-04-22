@@ -57,6 +57,7 @@ public class ArrayOfArrayOfNumberOnly   {
   @JsonProperty(value = "ArrayArrayNumber")
   @Schema(description = "")
   @Valid 
+
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }

@@ -64,7 +64,8 @@ public class FakeClassnameTestApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response testClassname(@ApiParam(value = "client model", required = true) @NotNull @Valid  Client body,@Context SecurityContext securityContext)
+    public Response testClassname(@ApiParam(value = "client model", required = true) @NotNull 
+ Client body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClassname(body, securityContext);
     }

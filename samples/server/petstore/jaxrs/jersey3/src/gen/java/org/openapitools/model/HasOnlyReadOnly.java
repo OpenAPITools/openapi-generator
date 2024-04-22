@@ -51,6 +51,7 @@ public class HasOnlyReadOnly   {
   @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   @Schema(description = "")
   
+
   public String getBar() {
     return bar;
   }
@@ -71,6 +72,7 @@ public class HasOnlyReadOnly   {
   @JsonProperty(value = "foo", access = JsonProperty.Access.READ_ONLY)
   @Schema(description = "")
   
+
   public String getFoo() {
     return foo;
   }

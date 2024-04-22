@@ -52,6 +52,7 @@ public class ReadOnlyFirst  implements Serializable {
   @JsonProperty(value = "bar", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
+
   public String getBar() {
     return bar;
   }
@@ -72,6 +73,7 @@ public class ReadOnlyFirst  implements Serializable {
   @JsonProperty(value = "baz")
   @ApiModelProperty(value = "")
   
+
   public String getBaz() {
     return baz;
   }

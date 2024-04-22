@@ -105,6 +105,7 @@ public class Order   {
   @JsonProperty(value = "id")
   @Schema(description = "")
   
+
   public Long getId() {
     return id;
   }
@@ -125,6 +126,7 @@ public class Order   {
   @JsonProperty(value = "petId")
   @Schema(description = "")
   
+
   public Long getPetId() {
     return petId;
   }
@@ -145,6 +147,7 @@ public class Order   {
   @JsonProperty(value = "quantity")
   @Schema(description = "")
   
+
   public Integer getQuantity() {
     return quantity;
   }
@@ -165,6 +168,7 @@ public class Order   {
   @JsonProperty(value = "shipDate")
   @Schema(description = "")
   
+
   public Date getShipDate() {
     return shipDate;
   }
@@ -185,6 +189,7 @@ public class Order   {
   @JsonProperty(value = "status")
   @Schema(description = "Order Status")
   
+
   public StatusEnum getStatus() {
     return status;
   }
@@ -205,6 +210,7 @@ public class Order   {
   @JsonProperty(value = "complete")
   @Schema(description = "")
   
+
   public Boolean getComplete() {
     return complete;
   }

@@ -47,7 +47,8 @@ public class OuterObjectWithEnumProperty   {
    **/
   @JsonProperty(value = "value")
   @ApiModelProperty(required = true, value = "")
-  @NotNull @Valid 
+  @NotNull 
+
   public OuterEnumInteger getValue() {
     return value;
   }

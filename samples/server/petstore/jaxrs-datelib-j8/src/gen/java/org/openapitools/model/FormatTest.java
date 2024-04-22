@@ -120,6 +120,7 @@ public class FormatTest  implements Serializable {
   @JsonProperty(value = "integer")
   @ApiModelProperty(value = "")
    @Min(10) @Max(100)
+
   public Integer getInteger() {
     return integer;
   }
@@ -142,6 +143,7 @@ public class FormatTest  implements Serializable {
   @JsonProperty(value = "int32")
   @ApiModelProperty(value = "")
    @Min(20) @Max(200)
+
   public Integer getInt32() {
     return int32;
   }
@@ -162,6 +164,7 @@ public class FormatTest  implements Serializable {
   @JsonProperty(value = "int64")
   @ApiModelProperty(value = "")
   
+
   public Long getInt64() {
     return int64;
   }
@@ -183,7 +186,8 @@ public class FormatTest  implements Serializable {
    **/
   @JsonProperty(value = "number")
   @ApiModelProperty(required = true, value = "")
-  @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")
+  @NotNull  @DecimalMin("32.1") @DecimalMax("543.2")
+
   public BigDecimal getNumber() {
     return number;
   }
@@ -206,6 +210,7 @@ public class FormatTest  implements Serializable {
   @JsonProperty(value = "float")
   @ApiModelProperty(value = "")
    @DecimalMin("54.3") @DecimalMax("987.6")
+
   public Float getFloat() {
     return _float;
   }
@@ -228,6 +233,7 @@ public class FormatTest  implements Serializable {
   @JsonProperty(value = "double")
   @ApiModelProperty(value = "")
    @DecimalMin("67.8") @DecimalMax("123.4")
+
   public Double getDouble() {
     return _double;
   }
@@ -248,6 +254,7 @@ public class FormatTest  implements Serializable {
   @JsonProperty(value = "string")
   @ApiModelProperty(value = "")
    @Pattern(regexp="/[a-z]/i")
+
   public String getString() {
     return string;
   }
@@ -268,6 +275,7 @@ public class FormatTest  implements Serializable {
   @JsonProperty(value = "byte")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
+
   public byte[] getByte() {
     return _byte;
   }
@@ -288,6 +296,7 @@ public class FormatTest  implements Serializable {
   @JsonProperty(value = "binary")
   @ApiModelProperty(value = "")
   
+
   public File getBinary() {
     return binary;
   }
@@ -308,6 +317,7 @@ public class FormatTest  implements Serializable {
   @JsonProperty(value = "date")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
+
   public LocalDate getDate() {
     return date;
   }
@@ -328,6 +338,7 @@ public class FormatTest  implements Serializable {
   @JsonProperty(value = "dateTime")
   @ApiModelProperty(value = "")
   
+
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -348,6 +359,7 @@ public class FormatTest  implements Serializable {
   @JsonProperty(value = "uuid")
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   
+
   public UUID getUuid() {
     return uuid;
   }
@@ -368,6 +380,7 @@ public class FormatTest  implements Serializable {
   @JsonProperty(value = "password")
   @ApiModelProperty(required = true, value = "")
   @NotNull  @Size(min=10,max=64)
+
   public String getPassword() {
     return password;
   }
@@ -387,7 +400,8 @@ public class FormatTest  implements Serializable {
    **/
   @JsonProperty(value = "BigDecimal")
   @ApiModelProperty(value = "")
-  @Valid 
+  
+
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

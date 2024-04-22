@@ -88,6 +88,7 @@ public class ParentWithNullable   {
   @JsonProperty(value = "type")
   @ApiModelProperty(value = "")
   
+
   public TypeEnum getType() {
     return type;
   }
@@ -108,6 +109,7 @@ public class ParentWithNullable   {
   @JsonProperty(value = "nullableProperty")
   @ApiModelProperty(value = "")
   
+
   public String getNullableProperty() {
     return nullableProperty;
   }

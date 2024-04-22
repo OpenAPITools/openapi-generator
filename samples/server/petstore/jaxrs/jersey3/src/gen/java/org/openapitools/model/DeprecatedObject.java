@@ -45,6 +45,7 @@ public class DeprecatedObject   {
   @JsonProperty(value = "name")
   @Schema(description = "")
   
+
   public String getName() {
     return name;
   }

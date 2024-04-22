@@ -46,6 +46,7 @@ public class HealthCheckResult   {
   @JsonProperty(value = "NullableMessage")
   @Schema(description = "")
   
+
   public String getNullableMessage() {
     return nullableMessage;
   }

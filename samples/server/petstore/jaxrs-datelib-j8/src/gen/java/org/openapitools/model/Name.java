@@ -63,6 +63,7 @@ public class Name  implements Serializable {
   @JsonProperty(value = "name")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
+
   public Integer getName() {
     return name;
   }
@@ -83,6 +84,7 @@ public class Name  implements Serializable {
   @JsonProperty(value = "snake_case", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
+
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -103,6 +105,7 @@ public class Name  implements Serializable {
   @JsonProperty(value = "property")
   @ApiModelProperty(value = "")
   
+
   public String getProperty() {
     return property;
   }
@@ -123,6 +126,7 @@ public class Name  implements Serializable {
   @JsonProperty(value = "123Number", access = JsonProperty.Access.READ_ONLY)
   @ApiModelProperty(value = "")
   
+
   public Integer get123number() {
     return _123number;
   }

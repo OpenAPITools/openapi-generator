@@ -46,6 +46,7 @@ public class Cat extends Animal  {
   @JsonProperty(value = "declawed")
   @Schema(description = "")
   
+
   public Boolean getDeclawed() {
     return declawed;
   }

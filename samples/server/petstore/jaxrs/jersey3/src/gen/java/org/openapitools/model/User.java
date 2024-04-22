@@ -80,6 +80,7 @@ public class User   {
   @JsonProperty(value = "id")
   @Schema(description = "")
   
+
   public Long getId() {
     return id;
   }
@@ -100,6 +101,7 @@ public class User   {
   @JsonProperty(value = "username")
   @Schema(description = "")
   
+
   public String getUsername() {
     return username;
   }
@@ -120,6 +122,7 @@ public class User   {
   @JsonProperty(value = "firstName")
   @Schema(description = "")
   
+
   public String getFirstName() {
     return firstName;
   }
@@ -140,6 +143,7 @@ public class User   {
   @JsonProperty(value = "lastName")
   @Schema(description = "")
   
+
   public String getLastName() {
     return lastName;
   }
@@ -160,6 +164,7 @@ public class User   {
   @JsonProperty(value = "email")
   @Schema(description = "")
   
+
   public String getEmail() {
     return email;
   }
@@ -180,6 +185,7 @@ public class User   {
   @JsonProperty(value = "password")
   @Schema(description = "")
   
+
   public String getPassword() {
     return password;
   }
@@ -200,6 +206,7 @@ public class User   {
   @JsonProperty(value = "phone")
   @Schema(description = "")
   
+
   public String getPhone() {
     return phone;
   }
@@ -220,6 +227,7 @@ public class User   {
   @JsonProperty(value = "userStatus")
   @Schema(description = "User Status")
   
+
   public Integer getUserStatus() {
     return userStatus;
   }

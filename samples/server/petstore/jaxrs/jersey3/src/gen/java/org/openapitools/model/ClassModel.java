@@ -46,6 +46,7 @@ public class ClassModel   {
   @JsonProperty(value = "_class")
   @Schema(description = "")
   
+
   public String getPropertyClass() {
     return propertyClass;
   }

@@ -66,6 +66,7 @@ public class ObjectWithDeprecatedFields   {
   @JsonProperty(value = "uuid")
   @ApiModelProperty(value = "")
   
+
   public String getUuid() {
     return uuid;
   }
@@ -85,7 +86,8 @@ public class ObjectWithDeprecatedFields   {
    **/
   @JsonProperty(value = "id")
   @ApiModelProperty(value = "")
-  @Valid 
+  
+
   public BigDecimal getId() {
     return id;
   }
@@ -105,7 +107,8 @@ public class ObjectWithDeprecatedFields   {
    **/
   @JsonProperty(value = "deprecatedRef")
   @ApiModelProperty(value = "")
-  @Valid 
+  
+
   public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
   }
@@ -134,6 +137,7 @@ public class ObjectWithDeprecatedFields   {
   @JsonProperty(value = "bars")
   @ApiModelProperty(value = "")
   
+
   public List<String> getBars() {
     return bars;
   }
