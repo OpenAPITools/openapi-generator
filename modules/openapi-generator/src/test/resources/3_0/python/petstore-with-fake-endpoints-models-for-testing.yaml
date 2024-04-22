@@ -894,6 +894,13 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/OuterObjectWithEnumProperty'
+      parameters:
+        - in: query
+          name: param
+          schema:
+            type: array
+            items:
+                $ref: '#/components/schemas/OuterEnumInteger'
       requestBody:
         required: true
         content:
@@ -1140,6 +1147,27 @@ paths:
                 properties:
                   reason404:
                     type: string
+  /fake/object_for_multipart_requests: 
+    post:
+      tags:
+        - fake
+      operationId: testObjectForMultipartRequests
+      responses:
+        "200":
+          description: Success
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - marker
+              properties:
+                marker:
+                  type: object
+                  properties:
+                    name:
+                      type: string
   /another-fake/dummy:
     patch:
       tags:
@@ -2685,3 +2713,31 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/CreatureInfo"
+    field:
+      type: object
+      properties:
+        field:
+          type: string
+    CircularAllOfRef:
+      allOf:
+        - $ref: '#/components/schemas/AllOfSuperModel'
+        - properties:
+            secondCircularAllOfRef:
+              items:
+                $ref: '#/components/schemas/SecondCircularAllOfRef'
+              type: array
+      type: object
+    SecondCircularAllOfRef:
+      allOf:
+        - $ref: '#/components/schemas/AllOfSuperModel'
+        - properties:
+            circularAllOfRef:
+              items:
+                $ref: '#/components/schemas/CircularAllOfRef'
+              type: array
+      type: object
+    AllOfSuperModel:
+      properties:
+        _name:
+          type: string
+      type: object

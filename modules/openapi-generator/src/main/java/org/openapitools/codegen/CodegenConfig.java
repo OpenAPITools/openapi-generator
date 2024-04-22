@@ -350,14 +350,16 @@ public interface CodegenConfig {
     */
     String generatorLanguageVersion();
 
+    boolean isTypeErasedGenerics();
+
     List<VendorExtension> getSupportedVendorExtensions();
 
     boolean getUseInlineModelResolver();
 
     boolean getAddSuffixToDuplicateOperationNicknames();
 
-    boolean getUseOpenAPINormalizer();
+    boolean getUseOpenapiNormalizer();
 
-    Set<String> getOpenAPIGeneratorIgnoreList();
+    Set<String> getOpenapiGeneratorIgnoreList();
 
 }

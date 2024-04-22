@@ -34,6 +34,7 @@ jobs:
           - samples/openapi3/client/petstore/spring-cloud-async
           - samples/openapi3/client/petstore/spring-cloud-spring-pageable
           - samples/client/petstore/spring-cloud-tags
+          - samples/client/petstore/spring-cloud-auth
           - samples/client/petstore/spring-cloud-deprecated
           # servers
           - samples/server/petstore/springboot

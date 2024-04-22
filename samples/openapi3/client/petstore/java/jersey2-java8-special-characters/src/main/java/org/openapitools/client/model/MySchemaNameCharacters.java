@@ -41,7 +41,7 @@ import org.openapitools.client.JSON;
   MySchemaNameCharacters.JSON_PROPERTY_PROP2
 })
 @JsonTypeName("MySchemaName._-Characters")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType", visible = true)
 
 

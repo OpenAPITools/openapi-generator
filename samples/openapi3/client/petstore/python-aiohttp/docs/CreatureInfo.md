@@ -22,7 +22,7 @@ print(CreatureInfo.to_json())
 # convert the object into a dict
 creature_info_dict = creature_info_instance.to_dict()
 # create an instance of CreatureInfo from a dict
-creature_info_form_dict = creature_info.from_dict(creature_info_dict)
+creature_info_from_dict = CreatureInfo.from_dict(creature_info_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

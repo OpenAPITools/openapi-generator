@@ -111,7 +111,7 @@
                                     ],
                                     "body": {
                                         "mode": "raw",
-                                        "raw": "{\n  \"email\" : \"rebecca@gmail.com\"\n}",
+                                        "raw": "{\n  \"email\" : \"rebecca@gmail.com\",\n  \"verified\" : true\n}",
                                         "options": {
                                             "raw": {
                                                 "language": "json"

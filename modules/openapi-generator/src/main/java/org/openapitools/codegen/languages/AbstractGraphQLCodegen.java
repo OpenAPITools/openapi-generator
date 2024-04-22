@@ -273,12 +273,14 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
-            return getTypeDeclaration(inner);
+            Object ap = p.getAdditionalProperties();
+            // additionalProperties is either a Schema or a Boolean
+            if (ap instanceof Schema) {
+                return getTypeDeclaration((Schema) ap);
+            }
         }
 
         // Not using the supertype invocation, because we want to UpperCamelize

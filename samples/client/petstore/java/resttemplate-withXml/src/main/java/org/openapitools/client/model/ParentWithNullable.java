@@ -41,7 +41,7 @@ import io.github.threetenjaxb.core.*;
   ParentWithNullable.JSON_PROPERTY_TYPE,
   ParentWithNullable.JSON_PROPERTY_NULLABLE_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
         @JsonSubTypes({
       @JsonSubTypes.Type(value = ChildWithNullable.class, name = "ChildWithNullable"),

@@ -23,10 +23,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Animal")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Animal  implements Serializable {
-  private @Valid String className;
-  private @Valid String color = "red";
+  private String className;
+  private String color = "red";
 
   protected Animal(AnimalBuilder<?, ?> b) {
     this.className = b.className;
@@ -46,8 +46,7 @@ public class Animal  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("className")
-  @NotNull
-  public String getClassName() {
+  @NotNull public String getClassName() {
     return className;
   }
 

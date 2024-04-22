@@ -41,7 +41,6 @@ where
 fn multipart_related_request_post_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// MultipartRelatedRequestPost - POST /multipart_related_request
 #[tracing::instrument(skip_all)]
 async fn multipart_related_request_post<I, A>(
@@ -99,7 +98,6 @@ where
 fn multipart_request_post_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// MultipartRequestPost - POST /multipart_request
 #[tracing::instrument(skip_all)]
 async fn multipart_request_post<I, A>(
@@ -156,7 +154,6 @@ where
 fn multiple_identical_mime_types_post_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
 #[tracing::instrument(skip_all)]
 async fn multiple_identical_mime_types_post<I, A>(

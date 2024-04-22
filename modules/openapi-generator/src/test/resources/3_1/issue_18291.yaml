@@ -1,0 +1,36 @@
+openapi: 3.1.0
+info:
+  title: ""
+  version: ""
+
+paths:
+  /user/getInfo:
+    get:
+      operationId: getUserInfo
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bar'
+          description: |
+            OK
+      security:
+        - Session: []
+      x-accepts: application/json
+
+components:
+  schemas:
+    Foo:
+      type: object
+      required:
+        - arrayOfStrings
+      properties:
+        arrayOfStrings:
+          type: array
+          items:
+            type: string
+
+    Bar:
+      allOf:
+        - $ref: '#/components/schemas/Foo'
