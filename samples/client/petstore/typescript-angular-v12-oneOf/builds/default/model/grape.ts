@@ -12,7 +12,6 @@
 
 
 export interface Grape { 
-    /** */
     color?: string;
 }
 

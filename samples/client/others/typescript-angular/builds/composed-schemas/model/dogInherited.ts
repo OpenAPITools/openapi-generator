@@ -14,7 +14,6 @@ import { PetWithSimpleDiscriminatorModel } from './petWithSimpleDiscriminator';
 
 
 export interface DogInheritedModel extends PetWithSimpleDiscriminatorModel { 
-    /** */
     breed?: DogBreedModel;
 }
 
