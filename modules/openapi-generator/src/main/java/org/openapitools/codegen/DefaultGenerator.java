@@ -547,6 +547,11 @@ public class DefaultGenerator implements Generator {
         				for(CodegenProperty variable : cm.getVars()) {
         					generateModelsForVariable(files, allModels, unusedModels, processedModels, variable);
         				}
+					//TODO:  handle interfaces
+					String parentSchema = cm.getParentSchema();
+					if (parentSchema != null && !processedModels.contains(parentSchema) && ModelUtils.getSchemas(this.openAPI).containsKey(parentSchema)) {
+						generateModels(files, allModels, unusedModels, processedModels, () -> Set.of(parentSchema));
+					}
         			}
         		}
         	}
@@ -593,7 +598,6 @@ public class DefaultGenerator implements Generator {
             LOGGER.info("############ Model info ############");
             Json.prettyPrint(allModels);
         }
-
     }
     
     private void generateModelsForVariable(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<String> processedModels, CodegenProperty variable) {

@@ -69,32 +69,60 @@
   },
   "components": {
     "schemas": {
-      "BadRequestError": {
+      "B_TT": {
+	"discriminator": {
+	  "propertyName": "otype"
+	},
+	"required": [
+          "ident",
+          "otype"
+	],
         "type": "object",
         "properties": {
-          "status": {
-            "type": "integer",
-            "format": "int32",
-            "default": 400
-          },
-          "error": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
+           "ident": {
+           "type": "integer",
+           "format": "int32"
+           },
+           "otype": {
+             "type": "object"
           }
         }
       },
+      "BadRequestError": {
+        "allOf": [
+	  { "$ref": "#/components/schemas/B_TT" },
+	  {
+             "type": "object",
+             "properties": {
+              "status": {
+                "type": "integer",
+                "format": "int32",
+                "default": 400
+              },
+              "error": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+	  }
+        ]
+      },
       "RQ1": {
-        "type": "object",
-        "properties": {
-          "f1": {
-            "$ref": "#/components/schemas/FT1"
-          },
-          "f2": {
-            "$ref": "#/components/schemas/FT2"
-          }
-        }
+	"allOf": [
+	  { "$ref": "#/components/schemas/B_TT" },
+	  { "type": "object",
+	    "properties": {
+              "f1": {
+                "$ref": "#/components/schemas/FT1"
+              },
+              "f2": {
+                "$ref": "#/components/schemas/FT2"
+              }
+            }
+	  }
+	]
       },
       "FT1": {
         "required": [

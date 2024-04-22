@@ -836,6 +836,10 @@ public class DefaultGeneratorTest {
 			TestUtils.ensureDoesNotContainsFile(files, output, ft3FileName);
             Assert.assertFalse(new File(output, ft3FileName).exists());
 
+            String bttFileName = "src/main/java/org/openapitools/model/BTT.java";
+                        TestUtils.ensureDoesNotContainsFile(files, output, bttFileName);
+            Assert.assertFalse(new File(output, bttFileName).exists());
+
         } finally {
             output.deleteOnExit();
             if (oldModelsProp != null) {
@@ -856,7 +860,7 @@ public class DefaultGeneratorTest {
             GlobalSettings.setProperty("models", "RQ1,RS1");
             ClientOptInput clientOptInput = createOptInputIssue18444(target);
 			List<File> files = generator.opts(clientOptInput ).generate();
-            Assert.assertEquals(files.size(), 20);
+            Assert.assertEquals(files.size(), 21);
 
             // Check expected generated files
             // api sanity check
@@ -885,6 +889,10 @@ public class DefaultGeneratorTest {
             String ft3FileName = "src/main/java/org/openapitools/model/FT3.java";
 			TestUtils.ensureContainsFile(files, output, ft3FileName);
             Assert.assertTrue(new File(output, ft3FileName).exists());
+
+	    String bttFileName = "src/main/java/org/openapitools/model/BTT.java";
+	                TestUtils.ensureContainsFile(files, output, bttFileName);
+	    Assert.assertTrue(new File(output, bttFileName).exists());
 
         } finally {
             output.deleteOnExit();
