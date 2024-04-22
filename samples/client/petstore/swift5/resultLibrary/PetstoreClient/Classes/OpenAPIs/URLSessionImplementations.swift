@@ -12,9 +12,9 @@ import MobileCoreServices
 import UniformTypeIdentifiers
 #endif
 
-// Protocol defined for a resumable task. This allows mocking out the URLSessionProtocol below since
+// Protocol defined for a session data task. This allows mocking out the URLSessionProtocol below since
 // you may not want to create or return a real URLSessionDataTask.
-public protocol CancellableResumableTask {
+public protocol URLSessionDataTaskProtocol {
     func resume()
 
     var taskIdentifier: Int { get }
@@ -28,17 +28,17 @@ public protocol CancellableResumableTask {
 public protocol URLSessionProtocol {
     // Task which performs the network fetch. Expected to be from URLSession.dataTask(with:completionHandler:) such that a network request
     // is sent off when `.resume()` is called.
-    func resumableTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> CancellableResumableTask
+    func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol
 }
 
 extension URLSession: URLSessionProtocol {
-  // Passthrough to URLSession.dataTask(with:completionHandler) since URLSessionDataTask conforms to ResumableTask and fetches the network data.
-  public func resumableTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, (any Error)?) -> Void) -> any CancellableResumableTask {
+  // Passthrough to URLSession.dataTask(with:completionHandler) since URLSessionDataTask conforms to URLSessionDataTaskProtocol and fetches the network data.
+  public func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, (any Error)?) -> Void) -> any URLSessionDataTaskProtocol {
     return dataTask(with: request, completionHandler: completionHandler)
   }
 }
 
-extension URLSessionDataTask: CancellableResumableTask {}
+extension URLSessionDataTask: URLSessionDataTaskProtocol {}
 
 class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
@@ -158,7 +158,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                  }
              }
 
-            let dataTask = urlSession.resumableTask(with: request) { data, response, error in
+            let dataTask = urlSession.dataTaskFromProtocol(with: request) { data, response, error in
                 apiResponseQueue.async {
                     self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
                     cleanupRequest()
