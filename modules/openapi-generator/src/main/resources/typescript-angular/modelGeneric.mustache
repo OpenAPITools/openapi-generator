@@ -1,6 +1,18 @@
 export interface {{classname}}{{#allParents}}{{#-first}} extends {{/-first}}{{{.}}}{{^-last}}, {{/-last}}{{/allParents}} { {{>modelGenericAdditionalProperties}}
 {{#vars}}
-    /** {{#deprecated}}@deprecated {{/deprecated}}{{#description}}{{{.}}} {{/description}}*/
+    {{#description}}
+    /** 
+    * {{{description}}}
+    {{#deprecated}}
+    * @deprecated
+    {{/deprecated}}
+    */
+    {{/description}}
+    {{^description}}
+    {{#deprecated}}
+    /** @deprecated */
+    {{/deprecated}}
+    {{/description}}
     {{#isReadOnly}}readonly {{/isReadOnly}}{{{name}}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};
 {{/vars}}
 }{{>modelGenericEnums}}
