@@ -1,7 +1,7 @@
 export interface {{classname}}{{#allParents}}{{#-first}} extends {{/-first}}{{{.}}}{{^-last}}, {{/-last}}{{/allParents}} { {{>modelGenericAdditionalProperties}}
 {{#vars}}
     {{#description}}
-    /** 
+    /**
      * {{{description}}}
      {{#deprecated}}
      * @deprecated
