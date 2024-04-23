@@ -3,16 +3,14 @@ var _ MappedNullable = &{{classname}}{}
 
 // {{classname}} {{{description}}}{{^description}}struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
-{{#parent}}
-{{^isMap}}
+{{#parentModel.name}}
 {{^isArray}}
-	{{{parent}}}
+	{{{parentModel.name}}}
 {{/isArray}}
-{{/isMap}}
 {{#isArray}}
-	Items {{{parent}}}
+	Items {{{parentModel.name}}}
 {{/isArray}}
-{{/parent}}
+{{/parentModel.name}}
 {{#vars}}
 {{^-first}}
 {{/-first}}

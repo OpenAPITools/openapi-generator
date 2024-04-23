@@ -26,7 +26,7 @@ print Capitalization.to_json()
 # convert the object into a dict
 capitalization_dict = capitalization_instance.to_dict()
 # create an instance of Capitalization from a dict
-capitalization_form_dict = capitalization.from_dict(capitalization_dict)
+capitalization_from_dict = Capitalization.from_dict(capitalization_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

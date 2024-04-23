@@ -96,7 +96,6 @@ fn any_of_get_validation(
 
     Ok((query_params,))
 }
-
 /// AnyOfGet - GET /any-of
 #[tracing::instrument(skip_all)]
 async fn any_of_get<I, A>(
@@ -219,7 +218,6 @@ fn callback_with_header_post_validation(
 
     Ok((query_params,))
 }
-
 /// CallbackWithHeaderPost - POST /callback-with-header
 #[tracing::instrument(skip_all)]
 async fn callback_with_header_post<I, A>(
@@ -277,7 +275,6 @@ fn complex_query_param_get_validation(
 
     Ok((query_params,))
 }
-
 /// ComplexQueryParamGet - GET /complex-query-param
 #[tracing::instrument(skip_all)]
 async fn complex_query_param_get<I, A>(
@@ -335,7 +332,6 @@ fn enum_in_path_path_param_get_validation(
 
     Ok((path_params,))
 }
-
 /// EnumInPathPathParamGet - GET /enum_in_path/{path_param}
 #[tracing::instrument(skip_all)]
 async fn enum_in_path_path_param_get<I, A>(
@@ -393,7 +389,6 @@ fn json_complex_query_param_get_validation(
 
     Ok((query_params,))
 }
-
 /// JsonComplexQueryParamGet - GET /json-complex-query-param
 #[tracing::instrument(skip_all)]
 async fn json_complex_query_param_get<I, A>(
@@ -451,7 +446,6 @@ fn mandatory_request_header_get_validation(
 
     Ok((header_params,))
 }
-
 /// MandatoryRequestHeaderGet - GET /mandatory-request-header
 #[tracing::instrument(skip_all)]
 async fn mandatory_request_header_get<I, A>(
@@ -467,7 +461,7 @@ where
 {
     // Header parameters
     let header_params = {
-        let header_x_header = headers.get(HeaderName::from_static("x-header"));
+        let header_x_header = headers.get(HeaderName::from_static("x_header"));
 
         let header_x_header = match header_x_header {
             Some(v) => match header::IntoHeaderValue::<String>::try_from((*v).clone()) {
@@ -538,7 +532,6 @@ where
 fn merge_patch_json_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// MergePatchJsonGet - GET /merge-patch-json
 #[tracing::instrument(skip_all)]
 async fn merge_patch_json_get<I, A>(
@@ -610,7 +603,6 @@ where
 fn multiget_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// MultigetGet - GET /multiget
 #[tracing::instrument(skip_all)]
 async fn multiget_get<I, A>(
@@ -796,7 +788,6 @@ where
 fn multiple_auth_scheme_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// MultipleAuthSchemeGet - GET /multiple_auth_scheme
 #[tracing::instrument(skip_all)]
 async fn multiple_auth_scheme_get<I, A>(
@@ -851,7 +842,6 @@ where
 fn one_of_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// OneOfGet - GET /one-of
 #[tracing::instrument(skip_all)]
 async fn one_of_get<I, A>(
@@ -920,7 +910,6 @@ where
 fn override_server_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// OverrideServerGet - GET /override-server
 #[tracing::instrument(skip_all)]
 async fn override_server_get<I, A>(
@@ -977,7 +966,6 @@ fn paramget_get_validation(
 
     Ok((query_params,))
 }
-
 /// ParamgetGet - GET /paramget
 #[tracing::instrument(skip_all)]
 async fn paramget_get<I, A>(
@@ -1050,7 +1038,6 @@ where
 fn readonly_auth_scheme_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
 #[tracing::instrument(skip_all)]
 async fn readonly_auth_scheme_get<I, A>(
@@ -1109,7 +1096,6 @@ fn register_callback_post_validation(
 
     Ok((query_params,))
 }
-
 /// RegisterCallbackPost - POST /register-callback
 #[tracing::instrument(skip_all)]
 async fn register_callback_post<I, A>(
@@ -1171,7 +1157,6 @@ fn required_octet_stream_put_validation(
 ) -> std::result::Result<(Bytes,), ValidationErrors> {
     Ok((body,))
 }
-
 /// RequiredOctetStreamPut - PUT /required_octet_stream
 #[tracing::instrument(skip_all)]
 async fn required_octet_stream_put<I, A>(
@@ -1225,7 +1210,6 @@ where
 fn responses_with_headers_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// ResponsesWithHeadersGet - GET /responses_with_headers
 #[tracing::instrument(skip_all)]
 async fn responses_with_headers_get<I, A>(
@@ -1273,7 +1257,7 @@ where
 
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(HeaderName::from_static("success-info"), success_info);
+                    response_headers.insert(HeaderName::from_static(""), success_info);
                 }
                 if let Some(bool_header) = bool_header {
                     let bool_header = match header::IntoHeaderValue(bool_header).try_into() {
@@ -1287,8 +1271,7 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("bool-header"), bool_header);
+                        response_headers.insert(HeaderName::from_static(""), bool_header);
                     }
                 }
                 if let Some(object_header) = object_header {
@@ -1303,8 +1286,7 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("object-header"), object_header);
+                        response_headers.insert(HeaderName::from_static(""), object_header);
                     }
                 }
 
@@ -1346,8 +1328,7 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("further-info"), further_info);
+                        response_headers.insert(HeaderName::from_static(""), further_info);
                     }
                 }
                 if let Some(failure_info) = failure_info {
@@ -1362,8 +1343,7 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("failure-info"), failure_info);
+                        response_headers.insert(HeaderName::from_static(""), failure_info);
                     }
                 }
 
@@ -1388,7 +1368,6 @@ where
 fn rfc7807_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// Rfc7807Get - GET /rfc7807
 #[tracing::instrument(skip_all)]
 async fn rfc7807_get<I, A>(
@@ -1495,7 +1474,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct UntypedPropertyGetBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::ObjectUntypedProps,
 }
 
@@ -1510,7 +1489,6 @@ fn untyped_property_get_validation(
 
     Ok((body,))
 }
-
 /// UntypedPropertyGet - GET /untyped_property
 #[tracing::instrument(skip_all)]
 async fn untyped_property_get<I, A>(
@@ -1564,7 +1542,6 @@ where
 fn uuid_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// UuidGet - GET /uuid
 #[tracing::instrument(skip_all)]
 async fn uuid_get<I, A>(
@@ -1639,7 +1616,6 @@ struct XmlExtraPostBodyValidator<'a> {
 fn xml_extra_post_validation(body: Bytes) -> std::result::Result<(Bytes,), ValidationErrors> {
     Ok((body,))
 }
-
 /// XmlExtraPost - POST /xml_extra
 #[tracing::instrument(skip_all)]
 async fn xml_extra_post<I, A>(
@@ -1703,7 +1679,6 @@ struct XmlOtherPostBodyValidator<'a> {
 fn xml_other_post_validation(body: Bytes) -> std::result::Result<(Bytes,), ValidationErrors> {
     Ok((body,))
 }
-
 /// XmlOtherPost - POST /xml_other
 #[tracing::instrument(skip_all)]
 async fn xml_other_post<I, A>(
@@ -1779,7 +1754,6 @@ struct XmlOtherPutBodyValidator<'a> {
 fn xml_other_put_validation(body: Bytes) -> std::result::Result<(Bytes,), ValidationErrors> {
     Ok((body,))
 }
-
 /// XmlOtherPut - PUT /xml_other
 #[tracing::instrument(skip_all)]
 async fn xml_other_put<I, A>(
@@ -1843,7 +1817,6 @@ struct XmlPostBodyValidator<'a> {
 fn xml_post_validation(body: Bytes) -> std::result::Result<(Bytes,), ValidationErrors> {
     Ok((body,))
 }
-
 /// XmlPost - POST /xml
 #[tracing::instrument(skip_all)]
 async fn xml_post<I, A>(
@@ -1907,7 +1880,6 @@ struct XmlPutBodyValidator<'a> {
 fn xml_put_validation(body: Bytes) -> std::result::Result<(Bytes,), ValidationErrors> {
     Ok((body,))
 }
-
 /// XmlPut - PUT /xml
 #[tracing::instrument(skip_all)]
 async fn xml_put<I, A>(
@@ -1961,7 +1933,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct CreateRepoBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::ObjectParam,
 }
 
@@ -1974,7 +1946,6 @@ fn create_repo_validation(
 
     Ok((body,))
 }
-
 /// CreateRepo - POST /repos
 #[tracing::instrument(skip_all)]
 async fn create_repo<I, A>(
@@ -2032,7 +2003,6 @@ fn get_repo_info_validation(
 
     Ok((path_params,))
 }
-
 /// GetRepoInfo - GET /repos/{repoId}
 #[tracing::instrument(skip_all)]
 async fn get_repo_info<I, A>(

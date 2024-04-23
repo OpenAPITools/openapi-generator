@@ -1530,41 +1530,58 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-Pet-addPet-200-wrapper" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-Pet-addPet-200-schema">
-                                  <div id="responses-Pet-addPet-schema-200" class="exampleStyle">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = ;
-                                        var schema = findNode('schema',schemaWrapper).schema;
-                                        if (!schema) {
-                                          schema = schemaWrapper.schema;
-                                        }
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                          Object.keys(schema.properties).forEach( (item) => {
-                                            if (schema.properties[item].$ref != null) {
-                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
-                                            }
-                                          });
-                                        } else if (schema.items != null && schema.items.$ref != null) {
-                                            schema.items = defsParser.$refs.get(schema.items.$ref);
-                                        } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
+                              <div class="tab-pane active" id="responses-Pet-addPet-200-schema">
+                                <div id="responses-Pet-addPet-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
 
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-Pet-addPet-200-schema-data').val(JSON.stringify(schema));
-                                        var result = $('#responses-Pet-addPet-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-Pet-addPet-200-schema-data' type='hidden' value=''></input>
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-addPet-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-addPet-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
                                 </div>
+                                <input id='responses-Pet-addPet-200-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-Pet-addPet-title-405"></h3>
                             <p id="examples-Pet-addPet-description-405" class="marked"></p>
@@ -1587,6 +1604,46 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-Pet-addPet-405-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Pet-addPet-405-schema">
+                                <div id="responses-Pet-addPet-schema-405" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid input"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-addPet-405-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-addPet-schema-405');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Pet-addPet-405-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -1968,6 +2025,46 @@ Pet id to delete
 
 
                             <div class="tab-content" id="responses-Pet-deletePet-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Pet-deletePet-400-schema">
+                                <div id="responses-Pet-deletePet-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid pet value"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-deletePet-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-deletePet-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Pet-deletePet-400-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -2319,41 +2416,64 @@ Status values that need to be considered for filter
 
 
                             <div class="tab-content" id="responses-Pet-findPetsByStatus-200-wrapper" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-Pet-findPetsByStatus-200-schema">
-                                  <div id="responses-Pet-findPetsByStatus-schema-200" class="exampleStyle">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = ;
-                                        var schema = findNode('schema',schemaWrapper).schema;
-                                        if (!schema) {
-                                          schema = schemaWrapper.schema;
-                                        }
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                          Object.keys(schema.properties).forEach( (item) => {
-                                            if (schema.properties[item].$ref != null) {
-                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
-                                            }
-                                          });
-                                        } else if (schema.items != null && schema.items.$ref != null) {
-                                            schema.items = defsParser.$refs.get(schema.items.$ref);
-                                        } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
+                              <div class="tab-pane active" id="responses-Pet-findPetsByStatus-200-schema">
+                                <div id="responses-Pet-findPetsByStatus-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
 
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-Pet-findPetsByStatus-200-schema-data').val(JSON.stringify(schema));
-                                        var result = $('#responses-Pet-findPetsByStatus-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-Pet-findPetsByStatus-200-schema-data' type='hidden' value=''></input>
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-findPetsByStatus-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-findPetsByStatus-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
                                 </div>
+                                <input id='responses-Pet-findPetsByStatus-200-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-Pet-findPetsByStatus-title-400"></h3>
                             <p id="examples-Pet-findPetsByStatus-description-400" class="marked"></p>
@@ -2376,6 +2496,46 @@ Status values that need to be considered for filter
 
 
                             <div class="tab-content" id="responses-Pet-findPetsByStatus-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Pet-findPetsByStatus-400-schema">
+                                <div id="responses-Pet-findPetsByStatus-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid status value"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-findPetsByStatus-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-findPetsByStatus-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Pet-findPetsByStatus-400-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -2727,41 +2887,64 @@ Tags to filter by
 
 
                             <div class="tab-content" id="responses-Pet-findPetsByTags-200-wrapper" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-Pet-findPetsByTags-200-schema">
-                                  <div id="responses-Pet-findPetsByTags-schema-200" class="exampleStyle">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = ;
-                                        var schema = findNode('schema',schemaWrapper).schema;
-                                        if (!schema) {
-                                          schema = schemaWrapper.schema;
-                                        }
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                          Object.keys(schema.properties).forEach( (item) => {
-                                            if (schema.properties[item].$ref != null) {
-                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
-                                            }
-                                          });
-                                        } else if (schema.items != null && schema.items.$ref != null) {
-                                            schema.items = defsParser.$refs.get(schema.items.$ref);
-                                        } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
+                              <div class="tab-pane active" id="responses-Pet-findPetsByTags-200-schema">
+                                <div id="responses-Pet-findPetsByTags-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
 
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-Pet-findPetsByTags-200-schema-data').val(JSON.stringify(schema));
-                                        var result = $('#responses-Pet-findPetsByTags-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-Pet-findPetsByTags-200-schema-data' type='hidden' value=''></input>
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-findPetsByTags-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-findPetsByTags-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
                                 </div>
+                                <input id='responses-Pet-findPetsByTags-200-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-Pet-findPetsByTags-title-400"></h3>
                             <p id="examples-Pet-findPetsByTags-description-400" class="marked"></p>
@@ -2784,6 +2967,46 @@ Tags to filter by
 
 
                             <div class="tab-content" id="responses-Pet-findPetsByTags-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Pet-findPetsByTags-400-schema">
+                                <div id="responses-Pet-findPetsByTags-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid tag value"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-findPetsByTags-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-findPetsByTags-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Pet-findPetsByTags-400-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -3147,41 +3370,58 @@ ID of pet to return
 
 
                             <div class="tab-content" id="responses-Pet-getPetById-200-wrapper" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-Pet-getPetById-200-schema">
-                                  <div id="responses-Pet-getPetById-schema-200" class="exampleStyle">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = ;
-                                        var schema = findNode('schema',schemaWrapper).schema;
-                                        if (!schema) {
-                                          schema = schemaWrapper.schema;
-                                        }
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                          Object.keys(schema.properties).forEach( (item) => {
-                                            if (schema.properties[item].$ref != null) {
-                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
-                                            }
-                                          });
-                                        } else if (schema.items != null && schema.items.$ref != null) {
-                                            schema.items = defsParser.$refs.get(schema.items.$ref);
-                                        } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
+                              <div class="tab-pane active" id="responses-Pet-getPetById-200-schema">
+                                <div id="responses-Pet-getPetById-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
 
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-Pet-getPetById-200-schema-data').val(JSON.stringify(schema));
-                                        var result = $('#responses-Pet-getPetById-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-Pet-getPetById-200-schema-data' type='hidden' value=''></input>
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-getPetById-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-getPetById-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
                                 </div>
+                                <input id='responses-Pet-getPetById-200-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-Pet-getPetById-title-400"></h3>
                             <p id="examples-Pet-getPetById-description-400" class="marked"></p>
@@ -3204,6 +3444,46 @@ ID of pet to return
 
 
                             <div class="tab-content" id="responses-Pet-getPetById-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Pet-getPetById-400-schema">
+                                <div id="responses-Pet-getPetById-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid ID supplied"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-getPetById-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-getPetById-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Pet-getPetById-400-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-Pet-getPetById-title-404"></h3>
                             <p id="examples-Pet-getPetById-description-404" class="marked"></p>
@@ -3226,6 +3506,46 @@ ID of pet to return
 
 
                             <div class="tab-content" id="responses-Pet-getPetById-404-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Pet-getPetById-404-schema">
+                                <div id="responses-Pet-getPetById-schema-404" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Pet not found"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-getPetById-404-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-getPetById-schema-404');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Pet-getPetById-404-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -3640,41 +3960,58 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-Pet-updatePet-200-wrapper" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-Pet-updatePet-200-schema">
-                                  <div id="responses-Pet-updatePet-schema-200" class="exampleStyle">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = ;
-                                        var schema = findNode('schema',schemaWrapper).schema;
-                                        if (!schema) {
-                                          schema = schemaWrapper.schema;
-                                        }
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                          Object.keys(schema.properties).forEach( (item) => {
-                                            if (schema.properties[item].$ref != null) {
-                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
-                                            }
-                                          });
-                                        } else if (schema.items != null && schema.items.$ref != null) {
-                                            schema.items = defsParser.$refs.get(schema.items.$ref);
-                                        } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
+                              <div class="tab-pane active" id="responses-Pet-updatePet-200-schema">
+                                <div id="responses-Pet-updatePet-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
 
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-Pet-updatePet-200-schema-data').val(JSON.stringify(schema));
-                                        var result = $('#responses-Pet-updatePet-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-Pet-updatePet-200-schema-data' type='hidden' value=''></input>
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-updatePet-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-updatePet-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
                                 </div>
+                                <input id='responses-Pet-updatePet-200-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-Pet-updatePet-title-400"></h3>
                             <p id="examples-Pet-updatePet-description-400" class="marked"></p>
@@ -3697,6 +4034,46 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-Pet-updatePet-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Pet-updatePet-400-schema">
+                                <div id="responses-Pet-updatePet-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid ID supplied"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-updatePet-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-updatePet-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Pet-updatePet-400-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-Pet-updatePet-title-404"></h3>
                             <p id="examples-Pet-updatePet-description-404" class="marked"></p>
@@ -3719,6 +4096,46 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-Pet-updatePet-404-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Pet-updatePet-404-schema">
+                                <div id="responses-Pet-updatePet-schema-404" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Pet not found"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-updatePet-404-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-updatePet-schema-404');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Pet-updatePet-404-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-Pet-updatePet-title-405"></h3>
                             <p id="examples-Pet-updatePet-description-405" class="marked"></p>
@@ -3741,6 +4158,46 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-Pet-updatePet-405-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Pet-updatePet-405-schema">
+                                <div id="responses-Pet-updatePet-schema-405" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Validation exception"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-updatePet-405-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-updatePet-schema-405');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Pet-updatePet-405-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -4157,6 +4614,46 @@ Updated status of the pet
 
 
                             <div class="tab-content" id="responses-Pet-updatePetWithForm-405-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Pet-updatePetWithForm-405-schema">
+                                <div id="responses-Pet-updatePetWithForm-schema-405" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid input"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-updatePetWithForm-405-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-updatePetWithForm-schema-405');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Pet-updatePetWithForm-405-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -4591,41 +5088,53 @@ file to upload
 
 
                             <div class="tab-content" id="responses-Pet-uploadFile-200-wrapper" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-Pet-uploadFile-200-schema">
-                                  <div id="responses-Pet-uploadFile-schema-200" class="exampleStyle">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = ;
-                                        var schema = findNode('schema',schemaWrapper).schema;
-                                        if (!schema) {
-                                          schema = schemaWrapper.schema;
-                                        }
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                          Object.keys(schema.properties).forEach( (item) => {
-                                            if (schema.properties[item].$ref != null) {
-                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
-                                            }
-                                          });
-                                        } else if (schema.items != null && schema.items.$ref != null) {
-                                            schema.items = defsParser.$refs.get(schema.items.$ref);
-                                        } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
+                              <div class="tab-pane active" id="responses-Pet-uploadFile-200-schema">
+                                <div id="responses-Pet-uploadFile-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ApiResponse"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
 
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-Pet-uploadFile-200-schema-data').val(JSON.stringify(schema));
-                                        var result = $('#responses-Pet-uploadFile-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-Pet-uploadFile-200-schema-data' type='hidden' value=''></input>
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Pet-uploadFile-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Pet-uploadFile-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
                                 </div>
+                                <input id='responses-Pet-uploadFile-200-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -4934,6 +5443,46 @@ ID of the order that needs to be deleted
 
 
                             <div class="tab-content" id="responses-Store-deleteOrder-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Store-deleteOrder-400-schema">
+                                <div id="responses-Store-deleteOrder-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid ID supplied"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Store-deleteOrder-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Store-deleteOrder-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Store-deleteOrder-400-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-Store-deleteOrder-title-404"></h3>
                             <p id="examples-Store-deleteOrder-description-404" class="marked"></p>
@@ -4956,6 +5505,46 @@ ID of the order that needs to be deleted
 
 
                             <div class="tab-content" id="responses-Store-deleteOrder-404-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Store-deleteOrder-404-schema">
+                                <div id="responses-Store-deleteOrder-schema-404" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Order not found"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Store-deleteOrder-404-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Store-deleteOrder-schema-404');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Store-deleteOrder-404-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -5275,41 +5864,57 @@ pub fn main() {
 
 
                             <div class="tab-content" id="responses-Store-getInventory-200-wrapper" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-Store-getInventory-200-schema">
-                                  <div id="responses-Store-getInventory-schema-200" class="exampleStyle">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = ;
-                                        var schema = findNode('schema',schemaWrapper).schema;
-                                        if (!schema) {
-                                          schema = schemaWrapper.schema;
-                                        }
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                          Object.keys(schema.properties).forEach( (item) => {
-                                            if (schema.properties[item].$ref != null) {
-                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
-                                            }
-                                          });
-                                        } else if (schema.items != null && schema.items.$ref != null) {
-                                            schema.items = defsParser.$refs.get(schema.items.$ref);
-                                        } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
+                              <div class="tab-pane active" id="responses-Store-getInventory-200-schema">
+                                <div id="responses-Store-getInventory-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
 
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-Store-getInventory-200-schema-data').val(JSON.stringify(schema));
-                                        var result = $('#responses-Store-getInventory-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-Store-getInventory-200-schema-data' type='hidden' value=''></input>
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Store-getInventory-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Store-getInventory-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
                                 </div>
+                                <input id='responses-Store-getInventory-200-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -5633,41 +6238,58 @@ ID of pet that needs to be fetched
 
 
                             <div class="tab-content" id="responses-Store-getOrderById-200-wrapper" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-Store-getOrderById-200-schema">
-                                  <div id="responses-Store-getOrderById-schema-200" class="exampleStyle">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = ;
-                                        var schema = findNode('schema',schemaWrapper).schema;
-                                        if (!schema) {
-                                          schema = schemaWrapper.schema;
-                                        }
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                          Object.keys(schema.properties).forEach( (item) => {
-                                            if (schema.properties[item].$ref != null) {
-                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
-                                            }
-                                          });
-                                        } else if (schema.items != null && schema.items.$ref != null) {
-                                            schema.items = defsParser.$refs.get(schema.items.$ref);
-                                        } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
+                              <div class="tab-pane active" id="responses-Store-getOrderById-200-schema">
+                                <div id="responses-Store-getOrderById-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
 
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-Store-getOrderById-200-schema-data').val(JSON.stringify(schema));
-                                        var result = $('#responses-Store-getOrderById-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-Store-getOrderById-200-schema-data' type='hidden' value=''></input>
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Store-getOrderById-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Store-getOrderById-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
                                 </div>
+                                <input id='responses-Store-getOrderById-200-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-Store-getOrderById-title-400"></h3>
                             <p id="examples-Store-getOrderById-description-400" class="marked"></p>
@@ -5690,6 +6312,46 @@ ID of pet that needs to be fetched
 
 
                             <div class="tab-content" id="responses-Store-getOrderById-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Store-getOrderById-400-schema">
+                                <div id="responses-Store-getOrderById-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid ID supplied"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Store-getOrderById-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Store-getOrderById-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Store-getOrderById-400-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-Store-getOrderById-title-404"></h3>
                             <p id="examples-Store-getOrderById-description-404" class="marked"></p>
@@ -5712,6 +6374,46 @@ ID of pet that needs to be fetched
 
 
                             <div class="tab-content" id="responses-Store-getOrderById-404-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Store-getOrderById-404-schema">
+                                <div id="responses-Store-getOrderById-schema-404" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Order not found"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Store-getOrderById-404-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Store-getOrderById-schema-404');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Store-getOrderById-404-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -6058,41 +6760,58 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-Store-placeOrder-200-wrapper" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-Store-placeOrder-200-schema">
-                                  <div id="responses-Store-placeOrder-schema-200" class="exampleStyle">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = ;
-                                        var schema = findNode('schema',schemaWrapper).schema;
-                                        if (!schema) {
-                                          schema = schemaWrapper.schema;
-                                        }
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                          Object.keys(schema.properties).forEach( (item) => {
-                                            if (schema.properties[item].$ref != null) {
-                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
-                                            }
-                                          });
-                                        } else if (schema.items != null && schema.items.$ref != null) {
-                                            schema.items = defsParser.$refs.get(schema.items.$ref);
-                                        } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
+                              <div class="tab-pane active" id="responses-Store-placeOrder-200-schema">
+                                <div id="responses-Store-placeOrder-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
 
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-Store-placeOrder-200-schema-data').val(JSON.stringify(schema));
-                                        var result = $('#responses-Store-placeOrder-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-Store-placeOrder-200-schema-data' type='hidden' value=''></input>
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Store-placeOrder-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Store-placeOrder-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
                                 </div>
+                                <input id='responses-Store-placeOrder-200-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-Store-placeOrder-title-400"></h3>
                             <p id="examples-Store-placeOrder-description-400" class="marked"></p>
@@ -6115,6 +6834,46 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-Store-placeOrder-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-Store-placeOrder-400-schema">
+                                <div id="responses-Store-placeOrder-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid Order"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-Store-placeOrder-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-Store-placeOrder-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-Store-placeOrder-400-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -6491,6 +7250,46 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-User-createUser-default-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-User-createUser-default-schema">
+                                <div id="responses-User-createUser-schema-default" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-createUser-default-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-createUser-schema-default');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-User-createUser-default-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -6867,6 +7666,46 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-User-createUsersWithArrayInput-default-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-User-createUsersWithArrayInput-default-schema">
+                                <div id="responses-User-createUsersWithArrayInput-schema-default" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-createUsersWithArrayInput-default-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-createUsersWithArrayInput-schema-default');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-User-createUsersWithArrayInput-default-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -7243,6 +8082,46 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-User-createUsersWithListInput-default-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-User-createUsersWithListInput-default-schema">
+                                <div id="responses-User-createUsersWithListInput-schema-default" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-createUsersWithListInput-default-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-createUsersWithListInput-schema-default');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-User-createUsersWithListInput-default-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -7588,6 +8467,46 @@ The name that needs to be deleted
 
 
                             <div class="tab-content" id="responses-User-deleteUser-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-User-deleteUser-400-schema">
+                                <div id="responses-User-deleteUser-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid username supplied"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-deleteUser-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-deleteUser-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-User-deleteUser-400-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-User-deleteUser-title-404"></h3>
                             <p id="examples-User-deleteUser-description-404" class="marked"></p>
@@ -7610,6 +8529,46 @@ The name that needs to be deleted
 
 
                             <div class="tab-content" id="responses-User-deleteUser-404-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-User-deleteUser-404-schema">
+                                <div id="responses-User-deleteUser-schema-404" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "User not found"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-deleteUser-404-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-deleteUser-schema-404');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-User-deleteUser-404-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -7930,41 +8889,58 @@ The name that needs to be fetched. Use user1 for testing.
 
 
                             <div class="tab-content" id="responses-User-getUserByName-200-wrapper" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-User-getUserByName-200-schema">
-                                  <div id="responses-User-getUserByName-schema-200" class="exampleStyle">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = ;
-                                        var schema = findNode('schema',schemaWrapper).schema;
-                                        if (!schema) {
-                                          schema = schemaWrapper.schema;
-                                        }
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                          Object.keys(schema.properties).forEach( (item) => {
-                                            if (schema.properties[item].$ref != null) {
-                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
-                                            }
-                                          });
-                                        } else if (schema.items != null && schema.items.$ref != null) {
-                                            schema.items = defsParser.$refs.get(schema.items.$ref);
-                                        } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
+                              <div class="tab-pane active" id="responses-User-getUserByName-200-schema">
+                                <div id="responses-User-getUserByName-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
 
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-User-getUserByName-200-schema-data').val(JSON.stringify(schema));
-                                        var result = $('#responses-User-getUserByName-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-User-getUserByName-200-schema-data' type='hidden' value=''></input>
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-getUserByName-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-getUserByName-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
                                 </div>
+                                <input id='responses-User-getUserByName-200-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-User-getUserByName-title-400"></h3>
                             <p id="examples-User-getUserByName-description-400" class="marked"></p>
@@ -7987,6 +8963,46 @@ The name that needs to be fetched. Use user1 for testing.
 
 
                             <div class="tab-content" id="responses-User-getUserByName-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-User-getUserByName-400-schema">
+                                <div id="responses-User-getUserByName-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid username supplied"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-getUserByName-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-getUserByName-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-User-getUserByName-400-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-User-getUserByName-title-404"></h3>
                             <p id="examples-User-getUserByName-description-404" class="marked"></p>
@@ -8009,6 +9025,46 @@ The name that needs to be fetched. Use user1 for testing.
 
 
                             <div class="tab-content" id="responses-User-getUserByName-404-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-User-getUserByName-404-schema">
+                                <div id="responses-User-getUserByName-schema-404" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "User not found"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-getUserByName-404-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-getUserByName-schema-404');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-User-getUserByName-404-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -8366,41 +9422,87 @@ The password for login in clear text
 
 
                             <div class="tab-content" id="responses-User-loginUser-200-wrapper" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-User-loginUser-200-schema">
-                                  <div id="responses-User-loginUser-schema-200" class="exampleStyle">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = ;
-                                        var schema = findNode('schema',schemaWrapper).schema;
-                                        if (!schema) {
-                                          schema = schemaWrapper.schema;
-                                        }
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                          Object.keys(schema.properties).forEach( (item) => {
-                                            if (schema.properties[item].$ref != null) {
-                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
-                                            }
-                                          });
-                                        } else if (schema.items != null && schema.items.$ref != null) {
-                                            schema.items = defsParser.$refs.get(schema.items.$ref);
-                                        } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
+                              <div class="tab-pane active" id="responses-User-loginUser-200-schema">
+                                <div id="responses-User-loginUser-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation",
+  "headers" : {
+    "Set-Cookie" : {
+      "description" : "Cookie authentication key for use with the `api_key` apiKey authentication.",
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "string",
+        "example" : "AUTH_KEY=abcde12345; Path=/; HttpOnly"
+      }
+    },
+    "X-Rate-Limit" : {
+      "description" : "calls per hour allowed by the user",
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "integer",
+        "format" : "int32"
+      }
+    },
+    "X-Expires-After" : {
+      "description" : "date in UTC when token expires",
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "string",
+        "format" : "date-time"
+      }
+    }
+  },
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "type" : "string"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "type" : "string"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
 
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-User-loginUser-200-schema-data').val(JSON.stringify(schema));
-                                        var result = $('#responses-User-loginUser-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-User-loginUser-200-schema-data' type='hidden' value=''></input>
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-loginUser-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-loginUser-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
                                 </div>
+                                <input id='responses-User-loginUser-200-schema-data' type='hidden' value=''></input>
+                              </div>
                                   <div class="tab-pane" id="responses-loginUser-200-headers">
                                       <table>
                                           <tr>
@@ -8451,6 +9553,46 @@ The password for login in clear text
 
 
                             <div class="tab-content" id="responses-User-loginUser-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-User-loginUser-400-schema">
+                                <div id="responses-User-loginUser-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid username/password supplied"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-loginUser-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-loginUser-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-User-loginUser-400-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -8755,6 +9897,46 @@ pub fn main() {
 
 
                             <div class="tab-content" id="responses-User-logoutUser-default-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-User-logoutUser-default-schema">
+                                <div id="responses-User-logoutUser-schema-default" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "successful operation"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-logoutUser-default-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-logoutUser-schema-default');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-User-logoutUser-default-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>
@@ -9169,6 +10351,46 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-User-updateUser-400-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-User-updateUser-400-schema">
+                                <div id="responses-User-updateUser-schema-400" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "Invalid user supplied"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-updateUser-400-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-updateUser-schema-400');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-User-updateUser-400-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                             <h3 id="examples-User-updateUser-title-404"></h3>
                             <p id="examples-User-updateUser-description-404" class="marked"></p>
@@ -9191,6 +10413,46 @@ $(document).ready(function() {
 
 
                             <div class="tab-content" id="responses-User-updateUser-404-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-User-updateUser-404-schema">
+                                <div id="responses-User-updateUser-schema-404" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "User not found"
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        Object.keys(schema.properties).forEach( (item) => {
+                                          if (schema.properties[item].$ref != null) {
+                                            schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                          }
+                                        });
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-User-updateUser-404-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-User-updateUser-schema-404');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-User-updateUser-404-schema-data' type='hidden' value=''></input>
+                              </div>
                             </div>
                         </article>
                       </div>

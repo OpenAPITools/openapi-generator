@@ -829,7 +829,7 @@ public class CodeGenMojo extends AbstractMojo {
 
                 // Retained for backwards-compatibility with configOptions -> openapi-normalizer
                 if (openapiNormalizer == null && configOptions.containsKey("openapi-normalizer")) {
-                    applyOpenAPINormalizerKvp(configOptions.get("openapi-normalizer").toString(),
+                    applyOpenapiNormalizerKvp(configOptions.get("openapi-normalizer").toString(),
                             configurator);
                 }
 
@@ -846,7 +846,7 @@ public class CodeGenMojo extends AbstractMojo {
 
                 // Retained for backwards-compatibility with configOptions -> openapi-generator-ignore-list
                 if (openapiGeneratorIgnoreList == null && configOptions.containsKey("openapi-generator-ignore-list")) {
-                    applyOpenAPIGeneratorIgnoreListCsv(configOptions
+                    applyOpenapiGeneratorIgnoreListCsv(configOptions
                             .get("openapi-generator-ignore-list").toString(), configurator);
                 }
 
@@ -919,7 +919,7 @@ public class CodeGenMojo extends AbstractMojo {
 
             // Apply OpenAPI normalizer rules
             if (openapiNormalizer != null && (configOptions == null || !configOptions.containsKey("openapi-normalizer"))) {
-                applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
+                applyOpenapiNormalizerKvpList(openapiNormalizer, configurator);
             }
 
             // Apply Type Mappings
@@ -936,7 +936,7 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Language Specific Primitives
             if (openapiGeneratorIgnoreList != null
                     && (configOptions == null || !configOptions.containsKey("openapi-generator-ignore-list"))) {
-                applyOpenAPIGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
+                applyOpenapiGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
             }
 
             // Apply Additional Properties

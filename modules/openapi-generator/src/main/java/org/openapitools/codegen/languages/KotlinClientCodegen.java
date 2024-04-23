@@ -957,7 +957,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     if (param.isQueryParam && "form".equals(param.style) && param.isExplode && param.isModel) {
                         // query parameter (style: form, explode) referencing models need to import
                         // models defined in the properties of the models
-                        operations.put("x-koltin-import-models", true);
+                        operations.put("x-kotlin-import-models", true);
                     }
                 }
 

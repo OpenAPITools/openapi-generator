@@ -15,6 +15,8 @@ import unittest
 import unittest
 from unittest.mock import patch, Mock
 import petstore_api
+from petstore_api import OuterObjectWithEnumProperty, OuterEnumInteger
+
 
 class TestFakeApi(unittest.TestCase):
     """StrLikeJson unit test stubs"""
@@ -142,3 +144,24 @@ class TestFakeApi(unittest.TestCase):
         ):
             returned = self.fake_api.fake_return_byte_like_json()
             self.assertEqual(b'{"a": "a"}', returned)
+
+    def testIntEnumReturnsValue(self):
+        """
+        Fixes #18327 (https://github.com/OpenAPITools/openapi-generator/issues/18327)
+        The enum value should be used in the param and not the enum name
+        """
+        mock_resp = Mock()
+        mock_resp.status = 200
+        mock_resp.data = b'{"value": "0"}'
+        mock_resp.getheaders.return_value = {}
+        mock_resp.getheader = (
+            lambda name: "text/plain" if name == "content-type" else Mock()
+        )
+        with patch(
+                "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
+        ) as call_api_mock:
+            self.fake_api.fake_property_enum_integer_serialize(
+                outer_object_with_enum_property=OuterObjectWithEnumProperty(value=OuterEnumInteger.NUMBER_0),
+                param=[OuterEnumInteger.NUMBER_0])
+            self.assertEqual(call_api_mock.call_args[0][1],
+                             'http://petstore.swagger.io:80/v2/fake/property/enum-int?param=0')

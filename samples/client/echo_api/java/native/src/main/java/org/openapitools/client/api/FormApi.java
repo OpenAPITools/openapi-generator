@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class FormApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -186,6 +186,7 @@ public class FormApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test form parameter(s) for multipart schema
    * Test form parameter(s) for multipart schema
@@ -297,6 +298,7 @@ public class FormApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Test form parameter(s) for oneOf schema
    * Test form parameter(s) for oneOf schema
@@ -411,4 +413,5 @@ public class FormApi {
     }
     return localVarRequestBuilder;
   }
+
 }

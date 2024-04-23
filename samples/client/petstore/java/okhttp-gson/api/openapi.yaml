@@ -2711,6 +2711,25 @@ components:
       type: object
       xml:
         name: Pet
+    ArrayOneOf:
+      oneOf:
+      - type: integer
+      - items:
+          type: string
+        type: array
+    ArrayAnyOf:
+      anyOf:
+      - type: integer
+      - items:
+          type: string
+        type: array
+    ModelWithOneOfAnyOfProperties:
+      properties:
+        oneof_prop:
+          $ref: '#/components/schemas/ArrayOneOf'
+        anyof_prop:
+          $ref: '#/components/schemas/ArrayAnyOf'
+      type: object
     _foo_get_default_response:
       example:
         string:

@@ -466,7 +466,7 @@ public class ModelUtils {
 
         return (schema instanceof ObjectSchema) ||
                 // must not be a map
-                (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) ||
+                (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(ModelUtils.isMapSchema(schema))) ||
                 // must have at least one property
                 (schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty());
     }
@@ -515,10 +515,6 @@ public class ModelUtils {
      * @return true if the specified schema is a Composed schema.
      */
     public static boolean isComplexComposedSchema(Schema schema) {
-        if (!(schema instanceof ComposedSchema)) {
-            return false;
-        }
-
         int count = 0;
 
         if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
@@ -2134,6 +2130,25 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Returns schema type.
+     * For 3.1 spec, return the first one.
+     *
+     * @param schema the schema
+     * @return schema type
+     */
+    public static String getType(Schema schema) {
+        if (schema == null) {
+            return null;
+        }
+
+        if (schema instanceof JsonSchema) {
+            return String.valueOf(schema.getTypes().iterator().next());
+        } else {
+            return schema.getType();
+        }
     }
 
     /**

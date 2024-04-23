@@ -6,8 +6,12 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.Generator;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
@@ -16,6 +20,14 @@ import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -53,6 +65,32 @@ public class TypeScriptFetchClientCodegenTest {
         PathItem path = openApi.getPaths().get("/api/Users/{userId}");
         CodegenOperation operation = codegen.fromOperation("/api/Users/{userId}", "get", path.getGet(), path.getServers());
         Assert.assertEquals(operation.isResponseOptional, true);
+    }
+
+    @Test
+    public void testModelsWithoutPaths() throws IOException {
+        final String specPath = "src/test/resources/3_1/reusable-components-without-paths.yaml";
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("supportsES6", true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec(specPath)
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/index.ts"));
+        TestUtils.assertFileExists(Paths.get(output + "/runtime.ts"));
+        TestUtils.assertFileExists(Paths.get(output + "/models/Pet.ts"));
+        TestUtils.assertFileExists(Paths.get(output + "/models/index.ts"));
     }
 
     @Test

@@ -55,7 +55,7 @@ import javax.validation.Valid;
     )
 })
 @Path("/fake_classname_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class FakeClassnameTestApi {
 
     @PATCH

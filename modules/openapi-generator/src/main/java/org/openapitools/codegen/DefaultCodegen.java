@@ -704,7 +704,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Removes importToRemove from the imports of objs, if present.
      * This is useful to remove imports that are already present in operations-related template files, to avoid importing the same thing twice.
      *
-     * @param objs imports will be removed from this objs' imports collection
+     * @param objs           imports will be removed from this objs' imports collection
      * @param importToRemove the import statement to be removed
      */
     protected void removeImport(OperationsMap objs, String importToRemove) {
@@ -2299,7 +2299,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Any non-null value will cause {{#defaultValue} check to pass.
      *
      * @param codegenProperty Codegen Property
-     * @param schema Parameter schema
+     * @param schema          Parameter schema
      * @return string presentation of the default value of the parameter
      */
     public String toDefaultParameterValue(CodegenProperty codegenProperty, Schema<?> schema) {
@@ -2326,7 +2326,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Return null if you do NOT want a default value.
      * Any non-null value will cause {{#defaultValue} check to pass.
      *
-     * @param schema Property schema
+     * @param schema          Property schema
      * @param codegenProperty Codegen property
      * @return string presentation of the default value of the property
      */
@@ -2367,7 +2367,6 @@ public class DefaultCodegen implements CodegenConfig {
         return getSingleSchemaType(schema);
 
     }
-
 
 
     protected Schema<?> getSchemaAdditionalProperties(Schema schema) {
@@ -3002,6 +3001,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * A method that allows generators to pre-process test example payloads
      * This can be useful if one needs to change how values like null in string are represented
+     *
      * @param data the test data payload
      * @return the updated test data payload
      */
@@ -3012,6 +3012,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Processes any test cases if they exist in the components.x-test-examples vendor extensions
      * If they exist then cast them to java class instances and return them back in a map
+     *
      * @param refToTestCases the component schema name that the test cases are for
      */
     private HashMap<String, SchemaTestCase> extractSchemaTestCases(String refToTestCases) {
@@ -3048,7 +3049,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Sets the booleans that define the model's type
      *
-     * @param model the model to update
+     * @param model  the model to update
      * @param schema the model's schema
      */
     protected void updateModelForString(CodegenModel model, Schema schema) {
@@ -3306,7 +3307,6 @@ public class DefaultCodegen implements CodegenConfig {
      * @param sc                 The Schema that may contain the discriminator
      * @param discPropName       The String that is the discriminator propertyName in the schema
      * @param visitedSchemas     A set of visited schema names
-     *
      */
     private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, Set<String> visitedSchemas) {
         if (visitedSchemas.contains(composedSchemaName)) { // recursive schema definition found
@@ -3393,7 +3393,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Recursively look in Schema sc for the discriminator and return it
      *
-     * @param sc The Schema that may contain the discriminator
+     * @param sc             The Schema that may contain the discriminator
      * @param visitedSchemas An array list of visited schemas
      */
     private Discriminator recursiveGetDiscriminator(Schema sc, ArrayList<Schema> visitedSchemas) {
@@ -3613,9 +3613,9 @@ public class DefaultCodegen implements CodegenConfig {
             Map<String, Object> vendorExtensions = cs.getExtensions();
             String mappingName =
                     Optional.ofNullable(vendorExtensions)
-                        .map(ve -> ve.get("x-discriminator-value"))
-                        .map(discriminatorValue -> (String) discriminatorValue)
-                        .orElse(currentSchemaName);
+                            .map(ve -> ve.get("x-discriminator-value"))
+                            .map(discriminatorValue -> (String) discriminatorValue)
+                            .orElse(currentSchemaName);
             MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), !mappingName.equals(currentSchemaName));
             descendentSchemas.add(mm);
         }
@@ -3642,11 +3642,11 @@ public class DefaultCodegen implements CodegenConfig {
         //  the future..
         String propertyType =
                 Optional.ofNullable(schema.getProperties())
-                    .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
-                    .map(Schema::get$ref)
-                    .map(ModelUtils::getSimpleRef)
-                    .map(this::toModelName)
-                    .orElseGet(() -> typeMapping.get("string"));
+                        .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
+                        .map(Schema::get$ref)
+                        .map(ModelUtils::getSimpleRef)
+                        .map(this::toModelName)
+                        .orElseGet(() -> typeMapping.get("string"));
         discriminator.setPropertyType(propertyType);
 
         // check to see if the discriminator property is an enum string
@@ -3937,8 +3937,8 @@ public class DefaultCodegen implements CodegenConfig {
      * This method was kept when required was added to the fromProperty signature
      * to ensure that the change was non-breaking
      *
-     * @param name     name of the property
-     * @param p        OAS property schema
+     * @param name name of the property
+     * @param p    OAS property schema
      * @return Codegen Property object
      */
     public CodegenProperty fromProperty(String name, Schema p) {
@@ -3954,9 +3954,9 @@ public class DefaultCodegen implements CodegenConfig {
      * Any subsequent processing of the CodegenModel return value must be idempotent
      * for a given (String name, Schema schema).
      *
-     * @param name     name of the property
-     * @param p        OAS property schema
-     * @param required true if the property is required in the next higher object schema, false otherwise
+     * @param name                             name of the property
+     * @param p                                OAS property schema
+     * @param required                         true if the property is required in the next higher object schema, false otherwise
      * @param schemaIsFromAdditionalProperties true if the property is a required property defined by additional properties schema
      *                                         If this is the actual additionalProperties schema not defining a required property, then
      *                                         the value should be false
@@ -4735,8 +4735,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (contentType != null) {
                 contentType = contentType.toLowerCase(Locale.ROOT);
             }
-            if (!(this instanceof RustAxumServerCodegen) && contentType != null &&
-                    (contentType.startsWith("application/x-www-form-urlencoded") ||
+            if (contentType != null &&
+                    ((!(this instanceof RustAxumServerCodegen) && contentType.startsWith("application/x-www-form-urlencoded")) ||
                             contentType.startsWith("multipart"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
@@ -5902,10 +5902,10 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Add the model name of the child schema in a composed schema to the set of imports
      *
-     * @param composed composed schema
+     * @param composed    composed schema
      * @param childSchema composed schema
-     * @param model codegen model
-     * @param modelName model name
+     * @param model       codegen model
+     * @param modelName   model name
      */
     protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName) {
         if (composed == null || childSchema == null) {
@@ -6788,12 +6788,12 @@ public class DefaultCodegen implements CodegenConfig {
             String enumValue = isDataTypeString(dataType)
                     ? enumUnknownDefaultCaseName
                     : // This is a dummy value that attempts to avoid collisions with previously specified cases.
-                      // Int.max / 192
-                      // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
-                      // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
-                      // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
-                      // https://github.com/OpenAPITools/openapi-generator/pull/11013
-                      String.valueOf(11184809);
+                    // Int.max / 192
+                    // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
+                    // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
+                    // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
+                    // https://github.com/OpenAPITools/openapi-generator/pull/11013
+                    String.valueOf(11184809);
 
             enumVar.put("name", toEnumVarName(enumName, dataType));
             enumVar.put("value", toEnumValue(enumValue, dataType));
@@ -7977,6 +7977,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String getAdditionalPropertiesName() {
         return "additional_properties";
     }
+
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {
         if (codegenParameter.jsonSchema == null)
             codegenParameter.jsonSchema = Json.pretty(body);
@@ -8243,8 +8244,8 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Add a given ComposedSchema as an interface model to be generated, assuming it has `oneOf` defined
      *
-     * @param cs      ComposedSchema object to create as interface model
-     * @param type    name to use for the generated interface model
+     * @param cs   ComposedSchema object to create as interface model
+     * @param type name to use for the generated interface model
      */
     public void addOneOfInterfaceModel(Schema cs, String type) {
         if (cs.getOneOf() == null) {
@@ -8434,7 +8435,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // in other sub-schemas of allOf/anyOf/oneOf
                 cp.vendorExtensions.putIfAbsent("x-duplicated-data-type", true);
             } else {
-                if(isTypeErasedGenerics()) {
+                if (isTypeErasedGenerics()) {
                     dataTypeSet.add(cp.baseType);
                 } else {
                     dataTypeSet.add(cp.dataType);
@@ -8465,13 +8466,17 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public boolean getUseInlineModelResolver() { return true; }
+    public boolean getUseInlineModelResolver() {
+        return true;
+    }
 
     @Override
-    public boolean getUseOpenAPINormalizer() { return true; }
+    public boolean getUseOpenapiNormalizer() {
+        return true;
+    }
 
     @Override
-    public Set<String> getOpenAPIGeneratorIgnoreList() {
+    public Set<String> getOpenapiGeneratorIgnoreList() {
         return openapiGeneratorIgnoreList;
     }
 
@@ -8485,7 +8490,9 @@ public class DefaultCodegen implements CodegenConfig {
         And convert special characters like newline, tab, carriage return
         Into strings that can be rendered in the language that the generator will output to
         */
-    protected String handleSpecialCharacters(String name) { return name; }
+    protected String handleSpecialCharacters(String name) {
+        return name;
+    }
 
     /**
      * Used to ensure that null or Schema is returned given an input Boolean/Schema/null
