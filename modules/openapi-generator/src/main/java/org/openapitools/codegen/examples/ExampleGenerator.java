@@ -19,7 +19,6 @@ package org.openapitools.codegen.examples;
 
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -388,6 +387,8 @@ public class ExampleGenerator {
                 return null;
             }
             return resolvePropertyToExample(name, mediaType, found.get(), processedModels);
+        } else if (ModelUtils.isArraySchema(schema)) {
+            return resolvePropertyToExample(schema.getName(), mediaType, schema, processedModels);
         } else {
             // TODO log an error message as the model does not have any properties
             return null;
@@ -399,6 +400,19 @@ public class ExampleGenerator {
             for (Object propertyName : schema.getProperties().keySet()) {
                 Schema property = (Schema) schema.getProperties().get(propertyName.toString());
                 values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels));
+            }
+        }
+        else if (ModelUtils.isAllOf(schema) || ModelUtils.isAllOfWithProperties(schema)) {
+            List<Schema> interfaces = schema.getAllOf();
+            for (Schema composed : interfaces) {
+                traverseSchemaProperties(mediaType, composed, processedModels, values);
+                if (composed.get$ref() != null) {
+                    String ref = ModelUtils.getSimpleRef(composed.get$ref());
+                    Schema resolved = ModelUtils.getSchema(openAPI, ref);
+                    if (resolved != null) {
+                        traverseSchemaProperties(mediaType, resolved, processedModels, values);
+                    }
+                }
             }
         }
     }
