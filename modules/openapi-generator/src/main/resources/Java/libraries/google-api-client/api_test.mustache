@@ -4,8 +4,8 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * API tests for {{classname}}
  */
-@Ignore
+@Disabled
 public class {{classname}}Test {
 
     private final {{classname}} api = new {{classname}}();

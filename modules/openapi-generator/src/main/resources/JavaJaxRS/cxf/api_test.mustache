@@ -4,9 +4,9 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
 import {{javaxPackage}}.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
@@ -65,7 +65,7 @@ public class {{classname}}Test {
 
     private {{classname}} api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         JacksonJsonProvider provider = new JacksonJsonProvider();
         List providers = new ArrayList();
@@ -114,7 +114,7 @@ public class {{classname}}Test {
         {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<InputStream>{{/collectionFormat}}{{^collectionFormat}}InputStream{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}} {{paramName}} = null;{{/isFile}}{{^isFile}}{{{dataType}}} {{paramName}} = null;{{/isFile}}
         {{/allParams}}
         //{{^vendorExtensions.x-java-is-response-void}}{{>returnTypes}} response = {{/vendorExtensions.x-java-is-response-void}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-        {{^vendorExtensions.x-java-is-response-void}}//assertNotNull(response);{{/vendorExtensions.x-java-is-response-void}}
+        {{^vendorExtensions.x-java-is-response-void}}//Assertions.assertNotNull(response);{{/vendorExtensions.x-java-is-response-void}}
         // TODO: test validations
 
 
