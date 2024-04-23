@@ -279,9 +279,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     private void collectEnumSchemas(String parentName, String sName, Schema schema) {
-        if (schema instanceof ArraySchema) {
-            collectEnumSchemas(parentName, sName, ((ArraySchema) schema).getItems());
-        } else if (schema instanceof MapSchema && schema.getAdditionalProperties() instanceof Schema) {
+        if (ModelUtils.isArraySchema(schema)) {
+            collectEnumSchemas(parentName, sName, ModelUtils.getSchemaItems(schema));
+        } else if (ModelUtils.isMapSchema(schema) && schema.getAdditionalProperties() instanceof Schema) {
             collectEnumSchemas(parentName, sName, (Schema) schema.getAdditionalProperties());
         } else if (isEnumSchema(schema)) {
             String h = hashEnum(schema);
@@ -317,11 +317,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 collectEnumSchemas(pName, (Schema) schema.getAdditionalProperties());
             }
 
-            if (schema instanceof ArraySchema) {
-                ArraySchema s = (ArraySchema) schema;
-                if (s.getItems() != null) {
+            if (ModelUtils.isArraySchema(schema)) {
+                if (ModelUtils.getSchemaItems(schema) != null) {
                     String pName = parentName != null ? parentName + "_" + sName : sName;
-                    collectEnumSchemas(pName, s.getItems());
+                    collectEnumSchemas(pName, ModelUtils.getSchemaItems(schema));
                 }
             }
         }
@@ -581,11 +580,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             if (inner == null) {
                 LOGGER.warn("{}(array property) does not have a proper inner type defined.Default to string",
-                        ap.getName());
+                        p.getName());
                 inner = new StringSchema().description("TODO default missing array inner type to string");
             }
             return getTypeDeclaration(inner) + " list";

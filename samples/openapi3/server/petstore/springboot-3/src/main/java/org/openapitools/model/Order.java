@@ -29,7 +29,7 @@ import jakarta.annotation.Generated;
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Order {
 
   private Long id;
@@ -81,6 +81,18 @@ public class Order {
   private StatusEnum status;
 
   private Boolean complete = false;
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Order(Long id, Long petId, Integer quantity, OffsetDateTime shipDate, StatusEnum status, Boolean complete) {
+      this.id = id;
+      this.petId = petId;
+      this.quantity = quantity;
+      this.shipDate = shipDate;
+      this.status = status;
+      this.complete = complete;
+  }
 
   public Order id(Long id) {
     this.id = id;

@@ -39,7 +39,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1146,6 +1145,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         return objs;
+    }
+
+    @Override
+    protected boolean isConstructorWithAllArgsAllowed(CodegenModel codegenModel) {
+        // implementation detail: allVars is not reliable if openapiNormalizer.REFACTOR_ALLOF_WITH_PROPERTIES_ONLY is disabled
+        if (codegenModel.readOnlyVars.size() != codegenModel.vars.size() + codegenModel.parentVars.size()) {
+            return super.isConstructorWithAllArgsAllowed(codegenModel);
+        }
+        return false;
     }
 
     public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {

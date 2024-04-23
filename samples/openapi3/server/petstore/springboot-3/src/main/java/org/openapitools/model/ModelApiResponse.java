@@ -28,7 +28,7 @@ import jakarta.annotation.Generated;
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ModelApiResponse {
 
   private Integer code;
@@ -36,6 +36,15 @@ public class ModelApiResponse {
   private String type;
 
   private String message;
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ModelApiResponse(Integer code, String type, String message) {
+      this.code = code;
+      this.type = type;
+      this.message = message;
+  }
 
   public ModelApiResponse code(Integer code) {
     this.code = code;

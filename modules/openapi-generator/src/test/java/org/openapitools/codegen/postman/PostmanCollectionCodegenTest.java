@@ -602,11 +602,12 @@ public class PostmanCollectionCodegenTest {
     @Test
     public void convertLinkedHashMapToJson() {
 
-        final String EXPECTED = "{\\n \\\"id\\\": 1,\\n \\\"city\\\": \\\"Amsterdam\\\"\\n}";
+        final String EXPECTED = "{\\n \\\"id\\\": 1,\\n \\\"city\\\": \\\"Amsterdam\\\",\\n \\\"safe\\\": true\\n}";
 
         LinkedHashMap<String, Object> city = new LinkedHashMap<>();
         city.put("id", 1);
         city.put("city", "Amsterdam");
+        city.put("safe", true);
 
         assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
 

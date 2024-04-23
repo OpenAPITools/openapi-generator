@@ -22,7 +22,7 @@ print(NumberOnly.to_json())
 # convert the object into a dict
 number_only_dict = number_only_instance.to_dict()
 # create an instance of NumberOnly from a dict
-number_only_form_dict = number_only.from_dict(number_only_dict)
+number_only_from_dict = NumberOnly.from_dict(number_only_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

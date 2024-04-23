@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   private String bar;
@@ -40,13 +40,23 @@ public class ReadOnlyFirst {
 
   public ReadOnlyFirst() {
   }
-
+  /**
+  * Constructor with only readonly parameters
+  */
   @JsonCreator
   public ReadOnlyFirst(
     @JsonProperty(JSON_PROPERTY_BAR) String bar
   ) {
     this();
     this.bar = bar;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ReadOnlyFirst(@JsonProperty(JSON_PROPERTY_BAR) String bar, @JsonProperty(JSON_PROPERTY_BAZ) String baz) {
+    this.bar = bar;
+    this.baz = baz;
   }
 
    /**
@@ -60,7 +70,6 @@ public class ReadOnlyFirst {
   public String getBar() {
     return bar;
   }
-
 
 
 

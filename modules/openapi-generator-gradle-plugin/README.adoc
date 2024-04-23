@@ -97,7 +97,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "7.2.0"
+  id "org.openapi.generator" version "7.5.0"
 }
 ----
 

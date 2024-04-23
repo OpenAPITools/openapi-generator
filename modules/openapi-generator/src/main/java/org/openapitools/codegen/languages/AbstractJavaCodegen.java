@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -60,6 +61,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static org.openapitools.codegen.utils.CamelizeOption.*;
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig,
@@ -87,12 +89,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String JAVAX_PACKAGE = "javaxPackage";
     public static final String USE_JAKARTA_EE = "useJakartaEe";
     public static final String CONTAINER_DEFAULT_TO_NULL = "containerDefaultToNull";
-    public static final String GENERATE_BUILDERS = "generateBuilders";
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
     public static final String LOMBOK = "lombok";
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
+    public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generatedConstructorWithAllArgs";
 
     protected String dateLibrary = "java8";
     protected boolean supportAsync = false;
@@ -142,8 +144,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean camelCaseDollarSign = false;
     protected boolean useJakartaEe = false;
     protected boolean containerDefaultToNull = false;
-    protected boolean generateBuilders = false;
-
+    protected boolean generatedConstructorWithAllArgs = false;
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
@@ -193,7 +194,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         "ApiClient", "ApiException", "ApiResponse", "Configuration", "StringUtil",
 
                         // language reserved words
-                        "abstract", "continue", "for", "new", "switch", "assert",
+                        "_", "abstract", "continue", "for", "new", "switch", "assert",
                         "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
                         "this", "break", "double", "implements", "protected", "throw", "byte", "else",
                         "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
@@ -283,7 +284,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
         cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax"));
         cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
-        cliOptions.add(CliOption.newBoolean(GENERATE_BUILDERS, "whether to create a builder in the models"));
+        cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "whether to generate a constructor for all arguments").defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -357,6 +358,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE);
         }
 
+        if (additionalProperties.containsKey(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS)) {
+            this.setGeneratedConstructorWithAllArgs(convertPropertyToBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS));
+        }
+        writePropertyBack(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, generatedConstructorWithAllArgs);
 
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
@@ -570,11 +575,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setUseOneOfInterfaces(Boolean.parseBoolean(additionalProperties.get(USE_ONE_OF_INTERFACES).toString()));
         }
 
-        if (additionalProperties.containsKey(GENERATE_BUILDERS)) {
-            this.setGenerateBuilders(Boolean.parseBoolean(additionalProperties.get(GENERATE_BUILDERS).toString()));
-        }
-        writePropertyBack(GENERATE_BUILDERS, generateBuilders);
-
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
         }
@@ -674,71 +674,36 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setContainerDefaultToNull(Boolean.parseBoolean(additionalProperties.get(CONTAINER_DEFAULT_TO_NULL).toString()));
         }
         additionalProperties.put(CONTAINER_DEFAULT_TO_NULL, containerDefaultToNull);
+
+        additionalProperties.put("sanitizeGeneric", (Mustache.Lambda) (fragment, writer) -> {
+            String content = fragment.execute();
+            for (final String s: List.of("<", ">", ",", " ")) {
+                content = content.replace(s, "");
+            }
+            writer.write(content);
+        });
     }
 
-    public void setGenerateBuilders(boolean generateBuilders) {
-        this.generateBuilders = generateBuilders;
+    private void setGeneratedConstructorWithAllArgs(boolean aValue) {
+        this.generatedConstructorWithAllArgs = aValue;
     }
 
-    public boolean isGenerateBuilders() {
-        return generateBuilders;
+    public boolean isGeneratedConstructorWithAllArgs() {
+        return generatedConstructorWithAllArgs;
     }
 
     /**
      * Analyse and post process all Models.
-     *  Add parentVars to every Model which has a parent. This allows to generate
-     *  fluent setter methods for inherited properties.
      * @param objs the models map.
      * @return the processed models map.
-     */
+     **/
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
         objs = super.updateAllModels(objs);
-        for (ModelsMap modelsAttrs : objs.values()) {
-            for (ModelMap mo : modelsAttrs.getModels()) {
-                CodegenModel codegenModel = mo.getModel();
-                Set<String> inheritedImports = new HashSet<>();
-                Map<String, CodegenProperty> propertyHash = new HashMap<>(codegenModel.vars.size());
-                for (final CodegenProperty property : codegenModel.vars) {
-                    propertyHash.put(property.name, property);
-                }
-                CodegenModel parentCodegenModel = codegenModel.parentModel;
-                while (parentCodegenModel != null) {
-                    for (final CodegenProperty property : parentCodegenModel.vars) {
-                        // helper list of parentVars simplifies templating
-                        if (!propertyHash.containsKey(property.name)) {
-                            propertyHash.put(property.name, property);
-                            final CodegenProperty parentVar = property.clone();
-                            parentVar.isInherited = true;
-                            LOGGER.info("adding parent variable {}", property.name);
-                            codegenModel.parentVars.add(parentVar);
-                            Set<String> imports = parentVar.getImports(true, this.importBaseType, generatorMetadata.getFeatureSet()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
-                            for (String imp: imports) {
-                                // Avoid dupes
-                                if (!codegenModel.getImports().contains(imp)) {
-                                    inheritedImports.add(imp);
-                                    codegenModel.getImports().add(imp);
-                                }
-                            }
-                        }
-                    }
-                    parentCodegenModel = parentCodegenModel.getParentModel();
-                }
-                if (codegenModel.getParentModel() != null) {
-                    codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
-                }
-                // There must be a better way ...
-                for (String imp: inheritedImports) {
-                    String qimp = importMapping().get(imp);
-                    if (qimp != null) {
-                        Map<String,String> toAdd = new HashMap<>();
-                        toAdd.put("import", qimp);
-                        modelsAttrs.getImports().add(toAdd);
-                    }
-                }
-            }
-        }
+
+        Map<String, CodegenModel> allModels = getAllModels(objs);
+
         if (!additionalModelTypeAnnotations.isEmpty()) {
             for (String modelName : objs.keySet()) {
                 Map<String, Object> models = objs.get(modelName);
@@ -760,7 +725,99 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        /*
+         Add parentVars and parentRequiredVars to every Model which has a parent.
+         Add isInherited to every model which has children.
+         This allows
+            the generation of fluent setter methods for inherited properties
+            the generation of all arg constructors
+         ps: This code was specific to SpringCodeGen and now is available to all java generators.
+        */
+        for (ModelsMap modelsAttrs : objs.values()) {
+            for (ModelMap mo : modelsAttrs.getModels()) {
+                CodegenModel codegenModel = mo.getModel();
+                Set<String> inheritedImports = new HashSet<>();
+                Map<String, CodegenProperty> propertyHash = new HashMap<>(codegenModel.vars.size());
+                for (final CodegenProperty property : codegenModel.vars) {
+                    propertyHash.put(property.name, property);
+                }
+                List<CodegenModel> parentModelList = getParentModelList(codegenModel);
+                for (CodegenModel parentCodegenModel: parentModelList) {
+                    for (final CodegenProperty property : parentCodegenModel.vars) {
+                        // helper list of parentVars simplifies templating
+                        if (!propertyHash.containsKey(property.name)) {
+                            propertyHash.put(property.name, property);
+                            final CodegenProperty parentVar = property.clone();
+                            parentVar.isInherited = true;
+                            LOGGER.info("adding parent variable {} to {}", property.name, codegenModel.name);
+                            codegenModel.parentVars.add(parentVar);
+                            Set<String> imports = parentVar.getImports(true, this.importBaseType, generatorMetadata.getFeatureSet()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
+                            for (String imp : imports) {
+                                // Avoid dupes
+                                if (!codegenModel.getImports().contains(imp)) {
+                                    inheritedImports.add(imp);
+                                    codegenModel.getImports().add(imp);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (codegenModel.getParentModel() != null) {
+                    codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
+                }
+                // There must be a better way ...
+                for (String imp: inheritedImports) {
+                    String qimp = importMapping().get(imp);
+                    if (qimp != null) {
+                        Map<String,String> toAdd = new HashMap<>();
+                        toAdd.put("import", qimp);
+                        modelsAttrs.getImports().add(toAdd);
+                    }
+                }
+            }
+        }
+
+        if (isGeneratedConstructorWithAllArgs()) {
+            // conditionally force the generation of all args constructor.
+            for (CodegenModel cm : allModels.values()) {
+                if (isConstructorWithAllArgsAllowed(cm)) {
+                    cm.vendorExtensions.put("generatedConstructorWithAllArgs", true);
+                    List<Object> constructorArgs = new ArrayList<>();
+                    // vendorExtensions.allArgsConstructorVars should be equivalent to allVars
+                    // but it is not reliable if openapiNormalizer.REFACTOR_ALLOF_WITH_PROPERTIES_ONLY is disabled
+                    if (cm.vars.size() + cm.parentVars.size() != cm.allVars.size()) {
+                        once(LOGGER).warn("Unexpected allVars for {} expecting:{} vars. actual:{} vars", cm.name, cm.vars.size() + cm.parentVars.size(), cm.allVars.size());
+                    }
+                    cm.vendorExtensions.put("allArgsConstructorVars", constructorArgs);
+                    constructorArgs.addAll(cm.vars);
+                    constructorArgs.addAll(cm.parentVars);
+                }
+            }
+        }
+
         return objs;
+    }
+
+    private List<CodegenModel> getParentModelList(CodegenModel codegenModel) {
+        CodegenModel parentCodegenModel = codegenModel.parentModel;
+        List<CodegenModel> parentModelList = new ArrayList<>();
+        while (parentCodegenModel != null) {
+            parentModelList.add(parentCodegenModel);
+            parentCodegenModel = parentCodegenModel.parentModel;
+        }
+        return parentModelList;
+    }
+
+    /**
+     * trigger the generation of all arguments constructor or not.
+     * It avoids generating the same constructor twice.
+     *
+     * @return true if an allArgConstructor must be generated
+     */
+    protected boolean isConstructorWithAllArgsAllowed(CodegenModel codegenModel) {
+        // implementation detail: allVars is not reliable if openapiNormalizer.REFACTOR_ALLOF_WITH_PROPERTIES_ONLY is disabled
+        return (this.generatedConstructorWithAllArgs &&
+                (!codegenModel.vars.isEmpty() || codegenModel.parentVars.isEmpty()));
     }
 
     private void sanitizeConfig() {
@@ -1003,7 +1060,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            Schema<?> items = ModelUtils.getSchemaItems(schema);
             return getSchemaType(target) + "<" + getBeanValidation(items) + getTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
@@ -1056,6 +1113,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return getNumberBeanValidation(items);
         }
 
+        if (ModelUtils.isLongSchema(items)) {
+            return getLongBeanValidation(items);
+        }
+
         if (ModelUtils.isIntegerSchema(items)) {
             return getIntegerBeanValidation(items);
         }
@@ -1074,6 +1135,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (items.getMaximum() != null) {
             return String.format(Locale.ROOT, "@Max(%s)", items.getMaximum());
+        }
+        return "";
+    }
+
+    private String getLongBeanValidation(Schema<?> items) {
+        if (items.getMinimum() != null && items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Min(%sL) @Max(%sL)", items.getMinimum(), items.getMaximum());
+        }
+
+        if (items.getMinimum() != null) {
+            return String.format(Locale.ROOT, "@Min(%sL)", items.getMinimum());
+        }
+
+        if (items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Max(%sL)", items.getMaximum());
         }
         return "";
     }
@@ -1658,15 +1734,29 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // additional import for different cases
-        addAdditionalImports(codegenModel, codegenModel.oneOf);
-        addAdditionalImports(codegenModel, codegenModel.anyOf);
+        addAdditionalImports(codegenModel, codegenModel.getComposedSchemas());
         return codegenModel;
     }
 
-    private void addAdditionalImports(CodegenModel model, Set<String> dataTypeSet) {
-        for (String dataType : dataTypeSet) {
-            if (null != importMapping().get(dataType)) {
-                model.imports.add(dataType);
+    private void addAdditionalImports(CodegenModel model, CodegenComposedSchemas composedSchemas) {
+        if(composedSchemas == null) {
+            return;
+        }
+
+        final List<List<CodegenProperty>> propertyLists = Arrays.asList(
+                composedSchemas.getAnyOf(),
+                composedSchemas.getOneOf(),
+                composedSchemas.getAllOf());
+        for(final List<CodegenProperty> propertyList : propertyLists){
+            if(propertyList == null)
+            {
+                continue;
+            }
+            for (CodegenProperty cp : propertyList) {
+                final String dataType = cp.baseType;
+                if (null != importMapping().get(dataType)) {
+                    model.imports.add(dataType);
+                }
             }
         }
     }
@@ -1951,10 +2041,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // string
         String var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
         if (var.matches("\\d.*")) {
-            return "_" + var;
-        } else {
-            return var;
+            var = "_" + var;
         }
+        return this.toVarName(var);
     }
 
     @Override
@@ -2572,5 +2661,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             importsItem.put("import", entry.getValue());
             imports.add(importsItem);
         }
+    }
+
+    @Override
+    public boolean isTypeErasedGenerics() {
+        return true;
     }
 }

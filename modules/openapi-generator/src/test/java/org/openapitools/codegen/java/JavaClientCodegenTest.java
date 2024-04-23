@@ -21,7 +21,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
-import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.JavaClientCodegen.USE_ENUM_CASE_INSENSITIVE;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -60,6 +59,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -69,16 +69,7 @@ import java.util.stream.Stream;
 
 import junit.framework.AssertionFailedError;
 import lombok.SneakyThrows;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenSecurity;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
@@ -2364,6 +2355,16 @@ public class JavaClientCodegenTest {
             final String library,
             final Map<String, Object> properties
     ) {
+        return generateFromContract(pathToSpecification, library, properties, configurator -> {});
+    }
+
+    @SneakyThrows
+    private static Map<String, File> generateFromContract(
+            final String pathToSpecification,
+            final String library,
+            final Map<String, Object> properties,
+            final Consumer<CodegenConfigurator> consumer
+    ) {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -2373,7 +2374,7 @@ public class JavaClientCodegenTest {
                 .setAdditionalProperties(properties)
                 .setInputSpec(pathToSpecification)
                 .setOutputDir(output.getAbsolutePath());
-
+        consumer.accept(configurator);
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         final DefaultGenerator generator = new DefaultGenerator();
         return generator.opts(clientOptInput).generate().stream()
@@ -3016,7 +3017,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testOpenAPIGeneratorIgnoreListOption() throws IOException {
+    public void testOpenapiGeneratorIgnoreListOption() throws IOException {
         File output = Files.createTempDirectory("openapi_generator_ignore_list_test_folder").toFile().getCanonicalFile();
         output.deleteOnExit();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allof_primitive.yaml");
@@ -3149,37 +3150,63 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    void testBuilderJavaClient() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
+    public void generateAllArgsConstructor() {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/all_args_constructor.yaml", JavaClientCodegen.RESTTEMPLATE,
+                Map.of(AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE),
+                codegenConfigurator -> codegenConfigurator.addOpenapiNormalizer("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "false"));
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("protected String name", "protected String type")
+                .assertConstructor("String")
+                .hasParameter("type").toConstructor()
+                .toFileAssert()
+                .assertConstructor("LocalDate", "String", "String")
+                .hasParameter("dateOfBirth").toConstructor()
+                .hasParameter("name").toConstructor()
+                .hasParameter("type").toConstructor();
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .assertConstructor("Integer", "String", "LocalDate", "String", "String");
 
-        final OpenAPI openAPI =
-                TestUtils.parseFlattenSpec("src/test/resources/3_0/java/builder.yaml");
+        // test readonly constructor
+        JavaFileAssert.assertThat(files.get("Page.java"))
+                .assertConstructor("Integer")
+                .toFileAssert()
+                .fileContains("Constructor with only readonly parameters and all parameters");
 
+        JavaFileAssert.assertThat(files.get("PageOfPets.java"))
+                .assertConstructor("Integer")
+                .hasParameter("count").toConstructor()
+                .toFileAssert()
+                .assertConstructor("Integer", "List<Pet>")
+                .hasParameter("count").toConstructor()
+                .hasParameter("_list").toConstructor();
+    }
 
-        final JavaClientCodegen codegen = new JavaClientCodegen();
-        codegen.additionalProperties().put(GENERATE_BUILDERS, true);
+    @Test
+    public void generateAllArgsConstructor_REFACTOR_ALLOF_WITH_PROPERTIES_ONLY() {
+        // try the generation with some additional OpenAPINormalizers
 
-        codegen.setLibrary("resttemplate");
-        codegen.setOutputDir(outputPath);
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.opts(input).generate();
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/all_args_constructor.yaml", JavaClientCodegen.RESTTEMPLATE,
+                Map.of(AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE),
+                codegenConfigurator -> codegenConfigurator.addOpenapiNormalizer("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "true"));
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("protected String name", "protected String type")
+                .assertConstructor("String")
+                .hasParameter("type").toConstructor()
+                .toFileAssert()
+                .assertConstructor("LocalDate", "String", "String")
+                .hasParameter("dateOfBirth").toConstructor()
+                .hasParameter("name").toConstructor()
+                .hasParameter("type").toConstructor();
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"))
-                .fileContains("protected String petReadonlyProperty",
-                        "toBuilder()",
-                        "builder()",
-                        "public static class Builder {");
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Snake.java"))
-                .fileContains("toBuilder()",
-                        "builder()",
-                        "public static class Builder extends Reptile.Builder {",
-                        ".petType(getPetType())",
-                        ".name(getName())",
-                        "hasLegs(getHasLegs())");
+        JavaFileAssert.assertThat(files.get("PageOfPets.java"))
+                .assertConstructor("Integer", "List<Pet>")
+                .hasParameter("count").toConstructor()
+                .hasParameter("_list").toConstructor()
+                .toFileAssert()
+                .assertConstructor("Integer")
+                .hasParameter("count").toConstructor();
+
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .assertConstructor("Integer", "String", "LocalDate", "String", "String");
     }
 }

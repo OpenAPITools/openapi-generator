@@ -32,7 +32,7 @@ import jakarta.annotation.Generated;
 @XmlRootElement(name = "Pet")
 @XmlAccessorType(XmlAccessType.FIELD)
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Pet {
 
   private Long id;
@@ -97,6 +97,18 @@ public class Pet {
   public Pet(String name, List<String> photoUrls) {
     this.name = name;
     this.photoUrls = photoUrls;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Pet(Long id, Category category, String name, List<String> photoUrls, List<@Valid Tag> tags, StatusEnum status) {
+      this.id = id;
+      this.category = category;
+      this.name = name;
+      this.photoUrls = photoUrls;
+      this.tags = tags;
+      this.status = status;
   }
 
   public Pet id(Long id) {

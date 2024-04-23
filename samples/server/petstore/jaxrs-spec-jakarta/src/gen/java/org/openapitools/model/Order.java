@@ -17,12 +17,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Order")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Order  implements Serializable {
-  private @Valid Long id;
-  private @Valid Long petId;
-  private @Valid Integer quantity;
-  private @Valid Date shipDate;
+  private Long id;
+  private Long petId;
+  private Integer quantity;
+  private Date shipDate;
   public enum StatusEnum {
 
     PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
@@ -70,8 +70,8 @@ public class Order  implements Serializable {
     }
 }
 
-  private @Valid StatusEnum status;
-  private @Valid Boolean complete = false;
+  private StatusEnum status;
+  private Boolean complete = false;
 
   protected Order(OrderBuilder<?, ?> b) {
     this.id = b.id;
@@ -152,7 +152,7 @@ public class Order  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
-  public Date getShipDate() {
+  @Valid public Date getShipDate() {
     return shipDate;
   }
 

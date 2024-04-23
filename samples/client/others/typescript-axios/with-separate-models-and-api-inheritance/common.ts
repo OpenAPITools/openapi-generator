@@ -126,48 +126,8 @@ export const serializeDataIfNeeded = function (value: any, requestOptions: any, 
         ? configuration.isJsonMime(requestOptions.headers['Content-Type'])
         : nonString;
     return needsSerialization
-        ? JSON.stringify(value !== undefined ? convertMapsAndSetsToPlain(value) : {})
+        ? JSON.stringify(value !== undefined ? value : {})
         : (value || "");
-}
-
-function convertMapsAndSetsToPlain(value: any): any {
-    if (typeof Set === "undefined") return value;
-    if (typeof Map === "undefined") return value;
-    if (typeof value !== "object" || !value) {
-        return value;
-    }
-    if (value instanceof Set) {
-        return Array.from(value).map(item => convertMapsAndSetsToPlain(item));
-    }
-    if (value instanceof Map) {
-        const entries: Array<[string, any]> = [];
-        value.forEach((value: any, key: any) => {
-            entries.push([key, convertMapsAndSetsToPlain(value)])
-        });
-        return objectFromEntries(entries);
-    }
-    if (Array.isArray(value)) {
-        return value.map(it => convertMapsAndSetsToPlain(it));
-    }
-    return objectFromEntries(objectEntries(value)
-        .map(([k, v]) => [k, convertMapsAndSetsToPlain(v)]));
-}
-
-/**
- * Ponyfill for Object.entries
- */
-function objectEntries(object: Record<string, any>): Array<[string, any]> {
-    return Object.keys(object).map(key => [key, object[key]]);
-}
-
-/**
- * Ponyfill for Object.fromEntries
- */
-function objectFromEntries(entries: any): Record<string, any> {
-    return [...entries].reduce((object, [key, val]) => {
-        object[key] = val;
-        return object;
-    }, {});
 }
 
 /**

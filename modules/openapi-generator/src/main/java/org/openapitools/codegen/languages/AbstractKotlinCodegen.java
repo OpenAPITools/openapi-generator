@@ -359,7 +359,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            Schema<?> items = ModelUtils.getSchemaItems( schema);
             return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
@@ -683,6 +683,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toModelName(final String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // memoization
         if (schemaKeyToModelNameCache.containsKey(name)) {
             return schemaKeyToModelNameCache.get(name);
@@ -901,7 +906,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         } else if ("kotlin.Float".equals(datatype)) {
             return value + "f";
         } else {
-            return "\"" + escapeText(value) + "\"";
+            return "\"" + value + "\"";
         }
     }
 
@@ -1104,7 +1109,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             }
 
             StringBuilder defaultContent = new StringBuilder();
-            Schema<?> itemsSchema = getSchemaItems((ArraySchema) schema);
+            Schema<?> itemsSchema = ModelUtils.getSchemaItems(schema);
             _default.elements().forEachRemaining((element) -> {
                 String defaultValue = element.asText();
                 if (defaultValue != null) {

@@ -653,8 +653,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -687,8 +686,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            return getSchemaType(ap.getItems());
+            return getSchemaType(ModelUtils.getSchemaItems(p));
         } else {
             return null;
         }

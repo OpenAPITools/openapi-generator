@@ -114,7 +114,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   }
   {{#vendorExtensions.x-has-readonly-properties}}
   {{^withXml}}
-
+  /**
+  * Constructor with only readonly parameters{{#generatedConstructorWithAllArgs}}{{^vendorExtensions.generatedConstructorWithAllArgs}} and all parameters{{/vendorExtensions.generatedConstructorWithAllArgs}}{{/generatedConstructorWithAllArgs}}
+  */
   {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
   public {{classname}}(
   {{#readOnlyVars}}
@@ -128,8 +130,22 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   }
   {{/withXml}}
   {{/vendorExtensions.x-has-readonly-properties}}
-  {{#vars}}
+{{#vendorExtensions.generatedConstructorWithAllArgs}}
 
+  /**
+  * Constructor with all args parameters
+  */
+  public {{classname}}({{#vendorExtensions.allArgsConstructorVars}}{{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nullable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}}){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.allArgsConstructorVars}}) {
+{{#parent}}
+    super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});
+{{/parent}}
+  {{#vars}}
+    this.{{name}} = {{#vendorExtensions.x-is-jackson-optional-nullable}}{{name}} == null ? JsonNullable.<{{{datatypeWithEnum}}}>undefined() : JsonNullable.of({{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{name}}{{/vendorExtensions.x-is-jackson-optional-nullable}};
+{{/vars}}
+  }
+{{/vendorExtensions.generatedConstructorWithAllArgs}}
+
+{{#vars}}
   {{^isReadOnly}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});{{/vendorExtensions.x-is-jackson-optional-nullable}}

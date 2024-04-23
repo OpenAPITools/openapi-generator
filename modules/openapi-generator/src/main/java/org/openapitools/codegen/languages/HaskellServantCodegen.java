@@ -333,13 +333,14 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
     /**
      * Internal method to set the generateToSchema parameter.
-     *
+     * <p>
      * Basically we're generating ToSchema instances (generically) for all schemas.
      * However, if any of the contained datatypes doesn't have the ToSchema instance,
      * we cannot generate it for its "ancestor" type.
      * This is the case with the "Data.Aeson.Value" type: it doesn't (and cannot) have
      * a Swagger-compatible ToSchema instance. So we have to detect its presence "downstream"
      * the current schema, and if we find it we just don't generate any ToSchema instance.
+     *
      * @param model
      */
     private void setGenerateToSchema(CodegenModel model) {
@@ -356,7 +357,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         List<CodegenModel> children = model.getChildren();
         if (children != null) {
-            for(CodegenModel child : children) {
+            for (CodegenModel child : children) {
                 setGenerateToSchema(child);
             }
         }
@@ -372,8 +373,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -419,8 +419,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             // Return only the inner type; the wrapping with QueryList is done
             // somewhere else, where we have access to the collection format.
             return inner;
@@ -514,7 +513,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // Query parameters appended to routes
         for (CodegenParameter param : op.queryParams) {
             String paramType = param.dataType;
-            if (param.contentType == "application/json") {
+            if ("application/json".equals(param.contentType)) {
                 if (param.isArray) {
                     paramType = "[JSONQueryParam " + paramType.substring(1, paramType.length() - 1) + "]";
                 } else {
@@ -556,7 +555,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             path.add("Header \"" + param.baseName + "\" " + param.dataType);
 
             String paramType = param.dataType;
-            if (param.contentType == "application/json") {
+            if ("application/json".equals(param.contentType)) {
                 if (param.isArray) {
                     paramType = "(JSONQueryParam " + paramType.substring(1, paramType.length() - 1) + ")";
                 } else {
@@ -723,5 +722,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.HASKELL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.HASKELL;
+    }
 }

@@ -38,7 +38,7 @@ import io.github.threetenjaxb.core.*;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 @XmlRootElement(name = "FileSchemaTestClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FileSchemaTestClass")
@@ -83,7 +83,6 @@ public class FileSchemaTestClass {
   public void setFile(ModelFile _file) {
     this._file = _file;
   }
-
 
   public FileSchemaTestClass files(List<ModelFile> files) {
     

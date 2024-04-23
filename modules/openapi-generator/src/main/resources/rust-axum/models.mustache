@@ -36,10 +36,10 @@ use crate::{models, types::*};
                 {{/maxLength}}
                 {{#pattern}}
                     {{^isByteArray}}
-                    regex = "RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}",
+                      regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}),
                     {{/isByteArray}}
                     {{#isByteArray}}
-                    custom ="validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.lowercase}}"
+                      custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.lowercase}}"),
                     {{/isByteArray}}
                 {{/pattern}}
                 {{#maximum}}
@@ -128,10 +128,10 @@ use crate::{models, types::*};
                     {{/maxLength}}
                     {{#pattern}}
                         {{^isByteArray}}
-                        regex = "RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}",
+                          regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}),
                         {{/isByteArray}}
                         {{#isByteArray}}
-                        custom ="validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.lowercase}}"
+                          custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.lowercase}}"),
                         {{/isByteArray}}
                     {{/pattern}}
                     {{#maximum}}
@@ -232,10 +232,10 @@ use crate::{models, types::*};
                     {{/maxLength}}
                     {{#pattern}}
                         {{^isByteArray}}
-                        regex = "RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}",
+                          regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}),
                         {{/isByteArray}}
                         {{#isByteArray}}
-                        custom ="validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.lowercase}}"
+                          custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.lowercase}}"),
                         {{/isByteArray}}
                     {{/pattern}}
                     {{#maximum}}
@@ -639,10 +639,10 @@ pub struct {{{classname}}} {
         {{/maxLength}}
         {{#pattern}}
           {{^isByteArray}}
-           regex = "RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}",
+            regex(path = *RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}),
           {{/isByteArray}}
           {{#isByteArray}}
-           custom ="validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}"
+            custom(function = "validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}"),
           {{/isByteArray}}
         {{/pattern}}
         {{#maximum}}

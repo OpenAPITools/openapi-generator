@@ -23,7 +23,7 @@ print(FileSchemaTestClass.to_json())
 # convert the object into a dict
 file_schema_test_class_dict = file_schema_test_class_instance.to_dict()
 # create an instance of FileSchemaTestClass from a dict
-file_schema_test_class_form_dict = file_schema_test_class.from_dict(file_schema_test_class_dict)
+file_schema_test_class_from_dict = FileSchemaTestClass.from_dict(file_schema_test_class_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

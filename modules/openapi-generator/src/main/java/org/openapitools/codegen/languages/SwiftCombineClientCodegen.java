@@ -289,7 +289,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            Schema<?> items = ModelUtils.getSchemaItems(schema);
             return ModelUtils.isSet(target) && ModelUtils.isObjectSchema(items) ? "Set<" + getTypeDeclaration(items) + ">" : "[" + getTypeDeclaration(items) + "]";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
@@ -422,8 +422,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         if (ModelUtils.isMapSchema(p)) {
             return getSchemaType(ModelUtils.getAdditionalProperties(p));
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             return ModelUtils.isSet(p) ? "Set<" + inner + ">" : "[" + inner + "]";
         }
         return null;

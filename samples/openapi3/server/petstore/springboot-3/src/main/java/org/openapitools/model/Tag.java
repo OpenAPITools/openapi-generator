@@ -26,12 +26,20 @@ import jakarta.annotation.Generated;
 @XmlRootElement(name = "Tag")
 @XmlAccessorType(XmlAccessType.FIELD)
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Tag {
 
   private Long id;
 
   private String name;
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Tag(Long id, String name) {
+      this.id = id;
+      this.name = name;
+  }
 
   public Tag id(Long id) {
     this.id = id;

@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   private List<String> arrayOfString;
@@ -47,6 +47,15 @@ public class ArrayTest {
   private List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest() {
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ArrayTest(@JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING) List<String> arrayOfString, @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER) List<List<Long>> arrayArrayOfInteger, @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL) List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+    this.arrayOfString = arrayOfString;
+    this.arrayArrayOfInteger = arrayArrayOfInteger;
+    this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
@@ -82,7 +91,6 @@ public class ArrayTest {
     this.arrayOfString = arrayOfString;
   }
 
-
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     
     this.arrayArrayOfInteger = arrayArrayOfInteger;
@@ -115,7 +123,6 @@ public class ArrayTest {
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
-
 
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     

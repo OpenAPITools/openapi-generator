@@ -729,6 +729,28 @@ paths:
       - fake
       x-accepts:
       - application/json
+  /fake/api/query/enum:
+    post:
+      operationId: op3
+      parameters:
+      - description: query enum test
+        explode: true
+        in: query
+        name: query_enum
+        required: true
+        schema:
+          items:
+            $ref: '#/components/schemas/CodesEnum'
+          type: array
+        style: form
+      responses:
+        "200":
+          description: Successful Response
+      summary: op3
+      tags:
+      - fake
+      x-accepts:
+      - application/json
 components:
   parameters:
     ref_to_uuid:
@@ -1000,12 +1022,6 @@ components:
       properties: {}
       title: HTTPValidationError
       type: object
-    AnyOfArray:
-      anyOf:
-      - items:
-          type: string
-      - items:
-          type: integer
     ArrayPrefixItems:
       description: |
         An item that was added to the queue.
@@ -1015,6 +1031,38 @@ components:
       maxItems: 5
       minItems: 3
       type: array
+    circular_reference_1:
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_2'
+    circular_reference_2:
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_3'
+    circular_reference_3:
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_1'
+    array_of_same_ref:
+      properties:
+        arrayFooOne:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+        arrayFooTwo:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+        arrayFooThree:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+    CodesEnum:
+      enum:
+      - Code 1
+      - Code 2
+      - Code 3
+      type: string
     updatePetWithForm_request:
       properties:
         name:

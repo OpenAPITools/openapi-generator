@@ -8,4 +8,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   java8: true
   containerDefaultToNull: true
-  generateBuilders: true
+  generatedConstructorWithAllArgs: true

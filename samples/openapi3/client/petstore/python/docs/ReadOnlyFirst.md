@@ -23,7 +23,7 @@ print(ReadOnlyFirst.to_json())
 # convert the object into a dict
 read_only_first_dict = read_only_first_instance.to_dict()
 # create an instance of ReadOnlyFirst from a dict
-read_only_first_form_dict = read_only_first.from_dict(read_only_first_dict)
+read_only_first_from_dict = ReadOnlyFirst.from_dict(read_only_first_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
