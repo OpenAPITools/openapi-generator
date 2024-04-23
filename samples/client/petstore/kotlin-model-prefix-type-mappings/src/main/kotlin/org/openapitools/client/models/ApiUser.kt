@@ -99,24 +99,22 @@ data class ApiUser (
     }
 
     companion object {
-        var openapiFields: HashSet<String>? = null
-        var openapiRequiredFields: HashSet<String>? = null
+        var openapiFields = HashSet<String>()
+        var openapiRequiredFields = HashSet<String>()
       
         init {
             // a set of all properties/fields (JSON key names)
-            openapiFields = HashSet()
-            openapiFields!!.add("username")
-            openapiFields!!.add("id")
-            openapiFields!!.add("firstName")
-            openapiFields!!.add("lastName")
-            openapiFields!!.add("email")
-            openapiFields!!.add("password")
-            openapiFields!!.add("phone")
-            openapiFields!!.add("userStatus")
-      
+            openapiFields.add("username")
+            openapiFields.add("id")
+            openapiFields.add("firstName")
+            openapiFields.add("lastName")
+            openapiFields.add("email")
+            openapiFields.add("password")
+            openapiFields.add("phone")
+            openapiFields.add("userStatus")
+
             // a set of required properties/fields (JSON key names)
-            openapiRequiredFields = HashSet()
-            openapiRequiredFields!!.add("username")
+            openapiRequiredFields.add("username")
         }
       
        /**
@@ -128,7 +126,7 @@ data class ApiUser (
         @Throws(IOException::class)
         fun validateJsonElement(jsonElement: JsonElement?) {
             if (jsonElement == null) {
-              require(openapiRequiredFields!!.isEmpty()) { // has required fields but JSON element is null
+              require(openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
                 String.format("The required field(s) %s in ApiUser is not found in the empty JSON string", ApiUser.openapiRequiredFields.toString())
               }
             }
@@ -137,13 +135,13 @@ data class ApiUser (
             //val entries = jsonElement!!.getAsJsonObject().entrySet()
             // check to see if the JSON string contains additional fields
             //for ((key) in entries) {
-            //  require(openapiFields!!.contains(key)) {
+            //  require(openapiFields.contains(key)) {
             //    String.format("The field `%s` in the JSON string is not defined in the `ApiUser` properties. JSON: %s", key, jsonElement.toString())
             //  }
             //}
       
             // check to make sure all required properties/fields are present in the JSON string
-            for (requiredField in openapiRequiredFields!!) {
+            for (requiredField in openapiRequiredFields) {
               requireNotNull(jsonElement!!.getAsJsonObject()[requiredField]) {
                 String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString())
               }

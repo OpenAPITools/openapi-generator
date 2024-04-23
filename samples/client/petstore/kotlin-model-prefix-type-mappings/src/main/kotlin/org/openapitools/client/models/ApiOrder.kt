@@ -101,21 +101,18 @@ data class ApiOrder (
     }
 
     companion object {
-        var openapiFields: HashSet<String>? = null
-        var openapiRequiredFields: HashSet<String>? = null
+        var openapiFields = HashSet<String>()
+        var openapiRequiredFields = HashSet<String>()
       
         init {
             // a set of all properties/fields (JSON key names)
-            openapiFields = HashSet()
-            openapiFields!!.add("id")
-            openapiFields!!.add("petId")
-            openapiFields!!.add("quantity")
-            openapiFields!!.add("shipDate")
-            openapiFields!!.add("status")
-            openapiFields!!.add("complete")
-      
-            // a set of required properties/fields (JSON key names)
-            openapiRequiredFields = HashSet()
+            openapiFields.add("id")
+            openapiFields.add("petId")
+            openapiFields.add("quantity")
+            openapiFields.add("shipDate")
+            openapiFields.add("status")
+            openapiFields.add("complete")
+
         }
       
        /**
@@ -127,7 +124,7 @@ data class ApiOrder (
         @Throws(IOException::class)
         fun validateJsonElement(jsonElement: JsonElement?) {
             if (jsonElement == null) {
-              require(openapiRequiredFields!!.isEmpty()) { // has required fields but JSON element is null
+              require(openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
                 String.format("The required field(s) %s in ApiOrder is not found in the empty JSON string", ApiOrder.openapiRequiredFields.toString())
               }
             }
@@ -136,7 +133,7 @@ data class ApiOrder (
             //val entries = jsonElement!!.getAsJsonObject().entrySet()
             // check to see if the JSON string contains additional fields
             //for ((key) in entries) {
-            //  require(openapiFields!!.contains(key)) {
+            //  require(openapiFields.contains(key)) {
             //    String.format("The field `%s` in the JSON string is not defined in the `ApiOrder` properties. JSON: %s", key, jsonElement.toString())
             //  }
             //}

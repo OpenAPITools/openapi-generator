@@ -192,20 +192,22 @@ import java.io.IOException
     }
 
     companion object {
-        var openapiFields: HashSet<String>? = null
-        var openapiRequiredFields: HashSet<String>? = null
+        var openapiFields = HashSet<String>()
+        var openapiRequiredFields = HashSet<String>()
       
         init {
-            // a set of all properties/fields (JSON key names)
-            openapiFields = HashSet()
             {{#allVars}}
-            openapiFields!!.add("{{baseName}}")
+            {{#-first}}
+            // a set of all properties/fields (JSON key names)
+            {{/-first}}
+            openapiFields.add("{{baseName}}")
             {{/allVars}}
-      
-            // a set of required properties/fields (JSON key names)
-            openapiRequiredFields = HashSet()
+
             {{#requiredVars}}
-            openapiRequiredFields!!.add("{{baseName}}")
+            {{#-first}}
+            // a set of required properties/fields (JSON key names)
+            {{/-first}}
+            openapiRequiredFields.add("{{baseName}}")
             {{/requiredVars}}
         }
       
@@ -218,7 +220,7 @@ import java.io.IOException
         @Throws(IOException::class)
         fun validateJsonElement(jsonElement: JsonElement?) {
             if (jsonElement == null) {
-              require(openapiRequiredFields!!.isEmpty()) { // has required fields but JSON element is null
+              require(openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
                 String.format("The required field(s) %s in {{{classname}}} is not found in the empty JSON string", {{classname}}.openapiRequiredFields.toString())
               }
             }
@@ -229,7 +231,7 @@ import java.io.IOException
             //val entries = jsonElement!!.getAsJsonObject().entrySet()
             // check to see if the JSON string contains additional fields
             //for ((key) in entries) {
-            //  require(openapiFields!!.contains(key)) {
+            //  require(openapiFields.contains(key)) {
             //    String.format("The field `%s` in the JSON string is not defined in the `{{classname}}` properties. JSON: %s", key, jsonElement.toString())
             //  }
             //}
@@ -238,7 +240,7 @@ import java.io.IOException
             {{#-first}}
       
             // check to make sure all required properties/fields are present in the JSON string
-            for (requiredField in openapiRequiredFields!!) {
+            for (requiredField in openapiRequiredFields) {
               requireNotNull(jsonElement!!.getAsJsonObject()[requiredField]) {
                 String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString())
               }
