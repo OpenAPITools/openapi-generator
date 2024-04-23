@@ -52,6 +52,7 @@ import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.languages.PhpNextgenClientCodegen;
+import org.openapitools.codegen.languages.RustAxumServerCodegen;
 import org.openapitools.codegen.languages.RustServerCodegen;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -3619,9 +3620,9 @@ public class DefaultCodegen implements CodegenConfig {
             Map<String, Object> vendorExtensions = cs.getExtensions();
             String mappingName =
                     Optional.ofNullable(vendorExtensions)
-                        .map(ve -> ve.get("x-discriminator-value"))
-                        .map(discriminatorValue -> (String) discriminatorValue)
-                        .orElse(currentSchemaName);
+                            .map(ve -> ve.get("x-discriminator-value"))
+                            .map(discriminatorValue -> (String) discriminatorValue)
+                            .orElse(currentSchemaName);
             MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), !mappingName.equals(currentSchemaName));
             descendentSchemas.add(mm);
         }
@@ -3648,11 +3649,11 @@ public class DefaultCodegen implements CodegenConfig {
         //  the future..
         String propertyType =
                 Optional.ofNullable(schema.getProperties())
-                    .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
-                    .map(Schema::get$ref)
-                    .map(ModelUtils::getSimpleRef)
-                    .map(this::toModelName)
-                    .orElseGet(() -> typeMapping.get("string"));
+                        .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
+                        .map(Schema::get$ref)
+                        .map(ModelUtils::getSimpleRef)
+                        .map(this::toModelName)
+                        .orElseGet(() -> typeMapping.get("string"));
         discriminator.setPropertyType(propertyType);
 
         // check to see if the discriminator property is an enum string
@@ -4742,7 +4743,7 @@ public class DefaultCodegen implements CodegenConfig {
                 contentType = contentType.toLowerCase(Locale.ROOT);
             }
             if (contentType != null &&
-                    (contentType.startsWith("application/x-www-form-urlencoded") ||
+                    ((!(this instanceof RustAxumServerCodegen) && contentType.startsWith("application/x-www-form-urlencoded")) ||
                             contentType.startsWith("multipart"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
@@ -6794,12 +6795,12 @@ public class DefaultCodegen implements CodegenConfig {
             String enumValue = isDataTypeString(dataType)
                     ? enumUnknownDefaultCaseName
                     : // This is a dummy value that attempts to avoid collisions with previously specified cases.
-                      // Int.max / 192
-                      // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
-                      // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
-                      // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
-                      // https://github.com/OpenAPITools/openapi-generator/pull/11013
-                      String.valueOf(11184809);
+                    // Int.max / 192
+                    // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
+                    // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
+                    // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
+                    // https://github.com/OpenAPITools/openapi-generator/pull/11013
+                    String.valueOf(11184809);
 
             enumVar.put("name", toEnumVarName(enumName, dataType));
             enumVar.put("value", toEnumValue(enumValue, dataType));

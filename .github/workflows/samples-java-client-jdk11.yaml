@@ -73,6 +73,7 @@ jobs:
           - samples/client/petstore/java/resttemplate-swagger2/
           - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/
           - samples/client/others/java/okhttp-gson-oneOf/
+          - samples/client/echo_api/java/okhttp-gson-user-defined-templates/
           - samples/client/others/java/resttemplate-useAbstractionForFiles/
           - samples/client/others/java/webclient-useAbstractionForFiles/
           - samples/client/others/java/jersey2-oneOf-duplicates/

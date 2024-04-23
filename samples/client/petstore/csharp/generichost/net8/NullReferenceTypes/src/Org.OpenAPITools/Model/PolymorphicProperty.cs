@@ -197,7 +197,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (varBool != null)
-                return new PolymorphicProperty(varBool);
+                return new PolymorphicProperty(varBool.Value);
 
             if (varString != null)
                 return new PolymorphicProperty(varString);
