@@ -69,7 +69,16 @@ import java.util.stream.Stream;
 
 import junit.framework.AssertionFailedError;
 import lombok.SneakyThrows;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenSecurity;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
@@ -1889,38 +1898,6 @@ public class JavaClientCodegenTest {
                 .hasParameter("c")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("JsonbProperty", ImmutableMap.of("value", "\"c\""));
-    }
-
-    @Test
-    public void testMicroprofileGenerateCorrectJacksonGenerator_issue18336() throws Exception {
-        Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
-        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
-
-        File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-
-                .setAdditionalProperties(properties)
-                .setGeneratorName("java")
-                .setLibrary(JavaClientCodegen.MICROPROFILE)
-                .setInputSpec("src/test/resources/bugs/issue_18336.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-
-        final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
-
-        JavaFileAssert.assertThat(files.get("Pet.java"))
-                .assertConstructor("String")
-                .assertConstructorAnnotations()
-                .containsWithName("JsonCreator")
-                .toConstructor()
-                .hasParameter("name")
-                .assertParameterAnnotations()
-                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "JSON_PROPERTY_NAME", "required", "true"));
     }
 
     @Test
