@@ -58,10 +58,18 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.MapAssert;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
@@ -247,7 +255,7 @@ public class SpringCodegenTest {
                 .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE_TIME"))
                 .toProperty().toType()
                 .assertMethod("born", "LocalDate")
-                .bodyContainsLines("this.born = Optional.of(born)")
+                .bodyContainsLines("this.born = Optional.ofNullable(born)")
                 .doesNotHaveComment();
     }
 
@@ -3372,7 +3380,7 @@ public class SpringCodegenTest {
             // Fluent method assertions
             .assertMethod("alias")
             .hasReturnType("Animal")
-            .bodyContainsLines("this.alias = JsonNullable.of(alias);", "return this;")
+            .bodyContainsLines("this.alias = JsonNullable.ofNullable(alias);", "return this;")
             .hasParameter("alias")
             .withType("String")
             .toMethod()
@@ -3549,7 +3557,7 @@ public class SpringCodegenTest {
 
                 .assertMethod("colors")
                 .hasReturnType("Animal")
-                .bodyContainsLines("this.colors = JsonNullable.of(colors);", "return this;")
+                .bodyContainsLines("this.colors = JsonNullable.ofNullable(colors);", "return this;")
                 .hasParameter("colors")
                 .withType("List<String>")
                 .toMethod()
@@ -3767,7 +3775,7 @@ public class SpringCodegenTest {
 
                 .assertMethod("colors")
                 .hasReturnType("Animal")
-                .bodyContainsLines("this.colors = JsonNullable.of(colors);", "return this;")
+                .bodyContainsLines("this.colors = JsonNullable.ofNullable(colors);", "return this;")
                 .hasParameter("colors")
                 .withType("List<String>")
                 .toMethod()
@@ -4330,7 +4338,7 @@ public class SpringCodegenTest {
         String methodName = StringUtils.capitalize(expectedName);
         javaFileAssert.assertMethod(expectedName)
                 .hasReturnType("Animal")
-                .bodyContainsLines("this."+expectedName+" = "+wrapperType+".of("+expectedName+");", "return this;")
+                .bodyContainsLines("this."+expectedName+" = "+wrapperType+".ofNullable("+expectedName+");", "return this;")
                 .hasParameter(expectedName)
                 .withType(type)
                 .toMethod()

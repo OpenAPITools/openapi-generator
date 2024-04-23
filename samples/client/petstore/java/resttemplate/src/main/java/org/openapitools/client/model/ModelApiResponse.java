@@ -46,15 +46,6 @@ public class ModelApiResponse {
   public ModelApiResponse() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ModelApiResponse(@JsonProperty(JSON_PROPERTY_CODE) Integer code, @JsonProperty(JSON_PROPERTY_TYPE) String type, @JsonProperty(JSON_PROPERTY_MESSAGE) String message) {
-    this.code = code;
-    this.type = type;
-    this.message = message;
-  }
-
   public ModelApiResponse code(Integer code) {
     
     this.code = code;
@@ -170,70 +161,6 @@ public class ModelApiResponse {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-  public static class Builder {
-
-    private ModelApiResponse instance;
-
-    public Builder() {
-      this(new ModelApiResponse());
-    }
-
-    protected Builder(ModelApiResponse instance) {
-      this.instance = instance;
-    }
-
-    public ModelApiResponse.Builder code(Integer code) {
-      this.instance.code = code;
-      return this;
-    }
-    public ModelApiResponse.Builder type(String type) {
-      this.instance.type = type;
-      return this;
-    }
-    public ModelApiResponse.Builder message(String message) {
-      this.instance.message = message;
-      return this;
-    }
-
-
-    /**
-    * returns a built ModelApiResponse instance.
-    *
-    * The builder is not reusable.
-    */
-    public ModelApiResponse build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ModelApiResponse.Builder builder() {
-    return new ModelApiResponse.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ModelApiResponse.Builder toBuilder() {
-    return new ModelApiResponse.Builder()
-      .code(getCode())
-      .type(getType())
-      .message(getMessage());
-  }
-
 
 }
 

@@ -57,18 +57,6 @@ public class Capitalization {
   public Capitalization() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Capitalization(@JsonProperty(JSON_PROPERTY_SMALL_CAMEL) String smallCamel, @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL) String capitalCamel, @JsonProperty(JSON_PROPERTY_SMALL_SNAKE) String smallSnake, @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE) String capitalSnake, @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS) String scAETHFlowPoints, @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E) String ATT_NAME) {
-    this.smallCamel = smallCamel;
-    this.capitalCamel = capitalCamel;
-    this.smallSnake = smallSnake;
-    this.capitalSnake = capitalSnake;
-    this.scAETHFlowPoints = scAETHFlowPoints;
-    this.ATT_NAME = ATT_NAME;
-  }
-
   public Capitalization smallCamel(String smallCamel) {
     
     this.smallCamel = smallCamel;
@@ -265,85 +253,6 @@ public class Capitalization {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-  public static class Builder {
-
-    private Capitalization instance;
-
-    public Builder() {
-      this(new Capitalization());
-    }
-
-    protected Builder(Capitalization instance) {
-      this.instance = instance;
-    }
-
-    public Capitalization.Builder smallCamel(String smallCamel) {
-      this.instance.smallCamel = smallCamel;
-      return this;
-    }
-    public Capitalization.Builder capitalCamel(String capitalCamel) {
-      this.instance.capitalCamel = capitalCamel;
-      return this;
-    }
-    public Capitalization.Builder smallSnake(String smallSnake) {
-      this.instance.smallSnake = smallSnake;
-      return this;
-    }
-    public Capitalization.Builder capitalSnake(String capitalSnake) {
-      this.instance.capitalSnake = capitalSnake;
-      return this;
-    }
-    public Capitalization.Builder scAETHFlowPoints(String scAETHFlowPoints) {
-      this.instance.scAETHFlowPoints = scAETHFlowPoints;
-      return this;
-    }
-    public Capitalization.Builder ATT_NAME(String ATT_NAME) {
-      this.instance.ATT_NAME = ATT_NAME;
-      return this;
-    }
-
-
-    /**
-    * returns a built Capitalization instance.
-    *
-    * The builder is not reusable.
-    */
-    public Capitalization build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Capitalization.Builder builder() {
-    return new Capitalization.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Capitalization.Builder toBuilder() {
-    return new Capitalization.Builder()
-      .smallCamel(getSmallCamel())
-      .capitalCamel(getCapitalCamel())
-      .smallSnake(getSmallSnake())
-      .capitalSnake(getCapitalSnake())
-      .scAETHFlowPoints(getScAETHFlowPoints())
-      .ATT_NAME(getATTNAME());
-  }
-
 
 }
 

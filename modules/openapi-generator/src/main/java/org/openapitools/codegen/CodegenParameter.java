@@ -1125,10 +1125,5 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public void setIsEnum(boolean isEnum) {
         this.isEnum = isEnum;
     }
-
-
-    public boolean isExplode() {
-        return isExplode;
-    }
 }
 

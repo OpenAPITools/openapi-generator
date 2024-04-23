@@ -146,59 +146,5 @@ public class DanishPig {
 
     return joiner.toString();
   }
-
-    public static class Builder {
-
-    private DanishPig instance;
-
-    public Builder() {
-      this(new DanishPig());
-    }
-
-    protected Builder(DanishPig instance) {
-      this.instance = instance;
-    }
-
-    public DanishPig.Builder className(String className) {
-      this.instance.className = className;
-      return this;
-    }
-
-
-    /**
-    * returns a built DanishPig instance.
-    *
-    * The builder is not reusable.
-    */
-    public DanishPig build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static DanishPig.Builder builder() {
-    return new DanishPig.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public DanishPig.Builder toBuilder() {
-    return new DanishPig.Builder()
-      .className(getClassName());
-  }
-
 }
 

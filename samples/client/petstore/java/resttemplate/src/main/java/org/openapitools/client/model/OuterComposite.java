@@ -46,15 +46,6 @@ public class OuterComposite {
   public OuterComposite() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public OuterComposite(@JsonProperty(JSON_PROPERTY_MY_NUMBER) BigDecimal myNumber, @JsonProperty(JSON_PROPERTY_MY_STRING) String myString, @JsonProperty(JSON_PROPERTY_MY_BOOLEAN) Boolean myBoolean) {
-    this.myNumber = myNumber;
-    this.myString = myString;
-    this.myBoolean = myBoolean;
-  }
-
   public OuterComposite myNumber(BigDecimal myNumber) {
     
     this.myNumber = myNumber;
@@ -170,70 +161,6 @@ public class OuterComposite {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-  public static class Builder {
-
-    private OuterComposite instance;
-
-    public Builder() {
-      this(new OuterComposite());
-    }
-
-    protected Builder(OuterComposite instance) {
-      this.instance = instance;
-    }
-
-    public OuterComposite.Builder myNumber(BigDecimal myNumber) {
-      this.instance.myNumber = myNumber;
-      return this;
-    }
-    public OuterComposite.Builder myString(String myString) {
-      this.instance.myString = myString;
-      return this;
-    }
-    public OuterComposite.Builder myBoolean(Boolean myBoolean) {
-      this.instance.myBoolean = myBoolean;
-      return this;
-    }
-
-
-    /**
-    * returns a built OuterComposite instance.
-    *
-    * The builder is not reusable.
-    */
-    public OuterComposite build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static OuterComposite.Builder builder() {
-    return new OuterComposite.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public OuterComposite.Builder toBuilder() {
-    return new OuterComposite.Builder()
-      .myNumber(getMyNumber())
-      .myString(getMyString())
-      .myBoolean(getMyBoolean());
-  }
-
 
 }
 

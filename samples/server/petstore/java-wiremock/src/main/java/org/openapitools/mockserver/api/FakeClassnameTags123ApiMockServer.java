@@ -42,11 +42,11 @@ public class FakeClassnameTags123ApiMockServer {
     }
 
     public static String testClassname200ResponseSample1() {
-        return "{ \"client\" : \"client\"}";
+        return "{ \"client\" : \"client\" }";
     }
 
     public static String testClassnameRequestSample1() {
-        return "{ \"client\" : \"client\"}";
+        return "{ \"client\" : \"client\" }";
     }
 
 

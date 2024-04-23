@@ -51,14 +51,6 @@ public class ReadOnlyFirst {
     this.bar = bar;
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ReadOnlyFirst(@JsonProperty(JSON_PROPERTY_BAR) String bar, @JsonProperty(JSON_PROPERTY_BAZ) String baz) {
-    this.bar = bar;
-    this.baz = baz;
-  }
-
    /**
    * Get bar
    * @return bar
@@ -136,65 +128,6 @@ public class ReadOnlyFirst {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-  public static class Builder {
-
-    private ReadOnlyFirst instance;
-
-    public Builder() {
-      this(new ReadOnlyFirst());
-    }
-
-    protected Builder(ReadOnlyFirst instance) {
-      this.instance = instance;
-    }
-
-    public ReadOnlyFirst.Builder bar(String bar) {
-      this.instance.bar = bar;
-      return this;
-    }
-    public ReadOnlyFirst.Builder baz(String baz) {
-      this.instance.baz = baz;
-      return this;
-    }
-
-
-    /**
-    * returns a built ReadOnlyFirst instance.
-    *
-    * The builder is not reusable.
-    */
-    public ReadOnlyFirst build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ReadOnlyFirst.Builder builder() {
-    return new ReadOnlyFirst.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ReadOnlyFirst.Builder toBuilder() {
-    return new ReadOnlyFirst.Builder()
-      .bar(getBar())
-      .baz(getBaz());
-  }
-
 
 }
 

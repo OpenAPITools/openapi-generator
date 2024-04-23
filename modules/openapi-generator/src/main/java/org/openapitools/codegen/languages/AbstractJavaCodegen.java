@@ -684,7 +684,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         });
     }
 
-    private void setGeneratedConstructorWithAllArgs(boolean aValue) {
+    public void setGeneratedConstructorWithAllArgs(boolean aValue) {
         this.generatedConstructorWithAllArgs = aValue;
     }
 
