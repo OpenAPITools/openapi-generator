@@ -21,6 +21,8 @@ include/CppRestPetstoreClient/model/Order.h
 include/CppRestPetstoreClient/model/Pet.h
 include/CppRestPetstoreClient/model/Tag.h
 include/CppRestPetstoreClient/model/User.h
+src/AnyType.cpp
+src/AnyType.h
 src/ApiClient.cpp
 src/ApiConfiguration.cpp
 src/ApiException.cpp

@@ -219,6 +219,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", getSourceFolder(), "ModelBase.cpp"));
         supportingFiles.add(new SupportingFile("object-header.mustache", getHeaderFolder(), "Object.h"));
         supportingFiles.add(new SupportingFile("object-source.mustache", getSourceFolder(), "Object.cpp"));
+        supportingFiles.add(new SupportingFile("anytype-header.mustache", getSourceFolder(), "AnyType.h"));
+        supportingFiles.add(new SupportingFile("anytype-source.mustache", getSourceFolder(), "AnyType.cpp"));
         supportingFiles.add(new SupportingFile("apiclient-header.mustache", getHeaderFolder(), "ApiClient.h"));
         supportingFiles.add(new SupportingFile("apiclient-source.mustache", getSourceFolder(), "ApiClient.cpp"));
         supportingFiles.add(new SupportingFile("apiconfiguration-header.mustache", getHeaderFolder(), "ApiConfiguration.h"));
