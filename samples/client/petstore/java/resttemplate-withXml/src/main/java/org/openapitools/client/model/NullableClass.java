@@ -60,7 +60,7 @@ import io.github.threetenjaxb.core.*;
 @XmlRootElement(name = "NullableClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "NullableClass")
-public class NullableClass extends HashMap<String, Object> {
+public class NullableClass extends HashMap<String, AnyType> {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   @XmlElement(name = "integer_prop")
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();

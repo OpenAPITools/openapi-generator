@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 
 
 
-public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object>  {
+public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, AnyType>  {
 
     private String someProperty;
 

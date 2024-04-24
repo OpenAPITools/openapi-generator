@@ -42,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
-public class Zebra extends HashMap<String, Object> {
+public class Zebra extends HashMap<String, AnyType> {
   /**
    * Gets or Sets type
    */

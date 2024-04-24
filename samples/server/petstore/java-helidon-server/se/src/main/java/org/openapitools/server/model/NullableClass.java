@@ -14,7 +14,7 @@ import jakarta.validation.Valid;
 
 
 
-public class NullableClass extends HashMap<String, Object>  {
+public class NullableClass extends HashMap<String, AnyType>  {
 
     private Integer integerProp;
     private BigDecimal numberProp;

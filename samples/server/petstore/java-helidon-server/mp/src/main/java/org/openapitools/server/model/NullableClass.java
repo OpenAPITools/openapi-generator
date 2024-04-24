@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 
-public class NullableClass extends HashMap<String, Object> {
+public class NullableClass extends HashMap<String, AnyType> {
   
   private Integer integerProp;
 

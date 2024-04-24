@@ -34,7 +34,7 @@ import jakarta.validation.Valid;
   AdditionalPropertiesAnyType.JSON_PROPERTY_NAME
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
-public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
+public class AdditionalPropertiesAnyType extends HashMap<String, AnyType> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
