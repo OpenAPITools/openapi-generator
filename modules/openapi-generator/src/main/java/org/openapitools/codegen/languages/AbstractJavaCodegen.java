@@ -94,7 +94,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
     public static final String LOMBOK = "lombok";
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
-    public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generatedConstructorWithAllArgs";
+    public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generateConstructorWithAllArgs";
 
     protected String dateLibrary = "java8";
     protected boolean supportAsync = false;
@@ -144,7 +144,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean camelCaseDollarSign = false;
     protected boolean useJakartaEe = false;
     protected boolean containerDefaultToNull = false;
-    protected boolean generatedConstructorWithAllArgs = false;
+    protected boolean generateConstructorWithAllArgs = false;
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
@@ -359,9 +359,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (additionalProperties.containsKey(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS)) {
-            this.setGeneratedConstructorWithAllArgs(convertPropertyToBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS));
+            this.setgenerateConstructorWithAllArgs(convertPropertyToBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS));
         }
-        writePropertyBack(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, generatedConstructorWithAllArgs);
+        writePropertyBack(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, generateConstructorWithAllArgs);
 
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
@@ -684,12 +684,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         });
     }
 
-    public void setGeneratedConstructorWithAllArgs(boolean aValue) {
-        this.generatedConstructorWithAllArgs = aValue;
+    public void setgenerateConstructorWithAllArgs(boolean aValue) {
+        this.generateConstructorWithAllArgs = aValue;
     }
 
-    public boolean isGeneratedConstructorWithAllArgs() {
-        return generatedConstructorWithAllArgs;
+    public boolean isgenerateConstructorWithAllArgs() {
+        return generateConstructorWithAllArgs;
     }
 
     /**
@@ -777,18 +777,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        if (isGeneratedConstructorWithAllArgs()) {
+        if (isgenerateConstructorWithAllArgs()) {
             // conditionally force the generation of all args constructor.
             for (CodegenModel cm : allModels.values()) {
                 if (isConstructorWithAllArgsAllowed(cm)) {
-                    cm.vendorExtensions.put("generatedConstructorWithAllArgs", true);
+                    cm.vendorExtensions.put("x-java-all-args-constructor", true);
                     List<Object> constructorArgs = new ArrayList<>();
-                    // vendorExtensions.allArgsConstructorVars should be equivalent to allVars
-                    // but it is not reliable if openapiNormalizer.REFACTOR_ALLOF_WITH_PROPERTIES_ONLY is disabled
+                    // vendorExtensions.x-java-all-args-constructor-vars should be equivalent to allVars
+                    // but it is not reliable when openapiNormalizer.REFACTOR_ALLOF_WITH_PROPERTIES_ONLY is disabled
+                    cm.vendorExtensions.put("x-java-all-args-constructor-vars", constructorArgs);
                     if (cm.vars.size() + cm.parentVars.size() != cm.allVars.size()) {
                         once(LOGGER).warn("Unexpected allVars for {} expecting:{} vars. actual:{} vars", cm.name, cm.vars.size() + cm.parentVars.size(), cm.allVars.size());
                     }
-                    cm.vendorExtensions.put("allArgsConstructorVars", constructorArgs);
                     constructorArgs.addAll(cm.vars);
                     constructorArgs.addAll(cm.parentVars);
                 }
@@ -816,7 +816,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     protected boolean isConstructorWithAllArgsAllowed(CodegenModel codegenModel) {
         // implementation detail: allVars is not reliable if openapiNormalizer.REFACTOR_ALLOF_WITH_PROPERTIES_ONLY is disabled
-        return (this.generatedConstructorWithAllArgs &&
+        return (this.generateConstructorWithAllArgs &&
                 (!codegenModel.vars.isEmpty() || codegenModel.parentVars.isEmpty()));
     }
 

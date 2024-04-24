@@ -47,6 +47,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateOperationBody|Generate fully functional operation bodies| |false|
 |generateSpringApplication|Generate Spring application| |false|
 |generateSpringBootApplication|Generate Spring Boot application| |false|
+|generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|

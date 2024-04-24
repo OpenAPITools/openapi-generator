@@ -8,4 +8,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   java8: true
   useJakartaEe: true
-  generatedConstructorWithAllArgs: true
+  generateConstructorWithAllArgs: true

@@ -4650,6 +4650,13 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void allOfDuplicatedProperties() throws IOException {
+        final Map<String, Object> additionalProperties = new HashMap<>();
+
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/allOfDuplicatedProperties.yaml", SPRING_BOOT, Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true));
+
+    }
+    @Test
     public void testLombokAnnotations() throws IOException {
         final Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor");
