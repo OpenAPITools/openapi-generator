@@ -118,6 +118,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GIT_USER_ID, CodegenConstants.GIT_USER_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, CodegenConstants.PACKAGE_DESCRIPTION));
@@ -158,6 +159,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         final String groupId = ensureProp(CodegenConstants.GROUP_ID, "org.openapitools");
         ensureProp(CodegenConstants.ARTIFACT_ID, "caskgen");
         artifactVersion = ensureProp(CodegenConstants.ARTIFACT_VERSION, "0.0.1");
+
         gitRepoId = ensureProp(CodegenConstants.GIT_REPO_ID, "<your git repo -- set 'gitRepoId'>");
         gitUserId = ensureProp(CodegenConstants.GIT_USER_ID, "<your git user -- set 'gitUserId'>");
 
