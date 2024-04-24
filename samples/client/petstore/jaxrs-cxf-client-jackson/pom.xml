@@ -109,8 +109,8 @@ for this project used jakarta.validation-api -->
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
       <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
@@ -185,7 +185,7 @@ for this project used jakarta.validation-api -->
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.18</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
-    <junit-version>4.13.2</junit-version>
+    <junit-version>5.10.2</junit-version>
     <logback-version>1.4.14</logback-version>
     <cxf-version>3.3.0</cxf-version>
     <jackson-jaxrs-version>2.15.2</jackson-jaxrs-version>

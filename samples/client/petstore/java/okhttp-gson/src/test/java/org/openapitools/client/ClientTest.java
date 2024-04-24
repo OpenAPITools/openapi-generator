@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 import org.openapitools.client.model.*;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ClientTest {
     ApiClient apiClient;

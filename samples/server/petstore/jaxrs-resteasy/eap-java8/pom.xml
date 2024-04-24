@@ -131,8 +131,8 @@ for this project used jakarta.validation-api -->
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
@@ -143,8 +143,8 @@ for this project used jakarta.validation-api -->
             <scope>test</scope>
             <exclusions>
                 <exclusion>
-                    <artifactId>junit</artifactId>
-                    <groupId>junit</groupId>
+                    <artifactId>junit-jupiter-api</artifactId>
+                    <groupId>org.junit.jupiter</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>snakeyaml</artifactId>

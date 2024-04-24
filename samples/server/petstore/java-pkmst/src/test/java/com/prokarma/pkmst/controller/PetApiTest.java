@@ -17,8 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import com.prokarma.pkmst.model.ModelApiResponse;
 import com.prokarma.pkmst.model.Pet;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * API tests for PetApi
  */
-@Ignore
+@Disabled
 public class PetApiTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();

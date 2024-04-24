@@ -26,7 +26,7 @@ import java.util.Set;
  * API tests for {{classname}}
  */
 {{#generateSpringBootApplication}}
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = SpringBootApplication.class)
 @WebAppConfiguration
 @IntegrationTest("server.port=0")

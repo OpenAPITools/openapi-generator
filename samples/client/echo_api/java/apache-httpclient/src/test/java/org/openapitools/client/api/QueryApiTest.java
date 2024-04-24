@@ -16,8 +16,8 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.Assert;
 
 import java.time.LocalDate;
@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * API tests for QueryApi
  */
-@Ignore
+@Disabled
 public class QueryApiTest {
 
     private final QueryApi api = new QueryApi();

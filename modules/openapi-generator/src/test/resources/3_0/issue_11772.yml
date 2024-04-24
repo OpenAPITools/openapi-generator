@@ -285,7 +285,7 @@ components:
         priceCategory:
           description: The price category
           nullable: true
-          x-field-extra-annotation: '@IgnoreForRoles("MEDIA_ADMIN")'
+          x-field-extra-annotation: '@DisabledForRoles("MEDIA_ADMIN")'
           allOf:
             - $ref: '#/components/schemas/SamplingPriceCategoryEnum'
 

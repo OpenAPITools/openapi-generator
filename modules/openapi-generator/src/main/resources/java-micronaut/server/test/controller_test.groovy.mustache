@@ -56,7 +56,7 @@ class {{classname}}Spec extends Specification {
      * TODO fill in the parameters and test return value.
      */
         {{^generateControllerFromExamples}}
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
         {{/generateControllerFromExamples}}
     def '{{operationId}}() method test'() {
         given:
@@ -88,7 +88,7 @@ class {{classname}}Spec extends Specification {
      * TODO fill in the request parameters and test response.
      */
         {{^generateControllerFromExamples}}
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
         {{/generateControllerFromExamples}}
     def '{{operationId}}() test with client through path {{{path}}}'() {
         given:

@@ -75,7 +75,7 @@ class PetApiSpec extends Specification {
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      */
-    @Ignore("Issue reported in https://github.com/micronaut-projects/micronaut-jackson-xml/issues/175")
+    @Disabled("Issue reported in https://github.com/micronaut-projects/micronaut-jackson-xml/issues/175")
     void "findPetsByStatus() test"() {
         given:
         Pet pet = new Pet()
@@ -232,7 +232,7 @@ class PetApiSpec extends Specification {
         notThrown()
     }
 
-    @Ignore("Issue reported in https://github.com/micronaut-projects/micronaut-jackson-xml/issues/175")
+    @Disabled("Issue reported in https://github.com/micronaut-projects/micronaut-jackson-xml/issues/175")
     void "findPetByTags() test"() {
         given:
         Tag tag = new Tag().name("cute").id(2L)

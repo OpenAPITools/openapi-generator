@@ -47,7 +47,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'addPet() method test'() {
         given:
         Pet pet = new Pet('doggie', ['example'])
@@ -65,7 +65,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'addPet() test with client through path /pet'() {
         given:
         Pet body = new Pet('doggie', ['example'])
@@ -88,7 +88,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'deletePet() method test'() {
         given:
         Long petId = 56L
@@ -107,7 +107,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'deletePet() test with client through path /pet/{petId}'() {
         given:
         var uri = UriTemplate.of('/pet/{petId}').expand([
@@ -134,7 +134,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'findPetsByStatus() method test'() {
         given:
         List<String> status = ['available']
@@ -152,7 +152,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'findPetsByStatus() test with client through path /pet/findByStatus'() {
         given:
         var uri = UriTemplate.of('/pet/findByStatus').expand([:])
@@ -177,7 +177,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'findPetsByTags() method test'() {
         given:
         List<String> tags = ['example']
@@ -195,7 +195,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'findPetsByTags() test with client through path /pet/findByTags'() {
         given:
         var uri = UriTemplate.of('/pet/findByTags').expand([:])
@@ -220,7 +220,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'getPetById() method test'() {
         given:
         Long petId = 56L
@@ -238,7 +238,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'getPetById() test with client through path /pet/{petId}'() {
         given:
         var uri = UriTemplate.of('/pet/{petId}').expand([
@@ -262,7 +262,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'updatePet() method test'() {
         given:
         Pet pet = new Pet('doggie', ['example'])
@@ -280,7 +280,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'updatePet() test with client through path /pet'() {
         given:
         Pet body = new Pet('doggie', ['example'])
@@ -303,7 +303,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'updatePetWithForm() method test'() {
         given:
         Long petId = 56L
@@ -323,7 +323,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'updatePetWithForm() test with client through path /pet/{petId}'() {
         given:
         var form = [
@@ -353,7 +353,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'uploadFile() method test'() {
         given:
         Long petId = 56L
@@ -373,7 +373,7 @@ class PetControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'uploadFile() test with client through path /pet/{petId}/uploadImage'() {
         given:
         var body = MultipartBody.builder() // Create multipart body

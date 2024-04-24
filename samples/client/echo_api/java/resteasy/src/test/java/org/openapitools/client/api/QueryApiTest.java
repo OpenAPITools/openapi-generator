@@ -21,8 +21,8 @@ import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.Assert;
 
 import java.time.LocalDate;

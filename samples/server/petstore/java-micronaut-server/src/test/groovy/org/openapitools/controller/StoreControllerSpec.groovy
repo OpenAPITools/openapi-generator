@@ -47,7 +47,7 @@ class StoreControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'deleteOrder() method test'() {
         given:
         String orderId = 'example'
@@ -65,7 +65,7 @@ class StoreControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'deleteOrder() test with client through path /store/order/{orderId}'() {
         given:
         var uri = UriTemplate.of('/store/order/{orderId}').expand([
@@ -91,7 +91,7 @@ class StoreControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'getInventory() method test'() {
         given:
 
@@ -108,7 +108,7 @@ class StoreControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'getInventory() test with client through path /store/inventory'() {
         given:
         var uri = UriTemplate.of('/store/inventory').expand([:])
@@ -131,7 +131,7 @@ class StoreControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'getOrderById() method test'() {
         given:
         Long orderId = 56L
@@ -149,7 +149,7 @@ class StoreControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'getOrderById() test with client through path /store/order/{orderId}'() {
         given:
         var uri = UriTemplate.of('/store/order/{orderId}').expand([
@@ -173,7 +173,7 @@ class StoreControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'placeOrder() method test'() {
         given:
         Order order = new Order()
@@ -191,7 +191,7 @@ class StoreControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'placeOrder() test with client through path /store/order'() {
         given:
         Order body = new Order()

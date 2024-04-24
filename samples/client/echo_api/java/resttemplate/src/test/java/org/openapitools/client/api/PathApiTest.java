@@ -14,8 +14,8 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.StringEnumRef;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * API tests for PathApi
  */
-@Ignore
+@Disabled
 public class PathApiTest {
 
     private final PathApi api = new PathApi();

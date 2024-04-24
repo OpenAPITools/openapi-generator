@@ -1,11 +1,11 @@
 package com.prokarma.pkmst.cucumber;
 
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ActiveProfiles;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
-@RunWith(Cucumber.class)
+@ExtendWith(Cucumber.class)
 @ActiveProfiles("test")
 @CucumberOptions(format = { "pretty", "html:target/cucumber-html-report",
  "json:./report/pet-report-json/pet.json",

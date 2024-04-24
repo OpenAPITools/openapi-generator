@@ -22,8 +22,8 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.AppleReq;
 import org.openapitools.client.model.BananaReq;
 import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 
 /**

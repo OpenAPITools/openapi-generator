@@ -14,8 +14,8 @@
 package org.openapitools.client.api;
 
 import java.io.File;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * API tests for ResourceApi
  */
-@Ignore
+@Disabled
 public class ResourceApiTest {
 
     private final ResourceApi api = new ResourceApi();

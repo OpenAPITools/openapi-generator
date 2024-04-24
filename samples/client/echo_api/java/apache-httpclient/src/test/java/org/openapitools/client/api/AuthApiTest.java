@@ -14,8 +14,8 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.Assert;
 
 import java.time.LocalDate;

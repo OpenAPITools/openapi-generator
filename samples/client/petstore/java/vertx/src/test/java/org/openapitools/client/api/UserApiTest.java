@@ -17,11 +17,10 @@ import org.openapitools.client.model.User;
 
 import org.openapitools.client.Configuration;
 
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -42,19 +41,16 @@ import java.util.Map;
 /**
  * API tests for UserApi
  */
-@RunWith(VertxUnitRunner.class)
-@Ignore
+@ExtendWith(VertxUnitRunner.class)
+@Disabled
 public class UserApiTest {
 
     private UserApi api;
 
-    @Rule
-    public RunTestOnContext rule = new RunTestOnContext();
-
-    @BeforeClass
+    @BeforeAll
     public void setupApiClient() {
         JsonObject config = new JsonObject();
-        Vertx vertx = rule.vertx();
+        Vertx vertx = Vertx.vertx();
         Configuration.setupDefaultApiClient(vertx, config);
 
         api = new UserApiImpl();

@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openapitools.client.api.BodyApi;
 import org.openapitools.client.api.FormApi;
 import org.openapitools.client.api.QueryApi;

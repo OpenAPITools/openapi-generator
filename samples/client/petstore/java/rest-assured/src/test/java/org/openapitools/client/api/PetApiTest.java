@@ -20,9 +20,9 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.api.PetApi;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.ErrorLoggingFilter;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ import static org.openapitools.client.GsonObjectMapper.gson;
 /**
  * API tests for PetApi
  */
-@Ignore
+@Disabled
 public class PetApiTest {
 
     private PetApi api;

@@ -21,7 +21,7 @@ public class StoreApiSpec extends Specification {
     /**
      * Place an order for a pet
      */
-    @Ignore("The test fails because the produces is specified as */* instead of a specific value")
+    @Disabled("The test fails because the produces is specified as */* instead of a specific value")
     void "placeOrder() test"() {
         given:
         Order order = new Order().id(1L).shipDate(LocalDateTime.MIN).complete(true)

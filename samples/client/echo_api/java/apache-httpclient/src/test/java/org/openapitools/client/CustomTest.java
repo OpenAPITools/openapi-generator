@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.openapitools.client.api.BodyApi;
 import org.openapitools.client.api.QueryApi;
 import org.openapitools.client.model.Category;

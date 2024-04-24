@@ -151,8 +151,8 @@ for this project used jakarta.validation-api -->
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
 {{^generateSpringBootApplication}}
       <version>${junit-version}</version>
 {{/generateSpringBootApplication}}
@@ -341,7 +341,7 @@ for this project used jakarta.validation-api -->
   {{/generateSpringBootApplication}}
 {{/generateSpringApplication}}
 {{^generateSpringBootApplication}}
-    <junit-version>4.13.2</junit-version>
+    <junit-version>5.10.2</junit-version>
     <logback-version>1.2.12</logback-version>
 {{/generateSpringBootApplication}}
     <cxf-version>3.3.0</cxf-version>

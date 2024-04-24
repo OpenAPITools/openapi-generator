@@ -36,8 +36,8 @@ import java.util.Map;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
-import org.junit.Test;
-import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import static org.junit.Assert.*;
 
 import javax.ws.rs.core.MediaType;
@@ -58,7 +58,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -71,8 +71,8 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.openapitools.codegen.utils.JsonCache;
 
 /**
@@ -82,13 +82,13 @@ import org.openapitools.codegen.utils.JsonCache;
  *
  * API tests for FakeApi.
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class FakeApiTest {
     private static Validator validator;
     private static JsonCache cache;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws Exception {
         File cacheFile = new File(System.getProperty("jaxrs.test.client.json",
                 "C:\\source\\GitHub\\demonfiddler\\openapi-generator\\samples\\server\\petstore\\jaxrs-cxf-test-data\\src\\main\\resources\\test-data.json"));
@@ -224,7 +224,7 @@ public class FakeApiTest {
      * @throws ApiException if the API call fails
      */
     @Test
-    @Ignore
+    @Disabled
     public void testEndpointParametersTest() throws Exception {
         BigDecimal number = cache.getBigDecimal("/testEndpointParameters/number");
         Double _double = cache.getDouble("/testEndpointParameters/_double");
@@ -252,7 +252,7 @@ public class FakeApiTest {
      * @throws ApiException if the API call fails
      */
     @Test
-    @Ignore
+    @Disabled
     public void testEnumParametersTest() throws Exception {
         List<String> enumHeaderStringArray = cache.getObjects("/testEnumParameters/enumHeaderStringArray", String.class);
         String enumHeaderString = cache.getString("/testEnumParameters/enumHeaderString");
@@ -301,7 +301,7 @@ public class FakeApiTest {
      * @throws ApiException if the API call fails
      */
     @Test
-    @Ignore
+    @Disabled
     public void testJsonFormDataTest() throws Exception {
         String param = cache.getString("/testJsonFormData/param");
         String param2 = cache.getString("/testJsonFormData/param2");

@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Set;
 
 {{#generateSpringBootApplication}}
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -67,7 +67,7 @@ import org.openapitools.codegen.utils.JsonCache;
  * API tests for {{classname}}.
  */
 {{#generateSpringBootApplication}}
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 {{/generateSpringBootApplication}}
 public class {{classname}}Test {

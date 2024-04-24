@@ -16,8 +16,8 @@ package org.openapitools.client.api;
 import java.io.File;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.Tag;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * API tests for BodyApi
  */
-@Ignore
+@Disabled
 public class BodyApiTest {
 
     private final BodyApi api = new BodyApi();

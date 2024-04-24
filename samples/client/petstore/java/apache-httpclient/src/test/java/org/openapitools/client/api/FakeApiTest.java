@@ -26,8 +26,8 @@ import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.User;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.Assert;
 
 import java.time.LocalDate;
@@ -40,7 +40,7 @@ import java.util.Map;
 /**
  * API tests for FakeApi
  */
-@Ignore
+@Disabled
 public class FakeApiTest {
 
     private final FakeApi api = new FakeApi();

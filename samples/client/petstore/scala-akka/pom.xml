@@ -143,7 +143,6 @@
           <argLine>-Xms512m -Xmx1500m</argLine>
           <parallel>methods</parallel>
           <threadCount>4</threadCount>
-          <forkMode>pertest</forkMode>
         </configuration>
       </plugin>
       <plugin>

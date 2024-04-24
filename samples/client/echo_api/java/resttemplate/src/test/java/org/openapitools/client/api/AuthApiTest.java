@@ -14,8 +14,8 @@
 package org.openapitools.client.api;
 
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;

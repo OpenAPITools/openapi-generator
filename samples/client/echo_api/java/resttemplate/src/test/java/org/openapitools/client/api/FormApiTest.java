@@ -13,8 +13,8 @@
 
 package org.openapitools.client.api;
 
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * API tests for FormApi
  */
-@Ignore
+@Disabled
 public class FormApiTest {
 
     private final FormApi api = new FormApi();

@@ -129,8 +129,8 @@ for this project used jakarta.validation-api -->
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
       <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
@@ -208,7 +208,7 @@ for this project used jakarta.validation-api -->
     <jetty-version>9.2.9.v20150224</jetty-version>
     <jersey2-version>2.35</jersey2-version>
     <jackson-version>2.15.2</jackson-version>
-    <junit-version>4.13.2</junit-version>
+    <junit-version>5.10.2</junit-version>
     <logback-version>1.4.14</logback-version>
     <servlet-api-version>4.0.4</servlet-api-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

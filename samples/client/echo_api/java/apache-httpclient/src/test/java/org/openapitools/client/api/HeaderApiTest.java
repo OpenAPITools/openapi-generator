@@ -15,8 +15,8 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.StringEnumRef;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.Assert;
 
 import java.time.LocalDate;
@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * API tests for HeaderApi
  */
-@Ignore
+@Disabled
 public class HeaderApiTest {
 
     private final HeaderApi api = new HeaderApi();

@@ -32,8 +32,8 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import org.openapitools.model.Tag;
-import org.junit.Test;
-import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import static org.junit.Assert.*;
 
 import javax.ws.rs.core.MediaType;
@@ -54,7 +54,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -67,8 +67,8 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.openapitools.codegen.utils.JsonCache;
 
 /**
@@ -78,13 +78,13 @@ import org.openapitools.codegen.utils.JsonCache;
  *
  * API tests for PetApi.
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class PetApiTest {
     private static Validator validator;
     private static JsonCache cache;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws Exception {
         File cacheFile = new File(System.getProperty("jaxrs.test.client.json",
                 "C:\\source\\GitHub\\demonfiddler\\openapi-generator\\samples\\server\\petstore\\jaxrs-cxf-test-data\\src\\main\\resources\\test-data.json"));
@@ -206,7 +206,7 @@ public class PetApiTest {
      * @throws ApiException if the API call fails
      */
     @Test
-    @Ignore
+    @Disabled
     public void updatePetWithFormTest() throws Exception {
         Long petId = cache.getLong("/updatePetWithForm/petId");
         String name = cache.getString("/updatePetWithForm/name");
@@ -221,7 +221,7 @@ public class PetApiTest {
      * @throws ApiException if the API call fails
      */
     @Test
-    @Ignore
+    @Disabled
     public void uploadFileTest() throws Exception {
         Long petId = cache.getLong("/uploadFile/petId");
         String additionalMetadata = cache.getString("/uploadFile/additionalMetadata");
@@ -238,7 +238,7 @@ public class PetApiTest {
      * @throws ApiException if the API call fails
      */
     @Test
-    @Ignore
+    @Disabled
     public void uploadFileWithRequiredFileTest() throws Exception {
         Long petId = cache.getLong("/uploadFileWithRequiredFile/petId");
         Attachment requiredFile = new Attachment("requiredFile", MediaType.TEXT_PLAIN, "Dummy attachment content");

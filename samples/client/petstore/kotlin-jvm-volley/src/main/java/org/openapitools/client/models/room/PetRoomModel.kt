@@ -42,7 +42,7 @@ data class PetRoomModel (
     var status: Pet.Status? = null,
     ) {
 
-    @Ignore
+    @Disabled
     var tags: kotlin.collections.List<Tag>? = null
 
     companion object { }

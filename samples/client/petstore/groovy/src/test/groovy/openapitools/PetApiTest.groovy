@@ -1,6 +1,6 @@
 package openapitools
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.openapitools.api.PetApi
 import org.openapitools.model.Category
 import org.openapitools.model.Pet

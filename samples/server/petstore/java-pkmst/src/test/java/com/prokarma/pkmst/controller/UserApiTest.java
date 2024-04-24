@@ -16,8 +16,8 @@ package com.prokarma.pkmst.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import com.prokarma.pkmst.model.User;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * API tests for UserApi
  */
-@Ignore
+@Disabled
 public class UserApiTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();

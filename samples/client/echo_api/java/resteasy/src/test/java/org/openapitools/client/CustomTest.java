@@ -17,8 +17,8 @@ import org.openapitools.client.ApiException;
 import java.io.File;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.Tag;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.Assert;
 
 import java.io.FileWriter;

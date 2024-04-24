@@ -48,7 +48,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'createUser() method test'() {
         given:
         User user = new User()
@@ -66,7 +66,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'createUser() test with client through path /user'() {
         given:
         User body = new User()
@@ -89,7 +89,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'createUsersWithArrayInput() method test'() {
         given:
         List<User> user = []
@@ -107,7 +107,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'createUsersWithArrayInput() test with client through path /user/createWithArray'() {
         given:
         List<User> body = []
@@ -130,7 +130,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'createUsersWithListInput() method test'() {
         given:
         List<User> user = []
@@ -148,7 +148,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'createUsersWithListInput() test with client through path /user/createWithList'() {
         given:
         List<User> body = []
@@ -173,7 +173,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'deleteUser() method test'() {
         given:
         String username = 'example'
@@ -191,7 +191,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'deleteUser() test with client through path /user/{username}'() {
         given:
         var uri = UriTemplate.of('/user/{username}').expand([
@@ -215,7 +215,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'getUserByName() method test'() {
         given:
         String username = 'example'
@@ -233,7 +233,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'getUserByName() test with client through path /user/{username}'() {
         given:
         var uri = UriTemplate.of('/user/{username}').expand([
@@ -257,7 +257,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'loginUser() method test'() {
         given:
         String username = 'example'
@@ -276,7 +276,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'loginUser() test with client through path /user/login'() {
         given:
         var uri = UriTemplate.of('/user/login').expand([:])
@@ -300,7 +300,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'logoutUser() method test'() {
         given:
 
@@ -317,7 +317,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'logoutUser() test with client through path /user/logout'() {
         given:
         var uri = UriTemplate.of('/user/logout').expand([:])
@@ -340,7 +340,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the parameters and test return value.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'updateUser() method test'() {
         given:
         String username = 'example'
@@ -359,7 +359,7 @@ class UserControllerSpec extends Specification {
      *
      * TODO fill in the request parameters and test response.
      */
-    @Ignore("Not Implemented")
+    @Disabled("Not Implemented")
     def 'updateUser() test with client through path /user/{username}'() {
         given:
         User body = new User()

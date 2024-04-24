@@ -28,8 +28,8 @@ package org.openapitools.api;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.model.User;
-import org.junit.Test;
-import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import static org.junit.Assert.*;
 
 import javax.ws.rs.core.MediaType;
@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -63,7 +63,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import org.openapitools.codegen.utils.JsonCache;
 
 /**
@@ -73,13 +73,13 @@ import org.openapitools.codegen.utils.JsonCache;
  *
  * API tests for UserApi.
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class UserApiTest {
     private static Validator validator;
     private static JsonCache cache;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws Exception {
         File cacheFile = new File(System.getProperty("jaxrs.test.client.json",
                 "C:\\source\\GitHub\\demonfiddler\\openapi-generator\\samples\\server\\petstore\\jaxrs-cxf-test-data\\src\\main\\resources\\test-data.json"));

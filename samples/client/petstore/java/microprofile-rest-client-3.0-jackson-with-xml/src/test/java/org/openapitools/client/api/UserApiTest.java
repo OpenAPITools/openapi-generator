@@ -15,8 +15,8 @@ package org.openapitools.client.api;
 
 import java.util.Date;
 import org.openapitools.client.model.User;
-import org.junit.Test;
-import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import static org.junit.Assert.*;
 
 import org.eclipse.microprofile.rest.client.RestClientBuilder;

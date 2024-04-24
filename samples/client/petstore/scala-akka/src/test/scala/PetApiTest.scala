@@ -1,5 +1,5 @@
 import akka.actor.ActorSystem
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.extension.ExtendWith
 import org.openapitools.client._
 import org.openapitools.client.api._
 import org.openapitools.client.core.{ApiInvoker, ApiKeyValue}
@@ -9,7 +9,7 @@ import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.junit.JUnitRunner
 
-@RunWith(classOf[JUnitRunner])
+@ExtendWith(classOf[JUnitRunner])
 class PetApiTest extends AsyncFlatSpec with Matchers {
 
   implicit private val system: ActorSystem = ActorSystem()

@@ -56,10 +56,10 @@
     </plugins>
   </build>
   <dependencies>
-   <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
     <!-- Eclipse MicroProfile Rest Client -->
@@ -143,7 +143,7 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger.core.version>1.5.18</swagger.core.version>
     <jetty.version>9.2.9.v20150224</jetty.version>
-    <junit.version>4.13.2</junit.version>
+    <junit.version>5.10.2</junit.version>
     <logback.version>1.4.14</logback.version>
     <cxf.version>3.2.7</cxf.version>
     <jackson.jaxrs.version>2.15.2</jackson.jaxrs.version>
