@@ -340,6 +340,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.processCodeGenModel(cm);
         }
 
+        // Add supporting file only if we plan to generate files in /models
+        if (!objs.isEmpty() && !addedModelIndex) {
+            addedModelIndex = true;
+            supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
+        }
+
         return objs;
     }
 

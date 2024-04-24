@@ -532,8 +532,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             String itemType = getTypeDeclaration(inner);
             if (itemType.startsWith("OpenAPI.")) {
                 return itemType + "_Vector";

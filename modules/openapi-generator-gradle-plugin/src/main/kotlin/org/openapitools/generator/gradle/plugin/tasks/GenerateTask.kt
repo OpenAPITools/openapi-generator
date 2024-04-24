@@ -887,7 +887,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
 
             if (openapiNormalizer.isPresent) {
                 openapiNormalizer.get().forEach { entry ->
-                    configurator.addOpenAPINormalizer(entry.key, entry.value)
+                    configurator.addOpenapiNormalizer(entry.key, entry.value)
                 }
             }
 
@@ -917,7 +917,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
 
             if (openapiGeneratorIgnoreList.isPresent) {
                 openapiGeneratorIgnoreList.get().forEach {
-                    configurator.addOpenAPIGeneratorIgnoreList(it)
+                    configurator.addOpenapiGeneratorIgnoreList(it)
                 }
             }
 

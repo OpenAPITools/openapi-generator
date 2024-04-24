@@ -15,7 +15,7 @@ import java.io.Serializable
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
-data class {{classname}}(
+{{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
 {{>data_class_req_var}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},

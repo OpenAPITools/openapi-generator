@@ -35,7 +35,8 @@ paths:
       x-streaming: true
       x-group-parameters: true
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     post:
       operationId: postPing
       requestBody:
@@ -54,7 +55,8 @@ paths:
       - ping
       x-streaming: true
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   schemas:
     SomeObj:

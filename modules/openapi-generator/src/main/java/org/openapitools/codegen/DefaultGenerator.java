@@ -265,7 +265,7 @@ public class DefaultGenerator implements Generator {
 
         // normalize the spec
         try {
-            if (config.getUseOpenAPINormalizer()) {
+            if (config.getUseOpenapiNormalizer()) {
                 SemVer version = new SemVer(openAPI.getOpenapi());
                 if (version.atLeast("3.1.0")) {
                     config.openapiNormalizer().put("NORMALIZE_31SPEC", "true");
@@ -292,7 +292,9 @@ public class DefaultGenerator implements Generator {
         // set OpenAPI to make these available to all methods
         config.setOpenAPI(openAPI);
 
-        config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
+        if (!config.additionalProperties().containsKey("generatorVersion")) {
+            config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
+        }
         config.additionalProperties().put("generatedDate", ZonedDateTime.now().toString());
         config.additionalProperties().put("generatedYear", String.valueOf(ZonedDateTime.now().getYear()));
         config.additionalProperties().put("generatorClass", config.getClass().getName());
@@ -927,8 +929,8 @@ public class DefaultGenerator implements Generator {
     /*
      * Generate .openapi-generator-ignore if the option openapiGeneratorIgnoreFile is enabled.
      */
-    private void generateOpenAPIGeneratorIgnoreFile() {
-        if (config.getOpenAPIGeneratorIgnoreList() == null || config.getOpenAPIGeneratorIgnoreList().isEmpty()) {
+    private void generateOpenapiGeneratorIgnoreFile() {
+        if (config.getOpenapiGeneratorIgnoreList() == null || config.getOpenapiGeneratorIgnoreList().isEmpty()) {
             return;
         }
 
@@ -980,7 +982,7 @@ public class DefaultGenerator implements Generator {
             Writer fileWriter = Files.newBufferedWriter(ignoreFile.toPath(), StandardCharsets.UTF_8);
             fileWriter.write(header);
             // add entries provided by the users
-            for (String entry : config.getOpenAPIGeneratorIgnoreList()) {
+            for (String entry : config.getOpenapiGeneratorIgnoreList()) {
                 fileWriter.write(entry);
                 fileWriter.write("\n");
             }
@@ -1217,7 +1219,7 @@ public class DefaultGenerator implements Generator {
         processUserDefinedTemplates();
 
         // generate .openapi-generator-ignore if the option openapiGeneratorIgnoreFile is enabled
-        generateOpenAPIGeneratorIgnoreFile();
+        generateOpenapiGeneratorIgnoreFile();
 
         List<File> files = new ArrayList<>();
         // models

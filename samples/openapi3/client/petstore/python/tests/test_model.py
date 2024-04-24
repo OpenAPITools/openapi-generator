@@ -8,7 +8,7 @@ import os
 import time
 import unittest
 
-from pydantic import ValidationError
+from pydantic import ValidationError, SecretStr, BaseModel, StrictStr, Field
 import pytest
 
 import petstore_api
@@ -407,8 +407,16 @@ class ModelTests(unittest.TestCase):
         a.pattern_with_digits_and_delimiter = "image_123"
         self.assertEqual(a.pattern_with_digits_and_delimiter, "image_123")
 
-        # test sanitize for serializaation with SecretStr (format: password)
+        # test sanitize for serialization with different data types
         self.assertEquals(petstore_api.ApiClient().sanitize_for_serialization(a), {'byte': b'string', 'date': '2013-09-17', 'number': 123.45, 'password': 'testing09876', 'pattern_with_digits_and_delimiter': 'image_123'})
+
+        # test sanitize for serialization with SecretStr (format: password)
+        class LoginTest(BaseModel):
+            username: StrictStr = Field(min_length=2, strict=True, max_length=64)
+            password: SecretStr
+        
+        l = LoginTest(username="admin", password=SecretStr("testing09876"))
+        self.assertEqual(petstore_api.ApiClient().sanitize_for_serialization(l), {'username': "admin", 'password': "testing09876"})
 
     def test_inline_enum_validator(self):
         self.pet = petstore_api.Pet(name="test name", photoUrls=["string"])
@@ -610,6 +618,16 @@ class ModelTests(unittest.TestCase):
         # shouldn't throw NameError
         assert model is not None
         self.assertEqual(model.to_json(), '{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
+
+    def test_allof_circular_imports(self):
+        # for issue 18271
+        model_a = petstore_api.models.circular_all_of_ref.CircularAllOfRef.from_json('{"_name": "nameA", "second_circular_all_of_ref": {"name": "nameB"}}')
+        model_b = petstore_api.models.second_circular_all_of_ref.SecondCircularAllOfRef.from_json('{"_name": "nameB", "circular_all_of_ref": {"name": "nameA"}}')
+        # shouldn't throw ImportError
+        assert model_a is not None
+        assert model_b is not None
+        self.assertEqual(model_a.to_json(), '{"_name": "nameA", "second_circular_all_of_ref": {"name": "nameB"}}')
+        self.assertEqual(model_b.to_json(), '{"_name": "nameB", "circular_all_of_ref": {"name": "nameA"}}')
 
 
 class TestdditionalPropertiesAnyType(unittest.TestCase):

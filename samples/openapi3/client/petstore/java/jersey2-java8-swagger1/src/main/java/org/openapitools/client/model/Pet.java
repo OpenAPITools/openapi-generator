@@ -44,7 +44,7 @@ import org.openapitools.client.JSON;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -99,6 +99,7 @@ public class Pet {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
+  @Deprecated
   private StatusEnum status;
 
   public Pet() { 
@@ -250,6 +251,7 @@ public class Pet {
   }
 
 
+  @Deprecated
   public Pet status(StatusEnum status) {
     this.status = status;
     return this;
@@ -271,6 +273,7 @@ public class Pet {
   }
 
 
+  @Deprecated
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(StatusEnum status) {

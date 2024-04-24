@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ArrayTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ArrayTest  implements Serializable {
   private @Valid List<String> arrayOfString = new ArrayList<>();
   private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
@@ -71,7 +71,7 @@ public class ArrayTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
-  public List<List<Long>> getArrayArrayOfInteger() {
+  @Valid public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
@@ -106,7 +106,7 @@ public class ArrayTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")
-  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+  @Valid public List<@Valid List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 

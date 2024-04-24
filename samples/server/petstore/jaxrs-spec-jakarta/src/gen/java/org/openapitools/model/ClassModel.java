@@ -18,9 +18,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  **/
 @ApiModel(description = "Model for testing model with \"_class\" property")
 @JsonTypeName("ClassModel")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ClassModel  implements Serializable {
-  private @Valid String propertyClass;
+  private String propertyClass;
 
   protected ClassModel(ClassModelBuilder<?, ?> b) {
     this.propertyClass = b.propertyClass;

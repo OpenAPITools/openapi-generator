@@ -20,6 +20,7 @@ docs/Query.md
 docs/QueryApi.md
 docs/StringEnumRef.md
 docs/Tag.md
+docs/TestFormObjectMultipartRequestMarker.md
 docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
 docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 git_push.sh
@@ -56,5 +57,6 @@ src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Query.java
 src/main/java/org/openapitools/client/model/StringEnumRef.java
 src/main/java/org/openapitools/client/model/Tag.java
+src/main/java/org/openapitools/client/model/TestFormObjectMultipartRequestMarker.java
 src/main/java/org/openapitools/client/model/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.java
 src/main/java/org/openapitools/client/model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.java
