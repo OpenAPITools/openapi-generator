@@ -28,7 +28,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Assertions;
 
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 

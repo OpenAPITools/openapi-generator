@@ -34,7 +34,7 @@ import org.openapitools.model.Pet;
 import org.openapitools.model.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Assertions;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -109,7 +109,7 @@ public class PetApiTest {
     }
 
     private void validate(Object o) {
-        assertNotNull(o);
+        Assertions.assertNotNull(o);
         Set<ConstraintViolation<Object>> violations = validator.validate(o);
         if (!violations.isEmpty()) {
             StringBuilder message = new StringBuilder("Validation failed");

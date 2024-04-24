@@ -30,7 +30,7 @@ import java.util.Map;
 import org.openapitools.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Assertions;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

@@ -28,7 +28,7 @@ package org.openapitools.api;
 import org.openapitools.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Assertions;
 
 import javax.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
