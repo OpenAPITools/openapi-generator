@@ -177,11 +177,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals("[ {\n" +
-                     "  \"example_schema_property\" : \"example schema property value\"\n" +
-                     "}, {\n" +
-                     "  \"example_schema_property\" : \"example schema property value\"\n" +
-                     "} ]", examples.get(0).get("example"));
+        assertEquals(String.format(Locale.ROOT, "[ {%n  \"example_schema_property\" : \"example schema property value\"%n}, {%n  \"example_schema_property\" : \"example schema property value\"%n} ]"), examples.get(0).get("example"));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
@@ -268,11 +264,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals(String.format(Locale.ROOT, "{\n" +
-                                                "  \"example_schema_property_composed\" : \"example schema property value composed\",\n" +
-                                                "  \"example_schema_property_composed_parent\" : \"example schema property value composed parent\",\n" +
-                                                "  \"example_schema_property\" : \"example schema property value\"\n" +
-                                                "}"), examples.get(0).get("example"));
+        assertEquals(String.format(Locale.ROOT, "{%n  \"example_schema_property_composed\" : \"example schema property value composed\",%n  \"example_schema_property_composed_parent\" : \"example schema property value composed parent\",%n  \"example_schema_property\" : \"example schema property value\"%n}"), examples.get(0).get("example"));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
