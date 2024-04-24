@@ -54,7 +54,7 @@ export class PetService {
         if (pet === null || pet === undefined) {
             throw new Error('Required parameter pet was null or undefined when calling addPet.');
         }
-
+        
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -115,8 +115,7 @@ export class PetService {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
-
-
+        
         let headers = {...this.defaultHeaders};
         if (apiKey !== undefined && apiKey !== null) {
             headers['api_key'] = String(apiKey);
@@ -170,7 +169,7 @@ export class PetService {
         if (status === null || status === undefined) {
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
-
+        
         let queryParameters = new URLSearchParams();
         if (status) {
             queryParameters['status'] = status.join(COLLECTION_FORMATS['csv']);
@@ -229,7 +228,7 @@ export class PetService {
         if (tags === null || tags === undefined) {
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
-
+        
         let queryParameters = new URLSearchParams();
         if (tags) {
             queryParameters['tags'] = tags.join(COLLECTION_FORMATS['csv']);
@@ -288,7 +287,7 @@ export class PetService {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
-
+        
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -339,7 +338,7 @@ export class PetService {
         if (pet === null || pet === undefined) {
             throw new Error('Required parameter pet was null or undefined when calling updatePet.');
         }
-
+        
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -401,9 +400,7 @@ export class PetService {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
-
-
-
+        
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -478,9 +475,7 @@ export class PetService {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
-
-
-
+        
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);

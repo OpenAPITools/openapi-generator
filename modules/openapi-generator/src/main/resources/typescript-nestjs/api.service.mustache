@@ -20,7 +20,6 @@ import { {{classname}}Interface } from './{{classFilename}}Interface';
 {{/withInterfaces}}
 
 {{#operations}}
-
 {{#useSingleRequestParameter}}
 {{#operation}}
 {{#allParams.0}}
@@ -108,6 +107,7 @@ const {
     {{paramName}},
 {{/allParams}}
 } = requestParameters;
+
 {{/useSingleRequestParameter}}
 
 {{#allParams}}
@@ -119,10 +119,10 @@ const {
         if ({{paramName}} === null || {{paramName}} === undefined) {
             throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
         }
+        
         {{/isConstEnumParam}}
 {{/required}}
 {{/allParams}}
-
 {{#hasQueryParams}}
         let queryParameters = new URLSearchParams();
 {{#queryParams}}
