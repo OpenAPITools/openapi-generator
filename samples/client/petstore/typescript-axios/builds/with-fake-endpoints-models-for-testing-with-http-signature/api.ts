@@ -175,7 +175,7 @@ export interface ArrayTest {
  * @interface Banana
  */
 export interface Banana {
-    [key: string]: unknown | unknown;
+    [key: string]: unknown;
 
     /**
      * 
@@ -1208,7 +1208,7 @@ export interface Tag {
  * @interface TestInlineFreeformAdditionalPropertiesRequest
  */
 export interface TestInlineFreeformAdditionalPropertiesRequest {
-    [key: string]: unknown | unknown;
+    [key: string]: unknown;
 
     /**
      * 

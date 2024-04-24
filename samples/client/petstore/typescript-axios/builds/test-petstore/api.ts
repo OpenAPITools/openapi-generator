@@ -1533,7 +1533,7 @@ export interface Tag {
  * @interface TestInlineFreeformAdditionalPropertiesRequest
  */
 export interface TestInlineFreeformAdditionalPropertiesRequest {
-    [key: string]: unknown | unknown;
+    [key: string]: unknown;
 
     /**
      * 
@@ -1671,7 +1671,7 @@ export interface Whale {
  * @interface Zebra
  */
 export interface Zebra {
-    [key: string]: unknown | unknown;
+    [key: string]: unknown;
 
     /**
      * 
