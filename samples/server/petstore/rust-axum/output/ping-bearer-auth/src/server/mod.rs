@@ -30,7 +30,6 @@ where
 fn ping_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// PingGet - GET /ping
 #[tracing::instrument(skip_all)]
 async fn ping_get<I, A>(
@@ -61,7 +60,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            PingGetResponse::OK => {
+            PingGetResponse::Status201_OK => {
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }

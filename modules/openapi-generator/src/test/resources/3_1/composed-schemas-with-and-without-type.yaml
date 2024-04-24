@@ -1,0 +1,83 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /pets:
+    patch:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              oneOf:
+                - $ref: '#/components/schemas/Cat'
+                - $ref: '#/components/schemas/Dog'
+                - description: Any kind of pet
+              discriminator:
+                propertyName: pet_type
+      responses:
+        '200':
+          description: Updated
+  /pets-filtered:
+    patch:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: '#/components/schemas/PetByAge'
+                - $ref: '#/components/schemas/PetByType'
+                - description: Any kind of filter
+      responses:
+        '200':
+          description: Updated
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - pet_type
+    Dog:
+      allOf:
+        - description: Dog information
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            bark:
+              type: boolean
+            breed:
+              type: string
+              enum: [Dingo, Husky, Retriever, Shepherd]
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            hunts:
+              type: boolean
+            age:
+              type: integer
+    PetByAge:
+      type: object
+      properties:
+        age:
+          type: integer
+        nickname:
+          type: string
+      required:
+        - age
+    PetByType:
+      type: object
+      properties:
+        pet_type:
+          type: string
+          enum: [Cat, Dog]
+        hunts:
+          type: boolean
+      required:
+        - pet_type

@@ -77,7 +77,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterTest ext
     public function testTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -86,7 +86,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterTest ext
     public function testPropertySize()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -95,7 +95,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterTest ext
     public function testPropertyColor()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -104,7 +104,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterTest ext
     public function testPropertyId()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -113,6 +113,6 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterTest ext
     public function testPropertyName()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

@@ -149,6 +149,115 @@ func (a *FormAPIService) TestFormIntegerBooleanStringExecute(r ApiTestFormIntege
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiTestFormObjectMultipartRequest struct {
+	ctx context.Context
+	ApiService *FormAPIService
+	marker *TestFormObjectMultipartRequestMarker
+}
+
+func (r ApiTestFormObjectMultipartRequest) Marker(marker TestFormObjectMultipartRequestMarker) ApiTestFormObjectMultipartRequest {
+	r.marker = &marker
+	return r
+}
+
+func (r ApiTestFormObjectMultipartRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.TestFormObjectMultipartExecute(r)
+}
+
+/*
+TestFormObjectMultipart Test form parameter(s) for multipart schema
+
+Test form parameter(s) for multipart schema
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiTestFormObjectMultipartRequest
+*/
+func (a *FormAPIService) TestFormObjectMultipart(ctx context.Context) ApiTestFormObjectMultipartRequest {
+	return ApiTestFormObjectMultipartRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return string
+func (a *FormAPIService) TestFormObjectMultipartExecute(r ApiTestFormObjectMultipartRequest) (string, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  string
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FormAPIService.TestFormObjectMultipart")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/form/object/multipart"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.marker == nil {
+		return localVarReturnValue, nil, reportError("marker is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"multipart/form-data"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"text/plain"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarFormParams, "marker", r.marker, "")
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiTestFormOneofRequest struct {
 	ctx context.Context
 	ApiService *FormAPIService

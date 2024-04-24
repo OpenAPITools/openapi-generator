@@ -15,7 +15,7 @@ jobs:
         sample:
           # clients
           - samples/client/echo_api/python
-          - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent-true
+          - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent
         python-version:
           - "3.7"
           - "3.8"

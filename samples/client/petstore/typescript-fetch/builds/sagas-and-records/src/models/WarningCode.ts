@@ -25,6 +25,10 @@ export const WarningCode = {
 export type WarningCode = typeof WarningCode[keyof typeof WarningCode];
 
 
+export function instanceOfWarningCode(value: any): boolean {
+    return Object.values(WarningCode).includes(value);
+}
+
 export function WarningCodeFromJSON(json: any): WarningCode {
     return WarningCodeFromJSONTyped(json, false);
 }

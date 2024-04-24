@@ -76,6 +76,6 @@ class SingleRefTypeTest extends TestCase
     public function testSingleRefType()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

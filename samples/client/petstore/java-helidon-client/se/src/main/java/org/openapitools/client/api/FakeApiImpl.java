@@ -81,6 +81,7 @@ public class FakeApiImpl implements FakeApi {
   protected static final GenericType<Void> RESPONSE_TYPE_testJsonFormData = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testNullable = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testQueryParameterCollectionFormat = ResponseType.create(Void.class);
+  protected static final GenericType<Void> RESPONSE_TYPE_testStringMapReference = ResponseType.create(Void.class);
 
   /**
    * Creates a new instance of FakeApiImpl initialized with the specified {@link ApiClient}.
@@ -689,14 +690,14 @@ public class FakeApiImpl implements FakeApi {
    * Creates a {@code WebClientRequestBuilder} for the testEnumParameters operation.
    * Optional customization point for subclasses.
    *
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @param enumQueryModelArray  (optional
-   * @param enumFormStringArray Form parameter enum test (string array) (optional
+   * @param enumQueryModelArray  (optional)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @return WebClientRequestBuilder for testEnumParameters
    */
@@ -732,14 +733,14 @@ public class FakeApiImpl implements FakeApi {
    * Optional customization point for subclasses.
    *
    * @param webClientRequestBuilder the request builder to use for submitting the request
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @param enumQueryModelArray  (optional
-   * @param enumFormStringArray Form parameter enum test (string array) (optional
+   * @param enumQueryModelArray  (optional)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @return {@code ApiResponse<Void>} for the submitted request
    */
@@ -997,7 +998,7 @@ public class FakeApiImpl implements FakeApi {
    * @param url  (required)
    * @param context  (required)
    * @param allowEmpty  (required)
-   * @param language  (optional
+   * @param language  (optional)
    * @return WebClientRequestBuilder for testQueryParameterCollectionFormat
    */
   protected WebClientRequestBuilder testQueryParameterCollectionFormatRequestBuilder(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) {
@@ -1031,12 +1032,50 @@ public class FakeApiImpl implements FakeApi {
    * @param url  (required)
    * @param context  (required)
    * @param allowEmpty  (required)
-   * @param language  (optional
+   * @param language  (optional)
    * @return {@code ApiResponse<Void>} for the submitted request
    */
   protected ApiResponse<Void> testQueryParameterCollectionFormatSubmit(WebClientRequestBuilder webClientRequestBuilder, List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) {
     Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit();
     return ApiResponse.create(RESPONSE_TYPE_testQueryParameterCollectionFormat, webClientResponse);
+  }
+
+  @Override
+  public ApiResponse<Void> testStringMapReference(Map<String, String> requestBody) {
+    Objects.requireNonNull(requestBody, "Required parameter 'requestBody' not specified");
+    WebClientRequestBuilder webClientRequestBuilder = testStringMapReferenceRequestBuilder(requestBody);
+    return testStringMapReferenceSubmit(webClientRequestBuilder, requestBody);
+  }
+
+  /**
+   * Creates a {@code WebClientRequestBuilder} for the testStringMapReference operation.
+   * Optional customization point for subclasses.
+   *
+   * @param requestBody request body (required)
+   * @return WebClientRequestBuilder for testStringMapReference
+   */
+  protected WebClientRequestBuilder testStringMapReferenceRequestBuilder(Map<String, String> requestBody) {
+    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
+            .method("POST");
+
+    webClientRequestBuilder.path("/fake/stringMap-reference");
+    webClientRequestBuilder.contentType(MediaType.APPLICATION_JSON);
+    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+
+    return webClientRequestBuilder;
+  }
+
+  /**
+   * Initiates the request for the testStringMapReference operation.
+   * Optional customization point for subclasses.
+   *
+   * @param webClientRequestBuilder the request builder to use for submitting the request
+   * @param requestBody request body (required)
+   * @return {@code ApiResponse<Void>} for the submitted request
+   */
+  protected ApiResponse<Void> testStringMapReferenceSubmit(WebClientRequestBuilder webClientRequestBuilder, Map<String, String> requestBody) {
+    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(requestBody);
+    return ApiResponse.create(RESPONSE_TYPE_testStringMapReference, webClientResponse);
   }
 
 }

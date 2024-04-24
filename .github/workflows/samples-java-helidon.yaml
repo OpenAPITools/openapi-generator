@@ -29,7 +29,7 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.version }}
       - name: Cache maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: maven-repository
         with:

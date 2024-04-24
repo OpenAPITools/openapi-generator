@@ -551,7 +551,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     List<Pair> params = new ArrayList<Pair>();
 
     // preconditions
-    if (name == null || name.isEmpty() || value == null) {
+    if (name == null || name.isEmpty() || value == null || value.isEmpty()) {
       return params;
     }
 

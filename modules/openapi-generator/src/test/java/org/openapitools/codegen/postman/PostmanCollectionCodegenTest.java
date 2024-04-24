@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.junit.Assert;
-import org.junit.Test;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PostmanCollectionCodegen;
+import org.testng.annotations.Test;
 
 import java.io.File;
 
@@ -602,11 +602,12 @@ public class PostmanCollectionCodegenTest {
     @Test
     public void convertLinkedHashMapToJson() {
 
-        final String EXPECTED = "{\\n \\\"id\\\": 1,\\n \\\"city\\\": \\\"Amsterdam\\\"\\n}";
+        final String EXPECTED = "{\\n \\\"id\\\": 1,\\n \\\"city\\\": \\\"Amsterdam\\\",\\n \\\"safe\\\": true\\n}";
 
         LinkedHashMap<String, Object> city = new LinkedHashMap<>();
         city.put("id", 1);
         city.put("city", "Amsterdam");
+        city.put("safe", true);
 
         assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
 
@@ -628,6 +629,46 @@ public class PostmanCollectionCodegenTest {
         country.put("id", 2);
         country.put("code", "NL");
         city.put("country", country);
+
+        assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
+
+    }
+
+    @Test
+    public void convertNestedArrayListToJson() {
+
+        final String EXPECTED =
+                "{\\n " +
+                        "\\\"id\\\": 1,\\n \\\"city\\\": \\\"Amsterdam\\\",\\n " +
+                        "\\\"tags\\\": [\\\"ams\\\", \\\"adam\\\"]" +
+                        "\\n}";
+
+        LinkedHashMap<String, Object> city = new LinkedHashMap<>();
+        city.put("id", 1);
+        city.put("city", "Amsterdam");
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("ams");
+        tags.add("adam");
+        city.put("tags", tags);
+
+        assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
+
+    }
+
+    @Test
+    public void convertNestedEmptyArrayListToJson() {
+
+        final String EXPECTED =
+                "{\\n " +
+                        "\\\"id\\\": 1,\\n \\\"city\\\": \\\"Amsterdam\\\",\\n " +
+                        "\\\"tags\\\": []" +
+                        "\\n}";
+
+        LinkedHashMap<String, Object> city = new LinkedHashMap<>();
+        city.put("id", 1);
+        city.put("city", "Amsterdam");
+        ArrayList<String> tags = new ArrayList<>();
+        city.put("tags", tags);
 
         assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
 

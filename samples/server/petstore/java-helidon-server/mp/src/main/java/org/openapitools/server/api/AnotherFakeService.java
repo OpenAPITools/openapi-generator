@@ -23,7 +23,7 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("/another-fake/dummy")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public interface AnotherFakeService {
 
     @PATCH

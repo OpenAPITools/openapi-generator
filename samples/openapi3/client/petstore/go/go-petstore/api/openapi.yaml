@@ -923,6 +923,23 @@ paths:
       summary: test referenced additionalProperties
       tags:
       - fake
+  /fake/stringMap-reference:
+    post:
+      description: ""
+      operationId: testStringMapReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced string map
+      tags:
+      - fake
   /fake/inline-additionalProperties:
     post:
       description: ""
@@ -1245,13 +1262,33 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   schemas:
+    MapWithDateTime:
+      additionalProperties:
+        items:
+          format: date-time
+          type: string
+        type: array
+      type: object
     Foo:
       example:
         bar: bar
+        map:
+          key:
+          - 2000-01-23T04:56:07.000+00:00
+          - 2000-01-23T04:56:07.000+00:00
       properties:
         bar:
           default: bar
           type: string
+        map:
+          additionalProperties:
+            items:
+              format: date-time
+              type: string
+            type: array
+          type: object
+      required:
+      - bar
       type: object
     Bar:
       default: bar
@@ -1785,6 +1822,11 @@ components:
       additionalProperties: true
       description: A schema consisting only of additional properties
       type: object
+    MapOfString:
+      additionalProperties:
+        type: string
+      description: A schema consisting only of additional properties of type string
+      type: object
     OuterEnum:
       enum:
       - placed
@@ -2122,10 +2164,21 @@ components:
           type: string
         type_:
           type: string
+    IncidentData:
+      nullable: true
+      oneOf:
+      - items:
+          type: object
+        type: array
+      - type: object
     _foo_get_default_response:
       example:
         string:
           bar: bar
+          map:
+            key:
+            - 2000-01-23T04:56:07.000+00:00
+            - 2000-01-23T04:56:07.000+00:00
       properties:
         string:
           $ref: '#/components/schemas/Foo'

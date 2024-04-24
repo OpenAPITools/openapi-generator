@@ -47,6 +47,7 @@ docs/FruitReq.md
 docs/GmFruit.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
+docs/IncidentData.md
 docs/List.md
 docs/Mammal.md
 docs/MapOfFileTest.md
@@ -118,6 +119,7 @@ model_fruit_req.go
 model_gm_fruit.go
 model_has_only_read_only.go
 model_health_check_result.go
+model_incident_data.go
 model_list.go
 model_mammal.go
 model_map_of_file_test_.go

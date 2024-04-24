@@ -146,6 +146,13 @@
             <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
         {{/hateoas}}
+        {{#lombok}}
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <optional>true</optional>
+            </dependency>
+        {{/lombok}}
         {{#useBeanValidation}}
         <dependency>
             <groupId>org.springframework.boot</groupId>

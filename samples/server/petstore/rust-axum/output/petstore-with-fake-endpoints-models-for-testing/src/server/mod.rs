@@ -118,7 +118,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct TestSpecialTagsBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::Client,
 }
 
@@ -131,7 +131,6 @@ fn test_special_tags_validation(
 
     Ok((body,))
 }
-
 /// TestSpecialTags - PATCH /v2/another-fake/dummy
 #[tracing::instrument(skip_all)]
 async fn test_special_tags<I, A>(
@@ -166,7 +165,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            TestSpecialTagsResponse::SuccessfulOperation(body) => {
+            TestSpecialTagsResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -207,7 +206,6 @@ where
 fn call123example_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// Call123example - GET /v2/fake/operation-with-numeric-id
 #[tracing::instrument(skip_all)]
 async fn call123example<I, A>(
@@ -241,7 +239,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            Call123exampleResponse::Success => {
+            Call123exampleResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -262,7 +260,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct FakeOuterBooleanSerializeBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::OuterBoolean,
 }
 
@@ -277,7 +275,6 @@ fn fake_outer_boolean_serialize_validation(
 
     Ok((body,))
 }
-
 /// FakeOuterBooleanSerialize - POST /v2/fake/outer/boolean
 #[tracing::instrument(skip_all)]
 async fn fake_outer_boolean_serialize<I, A>(
@@ -313,7 +310,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FakeOuterBooleanSerializeResponse::OutputBoolean(body) => {
+            FakeOuterBooleanSerializeResponse::Status200_OutputBoolean(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -353,7 +350,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct FakeOuterCompositeSerializeBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::OuterComposite,
 }
 
@@ -368,7 +365,6 @@ fn fake_outer_composite_serialize_validation(
 
     Ok((body,))
 }
-
 /// FakeOuterCompositeSerialize - POST /v2/fake/outer/composite
 #[tracing::instrument(skip_all)]
 async fn fake_outer_composite_serialize<I, A>(
@@ -404,7 +400,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FakeOuterCompositeSerializeResponse::OutputComposite(body) => {
+            FakeOuterCompositeSerializeResponse::Status200_OutputComposite(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -444,7 +440,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct FakeOuterNumberSerializeBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::OuterNumber,
 }
 
@@ -459,7 +455,6 @@ fn fake_outer_number_serialize_validation(
 
     Ok((body,))
 }
-
 /// FakeOuterNumberSerialize - POST /v2/fake/outer/number
 #[tracing::instrument(skip_all)]
 async fn fake_outer_number_serialize<I, A>(
@@ -495,7 +490,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FakeOuterNumberSerializeResponse::OutputNumber(body) => {
+            FakeOuterNumberSerializeResponse::Status200_OutputNumber(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -535,7 +530,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct FakeOuterStringSerializeBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::OuterString,
 }
 
@@ -550,7 +545,6 @@ fn fake_outer_string_serialize_validation(
 
     Ok((body,))
 }
-
 /// FakeOuterStringSerialize - POST /v2/fake/outer/string
 #[tracing::instrument(skip_all)]
 async fn fake_outer_string_serialize<I, A>(
@@ -586,7 +580,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FakeOuterStringSerializeResponse::OutputString(body) => {
+            FakeOuterStringSerializeResponse::Status200_OutputString(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -628,7 +622,6 @@ fn fake_response_with_numerical_description_validation() -> std::result::Result<
 {
     Ok(())
 }
-
 /// FakeResponseWithNumericalDescription - GET /v2/fake/response-with-numerical-description
 #[tracing::instrument(skip_all)]
 async fn fake_response_with_numerical_description<I, A>(
@@ -689,7 +682,6 @@ fn hyphen_param_validation(
 
     Ok((path_params,))
 }
-
 /// HyphenParam - GET /v2/fake/hyphenParam/{hyphen-param}
 #[tracing::instrument(skip_all)]
 async fn hyphen_param<I, A>(
@@ -724,7 +716,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            HyphenParamResponse::Success => {
+            HyphenParamResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -745,7 +737,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct TestBodyWithQueryParamsBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::User,
 }
 
@@ -761,7 +753,6 @@ fn test_body_with_query_params_validation(
 
     Ok((query_params, body))
 }
-
 /// TestBodyWithQueryParams - PUT /v2/fake/body-with-query-params
 #[tracing::instrument(skip_all)]
 async fn test_body_with_query_params<I, A>(
@@ -799,7 +790,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            TestBodyWithQueryParamsResponse::Success => {
+            TestBodyWithQueryParamsResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -820,7 +811,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct TestClientModelBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::Client,
 }
 
@@ -833,7 +824,6 @@ fn test_client_model_validation(
 
     Ok((body,))
 }
-
 /// TestClientModel - PATCH /v2/fake
 #[tracing::instrument(skip_all)]
 async fn test_client_model<I, A>(
@@ -868,7 +858,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            TestClientModelResponse::SuccessfulOperation(body) => {
+            TestClientModelResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -909,7 +899,6 @@ where
 fn test_endpoint_parameters_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// TestEndpointParameters - POST /v2/fake
 #[tracing::instrument(skip_all)]
 async fn test_endpoint_parameters<I, A>(
@@ -943,11 +932,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            TestEndpointParametersResponse::InvalidUsernameSupplied => {
+            TestEndpointParametersResponse::Status400_InvalidUsernameSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            TestEndpointParametersResponse::UserNotFound => {
+            TestEndpointParametersResponse::Status404_UserNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -981,7 +970,6 @@ fn test_enum_parameters_validation(
 
     Ok((header_params, query_params))
 }
-
 /// TestEnumParameters - GET /v2/fake
 #[tracing::instrument(skip_all)]
 async fn test_enum_parameters<I, A>(
@@ -1069,11 +1057,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            TestEnumParametersResponse::InvalidRequest => {
+            TestEnumParametersResponse::Status400_InvalidRequest => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            TestEnumParametersResponse::NotFound => {
+            TestEnumParametersResponse::Status404_NotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1106,7 +1094,6 @@ fn test_inline_additional_properties_validation(
 
     Ok((body,))
 }
-
 /// TestInlineAdditionalProperties - POST /v2/fake/inline-additionalProperties
 #[tracing::instrument(skip_all)]
 async fn test_inline_additional_properties<I, A>(
@@ -1142,7 +1129,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            TestInlineAdditionalPropertiesResponse::SuccessfulOperation => {
+            TestInlineAdditionalPropertiesResponse::Status200_SuccessfulOperation => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1164,7 +1151,6 @@ where
 fn test_json_form_data_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// TestJsonFormData - GET /v2/fake/jsonFormData
 #[tracing::instrument(skip_all)]
 async fn test_json_form_data<I, A>(
@@ -1198,7 +1184,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            TestJsonFormDataResponse::SuccessfulOperation => {
+            TestJsonFormDataResponse::Status200_SuccessfulOperation => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1219,7 +1205,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct TestClassnameBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::Client,
 }
 
@@ -1232,7 +1218,6 @@ fn test_classname_validation(
 
     Ok((body,))
 }
-
 /// TestClassname - PATCH /v2/fake_classname_test
 #[tracing::instrument(skip_all)]
 async fn test_classname<I, A>(
@@ -1267,7 +1252,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            TestClassnameResponse::SuccessfulOperation(body) => {
+            TestClassnameResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1307,7 +1292,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct AddPetBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::Pet,
 }
 
@@ -1318,7 +1303,6 @@ fn add_pet_validation(body: models::Pet) -> std::result::Result<(models::Pet,), 
 
     Ok((body,))
 }
-
 /// AddPet - POST /v2/pet
 #[tracing::instrument(skip_all)]
 async fn add_pet<I, A>(
@@ -1350,7 +1334,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            AddPetResponse::InvalidInput => {
+            AddPetResponse::Status405_InvalidInput => {
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -1381,7 +1365,6 @@ fn delete_pet_validation(
 
     Ok((header_params, path_params))
 }
-
 /// DeletePet - DELETE /v2/pet/{petId}
 #[tracing::instrument(skip_all)]
 async fn delete_pet<I, A>(
@@ -1443,7 +1426,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DeletePetResponse::InvalidPetValue => {
+            DeletePetResponse::Status400_InvalidPetValue => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1469,7 +1452,6 @@ fn find_pets_by_status_validation(
 
     Ok((query_params,))
 }
-
 /// FindPetsByStatus - GET /v2/pet/findByStatus
 #[tracing::instrument(skip_all)]
 async fn find_pets_by_status<I, A>(
@@ -1505,7 +1487,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FindPetsByStatusResponse::SuccessfulOperation(body) => {
+            FindPetsByStatusResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1521,7 +1503,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            FindPetsByStatusResponse::InvalidStatusValue => {
+            FindPetsByStatusResponse::Status400_InvalidStatusValue => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1547,7 +1529,6 @@ fn find_pets_by_tags_validation(
 
     Ok((query_params,))
 }
-
 /// FindPetsByTags - GET /v2/pet/findByTags
 #[tracing::instrument(skip_all)]
 async fn find_pets_by_tags<I, A>(
@@ -1583,7 +1564,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FindPetsByTagsResponse::SuccessfulOperation(body) => {
+            FindPetsByTagsResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1599,7 +1580,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            FindPetsByTagsResponse::InvalidTagValue => {
+            FindPetsByTagsResponse::Status400_InvalidTagValue => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1625,7 +1606,6 @@ fn get_pet_by_id_validation(
 
     Ok((path_params,))
 }
-
 /// GetPetById - GET /v2/pet/{petId}
 #[tracing::instrument(skip_all)]
 async fn get_pet_by_id<I, A>(
@@ -1660,7 +1640,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetPetByIdResponse::SuccessfulOperation(body) => {
+            GetPetByIdResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1676,11 +1656,11 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            GetPetByIdResponse::InvalidIDSupplied => {
+            GetPetByIdResponse::Status400_InvalidIDSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            GetPetByIdResponse::PetNotFound => {
+            GetPetByIdResponse::Status404_PetNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1701,7 +1681,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct UpdatePetBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::Pet,
 }
 
@@ -1714,7 +1694,6 @@ fn update_pet_validation(
 
     Ok((body,))
 }
-
 /// UpdatePet - PUT /v2/pet
 #[tracing::instrument(skip_all)]
 async fn update_pet<I, A>(
@@ -1749,15 +1728,15 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UpdatePetResponse::InvalidIDSupplied => {
+            UpdatePetResponse::Status400_InvalidIDSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            UpdatePetResponse::PetNotFound => {
+            UpdatePetResponse::Status404_PetNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
-            UpdatePetResponse::ValidationException => {
+            UpdatePetResponse::Status405_ValidationException => {
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -1783,7 +1762,6 @@ fn update_pet_with_form_validation(
 
     Ok((path_params,))
 }
-
 /// UpdatePetWithForm - POST /v2/pet/{petId}
 #[tracing::instrument(skip_all)]
 async fn update_pet_with_form<I, A>(
@@ -1819,7 +1797,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UpdatePetWithFormResponse::InvalidInput => {
+            UpdatePetWithFormResponse::Status405_InvalidInput => {
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -1845,7 +1823,6 @@ fn upload_file_validation(
 
     Ok((path_params,))
 }
-
 /// UploadFile - POST /v2/pet/{petId}/uploadImage
 #[tracing::instrument(skip_all)]
 async fn upload_file<I, A>(
@@ -1881,7 +1858,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UploadFileResponse::SuccessfulOperation(body) => {
+            UploadFileResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1926,7 +1903,6 @@ fn delete_order_validation(
 
     Ok((path_params,))
 }
-
 /// DeleteOrder - DELETE /v2/store/order/{order_id}
 #[tracing::instrument(skip_all)]
 async fn delete_order<I, A>(
@@ -1961,11 +1937,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DeleteOrderResponse::InvalidIDSupplied => {
+            DeleteOrderResponse::Status400_InvalidIDSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            DeleteOrderResponse::OrderNotFound => {
+            DeleteOrderResponse::Status404_OrderNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1987,7 +1963,6 @@ where
 fn get_inventory_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// GetInventory - GET /v2/store/inventory
 #[tracing::instrument(skip_all)]
 async fn get_inventory<I, A>(
@@ -2018,7 +1993,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetInventoryResponse::SuccessfulOperation(body) => {
+            GetInventoryResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -2063,7 +2038,6 @@ fn get_order_by_id_validation(
 
     Ok((path_params,))
 }
-
 /// GetOrderById - GET /v2/store/order/{order_id}
 #[tracing::instrument(skip_all)]
 async fn get_order_by_id<I, A>(
@@ -2098,7 +2072,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetOrderByIdResponse::SuccessfulOperation(body) => {
+            GetOrderByIdResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -2114,11 +2088,11 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            GetOrderByIdResponse::InvalidIDSupplied => {
+            GetOrderByIdResponse::Status400_InvalidIDSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            GetOrderByIdResponse::OrderNotFound => {
+            GetOrderByIdResponse::Status404_OrderNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -2139,7 +2113,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct PlaceOrderBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::Order,
 }
 
@@ -2152,7 +2126,6 @@ fn place_order_validation(
 
     Ok((body,))
 }
-
 /// PlaceOrder - POST /v2/store/order
 #[tracing::instrument(skip_all)]
 async fn place_order<I, A>(
@@ -2187,7 +2160,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            PlaceOrderResponse::SuccessfulOperation(body) => {
+            PlaceOrderResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -2203,7 +2176,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            PlaceOrderResponse::InvalidOrder => {
+            PlaceOrderResponse::Status400_InvalidOrder => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -2224,7 +2197,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct CreateUserBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::User,
 }
 
@@ -2237,7 +2210,6 @@ fn create_user_validation(
 
     Ok((body,))
 }
-
 /// CreateUser - POST /v2/user
 #[tracing::instrument(skip_all)]
 async fn create_user<I, A>(
@@ -2272,7 +2244,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            CreateUserResponse::SuccessfulOperation => {
+            CreateUserResponse::Status0_SuccessfulOperation => {
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -2293,7 +2265,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct CreateUsersWithArrayInputBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a Vec<models::User>,
 }
 
@@ -2306,7 +2278,6 @@ fn create_users_with_array_input_validation(
 
     Ok((body,))
 }
-
 /// CreateUsersWithArrayInput - POST /v2/user/createWithArray
 #[tracing::instrument(skip_all)]
 async fn create_users_with_array_input<I, A>(
@@ -2342,7 +2313,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            CreateUsersWithArrayInputResponse::SuccessfulOperation => {
+            CreateUsersWithArrayInputResponse::Status0_SuccessfulOperation => {
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -2363,7 +2334,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct CreateUsersWithListInputBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a Vec<models::User>,
 }
 
@@ -2376,7 +2347,6 @@ fn create_users_with_list_input_validation(
 
     Ok((body,))
 }
-
 /// CreateUsersWithListInput - POST /v2/user/createWithList
 #[tracing::instrument(skip_all)]
 async fn create_users_with_list_input<I, A>(
@@ -2412,7 +2382,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            CreateUsersWithListInputResponse::SuccessfulOperation => {
+            CreateUsersWithListInputResponse::Status0_SuccessfulOperation => {
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -2438,7 +2408,6 @@ fn delete_user_validation(
 
     Ok((path_params,))
 }
-
 /// DeleteUser - DELETE /v2/user/{username}
 #[tracing::instrument(skip_all)]
 async fn delete_user<I, A>(
@@ -2473,11 +2442,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DeleteUserResponse::InvalidUsernameSupplied => {
+            DeleteUserResponse::Status400_InvalidUsernameSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            DeleteUserResponse::UserNotFound => {
+            DeleteUserResponse::Status404_UserNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -2503,7 +2472,6 @@ fn get_user_by_name_validation(
 
     Ok((path_params,))
 }
-
 /// GetUserByName - GET /v2/user/{username}
 #[tracing::instrument(skip_all)]
 async fn get_user_by_name<I, A>(
@@ -2538,7 +2506,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetUserByNameResponse::SuccessfulOperation(body) => {
+            GetUserByNameResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -2554,11 +2522,11 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            GetUserByNameResponse::InvalidUsernameSupplied => {
+            GetUserByNameResponse::Status400_InvalidUsernameSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            GetUserByNameResponse::UserNotFound => {
+            GetUserByNameResponse::Status404_UserNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -2584,7 +2552,6 @@ fn login_user_validation(
 
     Ok((query_params,))
 }
-
 /// LoginUser - GET /v2/user/login
 #[tracing::instrument(skip_all)]
 async fn login_user<I, A>(
@@ -2619,7 +2586,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            LoginUserResponse::SuccessfulOperation {
+            LoginUserResponse::Status200_SuccessfulOperation {
                 body,
                 x_rate_limit,
                 x_expires_after,
@@ -2636,8 +2603,7 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("x-rate-limit"), x_rate_limit);
+                        response_headers.insert(HeaderName::from_static(""), x_rate_limit);
                     }
                 }
                 if let Some(x_expires_after) = x_expires_after {
@@ -2653,8 +2619,7 @@ where
 
                     {
                         let mut response_headers = response.headers_mut().unwrap();
-                        response_headers
-                            .insert(HeaderName::from_static("x-expires-after"), x_expires_after);
+                        response_headers.insert(HeaderName::from_static(""), x_expires_after);
                     }
                 }
 
@@ -2673,7 +2638,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            LoginUserResponse::InvalidUsername => {
+            LoginUserResponse::Status400_InvalidUsername => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -2695,7 +2660,6 @@ where
 fn logout_user_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// LogoutUser - GET /v2/user/logout
 #[tracing::instrument(skip_all)]
 async fn logout_user<I, A>(
@@ -2726,7 +2690,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            LogoutUserResponse::SuccessfulOperation => {
+            LogoutUserResponse::Status0_SuccessfulOperation => {
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -2747,7 +2711,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct UpdateUserBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::User,
 }
 
@@ -2762,7 +2726,6 @@ fn update_user_validation(
 
     Ok((path_params, body))
 }
-
 /// UpdateUser - PUT /v2/user/{username}
 #[tracing::instrument(skip_all)]
 async fn update_user<I, A>(
@@ -2798,11 +2761,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UpdateUserResponse::InvalidUserSupplied => {
+            UpdateUserResponse::Status400_InvalidUserSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            UpdateUserResponse::UserNotFound => {
+            UpdateUserResponse::Status404_UserNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }

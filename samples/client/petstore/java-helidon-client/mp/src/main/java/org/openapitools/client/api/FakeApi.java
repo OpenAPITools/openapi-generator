@@ -201,4 +201,13 @@ public interface FakeApi  {
     @PUT
     @Path("/test-query-parameters")
     void testQueryParameterCollectionFormat(@QueryParam("pipe") List<String> pipe, @QueryParam("ioutil") List<String> ioutil, @QueryParam("http") List<String> http, @QueryParam("url") List<String> url, @QueryParam("context") List<String> context, @QueryParam("allowEmpty") String allowEmpty, @QueryParam("language") Map<String, String> language) throws ApiException, ProcessingException;
+
+    /**
+     * test referenced string map
+     * 
+     */
+    @POST
+    @Path("/stringMap-reference")
+    @Consumes({ "application/json" })
+    void testStringMapReference(Map<String, String> requestBody) throws ApiException, ProcessingException;
 }

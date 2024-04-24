@@ -106,7 +106,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
     {{#multiplatform}}
     @Serializable
     {{/multiplatform}}
-    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
+    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInPascalCase}}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
     {{#allowableValues}}
     {{#enumVars}}
         {{^multiplatform}}
@@ -130,17 +130,17 @@ import {{packageName}}.infrastructure.ITransformForStorage
     {{/allowableValues}}
     }{{#kotlinx_serialization}}{{#enumUnknownDefaultCase}}
 
-    @Serializer(forClass = {{{nameInCamelCase}}}::class)
-    internal object {{nameInCamelCase}}Serializer : KSerializer<{{nameInCamelCase}}> {
+    @Serializer(forClass = {{{nameInPascalCase}}}::class)
+    internal object {{nameInPascalCase}}Serializer : KSerializer<{{nameInPascalCase}}> {
         override val descriptor = {{{dataType}}}.serializer().descriptor
 
-        override fun deserialize(decoder: Decoder): {{nameInCamelCase}} {
+        override fun deserialize(decoder: Decoder): {{nameInPascalCase}} {
             val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
-            return {{nameInCamelCase}}.values().firstOrNull { it.value == value }
-                ?: {{nameInCamelCase}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+            return {{nameInPascalCase}}.values().firstOrNull { it.value == value }
+                ?: {{nameInPascalCase}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
         }
 
-        override fun serialize(encoder: Encoder, value: {{nameInCamelCase}}) {
+        override fun serialize(encoder: Encoder, value: {{nameInPascalCase}}) {
             encoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
         }
     }{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}

@@ -9,6 +9,8 @@ Method | HTTP request | Description
 [**test_query_integer_boolean_string**](QueryApi.md#test_query_integer_boolean_string) | **GET** /query/integer/boolean/string | Test query parameter(s)
 [**test_query_style_deep_object_explode_true_object**](QueryApi.md#test_query_style_deep_object_explode_true_object) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
 [**test_query_style_deep_object_explode_true_object_all_of**](QueryApi.md#test_query_style_deep_object_explode_true_object_all_of) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
+[**test_query_style_form_explode_false_array_integer**](QueryApi.md#test_query_style_form_explode_false_array_integer) | **GET** /query/style_form/explode_false/array_integer | Test query parameter(s)
+[**test_query_style_form_explode_false_array_string**](QueryApi.md#test_query_style_form_explode_false_array_string) | **GET** /query/style_form/explode_false/array_string | Test query parameter(s)
 [**test_query_style_form_explode_true_array_string**](QueryApi.md#test_query_style_form_explode_true_array_string) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 [**test_query_style_form_explode_true_object**](QueryApi.md#test_query_style_form_explode_true_object) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 [**test_query_style_form_explode_true_object_all_of**](QueryApi.md#test_query_style_form_explode_true_object_all_of) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
@@ -335,6 +337,138 @@ with openapi_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](.md)|  | [optional] 
+
+### Return type
+
+**str**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_query_style_form_explode_false_array_integer**
+> str test_query_style_form_explode_false_array_integer(query_object=query_object)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```python
+import time
+import os
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:3000
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost:3000"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.QueryApi(api_client)
+    query_object = [56] # List[int] |  (optional)
+
+    try:
+        # Test query parameter(s)
+        api_response = api_instance.test_query_style_form_explode_false_array_integer(query_object=query_object)
+        print("The response of QueryApi->test_query_style_form_explode_false_array_integer:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling QueryApi->test_query_style_form_explode_false_array_integer: %s\n" % e)
+```
+
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query_object** | [**List[int]**](int.md)|  | [optional] 
+
+### Return type
+
+**str**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_query_style_form_explode_false_array_string**
+> str test_query_style_form_explode_false_array_string(query_object=query_object)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```python
+import time
+import os
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:3000
+# See configuration.py for a list of all supported configuration parameters.
+configuration = openapi_client.Configuration(
+    host = "http://localhost:3000"
+)
+
+
+# Enter a context with an instance of the API client
+with openapi_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = openapi_client.QueryApi(api_client)
+    query_object = ['query_object_example'] # List[str] |  (optional)
+
+    try:
+        # Test query parameter(s)
+        api_response = api_instance.test_query_style_form_explode_false_array_string(query_object=query_object)
+        print("The response of QueryApi->test_query_style_form_explode_false_array_string:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling QueryApi->test_query_style_form_explode_false_array_string: %s\n" % e)
+```
+
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query_object** | [**List[str]**](str.md)|  | [optional] 
 
 ### Return type
 

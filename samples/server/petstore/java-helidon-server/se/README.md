@@ -34,6 +34,7 @@ curl -X POST http://petstore.swagger.io:80/v2/fake/inline-freeform-additionalPro
 curl -X GET http://petstore.swagger.io:80/v2/fake/jsonFormData
 curl -X POST http://petstore.swagger.io:80/v2/fake/nullable
 curl -X PUT http://petstore.swagger.io:80/v2/fake/test-query-parameters
+curl -X POST http://petstore.swagger.io:80/v2/fake/stringMap-reference
 curl -X PATCH http://petstore.swagger.io:80/v2/fake_classname_test
 curl -X POST http://petstore.swagger.io:80/v2/pet
 curl -X DELETE http://petstore.swagger.io:80/v2/pet/{petId}

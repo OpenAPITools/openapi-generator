@@ -111,6 +111,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
+                .includeDataTypeFeatures(
+                        DataTypeFeature.AnyType)
         );
 
         apiPackage = "org.openapitools.client.api";
@@ -174,6 +176,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         importMapping.put("std::string", "#include <string>");
         importMapping.put("HttpContent", "#include \"HttpContent.h\"");
         importMapping.put("Object", "#include \"Object.h\"");
+        importMapping.put("AnyType", "#include \"AnyType.h\"");
         importMapping.put("utility::string_t", "#include <cpprest/details/basic_types.h>");
         importMapping.put("utility::datetime", "#include <cpprest/details/basic_types.h>");
     }
@@ -214,11 +217,14 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
         importMapping.put("HttpContent", "#include \"" + packageName + "/" + "HttpContent.h\"");
         importMapping.put("Object", "#include \"" + packageName + "/" + "Object.h\"");
+        importMapping.put("AnyType", "#include \"" + packageName + "/" + "AnyType.h\"");
 
         supportingFiles.add(new SupportingFile("modelbase-header.mustache", getHeaderFolder(), "ModelBase.h"));
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", getSourceFolder(), "ModelBase.cpp"));
         supportingFiles.add(new SupportingFile("object-header.mustache", getHeaderFolder(), "Object.h"));
         supportingFiles.add(new SupportingFile("object-source.mustache", getSourceFolder(), "Object.cpp"));
+        supportingFiles.add(new SupportingFile("anytype-header.mustache", getHeaderFolder(), "AnyType.h"));
+        supportingFiles.add(new SupportingFile("anytype-source.mustache", getSourceFolder(), "AnyType.cpp"));
         supportingFiles.add(new SupportingFile("apiclient-header.mustache", getHeaderFolder(), "ApiClient.h"));
         supportingFiles.add(new SupportingFile("apiclient-source.mustache", getSourceFolder(), "ApiClient.cpp"));
         supportingFiles.add(new SupportingFile("apiconfiguration-header.mustache", getHeaderFolder(), "ApiConfiguration.h"));
@@ -367,8 +373,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         String openAPIType = getSchemaType(p);
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -407,8 +412,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<utility::string_t, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             if (!languageSpecificPrimitives.contains(inner)) {
                 inner = "std::shared_ptr<" + inner + ">";
             }

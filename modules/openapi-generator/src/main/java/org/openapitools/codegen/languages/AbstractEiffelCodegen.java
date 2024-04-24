@@ -293,8 +293,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "LIST [" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -578,8 +577,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 //            String inner = toModelName(getSchemaType(additionalProperties2));
 //            return instantiationTypes.get("map") + " [" + inner + "]";
 //        } else if (ModelUtils.isArraySchema(p)) {
-//            ArraySchema ap = (ArraySchema) p;
-//            String inner = toModelName(getSchemaType(ap.getItems()));
+//            String inner = toModelName(getSchemaType(ModelUtils.getSchemaItems(p)));
 //            return instantiationTypes.get("array") + " [" + inner + "]";
 //        } else {
 //            return null;

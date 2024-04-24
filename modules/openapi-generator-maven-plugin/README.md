@@ -12,7 +12,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
     <!-- RELEASE_VERSION -->
-    <version>7.2.0</version>
+    <version>7.5.0</version>
     <!-- /RELEASE_VERSION -->
     <executions>
         <execution>
@@ -54,6 +54,8 @@ mvn clean compile
 | `gitHost` | `openapi.generator.maven.plugin.gitHost` | The git host, e.g. gitlab.com
 | `gitUserId` |  `openapi.generator.maven.plugin.gitUserId` | sets git information of the project
 | `gitRepoId` | `openapi.generator.maven.plugin.gitRepoId` | sets the repo ID (e.g. openapi-generator)
+| `collapsedSpec` | `openapi.generator.maven.plugin.collapsedSpec` | sets the path to the collapsed single-file representation of the OpenAPI spec
+| `includeCollapsedSpecInArtifacts` | `openapi.generator.maven.plugin.publishCollapsedSpec` | includes the collapsed spec in the Maven artifacts (`false` by default)
 | `templateDirectory` |  `openapi.generator.maven.plugin.templateDirectory` | directory with mustache templates
 | `templateResourcePath` |  `openapi.generator.maven.plugin.templateResourcePath` | directory with mustache templates via resource path. This option will overwrite any option defined in `templateDirectory`.
 | `engine` | `openapi.generator.maven.plugin.engine` | The name of templating engine to use, "mustache" (default) or "handlebars" (beta)

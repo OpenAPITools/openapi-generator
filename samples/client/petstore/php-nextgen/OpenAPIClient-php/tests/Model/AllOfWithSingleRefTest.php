@@ -76,7 +76,7 @@ class AllOfWithSingleRefTest extends TestCase
     public function testAllOfWithSingleRef()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class AllOfWithSingleRefTest extends TestCase
     public function testPropertyUsername()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,6 +94,6 @@ class AllOfWithSingleRefTest extends TestCase
     public function testPropertySingleRefType()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

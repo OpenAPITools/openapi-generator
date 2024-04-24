@@ -128,7 +128,7 @@ private:
     void logoutUserCallback(PFXHttpRequestWorker *worker);
     void updateUserCallback(PFXHttpRequestWorker *worker);
 
-signals:
+Q_SIGNALS:
 
     void createUserSignal();
     void createUsersWithArrayInputSignal();
@@ -201,7 +201,7 @@ signals:
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
-public slots:
+public Q_SLOTS:
     void tokenAvailable();
 };
 

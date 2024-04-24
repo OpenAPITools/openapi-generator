@@ -9,6 +9,7 @@
 |------------ | ------------- | ------------- | -------------|
 |**anyTypeProperty** | **Object** |  |  [optional] |
 |**arrayProp** | **List&lt;String&gt;** | test array in 3.1 spec |  [optional] |
+|**refArrayPrefixItems** | **List&lt;String&gt;** | An item that was added to the queue.  |  [optional] |
 
 
 

@@ -513,7 +513,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            Schema<?> items = getSchemaItems((ArraySchema) p);
+            Schema<?> items = ModelUtils.getSchemaItems(p);
             return getTypeDeclaration(unaliasSchema(items)) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
             return "~Object+";
@@ -544,8 +544,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String getParameterDataType(Parameter parameter, Schema p) {
         // handle enums of various data types
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema mp1 = (ArraySchema) p;
-            Schema<?> inner = mp1.getItems();
+            Schema<?> inner = ModelUtils.getSchemaItems(p);
             return getParameterDataType(parameter, inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
             return "~Object+";

@@ -22,8 +22,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -775,7 +773,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 if (uuidType.equals(header.dataType)) {
                     additionalProperties.put("apiUsesUuid", true);
                 }
-                header.nameInCamelCase = toModelName(header.baseName);
+                header.nameInPascalCase = toModelName(header.baseName);
                 header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
             }
         }
@@ -788,7 +786,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             if (uuidType.equals(header.dataType)) {
                 additionalProperties.put("apiUsesUuid", true);
             }
-            header.nameInCamelCase = toModelName(header.baseName);
+            header.nameInPascalCase = toModelName(header.baseName);
             header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
         }
 
@@ -883,7 +881,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             if (uuidType.equals(header.dataType)) {
                 additionalProperties.put("apiUsesUuid", true);
             }
-            header.nameInCamelCase = toModelName(header.baseName);
+            header.nameInPascalCase = toModelName(header.baseName);
             header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
         }
 
@@ -981,45 +979,9 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            String innerType = getTypeDeclaration(inner);
-            return typeMapping.get("array") + "<" + innerType + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            String innerType = getTypeDeclaration(inner);
-            StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
-            typeDeclaration.append(innerType).append(">");
-            return typeDeclaration.toString();
-        } else if (!StringUtils.isEmpty(p.get$ref())) {
-            String datatype;
-            try {
-                datatype = p.get$ref();
-
-                if (datatype.indexOf("#/components/schemas/") == 0) {
-                    datatype = toModelName(datatype.substring("#/components/schemas/".length()));
-                    datatype = "models::" + datatype;
-                }
-            } catch (Exception e) {
-                LOGGER.warn("Error obtaining the datatype from schema (model):{}. Datatype default to Object", p);
-                datatype = "Object";
-                LOGGER.error(e.getMessage(), e);
-            }
-            return datatype;
-        } else if (p instanceof FileSchema) {
-            return typeMapping.get("File");
-        }
-
-        return super.getTypeDeclaration(p);
-    }
-
-    @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -1036,27 +998,22 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel mdl = super.fromModel(name, model);
 
-        mdl.vendorExtensions.put("x-upper-case-name", name.toUpperCase(Locale.ROOT));
-        if (!StringUtils.isEmpty(model.get$ref())) {
-            Schema schema = allDefinitions.get(ModelUtils.getSimpleRef(model.get$ref()));
-            mdl.dataType = typeMapping.get(schema.getType());
-        }
         if (ModelUtils.isArraySchema(model)) {
-            ArraySchema am = (ArraySchema) model;
+            Schema inner = ModelUtils.getSchemaItems(model);
             String xmlName = null;
 
             // Detect XML list where the inner item is defined directly.
-            if ((am.getItems() != null) &&
-                    (am.getItems().getXml() != null)) {
-                xmlName = am.getItems().getXml().getName();
+            if ((inner != null) &&
+                    (inner.getXml() != null)) {
+                xmlName = inner.getXml().getName();
             }
 
             // Detect XML list where the inner item is a reference.
-            if (am.getXml() != null && am.getXml().getWrapped() &&
-                    am.getItems() != null &&
-                    !StringUtils.isEmpty(am.getItems().get$ref())) {
+            if (model.getXml() != null && model.getXml().getWrapped() &&
+                    inner != null &&
+                    !StringUtils.isEmpty(inner.get$ref())) {
                 Schema inner_schema = allDefinitions.get(
-                        ModelUtils.getSimpleRef(am.getItems().get$ref()));
+                        ModelUtils.getSimpleRef(inner.get$ref()));
 
                 if (inner_schema.getXml() != null &&
                         inner_schema.getXml().getName() != null) {
@@ -1070,24 +1027,12 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 mdl.vendorExtensions.put("x-item-xml-name", xmlName);
                 modelXmlNames.put("models::" + mdl.classname, xmlName);
             }
-
-            if (typeMapping.containsKey(mdl.arrayModelType)) {
-                mdl.arrayModelType = typeMapping.get(mdl.arrayModelType);
-            } else {
-                mdl.arrayModelType = toModelName(mdl.arrayModelType);
-            }
         } else if ((mdl.anyOf.size() > 0) || (mdl.oneOf.size() > 0)) {
             mdl.dataType = getSchemaType(model);
         }
 
         if (mdl.xmlNamespace != null) {
             additionalProperties.put("usesXmlNamespaces", true);
-        }
-
-        Schema additionalProperties = ModelUtils.getAdditionalProperties(model);
-
-        if (additionalProperties != null) {
-            mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
         }
 
         LOGGER.trace("Created model: {}", mdl);

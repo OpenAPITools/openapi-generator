@@ -100,7 +100,7 @@ async def create_users_with_list_input(
     response_model_by_alias=True,
 )
 async def delete_user(
-    username: str = Path(None, description="The name that needs to be deleted"),
+    username: str = Path(..., description="The name that needs to be deleted"),
     token_api_key: TokenModel = Security(
         get_token_api_key
     ),
@@ -121,7 +121,7 @@ async def delete_user(
     response_model_by_alias=True,
 )
 async def get_user_by_name(
-    username: str = Path(None, description="The name that needs to be fetched. Use user1 for testing."),
+    username: str = Path(..., description="The name that needs to be fetched. Use user1 for testing."),
 ) -> User:
     """"""
     return BaseUserApi.subclasses[0]().get_user_by_name(username)
@@ -174,7 +174,7 @@ async def logout_user(
     response_model_by_alias=True,
 )
 async def update_user(
-    username: str = Path(None, description="name that need to be deleted"),
+    username: str = Path(..., description="name that need to be deleted"),
     user: User = Body(None, description="Updated user object"),
     token_api_key: TokenModel = Security(
         get_token_api_key

@@ -3,11 +3,11 @@
     trivial_casts,
     unused_variables,
     unused_mut,
-    unused_imports,
     unused_extern_crates,
-    non_camel_case_types
+    non_camel_case_types,
+    unused_imports,
+    unused_attributes
 )]
-#![allow(unused_imports, unused_attributes)]
 #![allow(clippy::derive_partial_eq_without_eq, clippy::disallowed_names)]
 
 use async_trait::async_trait;
@@ -23,63 +23,83 @@ pub const BASE_PATH: &str = "/v2";
 pub const API_VERSION: &str = "1.0.0";
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum TestSpecialTagsResponse {
     /// successful operation
-    SuccessfulOperation(models::Client),
+    Status200_SuccessfulOperation(models::Client),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum Call123exampleResponse {
     /// success
-    Success,
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum FakeOuterBooleanSerializeResponse {
     /// Output boolean
-    OutputBoolean(bool),
+    Status200_OutputBoolean(bool),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum FakeOuterCompositeSerializeResponse {
     /// Output composite
-    OutputComposite(models::OuterComposite),
+    Status200_OutputComposite(models::OuterComposite),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum FakeOuterNumberSerializeResponse {
     /// Output number
-    OutputNumber(f64),
+    Status200_OutputNumber(f64),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum FakeOuterStringSerializeResponse {
     /// Output string
-    OutputString(String),
+    Status200_OutputString(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum FakeResponseWithNumericalDescriptionResponse {
     /// 1234
     Status200,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum HyphenParamResponse {
     /// Success
-    Success,
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum TestBodyWithQueryParamsResponse {
     /// Success
-    Success,
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum TestClientModelResponse {
     /// successful operation
-    SuccessfulOperation(models::Client),
+    Status200_SuccessfulOperation(models::Client),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -87,9 +107,9 @@ pub enum TestClientModelResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum TestEndpointParametersResponse {
     /// Invalid username supplied
-    InvalidUsernameSupplied,
+    Status400_InvalidUsernameSupplied,
     /// User not found
-    UserNotFound,
+    Status404_UserNotFound,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -97,39 +117,49 @@ pub enum TestEndpointParametersResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum TestEnumParametersResponse {
     /// Invalid request
-    InvalidRequest,
+    Status400_InvalidRequest,
     /// Not found
-    NotFound,
+    Status404_NotFound,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum TestInlineAdditionalPropertiesResponse {
     /// successful operation
-    SuccessfulOperation,
+    Status200_SuccessfulOperation,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum TestJsonFormDataResponse {
     /// successful operation
-    SuccessfulOperation,
+    Status200_SuccessfulOperation,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum TestClassnameResponse {
     /// successful operation
-    SuccessfulOperation(models::Client),
+    Status200_SuccessfulOperation(models::Client),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum AddPetResponse {
     /// Invalid input
-    InvalidInput,
+    Status405_InvalidInput,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum DeletePetResponse {
     /// Invalid pet value
-    InvalidPetValue,
+    Status400_InvalidPetValue,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -137,9 +167,9 @@ pub enum DeletePetResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum FindPetsByStatusResponse {
     /// successful operation
-    SuccessfulOperation(String),
+    Status200_SuccessfulOperation(String),
     /// Invalid status value
-    InvalidStatusValue,
+    Status400_InvalidStatusValue,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -147,9 +177,9 @@ pub enum FindPetsByStatusResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum FindPetsByTagsResponse {
     /// successful operation
-    SuccessfulOperation(String),
+    Status200_SuccessfulOperation(String),
     /// Invalid tag value
-    InvalidTagValue,
+    Status400_InvalidTagValue,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -157,11 +187,11 @@ pub enum FindPetsByTagsResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum GetPetByIdResponse {
     /// successful operation
-    SuccessfulOperation(String),
+    Status200_SuccessfulOperation(String),
     /// Invalid ID supplied
-    InvalidIDSupplied,
+    Status400_InvalidIDSupplied,
     /// Pet not found
-    PetNotFound,
+    Status404_PetNotFound,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -169,23 +199,27 @@ pub enum GetPetByIdResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum UpdatePetResponse {
     /// Invalid ID supplied
-    InvalidIDSupplied,
+    Status400_InvalidIDSupplied,
     /// Pet not found
-    PetNotFound,
+    Status404_PetNotFound,
     /// Validation exception
-    ValidationException,
+    Status405_ValidationException,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum UpdatePetWithFormResponse {
     /// Invalid input
-    InvalidInput,
+    Status405_InvalidInput,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum UploadFileResponse {
     /// successful operation
-    SuccessfulOperation(models::ApiResponse),
+    Status200_SuccessfulOperation(models::ApiResponse),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -193,15 +227,17 @@ pub enum UploadFileResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteOrderResponse {
     /// Invalid ID supplied
-    InvalidIDSupplied,
+    Status400_InvalidIDSupplied,
     /// Order not found
-    OrderNotFound,
+    Status404_OrderNotFound,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum GetInventoryResponse {
     /// successful operation
-    SuccessfulOperation(std::collections::HashMap<String, i32>),
+    Status200_SuccessfulOperation(std::collections::HashMap<String, i32>),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -209,11 +245,11 @@ pub enum GetInventoryResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum GetOrderByIdResponse {
     /// successful operation
-    SuccessfulOperation(String),
+    Status200_SuccessfulOperation(String),
     /// Invalid ID supplied
-    InvalidIDSupplied,
+    Status400_InvalidIDSupplied,
     /// Order not found
-    OrderNotFound,
+    Status404_OrderNotFound,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -221,27 +257,33 @@ pub enum GetOrderByIdResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum PlaceOrderResponse {
     /// successful operation
-    SuccessfulOperation(String),
+    Status200_SuccessfulOperation(String),
     /// Invalid Order
-    InvalidOrder,
+    Status400_InvalidOrder,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum CreateUserResponse {
     /// successful operation
-    SuccessfulOperation,
+    Status0_SuccessfulOperation,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum CreateUsersWithArrayInputResponse {
     /// successful operation
-    SuccessfulOperation,
+    Status0_SuccessfulOperation,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum CreateUsersWithListInputResponse {
     /// successful operation
-    SuccessfulOperation,
+    Status0_SuccessfulOperation,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -249,9 +291,9 @@ pub enum CreateUsersWithListInputResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum DeleteUserResponse {
     /// Invalid username supplied
-    InvalidUsernameSupplied,
+    Status400_InvalidUsernameSupplied,
     /// User not found
-    UserNotFound,
+    Status404_UserNotFound,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -259,11 +301,11 @@ pub enum DeleteUserResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum GetUserByNameResponse {
     /// successful operation
-    SuccessfulOperation(String),
+    Status200_SuccessfulOperation(String),
     /// Invalid username supplied
-    InvalidUsernameSupplied,
+    Status400_InvalidUsernameSupplied,
     /// User not found
-    UserNotFound,
+    Status404_UserNotFound,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -271,19 +313,21 @@ pub enum GetUserByNameResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum LoginUserResponse {
     /// successful operation
-    SuccessfulOperation {
+    Status200_SuccessfulOperation {
         body: String,
         x_rate_limit: Option<i32>,
         x_expires_after: Option<chrono::DateTime<chrono::Utc>>,
     },
     /// Invalid username/password supplied
-    InvalidUsername,
+    Status400_InvalidUsername,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum LogoutUserResponse {
     /// successful operation
-    SuccessfulOperation,
+    Status0_SuccessfulOperation,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -291,9 +335,9 @@ pub enum LogoutUserResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum UpdateUserResponse {
     /// Invalid user supplied
-    InvalidUserSupplied,
+    Status400_InvalidUserSupplied,
     /// User not found
-    UserNotFound,
+    Status404_UserNotFound,
 }
 
 /// API

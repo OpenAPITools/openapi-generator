@@ -260,3 +260,7 @@ class ApiClientTests(unittest.TestCase):
     def test_parameters_to_url_query_boolean_value(self):
         result = self.api_client.parameters_to_url_query([('boolean', True)], {})
         self.assertEqual(result, "boolean=true")
+
+    def test_parameters_to_url_query_list_value(self):
+        params = self.api_client.parameters_to_url_query(params=[('list', [1, 2, 3])], collection_formats={'list': 'multi'})
+        self.assertEqual(params, "list=1&list=2&list=3")

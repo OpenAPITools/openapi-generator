@@ -9,11 +9,9 @@ $ cd OpenAPIetstore-python
 $ pytest
 """
 
-import os
-import time
-import atexit
-import weakref
 import unittest
+from enum import Enum
+
 from dateutil.parser import parse
 
 import petstore_api
@@ -155,6 +153,16 @@ class ApiClientTests(unittest.TestCase):
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16T19:20:30.450000+01:00")
 
+    def test_sanitize_for_serialization_list_enum(self):
+        class EnumSerialization(int, Enum):
+            NUMBER_0 = 0
+            NUMBER_1 = 1
+
+        data = [EnumSerialization.NUMBER_1]
+        result = self.api_client.sanitize_for_serialization(data)
+        self.assertEqual(result, [1])
+        self.assertNotIsInstance(result[0], EnumSerialization)
+
     def test_sanitize_for_serialization_list(self):
         data = [1]
         result = self.api_client.sanitize_for_serialization(data)
@@ -203,10 +211,11 @@ class ApiClientTests(unittest.TestCase):
             "category2": "example2"
         }
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
-        self.assertEqual(result, "value=%7B%22category%22%3A%20%22example%22%2C%20%22category2%22%3A%20%22example2%22%7D")
-        
+        self.assertEqual(result,
+                         "value=%7B%22category%22%3A%20%22example%22%2C%20%22category2%22%3A%20%22example2%22%7D")
+
     def test_parameters_to_url_query_complex_values(self):
-        data='value={"number": 1, "string": "str", "bool": true, "dict": {"number": 1, "string": "str", "bool": true}}'
+        data = 'value={"number": 1, "string": "str", "bool": true, "dict": {"number": 1, "string": "str", "bool": true}}'
         dictionary = {
             "number": 1,
             "string": "str",
@@ -218,10 +227,11 @@ class ApiClientTests(unittest.TestCase):
             }
         }
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
-        self.assertEqual(result, 'value=%7B%22number%22%3A%201%2C%20%22string%22%3A%20%22str%22%2C%20%22bool%22%3A%20true%2C%20%22dict%22%3A%20%7B%22number%22%3A%201%2C%20%22string%22%3A%20%22str%22%2C%20%22bool%22%3A%20true%7D%7D')
+        self.assertEqual(result,
+                         'value=%7B%22number%22%3A%201%2C%20%22string%22%3A%20%22str%22%2C%20%22bool%22%3A%20true%2C%20%22dict%22%3A%20%7B%22number%22%3A%201%2C%20%22string%22%3A%20%22str%22%2C%20%22bool%22%3A%20true%7D%7D')
 
     def test_parameters_to_url_query_dict_values(self):
-        data='value={"strValues": ["one", "two", "three"], "dictValues": [{"name": "value1", "age": 14}, {"name": "value2", "age": 12}]}'
+        data = 'value={"strValues": ["one", "two", "three"], "dictValues": [{"name": "value1", "age": 14}, {"name": "value2", "age": 12}]}'
         dictionary = {
             "strValues": [
                 "one",
@@ -240,8 +250,14 @@ class ApiClientTests(unittest.TestCase):
             ]
         }
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
-        self.assertEqual(result, 'value=%7B%22strValues%22%3A%20%5B%22one%22%2C%20%22two%22%2C%20%22three%22%5D%2C%20%22dictValues%22%3A%20%5B%7B%22name%22%3A%20%22value1%22%2C%20%22age%22%3A%2014%7D%2C%20%7B%22name%22%3A%20%22value2%22%2C%20%22age%22%3A%2012%7D%5D%7D')
+        self.assertEqual(result,
+                         'value=%7B%22strValues%22%3A%20%5B%22one%22%2C%20%22two%22%2C%20%22three%22%5D%2C%20%22dictValues%22%3A%20%5B%7B%22name%22%3A%20%22value1%22%2C%20%22age%22%3A%2014%7D%2C%20%7B%22name%22%3A%20%22value2%22%2C%20%22age%22%3A%2012%7D%5D%7D')
 
     def test_parameters_to_url_query_boolean_value(self):
         result = self.api_client.parameters_to_url_query([('boolean', True)], {})
         self.assertEqual(result, "boolean=true")
+
+    def test_parameters_to_url_query_list_value(self):
+        params = self.api_client.parameters_to_url_query(params=[('list', [1, 2, 3])],
+                                                         collection_formats={'list': 'multi'})
+        self.assertEqual(params, "list=1&list=2&list=3")

@@ -11,9 +11,9 @@ import jakarta.validation.Valid;
 
 public class ArrayTest   {
 
-    private List<String> arrayOfString;
-    private List<List<Long>> arrayArrayOfInteger;
-    private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
+    private List<String> arrayOfString = new ArrayList<>();
+    private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+    private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
     /**
      * Default constructor.

@@ -24,6 +24,10 @@ export enum NumberEnum {
 }
 
 
+export function instanceOfNumberEnum(value: any): boolean {
+    return Object.values(NumberEnum).includes(value);
+}
+
 export function NumberEnumFromJSON(json: any): NumberEnum {
     return NumberEnumFromJSONTyped(json, false);
 }

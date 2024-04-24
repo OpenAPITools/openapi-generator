@@ -70,7 +70,7 @@ export function *getFakePetPartTypeSagaImp(_action_: Action<PayloadGetFakePetPar
 
         yield put(getFakePetPartTypeRequest(_action_.payload));
 
-        const response: Required<GetPetPartTypeResponse> = yield apiCall(Api.petPartApi, Api.petPartApi.getFakePetPartType,
+        const response: Required<GetPetPartTypeResponse> = yield apiCall(Api.petPartApi, Api.petPartApi['getFakePetPartType'],
             parseFloat(fakePetPartId),
         );
 
@@ -126,7 +126,7 @@ export function *getMatchingPartsSagaImp(_action_: Action<PayloadGetMatchingPart
 
         yield put(getMatchingPartsRequest(requestPayload));
 
-        const response: Required<GetMatchingPartsResponse> = yield apiCall(Api.petPartApi, Api.petPartApi.getMatchingParts,
+        const response: Required<GetMatchingPartsResponse> = yield apiCall(Api.petPartApi, Api.petPartApi['getMatchingParts'],
             parseFloat(fakePetPartId),
             _long,
             smooth,

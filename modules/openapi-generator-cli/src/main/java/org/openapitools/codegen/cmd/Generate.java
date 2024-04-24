@@ -224,6 +224,13 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> enumNameMappings = new ArrayList<>();
 
     @Option(
+            name = {"--operation-id-name-mappings"},
+            title = "operation id name mappings",
+            description = "specifies mappings between the operation id name and the new name in the format of operation_id_name=AnotherName,operation_id_name2=OtherName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> operationIdNameMappings = new ArrayList<>();
+
+    @Option(
             name = {"--openapi-normalizer"},
             title = "OpenAPI normalizer rules",
             description = "specifies the rules to be enabled in OpenAPI normalizer in the form of RULE_1=true,RULE_2=original."
@@ -507,11 +514,12 @@ public class Generate extends OpenApiGeneratorCommand {
         applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
         applyModelNameMappingsKvpList(modelNameMappings, configurator);
         applyEnumNameMappingsKvpList(enumNameMappings, configurator);
-        applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
+        applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
+        applyOpenapiNormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
-        applyOpenAPIGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
+        applyOpenapiGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
         applyServerVariablesKvpList(serverVariableOverrides, configurator);
 

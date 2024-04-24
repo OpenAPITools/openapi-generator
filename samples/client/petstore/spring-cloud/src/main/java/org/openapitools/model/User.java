@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "A User who is purchasing from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class User {
 
   private Long id;

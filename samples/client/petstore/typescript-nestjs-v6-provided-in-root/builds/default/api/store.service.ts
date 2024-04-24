@@ -13,9 +13,10 @@
 
 import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
-import { Observable } from 'rxjs';
+import { Observable, from, of, switchMap } from 'rxjs';
 import { Order } from '../model/order';
 import { Configuration } from '../configuration';
+import { COLLECTION_FORMATS } from '../variables';
 
 
 @Injectable()
@@ -55,6 +56,8 @@ export class StoreService {
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
         ];
@@ -66,11 +69,19 @@ export class StoreService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
     /**
@@ -84,8 +95,10 @@ export class StoreService {
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // authentication (api_key) required
-        if (this.configuration.apiKeys["api_key"]) {
+        if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
         }
 
@@ -101,11 +114,19 @@ export class StoreService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return this.httpClient.get<{ [key: string]: number; }>(`${this.basePath}/store/inventory`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.get<{ [key: string]: number; }>(`${this.basePath}/store/inventory`,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
     /**
@@ -124,6 +145,8 @@ export class StoreService {
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             'application/xml',
@@ -137,11 +160,19 @@ export class StoreService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return this.httpClient.get<Order>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.get<Order>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
     /**
@@ -159,6 +190,8 @@ export class StoreService {
         }
 
         let headers = {...this.defaultHeaders};
+
+        let accessTokenObservable: Observable<any> = of(null);
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -178,12 +211,20 @@ export class StoreService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-        return this.httpClient.post<Order>(`${this.basePath}/store/order`,
-            order,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
-            }
+        return accessTokenObservable.pipe(
+            switchMap((accessToken) => {
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
+                return this.httpClient.post<Order>(`${this.basePath}/store/order`,
+                    order,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
         );
     }
 }

@@ -51,7 +51,8 @@ paths:
       summary: Use both API keys
       tags:
       - usage
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /any:
     get:
       description: Use any API key
@@ -69,7 +70,8 @@ paths:
       summary: Use any API key
       tags:
       - usage
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /query:
     get:
       description: Use API key in query
@@ -86,7 +88,8 @@ paths:
       summary: Use API key in query
       tags:
       - usage
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /header:
     get:
       description: Use API key in header
@@ -103,7 +106,8 @@ paths:
       summary: Use API key in header
       tags:
       - usage
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   schemas: {}
   securitySchemes:

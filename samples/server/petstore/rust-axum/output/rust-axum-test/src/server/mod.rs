@@ -41,7 +41,6 @@ where
 fn all_of_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// AllOfGet - GET /allOf
 #[tracing::instrument(skip_all)]
 async fn all_of_get<I, A>(
@@ -72,7 +71,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            AllOfGetResponse::OK(body) => {
+            AllOfGetResponse::Status200_OK(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -113,7 +112,6 @@ where
 fn dummy_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// DummyGet - GET /dummy
 #[tracing::instrument(skip_all)]
 async fn dummy_get<I, A>(
@@ -144,7 +142,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DummyGetResponse::Success => {
+            DummyGetResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -165,7 +163,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct DummyPutBodyValidator<'a> {
-    #[validate]
+    #[validate(nested)]
     body: &'a models::DummyPutRequest,
 }
 
@@ -178,7 +176,6 @@ fn dummy_put_validation(
 
     Ok((body,))
 }
-
 /// DummyPut - PUT /dummy
 #[tracing::instrument(skip_all)]
 async fn dummy_put<I, A>(
@@ -213,7 +210,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DummyPutResponse::Success => {
+            DummyPutResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -235,7 +232,6 @@ where
 fn file_response_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// FileResponseGet - GET /file_response
 #[tracing::instrument(skip_all)]
 async fn file_response_get<I, A>(
@@ -269,7 +265,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FileResponseGetResponse::Success(body) => {
+            FileResponseGetResponse::Status200_Success(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -310,7 +306,6 @@ where
 fn get_structured_yaml_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// GetStructuredYaml - GET /get-structured-yaml
 #[tracing::instrument(skip_all)]
 async fn get_structured_yaml<I, A>(
@@ -344,7 +339,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetStructuredYamlResponse::OK(body) => {
+            GetStructuredYamlResponse::Status200_OK(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -384,7 +379,6 @@ struct HtmlPostBodyValidator<'a> {
 fn html_post_validation(body: String) -> std::result::Result<(String,), ValidationErrors> {
     Ok((body,))
 }
-
 /// HtmlPost - POST /html
 #[tracing::instrument(skip_all)]
 async fn html_post<I, A>(
@@ -419,7 +413,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            HtmlPostResponse::Success(body) => {
+            HtmlPostResponse::Status200_Success(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -459,7 +453,6 @@ struct PostYamlBodyValidator<'a> {
 fn post_yaml_validation(body: String) -> std::result::Result<(String,), ValidationErrors> {
     Ok((body,))
 }
-
 /// PostYaml - POST /post-yaml
 #[tracing::instrument(skip_all)]
 async fn post_yaml<I, A>(
@@ -494,7 +487,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            PostYamlResponse::OK => {
+            PostYamlResponse::Status204_OK => {
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }
@@ -516,7 +509,6 @@ where
 fn raw_json_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// RawJsonGet - GET /raw_json
 #[tracing::instrument(skip_all)]
 async fn raw_json_get<I, A>(
@@ -547,7 +539,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            RawJsonGetResponse::Success(body) => {
+            RawJsonGetResponse::Status200_Success(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -599,7 +591,6 @@ fn solo_object_post_validation(
 
     Ok((body,))
 }
-
 /// SoloObjectPost - POST /solo-object
 #[tracing::instrument(skip_all)]
 async fn solo_object_post<I, A>(
@@ -634,7 +625,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            SoloObjectPostResponse::OK => {
+            SoloObjectPostResponse::Status204_OK => {
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }

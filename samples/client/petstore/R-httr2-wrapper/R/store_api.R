@@ -438,7 +438,7 @@ StoreApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "map(integer)", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "map(integer)", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -567,7 +567,7 @@ StoreApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "Order", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "Order", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -686,7 +686,7 @@ StoreApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "Order", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "Order", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",

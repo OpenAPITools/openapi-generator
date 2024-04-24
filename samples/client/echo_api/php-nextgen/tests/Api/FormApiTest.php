@@ -81,7 +81,7 @@ class FormApiTest extends TestCase
     public function testTestFormIntegerBooleanString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -93,6 +93,6 @@ class FormApiTest extends TestCase
     public function testTestFormOneof()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

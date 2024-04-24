@@ -16,9 +16,12 @@ import java.util.List;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
+/**
+* Represents a collection of functions to interact with the API endpoints.
+*/
 @Path("/pet")
 @Api(description = "the pet API")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class PetApi {
 
     @POST

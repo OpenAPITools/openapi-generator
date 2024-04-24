@@ -103,7 +103,7 @@ private:
     void getOrderByIdCallback(PFXHttpRequestWorker *worker);
     void placeOrderCallback(PFXHttpRequestWorker *worker);
 
-signals:
+Q_SIGNALS:
 
     void deleteOrderSignal();
     void getInventorySignal(QMap<QString, qint32> summary);
@@ -144,7 +144,7 @@ signals:
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
-public slots:
+public Q_SLOTS:
     void tokenAvailable();
 };
 

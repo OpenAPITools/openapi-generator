@@ -87,7 +87,7 @@ public class EnumArrays   {
     }
 
 
-    private List<ArrayEnumEnum> arrayEnum;
+    private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
     /**
      * Default constructor.

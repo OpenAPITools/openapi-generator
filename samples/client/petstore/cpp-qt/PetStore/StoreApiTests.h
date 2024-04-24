@@ -7,7 +7,7 @@ using namespace test_namespace;
 class StoreApiTests : public QObject {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     void placeOrderTest();
     void getOrderByIdTest();
     void getInventoryTest();

@@ -72,6 +72,7 @@ org.openapitools.codegen.languages.JavascriptClientCodegen
 org.openapitools.codegen.languages.JavascriptApolloClientCodegen
 org.openapitools.codegen.languages.JavascriptFlowtypedClientCodegen
 org.openapitools.codegen.languages.JavascriptClosureAngularClientCodegen
+org.openapitools.codegen.languages.JavaWiremockServerCodegen
 org.openapitools.codegen.languages.JetbrainsHttpClientClientCodegen
 org.openapitools.codegen.languages.JMeterClientCodegen
 org.openapitools.codegen.languages.JuliaClientCodegen
@@ -90,6 +91,7 @@ org.openapitools.codegen.languages.OpenAPIYamlGenerator
 org.openapitools.codegen.languages.PlantumlDocumentationCodegen
 org.openapitools.codegen.languages.PerlClientCodegen
 org.openapitools.codegen.languages.PhpClientCodegen
+org.openapitools.codegen.languages.PhpFlightServerCodegen
 org.openapitools.codegen.languages.PhpNextgenClientCodegen
 org.openapitools.codegen.languages.PhpLaravelServerCodegen
 org.openapitools.codegen.languages.PhpLumenServerCodegen
@@ -114,10 +116,12 @@ org.openapitools.codegen.languages.RustClientCodegen
 org.openapitools.codegen.languages.RustServerCodegen
 org.openapitools.codegen.languages.ScalatraServerCodegen
 org.openapitools.codegen.languages.ScalaAkkaClientCodegen
+org.openapitools.codegen.languages.ScalaCaskServerCodegen
 org.openapitools.codegen.languages.ScalaPekkoClientCodegen
 org.openapitools.codegen.languages.ScalaAkkaHttpServerCodegen
 org.openapitools.codegen.languages.ScalaFinchServerCodegen
 org.openapitools.codegen.languages.ScalaGatlingCodegen
+org.openapitools.codegen.languages.ScalaHttp4sServerCodegen
 org.openapitools.codegen.languages.ScalaLagomServerCodegen
 org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen
 org.openapitools.codegen.languages.ScalaSttpClientCodegen

@@ -3,11 +3,11 @@
     trivial_casts,
     unused_variables,
     unused_mut,
-    unused_imports,
     unused_extern_crates,
-    non_camel_case_types
+    non_camel_case_types,
+    unused_imports,
+    unused_attributes
 )]
-#![allow(unused_imports, unused_attributes)]
 #![allow(clippy::derive_partial_eq_without_eq, clippy::disallowed_names)]
 
 use async_trait::async_trait;
@@ -23,9 +23,11 @@ pub const BASE_PATH: &str = "";
 pub const API_VERSION: &str = "1.0";
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum PingGetResponse {
     /// OK
-    OK,
+    Status201_OK,
 }
 
 /// API

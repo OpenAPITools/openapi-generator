@@ -35,6 +35,10 @@ namespace {{packageName}}.{{clientPackage}}
             _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             _jsonOptions.Converters.Add(new DateTimeJsonConverter());
             _jsonOptions.Converters.Add(new DateTimeNullableJsonConverter());
+            {{#supportsDateOnly}}
+            _jsonOptions.Converters.Add(new DateOnlyJsonConverter());
+            _jsonOptions.Converters.Add(new DateOnlyNullableJsonConverter());
+            {{/supportsDateOnly}}
             {{#models}}
             {{#model}}
             {{#isEnum}}
