@@ -29,7 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
-import static org.testng.Assertions.assertTrue;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 /**

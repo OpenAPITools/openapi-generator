@@ -36,7 +36,7 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.testng.Assertions.assertTrue;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 /**

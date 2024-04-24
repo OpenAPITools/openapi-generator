@@ -33,7 +33,7 @@ import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 import static org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen.USE_TAGS;
 import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.*;
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
-import static org.testng.Assertions.assertTrue;
+import static org.testng.Assert.assertTrue;
 
 import com.google.common.collect.ImmutableMap;
 

@@ -18,7 +18,7 @@
 package org.openapitools.codegen.templating.mustache;
 
 import static org.mockito.Mockito.when;
-import static org.testng.Assertions.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.StringWriter;

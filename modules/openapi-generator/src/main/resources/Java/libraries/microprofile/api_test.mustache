@@ -7,6 +7,10 @@ package {{package}};
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+{{#generateSpringBootApplication}}
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+{{/generateSpringBootApplication}}
 
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
@@ -26,7 +30,7 @@ import java.util.Set;
  * API tests for {{classname}}
  */
 {{#generateSpringBootApplication}}
-@ExtendWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringApplicationConfiguration(classes = SpringBootApplication.class)
 @WebAppConfiguration
 @IntegrationTest("server.port=0")

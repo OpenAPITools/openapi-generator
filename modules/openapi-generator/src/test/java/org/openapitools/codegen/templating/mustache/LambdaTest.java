@@ -1,6 +1,6 @@
 package org.openapitools.codegen.templating.mustache;
 
-import static org.testng.Assertions.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;

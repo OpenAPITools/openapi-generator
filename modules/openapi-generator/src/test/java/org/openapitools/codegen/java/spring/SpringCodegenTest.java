@@ -43,7 +43,7 @@ import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
 import static org.openapitools.codegen.languages.SpringCodegen.USE_TAGS;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
-import static org.testng.Assertions.assertEquals;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
 import java.io.File;

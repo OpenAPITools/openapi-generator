@@ -11,7 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static java.util.stream.Collectors.groupingBy;
-import static org.testng.Assertions.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
     protected static String ROLES_EXTENSION_TEST_PATH = "src/test/resources/3_0/micronaut/roles-extension-test.yaml";

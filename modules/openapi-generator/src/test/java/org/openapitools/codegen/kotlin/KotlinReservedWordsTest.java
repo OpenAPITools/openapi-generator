@@ -18,7 +18,7 @@ import java.util.HashSet;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.testng.Assertions.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 @SuppressWarnings("rawtypes")
 public class KotlinReservedWordsTest {

@@ -25,8 +25,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.testng.Assertions.assertEquals;
-import static org.testng.Assertions.assertNotNull;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 @SuppressWarnings("static-method")
 public class OptionUtilsTest {

@@ -960,7 +960,7 @@ public class InlineModelResolverTest {
         assertEquals("#/components/schemas/EmptyExampleOnStringTypeModels", schema.getItems().get$ref());
 
         assertTrue(ModelUtils.getReferencedSchema(openAPI, schema.getItems()) instanceof StringSchema);
-        Assertions.assertSame(ModelUtils.getReferencedSchema(openAPI, schema.getItems()).getExample(), "");
+        Assert.assertSame(ModelUtils.getReferencedSchema(openAPI, schema.getItems()).getExample(), "");
     }
 
     @Test
