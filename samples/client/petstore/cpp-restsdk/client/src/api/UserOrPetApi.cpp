@@ -131,7 +131,7 @@ pplx::task<void> UserOrPetApi::createUserOrPet(std::shared_ptr<CreateUserOrPet_r
     }
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
-    .then([=](web::http::http_response localVarResponse)
+    .then([=, this](web::http::http_response localVarResponse)
     {
         if (m_ApiClient->getResponseHandler())
         {
@@ -164,7 +164,7 @@ pplx::task<void> UserOrPetApi::createUserOrPet(std::shared_ptr<CreateUserOrPet_r
 
         return localVarResponse.extract_string();
     })
-    .then([=](utility::string_t localVarResponse)
+    .then([=, this](utility::string_t localVarResponse)
     {
         return void();
     });
