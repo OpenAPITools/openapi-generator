@@ -32,7 +32,7 @@ import java.util.StringJoiner;
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ClassModel {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
   private String propertyClass;

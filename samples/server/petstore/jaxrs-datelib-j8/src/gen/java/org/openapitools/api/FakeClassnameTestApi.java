@@ -29,7 +29,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the fake_classname_test API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class FakeClassnameTestApi  {
    private final FakeClassnameTestApiService delegate;
 

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -45,22 +45,19 @@ export function AdditionalPropertiesClassFromJSON(json: any): AdditionalProperti
 }
 
 export function AdditionalPropertiesClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): AdditionalPropertiesClass {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'mapProperty': !exists(json, 'map_property') ? undefined : json['map_property'],
-        'mapOfMapProperty': !exists(json, 'map_of_map_property') ? undefined : json['map_of_map_property'],
+        'mapProperty': json['map_property'] == null ? undefined : json['map_property'],
+        'mapOfMapProperty': json['map_of_map_property'] == null ? undefined : json['map_of_map_property'],
     };
 }
 
 export function AdditionalPropertiesClassToJSON(value?: AdditionalPropertiesClass | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

@@ -57,7 +57,7 @@ import org.openapitools.client.JSON;
 /**
  * NullableClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class NullableClass {
   public static final String SERIALIZED_NAME_INTEGER_PROP = "integer_prop";
   @SerializedName(SERIALIZED_NAME_INTEGER_PROP)
@@ -93,7 +93,7 @@ public class NullableClass {
 
   public static final String SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE)
-  private List<Object> arrayItemsNullable;
+  private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   @SerializedName(SERIALIZED_NAME_OBJECT_NULLABLE_PROP)

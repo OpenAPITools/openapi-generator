@@ -236,8 +236,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             String innerType = getTypeDeclaration(inner);
             return typeMapping.get("array") + "<" + innerType + ">";
         } else if (ModelUtils.isMapSchema(p)) {
@@ -435,5 +434,13 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     @Override
     public String addRegularExpressionDelimiter(String pattern) {
         return pattern;
+    }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "r#"+ name;
     }
 }

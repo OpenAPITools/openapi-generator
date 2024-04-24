@@ -34,7 +34,7 @@ import io.github.threetenjaxb.core.*;
   Tag.JSON_PROPERTY_ID,
   Tag.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 @XmlRootElement(name = "Tag")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Tag")

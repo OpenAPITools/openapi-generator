@@ -49,6 +49,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.MapAssert;
 import org.openapitools.codegen.CliOption;
@@ -1189,6 +1189,59 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xx.yyyyyyyy.config");
         Assert.assertEquals(codegen.isUnhandledException(), true);
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), true);
+    }
+
+    @Test
+    public void testGenerationOfClientPropertiesConfigurationForOAuth() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/petstore-auth.yaml", null, new ParseOptions()).getOpenAPI();
+
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.setHideGenerationTimestamp(true);
+        codegen.setInterfaceOnly(false);
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+
+        codegen.processOpts();
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+
+        generator.opts(input).generate();
+
+        Path filePath = Paths.get(output.getAbsolutePath(), "src/main/java/org/openapitools/configuration/ClientPropertiesConfiguration.java");
+
+
+        assertFileContains(filePath,
+                "oAuth2AccessCode.put(\"spring.security.oauth2.client.registration.oAuth2AccessCode.redirect-uri\", \"set-oAuth2AccessCode-redirect-uri\" );",
+                "oAuth2AccessCode.put(\"spring.security.oauth2.client.registration.oAuth2AccessCode.authorization-grant-type\", \"authorization_code\" );",
+                "oAuth2AccessCode.put(\"spring.security.oauth2.client.registration.oAuth2AccessCode.client-id\", \"set-oAuth2AccessCode-client-id\" );",
+                "oAuth2AccessCode.put(\"spring.security.oauth2.client.registration.oAuth2AccessCode.scope\", \"openid,profile,aud\" );",
+                "oAuth2AccessCode.put(\"spring.security.oauth2.client.provider.oAuth2AccessCode.token-uri\", \"${tokenUrl}\" );",
+                "oAuth2AccessCode.put(\"spring.security.oauth2.client.provider.oAuth2AccessCode.authorization-uri\", \"${authorizationUrl}\" );",
+
+
+                "oAuth2Application.put(\"spring.security.oauth2.client.registration.oAuth2Application.client-id\", \"set-oAuth2Application-client-id\" );",
+                "oAuth2Application.put(\"spring.security.oauth2.client.registration.oAuth2Application.authorization-grant-type\", \"client_credentials\" );",
+                "oAuth2Application.put(\"spring.security.oauth2.client.provider.oAuth2Application.token-uri\", \"/openid-connect/token\" );"
+
+        );
+
+        assertFileNotContains(filePath,"spring.security.oauth2.client.registration.oAuth2Application.scope");
     }
 
     @Test
@@ -2664,6 +2717,26 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(output.get("EnumConverterConfiguration.java"))
                 .assertMethod("typeConverter");
+    }
+
+    @Test
+    public void contractWithResolvedInnerEnumContainsEnumConverter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setInputSpec("src/test/resources/3_0/inner_enum.yaml")
+                .addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("EnumConverterConfiguration.java"))
+                .assertMethod("ponyTypeConverter");
     }
 
     @Test
@@ -4517,5 +4590,102 @@ public class SpringCodegenTest {
                 .toFileAssert()
                 .assertMethod("equals")
         ;
+    }
+
+    @Test
+    public void optionalListShouldBeEmpty() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_1/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_NAME_SUFFIX, "Controller");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetDto.java"))
+                .fileContains("private List<@Valid TagDto> tags = new ArrayList<>();")
+                .fileContains("private List<String> photoUrls = new ArrayList<>();");
+
+    }
+
+    @Test
+    public void testCollectionTypesWithDefaults_issue_18102() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_1/java/issue_18102.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_NAME_SUFFIX, "Controller");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+        codegen.setContainerDefaultToNull(true);
+
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetDto.java"))
+                .fileContains("private List<@Valid TagDto> tags")
+                .fileContains("private List<@Valid TagDto> tagsDefaultList = new ArrayList<>()")
+                .fileContains("private Set<@Valid TagDto> tagsUnique")
+                .fileContains("private Set<@Valid TagDto> tagsDefaultSet = new LinkedHashSet<>();")
+                .fileContains("private List<String> stringList")
+                .fileContains("private List<String> stringDefaultList = new ArrayList<>(Arrays.asList(\"A\", \"B\"));")
+                .fileContains("private List<String> stringEmptyDefaultList = new ArrayList<>();")
+                .fileContains("Set<String> stringSet")
+                .fileContains("private Set<String> stringDefaultSet = new LinkedHashSet<>(Arrays.asList(\"A\", \"B\"));")
+                .fileContains("private Set<String> stringEmptyDefaultSet = new LinkedHashSet<>();")
+                .fileDoesNotContains("private List<@Valid TagDto> tags = new ArrayList<>()")
+                .fileDoesNotContains("private Set<@Valid TagDto> tagsUnique = new LinkedHashSet<>()")
+                .fileDoesNotContains("private List<String> stringList = new ArrayList<>()")
+                .fileDoesNotContains("private Set<String> stringSet = new LinkedHashSet<>()");
+    }
+
+    @Test
+    public void shouldGenerateOptionalParameterTypesWhenUsingOptionalAndDelegate_issue17768() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
+        additionalProperties.put(SpringCodegen.SPRING_CONTROLLER, "true");
+        additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+        additionalProperties.put(SpringCodegen.USE_OPTIONAL, "true");
+        additionalProperties.put(DELEGATE_PATTERN, "true");
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_17768.yaml", SPRING_BOOT, additionalProperties);
+        JavaFileAssert.assertThat(files.get("TestApiDelegate.java"))
+                .assertMethod("updatePost")
+                .hasParameter("updateRequest")
+                .withType("Optional<UpdateRequest>")
+                .toMethod()
+                .toFileAssert();
+        JavaFileAssert.assertThat(files.get("TestApi.java"))
+                .assertMethod("updatePost")
+                .hasParameter("updateRequest")
+                .withType("Optional<UpdateRequest>")
+                .toMethod()
+                .toFileAssert();
     }
 }

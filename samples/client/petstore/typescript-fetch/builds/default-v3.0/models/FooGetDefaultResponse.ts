@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Foo } from './Foo';
 import {
     FooFromJSON,
@@ -46,21 +46,18 @@ export function FooGetDefaultResponseFromJSON(json: any): FooGetDefaultResponse 
 }
 
 export function FooGetDefaultResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FooGetDefaultResponse {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'string': !exists(json, 'string') ? undefined : FooFromJSON(json['string']),
+        'string': json['string'] == null ? undefined : FooFromJSON(json['string']),
     };
 }
 
 export function FooGetDefaultResponseToJSON(value?: FooGetDefaultResponse | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

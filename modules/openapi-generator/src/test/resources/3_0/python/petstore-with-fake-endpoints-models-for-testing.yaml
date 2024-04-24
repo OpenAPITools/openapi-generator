@@ -894,6 +894,13 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/OuterObjectWithEnumProperty'
+      parameters:
+        - in: query
+          name: param
+          schema:
+            type: array
+            items:
+                $ref: '#/components/schemas/OuterEnumInteger'
       requestBody:
         required: true
         content:
@@ -1140,6 +1147,27 @@ paths:
                 properties:
                   reason404:
                     type: string
+  /fake/object_for_multipart_requests: 
+    post:
+      tags:
+        - fake
+      operationId: testObjectForMultipartRequests
+      responses:
+        "200":
+          description: Success
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - marker
+              properties:
+                marker:
+                  type: object
+                  properties:
+                    name:
+                      type: string
   /another-fake/dummy:
     patch:
       tags:
@@ -1384,6 +1412,75 @@ paths:
       responses:
         "200":
           description: Get successful
+  /fake/return_string:
+    get:
+      tags:
+        - fake
+      summary: test returning string
+      operationId: fake_return_string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /fake/return_int:
+    get:
+      tags:
+        - fake
+      summary: test returning int
+      operationId: fake_return_int
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+  /fake/return_float:
+    get:
+      tags:
+        - fake
+      summary: test returning float
+      operationId: fake_return_float
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: number
+                format: float
+  /fake/return_boolean:
+    get:
+      tags:
+        - fake
+      summary: test returning boolean
+      operationId: fake_return_boolean
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+  /fake/return_enum:
+    get:
+      tags:
+        - fake
+      summary: test returning enum
+      operationId: fake_return_enum
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                enum:
+                  - a
+                  - b
   /fake/return_list_of_object:
     get:
       tags:
@@ -1412,6 +1509,63 @@ paths:
             plain/text:
               schema:
                 $ref: "#/components/schemas/EnumClass"
+  /fake/return_str_like_json:
+    get:
+      tags:
+        - fake
+      summary: test str like json
+      operationId: fake_return_str_like_json
+      responses:
+        200:
+          description: OK
+          content:
+            plain/text:
+              schema:
+                type: string
+  /fake/return_enum_like_json:
+    get:
+      tags:
+        - fake
+      summary: test enum like json
+      operationId: fake_return_enum_like_json
+      responses:
+        200:
+          description: OK
+          content:
+            plain/text:
+              schema:
+                type: string
+                enum:
+                  - '{"a": "a"}'
+                  - '{"b": "b"}'
+  /fake/return_byte_like_json:
+    get:
+      tags:
+        - fake
+      summary: test byte like json
+      operationId: fake_return_byte_like_json
+      responses:
+        200:
+          description: OK
+          content:
+            plain/text:
+              schema:
+                type: string
+                format: byte
+  /import_test/return_datetime:
+    get:
+      tags:
+        - import-test-datetime
+      summary: test date time
+      operationId: import_test_return_datetime
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                format: date-time
+                type: string
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2559,3 +2713,31 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/CreatureInfo"
+    field:
+      type: object
+      properties:
+        field:
+          type: string
+    CircularAllOfRef:
+      allOf:
+        - $ref: '#/components/schemas/AllOfSuperModel'
+        - properties:
+            secondCircularAllOfRef:
+              items:
+                $ref: '#/components/schemas/SecondCircularAllOfRef'
+              type: array
+      type: object
+    SecondCircularAllOfRef:
+      allOf:
+        - $ref: '#/components/schemas/AllOfSuperModel'
+        - properties:
+            circularAllOfRef:
+              items:
+                $ref: '#/components/schemas/CircularAllOfRef'
+              type: array
+      type: object
+    AllOfSuperModel:
+      properties:
+        _name:
+          type: string
+      type: object

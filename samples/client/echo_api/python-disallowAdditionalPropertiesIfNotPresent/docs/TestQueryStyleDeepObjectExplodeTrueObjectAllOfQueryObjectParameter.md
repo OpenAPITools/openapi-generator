@@ -25,7 +25,7 @@ print(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.to_json
 # convert the object into a dict
 test_query_style_deep_object_explode_true_object_all_of_query_object_parameter_dict = test_query_style_deep_object_explode_true_object_all_of_query_object_parameter_instance.to_dict()
 # create an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter from a dict
-test_query_style_deep_object_explode_true_object_all_of_query_object_parameter_form_dict = test_query_style_deep_object_explode_true_object_all_of_query_object_parameter.from_dict(test_query_style_deep_object_explode_true_object_all_of_query_object_parameter_dict)
+test_query_style_deep_object_explode_true_object_all_of_query_object_parameter_from_dict = TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.from_dict(test_query_style_deep_object_explode_true_object_all_of_query_object_parameter_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

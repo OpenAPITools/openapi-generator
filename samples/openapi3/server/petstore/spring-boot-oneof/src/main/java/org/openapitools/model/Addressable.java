@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "Addressable", description = "Base schema for addressable entities")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Addressable {
 
   private String href;

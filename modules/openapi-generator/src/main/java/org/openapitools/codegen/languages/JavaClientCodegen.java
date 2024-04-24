@@ -577,6 +577,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         }
 
+        if (APACHE.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("BaseApi.mustache", invokerFolder, "BaseApi.java"));
+        }
+
         if (FEIGN.equals(getLibrary())) {
             if (getSerializationLibrary() == null) {
                 LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_JACKSON);

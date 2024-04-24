@@ -550,20 +550,6 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                     }
                 }
             }
-
-            for (CodegenProperty header : rsp.headers) {
-                header.nameInCamelCase = toModelName(header.baseName);
-                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
-            }
-        }
-
-        for (CodegenParameter header : op.headerParams) {
-            header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
-        }
-
-        for (CodegenProperty header : op.responseHeaders) {
-            header.nameInCamelCase = toModelName(header.baseName);
-            header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
         }
 
         return op;
@@ -636,15 +622,6 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 param.vendorExtensions.put("x-consumes-json", true);
             }
         }
-
-        for (CodegenParameter header : op.headerParams) {
-            header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
-        }
-
-        for (CodegenProperty header : op.responseHeaders) {
-            header.nameInCamelCase = toModelName(header.baseName);
-            header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
-        }
     }
 
     @Override
@@ -705,8 +682,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);

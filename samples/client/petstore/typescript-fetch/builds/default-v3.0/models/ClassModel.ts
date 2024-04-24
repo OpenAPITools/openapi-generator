@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * Model for testing model with "_class" property
  * @export
@@ -39,21 +39,18 @@ export function ClassModelFromJSON(json: any): ClassModel {
 }
 
 export function ClassModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClassModel {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        '_class': !exists(json, '_class') ? undefined : json['_class'],
+        '_class': json['_class'] == null ? undefined : json['_class'],
     };
 }
 
 export function ClassModelToJSON(value?: ClassModel | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

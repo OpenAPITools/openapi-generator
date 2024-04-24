@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * A User who is purchasing from the pet store
  * @export
@@ -95,30 +95,27 @@ export function UserFromJSON(json: any): User {
 }
 
 export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
         'id': json['id'],
-        'username': !exists(json, 'username') ? undefined : json['username'],
-        'firstName': !exists(json, 'firstName') ? undefined : json['firstName'],
-        'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
-        'email': !exists(json, 'email') ? undefined : json['email'],
-        'password': !exists(json, 'password') ? undefined : json['password'],
-        'phone': !exists(json, 'phone') ? undefined : json['phone'],
-        'userStatus': !exists(json, 'userStatus') ? undefined : json['userStatus'],
-        'subUser': !exists(json, 'subUser') ? undefined : UserFromJSON(json['subUser']),
+        'username': json['username'] == null ? undefined : json['username'],
+        'firstName': json['firstName'] == null ? undefined : json['firstName'],
+        'lastName': json['lastName'] == null ? undefined : json['lastName'],
+        'email': json['email'] == null ? undefined : json['email'],
+        'password': json['password'] == null ? undefined : json['password'],
+        'phone': json['phone'] == null ? undefined : json['phone'],
+        'userStatus': json['userStatus'] == null ? undefined : json['userStatus'],
+        'subUser': json['subUser'] == null ? undefined : UserFromJSON(json['subUser']),
         'subUser2': UserFromJSON(json['subUser2']),
     };
 }
 
 export function UserToJSON(value?: User | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

@@ -113,7 +113,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   ) {
     this();
   {{#readOnlyVars}}
-    this.{{name}} = {{name}};
+    this.{{name}} = {{#vendorExtensions.x-is-jackson-optional-nullable}}{{name}} == null ? JsonNullable.<{{{datatypeWithEnum}}}>undefined() : JsonNullable.of({{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{name}}{{/vendorExtensions.x-is-jackson-optional-nullable}};
   {{/readOnlyVars}}
   }{{/jackson}}{{/withXml}}{{/vendorExtensions.x-has-readonly-properties}}
   {{#vars}}
@@ -145,7 +145,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   }
   {{#isArray}}
 
-  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+  public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
       this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
@@ -168,7 +168,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/isArray}}
   {{#isMap}}
 
-  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+  public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
       this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});

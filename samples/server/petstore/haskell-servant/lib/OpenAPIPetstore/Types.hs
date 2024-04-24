@@ -1,6 +1,7 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE DeriveDataTypeable         #-}
 {-# LANGUAGE DeriveGeneric              #-}
+{-# LANGUAGE DuplicateRecordFields      #-}
 {-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module OpenAPIPetstore.Types (
@@ -8,6 +9,7 @@ module OpenAPIPetstore.Types (
   Category (..),
   Order (..),
   Pet (..),
+  PetFilter (..),
   SpecialCharacters (..),
   Tag (..),
   User (..),
@@ -157,6 +159,34 @@ optionsPet =
       , ("petPhotoUrls", "photoUrls")
       , ("petTags", "tags")
       , ("petStatus", "status")
+      ]
+
+
+-- | 
+data PetFilter = PetFilter
+  { petFilterTags :: Maybe [Text] -- ^ 
+  , petFilterStatus :: Maybe [Text] -- ^ 
+  } deriving (Show, Eq, Generic, Data)
+
+instance FromJSON PetFilter where
+  parseJSON = genericParseJSON optionsPetFilter
+instance ToJSON PetFilter where
+  toJSON = genericToJSON optionsPetFilter
+instance ToSchema PetFilter where
+  declareNamedSchema = Swagger.genericDeclareNamedSchema
+    $ Swagger.fromAesonOptions
+    $ optionsPetFilter
+
+optionsPetFilter :: Options
+optionsPetFilter =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
+    }
+  where
+    table =
+      [ ("petFilterTags", "tags")
+      , ("petFilterStatus", "status")
       ]
 
 

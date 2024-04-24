@@ -5,6 +5,9 @@
 {{/vars}}
  */{{#discriminator}}
 {{>typeInfoAnnotation}}{{/discriminator}}
+{{#additionalModelTypeAnnotations}}
+    {{{.}}}
+{{/additionalModelTypeAnnotations}}
 {{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},
@@ -25,7 +28,7 @@
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
-    enum class {{{nameInCamelCase}}}(val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {
+    enum class {{{nameInPascalCase}}}(val value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}) {
 {{#allowableValues}}{{#enumVars}}
         @JsonProperty({{{value}}}) {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     }

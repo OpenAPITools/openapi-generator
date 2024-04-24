@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;

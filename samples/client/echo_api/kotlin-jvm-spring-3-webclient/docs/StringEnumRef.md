@@ -10,7 +10,7 @@
 
     * `unclassified` (value: `"unclassified"`)
 
-    * `unknownDefaultOpenApi` (value: `"unknown_default_open_api"`)
+    * `unknown_default_open_api` (value: `"unknown_default_open_api"`)
 
 
 

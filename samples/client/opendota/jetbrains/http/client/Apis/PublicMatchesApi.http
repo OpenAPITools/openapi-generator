@@ -1,0 +1,6 @@
+## PublicMatchesApi
+
+### GET /publicMatches
+## GET /publicMatches
+GET https://api.opendota.com/api/publicMatches
+Accept: application/json; charset=utf-8

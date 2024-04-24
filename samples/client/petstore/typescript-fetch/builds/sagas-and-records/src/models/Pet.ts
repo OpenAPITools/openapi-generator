@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Category } from './Category';
 import {
     CategoryFromJSON,
@@ -210,41 +210,38 @@ export function PetFromJSON(json: any): Pet {
 }
 
 export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
         'id': json['id'],
-        'friendId': !exists(json, 'friendId') ? undefined : json['friendId'],
+        'friendId': json['friendId'] == null ? undefined : json['friendId'],
         'otherFriendIds': json['otherFriendIds'],
         'friendAge': json['friendAge'],
         'age': json['age'],
         'isHappy': json['isHappy'],
         'isTall': json['isTall'],
         'category': CategoryFromJSON(json['category']),
-        'optionalCategory': !exists(json, 'optionalCategory') ? undefined : CategoryFromJSON(json['optionalCategory']),
+        'optionalCategory': json['optionalCategory'] == null ? undefined : CategoryFromJSON(json['optionalCategory']),
         'name': json['name'],
-        '_entries': !exists(json, 'entries') ? undefined : ((json['entries'] as Array<any>).map(CategoryFromJSON)),
-        'surname': !exists(json, 'surname') ? undefined : json['surname'],
+        '_entries': json['entries'] == null ? undefined : ((json['entries'] as Array<any>).map(CategoryFromJSON)),
+        'surname': json['surname'] == null ? undefined : json['surname'],
         'photoUrls': json['photoUrls'],
         'warningStatus': WarningCodeFromJSON(json['warningStatus']),
-        'depStatus': !exists(json, 'depStatus') ? undefined : DeploymentRequestStatusFromJSON(json['depStatus']),
+        'depStatus': json['depStatus'] == null ? undefined : DeploymentRequestStatusFromJSON(json['depStatus']),
         'alternateStatus': DeploymentRequestStatusFromJSON(json['alternateStatus']),
         'otherDepStatuses': ((json['otherDepStatuses'] as Array<any>).map(DeploymentRequestStatusFromJSON)),
         'tags': ((json['tags'] as Array<any>).map(TagFromJSON)),
-        'optionalTags': !exists(json, 'optionalTags') ? undefined : ((json['optionalTags'] as Array<any>).map(TagFromJSON)),
+        'optionalTags': json['optionalTags'] == null ? undefined : ((json['optionalTags'] as Array<any>).map(TagFromJSON)),
         'status': json['status'],
-        'regions': !exists(json, 'regions') ? undefined : json['regions'],
+        'regions': json['regions'] == null ? undefined : json['regions'],
     };
 }
 
 export function PetToJSON(value?: Pet | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
@@ -258,7 +255,7 @@ export function PetToJSON(value?: Pet | null): any {
         'category': CategoryToJSON(value['category']),
         'optionalCategory': CategoryToJSON(value['optionalCategory']),
         'name': value['name'],
-        'entries': !exists(value, '_entries') ? undefined : ((value['_entries'] as Array<any>).map(CategoryToJSON)),
+        'entries': value['_entries'] == null ? undefined : ((value['_entries'] as Array<any>).map(CategoryToJSON)),
         'surname': value['surname'],
         'photoUrls': value['photoUrls'],
         'warningStatus': WarningCodeToJSON(value['warningStatus']),
@@ -266,7 +263,7 @@ export function PetToJSON(value?: Pet | null): any {
         'alternateStatus': DeploymentRequestStatusToJSON(value['alternateStatus']),
         'otherDepStatuses': ((value['otherDepStatuses'] as Array<any>).map(DeploymentRequestStatusToJSON)),
         'tags': ((value['tags'] as Array<any>).map(TagToJSON)),
-        'optionalTags': !exists(value, 'optionalTags') ? undefined : ((value['optionalTags'] as Array<any>).map(TagToJSON)),
+        'optionalTags': value['optionalTags'] == null ? undefined : ((value['optionalTags'] as Array<any>).map(TagToJSON)),
         'status': value['status'],
         'regions': value['regions'],
     };

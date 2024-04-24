@@ -24,7 +24,7 @@ print ObjectWithDeprecatedFields.to_json()
 # convert the object into a dict
 object_with_deprecated_fields_dict = object_with_deprecated_fields_instance.to_dict()
 # create an instance of ObjectWithDeprecatedFields from a dict
-object_with_deprecated_fields_form_dict = object_with_deprecated_fields.from_dict(object_with_deprecated_fields_dict)
+object_with_deprecated_fields_from_dict = ObjectWithDeprecatedFields.from_dict(object_with_deprecated_fields_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

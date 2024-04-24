@@ -24,6 +24,10 @@ export enum StringEnum {
 }
 
 
+export function instanceOfStringEnum(value: any): boolean {
+    return Object.values(StringEnum).includes(value);
+}
+
 export function StringEnumFromJSON(json: any): StringEnum {
     return StringEnumFromJSONTyped(json, false);
 }

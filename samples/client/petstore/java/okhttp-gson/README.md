@@ -2,6 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
+  - Generator version: 7.6.0-SNAPSHOT
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
@@ -122,6 +123,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**fakeUploadRefRequestBodies**](docs/FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake uploads an image with ref request bodies
 *FakeApi* | [**getFakeArrayofenums**](docs/FakeApi.md#getFakeArrayofenums) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**getFakeHealth**](docs/FakeApi.md#getFakeHealth) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**getParameterNameMapping**](docs/FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
@@ -173,11 +175,13 @@ Class | Method | HTTP request | Description
  - [Animal](docs/Animal.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
+ - [ArrayAnyOf](docs/ArrayAnyOf.md)
  - [ArrayDefault](docs/ArrayDefault.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfInlineAllOf](docs/ArrayOfInlineAllOf.md)
  - [ArrayOfInlineAllOfArrayAllofDogPropertyInner](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
+ - [ArrayOneOf](docs/ArrayOneOf.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [Banana](docs/Banana.md)
  - [BananaReq](docs/BananaReq.md)
@@ -216,6 +220,7 @@ Class | Method | HTTP request | Description
  - [ModelFile](docs/ModelFile.md)
  - [ModelList](docs/ModelList.md)
  - [ModelReturn](docs/ModelReturn.md)
+ - [ModelWithOneOfAnyOfProperties](docs/ModelWithOneOfAnyOfProperties.md)
  - [Name](docs/Name.md)
  - [NewPet](docs/NewPet.md)
  - [NewPetCategoryInlineAllof](docs/NewPetCategoryInlineAllof.md)
@@ -232,6 +237,8 @@ Class | Method | HTTP request | Description
  - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [ParentPet](docs/ParentPet.md)
  - [Pet](docs/Pet.md)
+ - [PetComposition](docs/PetComposition.md)
+ - [PetRef](docs/PetRef.md)
  - [PetUsingAllOf](docs/PetUsingAllOf.md)
  - [PetWithRequiredTags](docs/PetWithRequiredTags.md)
  - [Pig](docs/Pig.md)

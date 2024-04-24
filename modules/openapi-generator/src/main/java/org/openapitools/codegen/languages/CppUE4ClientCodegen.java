@@ -20,6 +20,10 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -246,6 +250,34 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         this.optionalProjectFileFlag = flag;
     }
 
+    // override to post-process any model properties
+    @Override
+    @SuppressWarnings("unused")
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+        // Nullable will be handled as optional
+        property.required = !property.notRequiredOrIsNullable();
+    }
+
+    // override to post-process any response
+    @Override
+    @SuppressWarnings("unused")
+    public void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property) {
+        super.postProcessResponseWithProperty(response, property);
+        // Nullable will be handled as optional
+        property.required = !property.notRequiredOrIsNullable();
+    }
+
+    // override to post-process any parameters
+    @Override
+    @SuppressWarnings("unused")
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        // Nullable will be handled as optional
+        parameter.required = !parameter.notRequiredOrIsNullable();
+    }
+
+
     /**
      * Configures the type of generator.
      *
@@ -384,8 +416,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         String openAPIType = getSchemaType(p);
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            return getSchemaType(p) + "<" + getTypeDeclaration(ap.getItems()) + ">";
+            return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.getSchemaItems(p)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             return getSchemaType(p) + "<FString, " + getTypeDeclaration(ModelUtils.getAdditionalProperties(p)) + ">";
         }

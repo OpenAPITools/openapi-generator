@@ -26,7 +26,7 @@ print Pet.to_json()
 # convert the object into a dict
 pet_dict = pet_instance.to_dict()
 # create an instance of Pet from a dict
-pet_form_dict = pet.from_dict(pet_dict)
+pet_from_dict = Pet.from_dict(pet_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

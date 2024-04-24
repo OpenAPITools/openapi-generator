@@ -17,6 +17,8 @@ import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 

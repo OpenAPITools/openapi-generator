@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import {
      CatFromJSONTyped,
      DogFromJSONTyped
@@ -51,7 +51,7 @@ export function AnimalFromJSON(json: any): Animal {
 }
 
 export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): Animal {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     if (!ignoreDiscriminator) {
@@ -65,16 +65,13 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
     return {
         
         'className': json['class_name'],
-        'color': !exists(json, 'color') ? undefined : json['color'],
+        'color': json['color'] == null ? undefined : json['color'],
     };
 }
 
 export function AnimalToJSON(value?: Animal | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

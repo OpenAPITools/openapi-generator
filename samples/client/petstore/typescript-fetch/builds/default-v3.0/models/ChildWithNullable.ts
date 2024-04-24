@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { ParentWithNullable } from './ParentWithNullable';
 import {
     ParentWithNullableFromJSON,
@@ -48,21 +48,18 @@ export function ChildWithNullableFromJSON(json: any): ChildWithNullable {
 }
 
 export function ChildWithNullableFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChildWithNullable {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         ...ParentWithNullableFromJSONTyped(json, ignoreDiscriminator),
-        'otherProperty': !exists(json, 'otherProperty') ? undefined : json['otherProperty'],
+        'otherProperty': json['otherProperty'] == null ? undefined : json['otherProperty'],
     };
 }
 
 export function ChildWithNullableToJSON(value?: ChildWithNullable | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         ...ParentWithNullableToJSON(value),

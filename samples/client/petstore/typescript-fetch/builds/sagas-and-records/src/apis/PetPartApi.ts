@@ -47,7 +47,7 @@ export class PetPartApi extends runtime.BaseAPI {
      * Returns single pet part type for the petPart id.
      */
     async getFakePetPartTypeRaw(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetPetPartTypeResponse>> {
-        if (!runtime.exists(requestParameters, 'fakePetPartId')) {
+        if (requestParameters['fakePetPartId'] == null) {
             throw new runtime.RequiredError(
                 'fakePetPartId',
                 'Required parameter "fakePetPartId" was null or undefined when calling getFakePetPartType().'
@@ -80,28 +80,28 @@ export class PetPartApi extends runtime.BaseAPI {
      * Get the matching parts for the given pet part.
      */
     async getMatchingPartsRaw(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMatchingPartsResponse>> {
-        if (!runtime.exists(requestParameters, 'fakePetPartId')) {
+        if (requestParameters['fakePetPartId'] == null) {
             throw new runtime.RequiredError(
                 'fakePetPartId',
                 'Required parameter "fakePetPartId" was null or undefined when calling getMatchingParts().'
             );
         }
 
-        if (!runtime.exists(requestParameters, '_long')) {
+        if (requestParameters['_long'] == null) {
             throw new runtime.RequiredError(
                 '_long',
                 'Required parameter "_long" was null or undefined when calling getMatchingParts().'
             );
         }
 
-        if (!runtime.exists(requestParameters, 'smooth')) {
+        if (requestParameters['smooth'] == null) {
             throw new runtime.RequiredError(
                 'smooth',
                 'Required parameter "smooth" was null or undefined when calling getMatchingParts().'
             );
         }
 
-        if (!runtime.exists(requestParameters, '_short')) {
+        if (requestParameters['_short'] == null) {
             throw new runtime.RequiredError(
                 '_short',
                 'Required parameter "_short" was null or undefined when calling getMatchingParts().'
@@ -110,23 +110,23 @@ export class PetPartApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (runtime.exists(requestParameters, '_long')) {
+        if (requestParameters['_long'] != null) {
             queryParameters['long'] = requestParameters['_long'];
         }
 
-        if (runtime.exists(requestParameters, 'smooth')) {
+        if (requestParameters['smooth'] != null) {
             queryParameters['smooth'] = requestParameters['smooth'];
         }
 
-        if (runtime.exists(requestParameters, 'name')) {
+        if (requestParameters['name'] != null) {
             queryParameters['name'] = requestParameters['name'];
         }
 
-        if (runtime.exists(requestParameters, 'connectedPart')) {
+        if (requestParameters['connectedPart'] != null) {
             queryParameters['connected-part'] = requestParameters['connectedPart'];
         }
 
-        if (runtime.exists(requestParameters, '_short')) {
+        if (requestParameters['_short'] != null) {
             queryParameters['short'] = requestParameters['_short'];
         }
 

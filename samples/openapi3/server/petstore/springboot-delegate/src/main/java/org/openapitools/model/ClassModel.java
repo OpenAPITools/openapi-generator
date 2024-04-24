@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "ClassModel", description = "Model for testing model with \"_class\" property")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ClassModel {
 
   private String propertyClass;

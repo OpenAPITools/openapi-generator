@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
@@ -47,7 +47,7 @@ export function DefaultMetaOnlyResponseFromJSON(json: any): DefaultMetaOnlyRespo
 }
 
 export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): DefaultMetaOnlyResponse {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
@@ -57,11 +57,8 @@ export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscrimina
 }
 
 export function DefaultMetaOnlyResponseToJSON(value?: DefaultMetaOnlyResponse | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

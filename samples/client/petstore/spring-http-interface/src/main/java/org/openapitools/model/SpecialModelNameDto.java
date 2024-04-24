@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("_special_model.name_")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class SpecialModelNameDto {
 
   private Long $specialPropertyName;

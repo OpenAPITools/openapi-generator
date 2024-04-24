@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - samples/server/petstore/php-symfony/SymfonyBundle-php/**
+      - samples/server/petstore/php-flight/**
   pull_request:
     paths:
       - samples/server/petstore/php-symfony/SymfonyBundle-php/**
+      - samples/server/petstore/php-flight/**
 jobs:
   build:
     name: Build PHP projects
@@ -17,6 +19,7 @@ jobs:
         sample:
           # servers
           - samples/server/petstore/php-symfony/SymfonyBundle-php/
+          - samples/server/petstore/php-flight/
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP with tools

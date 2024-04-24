@@ -31,7 +31,7 @@ import javax.annotation.Generated;
   Name.JSON_PROPERTY_123NUMBER
 })
 @JsonTypeName("Name")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 @Introspected
 public class Name {
     public static final String JSON_PROPERTY_NAME = "name";

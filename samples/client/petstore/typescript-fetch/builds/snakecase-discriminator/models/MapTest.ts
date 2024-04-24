@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -68,24 +68,21 @@ export function MapTestFromJSON(json: any): MapTest {
 }
 
 export function MapTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): MapTest {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'mapMapOfString': !exists(json, 'map_map_of_string') ? undefined : json['map_map_of_string'],
-        'mapOfEnumString': !exists(json, 'map_of_enum_string') ? undefined : json['map_of_enum_string'],
-        'directMap': !exists(json, 'direct_map') ? undefined : json['direct_map'],
-        'indirectMap': !exists(json, 'indirect_map') ? undefined : json['indirect_map'],
+        'mapMapOfString': json['map_map_of_string'] == null ? undefined : json['map_map_of_string'],
+        'mapOfEnumString': json['map_of_enum_string'] == null ? undefined : json['map_of_enum_string'],
+        'directMap': json['direct_map'] == null ? undefined : json['direct_map'],
+        'indirectMap': json['indirect_map'] == null ? undefined : json['indirect_map'],
     };
 }
 
 export function MapTestToJSON(value?: MapTest | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

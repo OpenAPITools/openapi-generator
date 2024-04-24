@@ -1,0 +1,41 @@
+openapi: 3.0.0
+info:
+  title: 'Issue 10591 Enum default value'
+  version: latest
+paths:
+  '/':
+    get:
+      operationId: operation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelWithEnumPropertyHavingDefault'
+components:
+  schemas:
+    ModelWithEnumPropertyHavingDefault:
+      required:
+        - propertyName
+      properties:
+        propertyName:
+          type: string
+          default: VALUE
+          enum:
+            - VALUE
+        propertyName2:
+          type: string
+          default: Value
+          enum:
+            - Value
+        propertyName3:
+          type: string
+          default: nonkeywordvalue
+          enum:
+            - nonkeywordvalue
+        propertyName4:
+          type: string
+          default: value
+          enum:
+            - value
