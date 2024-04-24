@@ -35,6 +35,8 @@
                         <configuration>
                             <executable>cmake</executable>
                             <arguments>
+                                <argument>-S=.</argument>
+                                <argument>-B=${project.build.directory}</argument>
                                 <argument>-DCMAKE_CXX_FLAGS="-I/usr/local/opt/openssl/include"</argument>
                                 <argument>-DCMAKE_MODULE_LINKER_FLAGS="-L/usr/local/opt/openssl/lib"</argument>
                             </arguments>
@@ -47,7 +49,12 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>make</executable>
+                            <executable>cmake</executable>
+                            <arguments>
+                                <argument>--build</argument>
+                                <argument>${project.build.directory}</argument>
+                                <argument>--parallel</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
