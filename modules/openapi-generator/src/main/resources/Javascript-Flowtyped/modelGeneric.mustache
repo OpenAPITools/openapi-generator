@@ -12,7 +12,7 @@
  */
 export type {{classname}} = {
 {{#additionalPropertiesType}}
-    [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
+    [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | unknown{{/hasVars}};
 
 {{/additionalPropertiesType}}
 {{#vars}}

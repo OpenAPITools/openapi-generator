@@ -79,7 +79,7 @@ export interface FakePropertyEnumIntegerSerializeRequest {
 }
 
 export interface TestAdditionalPropertiesReferenceRequest {
-    requestBody: { [key: string]: any; };
+    requestBody: { [key: string]: unknown; };
 }
 
 export interface TestBodyWithBinaryRequest {

@@ -19,7 +19,7 @@ import { mapValues } from '../runtime';
  * @interface NullableClass
  */
 export interface NullableClass {
-    [key: string]: object | any;
+    [key: string]: object | unknown;
     /**
      * 
      * @type {number}

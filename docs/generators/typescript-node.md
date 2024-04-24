@@ -49,6 +49,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
 |array|Array|
+|map|Record|
+|set|Set|
 
 
 ## LANGUAGE PRIMITIVES
@@ -68,6 +70,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Object</li>
 <li>ReadStream</li>
 <li>ReadonlyArray</li>
+<li>Record</li>
 <li>RequestDetailedFile</li>
 <li>RequestFile</li>
 <li>Set</li>
@@ -77,6 +80,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>number</li>
 <li>object</li>
 <li>string</li>
+<li>unknown</li>
 </ul>
 
 ## RESERVED WORDS
