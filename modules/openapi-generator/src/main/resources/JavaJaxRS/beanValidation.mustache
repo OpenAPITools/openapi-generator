@@ -1,1 +1,1 @@
-{{#required}}@NotNull {{/required}}{{#isContainer}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{^isEnum}}@Valid {{/isEnum}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}{{/isContainer}}{{>beanValidationCore}}
+{{#required}}@NotNull {{/required}}{{#isContainer}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{^isEnumOrRef}}@Valid {{/isEnumOrRef}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}{{/isContainer}}{{>beanValidationCore}}
