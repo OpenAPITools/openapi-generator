@@ -19,7 +19,7 @@ import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssertions.assertThat;
+import static org.junit.Assertions.assertTrue;
 
 /**
  * API tests

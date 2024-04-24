@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda.HTTP_STATUS_PREFIX;
-import static org.testng.Assert.assertThrows;
+import static org.testng.Assertions.assertThrows;
 
 public class SpringHttpStatusLambdaTest extends LambdaTest {
 

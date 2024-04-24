@@ -13,7 +13,7 @@ public class KotlinTestUtilsTest {
         ClassLoader classLoader = KotlinTestUtils.buildModule(Collections.singletonList(getClass().getResource("KotlinTestUtilsTest/normalPack").getFile()), Thread.currentThread().getContextClassLoader());
         Class<?> clazz = classLoader.loadClass("com.example.SimpleClass");
         Constructor<?>[] constructors = clazz.getConstructors();
-        Assert.assertEquals(1, constructors.length);
+        Assertions.assertEquals(1, constructors.length);
         Constructor<?> constr = constructors[0];
         Object testObj = constr.newInstance("test");
     }

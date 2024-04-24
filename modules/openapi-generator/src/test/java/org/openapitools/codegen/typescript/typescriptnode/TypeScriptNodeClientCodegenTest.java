@@ -31,13 +31,13 @@ public class TypeScriptNodeClientCodegenTest {
     @Test
     public void convertVarName() throws Exception {
         TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
-        Assert.assertEquals(codegen.toVarName("name"), "name");
-        Assert.assertEquals(codegen.toVarName("$name"), "$name");
-        Assert.assertEquals(codegen.toVarName("nam$$e"), "nam$$e");
-        Assert.assertEquals(codegen.toVarName("user-name"), "userName");
-        Assert.assertEquals(codegen.toVarName("user_name"), "userName");
-        Assert.assertEquals(codegen.toVarName("user|name"), "userName");
-        Assert.assertEquals(codegen.toVarName("user !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~name"), "user$Name");
+        Assertions.assertEquals(codegen.toVarName("name"), "name");
+        Assertions.assertEquals(codegen.toVarName("$name"), "$name");
+        Assertions.assertEquals(codegen.toVarName("nam$$e"), "nam$$e");
+        Assertions.assertEquals(codegen.toVarName("user-name"), "userName");
+        Assertions.assertEquals(codegen.toVarName("user_name"), "userName");
+        Assertions.assertEquals(codegen.toVarName("user|name"), "userName");
+        Assertions.assertEquals(codegen.toVarName("user !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~name"), "user$Name");
     }
 
     @Test
@@ -51,7 +51,7 @@ public class TypeScriptNodeClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
-        Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT.[0-9]{12}$"));
+        Assertions.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT.[0-9]{12}$"));
 
         codegen = new TypeScriptNodeClientCodegen();
         codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
@@ -60,7 +60,7 @@ public class TypeScriptNodeClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
-        Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
+        Assertions.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class TypeScriptNodeClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
-        Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT$"));
+        Assertions.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT$"));
 
         codegen = new TypeScriptNodeClientCodegen();
         codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
@@ -83,12 +83,12 @@ public class TypeScriptNodeClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
-        Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
+        Assertions.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
     }
 
     @Test(description = "prepend model filename with ./ by default")
     public void defaultModelFilenameTest() {
-        Assert.assertEquals(codegen.toModelFilename("ApiResponse"), "./apiResponse");
+        Assertions.assertEquals(codegen.toModelFilename("ApiResponse"), "./apiResponse");
     }
 
     @Test(description = "use mapped name for model filename when provided")
@@ -96,12 +96,12 @@ public class TypeScriptNodeClientCodegenTest {
         final String mappedName = "@namespace/dir/response";
         codegen.importMapping().put("ApiResponse", mappedName);
 
-        Assert.assertEquals(codegen.toModelFilename("ApiResponse"), mappedName);
+        Assertions.assertEquals(codegen.toModelFilename("ApiResponse"), mappedName);
     }
 
     @Test(description = "prepend model import with ../model by default")
     public void defaultModelImportTest() {
-        Assert.assertEquals(codegen.toModelImport("ApiResponse"), "../model/apiResponse");
+        Assertions.assertEquals(codegen.toModelImport("ApiResponse"), "../model/apiResponse");
     }
 
     @Test(description = "use mapped name for model import when provided")
@@ -109,41 +109,41 @@ public class TypeScriptNodeClientCodegenTest {
         final String mappedName = "@namespace/dir/response";
         codegen.importMapping().put("ApiResponse", mappedName);
 
-        Assert.assertEquals(codegen.toModelImport("ApiResponse"), mappedName);
+        Assertions.assertEquals(codegen.toModelImport("ApiResponse"), mappedName);
     }
 
     @Test(description = "append api suffix to default api filename")
     public void emptyApiFilenameTest() {
-        Assert.assertEquals(codegen.toApiFilename(""), "defaultApi");
+        Assertions.assertEquals(codegen.toApiFilename(""), "defaultApi");
     }
 
     @Test(description = "appends api suffix to api filename")
     public void defaultApiFilenameTest() {
-        Assert.assertEquals(codegen.toApiFilename("Category"), "categoryApi");
+        Assertions.assertEquals(codegen.toApiFilename("Category"), "categoryApi");
     }
 
     @Test(description = "appends api suffix to mapped api filename")
     public void mappedApiFilenameTest() {
         final String mappedName = "@namespace/dir/category";
         codegen.importMapping().put("Category", mappedName);
-        Assert.assertEquals(codegen.toApiFilename("Category"), mappedName);
+        Assertions.assertEquals(codegen.toApiFilename("Category"), mappedName);
     }
 
     @Test(description = "append api suffix to default api import")
     public void emptyApiImportTest() {
-        Assert.assertEquals(codegen.toApiImport(""), "api/defaultApi");
+        Assertions.assertEquals(codegen.toApiImport(""), "api/defaultApi");
     }
 
     @Test(description = "appends api suffix to api import")
     public void defaultApiImportTest() {
-        Assert.assertEquals(codegen.toApiImport("Category"), "api/categoryApi");
+        Assertions.assertEquals(codegen.toApiImport("Category"), "api/categoryApi");
     }
 
     @Test(description = "appends api suffix to mapped api filename")
     public void mappedApiImportTest() {
         final String mappedName = "@namespace/dir/category";
         codegen.importMapping().put("Category", mappedName);
-        Assert.assertEquals(codegen.toApiImport("Category"), mappedName);
+        Assertions.assertEquals(codegen.toApiImport("Category"), mappedName);
     }
 
     @Test(description = "correctly produces imports without import mapping")
@@ -153,7 +153,7 @@ public class TypeScriptNodeClientCodegenTest {
 
         codegen.postProcessOperationsWithModels(operations, Collections.emptyList());
         List<Map<String, String>> extractedImports = operations.getImports();
-        Assert.assertEquals(extractedImports.get(0).get("filename"), importName);
+        Assertions.assertEquals(extractedImports.get(0).get("filename"), importName);
     }
 
     @Test(description = "correctly produces imports with import mapping")
@@ -164,7 +164,7 @@ public class TypeScriptNodeClientCodegenTest {
         codegen.postProcessOperationsWithModels(operations, Collections.emptyList());
         List<Map<String, String>> extractedImports = operations.getImports();
 
-        Assert.assertEquals(extractedImports.get(0).get("filename"), importName);
+        Assertions.assertEquals(extractedImports.get(0).get("filename"), importName);
     }
 
     @Test(description = "correctly produces imports with model name suffix")
@@ -193,8 +193,8 @@ public class TypeScriptNodeClientCodegenTest {
         final List<Map<String, String>> tsImports = (List<Map<String, String>>) rootModelMaps.get(0)
             .get("tsImports");
 
-        Assert.assertEquals(tsImports.size(), 1);
-        Assert.assertEquals(tsImports.get(0).get("filename"), "./childSuffix");
+        Assertions.assertEquals(tsImports.size(), 1);
+        Assertions.assertEquals(tsImports.get(0).get("filename"), "./childSuffix");
     }
 
     @Test(description = "correctly produces imports with model name prefix")
@@ -223,8 +223,8 @@ public class TypeScriptNodeClientCodegenTest {
         final List<Map<String, String>> tsImports = (List<Map<String, String>>) rootModelMaps.get(0)
             .get("tsImports");
 
-        Assert.assertEquals(tsImports.size(), 1);
-        Assert.assertEquals(tsImports.get(0).get("filename"), "./prefixChild");
+        Assertions.assertEquals(tsImports.size(), 1);
+        Assertions.assertEquals(tsImports.get(0).get("filename"), "./prefixChild");
     }
 
     private OperationsMap createPostProcessOperationsMapWithImportName(String importName) {

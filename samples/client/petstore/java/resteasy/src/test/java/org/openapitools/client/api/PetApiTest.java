@@ -18,7 +18,7 @@ import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -183,7 +183,7 @@ public class PetApiTest {
         fw.close();
         file.deleteOnExit();
         ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
-        Assert.assertEquals((long)response.getCode(), 200);
+        Assertions.assertEquals((long)response.getCode(), 200);
     }
     /**
      * uploads an image (required)

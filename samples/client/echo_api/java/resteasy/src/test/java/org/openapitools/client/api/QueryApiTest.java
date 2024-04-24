@@ -23,7 +23,7 @@ import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAl
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;

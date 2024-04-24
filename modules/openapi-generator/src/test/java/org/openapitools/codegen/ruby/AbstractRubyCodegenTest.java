@@ -19,8 +19,8 @@ public class AbstractRubyCodegenTest {
 
     @Test
     public void testEscapeUnsafeCharacters() {
-        Assert.assertEquals(codegen.escapeUnsafeCharacters("=begin"), "=_begin");
-        Assert.assertEquals(codegen.escapeUnsafeCharacters("=end"), "=_end");
-        Assert.assertEquals(codegen.escapeUnsafeCharacters("#{x}"), "\\#{x}");
+        Assertions.assertEquals(codegen.escapeUnsafeCharacters("=begin"), "=_begin");
+        Assertions.assertEquals(codegen.escapeUnsafeCharacters("=end"), "=_end");
+        Assertions.assertEquals(codegen.escapeUnsafeCharacters("#{x}"), "\\#{x}");
     }
 }

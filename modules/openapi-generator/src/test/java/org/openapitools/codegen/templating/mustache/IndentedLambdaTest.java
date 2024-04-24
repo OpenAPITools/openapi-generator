@@ -1,6 +1,6 @@
 package org.openapitools.codegen.templating.mustache;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assertions.assertEquals;
 
 import java.util.Map;
 

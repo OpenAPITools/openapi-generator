@@ -43,8 +43,8 @@ public class CppRestbedServerTest {
         // Assert
         List<CodegenOperation> processedObjsOperationList = extractOperationsList(processedObjs);
 
-        Assert.assertEquals(processedObjsOperationList.size(), 1);
-        Assert.assertEquals(processedObjsOperationList.get(0).path, expectedPath);
+        Assertions.assertEquals(processedObjsOperationList.size(), 1);
+        Assertions.assertEquals(processedObjsOperationList.get(0).path, expectedPath);
     }
 
     private static List<CodegenOperation> extractOperationsList(Map<String, Object> processedObjs) {

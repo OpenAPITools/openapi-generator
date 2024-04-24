@@ -13,8 +13,8 @@ public class SttpJsonLibraryPropertyTest {
         ScalaSttpClientCodegen.JsonLibraryProperty property = new ScalaSttpClientCodegen.JsonLibraryProperty();
         Map<String, Object> additionalProperties = new HashMap<>();
         property.updateAdditionalProperties(additionalProperties);
-        Assert.assertEquals(additionalProperties.get("json4s"), true);
-        Assert.assertEquals(additionalProperties.get("circe"), false);
+        Assertions.assertEquals(additionalProperties.get("json4s"), true);
+        Assertions.assertEquals(additionalProperties.get("circe"), false);
     }
 
     @Test
@@ -23,8 +23,8 @@ public class SttpJsonLibraryPropertyTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put("jsonLibrary", "json4s");
         property.updateAdditionalProperties(additionalProperties);
-        Assert.assertEquals(additionalProperties.get("json4s"), true);
-        Assert.assertEquals(additionalProperties.get("circe"), false);
+        Assertions.assertEquals(additionalProperties.get("json4s"), true);
+        Assertions.assertEquals(additionalProperties.get("circe"), false);
     }
 
     @Test
@@ -33,7 +33,7 @@ public class SttpJsonLibraryPropertyTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put("jsonLibrary", "circe");
         property.updateAdditionalProperties(additionalProperties);
-        Assert.assertEquals(additionalProperties.get("json4s"), false);
-        Assert.assertEquals(additionalProperties.get("circe"), true);
+        Assertions.assertEquals(additionalProperties.get("json4s"), false);
+        Assertions.assertEquals(additionalProperties.get("circe"), true);
     }
 }

@@ -54,43 +54,43 @@ public class ScalaAkkaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 3);
+        Assertions.assertEquals(cm.name, "sample");
+        Assertions.assertEquals(cm.classname, "Sample");
+        Assertions.assertEquals(cm.description, "a sample model");
+        Assertions.assertEquals(cm.vars.size(), 3);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.getter, "getId");
-        Assert.assertEquals(property1.setter, "setId");
-        Assert.assertEquals(property1.dataType, "Long");
-        Assert.assertEquals(property1.name, "id");
-        Assert.assertNull(property1.defaultValue);
-        Assert.assertEquals(property1.baseType, "Long");
-        Assert.assertTrue(property1.required);
-        Assert.assertFalse(property1.isContainer);
+        Assertions.assertEquals(property1.baseName, "id");
+        Assertions.assertEquals(property1.getter, "getId");
+        Assertions.assertEquals(property1.setter, "setId");
+        Assertions.assertEquals(property1.dataType, "Long");
+        Assertions.assertEquals(property1.name, "id");
+        Assertions.assertNull(property1.defaultValue);
+        Assertions.assertEquals(property1.baseType, "Long");
+        Assertions.assertTrue(property1.required);
+        Assertions.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
-        Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.getter, "getName");
-        Assert.assertEquals(property2.setter, "setName");
-        Assert.assertEquals(property2.dataType, "String");
-        Assert.assertEquals(property2.name, "name");
-        Assert.assertNull(property2.defaultValue);
-        Assert.assertEquals(property2.baseType, "String");
-        Assert.assertTrue(property2.required);
-        Assert.assertFalse(property2.isContainer);
+        Assertions.assertEquals(property2.baseName, "name");
+        Assertions.assertEquals(property2.getter, "getName");
+        Assertions.assertEquals(property2.setter, "setName");
+        Assertions.assertEquals(property2.dataType, "String");
+        Assertions.assertEquals(property2.name, "name");
+        Assertions.assertNull(property2.defaultValue);
+        Assertions.assertEquals(property2.baseType, "String");
+        Assertions.assertTrue(property2.required);
+        Assertions.assertFalse(property2.isContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
-        Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.getter, "getCreatedAt");
-        Assert.assertEquals(property3.setter, "setCreatedAt");
-        Assert.assertEquals(property3.dataType, "DateTime");
-        Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertNull(property3.defaultValue);
-        Assert.assertEquals(property3.baseType, "DateTime");
-        Assert.assertFalse(property3.required);
-        Assert.assertFalse(property3.isContainer);
+        Assertions.assertEquals(property3.baseName, "createdAt");
+        Assertions.assertEquals(property3.getter, "getCreatedAt");
+        Assertions.assertEquals(property3.setter, "setCreatedAt");
+        Assertions.assertEquals(property3.dataType, "DateTime");
+        Assertions.assertEquals(property3.name, "createdAt");
+        Assertions.assertNull(property3.defaultValue);
+        Assertions.assertEquals(property3.baseType, "DateTime");
+        Assertions.assertFalse(property3.required);
+        Assertions.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a model with list property")
@@ -106,22 +106,22 @@ public class ScalaAkkaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.description, "a sample model");
-        //Assert.assertEquals(cm.vars.size(), 2);
+        Assertions.assertEquals(cm.name, "sample");
+        Assertions.assertEquals(cm.classname, "Sample");
+        Assertions.assertEquals(cm.description, "a sample model");
+        //Assertions.assertEquals(cm.vars.size(), 2);
 
         final CodegenProperty property1 = cm.vars.get(1);
-        Assert.assertEquals(property1.baseName, "urls");
-        Assert.assertEquals(property1.getter, "getUrls");
-        Assert.assertEquals(property1.setter, "setUrls");
-        Assert.assertEquals(property1.dataType, "Seq[String]");
-        Assert.assertEquals(property1.name, "urls");
-        Assert.assertEquals(property1.defaultValue, "Seq[String].empty ");
-        Assert.assertEquals(property1.baseType, "Seq");
-        Assert.assertEquals(property1.containerType, "array");
-        Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
+        Assertions.assertEquals(property1.baseName, "urls");
+        Assertions.assertEquals(property1.getter, "getUrls");
+        Assertions.assertEquals(property1.setter, "setUrls");
+        Assertions.assertEquals(property1.dataType, "Seq[String]");
+        Assertions.assertEquals(property1.name, "urls");
+        Assertions.assertEquals(property1.defaultValue, "Seq[String].empty ");
+        Assertions.assertEquals(property1.baseType, "Seq");
+        Assertions.assertEquals(property1.containerType, "array");
+        Assertions.assertFalse(property1.required);
+        Assertions.assertTrue(property1.isContainer);
     }
 
     @Test(description = "convert a model with a map property")
@@ -136,22 +136,22 @@ public class ScalaAkkaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 1);
+        Assertions.assertEquals(cm.name, "sample");
+        Assertions.assertEquals(cm.classname, "Sample");
+        Assertions.assertEquals(cm.description, "a sample model");
+        Assertions.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assert.assertEquals(property1.baseName, "translations");
-        Assert.assertEquals(property1.getter, "getTranslations");
-        Assert.assertEquals(property1.setter, "setTranslations");
-        Assert.assertEquals(property1.dataType, "Map[String, String]");
-        Assert.assertEquals(property1.name, "translations");
-        Assert.assertEquals(property1.defaultValue, "Map[String, String].empty ");
-        Assert.assertEquals(property1.baseType, "Map");
-        Assert.assertEquals(property1.containerType, "map");
-        Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
+        Assertions.assertEquals(property1.baseName, "translations");
+        Assertions.assertEquals(property1.getter, "getTranslations");
+        Assertions.assertEquals(property1.setter, "setTranslations");
+        Assertions.assertEquals(property1.dataType, "Map[String, String]");
+        Assertions.assertEquals(property1.name, "translations");
+        Assertions.assertEquals(property1.defaultValue, "Map[String, String].empty ");
+        Assertions.assertEquals(property1.baseType, "Map");
+        Assertions.assertEquals(property1.containerType, "map");
+        Assertions.assertFalse(property1.required);
+        Assertions.assertTrue(property1.isContainer);
     }
 
     @Test(description = "convert a model with complex properties")
@@ -164,21 +164,21 @@ public class ScalaAkkaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 1);
+        Assertions.assertEquals(cm.name, "sample");
+        Assertions.assertEquals(cm.classname, "Sample");
+        Assertions.assertEquals(cm.description, "a sample model");
+        Assertions.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.getter, "getChildren");
-        Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.dataType, "Children");
-        Assert.assertEquals(property1.name, "children");
-        Assert.assertNull(property1.defaultValue);
-        Assert.assertEquals(property1.baseType, "Children");
-        Assert.assertFalse(property1.required);
-        Assert.assertFalse(property1.isContainer);
+        Assertions.assertEquals(property1.baseName, "children");
+        Assertions.assertEquals(property1.getter, "getChildren");
+        Assertions.assertEquals(property1.setter, "setChildren");
+        Assertions.assertEquals(property1.dataType, "Children");
+        Assertions.assertEquals(property1.name, "children");
+        Assertions.assertNull(property1.defaultValue);
+        Assertions.assertEquals(property1.baseType, "Children");
+        Assertions.assertFalse(property1.required);
+        Assertions.assertFalse(property1.isContainer);
     }
 
     @Test(description = "convert a model with complex list property")
@@ -192,23 +192,23 @@ public class ScalaAkkaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 1);
+        Assertions.assertEquals(cm.name, "sample");
+        Assertions.assertEquals(cm.classname, "Sample");
+        Assertions.assertEquals(cm.description, "a sample model");
+        Assertions.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.getter, "getChildren");
-        Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.dataType, "Seq[Children]");
-        Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.defaultValue, "Seq[Children].empty ");
-        Assert.assertEquals(property1.baseType, "Seq");
-        Assert.assertEquals(property1.containerType, "array");
-        Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
+        Assertions.assertEquals(property1.baseName, "children");
+        Assertions.assertEquals(property1.complexType, "Children");
+        Assertions.assertEquals(property1.getter, "getChildren");
+        Assertions.assertEquals(property1.setter, "setChildren");
+        Assertions.assertEquals(property1.dataType, "Seq[Children]");
+        Assertions.assertEquals(property1.name, "children");
+        Assertions.assertEquals(property1.defaultValue, "Seq[Children].empty ");
+        Assertions.assertEquals(property1.baseType, "Seq");
+        Assertions.assertEquals(property1.containerType, "array");
+        Assertions.assertFalse(property1.required);
+        Assertions.assertTrue(property1.isContainer);
     }
 
     @Test(description = "convert a model with set (unique array) property")
@@ -223,23 +223,23 @@ public class ScalaAkkaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 1);
+        Assertions.assertEquals(cm.name, "sample");
+        Assertions.assertEquals(cm.classname, "Sample");
+        Assertions.assertEquals(cm.description, "a sample model");
+        Assertions.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.getter, "getChildren");
-        Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.dataType, "Set[Children]");
-        Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.defaultValue, "Set[Children].empty ");
-        Assert.assertEquals(property1.baseType, "Set");
-        Assert.assertEquals(property1.containerType, "set");
-        Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
+        Assertions.assertEquals(property1.baseName, "children");
+        Assertions.assertEquals(property1.complexType, "Children");
+        Assertions.assertEquals(property1.getter, "getChildren");
+        Assertions.assertEquals(property1.setter, "setChildren");
+        Assertions.assertEquals(property1.dataType, "Set[Children]");
+        Assertions.assertEquals(property1.name, "children");
+        Assertions.assertEquals(property1.defaultValue, "Set[Children].empty ");
+        Assertions.assertEquals(property1.baseType, "Set");
+        Assertions.assertEquals(property1.containerType, "set");
+        Assertions.assertFalse(property1.required);
+        Assertions.assertTrue(property1.isContainer);
     }
 
     @Test(description = "convert a model with complex map property")
@@ -253,24 +253,24 @@ public class ScalaAkkaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        Assertions.assertEquals(cm.name, "sample");
+        Assertions.assertEquals(cm.classname, "Sample");
+        Assertions.assertEquals(cm.description, "a sample model");
+        Assertions.assertEquals(cm.vars.size(), 1);
+        Assertions.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.getter, "getChildren");
-        Assert.assertEquals(property1.setter, "setChildren");
-        Assert.assertEquals(property1.dataType, "Map[String, Children]");
-        Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.defaultValue, "Map[String, Children].empty ");
-        Assert.assertEquals(property1.baseType, "Map");
-        Assert.assertEquals(property1.containerType, "map");
-        Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isContainer);
+        Assertions.assertEquals(property1.baseName, "children");
+        Assertions.assertEquals(property1.complexType, "Children");
+        Assertions.assertEquals(property1.getter, "getChildren");
+        Assertions.assertEquals(property1.setter, "setChildren");
+        Assertions.assertEquals(property1.dataType, "Map[String, Children]");
+        Assertions.assertEquals(property1.name, "children");
+        Assertions.assertEquals(property1.defaultValue, "Map[String, Children].empty ");
+        Assertions.assertEquals(property1.baseType, "Map");
+        Assertions.assertEquals(property1.containerType, "map");
+        Assertions.assertFalse(property1.required);
+        Assertions.assertTrue(property1.isContainer);
     }
 
     @Test(description = "convert an array model")
@@ -283,14 +283,14 @@ public class ScalaAkkaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.description, "an array model");
-        Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "ListBuffer[Children]");
-        Assert.assertEquals(cm.arrayModelType, "Children");
-        Assert.assertEquals(cm.imports.size(), 2);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ListBuffer", "Children")).size(), 2);
+        Assertions.assertEquals(cm.name, "sample");
+        Assertions.assertEquals(cm.classname, "Sample");
+        Assertions.assertEquals(cm.description, "an array model");
+        Assertions.assertEquals(cm.vars.size(), 0);
+        Assertions.assertEquals(cm.parent, "ListBuffer[Children]");
+        Assertions.assertEquals(cm.arrayModelType, "Children");
+        Assertions.assertEquals(cm.imports.size(), 2);
+        Assertions.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ListBuffer", "Children")).size(), 2);
     }
 
     @Test(description = "convert an array model with unique items to set")
@@ -305,14 +305,14 @@ public class ScalaAkkaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.description, "a set of Children models");
-        Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "Set[Children]");
-        Assert.assertEquals(cm.arrayModelType, "Children");
-        Assert.assertEquals(cm.imports.size(), 2);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Set", "Children")).size(), 2);
+        Assertions.assertEquals(cm.name, "sample");
+        Assertions.assertEquals(cm.classname, "Sample");
+        Assertions.assertEquals(cm.description, "a set of Children models");
+        Assertions.assertEquals(cm.vars.size(), 0);
+        Assertions.assertEquals(cm.parent, "Set[Children]");
+        Assertions.assertEquals(cm.arrayModelType, "Children");
+        Assertions.assertEquals(cm.imports.size(), 2);
+        Assertions.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Set", "Children")).size(), 2);
     }
 
     @Test(description = "convert a map model")
@@ -325,13 +325,13 @@ public class ScalaAkkaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assert.assertEquals(cm.name, "sample");
-        Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.description, "a map model");
-        Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "Map[String, Children]");
-        Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "Children")).size(), 1);
+        Assertions.assertEquals(cm.name, "sample");
+        Assertions.assertEquals(cm.classname, "Sample");
+        Assertions.assertEquals(cm.description, "a map model");
+        Assertions.assertEquals(cm.vars.size(), 0);
+        Assertions.assertEquals(cm.parent, "Map[String, Children]");
+        Assertions.assertEquals(cm.imports.size(), 1);
+        Assertions.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Map", "Children")).size(), 1);
     }
 
     @Test(description = "validate codegen joda output")
@@ -364,7 +364,7 @@ public class ScalaAkkaClientCodegenTest {
 
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 1);
+        Assertions.assertEquals(files.size(), 1);
 
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/SomeObj.scala");
 
@@ -372,7 +372,7 @@ public class ScalaAkkaClientCodegenTest {
                 .findFirst().get();
 
         byte[] fileContents = Files.readAllBytes(someObj.toPath());
-        Assert.assertEquals(
+        Assertions.assertEquals(
                 new String(fileContents, StandardCharsets.UTF_8),
                 Resources.toString(Resources.getResource("codegen/scala/SomeObj.scala.txt"), StandardCharsets.UTF_8));
     }
@@ -407,7 +407,7 @@ public class ScalaAkkaClientCodegenTest {
 
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 1);
+        Assertions.assertEquals(files.size(), 1);
 
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/SomeObj.scala");
 
@@ -415,7 +415,7 @@ public class ScalaAkkaClientCodegenTest {
                 .findFirst().get();
 
         byte[] fileContents = Files.readAllBytes(someObj.toPath());
-        Assert.assertEquals(
+        Assertions.assertEquals(
                 new String(fileContents, StandardCharsets.UTF_8),
                 Resources.toString(Resources.getResource("codegen/scala/JavaTimeObj.scala.txt"), StandardCharsets.UTF_8));
     }
@@ -430,18 +430,18 @@ public class ScalaAkkaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         final CodegenModel cms = codegen.fromModel("Stripped.ByDefault.ModelName", model);
-        Assert.assertEquals(cms.name, "Stripped.ByDefault.ModelName");
-        Assert.assertEquals(cms.classname, "ModelName");
-        Assert.assertEquals(cms.classFilename, "ModelName");
+        Assertions.assertEquals(cms.name, "Stripped.ByDefault.ModelName");
+        Assertions.assertEquals(cms.classname, "ModelName");
+        Assertions.assertEquals(cms.classFilename, "ModelName");
 
         codegen.additionalProperties().put(CodegenConstants.STRIP_PACKAGE_NAME, "false");
         codegen.processOpts();
 
         final CodegenModel cm = codegen.fromModel("Non.Stripped.ModelName", model);
 
-        Assert.assertEquals(cm.name, "Non.Stripped.ModelName");
-        Assert.assertEquals(cm.classname, "NonStrippedModelName");
-        Assert.assertEquals(cm.classFilename, "NonStrippedModelName");
+        Assertions.assertEquals(cm.name, "Non.Stripped.ModelName");
+        Assertions.assertEquals(cm.classname, "NonStrippedModelName");
+        Assertions.assertEquals(cm.classFilename, "NonStrippedModelName");
 
     }
 
@@ -473,7 +473,7 @@ public class ScalaAkkaClientCodegenTest {
         Generator gen = generator.opts(clientOptInput);
         List<File> files = gen.generate();
 
-        Assert.assertEquals(files.size(), 16);
+        Assertions.assertEquals(files.size(), 16);
 
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/SomeObj.scala");
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/core/ApiSettings.scala");
@@ -511,7 +511,7 @@ public class ScalaAkkaClientCodegenTest {
         Generator gen = generator.opts(clientOptInput);
 
         List<File> files = gen.generate();
-        Assert.assertEquals(files.size(), 16);
+        Assertions.assertEquals(files.size(), 16);
 
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/model/package/SomeObj.scala");
         TestUtils.ensureContainsFile(files, output, "src/main/scala/hello/world/package/invoker/ApiSettings.scala");

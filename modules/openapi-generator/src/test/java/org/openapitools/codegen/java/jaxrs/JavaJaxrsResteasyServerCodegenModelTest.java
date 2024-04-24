@@ -20,8 +20,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assertions.assertEquals;
+import static org.testng.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -71,9 +71,9 @@ public class JavaJaxrsResteasyServerCodegenModelTest extends JavaJaxrsBaseTest {
         CodegenParameter int64Param = co.queryParams.get(0);
         CodegenParameter floatParam = co.queryParams.get(1);
         CodegenParameter doubleParam = co.queryParams.get(2);
-        Assert.assertEquals(int64Param.defaultValue, int64Val);
-        Assert.assertEquals(floatParam.defaultValue, floatVal);
-        Assert.assertEquals(doubleParam.defaultValue, doubleVal);
+        Assertions.assertEquals(int64Param.defaultValue, int64Val);
+        Assertions.assertEquals(floatParam.defaultValue, floatVal);
+        Assertions.assertEquals(doubleParam.defaultValue, doubleVal);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class JavaJaxrsResteasyServerCodegenModelTest extends JavaJaxrsBaseTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
+        JavaFileAssertions.assertThat(files.get("TestHeadersApi.java"))
             .assertMethod("headersTest")
                 .hasParameter("headerNumber").withType("BigDecimal")
                     .assertParameterAnnotations()
@@ -121,7 +121,7 @@ public class JavaJaxrsResteasyServerCodegenModelTest extends JavaJaxrsBaseTest {
                     .assertParameterAnnotations()
                     .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"true\""));
 
-        JavaFileAssert.assertThat(files.get("TestQueryParamsApi.java"))
+        JavaFileAssertions.assertThat(files.get("TestQueryParamsApi.java"))
             .assertMethod("queryParamsTest")
                 .hasParameter("queryNumber").withType("BigDecimal")
                     .assertParameterAnnotations()

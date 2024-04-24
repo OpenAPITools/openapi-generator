@@ -58,8 +58,8 @@ public class AssertFile {
      * @param actual   Path actual directory
      */
     public static void assertPathEqualsRecursively(final Path expected, final Path actual) {
-        Assert.assertNotNull(expected);
-        Assert.assertNotNull(actual);
+        Assertions.assertNotNull(expected);
+        Assertions.assertNotNull(actual);
         final Path absoluteExpected = expected.toAbsolutePath();
         final Path absoluteActual = actual.toAbsolutePath();
         try {

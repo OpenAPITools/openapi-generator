@@ -36,11 +36,11 @@ public class AbstractJavaJAXRSServerCodegenTest {
 
     @Test
     public void convertApiName() {
-        Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("name"), "NameApi");
-        Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("$name"), "NameApi");
-        Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("nam#e"), "NameApi");
-        Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("$another-fake?"), "AnotherFakeApi");
-        Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("fake_classname_tags 123#$%^"), "FakeClassnameTags123Api");
+        Assertions.assertEquals(fakeJavaJAXRSCodegen.toApiName("name"), "NameApi");
+        Assertions.assertEquals(fakeJavaJAXRSCodegen.toApiName("$name"), "NameApi");
+        Assertions.assertEquals(fakeJavaJAXRSCodegen.toApiName("nam#e"), "NameApi");
+        Assertions.assertEquals(fakeJavaJAXRSCodegen.toApiName("$another-fake?"), "AnotherFakeApi");
+        Assertions.assertEquals(fakeJavaJAXRSCodegen.toApiName("fake_classname_tags 123#$%^"), "FakeClassnameTags123Api");
     }
 
     @Test
@@ -52,15 +52,15 @@ public class AbstractJavaJAXRSServerCodegenTest {
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertFalse(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
-        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.SERVER_PORT), "8082");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assertions.assertFalse(codegen.isHideGenerationTimestamp());
+        Assertions.assertEquals(codegen.modelPackage(), "org.openapitools.model");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
+        Assertions.assertEquals(codegen.apiPackage(), "org.openapitools.api");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
+        Assertions.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
+        Assertions.assertEquals(codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.SERVER_PORT), "8082");
     }
 
     @Test
@@ -72,14 +72,14 @@ public class AbstractJavaJAXRSServerCodegenTest {
         codegen.setInvokerPackage("xx.yyyyyyyy.invoker");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertTrue(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xx.yyyyyyyy.invoker");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assertions.assertTrue(codegen.isHideGenerationTimestamp());
+        Assertions.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
+        Assertions.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
+        Assertions.assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xx.yyyyyyyy.invoker");
     }
 
     @Test
@@ -96,15 +96,15 @@ public class AbstractJavaJAXRSServerCodegenTest {
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertTrue(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.SERVER_PORT), "8088");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assertions.assertTrue(codegen.isHideGenerationTimestamp());
+        Assertions.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
+        Assertions.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
+        Assertions.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
+        Assertions.assertEquals(codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.SERVER_PORT), "8088");
     }
 
     @Test
@@ -118,56 +118,56 @@ public class AbstractJavaJAXRSServerCodegenTest {
 
         operations.add(getCo("/"));
         codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
-        Assert.assertEquals(objs.get("commonPath"), "");
-        Assert.assertEquals(operations.get(0).path, "");
-        Assert.assertFalse(operations.get(0).subresourceOperation);
+        Assertions.assertEquals(objs.get("commonPath"), "");
+        Assertions.assertEquals(operations.get(0).path, "");
+        Assertions.assertFalse(operations.get(0).subresourceOperation);
         operations.clear();
 
         operations.add(getCo("/test"));
         codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
-        Assert.assertEquals(objs.get("commonPath"), "/test");
-        Assert.assertEquals(operations.get(0).path, "");
-        Assert.assertFalse(operations.get(0).subresourceOperation);
+        Assertions.assertEquals(objs.get("commonPath"), "/test");
+        Assertions.assertEquals(operations.get(0).path, "");
+        Assertions.assertFalse(operations.get(0).subresourceOperation);
         operations.clear();
 
         operations.add(getCo("/"));
         operations.add(getCo("/op1"));
         codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
-        Assert.assertEquals(objs.get("commonPath"), "");
-        Assert.assertEquals(operations.get(0).path, "/");
-        Assert.assertFalse(operations.get(0).subresourceOperation);
-        Assert.assertEquals(operations.get(1).path, "/op1");
-        Assert.assertTrue(operations.get(1).subresourceOperation);
+        Assertions.assertEquals(objs.get("commonPath"), "");
+        Assertions.assertEquals(operations.get(0).path, "/");
+        Assertions.assertFalse(operations.get(0).subresourceOperation);
+        Assertions.assertEquals(operations.get(1).path, "/op1");
+        Assertions.assertTrue(operations.get(1).subresourceOperation);
         operations.clear();
 
         operations.add(getCo("/group1/subgroup1/op1"));
         operations.add(getCo("/group1/subgroup1/op2"));
         codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
-        Assert.assertEquals(objs.get("commonPath"), "/group1/subgroup1");
-        Assert.assertEquals(operations.get(0).path, "/op1");
-        Assert.assertTrue(operations.get(0).subresourceOperation);
-        Assert.assertEquals(operations.get(1).path, "/op2");
-        Assert.assertTrue(operations.get(1).subresourceOperation);
+        Assertions.assertEquals(objs.get("commonPath"), "/group1/subgroup1");
+        Assertions.assertEquals(operations.get(0).path, "/op1");
+        Assertions.assertTrue(operations.get(0).subresourceOperation);
+        Assertions.assertEquals(operations.get(1).path, "/op2");
+        Assertions.assertTrue(operations.get(1).subresourceOperation);
         operations.clear();
 
         operations.add(getCo("/op1"));
         operations.add(getCo("/op2"));
         codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
-        Assert.assertEquals(objs.get("commonPath"), "");
-        Assert.assertEquals(operations.get(0).path, "/op1");
-        Assert.assertTrue(operations.get(0).subresourceOperation);
-        Assert.assertEquals(operations.get(1).path, "/op2");
-        Assert.assertTrue(operations.get(1).subresourceOperation);
+        Assertions.assertEquals(objs.get("commonPath"), "");
+        Assertions.assertEquals(operations.get(0).path, "/op1");
+        Assertions.assertTrue(operations.get(0).subresourceOperation);
+        Assertions.assertEquals(operations.get(1).path, "/op2");
+        Assertions.assertTrue(operations.get(1).subresourceOperation);
         operations.clear();
 
         operations.add(getCo("/group1"));
         operations.add(getCo("/group1/op1"));
         codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
-        Assert.assertEquals(objs.get("commonPath"), "/group1");
-        Assert.assertEquals(operations.get(0).path, "");
-        Assert.assertFalse(operations.get(0).subresourceOperation);
-        Assert.assertEquals(operations.get(1).path, "/op1");
-        Assert.assertTrue(operations.get(1).subresourceOperation);
+        Assertions.assertEquals(objs.get("commonPath"), "/group1");
+        Assertions.assertEquals(operations.get(0).path, "");
+        Assertions.assertFalse(operations.get(0).subresourceOperation);
+        Assertions.assertEquals(operations.get(1).path, "/op1");
+        Assertions.assertTrue(operations.get(1).subresourceOperation);
         operations.clear();
     }
 

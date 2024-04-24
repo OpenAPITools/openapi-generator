@@ -61,8 +61,8 @@ public class WsdlSchemaCodegenTest {
         CodegenOperation opPost = codegen.fromOperation(requestPathWithoutId, "post", textOperationPost, null);
         String newOperationIdWithoutId = codegen.generateOperationId(opPost);
 
-        Assert.assertEquals(newOperationIdWithId, "GetStoreOrderByOrderid");
-        Assert.assertEquals(newOperationIdWithoutId, "PostStoreOrder");
+        Assertions.assertEquals(newOperationIdWithId, "GetStoreOrderByOrderid");
+        Assertions.assertEquals(newOperationIdWithoutId, "PostStoreOrder");
     }
 
     @Test(description = "Ensure that passed strings are processed correctly by this method")
@@ -70,7 +70,7 @@ public class WsdlSchemaCodegenTest {
         WsdlSchemaCodegen codegen = new WsdlSchemaCodegen();
         String value = codegen.lowerCaseStringExceptFirstLetter("uploadPetByPathId");
 
-        Assert.assertEquals(value, "Uploadpetbypathid");
+        Assertions.assertEquals(value, "Uploadpetbypathid");
     }
 
     @Test(description = "Check if element tags has been created for an operation ")
@@ -229,7 +229,7 @@ public class WsdlSchemaCodegenTest {
 
     @Test(description = "Ensure that all files have been correctly generated")
     public void testFileGeneration() throws Exception {
-        Assert.assertEquals(this.listOfFiles.size(), 5);
+        Assertions.assertEquals(this.listOfFiles.size(), 5);
         ensureContainsFile(this.listOfFiles, this.outputDirectory, ".openapi-generator-ignore");
         ensureContainsFile(this.listOfFiles, this.outputDirectory, ".openapi-generator/FILES");
         ensureContainsFile(this.listOfFiles, this.outputDirectory, ".openapi-generator/VERSION");

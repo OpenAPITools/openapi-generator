@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.Dog;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

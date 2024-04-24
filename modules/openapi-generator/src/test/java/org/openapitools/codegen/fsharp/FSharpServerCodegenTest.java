@@ -67,11 +67,11 @@ public class FSharpServerCodegenTest {
 
         Object[] keys = sorted.keySet().toArray();
 
-        Assert.assertEquals(keys[0], "wheel");
-        Assert.assertTrue("bike".equals(keys[1]) || "car".equals(keys[1]));
-        Assert.assertTrue("bike".equals(keys[2]) || "car".equals(keys[2]));
-        Assert.assertEquals(keys[3], "parent");
-        Assert.assertEquals(keys[4], "child");
+        Assertions.assertEquals(keys[0], "wheel");
+        Assertions.assertTrue("bike".equals(keys[1]) || "car".equals(keys[1]));
+        Assertions.assertTrue("bike".equals(keys[2]) || "car".equals(keys[2]));
+        Assertions.assertEquals(keys[3], "parent");
+        Assertions.assertEquals(keys[4], "child");
 
     }
 
@@ -81,7 +81,7 @@ public class FSharpServerCodegenTest {
           codegen.setPackageName("MyNamespace");
           codegen.setModelPackage("Model");
           String modified = codegen.toModelImport("Foo");
-          Assert.assertEquals(modified, "MyNamespace.Model.Foo");
+          Assertions.assertEquals(modified, "MyNamespace.Model.Foo");
     }
 
     private static class P_AbstractFSharpCodegen extends AbstractFSharpCodegen {

@@ -45,8 +45,8 @@ public class ProtobufSchemaCodegenTest {
         final ProtobufSchemaCodegen codegen = new ProtobufSchemaCodegen();
         FeatureSet featureSet = codegen.getGeneratorMetadata().getFeatureSet();
 
-        Assert.assertTrue(featureSet.getWireFormatFeatures().contains(WireFormatFeature.PROTOBUF));
-        Assert.assertEquals(featureSet.getWireFormatFeatures().size(), 1);
+        Assertions.assertTrue(featureSet.getWireFormatFeatures().contains(WireFormatFeature.PROTOBUF));
+        Assertions.assertEquals(featureSet.getWireFormatFeatures().size(), 1);
     }
 
     @Test
@@ -89,8 +89,8 @@ public class ProtobufSchemaCodegenTest {
 
         codegen.setOpenAPI(openAPI);
         final CodegenModel simpleName = codegen.fromModel("$DollarModel$", openAPI.getComponents().getSchemas().get("$DollarModel$"));
-        Assert.assertEquals(simpleName.name, "$DollarModel$");
-        Assert.assertEquals(simpleName.classname, "DollarModel");
-        Assert.assertEquals(simpleName.classVarName, "$DollarModel$");
+        Assertions.assertEquals(simpleName.name, "$DollarModel$");
+        Assertions.assertEquals(simpleName.classname, "DollarModel");
+        Assertions.assertEquals(simpleName.classVarName, "$DollarModel$");
     }
 }

@@ -29,7 +29,7 @@ import java.util.Map;
 import io.helidon.common.reactive.Single;
 import io.helidon.webclient.WebClientResponse;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssertions.assertThat;
 import static org.hamcrest.Matchers.is;
 
 /**

@@ -33,7 +33,7 @@ public class ResponseObjectWithDifferentFieldNamesJsonSerializationTest {
 
         String actualJson = objectMapper.writeValueAsString(object);
 
-        JSONAssert.assertEquals(JSON_STRING, actualJson, true);
+        JSONAssertions.assertEquals(JSON_STRING, actualJson, true);
     }
 
     @Test

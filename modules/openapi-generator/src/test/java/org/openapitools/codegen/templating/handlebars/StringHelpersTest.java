@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assertions.assertEquals;
 
 public class StringHelpersTest {
 

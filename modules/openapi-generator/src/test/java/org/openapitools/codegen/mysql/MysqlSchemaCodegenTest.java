@@ -30,55 +30,55 @@ public class MysqlSchemaCodegenTest {
     @Test
     public void testGetMysqlMatchedIntegerDataType() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(null, null, null), "INT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(null, null, null), "INT");
 
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(-128L, 127L, false), "TINYINT");
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 255L, true), "TINYINT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(-128L, 127L, false), "TINYINT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 255L, true), "TINYINT");
 
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(500L, 100L, null), "SMALLINT");
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(500L, 100L, true), "SMALLINT");
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(500L, 100L, false), "SMALLINT");
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(-32768L, 32767L, false), "SMALLINT");
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 65535L, true), "SMALLINT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(500L, 100L, null), "SMALLINT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(500L, 100L, true), "SMALLINT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(500L, 100L, false), "SMALLINT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(-32768L, 32767L, false), "SMALLINT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 65535L, true), "SMALLINT");
 
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(-8388608L, 8388607L, false), "MEDIUMINT");
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 16777215L, true), "MEDIUMINT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(-8388608L, 8388607L, false), "MEDIUMINT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 16777215L, true), "MEDIUMINT");
 
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(-2147483648L, 2147483647L, false), "INT");
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(Long.parseLong(String.valueOf(Integer.MIN_VALUE)), Long.parseLong(String.valueOf(Integer.MAX_VALUE)), false), "INT");
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 4294967295L, true), "INT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(-2147483648L, 2147483647L, false), "INT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(Long.parseLong(String.valueOf(Integer.MIN_VALUE)), Long.parseLong(String.valueOf(Integer.MAX_VALUE)), false), "INT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 4294967295L, true), "INT");
 
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(-2147483649L, 2147483648L, false), "BIGINT");
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 4294967296L, true), "BIGINT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(-2147483649L, 2147483648L, false), "BIGINT");
+        Assertions.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 4294967296L, true), "BIGINT");
     }
 
     @Test
     public void testGetMysqlMatchedStringDataType() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(6, 6), "CHAR");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(0, 0), "CHAR");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(255, 255), "CHAR");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(6, 6), "CHAR");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(0, 0), "CHAR");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(255, 255), "CHAR");
 
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(null, 100), "VARCHAR");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(null, 255), "VARCHAR");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(50, 255), "VARCHAR");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(100, 20), "VARCHAR");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(null, 100), "VARCHAR");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(null, 255), "VARCHAR");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(50, 255), "VARCHAR");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(100, 20), "VARCHAR");
 
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(null, null), "TEXT");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(100, null), "TEXT");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(255, null), "TEXT");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(null, 256), "TEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(null, null), "TEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(100, null), "TEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(255, null), "TEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(null, 256), "TEXT");
 
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(16777215, null), "MEDIUMTEXT");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(16777215, 100), "MEDIUMTEXT");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(null, 16777215), "MEDIUMTEXT");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(100, 16777215), "MEDIUMTEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(16777215, null), "MEDIUMTEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(16777215, 100), "MEDIUMTEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(null, 16777215), "MEDIUMTEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(100, 16777215), "MEDIUMTEXT");
 
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(16777216, null), "LONGTEXT");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(null, 16777216), "LONGTEXT");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(16777216, 16777216), "LONGTEXT");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(100, 16777216), "LONGTEXT");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(100, Integer.MAX_VALUE), "LONGTEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(16777216, null), "LONGTEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(null, 16777216), "LONGTEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(16777216, 16777216), "LONGTEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(100, 16777216), "LONGTEXT");
+        Assertions.assertSame(codegen.getMysqlMatchedStringDataType(100, Integer.MAX_VALUE), "LONGTEXT");
     }
 
     @Test
@@ -86,27 +86,27 @@ public class MysqlSchemaCodegenTest {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         String strArgument = "HelloWorld";
         HashMap<String, Object> strProp = codegen.toCodegenMysqlDataTypeArgument(strArgument);
-        Assert.assertTrue((Boolean) strProp.get("isString"));
-        Assert.assertFalse((Boolean) strProp.get("isFloat"));
-        Assert.assertFalse((Boolean) strProp.get("isInteger"));
-        Assert.assertFalse((Boolean) strProp.get("isNumeric"));
-        Assert.assertSame(strProp.get("argumentValue"), strArgument);
+        Assertions.assertTrue((Boolean) strProp.get("isString"));
+        Assertions.assertFalse((Boolean) strProp.get("isFloat"));
+        Assertions.assertFalse((Boolean) strProp.get("isInteger"));
+        Assertions.assertFalse((Boolean) strProp.get("isNumeric"));
+        Assertions.assertSame(strProp.get("argumentValue"), strArgument);
 
         Integer intArgument = 10;
         HashMap<String, Object> intProp = codegen.toCodegenMysqlDataTypeArgument(intArgument);
-        Assert.assertFalse((Boolean) intProp.get("isString"));
-        Assert.assertFalse((Boolean) intProp.get("isFloat"));
-        Assert.assertTrue((Boolean) intProp.get("isInteger"));
-        Assert.assertTrue((Boolean) intProp.get("isNumeric"));
-        Assert.assertSame(intProp.get("argumentValue"), intArgument);
+        Assertions.assertFalse((Boolean) intProp.get("isString"));
+        Assertions.assertFalse((Boolean) intProp.get("isFloat"));
+        Assertions.assertTrue((Boolean) intProp.get("isInteger"));
+        Assertions.assertTrue((Boolean) intProp.get("isNumeric"));
+        Assertions.assertSame(intProp.get("argumentValue"), intArgument);
 
         Double floatArgument = 3.14;
         HashMap<String, Object> floatProp = codegen.toCodegenMysqlDataTypeArgument(floatArgument);
-        Assert.assertFalse((Boolean) floatProp.get("isString"));
-        Assert.assertTrue((Boolean) floatProp.get("isFloat"));
-        Assert.assertFalse((Boolean) floatProp.get("isInteger"));
-        Assert.assertTrue((Boolean) floatProp.get("isNumeric"));
-        Assert.assertSame(floatProp.get("argumentValue"), floatArgument);
+        Assertions.assertFalse((Boolean) floatProp.get("isString"));
+        Assertions.assertTrue((Boolean) floatProp.get("isFloat"));
+        Assertions.assertFalse((Boolean) floatProp.get("isInteger"));
+        Assertions.assertTrue((Boolean) floatProp.get("isNumeric"));
+        Assertions.assertSame(floatProp.get("argumentValue"), floatArgument);
     }
 
     @Test
@@ -118,42 +118,42 @@ public class MysqlSchemaCodegenTest {
         ));
         for(String intType : intFixture) {
             defaultMap = codegen.toCodegenMysqlDataTypeDefault("150", intType);
-            Assert.assertTrue((Boolean) defaultMap.get("isNumeric"));
-            Assert.assertFalse((Boolean) defaultMap.get("isString"));
-            Assert.assertFalse((Boolean) defaultMap.get("isKeyword"));
-            Assert.assertSame(defaultMap.get("defaultValue"), "150");
+            Assertions.assertTrue((Boolean) defaultMap.get("isNumeric"));
+            Assertions.assertFalse((Boolean) defaultMap.get("isString"));
+            Assertions.assertFalse((Boolean) defaultMap.get("isKeyword"));
+            Assertions.assertSame(defaultMap.get("defaultValue"), "150");
         }
         defaultMap = codegen.toCodegenMysqlDataTypeDefault("SERIAL DEFAULT VALUE", "TINYINT");
-        Assert.assertFalse((Boolean) defaultMap.get("isNumeric"));
-        Assert.assertFalse((Boolean) defaultMap.get("isString"));
-        Assert.assertTrue((Boolean) defaultMap.get("isKeyword"));
-        Assert.assertSame(defaultMap.get("defaultValue"), "SERIAL DEFAULT VALUE");
+        Assertions.assertFalse((Boolean) defaultMap.get("isNumeric"));
+        Assertions.assertFalse((Boolean) defaultMap.get("isString"));
+        Assertions.assertTrue((Boolean) defaultMap.get("isKeyword"));
+        Assertions.assertSame(defaultMap.get("defaultValue"), "SERIAL DEFAULT VALUE");
 
         ArrayList<String> dateFixture = new ArrayList<String>(Arrays.asList(
             "Timestamp", "DateTime"
         ));
         for(String dateType : dateFixture) {
             defaultMap = codegen.toCodegenMysqlDataTypeDefault("2018-08-12", dateType);
-            Assert.assertFalse((Boolean) defaultMap.get("isNumeric"));
-            Assert.assertTrue((Boolean) defaultMap.get("isString"));
-            Assert.assertFalse((Boolean) defaultMap.get("isKeyword"));
-            Assert.assertSame(defaultMap.get("defaultValue"), "2018-08-12");
+            Assertions.assertFalse((Boolean) defaultMap.get("isNumeric"));
+            Assertions.assertTrue((Boolean) defaultMap.get("isString"));
+            Assertions.assertFalse((Boolean) defaultMap.get("isKeyword"));
+            Assertions.assertSame(defaultMap.get("defaultValue"), "2018-08-12");
         }
         defaultMap = codegen.toCodegenMysqlDataTypeDefault("CURRENT_TIMESTAMP", "Timestamp");
-        Assert.assertFalse((Boolean) defaultMap.get("isNumeric"));
-        Assert.assertFalse((Boolean) defaultMap.get("isString"));
-        Assert.assertTrue((Boolean) defaultMap.get("isKeyword"));
-        Assert.assertSame(defaultMap.get("defaultValue"), "CURRENT_TIMESTAMP");
+        Assertions.assertFalse((Boolean) defaultMap.get("isNumeric"));
+        Assertions.assertFalse((Boolean) defaultMap.get("isString"));
+        Assertions.assertTrue((Boolean) defaultMap.get("isKeyword"));
+        Assertions.assertSame(defaultMap.get("defaultValue"), "CURRENT_TIMESTAMP");
 
         ArrayList<String> restFixture = new ArrayList<String>(Arrays.asList(
             "VARCHAR", "CHAR", "ENUM", "UNKNOWN"
         ));
         for(String restType : restFixture) {
             defaultMap = codegen.toCodegenMysqlDataTypeDefault("sometext", restType);
-            Assert.assertFalse((Boolean) defaultMap.get("isNumeric"));
-            Assert.assertTrue((Boolean) defaultMap.get("isString"));
-            Assert.assertFalse((Boolean) defaultMap.get("isKeyword"));
-            Assert.assertSame(defaultMap.get("defaultValue"), "sometext");
+            Assertions.assertFalse((Boolean) defaultMap.get("isNumeric"));
+            Assertions.assertTrue((Boolean) defaultMap.get("isString"));
+            Assertions.assertFalse((Boolean) defaultMap.get("isKeyword"));
+            Assertions.assertSame(defaultMap.get("defaultValue"), "sometext");
         }
     }
 
@@ -166,7 +166,7 @@ public class MysqlSchemaCodegenTest {
         ));
         for(String specialType : specialFixture) {
             defaultMap = codegen.toCodegenMysqlDataTypeDefault("2018-08-12", specialType);
-            Assert.assertNull(defaultMap);
+            Assertions.assertNull(defaultMap);
         }
     }
 
@@ -180,19 +180,19 @@ public class MysqlSchemaCodegenTest {
             "unknown", "HashMap", "HASHMAP", "hashmap"
         ));
         for(String trueValue : trueFixture) {
-            Assert.assertTrue(codegen.isMysqlDataType(trueValue), "'" + trueValue + "' isn't MySQL data type");
+            Assertions.assertTrue(codegen.isMysqlDataType(trueValue), "'" + trueValue + "' isn't MySQL data type");
         }
         for(String falseValue : falseFixture) {
-            Assert.assertFalse(codegen.isMysqlDataType(falseValue), "'" + falseValue + "' is MySQL data type");
+            Assertions.assertFalse(codegen.isMysqlDataType(falseValue), "'" + falseValue + "' is MySQL data type");
         }
     }
 
     @Test
     public void testToMysqlIdentifier() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        Assert.assertEquals(codegen.toMysqlIdentifier("table_name", "tbl_", ""), "table_name");
-        Assert.assertEquals(codegen.toMysqlIdentifier("table_name   ", "tbl_", ""), "table_name");
-        Assert.assertEquals(codegen.toMysqlIdentifier("12345678", "tbl_", ""), "tbl_12345678");
+        Assertions.assertEquals(codegen.toMysqlIdentifier("table_name", "tbl_", ""), "table_name");
+        Assertions.assertEquals(codegen.toMysqlIdentifier("table_name   ", "tbl_", ""), "table_name");
+        Assertions.assertEquals(codegen.toMysqlIdentifier("12345678", "tbl_", ""), "tbl_12345678");
     }
 
     @Test(expectedExceptions = RuntimeException.class)
@@ -204,21 +204,21 @@ public class MysqlSchemaCodegenTest {
     @Test
     public void testEscapeMysqlUnquotedIdentifier() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        Assert.assertEquals(codegen.escapeMysqlUnquotedIdentifier("table1Z$_"), "table1Z$_");
-        Assert.assertEquals(codegen.escapeMysqlUnquotedIdentifier("table1Z$_!#%~&?()*+-./"), "table1Z$_");
-        Assert.assertEquals(codegen.escapeMysqlUnquotedIdentifier("table1Z$_русскийтекст"), "table1Z$_русскийтекст");
-        Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table𐀀"), "table");
-        Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table_name!'()�"), "table_name!'()�");
-        Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table_name𐌅𐌌 "), "table_name");
+        Assertions.assertEquals(codegen.escapeMysqlUnquotedIdentifier("table1Z$_"), "table1Z$_");
+        Assertions.assertEquals(codegen.escapeMysqlUnquotedIdentifier("table1Z$_!#%~&?()*+-./"), "table1Z$_");
+        Assertions.assertEquals(codegen.escapeMysqlUnquotedIdentifier("table1Z$_русскийтекст"), "table1Z$_русскийтекст");
+        Assertions.assertEquals(codegen.escapeMysqlQuotedIdentifier("table𐀀"), "table");
+        Assertions.assertEquals(codegen.escapeMysqlQuotedIdentifier("table_name!'()�"), "table_name!'()�");
+        Assertions.assertEquals(codegen.escapeMysqlQuotedIdentifier("table_name𐌅𐌌 "), "table_name");
     }
 
     @Test
     public void testEscapeMysqlQuotedIdentifier() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table"), "table");
-        Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table𐀀"), "table");
-        Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table_name!'()�"), "table_name!'()�");
-        Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table_name𐌅𐌌 "), "table_name");
+        Assertions.assertEquals(codegen.escapeMysqlQuotedIdentifier("table"), "table");
+        Assertions.assertEquals(codegen.escapeMysqlQuotedIdentifier("table𐀀"), "table");
+        Assertions.assertEquals(codegen.escapeMysqlQuotedIdentifier("table_name!'()�"), "table_name!'()�");
+        Assertions.assertEquals(codegen.escapeMysqlQuotedIdentifier("table_name𐌅𐌌 "), "table_name");
     }
 
     @Test
@@ -232,10 +232,10 @@ public class MysqlSchemaCodegenTest {
             "after", "boolean", "charset", "cpu", "current", "delay_key_write", "end", "format", "global", "host", "install", "json", "key_block_size", "local", "max_size", "none", "offset", "partial", "quarter", "relay", "second", "status", "timestamp", "until", "variables", "without", "xml", "year"
         ));
         for(String trueValue : trueFixture) {
-            Assert.assertTrue(reservedWords.contains(trueValue), "'" + trueValue + "' isn't MySQL reserved word");
+            Assertions.assertTrue(reservedWords.contains(trueValue), "'" + trueValue + "' isn't MySQL reserved word");
         }
         for(String falseValue : falseFixture) {
-            Assert.assertFalse(reservedWords.contains(falseValue), "'" + falseValue + "' is MySQL reserved word");
+            Assertions.assertFalse(reservedWords.contains(falseValue), "'" + falseValue + "' is MySQL reserved word");
         }
     }
 
@@ -243,69 +243,69 @@ public class MysqlSchemaCodegenTest {
     public void testSetDefaultDatabaseName() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         codegen.setDefaultDatabaseName("valid_db_name");
-        Assert.assertSame(codegen.getDefaultDatabaseName(), "valid_db_name");
+        Assertions.assertSame(codegen.getDefaultDatabaseName(), "valid_db_name");
         codegen.setDefaultDatabaseName("12345");
-        Assert.assertNotSame(codegen.getDefaultDatabaseName(), "12345");
+        Assertions.assertNotSame(codegen.getDefaultDatabaseName(), "12345");
     }
 
     @Test
     public void testGetDefaultDatabaseName() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        Assert.assertSame(codegen.getDefaultDatabaseName(), "");
+        Assertions.assertSame(codegen.getDefaultDatabaseName(), "");
     }
 
     @Test
     public void testSetJsonDataTypeEnabled() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         codegen.setJsonDataTypeEnabled(true);
-        Assert.assertTrue(codegen.getJsonDataTypeEnabled());
+        Assertions.assertTrue(codegen.getJsonDataTypeEnabled());
         codegen.setJsonDataTypeEnabled(false);
-        Assert.assertFalse(codegen.getJsonDataTypeEnabled());
+        Assertions.assertFalse(codegen.getJsonDataTypeEnabled());
     }
 
     @Test
     public void testGetJsonDataTypeEnabled() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        Assert.assertTrue(codegen.getJsonDataTypeEnabled());
+        Assertions.assertTrue(codegen.getJsonDataTypeEnabled());
         codegen.setJsonDataTypeEnabled(false);
-        Assert.assertFalse(codegen.getJsonDataTypeEnabled());
+        Assertions.assertFalse(codegen.getJsonDataTypeEnabled());
     }
 
     @Test
     public void testSetNamedParametersEnabled() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         codegen.setNamedParametersEnabled(true);
-        Assert.assertTrue(codegen.getNamedParametersEnabled());
+        Assertions.assertTrue(codegen.getNamedParametersEnabled());
         codegen.setNamedParametersEnabled(false);
-        Assert.assertFalse(codegen.getNamedParametersEnabled());
+        Assertions.assertFalse(codegen.getNamedParametersEnabled());
     }
 
     @Test
     public void testGetNamedParametersEnabled() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        Assert.assertFalse(codegen.getNamedParametersEnabled());
+        Assertions.assertFalse(codegen.getNamedParametersEnabled());
         codegen.setNamedParametersEnabled(true);
-        Assert.assertTrue(codegen.getNamedParametersEnabled());
+        Assertions.assertTrue(codegen.getNamedParametersEnabled());
     }
 
     @Test
     public void testSetIdentifierNamingConvention() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        Assert.assertSame("original", codegen.getIdentifierNamingConvention());
+        Assertions.assertSame("original", codegen.getIdentifierNamingConvention());
         codegen.setIdentifierNamingConvention("invalidValue");
-        Assert.assertSame("original", codegen.getIdentifierNamingConvention());
+        Assertions.assertSame("original", codegen.getIdentifierNamingConvention());
         codegen.setIdentifierNamingConvention("snake_case");
-        Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
+        Assertions.assertSame("snake_case", codegen.getIdentifierNamingConvention());
         codegen.setIdentifierNamingConvention("anotherInvalid");
-        Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
+        Assertions.assertSame("snake_case", codegen.getIdentifierNamingConvention());
     }
 
     @Test
     public void testGetIdentifierNamingConvention() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        Assert.assertSame("original", codegen.getIdentifierNamingConvention());
+        Assertions.assertSame("original", codegen.getIdentifierNamingConvention());
         codegen.setIdentifierNamingConvention("snake_case");
-        Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
+        Assertions.assertSame("snake_case", codegen.getIdentifierNamingConvention());
     }
 
 }

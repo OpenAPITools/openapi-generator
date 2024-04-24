@@ -15,11 +15,11 @@ public class SttpPackagePropertyTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         property.updateAdditionalProperties(additionalProperties);
 
-        Assert.assertEquals(ScalaSttpClientCodegen.DEFAULT_PACKAGE_NAME + ".api",
+        Assertions.assertEquals(ScalaSttpClientCodegen.DEFAULT_PACKAGE_NAME + ".api",
                 additionalProperties.get(CodegenConstants.API_PACKAGE));
-        Assert.assertEquals(ScalaSttpClientCodegen.DEFAULT_PACKAGE_NAME + ".model",
+        Assertions.assertEquals(ScalaSttpClientCodegen.DEFAULT_PACKAGE_NAME + ".model",
                 additionalProperties.get(CodegenConstants.MODEL_PACKAGE));
-        Assert.assertEquals(ScalaSttpClientCodegen.DEFAULT_PACKAGE_NAME + ".core",
+        Assertions.assertEquals(ScalaSttpClientCodegen.DEFAULT_PACKAGE_NAME + ".core",
                 additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
     }
 
@@ -31,11 +31,11 @@ public class SttpPackagePropertyTest {
         additionalProperties.put("mainPackage", customPackageName);
         property.updateAdditionalProperties(additionalProperties);
 
-        Assert.assertEquals(customPackageName + ".api",
+        Assertions.assertEquals(customPackageName + ".api",
                 additionalProperties.get(CodegenConstants.API_PACKAGE));
-        Assert.assertEquals(customPackageName + ".model",
+        Assertions.assertEquals(customPackageName + ".model",
                 additionalProperties.get(CodegenConstants.MODEL_PACKAGE));
-        Assert.assertEquals(customPackageName + ".core",
+        Assertions.assertEquals(customPackageName + ".core",
                 additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
     }
 
@@ -49,11 +49,11 @@ public class SttpPackagePropertyTest {
         additionalProperties.put(CodegenConstants.API_PACKAGE, otherCustomPackageName);
         property.updateAdditionalProperties(additionalProperties);
 
-        Assert.assertEquals(otherCustomPackageName,
+        Assertions.assertEquals(otherCustomPackageName,
                 additionalProperties.get(CodegenConstants.API_PACKAGE));
-        Assert.assertEquals(customPackageName + ".model",
+        Assertions.assertEquals(customPackageName + ".model",
                 additionalProperties.get(CodegenConstants.MODEL_PACKAGE));
-        Assert.assertEquals(customPackageName + ".core",
+        Assertions.assertEquals(customPackageName + ".core",
                 additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
     }
 }

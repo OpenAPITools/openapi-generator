@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.EquilateralTriangle;
 import org.openapitools.client.model.IsoscelesTriangle;
 import org.openapitools.client.model.ScaleneTriangle;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

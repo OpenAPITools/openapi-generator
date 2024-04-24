@@ -10,7 +10,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.ScalaGatlingCodegen;
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assertions.assertEquals;
 
 import org.testng.annotations.Test;
 

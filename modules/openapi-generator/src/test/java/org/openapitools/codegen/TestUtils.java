@@ -1,9 +1,9 @@
 package org.openapitools.codegen;
 
-import static org.testng.Assert.assertNotNull;
+import static org.testng.Assertions.assertNotNull;
 import static org.testng.Assert.fail;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertFalse;
+import static org.testng.Assertions.assertTrue;
+import static org.testng.Assertions.assertFalse;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParserConfiguration;
@@ -121,7 +121,7 @@ public class TestUtils {
     public static WrittenTemplateBasedFile getTemplateBasedFile(MockDefaultGenerator generator, File root, String filename) {
         String defaultApiFilename = new File(root, filename).getAbsolutePath().replace("\\", "/");
         Optional<WrittenTemplateBasedFile> optional = generator.getTemplateBasedFiles().stream().filter(f -> defaultApiFilename.equals(f.getOutputFilename())).findFirst();
-        Assert.assertTrue(optional.isPresent());
+        Assertions.assertTrue(optional.isPresent());
         return optional.get();
     }
 
@@ -256,7 +256,7 @@ public class TestUtils {
 
     public static void assertExtraAnnotationFiles(String baseOutputPath) {
 
-        JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/EmployeeEntity.java"))
+        JavaFileAssertions.assertThat(java.nio.file.Paths.get(baseOutputPath + "/EmployeeEntity.java"))
                 .assertTypeAnnotations()
                     .containsWithName("javax.persistence.Entity")
                     .containsWithNameAndAttributes("javax.persistence.Table", ImmutableMap.of("name", "\"employees\""))
@@ -267,7 +267,7 @@ public class TestUtils {
                     .toProperty()
                 .toType();
 
-        JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/Employee.java"))
+        JavaFileAssertions.assertThat(java.nio.file.Paths.get(baseOutputPath + "/Employee.java"))
                 .assertTypeAnnotations()
                     .containsWithName("javax.persistence.MappedSuperclass")
                 .toType()
@@ -287,7 +287,7 @@ public class TestUtils {
                     .toProperty()
                 .toType();
 
-        JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/SurveyGroupEntity.java"))
+        JavaFileAssertions.assertThat(java.nio.file.Paths.get(baseOutputPath + "/SurveyGroupEntity.java"))
                 .assertTypeAnnotations()
                     .containsWithName("javax.persistence.Entity")
                     .containsWithNameAndAttributes("javax.persistence.Table", ImmutableMap.of("name", "\"survey_groups\""))
@@ -304,7 +304,7 @@ public class TestUtils {
                     .toProperty()
                 .toType();
 
-        JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/SurveyGroup.java"))
+        JavaFileAssertions.assertThat(java.nio.file.Paths.get(baseOutputPath + "/SurveyGroup.java"))
                 .assertTypeAnnotations()
                     .containsWithName("javax.persistence.MappedSuperclass")
                     .containsWithName("javax.persistence.EntityListeners")
@@ -348,7 +348,7 @@ public class TestUtils {
                     .toProperty()
                 .toType();
 
-        JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/CompanyDto.java"))
+        JavaFileAssertions.assertThat(java.nio.file.Paths.get(baseOutputPath + "/CompanyDto.java"))
             .hasProperty("priceCategory")
                 .assertPropertyAnnotations()
                 .containsWithNameAndAttributes("IgnoreForRoles", ImmutableMap.of("value", "\"MEDIA_ADMIN\""));

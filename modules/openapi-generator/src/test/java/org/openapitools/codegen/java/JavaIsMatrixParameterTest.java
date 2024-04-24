@@ -34,15 +34,15 @@ public class JavaIsMatrixParameterTest {
 
         final Map<String, PathItem> paths = openAPI.getPaths();
         final PathItem pathItem = paths.get("/plainMatrixParamFlat{matrixParam}/{simpleParam}");
-        Assert.assertNotNull(pathItem);
+        Assertions.assertNotNull(pathItem);
 
         final List<Parameter> parameters = pathItem.getParameters();
-        Assert.assertEquals(pathItem.getParameters().size(), 2);
+        Assertions.assertEquals(pathItem.getParameters().size(), 2);
 
         final CodegenParameter matrixParameter = codegen.fromParameter(parameters.get(0), new HashSet<>());
-        Assert.assertTrue(matrixParameter.isMatrix);
+        Assertions.assertTrue(matrixParameter.isMatrix);
 
         final CodegenParameter simpleParameter = codegen.fromParameter(parameters.get(1), new HashSet<>());
-        Assert.assertFalse(simpleParameter.isMatrix);
+        Assertions.assertFalse(simpleParameter.isMatrix);
     }
 }

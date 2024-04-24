@@ -9,8 +9,8 @@ import org.openapitools.codegen.languages.JavaResteasyEapServerCodegen;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assertions.assertEquals;
+import static org.testng.Assertions.assertTrue;
 
 public class JavaResteasyEapServerCodegenModelTest extends JavaJaxrsBaseTest {
 

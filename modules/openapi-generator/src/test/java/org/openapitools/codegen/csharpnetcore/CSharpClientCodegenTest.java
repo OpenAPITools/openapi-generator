@@ -16,7 +16,7 @@
 
 package org.openapitools.codegen.csharpnetcore;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assertions.assertNotNull;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileExists;
 
@@ -49,15 +49,15 @@ public class CSharpClientCodegenTest {
         final CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.toEnumVarName("FooBar", "string"), "FooBar");
-        Assert.assertEquals(codegen.toEnumVarName("fooBar", "string"), "FooBar");
-        Assert.assertEquals(codegen.toEnumVarName("foo-bar", "string"), "FooBar");
-        Assert.assertEquals(codegen.toEnumVarName("foo_bar", "string"), "FooBar");
-        Assert.assertEquals(codegen.toEnumVarName("foo bar", "string"), "FooBar");
+        Assertions.assertEquals(codegen.toEnumVarName("FooBar", "string"), "FooBar");
+        Assertions.assertEquals(codegen.toEnumVarName("fooBar", "string"), "FooBar");
+        Assertions.assertEquals(codegen.toEnumVarName("foo-bar", "string"), "FooBar");
+        Assertions.assertEquals(codegen.toEnumVarName("foo_bar", "string"), "FooBar");
+        Assertions.assertEquals(codegen.toEnumVarName("foo bar", "string"), "FooBar");
 
         // The below cases do not work currently, camelize doesn't support uppercase
-        // Assert.assertEquals(codegen.toEnumVarName("FOO-BAR", "string"), "FooBar");
-        // Assert.assertEquals(codegen.toEnumVarName("FOO_BAR", "string"), "FooBar");
+        // Assertions.assertEquals(codegen.toEnumVarName("FOO-BAR", "string"), "FooBar");
+        // Assertions.assertEquals(codegen.toEnumVarName("FOO_BAR", "string"), "FooBar");
     }
 
     @Test
@@ -70,27 +70,27 @@ public class CSharpClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         codegen.processOpts();
         CodegenModel cm1 = codegen.fromModel("format_test", test1);
-        Assert.assertEquals(cm1.getClassname(), "FormatTest");
+        Assertions.assertEquals(cm1.getClassname(), "FormatTest");
 
         final CodegenProperty property1 = cm1.allVars.get(2);
-        Assert.assertEquals(property1.baseName, "unsigned_integer");
-        Assert.assertEquals(property1.dataType, "uint");
-        Assert.assertEquals(property1.vendorExtensions.get("x-unsigned"), Boolean.TRUE);
-        Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isInteger);
-        Assert.assertFalse(property1.isContainer);
-        Assert.assertFalse(property1.isFreeFormObject);
-        Assert.assertFalse(property1.isAnyType);
+        Assertions.assertEquals(property1.baseName, "unsigned_integer");
+        Assertions.assertEquals(property1.dataType, "uint");
+        Assertions.assertEquals(property1.vendorExtensions.get("x-unsigned"), Boolean.TRUE);
+        Assertions.assertTrue(property1.isPrimitiveType);
+        Assertions.assertTrue(property1.isInteger);
+        Assertions.assertFalse(property1.isContainer);
+        Assertions.assertFalse(property1.isFreeFormObject);
+        Assertions.assertFalse(property1.isAnyType);
 
         final CodegenProperty property2 = cm1.allVars.get(4);
-        Assert.assertEquals(property2.baseName, "unsigned_long");
-        Assert.assertEquals(property2.dataType, "ulong");
-        Assert.assertEquals(property2.vendorExtensions.get("x-unsigned"), Boolean.TRUE);
-        Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isLong);
-        Assert.assertFalse(property2.isContainer);
-        Assert.assertFalse(property2.isFreeFormObject);
-        Assert.assertFalse(property2.isAnyType);
+        Assertions.assertEquals(property2.baseName, "unsigned_long");
+        Assertions.assertEquals(property2.dataType, "ulong");
+        Assertions.assertEquals(property2.vendorExtensions.get("x-unsigned"), Boolean.TRUE);
+        Assertions.assertTrue(property2.isPrimitiveType);
+        Assertions.assertTrue(property2.isLong);
+        Assertions.assertFalse(property2.isContainer);
+        Assertions.assertFalse(property2.isFreeFormObject);
+        Assertions.assertFalse(property2.isAnyType);
     }
 
     @Test

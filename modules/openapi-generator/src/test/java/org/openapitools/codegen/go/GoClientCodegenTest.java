@@ -42,9 +42,9 @@ public class GoClientCodegenTest {
         final GoClientCodegen codegen = new GoClientCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertTrue(codegen.isHideGenerationTimestamp());
-        Assert.assertNull(codegen.additionalProperties().get(GoClientCodegen.MODEL_FILE_FOLDER));
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assertions.assertTrue(codegen.isHideGenerationTimestamp());
+        Assertions.assertNull(codegen.additionalProperties().get(GoClientCodegen.MODEL_FILE_FOLDER));
     }
 
     @Test
@@ -53,8 +53,8 @@ public class GoClientCodegenTest {
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertFalse(codegen.isHideGenerationTimestamp());
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assertions.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -63,8 +63,8 @@ public class GoClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertFalse(codegen.isHideGenerationTimestamp());
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assertions.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test(description = "test example value for body parameter")
@@ -75,9 +75,9 @@ public class GoClientCodegenTest {
         final String path = "/fake";
         final Operation p = openAPI.getPaths().get(path).getGet();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
-        Assert.assertEquals(op.formParams.size(), 2);
+        Assertions.assertEquals(op.formParams.size(), 2);
         CodegenParameter bp = op.formParams.get(0);
-        Assert.assertFalse(bp.isPrimitiveType);
+        Assertions.assertFalse(bp.isPrimitiveType);
     }
 
     @Test(description = "test to ensure the parameter names are unique")
@@ -88,17 +88,17 @@ public class GoClientCodegenTest {
         final String path = "/pet/{id}";
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
-        Assert.assertEquals(op.allParams.size(), 9);
+        Assertions.assertEquals(op.allParams.size(), 9);
         CodegenParameter cp = op.allParams.get(0);
-        Assert.assertEquals(cp.paramName, "id");
+        Assertions.assertEquals(cp.paramName, "id");
         CodegenParameter cp2 = op.allParams.get(1);
-        Assert.assertEquals(cp2.paramName, "id2");
+        Assertions.assertEquals(cp2.paramName, "id2");
         CodegenParameter cp3 = op.allParams.get(2);
-        Assert.assertEquals(cp3.paramName, "id3");
+        Assertions.assertEquals(cp3.paramName, "id3");
         CodegenParameter cp4 = op.allParams.get(3);
-        Assert.assertEquals(cp4.paramName, "id4");
+        Assertions.assertEquals(cp4.paramName, "id4");
         CodegenParameter cp5 = op.allParams.get(4);
-        Assert.assertEquals(cp5.paramName, "id5");
+        Assertions.assertEquals(cp5.paramName, "id5");
     }
 
     @Test
@@ -106,16 +106,16 @@ public class GoClientCodegenTest {
         final GoClientCodegen codegen = new GoClientCodegen();
 
         // Model names are generated from schema / definition names
-        Assert.assertEquals(codegen.toModelFilename("Animal"), "model_animal");
-        Assert.assertEquals(codegen.toModelFilename("AnimalTest"), "model_animal_test_");
-        Assert.assertEquals(codegen.toModelFilename("AnimalFarm"), "model_animal_farm");
-        Assert.assertEquals(codegen.toModelFilename("AnimalFarmTest"), "model_animal_farm_test_");
+        Assertions.assertEquals(codegen.toModelFilename("Animal"), "model_animal");
+        Assertions.assertEquals(codegen.toModelFilename("AnimalTest"), "model_animal_test_");
+        Assertions.assertEquals(codegen.toModelFilename("AnimalFarm"), "model_animal_farm");
+        Assertions.assertEquals(codegen.toModelFilename("AnimalFarmTest"), "model_animal_farm_test_");
 
         // API names are generated from tag names
-        Assert.assertEquals(codegen.toApiFilename("Animal"), "api_animal");
-        Assert.assertEquals(codegen.toApiFilename("Animal Test"), "api_animal_test_");
-        Assert.assertEquals(codegen.toApiFilename("Animal Farm"), "api_animal_farm");
-        Assert.assertEquals(codegen.toApiFilename("Animal Farm Test"), "api_animal_farm_test_");
+        Assertions.assertEquals(codegen.toApiFilename("Animal"), "api_animal");
+        Assertions.assertEquals(codegen.toApiFilename("Animal Test"), "api_animal_test_");
+        Assertions.assertEquals(codegen.toApiFilename("Animal Farm"), "api_animal_farm");
+        Assertions.assertEquals(codegen.toApiFilename("Animal Farm Test"), "api_animal_farm_test_");
     }
 
     @Test
@@ -204,7 +204,7 @@ public class GoClientCodegenTest {
         codegen.additionalProperties().put(GoClientCodegen.MODEL_FILE_FOLDER, "model_dir");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.modelFileFolder(), "generated-code/go/model_dir/".replace("/", File.separator));
+        Assertions.assertEquals(codegen.modelFileFolder(), "generated-code/go/model_dir/".replace("/", File.separator));
     }
     
     @Test

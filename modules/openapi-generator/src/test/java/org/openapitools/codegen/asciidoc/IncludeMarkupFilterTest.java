@@ -27,7 +27,7 @@ public class IncludeMarkupFilterTest extends LambdaTest {
         final Map<String, Object> ctx = context("specinclude", generator.new IncludeMarkupLambda("specDir","DOES_NOT_EXIST"));
 
         final String result = execute("{{#specinclude}}not.an.existing.file.adoc{{/specinclude}}", ctx);
-        Assert.assertTrue(result.contains("// markup not found, no include::{specDir}not.an.existing.file.adoc[opts=optional]"),
+        Assertions.assertTrue(result.contains("// markup not found, no include::{specDir}not.an.existing.file.adoc[opts=optional]"),
                 "unexpected filtered " + result);
     }
 
@@ -42,7 +42,7 @@ public class IncludeMarkupFilterTest extends LambdaTest {
                 generator.new IncludeMarkupLambda("specDir",tempFile.getParent()));
 
         final String result = execute("{{#snippetinclude}}" + tempFile.getName() + "{{/snippetinclude}}", ctx);
-        Assert.assertTrue(result.contains("include::{specDir}"+tempFile.getName()+"[opts=optional]"), "unexpected filtered: " + result);
+        Assertions.assertTrue(result.contains("include::{specDir}"+tempFile.getName()+"[opts=optional]"), "unexpected filtered: " + result);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class IncludeMarkupFilterTest extends LambdaTest {
                 generator.new IncludeMarkupLambda("specDir",temporaryPath));
 
         final String result = execute("{{#snippetinclude}}" + "/{parameter1}/{parameter2}/"+tempFile.getName() + "{{/snippetinclude}}", ctx);
-        Assert.assertEquals(result,"\ninclude::{specDir}"+ "\\{parameter1\\}/\\{parameter2\\}/" + tempFile.getName()+"[opts=optional]\n");
+        Assertions.assertEquals(result,"\ninclude::{specDir}"+ "\\{parameter1\\}/\\{parameter2\\}/" + tempFile.getName()+"[opts=optional]\n");
     }
 
 }

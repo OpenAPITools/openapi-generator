@@ -46,7 +46,7 @@ public class JavaJAXRSCXFCDIServerCodegenTest extends JavaJaxrsBaseTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
+        JavaFileAssertions.assertThat(files.get("TestHeadersApi.java"))
             .assertMethod("headersTest")
                 .hasParameter("headerNumber").withType("BigDecimal")
                     .assertParameterAnnotations()
@@ -72,7 +72,7 @@ public class JavaJAXRSCXFCDIServerCodegenTest extends JavaJaxrsBaseTest {
                     .assertParameterAnnotations()
                     .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"true\""));
 
-        JavaFileAssert.assertThat(files.get("TestQueryParamsApi.java"))
+        JavaFileAssertions.assertThat(files.get("TestQueryParamsApi.java"))
             .assertMethod("queryParamsTest")
                 .hasParameter("queryNumber").withType("BigDecimal")
                     .assertParameterAnnotations()

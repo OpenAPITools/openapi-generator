@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assertions.assertEquals;
 
 public class SerializerUtilsTest {
 

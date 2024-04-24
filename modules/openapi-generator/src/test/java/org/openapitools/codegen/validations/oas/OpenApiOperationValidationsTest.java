@@ -48,17 +48,17 @@ public class OpenApiOperationValidationsTest {
         }
 
         ValidationResult result = validator.validate(new OperationWrapper(null, op, method));
-        Assert.assertNotNull(result.getWarnings());
+        Assertions.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
                 .filter(invalid -> "API GET/HEAD defined with request body".equals(invalid.getRule().getDescription()))
                 .collect(Collectors.toList());
 
-        Assert.assertNotNull(warnings);
+        Assertions.assertNotNull(warnings);
         if (shouldTriggerFailure) {
-            Assert.assertEquals(warnings.size(), 1, "Expected warnings to include recommendation.");
+            Assertions.assertEquals(warnings.size(), 1, "Expected warnings to include recommendation.");
         } else {
-            Assert.assertEquals(warnings.size(), 0, "Expected warnings not to include recommendation.");
+            Assertions.assertEquals(warnings.size(), 0, "Expected warnings not to include recommendation.");
         }
     }
 
@@ -78,14 +78,14 @@ public class OpenApiOperationValidationsTest {
         }
 
         ValidationResult result = validator.validate(new OperationWrapper(null, op, method));
-        Assert.assertNotNull(result.getWarnings());
+        Assertions.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
                 .filter(invalid -> "API GET/HEAD defined with request body".equals(invalid.getRule().getDescription()))
                 .collect(Collectors.toList());
 
-        Assert.assertNotNull(warnings);
-        Assert.assertEquals(warnings.size(), 0, "Expected warnings not to include recommendation.");
+        Assertions.assertNotNull(warnings);
+        Assertions.assertEquals(warnings.size(), 0, "Expected warnings not to include recommendation.");
     }
 
     @Test(dataProvider = "getOrHeadWithBodyExpectations")
@@ -104,13 +104,13 @@ public class OpenApiOperationValidationsTest {
         }
 
         ValidationResult result = validator.validate(new OperationWrapper(null, op, method));
-        Assert.assertNotNull(result.getWarnings());
+        Assertions.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
                 .filter(invalid -> "API GET/HEAD defined with request body".equals(invalid.getRule().getDescription()))
                 .collect(Collectors.toList());
 
-        Assert.assertNotNull(warnings);
-        Assert.assertEquals(warnings.size(), 0, "Expected warnings not to include recommendation.");
+        Assertions.assertNotNull(warnings);
+        Assertions.assertEquals(warnings.size(), 0, "Expected warnings not to include recommendation.");
     }
 }

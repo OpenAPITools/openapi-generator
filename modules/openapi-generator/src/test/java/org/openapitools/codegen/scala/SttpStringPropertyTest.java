@@ -15,7 +15,7 @@ public class SttpStringPropertyTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         property.updateAdditionalProperties(additionalProperties);
 
-        Assert.assertEquals(additionalProperties.get("k1"), "default");
+        Assertions.assertEquals(additionalProperties.get("k1"), "default");
     }
 
     @Test
@@ -25,6 +25,6 @@ public class SttpStringPropertyTest {
         additionalProperties.put("k1", "custom");
         property.updateAdditionalProperties(additionalProperties);
 
-        Assert.assertEquals(additionalProperties.get("k1"), "custom");
+        Assertions.assertEquals(additionalProperties.get("k1"), "custom");
     }
 }

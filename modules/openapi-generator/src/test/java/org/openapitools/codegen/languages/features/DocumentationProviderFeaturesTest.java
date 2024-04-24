@@ -29,7 +29,7 @@ public class DocumentationProviderFeaturesTest {
             .collect(Collectors.joining(", "))
     )));
     sb.append("\n");
-    Assert.assertTrue(sb.toString().contains("none"));
+    Assertions.assertTrue(sb.toString().contains("none"));
   }
 
   @Test(priority = 1)
@@ -44,7 +44,7 @@ public class DocumentationProviderFeaturesTest {
         dp.getDescription(),
         dp.getPropertyName()
     )));
-    Assert.assertTrue(sb.toString().contains("none"));
+    Assertions.assertTrue(sb.toString().contains("none"));
     sb.append("\n");
   }
 }

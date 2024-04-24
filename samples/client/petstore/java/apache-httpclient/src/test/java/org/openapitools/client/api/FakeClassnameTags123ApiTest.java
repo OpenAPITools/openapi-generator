@@ -17,7 +17,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Client;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.ArrayList;
 import java.util.HashMap;

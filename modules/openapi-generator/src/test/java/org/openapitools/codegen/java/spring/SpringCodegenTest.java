@@ -43,7 +43,7 @@ import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
 import static org.openapitools.codegen.languages.SpringCodegen.USE_TAGS;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assertions.assertEquals;
 import static org.testng.Assert.fail;
 
 import java.io.File;
@@ -131,7 +131,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
                 .assertTypeAnnotations()
                 .hasSize(3)
                 .containsWithName("Validated")
@@ -165,7 +165,7 @@ public class SpringCodegenTest {
                 .commentContainsLines("GET /zebras", "@param limit  (optional)")
                 .bodyContainsLines("return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED)");
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/AnimalParams.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/AnimalParams.java"))
                 .hasImports("org.springframework.format.annotation.DateTimeFormat")
                 .hasProperty("born").withType("LocalDate")
                 .assertPropertyAnnotations()
@@ -209,7 +209,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
                 .assertTypeAnnotations()
                 .hasSize(3)
                 .containsWithName("Validated")
@@ -243,7 +243,7 @@ public class SpringCodegenTest {
                 .commentContainsLines("GET /zebras", "@param limit  (optional)")
                 .bodyContainsLines("return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED)");
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/AnimalParams.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/AnimalParams.java"))
                 .hasImports("org.springframework.format.annotation.DateTimeFormat")
                 .hasProperty("born").withType("Optional<LocalDate>")
                 .assertPropertyAnnotations()
@@ -285,19 +285,19 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java"))
                 .assertMethod("getElephants", "String", "BigDecimal")
                 .hasParameter("userToken")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("CookieValue", ImmutableMap.of("name", "\"userToken\""));
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
                 .assertMethod("getZebras", "String")
                 .hasParameter("userToken")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("CookieValue", ImmutableMap.of("name", "\"userToken\""));
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/BirdsApi.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/BirdsApi.java"))
                 .assertMethod("getBirds", "BigDecimal")
                 .doesNotHaveParameter("userToken")
                 .noneOfParameterHasAnnotation("CookieValue");
@@ -395,14 +395,14 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java"))
                 .hasImports("org.springframework.format.annotation.DateTimeFormat")
                 .assertMethod("getElephants", "LocalDate")
                 .hasParameter("startDate")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE"));
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
                 .hasImports("org.springframework.format.annotation.DateTimeFormat")
                 .assertMethod("getZebras", "OffsetDateTime")
                 .hasParameter("startDateTime")
@@ -417,7 +417,7 @@ public class SpringCodegenTest {
         codegen.processOpts();
 
         // jdk8 tag has been removed
-        Assert.assertEquals(codegen.additionalProperties().get("jdk8"), null);
+        Assertions.assertEquals(codegen.additionalProperties().get("jdk8"), null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -455,7 +455,7 @@ public class SpringCodegenTest {
 
         generator.opts(input).generate();
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"))
                 .assertMethod("exampleApiGet", "String", "Format")
                 .hasParameter("query")
                 .assertParameterAnnotations()
@@ -493,7 +493,7 @@ public class SpringCodegenTest {
 
         generator.opts(input).generate();
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"))
                 .assertMethod("exampleApiGet", "OffsetDateTime")
                 .hasParameter("start")
                 .assertParameterAnnotations()
@@ -521,20 +521,20 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("SubType.java"))
+        JavaFileAssertions.assertThat(files.get("SubType.java"))
                 .assertConstructor("TypeEnum", "SchemaVersion", "UUID", "Boolean", "Boolean", "SomeEnum")
                 .bodyContainsLines("super(someBoolean, someEnum, schemaVersion, id, oneBoolean);",
                         "this.type = type;");
-        JavaFileAssert.assertThat(files.get("IntermediateSubType.java"))
+        JavaFileAssertions.assertThat(files.get("IntermediateSubType.java"))
                 .assertConstructor("Boolean", "SomeEnum", "SchemaVersion", "UUID", "Boolean")
                 .bodyContainsLines("super(oneBoolean, schemaVersion, id);",
                         "this.someBoolean = someBoolean;",
                         "this.someEnum = someEnum");
-        JavaFileAssert.assertThat(files.get("IntermediateType.java"))
+        JavaFileAssertions.assertThat(files.get("IntermediateType.java"))
                 .assertConstructor("Boolean", "SchemaVersion", "UUID")
                 .bodyContainsLines("super(schemaVersion, id);",
                         "this.oneBoolean = oneBoolean;");
-        JavaFileAssert.assertThat(files.get("BaseType.java"))
+        JavaFileAssertions.assertThat(files.get("BaseType.java"))
                 .assertConstructor("SchemaVersion", "UUID")
                 .bodyContainsLines(
                         "this.schemaVersion = schemaVersion;",
@@ -563,7 +563,7 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-cloud");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get("jdk8-default-interface"), false);
+        Assertions.assertEquals(codegen.additionalProperties().get("jdk8-default-interface"), false);
     }
 
     @Test
@@ -584,20 +584,20 @@ public class SpringCodegenTest {
         openAPI.getInfo().setTitle("Some test API");
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.getBasePackage(), "xyz.yyyyy.bbbb.base");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "xyz.yyyyy.bbbb.base");
-        Assert.assertEquals(codegen.getConfigPackage(), "xyz.yyyyy.cccc.config");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xyz.yyyyy.cccc.config");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.TITLE), "someTest");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8088");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assertions.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
+        Assertions.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
+        Assertions.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
+        Assertions.assertEquals(codegen.getBasePackage(), "xyz.yyyyy.bbbb.base");
+        Assertions.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "xyz.yyyyy.bbbb.base");
+        Assertions.assertEquals(codegen.getConfigPackage(), "xyz.yyyyy.cccc.config");
+        Assertions.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xyz.yyyyy.cccc.config");
+        Assertions.assertEquals(codegen.additionalProperties().get(SpringCodegen.TITLE), "someTest");
+        Assertions.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8088");
     }
 
     @Test
@@ -620,9 +620,9 @@ public class SpringCodegenTest {
         CodegenProperty int64Prop = cm.vars.get(0);
         CodegenProperty floatProp = cm.vars.get(1);
         CodegenProperty doubleProp = cm.vars.get(2);
-        Assert.assertEquals(int64Prop.defaultValue, int64Val);
-        Assert.assertEquals(floatProp.defaultValue, floatVal);
-        Assert.assertEquals(doubleProp.defaultValue, doubleVal);
+        Assertions.assertEquals(int64Prop.defaultValue, int64Val);
+        Assertions.assertEquals(floatProp.defaultValue, floatVal);
+        Assertions.assertEquals(doubleProp.defaultValue, doubleVal);
 
         int64Val = "9223372036854775807";
         floatVal = "3.14159";
@@ -635,9 +635,9 @@ public class SpringCodegenTest {
         CodegenParameter int64Param = co.queryParams.get(0);
         CodegenParameter floatParam = co.queryParams.get(1);
         CodegenParameter doubleParam = co.queryParams.get(2);
-        Assert.assertEquals(int64Param.defaultValue, int64Val);
-        Assert.assertEquals(floatParam.defaultValue, floatVal);
-        Assert.assertEquals(doubleParam.defaultValue, doubleVal);
+        Assertions.assertEquals(int64Param.defaultValue, int64Val);
+        Assertions.assertEquals(floatParam.defaultValue, floatVal);
+        Assertions.assertEquals(doubleParam.defaultValue, doubleVal);
     }
 
     @Test
@@ -667,7 +667,7 @@ public class SpringCodegenTest {
 
         generator.opts(input).generate();
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"))
                 .assertMethod("exampleApiPost", "ExampleApiPostRequest")
                 .hasParameter("exampleApiPostRequest")
                 .assertParameterAnnotations()
@@ -687,21 +687,21 @@ public class SpringCodegenTest {
         openAPI.setInfo(new Info());
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
-        Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
-        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
-        Assert.assertEquals(codegen.getBasePackage(), "org.openapitools");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "org.openapitools");
-        Assert.assertEquals(codegen.getConfigPackage(), "org.openapitools.configuration");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "org.openapitools.configuration");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8082");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), false);
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.USE_RESPONSE_ENTITY), true);
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assertions.assertEquals(codegen.modelPackage(), "org.openapitools.model");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
+        Assertions.assertEquals(codegen.apiPackage(), "org.openapitools.api");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
+        Assertions.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
+        Assertions.assertEquals(codegen.getBasePackage(), "org.openapitools");
+        Assertions.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "org.openapitools");
+        Assertions.assertEquals(codegen.getConfigPackage(), "org.openapitools.configuration");
+        Assertions.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "org.openapitools.configuration");
+        Assertions.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8082");
+        Assertions.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), false);
+        Assertions.assertEquals(codegen.additionalProperties().get(SpringCodegen.USE_RESPONSE_ENTITY), true);
     }
 
     @Test
@@ -714,12 +714,12 @@ public class SpringCodegenTest {
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
 
         // Check that the delegate handles the array
-        JavaFileAssert.assertThat(files.get("MultipartArrayApiDelegate.java"))
+        JavaFileAssertions.assertThat(files.get("MultipartArrayApiDelegate.java"))
                 .assertMethod("multipartArray", "List<MultipartFile>")
                 .hasParameter("files").withType("List<MultipartFile>");
 
         // Check that the api handles the array
-        JavaFileAssert.assertThat(files.get("MultipartArrayApi.java"))
+        JavaFileAssertions.assertThat(files.get("MultipartArrayApi.java"))
                 .assertMethod("multipartArray", "List<MultipartFile>")
                 .hasParameter("files").withType("List<MultipartFile>")
                 .assertParameterAnnotations()
@@ -734,7 +734,7 @@ public class SpringCodegenTest {
         // assertFileContains(multipartSingleApiDelegate.toPath(), "MultipartFile file");
 
         // Check that the api handles the single file
-        JavaFileAssert.assertThat(files.get("MultipartSingleApi.java"))
+        JavaFileAssertions.assertThat(files.get("MultipartSingleApi.java"))
                 .assertMethod("multipartSingle", "MultipartFile")
                 .hasParameter("file").withType("MultipartFile")
                 .assertParameterAnnotations()
@@ -742,7 +742,7 @@ public class SpringCodegenTest {
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "false"));
 
         // Check that api validates mixed multipart request
-        JavaFileAssert.assertThat(files.get("MultipartMixedApi.java"))
+        JavaFileAssertions.assertThat(files.get("MultipartMixedApi.java"))
                 .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker", "List<MultipartMixedStatus>")
                 .hasParameter("status").withType("MultipartMixedStatus")
                 .assertParameterAnnotations()
@@ -769,21 +769,21 @@ public class SpringCodegenTest {
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml");
 
-        JavaFileAssert.assertThat(files.get("AdditionalPropertiesAnyType.java"))
+        JavaFileAssertions.assertThat(files.get("AdditionalPropertiesAnyType.java"))
             .hasProperty("additionalProperties").withType("Map<String, Object>")
             .toType()
             .assertMethod("putAdditionalProperty", "String", "Object")
             .toFileAssert()
             .assertMethod("getAdditionalProperty", "String").hasReturnType("Object");
 
-        JavaFileAssert.assertThat(files.get("AdditionalPropertiesArray.java"))
+        JavaFileAssertions.assertThat(files.get("AdditionalPropertiesArray.java"))
             .hasProperty("additionalProperties").withType("Map<String, List>")
             .toType()
             .assertMethod("putAdditionalProperty", "String", "List")
             .toFileAssert()
             .assertMethod("getAdditionalProperty", "String").hasReturnType("List");
 
-        JavaFileAssert.assertThat(files.get("AdditionalPropertiesInteger.java"))
+        JavaFileAssertions.assertThat(files.get("AdditionalPropertiesInteger.java"))
             .hasProperty("additionalProperties").withType("Map<String, Integer>")
             .toType()
             .assertMethod("putAdditionalProperty", "String", "Integer")
@@ -816,7 +816,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("TestApi.java"))
+        JavaFileAssertions.assertThat(files.get("TestApi.java"))
             .isInterface()
             .hasImports("io.swagger.v3.oas.annotations.enums.ParameterIn")
             .assertMethod("test")
@@ -851,7 +851,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
               .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("PetController.java"))
+        JavaFileAssertions.assertThat(files.get("PetController.java"))
               .isInterface();
 
         File notExisting = files.get("PetApi.java");
@@ -882,7 +882,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
               .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("PetTagApi.java"))
+        JavaFileAssertions.assertThat(files.get("PetTagApi.java"))
               .isInterface();
 
         File notExisting = files.get("PetApi.java");
@@ -915,7 +915,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
               .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("PetApi.java"))
+        JavaFileAssertions.assertThat(files.get("PetApi.java"))
               .isInterface();
 
         File notExisting = files.get("PetTagApi.java");
@@ -945,7 +945,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
               .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("ResponseTest.java"))
+        JavaFileAssertions.assertThat(files.get("ResponseTest.java"))
               .isNormalClass()
               .hasImports("javax.validation.Valid")
               .hasProperty("details")
@@ -1003,7 +1003,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("Foo.java"))
+        JavaFileAssertions.assertThat(files.get("Foo.java"))
                 .isNormalClass()
                 .hasImports("jakarta.validation.Valid")
                 .hasImports("jakarta.validation.constraints")
@@ -1144,7 +1144,7 @@ public class SpringCodegenTest {
 
       // Check that the @RequestMapping annotation is not generated in the Api file
       final File petApiFile = files.get( "PetApi.java" );
-      JavaFileAssert.assertThat( petApiFile ).assertTypeAnnotations().hasSize( 3 ).containsWithName( "Validated" )
+      JavaFileAssertions.assertThat( petApiFile ).assertTypeAnnotations().hasSize( 3 ).containsWithName( "Validated" )
             .containsWithName( "Generated" ).containsWithName( "Tag" );
 
    }
@@ -1160,7 +1160,7 @@ public class SpringCodegenTest {
 
         // Check that the @RequestMapping annotation is not generated in the Api file
         final File petApiFile = files.get( "PetApi.java" );
-        JavaFileAssert.assertThat( petApiFile ).assertTypeAnnotations().hasSize( 3 ).containsWithName( "Validated" )
+        JavaFileAssertions.assertThat( petApiFile ).assertTypeAnnotations().hasSize( 3 ).containsWithName( "Validated" )
             .containsWithName( "Generated" ).containsWithName( "Tag" );
     }
 
@@ -1176,20 +1176,20 @@ public class SpringCodegenTest {
         codegen.setUnhandledException(true);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
-        Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xx.yyyyyyyy.invoker");
-        Assert.assertEquals(codegen.getBasePackage(), "xx.yyyyyyyy.base");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "xx.yyyyyyyy.base");
-        Assert.assertEquals(codegen.getConfigPackage(), "xx.yyyyyyyy.config");
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xx.yyyyyyyy.config");
-        Assert.assertEquals(codegen.isUnhandledException(), true);
-        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), true);
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assertions.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
+        Assertions.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
+        Assertions.assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xx.yyyyyyyy.invoker");
+        Assertions.assertEquals(codegen.getBasePackage(), "xx.yyyyyyyy.base");
+        Assertions.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "xx.yyyyyyyy.base");
+        Assertions.assertEquals(codegen.getConfigPackage(), "xx.yyyyyyyy.config");
+        Assertions.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xx.yyyyyyyy.config");
+        Assertions.assertEquals(codegen.isUnhandledException(), true);
+        Assertions.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), true);
     }
 
     @Test
@@ -1294,7 +1294,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("PersonWithEmail.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("PersonWithEmail.java"));
         if (useBeanValidation) javaFileAssert.hasImports((useJakarta? "jakarta" : "javax") + ".validation.constraints");
         if (performBeanValidation) javaFileAssert.hasImports("org.hibernate.validator.constraints");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java"), contains);
@@ -1411,7 +1411,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
+        JavaFileAssertions.assertThat(files.get("ConsentControllerApi.java"))
             .assertMethod("readAgreements", "ServerWebExchange");
     }
 
@@ -1442,7 +1442,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
+        JavaFileAssertions.assertThat(files.get("ConsentControllerApi.java"))
             .assertMethod("paginated", "ServerWebExchange", "Pageable")
             .toFileAssert()
             .assertMethod("paginatedWithParams", "String", "ServerWebExchange", "Pageable");
@@ -1474,7 +1474,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
+        JavaFileAssertions.assertThat(files.get("ConsentControllerApi.java"))
             .assertMethod("paginated", "Pageable")
             .toFileAssert()
             .assertMethod("paginatedWithParams", "String", "Pageable");
@@ -1896,17 +1896,17 @@ public class SpringCodegenTest {
     public void testTypeMappings() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.processOpts();
-        Assert.assertEquals(codegen.typeMapping().get("file"), "org.springframework.core.io.Resource");
+        Assertions.assertEquals(codegen.typeMapping().get("file"), "org.springframework.core.io.Resource");
     }
 
     @Test
     public void testImportMappings() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.processOpts();
-        Assert.assertEquals(codegen.importMapping().get("org.springframework.core.io.Resource"), "org.springframework.core.io.Resource");
-        Assert.assertEquals(codegen.importMapping().get("DateTimeFormat"), "org.springframework.format.annotation.DateTimeFormat");
-        Assert.assertEquals(codegen.importMapping().get("ApiIgnore"), "springfox.documentation.annotations.ApiIgnore");
-        Assert.assertEquals(codegen.importMapping().get("ParameterObject"), "org.springdoc.api.annotations.ParameterObject");
+        Assertions.assertEquals(codegen.importMapping().get("org.springframework.core.io.Resource"), "org.springframework.core.io.Resource");
+        Assertions.assertEquals(codegen.importMapping().get("DateTimeFormat"), "org.springframework.format.annotation.DateTimeFormat");
+        Assertions.assertEquals(codegen.importMapping().get("ApiIgnore"), "springfox.documentation.annotations.ApiIgnore");
+        Assertions.assertEquals(codegen.importMapping().get("ParameterObject"), "org.springdoc.api.annotations.ParameterObject");
     }
 
     @Test(dataProvider = "issue11464TestCases")
@@ -1965,8 +1965,8 @@ public class SpringCodegenTest {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put(SpringCodegen.API_FIRST, true);
         codegen.processOpts();
-        Assert.assertTrue(codegen.modelTemplateFiles().isEmpty());
-        Assert.assertTrue(codegen.apiTemplateFiles().isEmpty());
+        Assertions.assertTrue(codegen.modelTemplateFiles().isEmpty());
+        Assertions.assertTrue(codegen.apiTemplateFiles().isEmpty());
     }
 
     @Test
@@ -2029,7 +2029,7 @@ public class SpringCodegenTest {
         assertThat(generatedModels).isNotEmpty();
 
         for (File modelPath : generatedModels) {
-            JavaFileAssert.assertThat(modelPath)
+            JavaFileAssertions.assertThat(modelPath)
                     .assertTypeAnnotations()
                     .containsWithName("custom.Annotation")
                     .containsWithName("path.Annotation2")
@@ -2064,7 +2064,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("PetApi.java"))
+        JavaFileAssertions.assertThat(files.get("PetApi.java"))
             .hasImports("io.swagger.v3.oas.annotations.ExternalDocumentation")
             .assertMethod("updatePet")
             .assertMethodAnnotations()
@@ -2084,7 +2084,7 @@ public class SpringCodegenTest {
         additionalProperties.put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
         Map<String, File> files = generateFromContract("src/test/resources/3_0/issue_8535.yaml", SPRING_BOOT, additionalProperties);
 
-        JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
+        JavaFileAssertions.assertThat(files.get("TestHeadersApi.java"))
                 .assertMethod("headersTest")
                 .hasParameter("headerNumber").withType("BigDecimal")
                 .assertParameterAnnotations()
@@ -2110,7 +2110,7 @@ public class SpringCodegenTest {
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestHeader", ImmutableMap.of("defaultValue", "\"true\""));
 
-        JavaFileAssert.assertThat(files.get("TestQueryParamsApi.java"))
+        JavaFileAssertions.assertThat(files.get("TestQueryParamsApi.java"))
                 .assertMethod("queryParamsTest")
                 .hasParameter("queryNumber").withType("BigDecimal")
                 .assertParameterAnnotations()
@@ -2178,7 +2178,7 @@ public class SpringCodegenTest {
         additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11897.yaml", SPRING_BOOT, additionalProperties);
 
-        JavaFileAssert.assertThat(files.get("MetadataApi.java"))
+        JavaFileAssertions.assertThat(files.get("MetadataApi.java"))
                 .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithArrayOfString").hasReturnType("ResponseEntity<List<String>>")
@@ -2204,7 +2204,7 @@ public class SpringCodegenTest {
         additionalProperties.put(USE_RESPONSE_ENTITY, "false");
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11537.yaml", SPRING_BOOT, additionalProperties);
 
-        JavaFileAssert.assertThat(files.get("MetadataApi.java"))
+        JavaFileAssertions.assertThat(files.get("MetadataApi.java"))
                 .assertMethod("getSomething")
                 .hasReturnType("List<String>")
                 .assertMethodAnnotations()
@@ -2235,12 +2235,12 @@ public class SpringCodegenTest {
         additionalProperties.put(DELEGATE_PATTERN, "true");
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11537.yaml", SPRING_BOOT, additionalProperties);
 
-        JavaFileAssert.assertThat(files.get("MetadataApiDelegate.java"))
+        JavaFileAssertions.assertThat(files.get("MetadataApiDelegate.java"))
                 .assertMethod("getSomething").hasReturnType("List<String>")
                 .toFileAssert()
                 .assertMethod("putSomething").hasReturnType("String");
 
-        JavaFileAssert.assertThat(files.get("MetadataApi.java"))
+        JavaFileAssertions.assertThat(files.get("MetadataApi.java"))
                 .assertMethod("getSomething")
                 .hasReturnType("List<String>")
                 .assertMethodAnnotations()
@@ -2270,7 +2270,7 @@ public class SpringCodegenTest {
             additionalProperties.put(RETURN_SUCCESS_CODE, "true");
             Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_12524.json", SPRING_BOOT, additionalProperties);
 
-            JavaFileAssert.assertThat(files.get("API01ListOfStuff.java"))
+            JavaFileAssertions.assertThat(files.get("API01ListOfStuff.java"))
                 .hasImports("com.fasterxml.jackson.annotation.JsonTypeName");
         } finally {
             GlobalSettings.reset();
@@ -2286,7 +2286,7 @@ public class SpringCodegenTest {
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         Map<String, File> files = generateFromContract("src/test/resources/2_0/petstore-with-spring-pageable.yaml", SPRING_BOOT, additionalProperties);
 
-        JavaFileAssert.assertThat(files.get("PetApi.java"))
+        JavaFileAssertions.assertThat(files.get("PetApi.java"))
             .hasImports("org.springdoc.api.annotations.ParameterObject")
             .assertMethod("findPetsByStatus")
             .hasParameter("pageable").withType("Pageable")
@@ -2298,7 +2298,7 @@ public class SpringCodegenTest {
         additionalProperties.put(USE_SPRING_BOOT3, "true");
         files = generateFromContract("src/test/resources/2_0/petstore-with-spring-pageable.yaml", SPRING_BOOT, additionalProperties);
 
-        JavaFileAssert.assertThat(files.get("PetApi.java"))
+        JavaFileAssertions.assertThat(files.get("PetApi.java"))
             .hasImports("org.springdoc.core.annotations.ParameterObject", "org.springframework.data.domain.Pageable")
             .assertMethod("findPetsByStatus")
             .hasParameter("pageable").withType("Pageable")
@@ -2317,7 +2317,7 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_13052.yaml", SPRING_BOOT, additionalProperties);
 
-        JavaFileAssert.assertThat(files.get("PetApi.java"))
+        JavaFileAssertions.assertThat(files.get("PetApi.java"))
                 .hasImports("org.openapitools.model.Pageable")
                 .hasNoImports("org.springframework.data.domain.Pageable", "org.springdoc.core.annotations.ParameterObject")
                 .assertMethod("findPageable")
@@ -2336,7 +2336,7 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11957.yaml", SPRING_BOOT, additionalProperties);
 
-        JavaFileAssert.assertThat(files.get("SearchApi.java"))
+        JavaFileAssertions.assertThat(files.get("SearchApi.java"))
                 .assertMethod("defaultList")
                 .hasParameter("orderBy")
                 .assertParameterAnnotations()
@@ -2362,7 +2362,7 @@ public class SpringCodegenTest {
     public void testPutItemsMethodContainsKeyInSuperClassMethodCall_issue12494() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_12494.yaml", null);
 
-        JavaFileAssert.assertThat(files.get("ChildClass.java"))
+        JavaFileAssertions.assertThat(files.get("ChildClass.java"))
                 .assertMethod("putSomeMapItem")
                 .bodyContainsLines("super.putSomeMapItem(key, someMapItem);");
     }
@@ -2371,7 +2371,7 @@ public class SpringCodegenTest {
     public void shouldHandleCustomResponseType_issue11731() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11731.yaml", SPRING_BOOT);
 
-        JavaFileAssert.assertThat(files.get("CustomersApi.java"))
+        JavaFileAssertions.assertThat(files.get("CustomersApi.java"))
                 .assertMethod("getAllUsingGET1")
                 .bodyContainsLines("if (mediaType.isCompatibleWith(MediaType.valueOf(\"application/hal+json\"))) {");
     }
@@ -2382,7 +2382,7 @@ public class SpringCodegenTest {
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_12457.yaml", SPRING_BOOT, additionalProperties);
 
-        JavaFileAssert.assertThat(files.get("UsersApi.java"))
+        JavaFileAssertions.assertThat(files.get("UsersApi.java"))
                 .assertMethod("wildcardSubTypeForContentType")
                 .assertMethodAnnotations()
                 .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
@@ -2425,7 +2425,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("SomeMethodApi.java"))
+        JavaFileAssertions.assertThat(files.get("SomeMethodApi.java"))
                 .assertMethod("methodWithValidation")
                 .hasParameter("headerOne")
                 .assertParameterAnnotations()
@@ -2466,8 +2466,8 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         //Assert that NotNull annotation exists alone with no other BeanValidation annotations
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
-        javaFileAssert.assertMethod("getName").assertMethodAnnotations()
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("Person.java"));
+        javaFileAssertions.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").anyMatch(annotation ->
                         !annotation.getNameAsString().equals("Valid") ||
                                 !annotation.getNameAsString().equals("Pattern") ||
@@ -2497,8 +2497,8 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         //Assert that NotNull annotation exists alone with no other BeanValidation annotations
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
-        javaFileAssert.assertMethod("getName").assertMethodAnnotations()
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("Person.java"));
+        javaFileAssertions.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").anyMatch(annotation ->
                         !annotation.getNameAsString().equals("Valid") ||
                                 !annotation.getNameAsString().equals("Pattern") ||
@@ -2525,8 +2525,8 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Alien.java"));
-        javaFileAssert.assertMethod("getName")
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("Alien.java"));
+        javaFileAssertions.assertMethod("getName")
                 .assertMethodAnnotations().anyMatch(annotation -> !annotation.getNameAsString().equals("NotNull"));
         javaFileAssert.hasNoImports("javax.validation.constraints.NotNull");
     }
@@ -2540,7 +2540,7 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_14252.yaml");
 
-        JavaFileAssert.assertThat(files.get("MyResponse.java"))
+        JavaFileAssertions.assertThat(files.get("MyResponse.java"))
             .hasImports("com.fasterxml.jackson.databind.annotation.JsonSerialize", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer")
             .assertMethod("getMyPropTypeNumber")
             .assertMethodAnnotations()
@@ -2567,8 +2567,8 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
-        javaFileAssert.assertMethod("getName").assertMethodAnnotations()
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("Person.java"));
+        javaFileAssertions.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").containsWithName("Size").containsWithName("javax.validation.constraints.Email");
         javaFileAssert
             .hasNoImports("javax.validation.constraints.NotNull")
@@ -2599,7 +2599,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("TestObject.java"))
+        JavaFileAssertions.assertThat(files.get("TestObject.java"))
                 .assertMethod("equals")
                 .bodyContainsLines("return equalsNullable(this.picture, testObject.picture);");
 
@@ -2629,7 +2629,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("TestObject.java"))
+        JavaFileAssertions.assertThat(files.get("TestObject.java"))
                 .assertMethod("equals")
                 .bodyContainsLines("return Arrays.equals(this.picture, testObject.picture);");
     }
@@ -2658,7 +2658,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("AddApi.java"))
+        JavaFileAssertions.assertThat(files.get("AddApi.java"))
                 .assertMethod("addPost")
                 .hasParameter("body")
                 .assertParameterAnnotations()
@@ -2691,13 +2691,13 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("PatchRequestInner.java"))
+        JavaFileAssertions.assertThat(files.get("PatchRequestInner.java"))
             .isInterface()
             .assertTypeAnnotations()
             .containsWithName("marker.Interface1")
             .containsWithName("marker.Common");
 
-        JavaFileAssert.assertThat(files.get("JSONPatchRequestRemove.java"))
+        JavaFileAssertions.assertThat(files.get("JSONPatchRequestRemove.java"))
             .isNormalClass()
             .assertTypeAnnotations()
             .containsWithName("marker.Class1")
@@ -2716,7 +2716,7 @@ public class SpringCodegenTest {
     public void contractWithEnumContainsEnumConverter() throws IOException {
         Map<String, File> output = generateFromContract("src/test/resources/3_0/enum.yaml", SPRING_BOOT);
 
-        JavaFileAssert.assertThat(output.get("EnumConverterConfiguration.java"))
+        JavaFileAssertions.assertThat(output.get("EnumConverterConfiguration.java"))
                 .assertMethod("typeConverter");
     }
 
@@ -2736,7 +2736,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("EnumConverterConfiguration.java"))
+        JavaFileAssertions.assertThat(files.get("EnumConverterConfiguration.java"))
                 .assertMethod("ponyTypeConverter");
     }
 
@@ -2757,15 +2757,15 @@ public class SpringCodegenTest {
         final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_9789.yml", SPRING_BOOT,
                 Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "false"));
 
-        JavaFileAssert.assertThat(output.get("ObjectWithNoRequiredParameter.java")).assertNoConstructor("String");
+        JavaFileAssertions.assertThat(output.get("ObjectWithNoRequiredParameter.java")).assertNoConstructor("String");
 
-        JavaFileAssert.assertThat(output.get("ObjectWithRequiredParameter.java")).assertConstructor();
-        JavaFileAssert.assertThat(output.get("ObjectWithRequiredParameter.java")).assertConstructor("String", "String")
+        JavaFileAssertions.assertThat(output.get("ObjectWithRequiredParameter.java")).assertConstructor();
+        JavaFileAssertions.assertThat(output.get("ObjectWithRequiredParameter.java")).assertConstructor("String", "String")
                 .hasParameter("param2").toConstructor()
                 .hasParameter("param3");
 
-        JavaFileAssert.assertThat(output.get("ObjectWithInheritedRequiredParameter.java")).assertConstructor();
-        JavaFileAssert.assertThat(output.get("ObjectWithInheritedRequiredParameter.java")).assertConstructor("Integer", "String", "String")
+        JavaFileAssertions.assertThat(output.get("ObjectWithInheritedRequiredParameter.java")).assertConstructor();
+        JavaFileAssertions.assertThat(output.get("ObjectWithInheritedRequiredParameter.java")).assertConstructor("Integer", "String", "String")
                 .hasParameter("param2").toConstructor()
                 .hasParameter("param3").toConstructor()
                 .hasParameter("param6").toConstructor()
@@ -2868,7 +2868,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("ResponseObjectWithDifferentFieldNames.java"))
+        JavaFileAssertions.assertThat(files.get("ResponseObjectWithDifferentFieldNames.java"))
             .hasProperty("normalPropertyName")
                 .assertPropertyAnnotations()
                 .doesNotContainsWithName("JsonProperty")
@@ -2934,7 +2934,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("TestApi.java"));
         javaFileAssert
                 .assertMethod("_postToTest", "ObjTest")
                 .hasReturnType("ResponseEntity<ObjTest>")
@@ -2977,7 +2977,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("TestApi.java"));
         javaFileAssert
                 .assertMethod("_postToTest", "ObjTest")
                 .hasReturnType("ObjTest")
@@ -3022,7 +3022,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("TestApi.java"));
         javaFileAssert
                 .assertMethod("postToTest", "ObjTest")
                 .hasReturnType("CompletableFuture<ObjTest>")
@@ -3059,7 +3059,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("TestApi.java"));
         javaFileAssert
                 .assertMethod("postToTest", "ObjTest")
                 .hasReturnType("ObjTest")
@@ -3096,7 +3096,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("TestApi.java"));
         javaFileAssert
                 .isInterface()
                 .hasImports("org.springframework.web.bind.annotation.RestController")
@@ -3132,7 +3132,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("TestApi.java"));
         javaFileAssert
                 .isInterface()
                 .hasImports("org.springframework.stereotype.Controller")
@@ -3166,7 +3166,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("ObjTest.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("ObjTest.java"));
         javaFileAssert
                 .assertMethod("getField2")
                 .assertMethodAnnotations()
@@ -3207,7 +3207,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("EnumTest.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("EnumTest.java"));
         javaFileAssert
                 .assertMethod("fromValue")
                 .bodyContainsLines("if (b.value.equalsIgnoreCase(value)) {");
@@ -3238,7 +3238,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("EnumTest.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("EnumTest.java"));
         javaFileAssert
                 .assertMethod("fromValue")
                 .bodyContainsLines("if (b.value.equals(value)) {");
@@ -3271,7 +3271,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("TestApi.java"));
         javaFileAssert
                 .assertMethod("_postToTest")
                 .assertMethodAnnotations()
@@ -3304,7 +3304,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("TestApi.java"));
         javaFileAssert
                 .assertMethod("_postToTest")
                 .assertMethodAnnotations()
@@ -3339,7 +3339,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("TestApi.java"));
         javaFileAssert
                 .assertMethod("_postToTest")
                 .assertMethodAnnotations()
@@ -3376,7 +3376,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
             // Fluent method assertions
             .assertMethod("alias")
             .hasReturnType("Animal")
@@ -3392,7 +3392,7 @@ public class SpringCodegenTest {
             .hasParameter("alias")
             .withType("JsonNullable<String>");
 
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Zebra.java"))
+        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Zebra.java"))
             // Fluent method assertions
             .assertMethod("alias")
             .hasReturnType("Zebra")
@@ -3437,7 +3437,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
                 .hasImports("jakarta.validation.Valid")
                 .hasImports("jakarta.validation.constraints")
 
@@ -3655,7 +3655,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
                 .hasImports("jakarta.validation.Valid")
                 .hasImports("jakarta.validation.constraints")
 
@@ -3873,7 +3873,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
                 .hasImports("jakarta.validation.Valid")
                 .hasImports("jakarta.validation.constraints")
 
@@ -4110,7 +4110,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
+        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
                 .hasImports("jakarta.validation.Valid")
                 .hasImports("jakarta.validation.constraints")
 
@@ -4336,7 +4336,7 @@ public class SpringCodegenTest {
 
     private void assertWrapperMethod(JavaFileAssert javaFileAssert, String wrapperType, String type, String expectedName, String getterReturnType){
         String methodName = StringUtils.capitalize(expectedName);
-        javaFileAssert.assertMethod(expectedName)
+        javaFileAssertions.assertMethod(expectedName)
                 .hasReturnType("Animal")
                 .bodyContainsLines("this."+expectedName+" = "+wrapperType+".of("+expectedName+");", "return this;")
                 .hasParameter(expectedName)
@@ -4359,7 +4359,7 @@ public class SpringCodegenTest {
 
     private void assertMethod(JavaFileAssert javaFileAssert, String type, String expectedName){
         String methodName = StringUtils.capitalize(expectedName);
-        javaFileAssert.assertMethod(expectedName)
+        javaFileAssertions.assertMethod(expectedName)
                 .hasReturnType("Animal")
                 .bodyContainsLines("this."+expectedName+" = "+ expectedName + ";", "return this;")
                 .hasParameter(expectedName)
@@ -4394,7 +4394,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
 
         String expectedDescription = "# Multi-line descriptions  This is an example of a multi-line description.  It: - has multiple lines - uses Markdown (CommonMark) for rich text representation";
-        JavaFileAssert.assertThat(files.get("PingTagApi.java"))
+        JavaFileAssertions.assertThat(files.get("PingTagApi.java"))
                 .fileContains(expectedDescription);
     }
 
@@ -4406,7 +4406,7 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
 
-        JavaFileAssert.assertThat(files.get("PingTagApi.java"))
+        JavaFileAssertions.assertThat(files.get("PingTagApi.java"))
                 .fileContains("This is a multine tag : * tag item 1 * tag item 2 ");
     }
 
@@ -4435,11 +4435,11 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        MapAssert.assertThatMap(files).isNotEmpty();
+        MapAssertions.assertThatMap(files).isNotEmpty();
         File api = files.get("PathApi.java");
         File delegate = files.get("PathApiDelegate.java");
 
-        JavaFileAssert.assertThat(api)
+        JavaFileAssertions.assertThat(api)
                 .assertMethod("sseVariant1", "ServerWebExchange")
                 .isNotNull()
                 .hasReturnType("Flux<String>")
@@ -4452,7 +4452,7 @@ public class SpringCodegenTest {
                 .isNotNull()
                 .hasReturnType("Mono<ResponseEntity<String>>");
 
-        JavaFileAssert.assertThat(delegate)
+        JavaFileAssertions.assertThat(delegate)
                 .assertMethod("sseVariant1", "ServerWebExchange")
                 .isNotNull()
                 .hasReturnType("Flux<String>")
@@ -4567,7 +4567,7 @@ public class SpringCodegenTest {
         //       public Object4(Type1 pageInfo, String responseType, String requestId, Boolean success) {
         //            super(responseType, requestId, success, pageInfo);
         //        }
-        JavaFileAssert.assertThat(output.get("Object4.java"))
+        JavaFileAssertions.assertThat(output.get("Object4.java"))
                 .assertConstructor("Type1", "String", "String", "Boolean")
                 .hasParameter("responseType").toConstructor()
                 .hasParameter("requestId").toConstructor()
@@ -4583,7 +4583,7 @@ public class SpringCodegenTest {
         //public Poodle(String race, String type) {
         //    super(race, type);
         //}
-        JavaFileAssert.assertThat(output.get("Poodle.java"))
+        JavaFileAssertions.assertThat(output.get("Poodle.java"))
                 .assertConstructor("String", "String")
                 .hasParameter("type").toConstructor()
                 .hasParameter("race").toConstructor()
@@ -4663,7 +4663,7 @@ public class SpringCodegenTest {
         final Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor");
         Map<String, File> output = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
-        JavaFileAssert.assertThat(output.get("Pet.java"))
+        JavaFileAssertions.assertThat(output.get("Pet.java"))
                 .assertNoConstructor()
                 .assertNoMethod("toString")
                 .assertNoMethod("hashCode")
@@ -4675,7 +4675,7 @@ public class SpringCodegenTest {
         ;
         additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.ToString");
         output = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
-        JavaFileAssert.assertThat(output.get("Pet.java"))
+        JavaFileAssertions.assertThat(output.get("Pet.java"))
                 .assertConstructor().toFileAssert()
                 .assertNoMethod("toString")
                 .assertMethod("hashCode")
@@ -4692,7 +4692,7 @@ public class SpringCodegenTest {
         ;
         additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Getter;@lombok.Setter");
         output = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
-        JavaFileAssert.assertThat(output.get("Pet.java"))
+        JavaFileAssertions.assertThat(output.get("Pet.java"))
                 .assertConstructor().toFileAssert()
                 .assertMethod("toString")
                 .toFileAssert()
@@ -4726,7 +4726,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("PetDto.java"))
+        JavaFileAssertions.assertThat(files.get("PetDto.java"))
                 .fileContains("private List<@Valid TagDto> tags = new ArrayList<>();")
                 .fileContains("private List<String> photoUrls = new ArrayList<>();");
 
@@ -4757,7 +4757,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("PetDto.java"))
+        JavaFileAssertions.assertThat(files.get("PetDto.java"))
                 .fileContains("private List<@Valid TagDto> tags")
                 .fileContains("private List<@Valid TagDto> tagsDefaultList = new ArrayList<>()")
                 .fileContains("private Set<@Valid TagDto> tagsUnique")
@@ -4785,13 +4785,13 @@ public class SpringCodegenTest {
         additionalProperties.put(SpringCodegen.USE_OPTIONAL, "true");
         additionalProperties.put(DELEGATE_PATTERN, "true");
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_17768.yaml", SPRING_BOOT, additionalProperties);
-        JavaFileAssert.assertThat(files.get("TestApiDelegate.java"))
+        JavaFileAssertions.assertThat(files.get("TestApiDelegate.java"))
                 .assertMethod("updatePost")
                 .hasParameter("updateRequest")
                 .withType("Optional<UpdateRequest>")
                 .toMethod()
                 .toFileAssert();
-        JavaFileAssert.assertThat(files.get("TestApi.java"))
+        JavaFileAssertions.assertThat(files.get("TestApi.java"))
                 .assertMethod("updatePost")
                 .hasParameter("updateRequest")
                 .withType("Optional<UpdateRequest>")

@@ -40,69 +40,69 @@ public class Swift5ClientCodegenTest {
 
     @Test(enabled = true)
     public void testCapitalizedReservedWord() throws Exception {
-        Assert.assertEquals(swiftCodegen.toEnumVarName("AS", null), "_as");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("AS", null), "_as");
     }
 
     @Test(enabled = true)
     public void testReservedWord() throws Exception {
-        Assert.assertEquals(swiftCodegen.toEnumVarName("Public", null), "_public");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("Public", null), "_public");
     }
 
     @Test(enabled = true)
     public void shouldNotBreakNonReservedWord() throws Exception {
-        Assert.assertEquals(swiftCodegen.toEnumVarName("Error", null), "error");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("Error", null), "error");
     }
 
     @Test(enabled = true)
     public void shouldNotBreakCorrectName() throws Exception {
-        Assert.assertEquals(swiftCodegen.toEnumVarName("EntryName", null), "entryName");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("EntryName", null), "entryName");
     }
 
     @Test(enabled = true)
     public void testSingleWordAllCaps() throws Exception {
-        Assert.assertEquals(swiftCodegen.toEnumVarName("VALUE", null), "value");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("VALUE", null), "value");
     }
 
     @Test(enabled = true)
     public void testSingleWordLowercase() throws Exception {
-        Assert.assertEquals(swiftCodegen.toEnumVarName("value", null), "value");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("value", null), "value");
     }
 
     @Test(enabled = true)
     public void testCapitalsWithUnderscore() throws Exception {
-        Assert.assertEquals(swiftCodegen.toEnumVarName("ENTRY_NAME", null), "entryName");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("ENTRY_NAME", null), "entryName");
     }
 
     @Test(enabled = true)
     public void testCapitalsWithDash() throws Exception {
-        Assert.assertEquals(swiftCodegen.toEnumVarName("ENTRY-NAME", null), "entryName");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("ENTRY-NAME", null), "entryName");
     }
 
     @Test(enabled = true)
     public void testCapitalsWithSpace() throws Exception {
-        Assert.assertEquals(swiftCodegen.toEnumVarName("ENTRY NAME", null), "entryName");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("ENTRY NAME", null), "entryName");
     }
 
     @Test(enabled = true)
     public void testLowercaseWithUnderscore() throws Exception {
-        Assert.assertEquals(swiftCodegen.toEnumVarName("entry_name", null), "entryName");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("entry_name", null), "entryName");
     }
 
     @Test(enabled = true)
     public void testStartingWithNumber() throws Exception {
-        Assert.assertEquals(swiftCodegen.toEnumVarName("123EntryName", null), "_123entryName");
-        Assert.assertEquals(swiftCodegen.toEnumVarName("123Entry_name", null), "_123entryName");
-        Assert.assertEquals(swiftCodegen.toEnumVarName("123EntryName123", null), "_123entryName123");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("123EntryName", null), "_123entryName");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("123Entry_name", null), "_123entryName");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("123EntryName123", null), "_123entryName123");
     }
 
     @Test(enabled = true)
     public void testSpecialCharacters() throws Exception {
-        Assert.assertEquals(swiftCodegen.toEnumVarName("1:1", null), "_1Colon1");
-        Assert.assertEquals(swiftCodegen.toEnumVarName("1:One", null), "_1ColonOne");
-        Assert.assertEquals(swiftCodegen.toEnumVarName("Apple&Swift", null), "appleAmpersandSwift");
-        Assert.assertEquals(swiftCodegen.toEnumVarName("$", null), "dollar");
-        Assert.assertEquals(swiftCodegen.toEnumVarName("+1", null), "plus1");
-        Assert.assertEquals(swiftCodegen.toEnumVarName(">=", null), "greaterThanOrEqualTo");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("1:1", null), "_1Colon1");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("1:One", null), "_1ColonOne");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("Apple&Swift", null), "appleAmpersandSwift");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("$", null), "dollar");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName("+1", null), "plus1");
+        Assertions.assertEquals(swiftCodegen.toEnumVarName(">=", null), "greaterThanOrEqualTo");
     }
 
     @Test(description = "returns Data when response format is binary", enabled = true)
@@ -116,10 +116,10 @@ public class Swift5ClientCodegenTest {
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
-        Assert.assertEquals(op.returnType, "URL");
-        Assert.assertEquals(op.bodyParam.dataType, "URL");
-        Assert.assertTrue(op.bodyParam.isBinary);
-        Assert.assertTrue(op.responses.get(0).isBinary);
+        Assertions.assertEquals(op.returnType, "URL");
+        Assertions.assertEquals(op.bodyParam.dataType, "URL");
+        Assertions.assertTrue(op.bodyParam.isBinary);
+        Assertions.assertTrue(op.responses.get(0).isBinary);
     }
 
     @Test(description = "returns Date when response format is date per default", enabled = true)
@@ -131,8 +131,8 @@ public class Swift5ClientCodegenTest {
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
-        Assert.assertEquals(op.returnType, "Date");
-        Assert.assertEquals(op.bodyParam.dataType, "Date");
+        Assertions.assertEquals(op.returnType, "Date");
+        Assertions.assertEquals(op.bodyParam.dataType, "Date");
     }
 
     @Test(description = "returns Date when response format is date and cli option is disabled", enabled = true)
@@ -146,8 +146,8 @@ public class Swift5ClientCodegenTest {
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
-        Assert.assertEquals(op.returnType, "Date");
-        Assert.assertEquals(op.bodyParam.dataType, "Date");
+        Assertions.assertEquals(op.returnType, "Date");
+        Assertions.assertEquals(op.bodyParam.dataType, "Date");
     }
 
     @Test(description = "returns OpenAPIDateWithoutTime when response format is date and cli option is enabled", enabled = true)
@@ -162,8 +162,8 @@ public class Swift5ClientCodegenTest {
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
-        Assert.assertEquals(op.returnType, "OpenAPIDateWithoutTime");
-        Assert.assertEquals(op.bodyParam.dataType, "OpenAPIDateWithoutTime");
+        Assertions.assertEquals(op.returnType, "OpenAPIDateWithoutTime");
+        Assertions.assertEquals(op.bodyParam.dataType, "OpenAPIDateWithoutTime");
     }
 
     @Test(description = "type from languageSpecificPrimitives should not be prefixed", enabled = true)
@@ -172,7 +172,7 @@ public class Swift5ClientCodegenTest {
         codegen.setModelNamePrefix("API");
 
         final String result = codegen.toModelName("AnyCodable");
-        Assert.assertEquals(result, "AnyCodable");
+        Assertions.assertEquals(result, "AnyCodable");
     }
 
     @Test(description = "type from languageSpecificPrimitives should not be suffixed", enabled = true)
@@ -181,7 +181,7 @@ public class Swift5ClientCodegenTest {
         codegen.setModelNameSuffix("API");
 
         final String result = codegen.toModelName("AnyCodable");
-        Assert.assertEquals(result, "AnyCodable");
+        Assertions.assertEquals(result, "AnyCodable");
     }
 
     @Test(description = "Other types should be prefixed", enabled = true)
@@ -190,7 +190,7 @@ public class Swift5ClientCodegenTest {
         codegen.setModelNamePrefix("API");
 
         final String result = codegen.toModelName("MyType");
-        Assert.assertEquals(result, "APIMyType");
+        Assertions.assertEquals(result, "APIMyType");
     }
 
     @Test(description = "Other types should be suffixed", enabled = true)
@@ -199,7 +199,7 @@ public class Swift5ClientCodegenTest {
         codegen.setModelNameSuffix("API");
 
         final String result = codegen.toModelName("MyType");
-        Assert.assertEquals(result, "MyTypeAPI");
+        Assertions.assertEquals(result, "MyTypeAPI");
     }
 
     @Test(enabled = true)
@@ -211,7 +211,7 @@ public class Swift5ClientCodegenTest {
 
         // Then
         final String podAuthors = (String) swiftCodegen.additionalProperties().get(Swift5ClientCodegen.POD_AUTHORS);
-        Assert.assertEquals(podAuthors, Swift5ClientCodegen.DEFAULT_POD_AUTHORS);
+        Assertions.assertEquals(podAuthors, Swift5ClientCodegen.DEFAULT_POD_AUTHORS);
     }
 
     @Test(enabled = true)
@@ -225,7 +225,7 @@ public class Swift5ClientCodegenTest {
 
         // Then
         final String podAuthors = (String) swiftCodegen.additionalProperties().get(Swift5ClientCodegen.POD_AUTHORS);
-        Assert.assertEquals(podAuthors, openAPIDevs);
+        Assertions.assertEquals(podAuthors, openAPIDevs);
     }
 
     @Test(description = "Bug example code generation", enabled = true)
@@ -253,7 +253,7 @@ public class Swift5ClientCodegenTest {
             generator.setGeneratorPropertyDefault(CodegenConstants.ENABLE_POST_PROCESS_FILE, "true");
 
             List<File> files = generator.opts(clientOptInput).generate();
-            Assert.assertTrue(files.size() > 0, "No files generated");
+            Assertions.assertTrue(files.size() > 0, "No files generated");
         } finally {
            output.deleteOnExit();
         }
@@ -286,7 +286,7 @@ public class Swift5ClientCodegenTest {
             generator.setGeneratorPropertyDefault(CodegenConstants.ENABLE_POST_PROCESS_FILE, "true");
 
             List<File> files = generator.opts(clientOptInput).generate();
-            Assert.assertTrue(files.size() > 0, "No files generated");
+            Assertions.assertTrue(files.size() > 0, "No files generated");
         } finally {
             output.deleteOnExit();
         }
@@ -302,21 +302,21 @@ public class Swift5ClientCodegenTest {
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
-        Assert.assertEquals(op.formParams.size(), 6);
+        Assertions.assertEquals(op.formParams.size(), 6);
 
-        Assert.assertEquals(op.formParams.get(0).baseName, "client_id");
-        Assert.assertEquals(op.formParams.get(1).baseName, "grant_type");
-        Assert.assertEquals(op.formParams.get(2).baseName, "password");
-        Assert.assertEquals(op.formParams.get(3).baseName, "scope");
-        Assert.assertEquals(op.formParams.get(4).baseName, "username");
-        Assert.assertEquals(op.formParams.get(5).baseName, "refresh_token");
+        Assertions.assertEquals(op.formParams.get(0).baseName, "client_id");
+        Assertions.assertEquals(op.formParams.get(1).baseName, "grant_type");
+        Assertions.assertEquals(op.formParams.get(2).baseName, "password");
+        Assertions.assertEquals(op.formParams.get(3).baseName, "scope");
+        Assertions.assertEquals(op.formParams.get(4).baseName, "username");
+        Assertions.assertEquals(op.formParams.get(5).baseName, "refresh_token");
 
-        Assert.assertEquals(op.formParams.get(0).required, false);
-        Assert.assertEquals(op.formParams.get(1).required, false);
-        Assert.assertEquals(op.formParams.get(2).required, false);
-        Assert.assertEquals(op.formParams.get(3).required, false);
-        Assert.assertEquals(op.formParams.get(4).required, false);
-        Assert.assertEquals(op.formParams.get(5).required, false);
+        Assertions.assertEquals(op.formParams.get(0).required, false);
+        Assertions.assertEquals(op.formParams.get(1).required, false);
+        Assertions.assertEquals(op.formParams.get(2).required, false);
+        Assertions.assertEquals(op.formParams.get(3).required, false);
+        Assertions.assertEquals(op.formParams.get(4).required, false);
+        Assertions.assertEquals(op.formParams.get(5).required, false);
 
     }
 

@@ -23,7 +23,7 @@ public class MarkdownSampleGeneratorTest {
         Operation textOperation = openAPI.getPaths().get(requestPath).getPut();
         CodegenOperation operation = codegen.fromOperation(requestPath, "put", textOperation, null);
         CodegenParameter codegenParameter = operation.allParams.get(0);
-        Assert.assertNotNull(codegenParameter);
+        Assertions.assertNotNull(codegenParameter);
     }
 
 }

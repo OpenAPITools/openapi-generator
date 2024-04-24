@@ -44,7 +44,7 @@ public class AllGeneratorsTest {
 
             // Main intention of this test is to check that nothing crashes. Besides, we check here that
             // at least 1 file is generated, besides the common ".openapi-generator-ignore", "FILES" and "VERSION" files.
-            Assert.assertTrue(files.size() >= 4);
+            Assertions.assertTrue(files.size() >= 4);
         }
     }
 

@@ -46,8 +46,8 @@ public class DartDioClientCodegenTest {
         final DartDioClientCodegen codegen = new DartDioClientCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertTrue(codegen.isHideGenerationTimestamp());
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assertions.assertTrue(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -55,8 +55,8 @@ public class DartDioClientCodegenTest {
         final DartDioClientCodegen codegen = new DartDioClientCodegen();
         codegen.processOpts();
 
-        Assert.assertNotNull(codegen.getFeatureSet().getSecurityFeatures());
-        Assert.assertFalse(codegen.getFeatureSet().getSecurityFeatures().isEmpty());
+        Assertions.assertNotNull(codegen.getFeatureSet().getSecurityFeatures());
+        Assertions.assertFalse(codegen.getFeatureSet().getSecurityFeatures().isEmpty());
     }
 
     @Test
@@ -65,8 +65,8 @@ public class DartDioClientCodegenTest {
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertFalse(codegen.isHideGenerationTimestamp());
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assertions.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -75,8 +75,8 @@ public class DartDioClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertFalse(codegen.isHideGenerationTimestamp());
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assertions.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -93,11 +93,11 @@ public class DartDioClientCodegenTest {
             Assert.fail(errorString, e);
         }
 
-        Assert.assertTrue(reservedWordsList.size() > 20);
-        Assert.assertEquals(codegen.reservedWords().size(), reservedWordsList.size());
+        Assertions.assertTrue(reservedWordsList.size() > 20);
+        Assertions.assertEquals(codegen.reservedWords().size(), reservedWordsList.size());
         for(String keyword : reservedWordsList) {
             // reserved words are stored in lowercase
-            Assert.assertTrue(codegen.reservedWords().contains(keyword.toLowerCase(Locale.ROOT)), String.format(Locale.ROOT, "%s, part of %s, was not found in %s", keyword, reservedWordsList, codegen.reservedWords().toString()));
+            Assertions.assertTrue(codegen.reservedWords().contains(keyword.toLowerCase(Locale.ROOT)), String.format(Locale.ROOT, "%s, part of %s, was not found in %s", keyword, reservedWordsList, codegen.reservedWords().toString()));
         }
     }
 

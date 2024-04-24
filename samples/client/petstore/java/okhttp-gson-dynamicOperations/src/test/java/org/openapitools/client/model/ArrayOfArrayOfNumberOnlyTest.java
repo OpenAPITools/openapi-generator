@@ -67,7 +67,7 @@ public class ArrayOfArrayOfNumberOnlyTest {
         model2.setArrayArrayNumber(new ArrayList<List<BigDecimal>>());
         model2.getArrayArrayNumber().add(arrayArrayNumber2);
 
-        Assert.assertTrue(model2.equals(model));
+        Assertions.assertTrue(model2.equals(model));
     }
 
 }

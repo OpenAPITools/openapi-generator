@@ -33,8 +33,8 @@ public class PerlClientCodegenTest {
         final PerlClientCodegen codegen = new PerlClientCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), true);
     }
 
     @Test
@@ -43,8 +43,8 @@ public class PerlClientCodegenTest {
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
     @Test
@@ -53,8 +53,8 @@ public class PerlClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class PerlClientCodegenTest {
 
         Operation operation = openAPI.getPaths().get("/issue677").getPost();
         CodegenOperation co = codegen.fromOperation("/issue677", "POST", operation, null);
-        Assert.assertNotNull(co);
+        Assertions.assertNotNull(co);
     }
 
 }

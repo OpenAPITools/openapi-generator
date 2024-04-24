@@ -20,7 +20,7 @@ public class TypescriptAngularApiVersionTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
-        Assert.assertEquals(codegen.getNpmVersion(), "1.0.7");
+        Assertions.assertEquals(codegen.getNpmVersion(), "1.0.7");
     }
 
     @Test(description = "tests if npmVersion additional property is used")
@@ -34,7 +34,7 @@ public class TypescriptAngularApiVersionTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
-        Assert.assertEquals(codegen.getNpmVersion(), "2.0.0");
+        Assertions.assertEquals(codegen.getNpmVersion(), "2.0.0");
     }
 
     @Test(description = "tests if default version is used when neither OpenAPI version nor npmVersion additional property has been provided")
@@ -48,7 +48,7 @@ public class TypescriptAngularApiVersionTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
-        Assert.assertEquals(codegen.getNpmVersion(), "1.0.0");
+        Assertions.assertEquals(codegen.getNpmVersion(), "1.0.0");
     }
 
 }

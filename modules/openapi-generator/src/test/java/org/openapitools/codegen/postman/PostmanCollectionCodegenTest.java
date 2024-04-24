@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.models.tags.Tag;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PostmanCollectionCodegen;
@@ -22,8 +22,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assertions.assertEquals;
+import static org.junit.Assertions.assertTrue;
 import static org.openapitools.codegen.TestUtils.*;
 
 public class PostmanCollectionCodegenTest {
@@ -33,11 +33,11 @@ public class PostmanCollectionCodegenTest {
         final PostmanCollectionCodegen postmanCollectionCodegen = new PostmanCollectionCodegen();
         postmanCollectionCodegen.processOpts();
 
-        Assert.assertEquals(postmanCollectionCodegen.folderStrategy, "Tags");
-        Assert.assertEquals(postmanCollectionCodegen.postmanFile, "postman.json");
+        Assertions.assertEquals(postmanCollectionCodegen.folderStrategy, "Tags");
+        Assertions.assertEquals(postmanCollectionCodegen.postmanFile, "postman.json");
 
-        Assert.assertNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
-        Assert.assertNotNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
+        Assertions.assertNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
+        Assertions.assertNotNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
     }
 
     @Test
@@ -47,10 +47,10 @@ public class PostmanCollectionCodegenTest {
         postmanCollectionCodegen.additionalProperties().put(postmanCollectionCodegen.FOLDER_STRATEGY, "Tags");
         postmanCollectionCodegen.processOpts();
 
-        Assert.assertEquals(postmanCollectionCodegen.folderStrategy, "Tags");
+        Assertions.assertEquals(postmanCollectionCodegen.folderStrategy, "Tags");
 
-        Assert.assertNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
-        Assert.assertNotNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
+        Assertions.assertNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
+        Assertions.assertNotNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
     }
 
     @Test
