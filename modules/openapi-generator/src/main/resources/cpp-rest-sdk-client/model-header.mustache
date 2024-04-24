@@ -24,6 +24,63 @@ namespace {{this}} {
 {{#vendorExtensions.x-forward-declarations}}{{.}}
 {{/vendorExtensions.x-forward-declarations}}
 {{/vendorExtensions.x-has-forward-declarations}}
+{{#oneOf}}{{#-first}}
+#include <variant>
+
+class {{declspec}} {{classname}}
+    : public {{{parent}}}{{^parent}}ModelBase{{/parent}}
+{
+public:
+    {{classname}}();
+    virtual ~{{classname}}();
+
+    /////////////////////////////////////////////
+    /// ModelBase overrides
+
+    void validate() override;
+
+    web::json::value toJson() const override;
+
+    template<typename Target>
+    bool fromJson(const web::json::value& json) {
+        // convert json to Target type
+        Target target;
+        if (!target.fromJson(json)) {
+            return false;
+        }
+
+        m_variantValue = target;
+        return true;
+    }
+
+    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
+
+    template<typename Target>
+    bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) {
+        // convert multipart to Target type
+        Target target;
+        if (!target.fromMultiPart(multipart, namePrefix)) {
+            return false;
+        }
+
+        m_variantValue = target;
+        return true;
+    }
+
+    /////////////////////////////////////////////
+    /// {{classname}} members
+
+    using VariantType = std::variant<{{#oneOf}}{{^-first}}, {{/-first}}{{{.}}}{{/oneOf}}>;
+
+    const VariantType& getVariant() const;
+    void setVariant(VariantType value);
+
+protected:
+    VariantType m_variantValue;
+};
+
+{{/-first}}{{/oneOf}}
+{{^oneOf}}
 {{#isEnum}}
 class {{declspec}} {{classname}}
     : public {{{parent}}}{{^parent}}ModelBase{{/parent}}
@@ -120,6 +177,7 @@ protected:
 };
 
 {{/isEnum}}
+{{/oneOf}}
 
 {{#modelNamespaceDeclarations}}
 }

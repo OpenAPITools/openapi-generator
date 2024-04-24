@@ -32,6 +32,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
+|AnyType|#include &quot;AnyType.h&quot;|
 |HttpContent|#include &quot;HttpContent.h&quot;|
 |Object|#include &quot;Object.h&quot;|
 |std::map|#include &lt;map&gt;|
@@ -247,7 +248,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Union|✗|OAS3
 |allOf|✗|OAS2,OAS3
 |anyOf|✗|OAS3
-|oneOf|✗|OAS3
+|oneOf|✓|OAS3
 |not|✗|OAS3
 
 ### Security Feature

@@ -106,7 +106,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                         GlobalFeature.MultiServer
                 )
                 .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.oneOf
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
