@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="path">Path</param>
         /// <param name="requestOptions">Request options</param>
         /// <returns>Http signed headers</returns>
-        internal Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
+        public Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
         {
             const string HEADER_REQUEST_TARGET = "(request-target)";
             //The time when the HTTP signature expires. The API server should reject HTTP requests
@@ -352,43 +352,7 @@ namespace Org.OpenAPITools.Client
         /// <returns>ECDSA signature</returns>
         private string GetECDSASignature(byte[] dataToSign)
         {
-            if (!File.Exists(KeyFilePath) && string.IsNullOrEmpty(KeyString))
-            {
-                throw new Exception("No API key has been provided.");
-            }
-
-            var keyStr = KeyString;
-            const string ecKeyHeader = "-----BEGIN EC PRIVATE KEY-----";
-            const string ecKeyFooter = "-----END EC PRIVATE KEY-----";
-            var ecKeyBase64String = keyStr.Replace(ecKeyHeader, "").Replace(ecKeyFooter, "").Trim();
-            var keyBytes = System.Convert.FromBase64String(ecKeyBase64String);
-            var ecdsa = ECDsa.Create();
-
-            var byteCount = 0;
-            if (KeyPassPhrase != null)
-            {
-                IntPtr unmanagedString = IntPtr.Zero;
-                try
-                {
-                    // convert secure string to byte array
-                    unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(KeyPassPhrase);
-                    ecdsa.ImportEncryptedPkcs8PrivateKey(Encoding.UTF8.GetBytes(Marshal.PtrToStringUni(unmanagedString)), keyBytes, out byteCount);
-                }
-                finally
-                {
-                    if (unmanagedString != IntPtr.Zero)
-                    {
-                        Marshal.ZeroFreeBSTR(unmanagedString);
-                    }
-                }
-            }
-            else
-                ecdsa.ImportPkcs8PrivateKey(keyBytes, out byteCount);
-
-            var derBytes = ecdsa.SignHash(dataToSign, DSASignatureFormat.Rfc3279DerSequence);
-            var signedString = System.Convert.ToBase64String(derBytes);
-
-            return signedString;
+            throw new Exception("ECDSA signing is supported only on NETCOREAPP3_0 and above");
         }
 
         /// <summary>
