@@ -3,13 +3,15 @@ ThisBuild / organization := "cask.groupId"
 ThisBuild / version := "0.0.1-SNAPSHOT"
 ThisBuild / scalaVersion := "3.4.1"
 ThisBuild / scalafmtOnCompile := true
+ThisBuild / versionScheme := Some("early-semver")
 
 // Common settings
 lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
     "com.lihaoyi" %%% "upickle" % "3.2.0",
     "org.scalatest" %%% "scalatest" % "3.2.18" % Test
-  )
+  ),
+  name := "scala-cask-petstore"
 )
 
 
@@ -19,7 +21,7 @@ lazy val app = crossProject(JSPlatform, JVMPlatform).in(file(".")).
     libraryDependencies += "com.lihaoyi" %% "cask" % "0.9.2"
   ).
   jsSettings(
-    scalaJSUseMainModuleInitializer := true,
+    scalaJSUseMainModuleInitializer := true
   )
   
 
