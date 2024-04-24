@@ -36,7 +36,6 @@ let primitives = [
                     "long",
                     "float",
                     "number",
-                    "unknown",
                     "any"
                  ];
 
