@@ -741,6 +741,17 @@ public class ModelUtils {
                 && URI_FORMAT.equals(schema.getFormat());
     }
 
+    private static boolean isEnumSchema(final Schema<?> schema) {
+        // MyEnum:
+        //   type: string
+        //   enum:
+        //   - ENUM_1
+        //   - ENUM_2
+        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType()) // type: string
+                && schema.getEnum() != null
+                && !schema.getEnum().isEmpty();
+    }
+
     public static boolean isEmailSchema(Schema schema) {
         return (schema instanceof EmailSchema) ||
                 // format: email
@@ -775,7 +786,8 @@ public class ModelUtils {
         return ModelUtils.isByteArraySchema(schema) ||
                 ModelUtils.isBinarySchema(schema) ||
                 ModelUtils.isUUIDSchema(schema) ||
-                ModelUtils.isURISchema(schema);
+                ModelUtils.isURISchema(schema) ||
+                ModelUtils.isEnumSchema(schema);
 
     }
 
