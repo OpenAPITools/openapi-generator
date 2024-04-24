@@ -363,17 +363,7 @@ public class ExampleGenerator {
             return schema.getExample();
         } else if (ModelUtils.isAllOf(schema) || ModelUtils.isAllOfWithProperties(schema)) {
             LOGGER.debug("Resolving allOf model '{}' to example", name);
-            List<Schema> interfaces = schema.getAllOf();
-            for (Schema composed : interfaces) {
-                traverseSchemaProperties(mediaType, composed, processedModels, values);
-                if (composed.get$ref() != null) {
-                    String ref = ModelUtils.getSimpleRef(composed.get$ref());
-                    Schema resolved = ModelUtils.getSchema(openAPI, ref);
-                    if (resolved != null) {
-                        traverseSchemaProperties(mediaType, resolved, processedModels, values);
-                    }
-                }
-            }
+            resolveAllOfSchemaProperties(mediaType, schema, processedModels, values);
             schema.setExample(values);
             return schema.getExample();
         } else if (ModelUtils.isAnyOf(schema) || ModelUtils.isOneOf(schema)) {
@@ -401,17 +391,20 @@ public class ExampleGenerator {
                 Schema property = (Schema) schema.getProperties().get(propertyName.toString());
                 values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels));
             }
+        } else if (ModelUtils.isAllOf(schema) || ModelUtils.isAllOfWithProperties(schema)) {
+            resolveAllOfSchemaProperties(mediaType, schema, processedModels, values);
         }
-        else if (ModelUtils.isAllOf(schema) || ModelUtils.isAllOfWithProperties(schema)) {
-            List<Schema> interfaces = schema.getAllOf();
-            for (Schema composed : interfaces) {
-                traverseSchemaProperties(mediaType, composed, processedModels, values);
-                if (composed.get$ref() != null) {
-                    String ref = ModelUtils.getSimpleRef(composed.get$ref());
-                    Schema resolved = ModelUtils.getSchema(openAPI, ref);
-                    if (resolved != null) {
-                        traverseSchemaProperties(mediaType, resolved, processedModels, values);
-                    }
+    }
+
+    private void resolveAllOfSchemaProperties(String mediaType, Schema schema, Set<String> processedModels, Map<String, Object> values) {
+        List<Schema> interfaces = schema.getAllOf();
+        for (Schema composed : interfaces) {
+            traverseSchemaProperties(mediaType, composed, processedModels, values);
+            if (composed.get$ref() != null) {
+                String ref = ModelUtils.getSimpleRef(composed.get$ref());
+                Schema resolved = ModelUtils.getSchema(openAPI, ref);
+                if (resolved != null) {
+                    traverseSchemaProperties(mediaType, resolved, processedModels, values);
                 }
             }
         }
