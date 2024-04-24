@@ -59,10 +59,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.File;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -82,7 +82,7 @@ import org.openapitools.codegen.utils.JsonCache;
  *
  * API tests for FakeApi.
  */
-@ExtendWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class FakeApiTest {
     private static Validator validator;

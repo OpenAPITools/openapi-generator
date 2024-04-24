@@ -15,7 +15,7 @@ libraryDependencies ++= Seq(
   "org.json4s" %% "json4s-ext" % "4.0.7",
   // test dependencies
   "org.scalatest"     %% "scalatest"  % "3.2.17"   % "test",
-  "org.scalatestplus" %% "junit-4-13" % "3.2.17.0" % "test"
+  "org.scalatestplus" %% "junit-5-10_3" % "3.2.18.0" % "test"
 )
 
 resolvers ++= Seq(Resolver.mavenLocal)
