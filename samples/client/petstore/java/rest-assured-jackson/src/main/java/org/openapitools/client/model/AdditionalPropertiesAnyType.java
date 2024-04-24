@@ -35,7 +35,7 @@ import org.hibernate.validator.constraints.*;
   AdditionalPropertiesAnyType.JSON_PROPERTY_NAME
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
-public class AdditionalPropertiesAnyType extends HashMap<String, AnyType> {
+public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 

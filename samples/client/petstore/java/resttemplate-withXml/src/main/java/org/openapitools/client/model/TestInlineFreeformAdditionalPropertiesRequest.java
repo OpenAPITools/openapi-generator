@@ -40,7 +40,7 @@ import io.github.threetenjaxb.core.*;
 @XmlRootElement(name = "TestInlineFreeformAdditionalPropertiesRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "TestInlineFreeformAdditionalPropertiesRequest")
-public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, AnyType> {
+public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   @XmlElement(name = "someProperty")
   private String someProperty;

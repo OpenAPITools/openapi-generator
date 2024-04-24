@@ -32,7 +32,7 @@ import javax.validation.Valid;
   AdditionalPropertiesAnyType.JSON_PROPERTY_NAME
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
-public class AdditionalPropertiesAnyType extends HashMap<String, AnyType> implements Serializable {
+public class AdditionalPropertiesAnyType extends HashMap<String, Object> implements Serializable {
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)
   private String name;

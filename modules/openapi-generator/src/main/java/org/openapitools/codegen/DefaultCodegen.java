@@ -2069,8 +2069,8 @@ public class DefaultCodegen implements CodegenConfig {
                 && StringUtils.isBlank(unaliasedAdditionalPropertiesSchema.get$ref())
             ) {
                 String primitiveAdditionalPropertiesType = getPrimitiveType(unaliasedAdditionalPropertiesSchema);
-                if ("object".equals(primitiveAdditionalPropertiesType) || "AnyType".equals(primitiveAdditionalPropertiesType)) {
-                    inner = getAlias("AnyType");
+                if ("object".equals(primitiveAdditionalPropertiesType)) {
+                    inner = typeMapping.get("AnyType");
                 }
                 return mapInstantion + "<String, " + inner + ">";
             }

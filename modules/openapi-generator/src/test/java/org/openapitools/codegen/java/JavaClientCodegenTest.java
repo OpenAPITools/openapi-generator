@@ -899,21 +899,21 @@ public class JavaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel cm1 = codegen.fromModel("MapTest1", test1);
         Assert.assertEquals(cm1.getDataType(), "Map");
-        Assert.assertEquals(cm1.getParent(), "HashMap<String, AnyType>");
+        Assert.assertEquals(cm1.getParent(), "HashMap<String, Object>");
         Assert.assertEquals(cm1.getClassname(), "MapTest1");
 
         Schema test2 = openAPI.getComponents().getSchemas().get("MapTest2");
         codegen.setOpenAPI(openAPI);
         CodegenModel cm2 = codegen.fromModel("MapTest2", test2);
         Assert.assertEquals(cm2.getDataType(), "Map");
-        Assert.assertEquals(cm2.getParent(), "HashMap<String, AnyType>");
+        Assert.assertEquals(cm2.getParent(), "HashMap<String, Object>");
         Assert.assertEquals(cm2.getClassname(), "MapTest2");
 
         Schema test3 = openAPI.getComponents().getSchemas().get("MapTest3");
         codegen.setOpenAPI(openAPI);
         CodegenModel cm3 = codegen.fromModel("MapTest3", test3);
         Assert.assertEquals(cm3.getDataType(), "Map");
-        Assert.assertEquals(cm3.getParent(), "HashMap<String, AnyType>");
+        Assert.assertEquals(cm3.getParent(), "HashMap<String, Object>");
         Assert.assertEquals(cm3.getClassname(), "MapTest3");
 
         Schema other = openAPI.getComponents().getSchemas().get("OtherObj");

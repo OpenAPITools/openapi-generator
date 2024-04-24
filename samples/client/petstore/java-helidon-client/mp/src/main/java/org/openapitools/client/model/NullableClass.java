@@ -32,7 +32,7 @@ import java.util.NoSuchElementException;
 
 
 
-public class NullableClass extends HashMap<String, AnyType> {
+public class NullableClass extends HashMap<String, Object> {
   
   private Integer integerProp;
 

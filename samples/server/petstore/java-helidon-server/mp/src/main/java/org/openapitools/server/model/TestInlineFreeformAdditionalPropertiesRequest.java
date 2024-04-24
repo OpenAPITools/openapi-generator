@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 
-public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, AnyType> {
+public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   
   private String someProperty;
 

@@ -46,7 +46,7 @@ import jakarta.validation.Valid;
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
-public class NullableClass extends HashMap<String, AnyType>  {
+public class NullableClass extends HashMap<String, Object>  {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   @JsonProperty(JSON_PROPERTY_INTEGER_PROP)
   private Integer integerProp;
