@@ -18,46 +18,38 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
- * Model tests for ModelApiResponse
+ * Model tests for Category
  */
-public class ModelApiResponseTest {
-    private final ModelApiResponse model = new ModelApiResponse();
+class CategoryTest {
+    private final Category model = new Category();
 
     /**
-     * Model tests for ModelApiResponse
+     * Model tests for Category
      */
     @Test
-    public void testModelApiResponse() {
-        // TODO: test ModelApiResponse
+    void testCategory() {
+        // TODO: test Category
     }
 
     /**
-     * Test the property 'code'
+     * Test the property 'id'
      */
     @Test
-    public void codeTest() {
-        // TODO: test code
+    void idTest() {
+        // TODO: test id
     }
 
     /**
-     * Test the property 'type'
+     * Test the property 'name'
      */
     @Test
-    public void typeTest() {
-        // TODO: test type
-    }
-
-    /**
-     * Test the property 'message'
-     */
-    @Test
-    public void messageTest() {
-        // TODO: test message
+    void nameTest() {
+        // TODO: test name
     }
 
 }
