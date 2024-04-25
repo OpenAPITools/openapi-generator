@@ -22,7 +22,7 @@
     <akka.http.version>10.2.3</akka.http.version>
     <typesafeconfig.version>1.4.1</typesafeconfig.version>
     <akka.http.json4s.version>1.27.0</akka.http.json4s.version>
-    <scala.compat.version>2.4.1</scala.compat.version>
+    <scala.compat.version>2.12.0</scala.compat.version>
     <scala.test.version>3.2.3</scala.test.version>
     <scala.test.plus.version>3.2.18.0</scala.test.plus.version>
 
@@ -86,7 +86,7 @@
     </dependency>
     <dependency>
       <groupId>org.scalatestplus</groupId>
-      <artifactId>junit-5-10_3</artifactId>
+      <artifactId>junit-5-10_2.12</artifactId>
       <version>${scala.test.plus.version}</version>
       <scope>test</scope>
     </dependency>

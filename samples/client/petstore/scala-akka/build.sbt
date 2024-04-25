@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
   "org.json4s" %% "json4s-jackson" % "3.6.7",
   "org.json4s" %% "json4s-ext" % "3.6.7",
   "de.heikoseeberger" %% "akka-http-json4s" % "1.27.0",
-  "org.scala-lang.modules" %% "scala-collection-compat" % "2.4.1",
+  "org.scala-lang.modules" %% "scala-collection-compat" % "2.12.0",
   // test dependencies
   "org.scalatest"     %% "scalatest"  % "3.2.3"   % "test",
   "org.scalatestplus" %% "junit-5-10_3" % "3.2.18.0" % "test"
