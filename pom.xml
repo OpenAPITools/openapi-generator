@@ -1242,7 +1242,7 @@
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-site-plugin.version>4.0.0-M8</maven-site-plugin.version>
-        <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <mockito.version>4.10.0</mockito.version>
         <openrewrite.version>8.8.3</openrewrite.version>
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
