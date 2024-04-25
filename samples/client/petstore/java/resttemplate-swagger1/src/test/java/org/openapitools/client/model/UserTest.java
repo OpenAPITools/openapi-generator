@@ -20,22 +20,21 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for User
  */
-public class UserTest {
+class UserTest {
     private final User model = new User();
 
     /**
      * Model tests for User
      */
     @Test
-    public void testUser() {
+    void testUser() {
         // TODO: test User
     }
 
@@ -43,7 +42,7 @@ public class UserTest {
      * Test the property 'id'
      */
     @Test
-    public void idTest() {
+    void idTest() {
         // TODO: test id
     }
 
@@ -51,7 +50,7 @@ public class UserTest {
      * Test the property 'username'
      */
     @Test
-    public void usernameTest() {
+    void usernameTest() {
         // TODO: test username
     }
 
@@ -59,7 +58,7 @@ public class UserTest {
      * Test the property 'firstName'
      */
     @Test
-    public void firstNameTest() {
+    void firstNameTest() {
         // TODO: test firstName
     }
 
@@ -67,7 +66,7 @@ public class UserTest {
      * Test the property 'lastName'
      */
     @Test
-    public void lastNameTest() {
+    void lastNameTest() {
         // TODO: test lastName
     }
 
@@ -75,7 +74,7 @@ public class UserTest {
      * Test the property 'email'
      */
     @Test
-    public void emailTest() {
+    void emailTest() {
         // TODO: test email
     }
 
@@ -83,7 +82,7 @@ public class UserTest {
      * Test the property 'password'
      */
     @Test
-    public void passwordTest() {
+    void passwordTest() {
         // TODO: test password
     }
 
@@ -91,7 +90,7 @@ public class UserTest {
      * Test the property 'phone'
      */
     @Test
-    public void phoneTest() {
+    void phoneTest() {
         // TODO: test phone
     }
 
@@ -99,7 +98,7 @@ public class UserTest {
      * Test the property 'userStatus'
      */
     @Test
-    public void userStatusTest() {
+    void userStatusTest() {
         // TODO: test userStatus
     }
 

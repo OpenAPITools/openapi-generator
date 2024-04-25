@@ -22,7 +22,7 @@ print(Tiger.to_json())
 # convert the object into a dict
 tiger_dict = tiger_instance.to_dict()
 # create an instance of Tiger from a dict
-tiger_form_dict = tiger.from_dict(tiger_dict)
+tiger_from_dict = Tiger.from_dict(tiger_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

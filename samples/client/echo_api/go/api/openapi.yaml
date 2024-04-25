@@ -96,6 +96,25 @@ paths:
       summary: Test form parameter(s) for oneOf schema
       tags:
       - form
+  /form/object/multipart:
+    post:
+      description: Test form parameter(s) for multipart schema
+      operationId: test/form/object/multipart
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/test_form_object_multipart_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test form parameter(s) for multipart schema
+      tags:
+      - form
   /header/integer/boolean/string/enums:
     get:
       description: Test header parameter(s)
@@ -869,6 +888,18 @@ components:
       - $ref: '#/components/schemas/test_form_oneof_request_oneOf'
       - $ref: '#/components/schemas/test_form_oneof_request_oneOf_1'
       - $ref: '#/components/schemas/Tag'
+      type: object
+    test_form_object_multipart_request_marker:
+      properties:
+        name:
+          type: string
+      type: object
+    test_form_object_multipart_request:
+      properties:
+        marker:
+          $ref: '#/components/schemas/test_form_object_multipart_request_marker'
+      required:
+      - marker
       type: object
     test_query_style_form_explode_true_array_string_query_object_parameter:
       properties:

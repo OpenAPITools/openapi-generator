@@ -107,12 +107,22 @@ $ composer phplint
 
 ## Show errors
 
-Switch your app environment to development in `public/.htaccess` file:
+Switch your app environment to development
+- When using with some webserver => in `public/.htaccess` file:
 ```ini
 ## .htaccess
 <IfModule mod_env.c>
     SetEnv APP_ENV 'development'
 </IfModule>
+```
+
+- Or when using whatever else, set `APP_ENV` environment variable like this:
+```bash
+export APP_ENV=development
+```
+or simply
+```bash
+export APP_ENV=dev
 ```
 
 ## Mock Server
@@ -214,6 +224,11 @@ Scope list:
 {{/scopes}}
 
 {{/isOAuth}}
+{{#isBasicBearer}}
+### Security schema `{{name}}`
+> Important! To make Bearer authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{#lambda.forwardslash}}{{authSrcPath}}{{/lambda.forwardslash}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\BearerAuthenticator](./src/Auth/BearerAuthenticator.php) class.
+
+{{/isBasicBearer}}
 {{/authMethods}}
 ### Advanced middleware configuration
 Ref to used Slim Token Middleware [dyorg/slim-token-authentication](https://github.com/dyorg/slim-token-authentication/tree/1.x#readme)

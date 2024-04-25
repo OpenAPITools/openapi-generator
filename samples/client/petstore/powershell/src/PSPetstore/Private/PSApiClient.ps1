@@ -42,7 +42,10 @@ function Invoke-PSApiClient {
 
     $Configuration = Get-PSConfiguration
     $RequestUri = $Configuration["BaseUrl"] + $Uri
+    $DefaultHeaders = $Configuration["DefaultHeaders"]
+    # should make sure that SkipCertificateCheck is not set for PowerShell 5
     $SkipCertificateCheck = $Configuration["SkipCertificateCheck"]
+    $Proxy = $Configuration["Proxy"]
 
     # cookie parameters
     foreach ($Parameter in $CookieParameters.GetEnumerator()) {
@@ -62,19 +65,17 @@ function Invoke-PSApiClient {
         $HeaderParameters['Accept'] = $Accept
     }
 
-    [string]$MultiPartBoundary = $null
-    $ContentType= SelectHeaders -Headers $ContentTypes
+    # Content-Type and multipart handling
+    $ContentType = SelectHeaders -Headers $ContentTypes
     if ($ContentType) {
         $HeaderParameters['Content-Type'] = $ContentType
         if ($ContentType -eq 'multipart/form-data') {
-            [string]$MultiPartBoundary = [System.Guid]::NewGuid()
-            $MultiPartBoundary = "---------------------------$MultiPartBoundary"
-            $HeaderParameters['Content-Type'] = "$ContentType; boundary=$MultiPartBoundary"
+            $MultiPart = $true
         }
     }
 
     # add default headers if any
-    foreach ($header in $Configuration["DefaultHeaders"].GetEnumerator()) {
+    foreach ($header in $DefaultHeaders.GetEnumerator()) {
         $HeaderParameters[$header.Name] = $header.Value
     }
 
@@ -95,30 +96,7 @@ function Invoke-PSApiClient {
 
     # include form parameters in the request body
     if ($FormParameters -and $FormParameters.Count -gt 0) {
-        if (![string]::IsNullOrEmpty($MultiPartBoundary)) {
-            $RequestBody = ""
-            $LF = "`r`n"
-            $FormParameters.Keys | ForEach-Object {
-                $value = $FormParameters[$_]
-                $isFile = $value.GetType().FullName -eq "System.IO.FileInfo"
-
-                $RequestBody += "--$MultiPartBoundary$LF"
-                $RequestBody += "Content-Disposition: form-data; name=`"$_`""
-                if ($isFile) {
-                    $fileName = $value.Name
-                    $RequestBody += "; filename=`"$fileName`"$LF"
-                    $RequestBody += "Content-Type: application/octet-stream$LF$LF"
-                    $RequestBody += Get-Content -Path $value.FullName
-                } else {
-                    $RequestBody += "$LF$LF"
-                    $RequestBody += ([string]$value)
-                }
-                $RequestBody += "$LF--$MultiPartBoundary"
-            }
-            $RequestBody += "--"
-        } else {
-            $RequestBody = $FormParameters
-        }
+       $RequestBody = $FormParameters
     }
 
     if ($Body -or $IsBodyNullable) {
@@ -145,54 +123,55 @@ function Invoke-PSApiClient {
         }
     }
 
+    # use splatting to pass parameters
+    $Params = @{}
+    $Params.Uri = $UriBuilder.Uri
+    $Params.Method = $Method
+    $Params.Headers = $HeaderParameters
+    $Params.ErrorAction = 'Stop'
+
     if ($SkipCertificateCheck -eq $true) {
-        if ($null -eq $Configuration["Proxy"]) {
-            # skip certification check, no proxy
-            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                      -Method $Method `
-                                      -Headers $HeaderParameters `
-                                      -Body $RequestBody `
-                                      -ErrorAction Stop `
-                                      -UseBasicParsing `
-                                      -SkipCertificateCheck
-        } else {
-            # skip certification check, use proxy
-            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                      -Method $Method `
-                                      -Headers $HeaderParameters `
-                                      -Body $RequestBody `
-                                      -ErrorAction Stop `
-                                      -UseBasicParsing `
-                                      -SkipCertificateCheck `
-                                      -Proxy $Configuration["Proxy"].GetProxy($UriBuilder.Uri) `
-                                      -ProxyUseDefaultCredentials
-        }
-    } else {
-        if ($null -eq $Configuration["Proxy"]) {
-            # perform certification check, no proxy
-            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                      -Method $Method `
-                                      -Headers $HeaderParameters `
-                                      -Body $RequestBody `
-                                      -ErrorAction Stop `
-                                      -UseBasicParsing
-        } else {
-            # perform certification check, use proxy
-            $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                      -Method $Method `
-                                      -Headers $HeaderParameters `
-                                      -Body $RequestBody `
-                                      -ErrorAction Stop `
-                                      -UseBasicParsing `
-                                      -Proxy $Configuration["Proxy"].GetProxy($UriBuilder.Uri) `
-                                      -ProxyUseDefaultCredentials
+        $Params.SkipCertificateCheck = $true
+    }
+
+    if ($null -ne $Proxy) {
+        $effectiveProxy = $Proxy.GetProxy($UriBuilder.Uri)
+        # do not set proxy if it is null or same as target Uri
+        if ($null -ne $effectiveProxy -and $effectiveProxy.AbsoluteUri -ne $UriBuilder.Uri) {
+            $Params.Proxy = $effectiveProxy.AbsoluteUri
+            $Params.ProxyUseDefaultCredentials = $true
         }
     }
 
-    return @{
-        Response = DeserializeResponse -Response $Response.Content -ReturnType $ReturnType -ContentTypes $Response.Headers["Content-Type"]
-        StatusCode = $Response.StatusCode
-        Headers = $Response.Headers
+    # use Invoke-RestApi if Content-Type is 'multipart/form-data', Invoke-WebRequest otherwise
+    if ($MultiPart) {
+        if ($PSVersionTable.PSVersion.Major -eq 5) {
+            # preset null return values as not supported by Invoke-RestMethod on PS5
+            $ResponseHeaders = $null
+            $ResponseStatusCode = $null
+        } else {
+            # preset return variables
+            $Params.ResponseHeadersVariable = "ResponseHeaders"
+            $Params.StatusCodeVariable = "ResponseStatusCode"
+        }
+        $Params.Form = $FormParameters
+        $Response = Invoke-RestMethod @Params
+
+        return @{
+            Response = $Response
+            StatusCode = $ResponseStatusCode
+            Headers = $ResponseHeaders
+        }
+   } else {
+        $Params.Body = $RequestBody
+        $Params.UseBasicParsing = $true
+        $Response = Invoke-WebRequest @Params
+
+        return @{
+            Response = DeserializeResponse -Response $Response.Content -ReturnType $ReturnType -ContentTypes $Response.Headers["Content-Type"]
+            StatusCode = $Response.StatusCode
+            Headers = $Response.Headers
+        }
     }
 }
 

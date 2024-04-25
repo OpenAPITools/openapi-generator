@@ -1,0 +1,53 @@
+ThisBuild / name := "{{artifactId}}"
+ThisBuild / organization := "{{groupId}}"
+ThisBuild / version := "{{artifactVersion}}"
+ThisBuild / scalaVersion := "3.4.1"
+ThisBuild / scalafmtOnCompile := true
+ThisBuild / versionScheme := Some("early-semver")
+
+// Common settings
+lazy val commonSettings = Seq(
+  libraryDependencies ++= Seq(
+    "com.lihaoyi" %%% "upickle" % "3.2.0",
+    "org.scalatest" %%% "scalatest" % "3.2.18" % Test
+  ),
+  name := "{{artifactId}}"
+)
+
+
+lazy val app = crossProject(JSPlatform, JVMPlatform).in(file(".")).
+  settings(commonSettings).
+  jvmSettings(
+    libraryDependencies += "com.lihaoyi" %% "cask" % "0.9.2"
+  ).
+  jsSettings(
+    scalaJSUseMainModuleInitializer := true
+  )
+  
+
+lazy val root = project.in(file(".")).
+  aggregate(app.js, app.jvm).
+  settings(
+    publish := {},
+    publishLocal := {},
+  )
+
+
+ThisBuild / publishMavenStyle := true
+
+val githubUser = "{{{gitUserId}}}"
+val githubRepo = "{{{gitRepoId}}}"
+ThisBuild / publishTo := Some("GitHub Package Registry" at s"https://maven.pkg.github.com/$githubUser/$githubRepo")
+
+sys.env.get("GITHUB_TOKEN") match {
+  case Some(token) if !token.isEmpty =>
+    ThisBuild / credentials += Credentials(
+      "GitHub Package Registry",
+      "maven.pkg.github.com",
+      githubUser,
+      token
+    )
+  case _ =>
+    println("\n\t\tGITHUB_TOKEN not set - assuming a local build\n\n")
+    credentials ++= Nil
+}

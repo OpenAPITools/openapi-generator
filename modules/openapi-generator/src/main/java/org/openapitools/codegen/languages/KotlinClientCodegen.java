@@ -578,9 +578,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     private void processKotlinxDate() {
         additionalProperties.put(DateLibrary.KOTLINX_DATETIME.value, true);
 
-        typeMapping.put("date-time", "kotlinx.datetime.Instant");
+        typeMapping.put("date-time", "Instant");
+        typeMapping.put("date", "LocalDate");
+
         typeMapping.put("DateTime", "Instant");
+        typeMapping.put("Date", "LocalDate");
+
         importMapping.put("Instant", "kotlinx.datetime.Instant");
+        importMapping.put("LocalDate", "kotlinx.datetime.LocalDate");
     }
 
     private void processJVMRetrofit2Library(String infrastructureFolder) {
@@ -952,6 +957,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 for (CodegenParameter param : operation.allParams) {
                     if (Boolean.TRUE.equals(param.isFile)) {
                         operations.put("x-kotlin-multipart-import", true);
+                    }
+
+                    if (param.isQueryParam && "form".equals(param.style) && param.isExplode && param.isModel) {
+                        // query parameter (style: form, explode) referencing models need to import
+                        // models defined in the properties of the models
+                        operations.put("x-kotlin-import-models", true);
                     }
                 }
 

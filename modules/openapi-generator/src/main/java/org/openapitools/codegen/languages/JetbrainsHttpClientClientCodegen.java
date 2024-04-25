@@ -109,11 +109,11 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
         var additionalProperties = additionalProperties();
 
-        if(additionalProperties.containsKey(BODY_VARIABLES)) {
+        if (additionalProperties.containsKey(BODY_VARIABLES)) {
             bodyVariables = Arrays.asList(additionalProperties.get(BODY_VARIABLES).toString().split("-"));
         }
 
-        if(additionalProperties.containsKey(CUSTOM_HEADERS)) {
+        if (additionalProperties.containsKey(CUSTOM_HEADERS)) {
             customHeaders = Arrays.asList(additionalProperties.get(CUSTOM_HEADERS).toString().split("&"));
         }
     }
@@ -138,15 +138,15 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        OperationsMap results =  super.postProcessOperationsWithModels(objs, allModels);
+        OperationsMap results = super.postProcessOperationsWithModels(objs, allModels);
 
         OperationMap ops = results.getOperations();
         List<CodegenOperation> opList = ops.getOperation();
 
-        for(CodegenOperation codegenOperation : opList) {
+        for (CodegenOperation codegenOperation : opList) {
             List<RequestItem> requests = getRequests(codegenOperation);
 
-            if(requests != null) {
+            if (requests != null) {
                 codegenOperation.vendorExtensions.put("requests", requests);
                 //Adding to each operation for now, we may be smarter later on
                 codegenOperation.vendorExtensions.put("customHeaders", customHeaders);
@@ -158,7 +158,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
     List<RequestItem> getRequests(CodegenOperation codegenOperation) {
         List<RequestItem> items = new ArrayList<>();
 
-        if(codegenOperation.getHasBodyParam()) {
+        if (codegenOperation.getHasBodyParam()) {
             // operation with bodyParam
             if (requestParameterGeneration.equalsIgnoreCase("Schema")) {
                 // get from schema
@@ -173,7 +173,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
                     // find in components/examples
                     for (Map.Entry<String, Example> entry : codegenOperation.bodyParam.getContent().get("application/json").getExamples().entrySet()) {
                         String exampleRef = entry.getValue().get$ref();
-                        if(exampleRef != null){
+                        if (exampleRef != null) {
                             Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
                             String exampleAsString = getJsonFromExample(example);
                             items.add(new RequestItem(example.getSummary(), exampleAsString));
@@ -200,11 +200,11 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
     }
 
     private List<RequestItem> handleCustomVariablesInRequests(List<RequestItem> items) {
-        if(!bodyVariables.isEmpty()){
-            for(var item : items){
-                for(var customVariable: bodyVariables){
+        if (!bodyVariables.isEmpty()) {
+            for (var item : items) {
+                for (var customVariable : bodyVariables) {
                     var body = item.getBody();
-                    if(body != null){
+                    if (body != null) {
                         body = body.replace(customVariable, "{{" + customVariable + "}}");
                         item.setBody(body);
                     }
@@ -269,7 +269,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
             ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + codegenProperty.baseName + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
                     JSON_ESCAPE_DOUBLE_QUOTE + "<" + getType(codegenProperty) + ">" + JSON_ESCAPE_DOUBLE_QUOTE;
 
-            if(counter < numVars) {
+            if (counter < numVars) {
                 // add comma unless last attribute
                 ret = ret + "," + JSON_ESCAPE_NEW_LINE + " ";
             }
@@ -283,9 +283,9 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
     }
 
     public String getType(CodegenProperty codegenProperty) {
-        if(codegenProperty.isNumeric) {
+        if (codegenProperty.isNumeric) {
             return "number";
-        } else if(codegenProperty.isDate) {
+        } else if (codegenProperty.isDate) {
             return "date";
         } else {
             return "string";
@@ -316,14 +316,14 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
     public String getJsonFromExample(Example example) {
         String ret = "";
 
-        if(example == null) {
+        if (example == null) {
             return ret;
         }
 
-        if(example.getValue() instanceof ObjectNode) {
-            ret = convertToJson((ObjectNode)example.getValue());
-        } else if(example.getValue() instanceof LinkedHashMap) {
-            ret = convertToJson((LinkedHashMap)example.getValue());
+        if (example.getValue() instanceof ObjectNode) {
+            ret = convertToJson((ObjectNode) example.getValue());
+        } else if (example.getValue() instanceof LinkedHashMap) {
+            ret = convertToJson((LinkedHashMap) example.getValue());
         }
 
         return ret;
@@ -350,9 +350,9 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
             String key = mapElement.getKey();
             Object value = mapElement.getValue();
 
-            if(value instanceof String) {
+            if (value instanceof String) {
                 // unescape double quotes already escaped
-                value = ((String)value).replace("\\\"", "\"");
+                value = ((String) value).replace("\\\"", "\"");
 
                 ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
                         JSON_ESCAPE_DOUBLE_QUOTE + value + JSON_ESCAPE_DOUBLE_QUOTE;
@@ -369,20 +369,21 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
                 for (int i = 0; i < items.size(); i++) {
                     jsonBuilder.append(JSON_ESCAPE_DOUBLE_QUOTE).append(items.get(i)).append(JSON_ESCAPE_DOUBLE_QUOTE);
-                    if (i < items.size() - 1) {jsonBuilder.append(",");}
+                    if (i < items.size() - 1) {
+                        jsonBuilder.append(",");
+                    }
                 }
                 jsonBuilder.append("]");
 
-                ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " + jsonBuilder ;
-            }
-            else {
+                ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " + jsonBuilder;
+            } else {
                 LOGGER.warn("Value type unrecognised: " + value.getClass());
                 //WARNING: here we are undoing what is done in "add comma unless last attribute"
                 // This is meant to avoid dangling commas if we encounter an unknown type
                 ret = ret.substring(0, ret.length() - 3);
             }
 
-            if(counter < numVars ) {
+            if (counter < numVars) {
                 // add comma unless last attribute
                 ret = ret + "," + JSON_ESCAPE_NEW_LINE + " ";
             }
@@ -394,4 +395,13 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         return ret;
     }
 
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input;
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        return input;
+    }
 }

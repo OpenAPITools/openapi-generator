@@ -32,6 +32,7 @@ jobs:
           - samples/server/petstore/scalatra
           - samples/server/petstore/scala-finch # cannot be tested with jdk11
           - samples/server/petstore/scala-http4s-server
+          - samples/server/petstore/scala-cask
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
