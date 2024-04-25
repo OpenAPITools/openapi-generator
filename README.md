@@ -1092,6 +1092,7 @@ Here is a list of template creators:
    * Kotlin (Vertx): @Wooyme
    * Kotlin (JAX-RS): @anttileppa
    * NodeJS Express: @YishTish
+   * PHP Flight: @daniel-sc
    * PHP Laravel: @renepardon
    * PHP Lumen: @abcsun
    * PHP Mezzio (with Path Handler): @Articus
