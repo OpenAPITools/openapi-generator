@@ -2,7 +2,6 @@ package org.openapitools.codegen.languages;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenResponse;
@@ -10,15 +9,13 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class MicroprofileServerCodegen extends JavaClientCodegen {
+public class JavaMicroprofileServerCodegen extends JavaClientCodegen {
     public static final String PROJECT_NAME = "projectName";
     public static final String MICROPROFILE_SERVER = "microprofileServer";
     protected boolean microprofileServer = true;
 
-    public MicroprofileServerCodegen() {
+    public JavaMicroprofileServerCodegen() {
         super();
 
         outputFolder = "generated-code" + File.separator + "microprofile";
