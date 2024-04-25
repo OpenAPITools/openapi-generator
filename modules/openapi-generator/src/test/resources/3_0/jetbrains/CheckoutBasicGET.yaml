@@ -1,0 +1,194 @@
+openapi: 3.0.3
+info:
+  title: Checkout Basic
+  description: Checkout Basic
+  version: 1.0.0
+servers:
+  - url: 'https://checkout-test.adyen.com/v71'
+paths:
+
+  /paymentMethods/{id}:
+    get:
+      tags:
+        - Payments
+      summary: Get payment method by id
+      operationId: get-payment-method-by-id
+      parameters:
+        - description: Id of the payment method
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          examples:
+            basic:
+              value: googlepay
+            get-applepay:
+              value: applepay
+      responses:
+        200:
+          description: OK - the request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentMethod'
+              examples:
+                basic:
+                  $ref: '#/components/examples/googlepay-payment-method'
+                get-applepay:
+                  $ref: '#/components/examples/applepay-payment-method'
+        422:
+          description: Unprocessable Entity - a request validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutError'
+              examples:
+                basic:
+                  $ref: '#/components/examples/merchant-account-validation-error'
+
+components:
+  schemas:
+    Payment:
+      type: object
+      properties:
+        paymentMethod:
+          $ref: '#/components/schemas/PaymentMethod'
+        amount:
+          $ref: '#/components/schemas/Amount'
+        merchantAccount:
+          type: string
+        reference:
+          type: string
+        channel:
+          type: string
+          enum:
+            - Web
+            - iOS
+            - Android
+      required:
+        - paymentMethod
+        - amount
+        - merchantAccount
+    PaymentMethod:
+      type: object
+      properties:
+        name:
+          description: Name of the payment method
+          type: string
+          enum:
+            - scheme
+            - applepay
+            - googleplay
+        type:
+          description: Type of the payment method
+          type: string
+    Amount:
+      type: object
+      properties:
+        currency:
+          description: The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes).
+          maxLength: 3
+          minLength: 3
+          type: string
+        value:
+          description: The amount of the transaction, in [minor units](https://docs.adyen.com/development-resources/currency-codes).
+          format: int64
+          type: integer
+      required:
+        - value
+        - currency
+    PaymentResult:
+      type: object
+      properties:
+        pspReference:
+          description: PSP ref
+          type: string
+        resultCode:
+          description: Result code
+          type: string
+          enum:
+            - success
+            - error
+            - pending
+      required:
+        - pspReference
+        - resultCode
+    CheckoutError:
+      type: object
+      properties:
+        code:
+          description: Error code
+          type: string
+        message:
+          description: User-friendly message
+          type: string
+      required:
+        - code
+        - message
+  examples:
+    applepay-request:
+      summary: ApplePay request
+      value:
+        paymentMethod:
+          name: applepay
+        amount:
+          currency: EUR
+          value: 1000
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        reference: YOUR_REFERENCE
+        channel: iOS
+    googlepay-request:
+      summary: GooglePay request
+      value:
+        paymentMethod:
+          name: googlepay
+        amount:
+          currency: EUR
+          value: 1000
+        merchantAccount: YOUR_MERCHANT_ACCOUNT
+        reference: YOUR_REFERENCE
+        channel: Android
+    invalid-merchant-account:
+      summary: Example with a merchant account that doesn't exist
+      value:
+        paymentMethod:
+          name: googlepay
+        amount:
+          currency: EUR
+          value: 1000
+        merchantAccount: INVALID MERCHANT ACCOUNT
+        reference: YOUR_REFERENCE
+        channel: Android
+    payment-response-success:
+      summary: A successful payment response
+      value:
+        pspReference: PSP1234567890
+        resultCode: success
+    generic-error-400:
+      summary: An error sample
+      value:
+        code: 400
+        message: Invalid JSON payload
+    merchant-account-validation-error:
+      summary: Merchant account validation error
+      value:
+        code: 422 - 900
+        message: Merchant account does not exist
+    googlepay-payment-method:
+      summary: The GooglePay payment method
+      value:
+        name: googlepay
+        type: wallet
+    applepay-payment-method:
+      summary: The ApplePay payment method
+      value:
+        name: applepay
+        type: wallet
+    list-payment-methods:
+      summary: List of all payment methods
+      value:
+        - name: googlepay
+          type: wallet
+        - name: applepay
+          type: wallet

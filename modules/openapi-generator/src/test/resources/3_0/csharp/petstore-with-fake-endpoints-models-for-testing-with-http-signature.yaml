@@ -991,6 +991,23 @@ paths:
               $ref: '#/components/schemas/FreeFormObject'
         description: request body
         required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1538,6 +1555,16 @@ components:
         return:
           type: integer
           format: int32
+        lock:
+          type: string
+        abstract:
+          type: string
+          nullable: true
+        unsafe:
+          type: string
+      required:
+        - lock
+        - abstract
       xml:
         name: Return
     Name:
@@ -1942,6 +1969,11 @@ components:
       type: object
       description: A schema consisting only of additional properties
       additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string

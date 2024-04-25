@@ -18,12 +18,12 @@ json = "{}"
 # create an instance of ClassModel from a JSON string
 class_model_instance = ClassModel.from_json(json)
 # print the JSON string representation of the object
-print ClassModel.to_json()
+print(ClassModel.to_json())
 
 # convert the object into a dict
 class_model_dict = class_model_instance.to_dict()
 # create an instance of ClassModel from a dict
-class_model_form_dict = class_model.from_dict(class_model_dict)
+class_model_from_dict = ClassModel.from_dict(class_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

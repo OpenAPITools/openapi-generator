@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Order")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class OrderDto {
 
   private Long id;

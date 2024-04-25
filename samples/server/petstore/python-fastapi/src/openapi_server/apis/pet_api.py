@@ -63,7 +63,7 @@ async def add_pet(
     response_model_by_alias=True,
 )
 async def delete_pet(
-    petId: int = Path(None, description="Pet id to delete"),
+    petId: int = Path(..., description="Pet id to delete"),
     api_key: str = Header(None, description=""),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
@@ -125,7 +125,7 @@ async def find_pets_by_tags(
     response_model_by_alias=True,
 )
 async def get_pet_by_id(
-    petId: int = Path(None, description="ID of pet to return"),
+    petId: int = Path(..., description="ID of pet to return"),
     token_api_key: TokenModel = Security(
         get_token_api_key
     ),
@@ -166,7 +166,7 @@ async def update_pet(
     response_model_by_alias=True,
 )
 async def update_pet_with_form(
-    petId: int = Path(None, description="ID of pet that needs to be updated"),
+    petId: int = Path(..., description="ID of pet that needs to be updated"),
     name: str = Form(None, description="Updated name of the pet"),
     status: str = Form(None, description="Updated status of the pet"),
     token_petstore_auth: TokenModel = Security(
@@ -187,7 +187,7 @@ async def update_pet_with_form(
     response_model_by_alias=True,
 )
 async def upload_file(
-    petId: int = Path(None, description="ID of pet to update"),
+    petId: int = Path(..., description="ID of pet to update"),
     additional_metadata: str = Form(None, description="Additional data to pass to server"),
     file: str = Form(None, description="file to upload"),
     token_petstore_auth: TokenModel = Security(

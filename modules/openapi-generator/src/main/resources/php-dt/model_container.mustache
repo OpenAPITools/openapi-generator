@@ -1,8 +1,19 @@
 /**
 {{#vars
 }}{{#isArray
-}} * @DTA\Strategy(name="{{#isPrimitiveType}}ScalarList{{/isPrimitiveType}}{{^isPrimitiveType}}ObjectList{{/isPrimitiveType}}", options={"type":{{>list_item_type}}})
-{{#minItems}}{{^maxItems
+}}{{#isPrimitiveType
+}} * @DTA\Strategy(name="ScalarList", options={"type":{{>list_item_type}}})
+{{/isPrimitiveType
+}}{{#items.isDate
+}} * @DTA\Strategy(name="DateList")
+{{/items.isDate
+}}{{#items.isDateTime
+}} * @DTA\Strategy(name="DateTimeList")
+{{/items.isDateTime
+}}{{^isPrimitiveType}}{{^items.isDate}}{{^items.isDateTime
+}} * @DTA\Strategy(name="ObjectList", options={"type":{{>list_item_type}}})
+{{/items.isDateTime}}{{/items.isDate}}{{/isPrimitiveType
+}}{{#minItems}}{{^maxItems
 }} * @DTA\Validator(name="Count", options={"min":{{minItems}}}, blocker=true)
 {{/maxItems}}{{/minItems
 }}{{^minItems}}{{#maxItems
@@ -15,20 +26,31 @@
 {{#isPrimitiveType
 }} *     {"name":"Scalar", "options":{"type":{{>list_item_type}}}}
 {{/isPrimitiveType
-}}{{#isDate
+}}{{#items.isDate
 }} *     {"name":"Date"}
-{{/isDate
-}}{{#isDateTime
-}} *     {"name":"Date", "options":{"format": \DateTime::RFC3339}}
-{{/isDateTime
-}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime
+{{/items.isDate
+}}{{#items.isDateTime
+}} *     {"name":"DateTime"}
+{{/items.isDateTime
+}}{{^isPrimitiveType}}{{^items.isDate}}{{^items.isDateTime
 }} *     {"name":"TypeCompliant", "options":{"type":{{>list_item_type}}}}
-{{/isDateTime}}{{/isDate}}{{/isPrimitiveType
+{{/items.isDateTime}}{{/items.isDate}}{{/isPrimitiveType
 }} * }})
 {{/isArray
 }}{{#isMap
-}} * @DTA\Strategy(name="{{#isPrimitiveType}}ScalarMap{{/isPrimitiveType}}{{^isPrimitiveType}}ObjectMap{{/isPrimitiveType}}", options={"type":{{>map_item_type}}})
-{{#minProperties}}{{^maxProperties
+}}{{#isPrimitiveType
+}} * @DTA\Strategy(name="ScalarMap", options={"type":{{>map_item_type}}})
+{{/isPrimitiveType
+}}{{#additionalProperties.isDate
+}} * @DTA\Strategy(name="DateMap")
+{{/additionalProperties.isDate
+}}{{#additionalProperties.isDateTime
+}} * @DTA\Strategy(name="DateTimeMap")
+{{/additionalProperties.isDateTime
+}}{{^isPrimitiveType}}{{^additionalProperties.isDate}}{{^additionalProperties.isDateTime
+}} * @DTA\Strategy(name="ObjectMap", options={"type":{{>map_item_type}}})
+{{/additionalProperties.isDateTime}}{{/additionalProperties.isDate}}{{/isPrimitiveType
+}}{{#minProperties}}{{^maxProperties
 }} * @DTA\Validator(name="Count", options={"min":{{minProperties}}}, blocker=true)
 {{/maxProperties}}{{/minProperties
 }}{{^minProperties}}{{#maxProperties
@@ -41,15 +63,15 @@
 {{#isPrimitiveType
 }} *     {"name":"Scalar", "options":{"type":{{>map_item_type}}}}
 {{/isPrimitiveType
-}}{{#isDate
+}}{{#additionalProperties.isDate
 }} *     {"name":"Date"}
-{{/isDate
-}}{{#isDateTime
-}} *     {"name":"Date", "options":{"format": \DateTime::RFC3339}}
-{{/isDateTime
-}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime
+{{/additionalProperties.isDate
+}}{{#additionalProperties.isDateTime
+}} *     {"name":"DateTime"}
+{{/additionalProperties.isDateTime
+}}{{^isPrimitiveType}}{{^additionalProperties.isDate}}{{^additionalProperties.isDateTime
 }} *     {"name":"TypeCompliant", "options":{"type":{{>map_item_type}}}}
-{{/isDateTime}}{{/isDate}}{{/isPrimitiveType
+{{/additionalProperties.isDateTime}}{{/additionalProperties.isDate}}{{/isPrimitiveType
 }} * }})
 {{/isMap
 }}{{/vars

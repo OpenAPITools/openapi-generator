@@ -93,7 +93,7 @@ public class JSON {
         return clazz;
     }
 
-    {
+    static {
         GsonBuilder gsonBuilder = createGson();
         gsonBuilder.registerTypeAdapter(Date.class, dateTypeAdapter);
         gsonBuilder.registerTypeAdapter(java.sql.Date.class, sqlDateTypeAdapter);
@@ -107,6 +107,7 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.NumberPropertiesOnly.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.Pet.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.Tag.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.TestFormObjectMultipartRequestMarker.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.CustomTypeAdapterFactory());
         gson = gsonBuilder.create();

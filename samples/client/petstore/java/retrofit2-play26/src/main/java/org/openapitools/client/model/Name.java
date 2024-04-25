@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * Model for testing model name same as property name
@@ -34,7 +34,7 @@ import javax.validation.Valid;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
@@ -71,7 +71,7 @@ public class Name {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @NotNull
 
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -93,7 +93,7 @@ public class Name {
    * Get snakeCase
    * @return snakeCase
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -115,7 +115,7 @@ public class Name {
    * Get property
    * @return property
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -136,7 +136,7 @@ public class Name {
    * Get _123number
    * @return _123number
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_123NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

@@ -112,9 +112,9 @@ open class Response<T> {
 
 public final class RequestTask: @unchecked Sendable {
     private var lock = NSRecursiveLock()
-    private var task: URLSessionTask?
+    private var task: URLSessionDataTaskProtocol?
 
-    internal func set(task: URLSessionTask) {
+    internal func set(task: URLSessionDataTaskProtocol) {
         lock.lock()
         defer { lock.unlock() }
         self.task = task

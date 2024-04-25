@@ -17,20 +17,16 @@
 
 package org.openapitools.codegen.goginserver;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.languages.GoClientCodegen;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class GoGinServerCodegenTest {
@@ -40,13 +36,8 @@ public class GoGinServerCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go-gin-server")
-                .setGitUserId("my-user")
-                .setGitRepoId("my-repo")
-                .setPackageName("my-package")
-                .setInputSpec("src/test/resources/3_0/petstore.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator = createDefaultCodegenConfigurator(output)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml");
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
@@ -64,13 +55,8 @@ public class GoGinServerCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go-gin-server")
-                .setGitUserId("my-user")
-                .setGitRepoId("my-repo")
-                .setPackageName("my-package")
-                .setInputSpec("src/test/resources/3_1/webhooks.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator = createDefaultCodegenConfigurator(output)
+                .setInputSpec("src/test/resources/3_1/webhooks.yaml");
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
@@ -80,6 +66,32 @@ public class GoGinServerCodegenTest {
                 "NewPetPost");
         TestUtils.assertFileContains(Paths.get(output + "/go/api_default.go"),
                 " c.JSON(200, gin.H{\"status\": \"OK\"})");
+    }
+
+    @Test
+    public void verifyInterfaceOnly() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = createDefaultCodegenConfigurator(output)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .addAdditionalProperty("interfaceOnly", true);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/go/api_pet.go"),
+                "type PetAPI interface");
+    }
+
+    private static CodegenConfigurator createDefaultCodegenConfigurator(File output) {
+        return new CodegenConfigurator()
+                .setGeneratorName("go-gin-server")
+                .setGitUserId("my-user")
+                .setGitRepoId("my-repo")
+                .setPackageName("my-package")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
     }
 
 }

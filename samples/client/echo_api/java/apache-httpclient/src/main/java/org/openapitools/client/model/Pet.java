@@ -42,7 +42,7 @@ import java.util.StringJoiner;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -57,7 +57,7 @@ public class Pet {
   private List<String> photoUrls = new ArrayList<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  private List<Tag> tags;
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store

@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * Category
@@ -32,7 +32,7 @@ import javax.validation.Valid;
   Category.JSON_PROPERTY_ID,
   Category.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Category {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -53,7 +53,7 @@ public class Category {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -80,7 +80,7 @@ public class Category {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @NotNull
 
   @JsonProperty(JSON_PROPERTY_NAME)

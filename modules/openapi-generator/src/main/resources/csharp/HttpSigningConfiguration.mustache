@@ -82,7 +82,7 @@ namespace {{packageName}}.Client
         /// <param name="path">Path</param>
         /// <param name="requestOptions">Request options</param>
         /// <returns>Http signed headers</returns>
-        internal Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
+        public Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
         {
             const string HEADER_REQUEST_TARGET = "(request-target)";
             //The time when the HTTP signature expires. The API server should reject HTTP requests

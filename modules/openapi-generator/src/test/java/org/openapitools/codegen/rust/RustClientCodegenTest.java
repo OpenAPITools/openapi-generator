@@ -48,6 +48,7 @@ public class RustClientCodegenTest {
         codegen.setHideGenerationTimestamp(false);
         codegen.setPreferUnsignedInt(true);
         codegen.setBestFitInt(true);
+        codegen.setAvoidBoxedModels(true);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
@@ -58,6 +59,9 @@ public class RustClientCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(RustClientCodegen.BEST_FIT_INT), Boolean.TRUE);
         Assert.assertTrue(codegen.getBestFitInt());
+
+        Assert.assertEquals(codegen.additionalProperties().get(RustClientCodegen.AVOID_BOXED_MODELS), Boolean.TRUE);
+        Assert.assertTrue(codegen.getAvoidBoxedModels());
     }
 
     @Test

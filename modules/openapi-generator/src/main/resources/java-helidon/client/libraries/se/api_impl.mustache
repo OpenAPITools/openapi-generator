@@ -76,7 +76,7 @@ public class {{classname}}Impl implements {{classname}} {
    * Optional customization point for subclasses.
    *
    {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
    {{/allParams}}
    * @return WebClientRequestBuilder for {{operationId}}
    */
@@ -161,7 +161,7 @@ public class {{classname}}Impl implements {{classname}} {
    *
    * @param webClientRequestBuilder the request builder to use for submitting the request
    {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
    {{/allParams}}
    * @return {@code {{>operationResponseSig}}} for the submitted request
    */

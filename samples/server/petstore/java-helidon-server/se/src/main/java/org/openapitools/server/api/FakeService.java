@@ -54,6 +54,7 @@ public interface FakeService extends Service {
         rules.get("/fake/jsonFormData", this::testJsonFormData);
         rules.post("/fake/nullable", Handler.create(ChildWithNullable.class, this::testNullable));
         rules.put("/fake/test-query-parameters", this::testQueryParameterCollectionFormat);
+        rules.post("/fake/stringMap-reference", this::testStringMapReference);
     }
 
 
@@ -211,5 +212,12 @@ public interface FakeService extends Service {
      * @param response the server response
      */
     void testQueryParameterCollectionFormat(ServerRequest request, ServerResponse response);
+
+    /**
+     * POST /fake/stringMap-reference : test referenced string map.
+     * @param request the server request
+     * @param response the server response
+     */
+    void testStringMapReference(ServerRequest request, ServerResponse response);
 
 }

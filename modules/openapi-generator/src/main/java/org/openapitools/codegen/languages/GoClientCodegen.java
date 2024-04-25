@@ -87,6 +87,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.anyOf,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.allOf
+
+                )
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
@@ -96,6 +102,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
+                )
+                .includeDataTypeFeatures(
+                        DataTypeFeature.AnyType
                 )
         );
 
@@ -141,6 +150,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
         cliOptions.add(CliOption.newBoolean(WITH_GO_MOD, "Generate go.mod and go.sum", true));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_MARSHAL_JSON, CodegenConstants.GENERATE_MARSHAL_JSON_DESC, true));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_UNMARSHAL_JSON, CodegenConstants.GENERATE_UNMARSHAL_JSON_DESC, true));
         this.setWithGoMod(true);
     }
 
@@ -277,6 +287,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_MARSHAL_JSON)) {
             setGenerateMarshalJSON(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.GENERATE_MARSHAL_JSON).toString()));
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_UNMARSHAL_JSON)) {
+            setGenerateUnmarshalJSON(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.GENERATE_UNMARSHAL_JSON).toString()));
+        }
+
 
         // add lambda for mustache templates to handle oneOf/anyOf naming
         // e.g. []string => ArrayOfString
@@ -444,7 +459,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         CodegenProperty prop = super.fromProperty(name, p, required);
         String cc = camelize(prop.name, LOWERCASE_FIRST_LETTER);
         if (isReservedWord(cc)) {
-            cc = escapeReservedWord(cc);
+            cc = escapeReservedWord(cc); // e.g. byte => byte_
         }
         prop.nameInCamelCase = cc;
         return prop;
@@ -500,7 +515,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
 
             if (model.hasRequired) {
-                if (!model.isAdditionalPropertiesTrue) {
+                if (!model.isAdditionalPropertiesTrue &&
+                    (model.oneOf == null || model.oneOf.isEmpty()) &&
+                    (model.anyOf == null || model.anyOf.isEmpty())) {
                     imports.add(createMapping("import", "bytes"));
                 }
 
@@ -522,13 +539,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
-        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
         HashMap<String, ArrayList<Integer>> processedModelMaps = new HashMap<>();
-
-        for (ModelMap modelMap : allModels) {
-            CodegenModel m = modelMap.getModel();
-            modelMaps.put(m.classname, m);
-        }
 
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {

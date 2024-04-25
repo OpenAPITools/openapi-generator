@@ -233,7 +233,7 @@ public interface {{classname}} {
     @RequestMapping(
         method = RequestMethod.{{httpMethod}},
         value = "{{{path}}}"{{#singleContentTypes}}{{#hasProduces}},
-        produces = "{{{vendorExtensions.x-accepts}}}"{{/hasProduces}}{{#hasConsumes}},
+        produces = { {{#vendorExtensions.x-accepts}}"{{.}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
         produces = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }{{/hasProduces}}{{#hasConsumes}},
         consumes = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }{{/hasConsumes}}{{/singleContentTypes}}{{#hasVersionHeaders}},
@@ -260,7 +260,7 @@ public interface {{classname}} {
     }
 
     // Override this method
-    {{#jdk8-default-interface}}default {{/jdk8-default-interface}} {{>responseType}} {{operationId}}({{#allParams}}{{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{{dataType}}}{{/reactive}}{{#reactive}}{{^isArray}}Mono<{{{dataType}}}>{{/isArray}}{{#isArray}}Flux<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{/isFile}}{{#isFile}}{{#reactive}}Flux<Part>{{/reactive}}{{^reactive}}MultipartFile{{/reactive}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore{{/springFoxDocumentationProvider}} final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore{{/springFoxDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{#unhandledException}} throws Exception{{/unhandledException}} {
+    {{#jdk8-default-interface}}default {{/jdk8-default-interface}} {{>responseType}} {{operationId}}({{#allParams}}{{^isFile}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}Mono<{{{dataType}}}>{{/isArray}}{{#isArray}}Flux<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{/isFile}}{{#isFile}}{{#reactive}}Flux<Part>{{/reactive}}{{^reactive}}MultipartFile{{/reactive}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore{{/springFoxDocumentationProvider}} final ServerWebExchange exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}{{#springFoxDocumentationProvider}}@ApiIgnore{{/springFoxDocumentationProvider}}final Pageable pageable{{/vendorExtensions.x-spring-paginated}}){{#unhandledException}} throws Exception{{/unhandledException}} {
         {{/delegate-method}}
         {{^isDelegate}}
         {{>methodBody}}

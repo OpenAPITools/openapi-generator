@@ -92,7 +92,9 @@ pub struct GetUserByNamePathParams {
 pub struct LoginUserQueryParams {
     /// The user name for login
     #[serde(rename = "username")]
-    #[validate(regex = "RE_LOGINUSERQUERYPARAMS_USERNAME")]
+    #[validate(
+                          regex(path = *RE_LOGINUSERQUERYPARAMS_USERNAME),
+                    )]
     pub username: String,
     /// The password for login in clear text
     #[serde(rename = "password")]
@@ -142,8 +144,8 @@ impl ApiResponse {
 /// Converts the ApiResponse value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ApiResponse {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ApiResponse {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.code
                 .as_ref()
@@ -156,7 +158,11 @@ impl std::string::ToString for ApiResponse {
                 .map(|message| ["message".to_string(), message.to_string()].join(",")),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -283,7 +289,9 @@ pub struct Category {
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
-    #[validate(regex = "RE_CATEGORY_NAME")]
+    #[validate(
+            regex(path = *RE_CATEGORY_NAME),
+        )]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 }
@@ -305,8 +313,8 @@ impl Category {
 /// Converts the Category value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Category {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Category {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.id
                 .as_ref()
@@ -316,7 +324,11 @@ impl std::string::ToString for Category {
                 .map(|name| ["name".to_string(), name.to_string()].join(",")),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -476,8 +488,8 @@ impl Order {
 /// Converts the Order value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Order {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Order {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.id
                 .as_ref()
@@ -497,7 +509,11 @@ impl std::string::ToString for Order {
                 .map(|complete| ["complete".to_string(), complete.to_string()].join(",")),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -678,8 +694,8 @@ impl Pet {
 /// Converts the Pet value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Pet {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Pet {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.id
                 .as_ref()
@@ -701,7 +717,11 @@ impl std::string::ToString for Pet {
                 .map(|status| ["status".to_string(), status.to_string()].join(",")),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -868,8 +888,8 @@ impl Tag {
 /// Converts the Tag value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for Tag {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Tag {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.id
                 .as_ref()
@@ -879,7 +899,11 @@ impl std::string::ToString for Tag {
                 .map(|name| ["name".to_string(), name.to_string()].join(",")),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -1042,8 +1066,8 @@ impl User {
 /// Converts the User value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for User {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for User {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.id
                 .as_ref()
@@ -1071,7 +1095,11 @@ impl std::string::ToString for User {
                 .map(|user_status| ["userStatus".to_string(), user_status.to_string()].join(",")),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 

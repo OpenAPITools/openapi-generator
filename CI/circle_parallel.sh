@@ -112,5 +112,3 @@ else
   (cd samples/client/petstore/java/apache-httpclient && mvn integration-test)
 
 fi
-
-

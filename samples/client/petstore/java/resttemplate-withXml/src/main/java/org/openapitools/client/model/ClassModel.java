@@ -33,7 +33,7 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 @XmlRootElement(name = "ClassModel")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ClassModel")

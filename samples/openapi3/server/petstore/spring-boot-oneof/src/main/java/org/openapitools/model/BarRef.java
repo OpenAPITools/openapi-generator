@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class BarRef extends EntityRef implements BarRefOrValue {
 
   public BarRef() {
@@ -80,7 +80,7 @@ public class BarRef extends EntityRef implements BarRefOrValue {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    return true;
+    return super.equals(o);
   }
 
   @Override

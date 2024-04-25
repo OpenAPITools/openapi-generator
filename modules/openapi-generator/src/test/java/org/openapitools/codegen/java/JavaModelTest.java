@@ -67,7 +67,8 @@ public class JavaModelTest {
 
         final CodegenProperty property1 = vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.nameInCamelCase, "Id");
+        Assert.assertEquals(property1.nameInPascalCase, "Id");
+        Assert.assertEquals(property1.nameInCamelCase, "id");
         Assert.assertEquals(property1.nameInSnakeCase, "ID");
         Assert.assertEquals(property1.getter, "getId");
         Assert.assertEquals(property1.setter, "setId");
@@ -80,7 +81,8 @@ public class JavaModelTest {
 
         final CodegenProperty property2 = vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
-        Assert.assertEquals(property2.nameInCamelCase, "Name");
+        Assert.assertEquals(property2.nameInPascalCase, "Name");
+        Assert.assertEquals(property2.nameInCamelCase, "name");
         Assert.assertEquals(property2.nameInSnakeCase, "NAME");
         Assert.assertEquals(property2.getter, "getName");
         Assert.assertEquals(property2.setter, "setName");
@@ -94,7 +96,8 @@ public class JavaModelTest {
 
         final CodegenProperty property3 = vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.nameInCamelCase, "CreatedAt");
+        Assert.assertEquals(property3.nameInPascalCase, "CreatedAt");
+        Assert.assertEquals(property3.nameInCamelCase, "createdAt");
         Assert.assertEquals(property3.nameInSnakeCase, "CREATED_AT");
         Assert.assertEquals(property3.getter, "getCreatedAt");
         Assert.assertEquals(property3.setter, "setCreatedAt");
@@ -130,7 +133,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setUrls");
         Assert.assertEquals(property.dataType, "List<String>");
         Assert.assertEquals(property.name, "urls");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -162,7 +165,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setUrls");
         Assert.assertEquals(property.dataType, "Set<String>");
         Assert.assertEquals(property.name, "urls");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertEquals(property.defaultValue, "new LinkedHashSet<>()");
         Assert.assertEquals(property.baseType, "Set");
         Assert.assertEquals(property.containerType, "set");
         Assert.assertFalse(property.required);
@@ -248,7 +251,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setList2D");
         Assert.assertEquals(property.dataType, "List<List<Pet>>");
         Assert.assertEquals(property.name, "list2D");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -333,7 +336,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setChildren");
         Assert.assertEquals(property.dataType, "List<Children>");
         Assert.assertEquals(property.name, "children");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -396,7 +399,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setChildren");
         Assert.assertEquals(property.dataType, "List<Children>");
         Assert.assertEquals(property.name, "children");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -429,7 +432,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setChildren");
         Assert.assertEquals(property.dataType, "Set<Children>");
         Assert.assertEquals(property.name, "children");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertEquals(property.defaultValue, "new LinkedHashSet<>()");
         Assert.assertEquals(property.baseType, "Set");
         Assert.assertEquals(property.containerType, "set");
         Assert.assertFalse(property.required);
@@ -466,7 +469,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setChildren");
         Assert.assertEquals(property.dataType, "List<Child>");
         Assert.assertEquals(property.name, "children");
-        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertEquals(property.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(property.baseType, "List");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -974,7 +977,7 @@ public class JavaModelTest {
         Assert.assertEquals(property2.setter, "setArray");
         Assert.assertEquals(property2.dataType, "List<String>");
         Assert.assertEquals(property2.name, "array");
-        Assert.assertEquals(property2.defaultValue, null);
+        Assert.assertEquals(property2.defaultValue, "new ArrayList<>()");
         Assert.assertEquals(property2.baseType, "List");
         Assert.assertTrue(property2.isContainer);
         Assert.assertTrue(property2.isXmlWrapped);
@@ -1031,7 +1034,8 @@ public class JavaModelTest {
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");
-        Assert.assertEquals(cp.nameInCamelCase, "Property");
+        Assert.assertEquals(cp.nameInPascalCase, "Property");
+        Assert.assertEquals(cp.nameInCamelCase, "property");
         Assert.assertEquals(cp.nameInSnakeCase, "PROPERTY");
         Assert.assertEquals(cp.dataType, "Long");
         Assert.assertEquals(cp.name, "property");
@@ -1057,7 +1061,8 @@ public class JavaModelTest {
 
         CodegenProperty cp1 = cm.vars.get(0);
         Assert.assertEquals(cp1.baseName, "Integer1");
-        Assert.assertEquals(cp1.nameInCamelCase, "Integer1");
+        Assert.assertEquals(cp1.nameInPascalCase, "Integer1");
+        Assert.assertEquals(cp1.nameInCamelCase, "integer1");
         Assert.assertEquals(cp1.nameInSnakeCase, "INTEGER1");
         Assert.assertEquals(cp1.dataType, "Integer");
         Assert.assertEquals(cp1.name, "integer1");
@@ -1066,7 +1071,8 @@ public class JavaModelTest {
 
         CodegenProperty cp2 = cm.vars.get(1);
         Assert.assertEquals(cp2.baseName, "Integer2");
-        Assert.assertEquals(cp2.nameInCamelCase, "Integer2");
+        Assert.assertEquals(cp2.nameInPascalCase, "Integer2");
+        Assert.assertEquals(cp2.nameInCamelCase, "integer2");
         Assert.assertEquals(cp2.nameInSnakeCase, "INTEGER2");
         Assert.assertEquals(cp2.dataType, "Integer");
         Assert.assertEquals(cp2.name, "integer2");
@@ -1111,7 +1117,8 @@ public class JavaModelTest {
         final CodegenProperty cp = codegen.fromProperty("somePropertyWithMinMaxAndPattern", property);
 
         Assert.assertEquals(cp.baseName, "somePropertyWithMinMaxAndPattern");
-        Assert.assertEquals(cp.nameInCamelCase, "SomePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.nameInPascalCase, "SomePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.nameInCamelCase, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.nameInSnakeCase, "SOME_PROPERTY_WITH_MIN_MAX_AND_PATTERN");
         Assert.assertEquals(cp.dataType, "String");
         Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
@@ -1150,7 +1157,8 @@ public class JavaModelTest {
         Assert.assertEquals(cm.getVars().size(), 1);
         CodegenProperty cp = cm.getVars().get(0);
         Assert.assertEquals(cp.baseName, "somePropertyWithMinMaxAndPattern");
-        Assert.assertEquals(cp.nameInCamelCase, "SomePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.nameInPascalCase, "SomePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.nameInCamelCase, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.nameInSnakeCase, "SOME_PROPERTY_WITH_MIN_MAX_AND_PATTERN");
         Assert.assertEquals(cp.dataType, "String");
         Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
@@ -1182,7 +1190,8 @@ public class JavaModelTest {
         Assert.assertEquals(cm.getVars().size(), 1);
         CodegenProperty cp = cm.getVars().get(0);
         Assert.assertEquals(cp.baseName, "somePropertyWithMinMaxAndPattern");
-        Assert.assertEquals(cp.nameInCamelCase, "SomePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.nameInPascalCase, "SomePropertyWithMinMaxAndPattern");
+        Assert.assertEquals(cp.nameInCamelCase, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.nameInSnakeCase, "SOME_PROPERTY_WITH_MIN_MAX_AND_PATTERN");
         Assert.assertEquals(cp.dataType, "String");
         Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");

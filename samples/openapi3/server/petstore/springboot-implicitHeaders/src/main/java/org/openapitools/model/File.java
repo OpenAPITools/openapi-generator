@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "File", description = "Must be named `File` for test.")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class File {
 
   private String sourceURI;

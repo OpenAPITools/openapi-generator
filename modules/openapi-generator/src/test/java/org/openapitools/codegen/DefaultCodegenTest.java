@@ -1917,6 +1917,19 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testTitleProperty() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/property-title.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map testProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("ModelWithTitledProperties").getProperties());
+
+        Assert.assertEquals("Simple-Property-Title", codegen.fromProperty("simpleProperty", (Schema) testProperties.get("simpleProperty")).title);
+        Assert.assertEquals("Ref-Property-Title", codegen.fromProperty("refProperty", (Schema) testProperties.get("refProperty")).title);
+    }
+
+    @Test
     public void testDeprecatedRef() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/model-deprecated.yaml");
         new InlineModelResolver().flatten(openAPI);
@@ -2343,7 +2356,7 @@ public class DefaultCodegenTest {
         assertTrue(lambdas.get("lowercase") instanceof LowercaseLambda, "Expecting LowercaseLambda class");
         assertTrue(lambdas.get("uppercase") instanceof UppercaseLambda, "Expecting UppercaseLambda class");
         assertTrue(lambdas.get("titlecase") instanceof TitlecaseLambda, "Expecting TitlecaseLambda class");
-        assertTrue(lambdas.get("camelcase") instanceof CamelCaseLambda, "Expecting CamelCaseLambda class");
+        assertTrue(lambdas.get("camelcase") instanceof CamelCaseAndSanitizeLambda, "Expecting CamelCaseAndSanitizeLambda class");
         assertTrue(lambdas.get("indented") instanceof IndentedLambda, "Expecting IndentedLambda class");
         assertTrue(lambdas.get("indented_8") instanceof IndentedLambda, "Expecting IndentedLambda class");
         assertTrue(lambdas.get("indented_12") instanceof IndentedLambda, "Expecting IndentedLambda class");
@@ -4178,34 +4191,58 @@ public class DefaultCodegenTest {
         List<CodegenParameter> formParams = co.formParams;
 
         assertEquals(formParams.get(0).paramName, "intParam");
+        assertEquals(formParams.get(0).nameInCamelCase, "intParam");
+        assertEquals(formParams.get(0).nameInPascalCase, "IntParam");
+        assertEquals(formParams.get(0).nameInSnakeCase, "INT_PARAM");
+
         assertFalse(formParams.get(0).isContainer);
         assertFalse(formParams.get(0).isExplode); // Should not be true for non-container
 
         assertEquals(formParams.get(1).paramName, "explodeTrue");
+        assertEquals(formParams.get(1).nameInCamelCase, "explodeTrue");
+        assertEquals(formParams.get(1).nameInPascalCase, "ExplodeTrue");
+        assertEquals(formParams.get(1).nameInSnakeCase, "EXPLODE_TRUE");
+        assertEquals(formParams.get(1).nameInLowerCase, "explodetrue");
         assertTrue(formParams.get(1).isContainer);
         assertEquals(formParams.get(1).style, Encoding.StyleEnum.FORM.toString());
         assertTrue(formParams.get(1).isExplode);
         assertNull(formParams.get(1).contentType);
 
         assertEquals(formParams.get(2).paramName, "explodeFalse");
+        assertEquals(formParams.get(2).nameInCamelCase, "explodeFalse");
+        assertEquals(formParams.get(2).nameInPascalCase, "ExplodeFalse");
+        assertEquals(formParams.get(2).nameInSnakeCase, "EXPLODE_FALSE");
+        assertEquals(formParams.get(2).nameInLowerCase, "explodefalse");
         assertTrue(formParams.get(2).isContainer);
         assertEquals(formParams.get(2).style, Encoding.StyleEnum.FORM.toString());
         assertFalse(formParams.get(2).isExplode);
         assertNull(formParams.get(2).contentType);
 
         assertEquals(formParams.get(3).paramName, "noStyleNoExplode");
+        assertEquals(formParams.get(3).nameInCamelCase, "noStyleNoExplode");
+        assertEquals(formParams.get(3).nameInPascalCase, "NoStyleNoExplode");
+        assertEquals(formParams.get(3).nameInSnakeCase, "NO_STYLE_NO_EXPLODE");
+        assertEquals(formParams.get(3).nameInLowerCase, "nostylenoexplode");
         assertTrue(formParams.get(3).isContainer);
         assertEquals(formParams.get(3).style, Encoding.StyleEnum.FORM.toString());
         assertTrue(formParams.get(3).isExplode); // Defaults to true for style == FORM
         assertEquals(formParams.get(3).contentType, "text/plain");
 
         assertEquals(formParams.get(4).paramName, "styleSpecified");
+        assertEquals(formParams.get(4).nameInCamelCase, "styleSpecified");
+        assertEquals(formParams.get(4).nameInPascalCase, "StyleSpecified");
+        assertEquals(formParams.get(4).nameInSnakeCase, "STYLE_SPECIFIED");
+        assertEquals(formParams.get(4).nameInLowerCase, "stylespecified");
         assertTrue(formParams.get(4).isContainer);
         assertEquals(formParams.get(4).style, Encoding.StyleEnum.SPACE_DELIMITED.toString());
         assertFalse(formParams.get(4).isExplode);
         assertNull(formParams.get(4).contentType);
 
         assertEquals(formParams.get(5).paramName, "styleSpecifiedNoExplode");
+        assertEquals(formParams.get(5).nameInCamelCase, "styleSpecifiedNoExplode");
+        assertEquals(formParams.get(5).nameInPascalCase, "StyleSpecifiedNoExplode");
+        assertEquals(formParams.get(5).nameInSnakeCase, "STYLE_SPECIFIED_NO_EXPLODE");
+        assertEquals(formParams.get(5).nameInLowerCase, "stylespecifiednoexplode");
         assertTrue(formParams.get(5).isContainer);
         assertEquals(formParams.get(5).style, Encoding.StyleEnum.SPACE_DELIMITED.toString());
         assertFalse(formParams.get(5).isExplode); // Defaults to false for style other than FORM

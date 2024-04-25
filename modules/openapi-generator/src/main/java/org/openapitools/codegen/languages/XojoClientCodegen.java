@@ -235,8 +235,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return super.getTypeDeclaration(inner);
         }
         return super.getTypeDeclaration(p);

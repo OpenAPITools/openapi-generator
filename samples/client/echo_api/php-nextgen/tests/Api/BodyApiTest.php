@@ -81,7 +81,7 @@ class BodyApiTest extends TestCase
     public function testTestBinaryGif()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -93,7 +93,7 @@ class BodyApiTest extends TestCase
     public function testTestBodyApplicationOctetstreamBinary()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -105,7 +105,7 @@ class BodyApiTest extends TestCase
     public function testTestBodyMultipartFormdataArrayOfBinary()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -117,7 +117,7 @@ class BodyApiTest extends TestCase
     public function testTestEchoBodyFreeFormObjectResponseString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -129,7 +129,7 @@ class BodyApiTest extends TestCase
     public function testTestEchoBodyPet()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -141,7 +141,7 @@ class BodyApiTest extends TestCase
     public function testTestEchoBodyPetResponseString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -153,6 +153,6 @@ class BodyApiTest extends TestCase
     public function testTestEchoBodyTagResponseString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

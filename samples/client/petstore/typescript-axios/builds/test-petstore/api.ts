@@ -447,7 +447,7 @@ export interface Dog extends Animal {
  * @interface Drawing
  */
 export interface Drawing {
-    [key: string]: Fruit;
+    [key: string]: Fruit | any;
 
     /**
      * 
@@ -1043,7 +1043,7 @@ export interface Name {
  * @interface NullableClass
  */
 export interface NullableClass {
-    [key: string]: object;
+    [key: string]: object | any;
 
     /**
      * 
@@ -2103,6 +2103,40 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @summary Array of string
+         * @param {Array<string>} [requestBody] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postArrayOfString: async (requestBody?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fake/request-array-string`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary test referenced additionalProperties
          * @param {{ [key: string]: any; }} requestBody request body
          * @param {*} [options] Override http request option.
@@ -2699,6 +2733,42 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary test referenced string map
+         * @param {{ [key: string]: string; }} requestBody request body
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testStringMapReference: async (requestBody: { [key: string]: string; }, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'requestBody' is not null or undefined
+            assertParamExists('testStringMapReference', 'requestBody', requestBody)
+            const localVarPath = `/fake/stringMap-reference`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -2779,6 +2849,19 @@ export const FakeApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getArrayOfEnums(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FakeApi.getArrayOfEnums']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Array of string
+         * @param {Array<string>} [requestBody] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async postArrayOfString(requestBody?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postArrayOfString(requestBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FakeApi.postArrayOfString']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -2952,6 +3035,19 @@ export const FakeApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['FakeApi.testQueryParameterCollectionFormat']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary test referenced string map
+         * @param {{ [key: string]: string; }} requestBody request body
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async testStringMapReference(requestBody: { [key: string]: string; }, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testStringMapReference(requestBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FakeApi.testStringMapReference']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -3015,6 +3111,16 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          */
         getArrayOfEnums(options?: any): AxiosPromise<Array<OuterEnum>> {
             return localVarFp.getArrayOfEnums(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Array of string
+         * @param {Array<string>} [requestBody] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postArrayOfString(requestBody?: Array<string>, options?: any): AxiosPromise<void> {
+            return localVarFp.postArrayOfString(requestBody, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3154,6 +3260,16 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
         testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, options?: any): AxiosPromise<void> {
             return localVarFp.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @summary test referenced string map
+         * @param {{ [key: string]: string; }} requestBody request body
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testStringMapReference(requestBody: { [key: string]: string; }, options?: any): AxiosPromise<void> {
+            return localVarFp.testStringMapReference(requestBody, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -3228,6 +3344,18 @@ export class FakeApi extends BaseAPI {
      */
     public getArrayOfEnums(options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).getArrayOfEnums(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Array of string
+     * @param {Array<string>} [requestBody] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FakeApi
+     */
+    public postArrayOfString(requestBody?: Array<string>, options?: RawAxiosRequestConfig) {
+        return FakeApiFp(this.configuration).postArrayOfString(requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -3388,6 +3516,18 @@ export class FakeApi extends BaseAPI {
      */
     public testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary test referenced string map
+     * @param {{ [key: string]: string; }} requestBody request body
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FakeApi
+     */
+    public testStringMapReference(requestBody: { [key: string]: string; }, options?: RawAxiosRequestConfig) {
+        return FakeApiFp(this.configuration).testStringMapReference(requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -1,4 +1,4 @@
-import { DynamicModule, HttpService, HttpModule, Module, Global } from '@nestjs/common';
+import { DynamicModule, HttpService, HttpModule, Module, Global, Provider } from '@nestjs/common';
 import { AsyncConfiguration, Configuration, ConfigurationFactory } from './configuration';
 
 import { PetService } from './api/pet.service';
@@ -41,16 +41,16 @@ export class ApiModule {
     }
 
     private static createAsyncProviders(options: AsyncConfiguration): Provider[] {
-        if (options.useExisting || options.useFactory) {
-            return [this.createAsyncConfigurationProvider(options)];
+        if (options.useClass) {
+            return [
+                this.createAsyncConfigurationProvider(options),
+                {
+                    provide: options.useClass,
+                    useClass: options.useClass,
+                },
+            ];
         }
-        return [
-            this.createAsyncConfigurationProvider(options),
-            {
-                provide: options.useClass,
-                useClass: options.useClass,
-            },
-        ];
+        return [this.createAsyncConfigurationProvider(options)];
     }
 
     private static createAsyncConfigurationProvider(
@@ -67,7 +67,7 @@ export class ApiModule {
             provide: Configuration,
             useFactory: async (optionsFactory: ConfigurationFactory) =>
                 await optionsFactory.createConfiguration(),
-            inject: [options.useExisting || options.useClass],
+            inject: (options.useExisting && [options.useExisting]) || (options.useClass && [options.useClass]) || [],
         };
     }
 

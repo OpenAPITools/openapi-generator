@@ -16,18 +16,24 @@
 
 package org.openapitools.codegen.plugin;
 
+import static org.junit.Assert.assertThrows;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.DefaultMavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.MojoExecution;
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectBuilder;
 import org.apache.maven.project.ProjectBuildingRequest;
@@ -148,6 +154,64 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertTrue("src directory should have been regenerated", 
             folder.resolve("target/generated-sources/common-maven/remote-openapi/src").toFile().exists());
 
+    }
+
+    public void testCollapsedSpecProduced() throws Exception {
+        // GIVEN
+        Path folder = Files.createTempDirectory("test");
+        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "executionId");
+
+        // WHEN
+        mojo.execute();
+
+        // THEN
+        File collapseSpecFile = folder.resolve("target/generated-sources/common-maven/remote-openapi/petstore-full-spec.yaml").toFile();
+        assertTrue(collapseSpecFile.exists());
+    }
+
+    public void testCollapsedSpecAddedToArtifacts() throws Exception {
+        // GIVEN
+        Path folder = Files.createTempDirectory("test");
+        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "executionId");
+
+        // WHEN
+        mojo.execute();
+
+        // THEN
+        List<Artifact> matchingArtifacts = mojo.mavenProject.getAttachedArtifacts().stream()
+            .filter(artifact -> artifact.getFile().getName().equals("petstore-full-spec.yaml"))
+            .collect(Collectors.toList());
+        assertEquals(1, matchingArtifacts.size());
+    }
+
+    public void testAnyInputSpecMustBeProvided() throws Exception {
+        // GIVEN
+        Path folder = Files.createTempDirectory("test");
+        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "executionId");
+        mojo.inputSpec = null;
+        mojo.inputSpecRootDirectory = null;
+
+        // WHEN
+        MojoExecutionException e = assertThrows(MojoExecutionException.class, mojo::execute);
+
+        // THEN
+        assertEquals("inputSpec or inputSpecRootDirectory must be specified", e.getMessage());
+    }
+
+    public void testInputSpecRootDirectoryDoesNotRequireInputSpec() throws Exception {
+        // GIVEN
+        Path folder = Files.createTempDirectory("test");
+        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "executionId");
+        mojo.inputSpec = null;
+        mojo.inputSpecRootDirectory = "src/test/resources/default";
+
+        // WHEN
+        mojo.execute();
+
+        // THEN
+        /* Check the hash file was created */
+        final Path hashFolder = folder.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
+        assertTrue(hashFolder.resolve("_merged_spec.yaml-executionId.sha256").toFile().exists());
     }
 
     protected CodeGenMojo loadMojo(File temporaryFolder, String projectRoot) throws Exception {

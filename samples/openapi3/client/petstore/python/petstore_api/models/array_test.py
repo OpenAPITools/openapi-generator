@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
@@ -35,11 +35,11 @@ class ArrayTest(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["array_of_string", "array_of_nullable_float", "array_array_of_integer", "array_array_of_model"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:

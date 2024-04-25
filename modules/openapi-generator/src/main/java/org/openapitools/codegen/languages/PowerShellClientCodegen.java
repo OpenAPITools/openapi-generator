@@ -998,8 +998,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getTypeDeclaration(inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
             return "System.Collections.Hashtable";
@@ -1043,13 +1042,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
-        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
         HashMap<String, Integer> processedModelMaps = new HashMap<>();
-
-        for (ModelMap modelMap : allModels) {
-            CodegenModel m = modelMap.getModel();
-            modelMaps.put(m.classname, m);
-        }
 
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {

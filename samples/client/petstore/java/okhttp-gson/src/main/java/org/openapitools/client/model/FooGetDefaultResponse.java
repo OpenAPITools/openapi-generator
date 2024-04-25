@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * FooGetDefaultResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class FooGetDefaultResponse {
   public static final String SERIALIZED_NAME_STRING = "string";
   @SerializedName(SERIALIZED_NAME_STRING)
@@ -222,7 +222,12 @@ public class FooGetDefaultResponse {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
