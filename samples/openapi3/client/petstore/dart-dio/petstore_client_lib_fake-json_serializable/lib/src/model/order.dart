@@ -104,23 +104,25 @@ class Order {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Order &&
-     other.id == id &&
-     other.petId == petId &&
-     other.quantity == quantity &&
-     other.shipDate == shipDate &&
-     other.status == status &&
-     other.complete == complete;
 
-  @override
-  int get hashCode =>
-    id.hashCode +
-    petId.hashCode +
-    quantity.hashCode +
-    shipDate.hashCode +
-    status.hashCode +
-    complete.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Order &&
+      other.id == id &&
+      other.petId == petId &&
+      other.quantity == quantity &&
+      other.shipDate == shipDate &&
+      other.status == status &&
+      other.complete == complete;
+
+    @override
+    int get hashCode =>
+        id.hashCode +
+        petId.hashCode +
+        quantity.hashCode +
+        shipDate.hashCode +
+        status.hashCode +
+        complete.hashCode;
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 
