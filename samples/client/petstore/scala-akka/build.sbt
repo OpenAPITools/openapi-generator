@@ -17,7 +17,7 @@ libraryDependencies ++= Seq(
   "org.scala-lang.modules" %% "scala-collection-compat" % "2.12.0",
   // test dependencies
   "org.scalatest"     %% "scalatest"  % "3.2.3"   % "test",
-  "org.scalatestplus" %% "junit-5-10_3" % "3.2.18.0" % "test"
+  "org.scalatestplus" %% "junit-5-10" % "3.2.18.0" % "test"
 )
 
 resolvers ++= Seq(Resolver.mavenLocal)
