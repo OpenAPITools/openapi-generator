@@ -747,8 +747,7 @@ public class ModelUtils {
         //   enum:
         //   - ENUM_1
         //   - ENUM_2
-        return SchemaTypeUtil.STRING_TYPE.equals(schema.getType()) // type: string
-                && schema.getEnum() != null
+        return schema.getEnum() != null
                 && !schema.getEnum().isEmpty();
     }
 
