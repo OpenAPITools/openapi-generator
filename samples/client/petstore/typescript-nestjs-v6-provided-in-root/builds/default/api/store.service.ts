@@ -53,7 +53,7 @@ export class StoreService {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
-        
+
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -142,7 +142,7 @@ export class StoreService {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
-        
+
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -188,7 +188,7 @@ export class StoreService {
         if (order === null || order === undefined) {
             throw new Error('Required parameter order was null or undefined when calling placeOrder.');
         }
-        
+
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);

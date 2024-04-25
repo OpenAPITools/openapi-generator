@@ -54,7 +54,7 @@ export class UserService {
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUser.');
         }
-        
+
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -109,7 +109,7 @@ export class UserService {
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
         }
-        
+
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -164,7 +164,7 @@ export class UserService {
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUsersWithListInput.');
         }
-        
+
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -219,7 +219,7 @@ export class UserService {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
-        
+
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -268,7 +268,7 @@ export class UserService {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
-        
+
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -315,11 +315,11 @@ export class UserService {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling loginUser.');
         }
-        
+
         if (password === null || password === undefined) {
             throw new Error('Required parameter password was null or undefined when calling loginUser.');
         }
-        
+
         let queryParameters = new URLSearchParams();
         if (username !== undefined && username !== null) {
             queryParameters.append('username', <any>username);
@@ -419,11 +419,11 @@ export class UserService {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
-        
+
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling updateUser.');
         }
-        
+
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
