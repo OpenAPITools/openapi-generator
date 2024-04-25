@@ -34,14 +34,14 @@ public class JavascriptClientCodegenTest {
         final JavascriptClientCodegen codegen = new JavascriptClientCodegen();
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), true);
-        Assertions.assertEquals(codegen.modelPackage(), "model");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), null);
-        Assertions.assertEquals(codegen.apiPackage(), "api");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), null);
-        Assertions.assertEquals(codegen.getInvokerPackage(), null);
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), null);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertEquals(codegen.modelPackage(), "model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), null);
+        Assert.assertEquals(codegen.apiPackage(), "api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), null);
+        Assert.assertEquals(codegen.getInvokerPackage(), null);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), null);
     }
 
     @Test
@@ -50,8 +50,8 @@ public class JavascriptClientCodegenTest {
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
     @Test
@@ -60,8 +60,8 @@ public class JavascriptClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
     @Test(description = "test defaultValueWithParam for model's properties")
@@ -72,30 +72,30 @@ public class JavascriptClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("Pet", pet);
 
-        Assertions.assertEquals(cm.name, "Pet");
-        Assertions.assertEquals(cm.classname, "Pet");
-        Assertions.assertEquals(cm.description, "A pet for sale in the pet store");
-        Assertions.assertEquals(cm.vars.size(), 6);
+        Assert.assertEquals(cm.name, "Pet");
+        Assert.assertEquals(cm.classname, "Pet");
+        Assert.assertEquals(cm.description, "A pet for sale in the pet store");
+        Assert.assertEquals(cm.vars.size(), 6);
 
         // category (property)
         final CodegenProperty property1 = cm.vars.get(1);
-        Assertions.assertEquals(property1.baseName, "category");
-        Assertions.assertEquals(property1.dataType, "Category");
-        Assertions.assertEquals(property1.name, "category");
-        Assertions.assertEquals(property1.baseType, "Category");
-        Assertions.assertEquals(property1.defaultValueWithParam, " = Category.constructFromObject(data['category']);");
-        Assertions.assertFalse(property1.required);
-        Assertions.assertFalse(property1.isContainer);
+        Assert.assertEquals(property1.baseName, "category");
+        Assert.assertEquals(property1.dataType, "Category");
+        Assert.assertEquals(property1.name, "category");
+        Assert.assertEquals(property1.baseType, "Category");
+        Assert.assertEquals(property1.defaultValueWithParam, " = Category.constructFromObject(data['category']);");
+        Assert.assertFalse(property1.required);
+        Assert.assertFalse(property1.isContainer);
 
         // name (property)
         final CodegenProperty property2 = cm.vars.get(2);
-        Assertions.assertEquals(property2.baseName, "name");
-        Assertions.assertEquals(property2.dataType, "String");
-        Assertions.assertEquals(property2.name, "name");
-        Assertions.assertEquals(property2.baseType, "String");
-        Assertions.assertEquals(property2.defaultValueWithParam, " = ApiClient.convertToType(data['name'], 'String');");
-        Assertions.assertTrue(property2.required); // test required
-        Assertions.assertFalse(property2.isContainer);
+        Assert.assertEquals(property2.baseName, "name");
+        Assert.assertEquals(property2.dataType, "String");
+        Assert.assertEquals(property2.name, "name");
+        Assert.assertEquals(property2.baseType, "String");
+        Assert.assertEquals(property2.defaultValueWithParam, " = ApiClient.convertToType(data['name'], 'String');");
+        Assert.assertTrue(property2.required); // test required
+        Assert.assertFalse(property2.isContainer);
     }
 
     @Test(description = "test isDefault in the response")
@@ -108,10 +108,10 @@ public class JavascriptClientCodegenTest {
         CodegenOperation coText = codegen.fromOperation("/user", "post", textOperation, null);
 
         for (CodegenResponse cr : coText.responses) {
-            Assertions.assertTrue(cr.isDefault);
+            Assert.assertTrue(cr.isDefault);
         }
 
-        Assertions.assertEquals(coText.responses.size(), 1);
+        Assert.assertEquals(coText.responses.size(), 1);
 
     }
 
@@ -126,7 +126,7 @@ public class JavascriptClientCodegenTest {
         CodegenOperation operation = codegen.fromOperation(requestPath, "post", textOperation, null);
         CodegenParameter codegenParameter = operation.allParams.get(0);
 
-        Assertions.assertEquals(codegenParameter.collectionFormat, "passthrough");
+        Assert.assertEquals(codegenParameter.collectionFormat, "passthrough");
     }
 
     @Test(description = "test isJson, isXml")
@@ -140,11 +140,11 @@ public class JavascriptClientCodegenTest {
 
         for (Map<String, String> consume: coText.consumes) {
             if ("application/json".equals(consume.get("mediaType"))) {
-                Assertions.assertEquals(consume.get("isJson"), "true");
+                Assert.assertEquals(consume.get("isJson"), "true");
             }
 
             if ("application/xml".equals(consume.get("mediaType"))) {
-                Assertions.assertEquals(consume.get("isXml"), "true");
+                Assert.assertEquals(consume.get("isXml"), "true");
             }
         }
     }
@@ -160,11 +160,11 @@ public class JavascriptClientCodegenTest {
 
         for (Map<String, String> consume: coText.produces) {
             if ("application/json".equals(consume.get("mediaType"))) {
-                Assertions.assertEquals(consume.get("isJson"), "true");
+                Assert.assertEquals(consume.get("isJson"), "true");
             }
 
             if ("application/xml".equals(consume.get("mediaType"))) {
-                Assertions.assertEquals(consume.get("isXml"), "true");
+                Assert.assertEquals(consume.get("isXml"), "true");
             }
         }
     }
@@ -175,7 +175,7 @@ public class JavascriptClientCodegenTest {
         codegen.additionalProperties().put("customProperty", "customValue");
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get("customProperty"), "customValue");
+        Assert.assertEquals(codegen.additionalProperties().get("customProperty"), "customValue");
     }
 
 }

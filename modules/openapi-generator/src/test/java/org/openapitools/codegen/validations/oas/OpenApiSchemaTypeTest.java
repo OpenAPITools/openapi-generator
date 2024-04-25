@@ -18,17 +18,17 @@ public class OpenApiSchemaTypeTest {
         config.setEnableRecommendations(true);
         OpenApiEvaluator validator = new OpenApiEvaluator(config);
         ValidationResult result = validator.validate(openAPI);
-        Assertions.assertNotNull(result.getWarnings());
+        Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
                 .filter(invalid -> "Schema uses the 'null' type but OAS document is version 3.0." .equals(invalid.getRule().getDescription()))
                 .collect(Collectors.toList());
 
-        Assertions.assertNotNull(warnings);
+        Assert.assertNotNull(warnings);
         if (matches) {
-            Assertions.assertEquals(warnings.size() >= 1, true, "Expected to match recommendation.");
+            Assert.assertEquals(warnings.size() >= 1, true, "Expected to match recommendation.");
         } else {
-            Assertions.assertEquals(warnings.size(), 0, "Expected not to match recommendation.");
+            Assert.assertEquals(warnings.size(), 0, "Expected not to match recommendation.");
         }
     }
 

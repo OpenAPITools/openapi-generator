@@ -21,14 +21,14 @@ public class OpenApiSecuritySchemeValidationsTest {
         SecurityScheme securityScheme = new SecurityScheme().in(in).name(key);
 
         ValidationResult result = validator.validate(new SecuritySchemeWrapper(null, securityScheme));
-        Assertions.assertNotNull(result.getWarnings());
+        Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
                 .filter(invalid -> ValidationConstants.ApacheNginxUnderscoreFailureMessage.equals(invalid.getMessage()))
                 .collect(Collectors.toList());
 
-        Assertions.assertNotNull(warnings);
-        Assertions.assertEquals(warnings.size(), 0, "Expected recommendations to be disabled completely.");
+        Assert.assertNotNull(warnings);
+        Assert.assertEquals(warnings.size(), 0, "Expected recommendations to be disabled completely.");
     }
 
     @Test(dataProvider = "apacheNginxRecommendationExpectations", description = "disable apache nginx via turning off rule")
@@ -40,14 +40,14 @@ public class OpenApiSecuritySchemeValidationsTest {
         SecurityScheme securityScheme = new SecurityScheme().in(in).name(key);
 
         ValidationResult result = validator.validate(new SecuritySchemeWrapper(null, securityScheme));
-        Assertions.assertNotNull(result.getWarnings());
+        Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
                 .filter(invalid -> ValidationConstants.ApacheNginxUnderscoreFailureMessage.equals(invalid.getMessage()))
                 .collect(Collectors.toList());
 
-        Assertions.assertNotNull(warnings);
-        Assertions.assertEquals(warnings.size(), 0, "Expected rule to be disabled.");
+        Assert.assertNotNull(warnings);
+        Assert.assertEquals(warnings.size(), 0, "Expected rule to be disabled.");
     }
 
     @Test(dataProvider = "apacheNginxRecommendationExpectations", description = "default apache nginx recommendation")
@@ -59,17 +59,17 @@ public class OpenApiSecuritySchemeValidationsTest {
         SecurityScheme securityScheme = new SecurityScheme().in(in).name(key);
 
         ValidationResult result = validator.validate(new SecuritySchemeWrapper(null, securityScheme));
-        Assertions.assertNotNull(result.getWarnings());
+        Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
                 .filter(invalid -> ValidationConstants.ApacheNginxUnderscoreFailureMessage.equals(invalid.getMessage()))
                 .collect(Collectors.toList());
 
-        Assertions.assertNotNull(warnings);
+        Assert.assertNotNull(warnings);
         if (matches) {
-            Assertions.assertEquals(warnings.size(), 1, "Expected " + key + " to match recommendation.");
+            Assert.assertEquals(warnings.size(), 1, "Expected " + key + " to match recommendation.");
         } else {
-            Assertions.assertEquals(warnings.size(), 0, "Expected " + key + " not to match recommendation.");
+            Assert.assertEquals(warnings.size(), 0, "Expected " + key + " not to match recommendation.");
         }
     }
 

@@ -58,7 +58,7 @@ public class ElmClientCodegenTest {
 
         OperationsMap postProcessed = codegen.postProcessOperationsWithModels(operationsMap, Collections.emptyList());
 
-        Assertions.assertEquals(postProcessed.get("includeUuid"), true);
+        Assert.assertEquals(postProcessed.get("includeUuid"), true);
     }
 
     @DataProvider(name = "recursive-lists-of-datetime")
@@ -84,7 +84,7 @@ public class ElmClientCodegenTest {
 
         OperationsMap postProcessed = codegen.postProcessOperationsWithModels(operationsMap, Collections.emptyList());
 
-        Assertions.assertEquals(postProcessed.get("includeTime"), true);
+        Assert.assertEquals(postProcessed.get("includeTime"), true);
     }
 
     // HELPERS

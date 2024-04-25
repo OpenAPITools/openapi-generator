@@ -27,14 +27,14 @@ public class CSharpFunctionsServerCodegenTest {
         final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.toEnumVarName("FooBar", "string"), "FooBarEnum");
-        Assertions.assertEquals(codegen.toEnumVarName("fooBar", "string"), "FooBarEnum");
-        Assertions.assertEquals(codegen.toEnumVarName("foo-bar", "string"), "FooBarEnum");
-        Assertions.assertEquals(codegen.toEnumVarName("foo_bar", "string"), "FooBarEnum");
-        Assertions.assertEquals(codegen.toEnumVarName("foo bar", "string"), "FooBarEnum");
+        Assert.assertEquals(codegen.toEnumVarName("FooBar", "string"), "FooBarEnum");
+        Assert.assertEquals(codegen.toEnumVarName("fooBar", "string"), "FooBarEnum");
+        Assert.assertEquals(codegen.toEnumVarName("foo-bar", "string"), "FooBarEnum");
+        Assert.assertEquals(codegen.toEnumVarName("foo_bar", "string"), "FooBarEnum");
+        Assert.assertEquals(codegen.toEnumVarName("foo bar", "string"), "FooBarEnum");
 
         // The below cases do not work currently, camelize doesn't support uppercase
-        // Assertions.assertEquals(codegen.toEnumVarName("FOO-BAR", "string"), "FooBar");
-        // Assertions.assertEquals(codegen.toEnumVarName("FOO_BAR", "string"), "FooBar");
+        // Assert.assertEquals(codegen.toEnumVarName("FOO-BAR", "string"), "FooBar");
+        // Assert.assertEquals(codegen.toEnumVarName("FOO_BAR", "string"), "FooBar");
     }
 }

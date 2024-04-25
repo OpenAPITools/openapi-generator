@@ -29,7 +29,6 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
@@ -50,6 +49,8 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import org.junit.jupiter.api.Assertions;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +58,6 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static junit.framework.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.*;
 
@@ -82,7 +82,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openApi);
         PathItem path = openApi.getPaths().get("/api/Users/{userId}");
         CodegenOperation operation = codegen.fromOperation("/api/Users/{userId}", "get", path.getGet(), path.getServers());
-        Assertions.assertEquals(operation.isResponseOptional, true);
+        Assertions.assertTrue(operation.isResponseOptional);
     }
 
     @Test
@@ -128,7 +128,7 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testGetConsumesInfoAndGetProducesInfo() throws Exception {
+    public void testGetConsumesInfoAndGetProducesInfo() {
         final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
         OpenAPI openAPI = new OpenAPI();
         openAPI.setComponents(new Components());
@@ -183,7 +183,7 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testGetProducesInfo() throws Exception {
+    public void testGetProducesInfo() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/produces.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
@@ -238,7 +238,7 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testArraySchemaIsNotIncludedInAliases() throws Exception {
+    public void testArraySchemaIsNotIncludedInAliases() {
         final DefaultCodegen codegen = new DefaultCodegen();
         Map<String, Schema> schemas = new HashMap<String, Schema>() {
             {
@@ -263,7 +263,7 @@ public class DefaultCodegenTest {
         CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
 
         Assertions.assertEquals(codegenParameter.defaultValue, "-efg");
-        Assertions.assertEquals(codegenParameter.getSchema(), null);
+        Assertions.assertNull(codegenParameter.getSchema());
     }
 
     @Test
@@ -279,7 +279,7 @@ public class DefaultCodegenTest {
                 new HashSet<>());
 
         Assertions.assertEquals(codegenParameter.defaultValue, "1971-12-19T03:39:57-08:00");
-        Assertions.assertEquals(codegenParameter.getSchema(), null);
+        Assertions.assertNull(codegenParameter.getSchema());
     }
 
     @Test
@@ -1045,7 +1045,7 @@ public class DefaultCodegenTest {
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("BigCat", "BigCat"));
         Assertions.assertEquals(discriminator, test);
-        Assertions.assertEquals(animalModel.getHasDiscriminatorWithNonEmptyMapping(), true);
+        Assertions.assertTrue(animalModel.getHasDiscriminatorWithNonEmptyMapping());
     }
 
     @Test
@@ -1064,7 +1064,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel personModel = codegen.fromModel("Person", person);
         verifyPersonDiscriminator(personModel.discriminator);
-        Assertions.assertEquals(personModel.getHasDiscriminatorWithNonEmptyMapping(), true);
+        Assertions.assertTrue(personModel.getHasDiscriminatorWithNonEmptyMapping());
     }
 
     @Test
@@ -1076,7 +1076,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel childModel = codegen.fromModel("Child", child);
         Assertions.assertEquals(childModel.parentSchema, "Person");
-        Assertions.assertEquals(childModel.getHasDiscriminatorWithNonEmptyMapping(), false);
+        Assertions.assertFalse(childModel.getHasDiscriminatorWithNonEmptyMapping());
     }
 
     @Test
@@ -1101,19 +1101,19 @@ public class DefaultCodegenTest {
         Schema supermanSchema = openAPI.getComponents().getSchemas().get("SuperMan");
         CodegenModel supermanModel = codegen.fromModel("SuperMan", supermanSchema);
         Assertions.assertNull(supermanModel.parent);
-        Assertions.assertEquals(supermanModel.allParents, null);
+        Assertions.assertNull(supermanModel.allParents);
 
         // to test allOf with single ref
         Schema superboySchema = openAPI.getComponents().getSchemas().get("SuperBoy");
         CodegenModel superboyModel = codegen.fromModel("SuperBoy", superboySchema);
         Assertions.assertNull(superboyModel.parent);
-        Assertions.assertEquals(superboyModel.allParents, null);
+        Assertions.assertNull(superboyModel.allParents);
 
         // to test allOf with single ref and no "type: object" in the (last) inline schema
         Schema superbabySchema = openAPI.getComponents().getSchemas().get("SuperBaby");
         CodegenModel superbabyModel = codegen.fromModel("SuperBaby", superbabySchema);
         Assertions.assertNull(superbabyModel.parent);
-        Assertions.assertEquals(superbabyModel.allParents, null);
+        Assertions.assertNull(superbabyModel.allParents);
     }
 
     @Test
@@ -1150,7 +1150,7 @@ public class DefaultCodegenTest {
             Schema leafSc = openAPI.getComponents().getSchemas().get(leafModelName);
             CodegenModel leafCm = codegen.fromModel(leafModelName, leafSc);
             Assertions.assertEquals(leafCm.discriminator, emptyMapDisc);
-            Assertions.assertEquals(leafCm.getHasDiscriminatorWithNonEmptyMapping(), false);
+            Assertions.assertFalse(leafCm.getHasDiscriminatorWithNonEmptyMapping());
         }
 
         // the Pet discriminator map contains all animals + Reptile (children + grandchildren)
@@ -1166,7 +1166,7 @@ public class DefaultCodegenTest {
         modelName = "Pet";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel pet = codegen.fromModel(modelName, sc);
-        Assertions.assertEquals(pet.getHasDiscriminatorWithNonEmptyMapping(), true);
+        Assertions.assertTrue(pet.getHasDiscriminatorWithNonEmptyMapping());
         Assertions.assertEquals(pet.discriminator, petDisc);
 
         // the Reptile discriminator contains both reptiles
@@ -1182,7 +1182,7 @@ public class DefaultCodegenTest {
         modelName = "Reptile";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel reptile = codegen.fromModel(modelName, sc);
-        Assertions.assertEquals(reptile.getHasDiscriminatorWithNonEmptyMapping(), true);
+        Assertions.assertTrue(reptile.getHasDiscriminatorWithNonEmptyMapping());
         Assertions.assertEquals(reptile.discriminator, reptileDisc);
 
         // the MyPets discriminator contains Cat and Lizard
@@ -1198,14 +1198,14 @@ public class DefaultCodegenTest {
         modelName = "MyPets";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel myPets = codegen.fromModel(modelName, sc);
-        Assertions.assertEquals(myPets.getHasDiscriminatorWithNonEmptyMapping(), true);
+        Assertions.assertTrue(myPets.getHasDiscriminatorWithNonEmptyMapping());
         Assertions.assertEquals(myPets.discriminator, myPetDisc);
 
         // the MyPetsNoDisc discriminator is created because all oneOf classes have the same discriminator
         modelName = "MyPetsNoDisc";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel myPetsNoDisc = codegen.fromModel(modelName, sc);
-        Assertions.assertEquals(myPetsNoDisc.getHasDiscriminatorWithNonEmptyMapping(), true);
+        Assertions.assertTrue(myPetsNoDisc.getHasDiscriminatorWithNonEmptyMapping());
         Assertions.assertEquals(myPetsNoDisc.discriminator, myPetDisc);
 
         CodegenModel cm;
@@ -1217,7 +1217,7 @@ public class DefaultCodegenTest {
         hs.clear();
         hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B"), true));
         hs.add(new CodegenDiscriminator.MappedModel("C", codegen.toModelName("C")));
-        Assertions.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
+        Assertions.assertTrue(cm.getHasDiscriminatorWithNonEmptyMapping());
         Assertions.assertEquals(cm.discriminator.getMappedModels(), hs);
 
         // the mapping in b is in B
@@ -1227,7 +1227,7 @@ public class DefaultCodegenTest {
         hs.clear();
         hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B"), true));
         hs.add(new CodegenDiscriminator.MappedModel("C", codegen.toModelName("C")));
-        Assertions.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
+        Assertions.assertTrue(cm.getHasDiscriminatorWithNonEmptyMapping());
         Assertions.assertEquals(cm.discriminator.getMappedModels(), hs);
 
         // the mapping in b is in C
@@ -1236,7 +1236,7 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         hs.clear();
         hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B"), true));
-        Assertions.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
+        Assertions.assertTrue(cm.getHasDiscriminatorWithNonEmptyMapping());
         Assertions.assertEquals(cm.discriminator.getMappedModels(), hs);
     }
 
@@ -4415,7 +4415,7 @@ public class DefaultCodegenTest {
                 .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 9, logsList.size());
+        assertEquals(9, logsList.size(), "Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()));
         assertEquals("Validation 'minItems' has no effect on schema 'object'. Ignoring!", logsList.get(0)
                 .getMessage());
         assertEquals("Validation 'maxItems' has no effect on schema 'object'. Ignoring!", logsList.get(1)
@@ -4464,7 +4464,7 @@ public class DefaultCodegenTest {
                 .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 8, logsList.size());
+        assertEquals(8, logsList.size(), "Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()));
         assertEquals("Validation 'minItems' has no effect on schema 'string'. Ignoring!", logsList.get(0)
                 .getMessage());
         assertEquals("Validation 'maxItems' has no effect on schema 'string'. Ignoring!", logsList.get(1)
@@ -4511,7 +4511,7 @@ public class DefaultCodegenTest {
                 .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 8, logsList.size());
+        assertEquals(8, logsList.size(), "Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()));
         assertEquals("Validation 'minItems' has no effect on schema 'integer'. Ignoring!", logsList.get(0)
                 .getMessage());
         assertEquals("Validation 'maxItems' has no effect on schema 'integer'. Ignoring!", logsList.get(1)
@@ -4558,7 +4558,7 @@ public class DefaultCodegenTest {
                 .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 0, logsList.size());
+        assertEquals(0, logsList.size(), "Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()));
     }
 
     @Test
@@ -4586,7 +4586,7 @@ public class DefaultCodegenTest {
                 .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 11, logsList.size());
+        assertEquals(11, logsList.size(), "Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()));
         assertEquals("Validation 'minItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(0)
                 .getMessage());
         assertEquals("Validation 'maxItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(1)
@@ -4639,7 +4639,7 @@ public class DefaultCodegenTest {
                 .collect(Collectors.toList());
 
         // JUnit assertions
-        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 0, logsList.size());
+        assertEquals(0, logsList.size(), "Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()));
     }
 
     public static class FromParameter {

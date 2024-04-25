@@ -67,7 +67,7 @@ public class MergedSpecBuilderTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssertions.assertThat(files.get("Spec1Api.java"))
+        JavaFileAssert.assertThat(files.get("Spec1Api.java"))
             .assertMethod("spec1Operation").hasReturnType("ResponseEntity<Spec1Model>")
 
             .toFileAssert()
@@ -82,13 +82,13 @@ public class MergedSpecBuilderTest {
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("PathVariable", ImmutableMap.of("value", "\"param1\""));
 
-        JavaFileAssertions.assertThat(files.get("Spec2Api.java"))
+        JavaFileAssert.assertThat(files.get("Spec2Api.java"))
             .assertMethod("spec2Operation").hasReturnType("ResponseEntity<Spec2Model>");
 
-        JavaFileAssertions.assertThat(files.get("Spec1Model.java"))
+        JavaFileAssert.assertThat(files.get("Spec1Model.java"))
             .assertMethod("getSpec1Field").hasReturnType("String");
 
-        JavaFileAssertions.assertThat(files.get("Spec2Model.java"))
+        JavaFileAssert.assertThat(files.get("Spec2Model.java"))
             .assertMethod("getSpec2Field").hasReturnType("BigDecimal");
     }
 

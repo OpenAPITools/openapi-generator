@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 
 public class JavaValidationArrayPrimitivesTest {
     private static Consumer<Map<String, File>> assertWithValidationWithoutJsonNullable() {
-        return files -> JavaFileAssertions.assertThat(files.get("Foo.java"))
+        return files -> JavaFileAssert.assertThat(files.get("Foo.java"))
                 .isNormalClass()
                 .hasProperty("stringPattern")
                 .withType("Set<@Pattern(regexp = \"[a-z]\") String>")
@@ -111,7 +111,7 @@ public class JavaValidationArrayPrimitivesTest {
     }
 
     private static Consumer<Map<String, File>> assertWithValidationWithJsonNullable() {
-        return files -> JavaFileAssertions.assertThat(files.get("Foo.java"))
+        return files -> JavaFileAssert.assertThat(files.get("Foo.java"))
                 .isNormalClass()
                 .hasProperty("category")
                 .withType("List<@Pattern(regexp = \"^[a-zA-Z0-9 .:!()-]$\") @Size(max = 50) String>")
@@ -229,7 +229,7 @@ public class JavaValidationArrayPrimitivesTest {
     }
 
     private static Consumer<Map<String, File>> assertWithoutValidationWithoutJsonNullable() {
-        return files -> JavaFileAssertions.assertThat(files.get("Foo.java"))
+        return files -> JavaFileAssert.assertThat(files.get("Foo.java"))
                 .isNormalClass()
                 .hasProperty("stringPattern")
                 .withType("Set<String>")
@@ -300,7 +300,7 @@ public class JavaValidationArrayPrimitivesTest {
     }
 
     private static Consumer<Map<String, File>> assertWithoutValidationWithJsonNullable() {
-        return files -> JavaFileAssertions.assertThat(files.get("Foo.java"))
+        return files -> JavaFileAssert.assertThat(files.get("Foo.java"))
                 .isNormalClass()
                 .hasProperty("stringPattern")
                 .withType("Set<String>")

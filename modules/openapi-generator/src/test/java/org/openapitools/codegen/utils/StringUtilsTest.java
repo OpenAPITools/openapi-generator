@@ -11,38 +11,38 @@ public class StringUtilsTest {
     // we'll assume that <i>underscore</i> (Twitter elephant bird) works fine
     @Test
     public void testUnderscore() {
-        Assertions.assertEquals(underscore("abcd"), "abcd");
-        Assertions.assertEquals(underscore("abCd"), "ab_cd");
-        Assertions.assertEquals(underscore("ListABCs"), "list_abcs");
+        Assert.assertEquals(underscore("abcd"), "abcd");
+        Assert.assertEquals(underscore("abCd"), "ab_cd");
+        Assert.assertEquals(underscore("ListABCs"), "list_abcs");
     }
 
     @Test
     public void testCamelize() throws Exception {
-        Assertions.assertEquals(camelize("abcd"), "Abcd");
-        Assertions.assertEquals(camelize("some-value"), "SomeValue");
-        Assertions.assertEquals(camelize("some_value"), "SomeValue");
-        Assertions.assertEquals(camelize("$type"), "$Type");
+        Assert.assertEquals(camelize("abcd"), "Abcd");
+        Assert.assertEquals(camelize("some-value"), "SomeValue");
+        Assert.assertEquals(camelize("some_value"), "SomeValue");
+        Assert.assertEquals(camelize("$type"), "$Type");
 
-        Assertions.assertEquals(camelize("abcd", LOWERCASE_FIRST_LETTER), "abcd");
-        Assertions.assertEquals(camelize("some-value", LOWERCASE_FIRST_LETTER), "someValue");
-        Assertions.assertEquals(camelize("some_value", LOWERCASE_FIRST_LETTER), "someValue");
-        Assertions.assertEquals(camelize("Abcd", LOWERCASE_FIRST_LETTER), "abcd");
-        Assertions.assertEquals(camelize("$type", LOWERCASE_FIRST_LETTER), "$type");
+        Assert.assertEquals(camelize("abcd", LOWERCASE_FIRST_LETTER), "abcd");
+        Assert.assertEquals(camelize("some-value", LOWERCASE_FIRST_LETTER), "someValue");
+        Assert.assertEquals(camelize("some_value", LOWERCASE_FIRST_LETTER), "someValue");
+        Assert.assertEquals(camelize("Abcd", LOWERCASE_FIRST_LETTER), "abcd");
+        Assert.assertEquals(camelize("$type", LOWERCASE_FIRST_LETTER), "$type");
 
-        Assertions.assertEquals(camelize("123", LOWERCASE_FIRST_LETTER), "123");
-        Assertions.assertEquals(camelize("$123", LOWERCASE_FIRST_LETTER), "$123");
+        Assert.assertEquals(camelize("123", LOWERCASE_FIRST_LETTER), "123");
+        Assert.assertEquals(camelize("$123", LOWERCASE_FIRST_LETTER), "$123");
 
 
-        Assertions.assertEquals(camelize("some-value", LOWERCASE_FIRST_CHAR), "someValue");
-        Assertions.assertEquals(camelize("$type", LOWERCASE_FIRST_CHAR), "$Type");
+        Assert.assertEquals(camelize("some-value", LOWERCASE_FIRST_CHAR), "someValue");
+        Assert.assertEquals(camelize("$type", LOWERCASE_FIRST_CHAR), "$Type");
     }
 
     @Test
     public void testDashize() {
-        Assertions.assertEquals(dashize("abcd"), "abcd");
-        Assertions.assertEquals(dashize("some-value"), "some-value");
-        Assertions.assertEquals(dashize("some_value"), "some-value");
-        Assertions.assertEquals(dashize("Foo_Response__links"), "foo-response-links");
-        Assertions.assertEquals(dashize("Foo Response _links"), "foo-response-links");
+        Assert.assertEquals(dashize("abcd"), "abcd");
+        Assert.assertEquals(dashize("some-value"), "some-value");
+        Assert.assertEquals(dashize("some_value"), "some-value");
+        Assert.assertEquals(dashize("Foo_Response__links"), "foo-response-links");
+        Assert.assertEquals(dashize("Foo Response _links"), "foo-response-links");
     }
 }

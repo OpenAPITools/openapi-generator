@@ -67,18 +67,18 @@ public class KotlinSpringServerCodegenTest {
         openAPI.setInfo(new Info());
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertEquals(codegen.getLibrary(), KotlinSpringServerCodegen.SPRING_BOOT);
-        Assertions.assertTrue(codegen.supportedLibraries().containsKey(KotlinSpringServerCodegen.SPRING_BOOT));
+        Assert.assertEquals(codegen.getLibrary(), KotlinSpringServerCodegen.SPRING_BOOT);
+        Assert.assertTrue(codegen.supportedLibraries().containsKey(KotlinSpringServerCodegen.SPRING_BOOT));
 
-        Assertions.assertEquals(codegen.modelPackage(), "org.openapitools.model");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
-        Assertions.assertEquals(codegen.apiPackage(), "org.openapitools.api");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
-        Assertions.assertEquals(codegen.getBasePackage(), "org.openapitools");
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.BASE_PACKAGE), "org.openapitools");
-        Assertions.assertEquals(codegen.getInvokerPackage(), "org.openapitools");
-        Assertions.assertEquals(codegen.getServerPort(), "8080");
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8080");
+        Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
+        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
+        Assert.assertEquals(codegen.getBasePackage(), "org.openapitools");
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.BASE_PACKAGE), "org.openapitools");
+        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools");
+        Assert.assertEquals(codegen.getServerPort(), "8080");
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8080");
     }
 
     @Test
@@ -117,26 +117,26 @@ public class KotlinSpringServerCodegenTest {
         codegen.setReactive(false);
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
-        Assertions.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
-        Assertions.assertEquals(codegen.getBasePackage(), "xx.yyyyyyyy.base");
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.BASE_PACKAGE), "xx.yyyyyyyy.base");
-        Assertions.assertEquals(codegen.getServerPort(), "8181");
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8181");
-        Assertions.assertFalse(codegen.getExceptionHandler());
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.EXCEPTION_HANDLER), false);
-        Assertions.assertFalse(codegen.getGradleBuildFile());
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.GRADLE_BUILD_FILE), false);
-        Assertions.assertTrue(codegen.getServiceInterface());
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
-        Assertions.assertTrue(codegen.getServiceImplementation());
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
-        Assertions.assertFalse(codegen.getUseBeanValidation());
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
-        Assertions.assertFalse(codegen.isReactive());
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.REACTIVE), false);
+        Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
+        Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
+        Assert.assertEquals(codegen.getBasePackage(), "xx.yyyyyyyy.base");
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.BASE_PACKAGE), "xx.yyyyyyyy.base");
+        Assert.assertEquals(codegen.getServerPort(), "8181");
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8181");
+        Assert.assertFalse(codegen.getExceptionHandler());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.EXCEPTION_HANDLER), false);
+        Assert.assertFalse(codegen.getGradleBuildFile());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.GRADLE_BUILD_FILE), false);
+        Assert.assertTrue(codegen.getServiceInterface());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
+        Assert.assertTrue(codegen.getServiceImplementation());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
+        Assert.assertFalse(codegen.getUseBeanValidation());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
+        Assert.assertFalse(codegen.isReactive());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.REACTIVE), false);
     }
 
     @Test
@@ -160,26 +160,26 @@ public class KotlinSpringServerCodegenTest {
         openAPI.getInfo().setTitle("Some test API");
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
-        Assertions.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
-        Assertions.assertEquals(codegen.getBasePackage(), "xyz.yyyyy.bbbb.base");
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.BASE_PACKAGE), "xyz.yyyyy.bbbb.base");
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.TITLE), "someTest");
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8088");
-        Assertions.assertFalse(codegen.getExceptionHandler());
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.EXCEPTION_HANDLER), false);
-        Assertions.assertFalse(codegen.getGradleBuildFile());
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.GRADLE_BUILD_FILE), false);
-        Assertions.assertTrue(codegen.getServiceInterface());
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
-        Assertions.assertTrue(codegen.getServiceImplementation());
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
-        Assertions.assertFalse(codegen.getUseBeanValidation());
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
-        Assertions.assertFalse(codegen.isReactive());
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.REACTIVE), false);
+        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
+        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
+        Assert.assertEquals(codegen.getBasePackage(), "xyz.yyyyy.bbbb.base");
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.BASE_PACKAGE), "xyz.yyyyy.bbbb.base");
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.TITLE), "someTest");
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8088");
+        Assert.assertFalse(codegen.getExceptionHandler());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.EXCEPTION_HANDLER), false);
+        Assert.assertFalse(codegen.getGradleBuildFile());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.GRADLE_BUILD_FILE), false);
+        Assert.assertTrue(codegen.getServiceInterface());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
+        Assert.assertTrue(codegen.getServiceImplementation());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
+        Assert.assertFalse(codegen.getUseBeanValidation());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
+        Assert.assertFalse(codegen.isReactive());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.REACTIVE), false);
     }
 
     @Test
@@ -188,8 +188,8 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.bbbb.invoker");
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.bbbb.invoker");
-        Assertions.assertEquals(codegen.getBasePackage(), "xyz.yyyyy.bbbb.invoker");
+        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.bbbb.invoker");
+        Assert.assertEquals(codegen.getBasePackage(), "xyz.yyyyy.bbbb.invoker");
     }
 
     @Test
@@ -198,15 +198,15 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.DELEGATE_PATTERN), true);
-        Assertions.assertEquals(codegen.additionalProperties().get("isDelegate"), "true");
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.DELEGATE_PATTERN), true);
+        Assert.assertEquals(codegen.additionalProperties().get("isDelegate"), "true");
 
-        Assertions.assertEquals(codegen.apiTemplateFiles().get("apiController.mustache"), "Controller.kt");
-        Assertions.assertEquals(codegen.apiTemplateFiles().get("apiDelegate.mustache"), "Delegate.kt");
-        Assertions.assertEquals(codegen.apiTemplateFiles().get("apiInterface.mustache"), ".kt");
-        Assertions.assertEquals(codegen.apiTemplateFiles().get("apiInterface.mustache"), ".kt");
+        Assert.assertEquals(codegen.apiTemplateFiles().get("apiController.mustache"), "Controller.kt");
+        Assert.assertEquals(codegen.apiTemplateFiles().get("apiDelegate.mustache"), "Delegate.kt");
+        Assert.assertEquals(codegen.apiTemplateFiles().get("apiInterface.mustache"), ".kt");
+        Assert.assertEquals(codegen.apiTemplateFiles().get("apiInterface.mustache"), ".kt");
 
-        Assertions.assertTrue(codegen.supportingFiles().stream().anyMatch(supportingFile -> supportingFile.getTemplateFile().equals("apiUtil.mustache")));
+        Assert.assertTrue(codegen.supportingFiles().stream().anyMatch(supportingFile -> supportingFile.getTemplateFile().equals("apiUtil.mustache")));
     }
 
     @Test(description = "test delegate with tags")

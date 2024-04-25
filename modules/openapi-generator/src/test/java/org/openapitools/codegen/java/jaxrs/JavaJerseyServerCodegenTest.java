@@ -45,12 +45,12 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
 
     @Test
     public void testInitialConfigValues() throws Exception {
-        Assertions.assertEquals(codegen.getTag(), CodegenType.SERVER);
-        Assertions.assertEquals(codegen.getName(), "jaxrs-jersey");
-        Assertions.assertEquals(codegen.getTemplatingEngine().getClass(), MustacheEngineAdapter.class);
-        Assertions.assertEquals(codegen.getDateLibrary(), "legacy");
-        Assertions.assertEquals(codegen.supportedLibraries().keySet(), ImmutableSet.of("jersey2", "jersey3"));
-        Assertions.assertNull(codegen.getInputSpec());
+        Assert.assertEquals(codegen.getTag(), CodegenType.SERVER);
+        Assert.assertEquals(codegen.getName(), "jaxrs-jersey");
+        Assert.assertEquals(codegen.getTemplatingEngine().getClass(), MustacheEngineAdapter.class);
+        Assert.assertEquals(codegen.getDateLibrary(), "legacy");
+        Assert.assertEquals(codegen.supportedLibraries().keySet(), ImmutableSet.of("jersey2", "jersey3"));
+        Assert.assertNull(codegen.getInputSpec());
 
         codegen.processOpts();
 
@@ -58,15 +58,15 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), false);
-        Assertions.assertEquals(codegen.modelPackage(), "org.openapitools.model");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
-        Assertions.assertEquals(codegen.apiPackage(), "org.openapitools.api");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
-        Assertions.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
-        Assertions.assertEquals(codegen.additionalProperties().get(JavaJerseyServerCodegen.SERVER_PORT), "8082");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
+        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
+        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
+        Assert.assertEquals(codegen.additionalProperties().get(JavaJerseyServerCodegen.SERVER_PORT), "8082");
     }
 
     @Test
@@ -78,15 +78,15 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.setDateLibrary("java8");
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), true);
-        Assertions.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
-        Assertions.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
-        Assertions.assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xx.yyyyyyyy.invoker");
-        Assertions.assertEquals(codegen.getDateLibrary(), "java8");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
+        Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
+        Assert.assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xx.yyyyyyyy.invoker");
+        Assert.assertEquals(codegen.getDateLibrary(), "java8");
     }
 
     @Test
@@ -102,15 +102,15 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), true);
-        Assertions.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
-        Assertions.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
-        Assertions.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
-        Assertions.assertEquals(codegen.additionalProperties().get(JavaJerseyServerCodegen.SERVER_PORT), "8088");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
+        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
+        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
+        Assert.assertEquals(codegen.additionalProperties().get(JavaJerseyServerCodegen.SERVER_PORT), "8088");
     }
 
     // Helper function, intended to reduce boilerplate @ copied from ../spring/SpringCodegenTest.java
@@ -130,7 +130,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         final DefaultGenerator generator = new DefaultGenerator();
         final List<File> files = generator.opts(input).generate();
 
-        Assertions.assertTrue(files.size() > 0);
+        Assert.assertTrue(files.size() > 0);
         TestUtils.validateJavaSourceFiles(files);
         TestUtils.validatePomXmlFiles(files);
 
@@ -248,7 +248,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssertions.assertThat(files.get("TestHeadersApi.java"))
+        JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
             .assertMethod("headersTest")
                 .hasParameter("headerNumber").withType("BigDecimal")
                     .assertParameterAnnotations()
@@ -274,7 +274,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
                     .assertParameterAnnotations()
                     .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"true\""));
 
-        JavaFileAssertions.assertThat(files.get("TestQueryParamsApi.java"))
+        JavaFileAssert.assertThat(files.get("TestQueryParamsApi.java"))
             .assertMethod("queryParamsTest")
                 .hasParameter("queryNumber").withType("BigDecimal")
                     .assertParameterAnnotations()

@@ -26,11 +26,11 @@ public class TypeScriptClientModelTest {
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "Sample");
-        Assertions.assertEquals(cm.description, "an array oneof model");
-        Assertions.assertEquals(cm.arrayModelType, "string | number");
-        Assertions.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "an array oneof model");
+        Assert.assertEquals(cm.arrayModelType, "string | number");
+        Assert.assertEquals(cm.vars.size(), 0);
     }
 
     @Test(description = "convert an any of with array oneof model")
@@ -48,10 +48,10 @@ public class TypeScriptClientModelTest {
 
         String s = codegen.getSchemaType((Schema)schema.getProperties().get("value"));
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "Sample");
-        Assertions.assertEquals(cm.description, "an any of with array oneof model");
-        Assertions.assertEquals(cm.vars.size(), 1);
-        Assertions.assertEquals(s, "string | Array<string | number>");
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "an any of with array oneof model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(s, "string | Array<string | number>");
     }
 }

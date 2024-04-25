@@ -78,8 +78,8 @@ public class JavaHelidonCommonCodegenPackagePrefixTest {
                                        String libraryName) {
     IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class,
         () -> runTest(explicitHelidonVersion, explicitPrefix, generatorName, libraryName));
-    Assertions.assertTrue("Exception message '" + e.getMessage() + "' contains '" + EXCEPTION_MESSAGE_FRAGMENT + "'",
-        e.getMessage().contains(EXCEPTION_MESSAGE_FRAGMENT));
+    Assertions.assertTrue(e.getMessage().contains(EXCEPTION_MESSAGE_FRAGMENT),
+      "Exception message '" + e.getMessage() + "' contains '" + EXCEPTION_MESSAGE_FRAGMENT + "'");
   }
 
   @DataProvider(name = "valid")

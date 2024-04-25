@@ -38,19 +38,19 @@ public class TypeScriptClientCodegenTest {
         );
 
         ModelUtils.setGenerateAliasAsModel(false);
-        Assertions.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Array<string>>");
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Array<string>>");
 
         ModelUtils.setGenerateAliasAsModel(true);
-        Assertions.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Child>");
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Child>");
 
         // Same for Map
         parentSchema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/Child"));
 
         ModelUtils.setGenerateAliasAsModel(false);
-        Assertions.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Array<string>; }");
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Array<string>; }");
 
         ModelUtils.setGenerateAliasAsModel(true);
-        Assertions.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Child; }");
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Child; }");
     }
 
     @Test
@@ -62,8 +62,8 @@ public class TypeScriptClientCodegenTest {
         CodegenOperation operation = codegen.fromOperation("/pets", "patch", path.getPatch(), path.getServers());
         // TODO revise the commented test below as oneOf is no longer defined inline
         //but instead defined using $ref with the new inline model resolver in 6.x
-        //Assertions.assertEquals(operation.imports, Sets.newHashSet("Cat", "Dog"));
-        Assertions.assertEquals(operation.imports, Sets.newHashSet("PetsPatchRequest"));
+        //Assert.assertEquals(operation.imports, Sets.newHashSet("Cat", "Dog"));
+        Assert.assertEquals(operation.imports, Sets.newHashSet("PetsPatchRequest"));
 
     }
 
@@ -83,7 +83,7 @@ public class TypeScriptClientCodegenTest {
 
         final CodegenModel codegenModel = codegen.fromModel("sample", model);
 
-        Assertions.assertFalse(codegenModel.imports.contains("Set"));
+        Assert.assertFalse(codegenModel.imports.contains("Set"));
     }
 
     @Test
@@ -119,8 +119,8 @@ public class TypeScriptClientCodegenTest {
 
         final ModelsMap processedModels = codegen.postProcessModels(models);
         final List<Map<String, String>> tsImports = (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
-        Assertions.assertEquals(tsImports.get(0).get("filename"), "../models/ApiResponse");
-        Assertions.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
+        Assert.assertEquals(tsImports.get(0).get("filename"), "../models/ApiResponse");
+        Assert.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
     }
 
     @Test
@@ -138,8 +138,8 @@ public class TypeScriptClientCodegenTest {
 
         final ModelsMap processedModels = codegen.postProcessModels(models);
         final List<Map<String, String>> tsImports = (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
-        Assertions.assertEquals(tsImports.get(0).get("filename"), mappedName);
-        Assertions.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
+        Assert.assertEquals(tsImports.get(0).get("filename"), mappedName);
+        Assert.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
     }
 
     @Test
@@ -153,7 +153,7 @@ public class TypeScriptClientCodegenTest {
 
         try {
             final CodegenModel model = codegen.fromModel("sample", root);
-            Assertions.assertEquals(model.getAllVars().get(0).getPattern(), "/[A-Z]{3}/");
+            Assert.assertEquals(model.getAllVars().get(0).getPattern(), "/[A-Z]{3}/");
         } catch (Exception ex) {
             Assert.fail("Exception was thrown.");
         }

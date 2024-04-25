@@ -30,6 +30,6 @@ public class PhpClientExampleTest {
         p.baseType = "object";
 
         clientCodegen.setParameterExampleValue(p);
-        Assertions.assertEquals(p.example, "new \\stdClass");
+        Assert.assertEquals(p.example, "new \\stdClass");
     }
 }

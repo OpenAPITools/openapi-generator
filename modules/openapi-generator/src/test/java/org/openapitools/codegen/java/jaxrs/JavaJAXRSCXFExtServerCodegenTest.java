@@ -342,14 +342,14 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"))
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"))
             .assertMethod("getPetById")
             .bodyContainsLines(
                 "Pet response = new Pet();",
                 "return response;"
             );
 
-        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"))
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"))
             .assertMethod("findPetsByStatusTest")
             .bodyContainsLines(
                 "List<String> status = new ArrayList<>();",
@@ -383,7 +383,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"))
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"))
             .fileContains(
                 "File cacheFile = new File(System.getProperty(\"jaxrs.test.server.json\"",
                 "cache = JsonCache.Factory.instance.get(\"test-data\").load(cacheFile).child(\"/org.openapitools.api/PetApi\");"
@@ -394,7 +394,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
             );
 
 
-        JavaFileAssertions.assertThat(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"))
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"))
             .assertMethod("beforeClass")
                 .bodyContainsLines(
                     "File cacheFile = new File(System.getProperty(\"jaxrs.test.client.json\",",

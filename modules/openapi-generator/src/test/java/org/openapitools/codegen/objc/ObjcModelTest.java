@@ -45,19 +45,19 @@ public class ObjcModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "OAISample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "OAISample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "translations");
-        Assertions.assertEquals(property1.dataType, "NSDictionary<NSString*, NSDictionary<NSString*, NSString*>*>*");
-        Assertions.assertEquals(property1.name, "translations");
-        Assertions.assertEquals(property1.baseType, "NSDictionary");
-        Assertions.assertEquals(property1.containerType, "map");
-        Assertions.assertFalse(property1.required);
-        Assertions.assertTrue(property1.isContainer);
+        Assert.assertEquals(property1.baseName, "translations");
+        Assert.assertEquals(property1.dataType, "NSDictionary<NSString*, NSDictionary<NSString*, NSString*>*>*");
+        Assert.assertEquals(property1.name, "translations");
+        Assert.assertEquals(property1.baseType, "NSDictionary");
+        Assert.assertEquals(property1.containerType, "map");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
     }
 
     @Test(description = "convert a simple java model")
@@ -74,39 +74,39 @@ public class ObjcModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "OAISample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 3);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "OAISample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 3);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "id");
-        Assertions.assertEquals(property1.dataType, "NSNumber*");
-        Assertions.assertEquals(property1.name, "_id");
-        Assertions.assertNull(property1.defaultValue);
-        Assertions.assertEquals(property1.baseType, "NSNumber");
-        Assertions.assertTrue(property1.required);
-        Assertions.assertTrue(property1.isPrimitiveType);
-        Assertions.assertFalse(property1.isContainer);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.dataType, "NSNumber*");
+        Assert.assertEquals(property1.name, "_id");
+        Assert.assertNull(property1.defaultValue);
+        Assert.assertEquals(property1.baseType, "NSNumber");
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
-        Assertions.assertEquals(property2.baseName, "name");
-        Assertions.assertEquals(property2.dataType, "NSString*");
-        Assertions.assertEquals(property2.name, "name");
-        Assertions.assertNull(property2.defaultValue);
-        Assertions.assertEquals(property2.baseType, "NSString");
-        Assertions.assertTrue(property2.required);
-        Assertions.assertTrue(property2.isPrimitiveType);
-        Assertions.assertFalse(property2.isContainer);
+        Assert.assertEquals(property2.baseName, "name");
+        Assert.assertEquals(property2.dataType, "NSString*");
+        Assert.assertEquals(property2.name, "name");
+        Assert.assertNull(property2.defaultValue);
+        Assert.assertEquals(property2.baseType, "NSString");
+        Assert.assertTrue(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertFalse(property2.isContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
-        Assertions.assertEquals(property3.baseName, "createdAt");
-        Assertions.assertEquals(property3.dataType, "NSDate*");
-        Assertions.assertEquals(property3.name, "createdAt");
-        Assertions.assertNull(property3.defaultValue);
-        Assertions.assertEquals(property3.baseType, "NSDate");
-        Assertions.assertFalse(property3.required);
-        Assertions.assertFalse(property3.isContainer);
+        Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(property3.dataType, "NSDate*");
+        Assert.assertEquals(property3.name, "createdAt");
+        Assert.assertNull(property3.defaultValue);
+        Assert.assertEquals(property3.baseType, "NSDate");
+        Assert.assertFalse(property3.required);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a model with list property")
@@ -122,31 +122,31 @@ public class ObjcModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "OAISample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 2);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "OAISample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 2);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "id");
-        Assertions.assertEquals(property1.dataType, "NSNumber*");
-        Assertions.assertEquals(property1.name, "_id");
-        Assertions.assertNull(property1.defaultValue);
-        Assertions.assertEquals(property1.baseType, "NSNumber");
-        Assertions.assertTrue(property1.required);
-        Assertions.assertTrue(property1.isPrimitiveType);
-        Assertions.assertFalse(property1.isContainer);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.dataType, "NSNumber*");
+        Assert.assertEquals(property1.name, "_id");
+        Assert.assertNull(property1.defaultValue);
+        Assert.assertEquals(property1.baseType, "NSNumber");
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
-        Assertions.assertEquals(property2.baseName, "urls");
-        Assertions.assertEquals(property2.dataType, "NSArray<NSString*>*");
-        Assertions.assertEquals(property2.name, "urls");
-        Assertions.assertNull(property2.defaultValue);
-        Assertions.assertEquals(property2.baseType, "NSArray");
-        Assertions.assertEquals(property2.containerType, "array");
-        Assertions.assertFalse(property2.required);
-        Assertions.assertTrue(property2.isPrimitiveType);
-        Assertions.assertTrue(property2.isContainer);
+        Assert.assertEquals(property2.baseName, "urls");
+        Assert.assertEquals(property2.dataType, "NSArray<NSString*>*");
+        Assert.assertEquals(property2.name, "urls");
+        Assert.assertNull(property2.defaultValue);
+        Assert.assertEquals(property2.baseType, "NSArray");
+        Assert.assertEquals(property2.containerType, "array");
+        Assert.assertFalse(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertTrue(property2.isContainer);
     }
 
     @Test(description = "convert a model with a map property")
@@ -161,20 +161,20 @@ public class ObjcModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "OAISample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "OAISample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "translations");
-        Assertions.assertEquals(property1.dataType, "NSDictionary<NSString*, NSString*>*");
-        Assertions.assertEquals(property1.name, "translations");
-        Assertions.assertEquals(property1.baseType, "NSDictionary");
-        Assertions.assertEquals(property1.containerType, "map");
-        Assertions.assertFalse(property1.required);
-        Assertions.assertTrue(property1.isContainer);
-        Assertions.assertTrue(property1.isPrimitiveType);
+        Assert.assertEquals(property1.baseName, "translations");
+        Assert.assertEquals(property1.dataType, "NSDictionary<NSString*, NSString*>*");
+        Assert.assertEquals(property1.name, "translations");
+        Assert.assertEquals(property1.baseType, "NSDictionary");
+        Assert.assertEquals(property1.containerType, "map");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
+        Assert.assertTrue(property1.isPrimitiveType);
     }
 
 
@@ -188,18 +188,18 @@ public class ObjcModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "OAISample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "OAISample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "children");
-        Assertions.assertEquals(property1.dataType, "OAIChildren*");
-        Assertions.assertEquals(property1.name, "children");
-        Assertions.assertEquals(property1.baseType, "OAIChildren");
-        Assertions.assertFalse(property1.required);
-        Assertions.assertFalse(property1.isContainer);
+        Assert.assertEquals(property1.baseName, "children");
+        Assert.assertEquals(property1.dataType, "OAIChildren*");
+        Assert.assertEquals(property1.name, "children");
+        Assert.assertEquals(property1.baseType, "OAIChildren");
+        Assert.assertFalse(property1.required);
+        Assert.assertFalse(property1.isContainer);
     }
 
     @Test(description = "convert a model with complex list property")
@@ -213,20 +213,20 @@ public class ObjcModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "OAISample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "OAISample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "children");
-        Assertions.assertEquals(property1.complexType, "OAIChildren");
-        Assertions.assertEquals(property1.dataType, "NSArray<OAIChildren>*");
-        Assertions.assertEquals(property1.name, "children");
-        Assertions.assertEquals(property1.baseType, "NSArray");
-        Assertions.assertEquals(property1.containerType, "array");
-        Assertions.assertFalse(property1.required);
-        Assertions.assertTrue(property1.isContainer);
+        Assert.assertEquals(property1.baseName, "children");
+        Assert.assertEquals(property1.complexType, "OAIChildren");
+        Assert.assertEquals(property1.dataType, "NSArray<OAIChildren>*");
+        Assert.assertEquals(property1.name, "children");
+        Assert.assertEquals(property1.baseType, "NSArray");
+        Assert.assertEquals(property1.containerType, "array");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
     }
 
     @Test(description = "convert a model with complex map property")
@@ -240,21 +240,21 @@ public class ObjcModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "OAISample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 1);
-        Assertions.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("OAIChildren")).size(), 1);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "OAISample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("OAIChildren")).size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "children");
-        Assertions.assertEquals(property1.complexType, "OAIChildren");
-        Assertions.assertEquals(property1.dataType, "NSDictionary<OAIChildren>*");
-        Assertions.assertEquals(property1.name, "children");
-        Assertions.assertEquals(property1.baseType, "NSDictionary");
-        Assertions.assertEquals(property1.containerType, "map");
-        Assertions.assertFalse(property1.required);
-        Assertions.assertTrue(property1.isContainer);
+        Assert.assertEquals(property1.baseName, "children");
+        Assert.assertEquals(property1.complexType, "OAIChildren");
+        Assert.assertEquals(property1.dataType, "NSDictionary<OAIChildren>*");
+        Assert.assertEquals(property1.name, "children");
+        Assert.assertEquals(property1.baseType, "NSDictionary");
+        Assert.assertEquals(property1.containerType, "map");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
     }
 
     @Test(description = "convert an array model")
@@ -267,13 +267,13 @@ public class ObjcModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "OAISample");
-        Assertions.assertEquals(cm.description, "an array model");
-        Assertions.assertEquals(cm.vars.size(), 0);
-        Assertions.assertEquals(cm.parent, "NSMutableArray");
-        Assertions.assertEquals(cm.imports.size(), 1);
-        Assertions.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("OAIChildren")).size(), 1);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "OAISample");
+        Assert.assertEquals(cm.description, "an array model");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.parent, "NSMutableArray");
+        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("OAIChildren")).size(), 1);
     }
 
     @Test(description = "convert a map model")
@@ -286,13 +286,13 @@ public class ObjcModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("map_model", model);
 
-        Assertions.assertEquals(cm.name, "map_model");
-        Assertions.assertEquals(cm.classname, "OAIMapModel");
-        Assertions.assertEquals(cm.description, "a map model for testing ObjC generator");
-        Assertions.assertEquals(cm.vars.size(), 0);
-        Assertions.assertEquals(cm.parent, "NSMutableDictionary");
-        Assertions.assertEquals(cm.imports.size(), 1);
-        Assertions.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("OAIChildren")).size(), 1);
+        Assert.assertEquals(cm.name, "map_model");
+        Assert.assertEquals(cm.classname, "OAIMapModel");
+        Assert.assertEquals(cm.description, "a map model for testing ObjC generator");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.parent, "NSMutableDictionary");
+        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("OAIChildren")).size(), 1);
     }
 
     @Test(description = "test uuid")
@@ -304,10 +304,10 @@ public class ObjcModelTest {
 
         Schema property = ((Map<String, Schema>) definition.getProperties()).get("uuid");
         CodegenProperty prope = codegen.fromProperty("uuid", property);
-        Assertions.assertEquals(prope.baseType, "NSString");
+        Assert.assertEquals(prope.baseType, "NSString");
 
         prope = codegen.fromProperty("password", property);
-        Assertions.assertEquals(prope.baseType, "NSString");
+        Assert.assertEquals(prope.baseType, "NSString");
     }
 
     @Test(description = "test mixedProperties")
@@ -319,7 +319,7 @@ public class ObjcModelTest {
 
         Schema property = ((Map<String, Schema>)definition.getProperties()).get("map");
         CodegenProperty prope = codegen.fromProperty("map", property);
-        Assertions.assertEquals(prope.baseType, "NSDictionary");
+        Assert.assertEquals(prope.baseType, "NSDictionary");
     }
 
     @Test(description = "test isArray")
@@ -330,8 +330,8 @@ public class ObjcModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel codegenModel = codegen.fromModel("AnimalFarm", definition);
 
-        Assertions.assertEquals(codegenModel.isArray, true);
-        Assertions.assertEquals(codegenModel.arrayModelType,"OAIAnimal");
+        Assert.assertEquals(codegenModel.isArray, true);
+        Assert.assertEquals(codegenModel.arrayModelType,"OAIAnimal");
     }
 
 
@@ -344,10 +344,10 @@ public class ObjcModelTest {
         codegen.setOpenAPI(openAPI);
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
-        Assertions.assertTrue(op.bodyParam.isBinary);
-        Assertions.assertTrue(op.responses.get(0).isBinary);
-        Assertions.assertEquals(op.returnType, "NSURL*");
-        Assertions.assertEquals(op.bodyParam.dataType, "NSURL*");
+        Assert.assertTrue(op.bodyParam.isBinary);
+        Assert.assertTrue(op.responses.get(0).isBinary);
+        Assert.assertEquals(op.returnType, "NSURL*");
+        Assert.assertEquals(op.bodyParam.dataType, "NSURL*");
     }
 
     @Test(description = "create proper imports per #316")
@@ -359,18 +359,18 @@ public class ObjcModelTest {
         final Map<String, PathItem> animalPaths = openAPI.getPaths();
 
         final PathItem animalOps = animalPaths.get("/animals");
-        Assertions.assertNotNull(animalOps.getPost());
+        Assert.assertNotNull(animalOps.getPost());
 
         final CodegenOperation animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost(), null);
-        Assertions.assertEquals(animalCo.imports.size(), 1);
-        Assertions.assertTrue(animalCo.imports.contains("OAIAnimal"));
+        Assert.assertEquals(animalCo.imports.size(), 1);
+        Assert.assertTrue(animalCo.imports.contains("OAIAnimal"));
 
         final Map<String, PathItem> insectPaths = openAPI.getPaths();
         final PathItem insectOps = insectPaths.get("/insects");
-        Assertions.assertNotNull(insectOps.getPost());
+        Assert.assertNotNull(insectOps.getPost());
 
         final CodegenOperation insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost(), null);
-        Assertions.assertEquals(insectCo.imports.size(), 1);
-        Assertions.assertTrue(insectCo.imports.contains("OAIInsect"));
+        Assert.assertEquals(insectCo.imports.size(), 1);
+        Assert.assertTrue(insectCo.imports.contains("OAIInsect"));
     }
 }

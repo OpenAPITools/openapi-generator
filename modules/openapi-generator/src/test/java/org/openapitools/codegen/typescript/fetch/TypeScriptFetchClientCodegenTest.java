@@ -9,7 +9,6 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultGenerator;
@@ -46,7 +45,7 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
-        Assertions.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT.[0-9]{12}$"));
+        Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT.[0-9]{12}$"));
 
         codegen = new TypeScriptFetchClientCodegen();
         codegen.additionalProperties().put("npmName", "@openapi/typescript-fetch-petstore");
@@ -55,7 +54,7 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
-        Assertions.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
+        Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
 
     }
 
@@ -66,7 +65,7 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.setOpenAPI(openApi);
         PathItem path = openApi.getPaths().get("/api/Users/{userId}");
         CodegenOperation operation = codegen.fromOperation("/api/Users/{userId}", "get", path.getGet(), path.getServers());
-        Assertions.assertEquals(operation.isResponseOptional, true);
+        Assert.assertEquals(operation.isResponseOptional, true);
     }
 
     @Test
@@ -106,7 +105,7 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
-        Assertions.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT$"));
+        Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT$"));
 
         codegen = new TypeScriptFetchClientCodegen();
         codegen.additionalProperties().put("npmName", "@openapi/typescript-fetch-petstore");
@@ -115,7 +114,7 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
-        Assertions.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
+        Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
 
     }
 
@@ -123,43 +122,43 @@ public class TypeScriptFetchClientCodegenTest {
     public void toVarName() {
         TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toVarName("valid_var"), "validVar");
+        Assert.assertEquals(codegen.toVarName("valid_var"), "validVar");
 
         codegen = new TypeScriptFetchClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "original");
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toVarName("valid_var"), "valid_var");
+        Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
     }
 
     @Test
     public void toEnumVarName() {
         TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toEnumVarName("", "string"), "Empty");
-        Assertions.assertEquals(codegen.toEnumVarName("$", "string"), "Dollar");
-        Assertions.assertEquals(codegen.toEnumVarName("valid_var", "string"), "ValidVar");
-        Assertions.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "ValidVar");
-        Assertions.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30validVar");
+        Assert.assertEquals(codegen.toEnumVarName("", "string"), "Empty");
+        Assert.assertEquals(codegen.toEnumVarName("$", "string"), "Dollar");
+        Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "ValidVar");
+        Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "ValidVar");
+        Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30validVar");
 
         codegen = new TypeScriptFetchClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "original");
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toEnumVarName("", "string"), "empty");
-        Assertions.assertEquals(codegen.toEnumVarName("$", "string"), "Dollar");
-        Assertions.assertEquals(codegen.toEnumVarName("valid_var", "string"), "valid_var");
-        Assertions.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "valid_var");
-        Assertions.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30valid_var");
+        Assert.assertEquals(codegen.toEnumVarName("", "string"), "empty");
+        Assert.assertEquals(codegen.toEnumVarName("$", "string"), "Dollar");
+        Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "valid_var");
+        Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "valid_var");
+        Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30valid_var");
 
         codegen = new TypeScriptFetchClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE");
         codegen.additionalProperties().put(AbstractTypeScriptClientCodegen.ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, "true");
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toEnumVarName("", "string"), "EMPTY");
-        Assertions.assertEquals(codegen.toEnumVarName("$", "string"), "DOLLAR");
-        Assertions.assertEquals(codegen.toEnumVarName("valid_var", "string"), "VALID_VAR");
-        Assertions.assertEquals(codegen.toEnumVarName("-valid_+var", "string"), "MINUS_VALID_PLUS_VAR");
-        Assertions.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "MINUS_VALID_VAR_PLUS");
-        Assertions.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30VALID_PLUS_VAR");
+        Assert.assertEquals(codegen.toEnumVarName("", "string"), "EMPTY");
+        Assert.assertEquals(codegen.toEnumVarName("$", "string"), "DOLLAR");
+        Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "VALID_VAR");
+        Assert.assertEquals(codegen.toEnumVarName("-valid_+var", "string"), "MINUS_VALID_PLUS_VAR");
+        Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "MINUS_VALID_VAR_PLUS");
+        Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30VALID_PLUS_VAR");
 
     }
 
@@ -179,19 +178,19 @@ public class TypeScriptFetchClientCodegenTest {
         );
 
         ModelUtils.setGenerateAliasAsModel(false);
-        Assertions.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Array<string>>");
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Array<string>>");
 
         ModelUtils.setGenerateAliasAsModel(true);
-        Assertions.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Child>");
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Child>");
 
         // Same for Map
         parentSchema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/Child"));
 
         ModelUtils.setGenerateAliasAsModel(false);
-        Assertions.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Array<string>; }");
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Array<string>; }");
 
         ModelUtils.setGenerateAliasAsModel(true);
-        Assertions.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Child; }");
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Child; }");
     }
 
     @Test

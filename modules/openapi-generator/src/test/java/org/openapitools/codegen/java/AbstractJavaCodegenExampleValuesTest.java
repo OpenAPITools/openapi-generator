@@ -38,7 +38,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.dataType = "WrappedEnum";
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assertions.assertEquals(p.example, "WrappedEnum.fromValue(\"first\")");
+        Assert.assertEquals(p.example, "WrappedEnum.fromValue(\"first\")");
     }
 
     @Test
@@ -49,7 +49,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.dataType = "String";
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assertions.assertEquals(p.example, "\"first\"");
+        Assert.assertEquals(p.example, "\"first\"");
     }
 
     @Test
@@ -62,7 +62,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.items = new CodegenProperty();
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assertions.assertEquals(p.example, "Arrays.asList()");
+        Assert.assertEquals(p.example, "Arrays.asList()");
     }
 
     @Test
@@ -72,7 +72,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.dataType = "LocalDate";
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assertions.assertEquals(p.example, "LocalDate.now()");
+        Assert.assertEquals(p.example, "LocalDate.now()");
     }
 
     @Test
@@ -83,7 +83,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.example = "2017-03-30";
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assertions.assertEquals(p.example, "LocalDate.parse(\"2017-03-30\")");
+        Assert.assertEquals(p.example, "LocalDate.parse(\"2017-03-30\")");
     }
 
     @Test
@@ -93,7 +93,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.dataType = "OffsetDateTime";
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assertions.assertEquals(p.example, "OffsetDateTime.now()");
+        Assert.assertEquals(p.example, "OffsetDateTime.now()");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.example = "2007-12-03T10:15:30+01:00";
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assertions.assertEquals(p.example, "OffsetDateTime.parse(\"2007-12-03T10:15:30+01:00\")");
+        Assert.assertEquals(p.example, "OffsetDateTime.parse(\"2007-12-03T10:15:30+01:00\")");
     }
 
     @Test
@@ -114,7 +114,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.dataType = "UUID";
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assertions.assertEquals(p.example, "UUID.randomUUID()");
+        Assert.assertEquals(p.example, "UUID.randomUUID()");
     }
 
     @Test
@@ -125,7 +125,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.example = "13b48713-b931-45ea-bd60-b07491245960";
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assertions.assertEquals(p.example, "UUID.fromString(\"13b48713-b931-45ea-bd60-b07491245960\")");
+        Assert.assertEquals(p.example, "UUID.fromString(\"13b48713-b931-45ea-bd60-b07491245960\")");
     }
 
     private static class P_AbstractJavaCodegen extends AbstractJavaCodegen {
@@ -163,7 +163,7 @@ public class AbstractJavaCodegenExampleValuesTest {
 
             fakeJavaCodegen.setParameterExampleValue(p);
             // Custom example value should not be modified
-            Assertions.assertEquals(p.example, "CustomEnumValue");
+            Assert.assertEquals(p.example, "CustomEnumValue");
         }
     }
 }

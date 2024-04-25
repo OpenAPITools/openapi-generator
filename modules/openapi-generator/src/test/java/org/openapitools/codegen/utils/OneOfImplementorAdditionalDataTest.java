@@ -51,8 +51,8 @@ public class OneOfImplementorAdditionalDataTest {
         o.addToImplementor(cc, implModel, implModelImports, false);
 
         // make sure all the additions were done correctly
-        Assertions.assertEquals(implModel.getVendorExtensions().get("x-implements"), new ArrayList<String>(){{add(oneOfModel.classname);}});
-        Assertions.assertEquals(implModelImports, interfaceModelImports);
-        Assertions.assertEquals(implModel.vars, new ArrayList<CodegenProperty>(){{add(cp3); add(cp1);}});
+        Assert.assertEquals(implModel.getVendorExtensions().get("x-implements"), new ArrayList<String>(){{add(oneOfModel.classname);}});
+        Assert.assertEquals(implModelImports, interfaceModelImports);
+        Assert.assertEquals(implModel.vars, new ArrayList<CodegenProperty>(){{add(cp3); add(cp1);}});
     }
 }

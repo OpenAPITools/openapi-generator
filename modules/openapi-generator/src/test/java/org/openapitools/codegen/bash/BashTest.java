@@ -47,16 +47,16 @@ public class BashTest {
                 findPetsByStatusOperation,
                 null);
 
-        Assertions.assertTrue(
+        Assert.assertTrue(
             op.vendorExtensions.containsKey("x-code-samples"));
 
-        Assertions.assertEquals(
+        Assert.assertEquals(
             op.vendorExtensions.get("x-bash-codegen-description"),
             "Multiple status 'values' can be provided with comma separated strings");
 
-        Assertions.assertEquals(op.allParams.size(), 1);
+        Assert.assertEquals(op.allParams.size(), 1);
         CodegenParameter p = op.allParams.get(0);
-        Assertions.assertEquals(p.description, "Status values that need to be considered for filter");
+        Assert.assertEquals(p.description, "Status values that need to be considered for filter");
     }
 
     @Test(description = "test basic petstore operation with example body")
@@ -76,13 +76,13 @@ public class BashTest {
                 addPetOperation,
                 null);
 
-        Assertions.assertEquals(op.bodyParams.size(), 1);
+        Assert.assertEquals(op.bodyParams.size(), 1);
 
         CodegenParameter p = op.bodyParams.get(0);
 
-        Assertions.assertTrue(p.vendorExtensions
+        Assert.assertTrue(p.vendorExtensions
                             .containsKey("x-codegen-body-example"));
-        Assertions.assertEquals(p.description, "Pet object that needs to be added to the store");
+        Assert.assertEquals(p.description, "Pet object that needs to be added to the store");
 
     }
 
@@ -92,50 +92,50 @@ public class BashTest {
         final DefaultCodegen codegen = new BashClientCodegen();
 
 
-        Assertions.assertEquals(codegen.escapeText("\\/"), "/");
+        Assert.assertEquals(codegen.escapeText("\\/"), "/");
 
-        Assertions.assertEquals(codegen.escapeText("\\"), "\\\\");
+        Assert.assertEquals(codegen.escapeText("\\"), "\\\\");
 
 
         ((BashClientCodegen)codegen).setProcessMarkdown(false);
 
-        Assertions.assertEquals(codegen.escapeText("__Bold text__"),
+        Assert.assertEquals(codegen.escapeText("__Bold text__"),
                             "__Bold text__");
 
-        Assertions.assertEquals(codegen.escapeText("**Bold text**"),
+        Assert.assertEquals(codegen.escapeText("**Bold text**"),
                             "**Bold text**");
 
-        Assertions.assertEquals(codegen.escapeText("*Italic text*"),
+        Assert.assertEquals(codegen.escapeText("*Italic text*"),
                             "*Italic text*");
 
-        Assertions.assertEquals(codegen.escapeText("_Italic text_"),
+        Assert.assertEquals(codegen.escapeText("_Italic text_"),
                             "_Italic text_");
 
 
         ((BashClientCodegen)codegen).setProcessMarkdown(true);
 
-        Assertions.assertEquals(codegen.escapeText("__Bold text__"),
+        Assert.assertEquals(codegen.escapeText("__Bold text__"),
                             "$(tput bold) Bold text $(tput sgr0)");
 
-        Assertions.assertEquals(codegen.escapeText("**Bold text**"),
+        Assert.assertEquals(codegen.escapeText("**Bold text**"),
                             "$(tput bold) Bold text $(tput sgr0)");
 
-        Assertions.assertEquals(codegen.escapeText("*Italic text*"),
+        Assert.assertEquals(codegen.escapeText("*Italic text*"),
                             "$(tput dim) Italic text $(tput sgr0)");
 
-        Assertions.assertEquals(codegen.escapeText("_Italic text_"),
+        Assert.assertEquals(codegen.escapeText("_Italic text_"),
                             "$(tput dim) Italic text $(tput sgr0)");
 
-        Assertions.assertEquals(codegen.escapeText("# SECTION NAME"),
+        Assert.assertEquals(codegen.escapeText("# SECTION NAME"),
             "\n$(tput bold)$(tput setaf 7)SECTION NAME$(tput sgr0)");
 
-        Assertions.assertEquals(codegen.escapeText("## SECTION NAME"),
+        Assert.assertEquals(codegen.escapeText("## SECTION NAME"),
             "\n$(tput bold)$(tput setaf 7)SECTION NAME$(tput sgr0)");
 
-        Assertions.assertEquals(codegen.escapeText("### SECTION NAME"),
+        Assert.assertEquals(codegen.escapeText("### SECTION NAME"),
             "\n$(tput bold)$(tput setaf 7)SECTION NAME$(tput sgr0)");
 
-        Assertions.assertEquals(codegen.escapeText(
+        Assert.assertEquals(codegen.escapeText(
                                 "```\nnice -n 100 mvn test\n```"),
                                 "\n---\nnice -n 100 mvn test\n---");
     }
@@ -144,7 +144,7 @@ public class BashTest {
     public void escapeUnsafeCharactersTest() {
         final DefaultCodegen codegen = new BashClientCodegen();
 
-        Assertions.assertEquals(codegen.escapeUnsafeCharacters("`no backticks`"),
+        Assert.assertEquals(codegen.escapeUnsafeCharacters("`no backticks`"),
                                                           "'no backticks'");
 
 
@@ -154,7 +154,7 @@ public class BashTest {
     public void escapeReservedWordTest() {
         final DefaultCodegen codegen = new BashClientCodegen();
 
-        Assertions.assertEquals(codegen.escapeReservedWord("case"), "_case");
+        Assert.assertEquals(codegen.escapeReservedWord("case"), "_case");
     }
 
 

@@ -51,9 +51,9 @@ public class SharedTypeScriptTest {
     private void checkAPIFile(List<File> files, String apiFileName) throws IOException {
         File apiFile = files.stream().filter(file->file.getName().contains(apiFileName)).findFirst().get();
         String apiFileContent = FileUtils.readFileToString(apiFile, StandardCharsets.UTF_8);
-        Assertions.assertTrue(!apiFileContent.contains("import { GetCustomer200Response | PersonWrapper }"));
-        Assertions.assertEquals(StringUtils.countMatches(apiFileContent,"import { PersonWrapper }"),1);
-        Assertions.assertEquals(StringUtils.countMatches(apiFileContent,"import { GetCustomer200Response }"),1);
+        Assert.assertTrue(!apiFileContent.contains("import { GetCustomer200Response | PersonWrapper }"));
+        Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import { PersonWrapper }"),1);
+        Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import { GetCustomer200Response }"),1);
     }
 
     @Test
@@ -71,8 +71,8 @@ public class SharedTypeScriptTest {
         final List<File> files = getGenerator(config).generate();
         File pets = files.stream().filter(file->file.getName().contains("pet.ts")).findFirst().get();
         String apiFileContent = FileUtils.readFileToString(pets, StandardCharsets.UTF_8);
-        Assertions.assertTrue(apiFileContent.contains("import { Category }"));
-        Assertions.assertTrue(apiFileContent.contains("import { Tag }"));
+        Assert.assertTrue(apiFileContent.contains("import { Category }"));
+        Assert.assertTrue(apiFileContent.contains("import { Tag }"));
 
         FileUtils.deleteDirectory(new File("src/test/resources/oldImportsStillPresentTest/"));
     }
@@ -95,7 +95,7 @@ public class SharedTypeScriptTest {
         for (Map.Entry<String, String[]> entry : types.entrySet()) {
             String[] mapped = codegen.toModelImportMap(entry.getKey()).values().toArray(new String[0]);
             Arrays.sort(mapped);
-            Assertions.assertEquals(mapped, entry.getValue());
+            Assert.assertEquals(mapped, entry.getValue());
         }
     }
 }

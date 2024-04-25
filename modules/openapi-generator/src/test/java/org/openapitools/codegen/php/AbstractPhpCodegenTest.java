@@ -41,14 +41,14 @@ public class AbstractPhpCodegenTest {
         final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), true);
-        Assertions.assertEquals(codegen.modelPackage(), "php\\Model");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "php\\Model");
-        Assertions.assertEquals(codegen.apiPackage(), "php\\Api");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "php\\Api");
-        Assertions.assertEquals(codegen.getInvokerPackage(), "php");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "php");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertEquals(codegen.modelPackage(), "php\\Model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "php\\Model");
+        Assert.assertEquals(codegen.apiPackage(), "php\\Api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "php\\Api");
+        Assert.assertEquals(codegen.getInvokerPackage(), "php");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "php");
     }
 
     @Test
@@ -60,14 +60,14 @@ public class AbstractPhpCodegenTest {
         codegen.setInvokerPackage("My\\Client\\Invoker");
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), false);
-        Assertions.assertEquals(codegen.modelPackage(), "My\\Client\\Model");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "My\\Client\\Model");
-        Assertions.assertEquals(codegen.apiPackage(), "My\\Client\\Api");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),"My\\Client\\Api");
-        Assertions.assertEquals(codegen.getInvokerPackage(), "My\\Client\\Invoker");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "My\\Client\\Invoker");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertEquals(codegen.modelPackage(), "My\\Client\\Model");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "My\\Client\\Model");
+        Assert.assertEquals(codegen.apiPackage(), "My\\Client\\Api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),"My\\Client\\Api");
+        Assert.assertEquals(codegen.getInvokerPackage(), "My\\Client\\Invoker");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "My\\Client\\Invoker");
     }
 
     @Test
@@ -79,14 +79,14 @@ public class AbstractPhpCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "PHPinvoker");
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), false);
-        Assertions.assertEquals(codegen.modelPackage(), "PHPinvoker\\PHPmodel");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "PHPinvoker\\PHPmodel");
-        Assertions.assertEquals(codegen.apiPackage(), "PHPinvoker\\PHPapi");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "PHPinvoker\\PHPapi");
-        Assertions.assertEquals(codegen.getInvokerPackage(), "PHPinvoker");
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "PHPinvoker");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertEquals(codegen.modelPackage(), "PHPinvoker\\PHPmodel");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "PHPinvoker\\PHPmodel");
+        Assert.assertEquals(codegen.apiPackage(), "PHPinvoker\\PHPapi");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "PHPinvoker\\PHPapi");
+        Assert.assertEquals(codegen.getInvokerPackage(), "PHPinvoker");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "PHPinvoker");
     }
 
     @Test
@@ -103,8 +103,8 @@ public class AbstractPhpCodegenTest {
         final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
         codegen.escapeMediaType(Arrays.asList(codegenOperation));
 
-        Assertions.assertEquals(codegenOperation.produces.get(0).get("mediaType"), "*_/_*");
-        Assertions.assertEquals(codegenOperation.produces.get(1).get("mediaType"), "application/json");
+        Assert.assertEquals(codegenOperation.produces.get(0).get("mediaType"), "*_/_*");
+        Assert.assertEquals(codegenOperation.produces.get(1).get("mediaType"), "application/json");
     }
 
     @Test(dataProvider = "composerNames", description = "Issue #9998")
@@ -114,7 +114,7 @@ public class AbstractPhpCodegenTest {
 
         codegen.setGitUserId(gitUserId);
         codegen.setGitRepoId(gitRepoId);
-        Assertions.assertEquals(codegen.getComposerPackageName(), result);
+        Assert.assertEquals(codegen.getComposerPackageName(), result);
     }
 
     @DataProvider(name = "composerNames")
@@ -138,13 +138,13 @@ public class AbstractPhpCodegenTest {
         CodegenModel cm1 = codegen.fromModel("MyResponse", test1);
 
         // Make sure we got the container object.
-        Assertions.assertEquals(cm1.getDataType(), "object");
-        Assertions.assertEquals(codegen.getTypeDeclaration("MyResponse"), "\\php\\Model\\MyResponse");
+        Assert.assertEquals(cm1.getDataType(), "object");
+        Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "\\php\\Model\\MyResponse");
 
         // Assert the array type is properly detected.
         CodegenProperty cp1 = cm1.vars.get(0);
         cp1 = codegen.fromProperty("ArrayProp", test1);
-        Assertions.assertTrue(cp1.isPrimitiveType);
+        Assert.assertTrue(cp1.isPrimitiveType);
     }
 
     @Test(description = "Issue #10244")
@@ -157,15 +157,15 @@ public class AbstractPhpCodegenTest {
         CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
 
         // Make sure we got the container object.
-        Assertions.assertEquals(cm1.getDataType(), "object");
-        Assertions.assertEquals(codegen.getTypeDeclaration("MyResponse"), "\\php\\Model\\MyResponse");
+        Assert.assertEquals(cm1.getDataType(), "object");
+        Assert.assertEquals(codegen.getTypeDeclaration("MyResponse"), "\\php\\Model\\MyResponse");
 
         // We need to postProcess the model for enums to be processed
         codegen.postProcessModels(TestUtils.createCodegenModelWrapper(cm1));
 
         // Assert the enum default value is properly generated
         CodegenProperty cp1 = cm1.vars.get(0);
-        Assertions.assertEquals(cp1.getDefaultValue(), "'VALUE'");
+        Assert.assertEquals(cp1.getDefaultValue(), "'VALUE'");
     }
 
     private static class P_AbstractPhpCodegen extends AbstractPhpCodegen {

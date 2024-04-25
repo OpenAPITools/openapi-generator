@@ -13,6 +13,6 @@ public class SpecValidationExceptionTest {
                 .append(System.lineSeparator()).append("Errors: ")
                 .append(System.lineSeparator()).toString();
 
-        Assertions.assertEquals(specValidationException.getMessage(), expectedResult);
+        Assert.assertEquals(specValidationException.getMessage(), expectedResult);
     }
 }

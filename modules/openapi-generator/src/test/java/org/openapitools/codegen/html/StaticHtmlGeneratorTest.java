@@ -43,7 +43,7 @@ public class StaticHtmlGeneratorTest {
                 .addProperties("name", new StringSchema());
         codegen.setOpenAPI(openAPI);
         CodegenModel cm = codegen.fromModel("test", schema);
-        Assertions.assertNotNull(cm);
+        Assert.assertNotNull(cm);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class StaticHtmlGeneratorTest {
         final StaticHtmlGenerator codegen = new StaticHtmlGenerator();
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertEquals(openAPI.getInfo().getTitle(), "ping test");
+        Assert.assertEquals(openAPI.getInfo().getTitle(), "ping test");
     }
 
     @Test(description = "ensure that snake_case property names wont be converted to snakeUnderscorecase")
@@ -67,7 +67,7 @@ public class StaticHtmlGeneratorTest {
 
         CodegenProperty property = codegen.fromProperty("favorite_food", (Schema) openAPI.getComponents().getSchemas().get("UnderscoreTest").getProperties().get("favorite_food"));
 
-        Assertions.assertEquals(property.baseName, "favorite_food");
-        Assertions.assertEquals(property.name, "favorite_food");
+        Assert.assertEquals(property.baseName, "favorite_food");
+        Assert.assertEquals(property.name, "favorite_food");
     }
 }

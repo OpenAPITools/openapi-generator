@@ -22,7 +22,7 @@ import org.openapitools.client.model.Pet;
 
 import java.util.Arrays;
 
-import static org.junit.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 /**

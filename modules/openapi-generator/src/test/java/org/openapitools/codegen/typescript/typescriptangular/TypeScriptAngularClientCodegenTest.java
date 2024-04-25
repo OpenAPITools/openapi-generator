@@ -28,12 +28,12 @@ public class TypeScriptAngularClientCodegenTest {
     public void toVarName() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toVarName("valid_var"), "valid_var");
+        Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
 
         codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "camelCase");
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toVarName("valid_var"), "validVar");
+        Assert.assertEquals(codegen.toVarName("valid_var"), "validVar");
     }
 
     @Test
@@ -41,26 +41,26 @@ public class TypeScriptAngularClientCodegenTest {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         // unspecified option should default to PascalCase
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toEnumVarName("valid_id", "string"), "ValidId");
-        Assertions.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "IllegalId");
+        Assert.assertEquals(codegen.toEnumVarName("valid_id", "string"), "ValidId");
+        Assert.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "IllegalId");
 
         codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original.name());
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toEnumVarName("valid_id", "string"), "valid_id");
-        Assertions.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "illegal_id");
+        Assert.assertEquals(codegen.toEnumVarName("valid_id", "string"), "valid_id");
+        Assert.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "illegal_id");
 
         codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE.name());
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toEnumVarName("valid_id", "string"), "VALID_ID");
-        Assertions.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "ILLEGAL_ID");
+        Assert.assertEquals(codegen.toEnumVarName("valid_id", "string"), "VALID_ID");
+        Assert.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "ILLEGAL_ID");
 
         codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.snake_case.name());
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toEnumVarName("valid_ID", "string"), "valid_id");
-        Assertions.assertEquals(codegen.toEnumVarName("Illegal-Id+", "string"), "illegal_id");
+        Assert.assertEquals(codegen.toEnumVarName("valid_ID", "string"), "valid_id");
+        Assert.assertEquals(codegen.toEnumVarName("Illegal-Id+", "string"), "illegal_id");
     }
 
     @Test
@@ -69,8 +69,8 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.additionalProperties().put("modelSuffix", "MySuffix");
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.toModelName("TestName"), "TestNameMySuffix");
-        Assertions.assertEquals(codegen.toModelName("Error"), "ErrorMySuffix");
+        Assert.assertEquals(codegen.toModelName("TestName"), "TestNameMySuffix");
+        Assert.assertEquals(codegen.toModelName("Error"), "ErrorMySuffix");
     }
 
     @Test
@@ -79,20 +79,20 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.ENUM_NAME_SUFFIX, "Enum");
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameEnum");
-        Assertions.assertEquals(codegen.toEnumName(makeEnumProperty("123")), "_123Enum");
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameEnum");
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("123")), "_123Enum");
 
         // enum value should not use model suffix
         codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put(TypeScriptAngularClientCodegen.MODEL_SUFFIX, "Model");
         codegen.additionalProperties().put(CodegenConstants.ENUM_NAME_SUFFIX, "Enum2");
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameEnum2");
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameEnum2");
 
         codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.ENUM_NAME_SUFFIX, "");
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestName");
+        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestName");
     }
 
     private CodegenProperty makeEnumProperty(String name) {
@@ -108,7 +108,7 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.additionalProperties().put("modelSuffix", "MySuffix");
         codegen.processOpts();
 
-        Assertions.assertEquals("./testNameMySuffix", codegen.toModelFilename("testName"));
+        Assert.assertEquals("./testNameMySuffix", codegen.toModelFilename("testName"));
     }
 
     @Test
@@ -135,7 +135,7 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT.[0-9]{12}$"));
+        Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT.[0-9]{12}$"));
 
         codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
@@ -144,7 +144,7 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
+        Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
 
     }
 
@@ -159,7 +159,7 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT$"));
+        Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT$"));
 
         codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
@@ -168,7 +168,7 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
+        Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
 
     }
 
@@ -177,24 +177,24 @@ public class TypeScriptAngularClientCodegenTest {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
 
         // simple noop test
-        Assertions.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestName"));
 
         codegen.setModelNamePrefix("abc");
         codegen.setModelNameSuffix("def");
         codegen.additionalProperties().put("modelSuffix", "Ghi");
         codegen.processOpts();
 
-        Assertions.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestName"));
-        Assertions.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameGhi"));
-        Assertions.assertEquals("TestNameghi", codegen.removeModelPrefixSuffix("TestNameghi"));
-        Assertions.assertEquals("abcTestName", codegen.removeModelPrefixSuffix("abcTestName"));
-        Assertions.assertEquals("TestName", codegen.removeModelPrefixSuffix("AbcTestName"));
-        Assertions.assertEquals("AbcTestName", codegen.removeModelPrefixSuffix("AbcAbcTestName"));
-        Assertions.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDef"));
-        Assertions.assertEquals("TestNamedef", codegen.removeModelPrefixSuffix("TestNamedef"));
-        Assertions.assertEquals("TestNamedefghi", codegen.removeModelPrefixSuffix("TestNamedefghi"));
-        Assertions.assertEquals("TestNameDefghi", codegen.removeModelPrefixSuffix("TestNameDefghi"));
-        Assertions.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDefGhi"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameGhi"));
+        Assert.assertEquals("TestNameghi", codegen.removeModelPrefixSuffix("TestNameghi"));
+        Assert.assertEquals("abcTestName", codegen.removeModelPrefixSuffix("abcTestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("AbcTestName"));
+        Assert.assertEquals("AbcTestName", codegen.removeModelPrefixSuffix("AbcAbcTestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDef"));
+        Assert.assertEquals("TestNamedef", codegen.removeModelPrefixSuffix("TestNamedef"));
+        Assert.assertEquals("TestNamedefghi", codegen.removeModelPrefixSuffix("TestNamedefghi"));
+        Assert.assertEquals("TestNameDefghi", codegen.removeModelPrefixSuffix("TestNameDefghi"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDefGhi"));
     }
 
     @Test
@@ -215,7 +215,7 @@ public class TypeScriptAngularClientCodegenTest {
         composedSchema.addAnyOfItem(schema3);
 
         String schemaType = codegen.getSchemaType(composedSchema);
-        Assertions.assertEquals(schemaType, "SchemaOne | SchemaTwo | SchemaThree");
+        Assert.assertEquals(schemaType, "SchemaOne | SchemaTwo | SchemaThree");
     }
 
     @Test
@@ -234,8 +234,8 @@ public class TypeScriptAngularClientCodegenTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("test", schema);
         codegen.setOpenAPI(openAPI);
 
-        Assertions.assertEquals(codegen.toModelImport(modelName), "../model/foo-response-links");
-        Assertions.assertEquals(codegen.toModelFilename(modelName), "./foo-response-links");
+        Assert.assertEquals(codegen.toModelImport(modelName), "../model/foo-response-links");
+        Assert.assertEquals(codegen.toModelFilename(modelName), "./foo-response-links");
     }
 
     @Test
@@ -243,26 +243,26 @@ public class TypeScriptAngularClientCodegenTest {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         // unspecified option should default to camelcase
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toParamName("valid_id"), "validId");
-        Assertions.assertEquals(codegen.toParamName("illegal-id+"), "illegalId");
+        Assert.assertEquals(codegen.toParamName("valid_id"), "validId");
+        Assert.assertEquals(codegen.toParamName("illegal-id+"), "illegalId");
 
         codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_TYPE.original.name());
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toParamName("valid_id"), "valid_id");
-        Assertions.assertEquals(codegen.toParamName("illegal-id+"), "illegal_id");
+        Assert.assertEquals(codegen.toParamName("valid_id"), "valid_id");
+        Assert.assertEquals(codegen.toParamName("illegal-id+"), "illegal_id");
 
         codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_TYPE.snake_case.name());
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toParamName("valid_ID"), "valid_id");
-        Assertions.assertEquals(codegen.toParamName("Illegal-Id+"), "illegal_id");
+        Assert.assertEquals(codegen.toParamName("valid_ID"), "valid_id");
+        Assert.assertEquals(codegen.toParamName("Illegal-Id+"), "illegal_id");
 
         codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_TYPE.PascalCase.name());
         codegen.processOpts();
-        Assertions.assertEquals(codegen.toParamName("valid_id"), "ValidId");
-        Assertions.assertEquals(codegen.toParamName("illegal-id+"), "IllegalId");
+        Assert.assertEquals(codegen.toParamName("valid_id"), "ValidId");
+        Assert.assertEquals(codegen.toParamName("illegal-id+"), "IllegalId");
     }
 
     @Test
@@ -271,7 +271,7 @@ public class TypeScriptAngularClientCodegenTest {
         final String importedModel = "SharedApiModel";
         final String importName = "@lib/custom/model";
         codegen.importMapping().put(importedModel, importName);
-        Assertions.assertEquals(codegen.toModelImport(importedModel), importName);
+        Assert.assertEquals(codegen.toModelImport(importedModel), importName);
     }
 
     @Test

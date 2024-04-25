@@ -28,11 +28,11 @@ public class SttpCodegenTest {
 
     @Test
     public void encodePath() {
-        Assertions.assertEquals(codegen.encodePath("{user_name}"), "${userName}");
-        Assertions.assertEquals(codegen.encodePath("{userName}"), "${userName}");
-        Assertions.assertEquals(codegen.encodePath("{UserName}"), "${userName}");
-        Assertions.assertEquals(codegen.encodePath("user_name"), "user_name");
-        Assertions.assertEquals(codegen.encodePath("before/{UserName}/after"), "before/${userName}/after");
+        Assert.assertEquals(codegen.encodePath("{user_name}"), "${userName}");
+        Assert.assertEquals(codegen.encodePath("{userName}"), "${userName}");
+        Assert.assertEquals(codegen.encodePath("{UserName}"), "${userName}");
+        Assert.assertEquals(codegen.encodePath("user_name"), "user_name");
+        Assert.assertEquals(codegen.encodePath("before/{UserName}/after"), "before/${userName}/after");
     }
 
     @Test
@@ -42,7 +42,7 @@ public class SttpCodegenTest {
       schema.setType("string");
       schema.setFormat("byte");
       String type = codegen.getTypeDeclaration(schema);
-      Assertions.assertEquals(type, "Array[Byte]");
+      Assert.assertEquals(type, "Array[Byte]");
     }
 
     @Test

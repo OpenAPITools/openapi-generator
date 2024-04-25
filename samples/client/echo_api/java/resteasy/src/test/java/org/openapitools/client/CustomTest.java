@@ -32,7 +32,7 @@ import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssertions.assertThat;
-import static org.junit.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * API tests

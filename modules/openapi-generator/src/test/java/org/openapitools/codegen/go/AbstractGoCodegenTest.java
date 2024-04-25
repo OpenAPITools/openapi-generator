@@ -38,8 +38,8 @@ public class AbstractGoCodegenTest {
         final AbstractGoCodegen codegen = new P_AbstractGoCodegen();
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assertions.assertFalse(codegen.isHideGenerationTimestamp());
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -48,8 +48,8 @@ public class AbstractGoCodegenTest {
         codegen.setHideGenerationTimestamp(true);
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assertions.assertTrue(codegen.isHideGenerationTimestamp());
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -58,8 +58,8 @@ public class AbstractGoCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, true);
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assertions.assertTrue(codegen.isHideGenerationTimestamp());
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 
     @Test
@@ -75,29 +75,29 @@ public class AbstractGoCodegenTest {
 
         ModelUtils.setGenerateAliasAsModel(false);
         String defaultValue = codegen.getTypeDeclaration(schema);
-        Assertions.assertEquals(defaultValue, "[][]int32");
+        Assert.assertEquals(defaultValue, "[][]int32");
 
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.getTypeDeclaration(schema);
-        Assertions.assertEquals(defaultValue, "[]NestedArray");
+        Assert.assertEquals(defaultValue, "[]NestedArray");
 
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.getTypeDeclaration(schema);
-        Assertions.assertEquals(defaultValue, "map[string][]int32");
+        Assert.assertEquals(defaultValue, "map[string][]int32");
 
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.getTypeDeclaration(schema);
-        Assertions.assertEquals(defaultValue, "map[string]NestedArray");
+        Assert.assertEquals(defaultValue, "map[string]NestedArray");
 
         // Create object schema with additionalProperties set to true
         schema = new ObjectSchema().additionalProperties(Boolean.TRUE);
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.getTypeDeclaration(schema);
-        Assertions.assertEquals(defaultValue, "map[string]interface{}");
+        Assert.assertEquals(defaultValue, "map[string]interface{}");
     }
 
     private static class P_AbstractGoCodegen extends AbstractGoCodegen {

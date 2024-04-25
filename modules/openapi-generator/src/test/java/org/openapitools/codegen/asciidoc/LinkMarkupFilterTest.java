@@ -27,7 +27,7 @@ public class LinkMarkupFilterTest extends LambdaTest {
         final Map<String, Object> ctx = context("link", generator.new LinkMarkupLambda("DOES_NOT_EXIST"));
 
         final String result = execute("{{#link}}not.an.existing.file.adoc{{/link}}", ctx);
-        Assertions.assertTrue(result.contains("// file not found, no"), "unexpected filtered: " + result);
+        Assert.assertTrue(result.contains("// file not found, no"), "unexpected filtered: " + result);
     }
 
     @Test
@@ -41,8 +41,8 @@ public class LinkMarkupFilterTest extends LambdaTest {
 
         final String result = execute("{{#linkIntoMarkup}}my link text, " + tempFile.getName() + "{{/linkIntoMarkup}}",
                 ctx);
-        Assertions.assertTrue(result.contains("link:"), "unexpected filtered: " + result);
-        Assertions.assertTrue(result.contains(tempFile.getName() + "[]"), "unexpected filtered: " + result);
+        Assert.assertTrue(result.contains("link:"), "unexpected filtered: " + result);
+        Assert.assertTrue(result.contains(tempFile.getName() + "[]"), "unexpected filtered: " + result);
     }
 
 }

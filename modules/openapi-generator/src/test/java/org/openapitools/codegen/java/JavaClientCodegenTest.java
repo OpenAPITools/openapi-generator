@@ -17,7 +17,7 @@
 
 package org.openapitools.codegen.java;
 
-import static org.junit.Assertions.assertNotNull;
+import org.junit.jupiter.api.Assertions;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
@@ -1300,7 +1300,7 @@ public class JavaClientCodegenTest {
         Map<String, File> files = generator.opts(configurator.toClientOptInput()).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssertions.assertThat(files.get("StoreApi.java"))
+        JavaFileAssert.assertThat(files.get("StoreApi.java"))
                 .assertMethod("getInventory")
                 .hasReturnType(
                         "Mono<Map<String, Integer>>") // explicit 'x-webclient-blocking: false' which overrides
@@ -1309,7 +1309,7 @@ public class JavaClientCodegenTest {
                 .assertMethod("placeOrder")
                 .hasReturnType("Order"); // use global config
 
-        JavaFileAssertions.assertThat(files.get("PetApi.java"))
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("findPetsByStatus")
                 .hasReturnType(
                         "List<Pet>"); // explicit 'x-webclient-blocking: true' which overrides global config
@@ -1887,7 +1887,7 @@ public class JavaClientCodegenTest {
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssertions.assertThat(files.get("Foo.java"))
+        JavaFileAssert.assertThat(files.get("Foo.java"))
                 .assertConstructor("String", "Integer")
                 .hasParameter("b")
                 .assertParameterAnnotations()
@@ -1922,13 +1922,13 @@ public class JavaClientCodegenTest {
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssertions.assertThat(files.get("DefaultValuesType.java"))
+        JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
                 .hasProperty("stringDefault")
                 .asString().endsWith("= new ArrayList<>();");
-        JavaFileAssertions.assertThat(files.get("DefaultValuesType.java"))
+        JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
                 .hasProperty("stringDefault2")
                 .asString().endsWith("= new ArrayList<>(Arrays.asList(\"Hallo\", \"Huhu\"));");
-        JavaFileAssertions.assertThat(files.get("DefaultValuesType.java"))
+        JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
                 .hasProperty("objectDefault")
                 .asString().endsWith("= new ArrayList<>();");
     }
@@ -1953,7 +1953,7 @@ public class JavaClientCodegenTest {
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssertions.assertThat(files.get("TestObject.java"))
+        JavaFileAssert.assertThat(files.get("TestObject.java"))
                 .printFileContent()
                 .assertConstructor("String", "String")
                 .bodyContainsLines(
@@ -2045,7 +2045,7 @@ public class JavaClientCodegenTest {
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssertions.assertThat(files.get("DefaultApi.java"))
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
                 .assertMethod("operationWithHttpInfo")
                 .hasParameter("requestBody")
                 .assertParameterAnnotations()
@@ -2313,7 +2313,7 @@ public class JavaClientCodegenTest {
                 JavaClientCodegen.RESTTEMPLATE
         );
 
-        JavaFileAssertions.assertThat(files.get("DefaultApi.java"))
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
                 .printFileContent()
                 .assertMethod("searchWithHttpInfo")
                 .bodyContainsLines(
@@ -2337,7 +2337,7 @@ public class JavaClientCodegenTest {
                 JavaClientCodegen.WEBCLIENT
         );
 
-        JavaFileAssertions.assertThat(files.get("DefaultApi.java"))
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
                 .printFileContent()
                 .assertMethod("searchRequestCreation")
                 .bodyContainsLines(
@@ -2639,11 +2639,11 @@ public class JavaClientCodegenTest {
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssertions.assertThat(files.get("AbstractOpenApiSchema.java"))
+        JavaFileAssert.assertThat(files.get("AbstractOpenApiSchema.java"))
                 .assertTypeAnnotations()
                 .doesNotContainsWithName("annotation1")
                 .doesNotContainsWithName("annotation2");
-        JavaFileAssertions.assertThat(files.get("Animal.java"))
+        JavaFileAssert.assertThat(files.get("Animal.java"))
                 .assertTypeAnnotations()
                 .containsWithName("annotation1")
                 .containsWithName("annotation2");
@@ -2913,7 +2913,7 @@ public class JavaClientCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("EnumTest.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("EnumTest.java"));
         javaFileAssert
                 .assertMethod("fromValue")
                 .bodyContainsLines("if (b.value.equalsIgnoreCase(value)) {");
@@ -2939,7 +2939,7 @@ public class JavaClientCodegenTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert javaFileAssert = JavaFileAssertions.assertThat(files.get("EnumTest.java"));
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("EnumTest.java"));
         javaFileAssert
                 .assertMethod("fromValue")
                 .bodyContainsLines("if (b.value.equals(value)) {");
@@ -2997,8 +2997,8 @@ public class JavaClientCodegenTest {
 
         File apiFile = files.get("HelloExampleApi.java");
 
-        assertNotNull(apiFile);
-        JavaFileAssertions.assertThat(apiFile)
+        Assertions.assertNotNull(apiFile);
+        JavaFileAssert.assertThat(apiFile)
                 .assertMethod("helloCall", "String", "ApiCallback")
                 .bodyContainsLines(
                         "localVarHeaderParams.put(\"X-CUSTOM_CONSTANT_HEADER\", \"CONSTANT_VALUE\")");
@@ -3121,13 +3121,13 @@ public class JavaClientCodegenTest {
 
         // enum
         File modelFile = files.get("Metadata.java");
-        assertNotNull(modelFile);
-        JavaFileAssertions.assertThat(modelFile).fileContains(expectedEnumLines);
+        Assertions.assertNotNull(modelFile);
+        JavaFileAssert.assertThat(modelFile).fileContains(expectedEnumLines);
 
         // Inner enum
         File apiFile = files.get("V1SchemasGetDefaultResponse.java");
-        assertNotNull(apiFile);
-        JavaFileAssertions.assertThat(apiFile).fileContains(expectedInnerEnumLines);
+        Assertions.assertNotNull(apiFile);
+        JavaFileAssert.assertThat(apiFile).fileContains(expectedInnerEnumLines);
     }
 
     @Test

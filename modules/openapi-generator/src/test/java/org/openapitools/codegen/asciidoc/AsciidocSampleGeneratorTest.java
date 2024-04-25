@@ -30,8 +30,8 @@ public class AsciidocSampleGeneratorTest {
 
         File outputTempDirectory = Files.createTempDirectory("test-asciidoc-sample-generator.").toFile();
 
-        Assertions.assertTrue(specDir.exists(), "test cancel, not specDir found to use." + specDir.getPath());
-        Assertions.assertTrue(snippetDir.exists(), "test cancel, not snippedDir found to use." + snippetDir.getPath());
+        Assert.assertTrue(specDir.exists(), "test cancel, not specDir found to use." + specDir.getPath());
+        Assert.assertTrue(snippetDir.exists(), "test cancel, not snippedDir found to use." + snippetDir.getPath());
 
         final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("asciidoc")
                 .setInputSpec("src/test/resources/3_0/asciidoc/api-docs.json")
@@ -59,7 +59,7 @@ public class AsciidocSampleGeneratorTest {
 
     @Test
     public void testMarkupExistence() {
-        Assertions.assertNotNull(this.markupContent, "asciidoc content index.adoc not created.");
+        Assert.assertNotNull(this.markupContent, "asciidoc content index.adoc not created.");
     }
 
     /**
@@ -67,9 +67,9 @@ public class AsciidocSampleGeneratorTest {
      */
     @Test
     public void testSampleAsciidocMarkupGenerationFromJsonWithAttributes() {
-        Assertions.assertTrue(markupContent.contains(":specDir: " + specDir.toString()),
+        Assert.assertTrue(markupContent.contains(":specDir: " + specDir.toString()),
                 "expected :specDir: in: " + markupContent.substring(0, 350));
-        Assertions.assertTrue(markupContent.contains(":snippetDir: " + snippetDir.toString()),
+        Assert.assertTrue(markupContent.contains(":snippetDir: " + snippetDir.toString()),
                 "expected :snippetDir: in: " + markupContent.substring(0, 350));
     }
 
@@ -80,19 +80,19 @@ public class AsciidocSampleGeneratorTest {
     public void testSampleAsciidocMarkupGenerationFromJsonWithIncludes() {
 
         // include correct markup from separate directories, relative links
-        Assertions.assertTrue(markupContent.contains("include::{specDir}rest/project/GET/spec.adoc["),
+        Assert.assertTrue(markupContent.contains("include::{specDir}rest/project/GET/spec.adoc["),
                 "expected project spec.adoc to be included in " + markupFileName);
 
-        Assertions.assertTrue(markupContent.contains("include::{specDir}rest/project/GET/implementation.adoc["),
+        Assert.assertTrue(markupContent.contains("include::{specDir}rest/project/GET/implementation.adoc["),
                 "expected project implementation.adoc to be included in " + markupFileName);
 
-        Assertions.assertTrue(markupContent.contains("include::{snippetDir}rest/project/GET/http-request.adoc["),
+        Assert.assertTrue(markupContent.contains("include::{snippetDir}rest/project/GET/http-request.adoc["),
                 "expected project http-request.adoc to be included in " + markupFileName);
 
-        Assertions.assertTrue(markupContent.contains("include::{snippetDir}rest/project/GET/http-response.adoc["),
+        Assert.assertTrue(markupContent.contains("include::{snippetDir}rest/project/GET/http-response.adoc["),
                 "expected project http-response.adoc to be included in " + markupFileName);
 
-        Assertions.assertTrue(markupContent.contains("link:rest/project/GET/GET.json["),
+        Assert.assertTrue(markupContent.contains("link:rest/project/GET/GET.json["),
                 "expected link: not found in file: " + markupFileName);
     }
 
@@ -101,7 +101,7 @@ public class AsciidocSampleGeneratorTest {
      */
     @Test
     public void testSampleAsciidocMarkupGenerationFromJsonWithContent() {
-        Assertions.assertTrue(markupContent.contains("= time@work rest api"),
+        Assert.assertTrue(markupContent.contains("= time@work rest api"),
                 "missing main header for api spec from json: " + markupContent.substring(0, 100));
 
     }
@@ -111,7 +111,7 @@ public class AsciidocSampleGeneratorTest {
      */
     @Test
     public void testSampleAsciidocMarkupGenerationParameterNameUnchanged() {
-        Assertions.assertTrue(markupContent.contains("from-iso-date-string"),
+        Assert.assertTrue(markupContent.contains("from-iso-date-string"),
                 "keep parameter name from-iso-date-string unchanged.");
     }
 
@@ -120,11 +120,11 @@ public class AsciidocSampleGeneratorTest {
      */
     @Test
     public void testSampleAsciidocMarkupGenerationAccessApiKey() {
-        Assertions.assertTrue(markupContent.contains("*APIKey*"),
+        Assert.assertTrue(markupContent.contains("*APIKey*"),
                 "access section mit apikey expected.");
-        Assertions.assertFalse(markupContent.contains("*OAuth*"),
+        Assert.assertFalse(markupContent.contains("*OAuth*"),
                 "access section no oauth expected.");
-        Assertions.assertFalse(markupContent.contains("*HTTP Basic*"),
+        Assert.assertFalse(markupContent.contains("*HTTP Basic*"),
                 "access section no http basic expected.");
     }
 
@@ -133,7 +133,7 @@ public class AsciidocSampleGeneratorTest {
      */
     @Test
     public void testSampleAsciidocMarkupGenerationWithoutFormParameter() {
-        Assertions.assertFalse(markupContent.contains("= Form Parameter"),
+        Assert.assertFalse(markupContent.contains("= Form Parameter"),
                 "no form parameters in this openapi spec expected.");
     }
 

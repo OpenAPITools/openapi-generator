@@ -20,6 +20,6 @@ public class CppTinyServiceServiceTest extends CppTinyBaseTest {
 
         // Assert
         CodegenProperty id_property = model_to_be_generated.vars.get(0);
-        Assertions.assertEquals(id_property.dataType, "long");
+        Assert.assertEquals(id_property.dataType, "long");
     }
 }

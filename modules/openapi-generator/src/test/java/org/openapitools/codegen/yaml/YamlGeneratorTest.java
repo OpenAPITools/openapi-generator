@@ -49,7 +49,7 @@ public class YamlGeneratorTest {
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
-        Assertions.assertEquals(files.size(), 5);
+        Assert.assertEquals(files.size(), 5);
         TestUtils.ensureContainsFile(files, output, "openapi/openapi.yaml");
         TestUtils.ensureContainsFile(files, output, "README.md");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
@@ -77,7 +77,7 @@ public class YamlGeneratorTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assertions.assertEquals(files.size(), 5);
+        Assert.assertEquals(files.size(), 5);
         TestUtils.ensureContainsFile(files, output, "ping.yaml");
         TestUtils.ensureContainsFile(files, output, "README.md");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
@@ -104,7 +104,7 @@ public class YamlGeneratorTest {
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
-        Assertions.assertEquals(files.size(), 5);
+        Assert.assertEquals(files.size(), 5);
         TestUtils.ensureContainsFile(files, output, "issue_9086.yaml");
 
         TestUtils.ensureContainsFile(files, output, "README.md");
@@ -116,9 +116,9 @@ public class YamlGeneratorTest {
         OpenAPI expected = TestUtils.parseSpec("src/test/resources/2_0/issue_9086_expected.yaml");
 
         // use #toString because the equals methods is a little stricter than necessary for this test
-        Assertions.assertEquals(actual.getComponents().getSchemas().get("bar2").getAdditionalProperties(),
+        Assert.assertEquals(actual.getComponents().getSchemas().get("bar2").getAdditionalProperties(),
                 expected.getComponents().getSchemas().get("bar2").getAdditionalProperties());
-        Assertions.assertEquals(actual.getPaths().get("/foo/bar").getPost().getResponses().get("200").getContent().get("*/*").getSchema().getAdditionalProperties(),
+        Assert.assertEquals(actual.getPaths().get("/foo/bar").getPost().getResponses().get("200").getContent().get("*/*").getSchema().getAdditionalProperties(),
                 expected.getComponents().getSchemas().get("_foo_bar_post_200_response").getAdditionalProperties());
     }
 }

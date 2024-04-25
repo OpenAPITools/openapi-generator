@@ -48,8 +48,8 @@ public class PythonPydanticV1ClientCodegenTest {
         final PythonPydanticV1ClientCodegen codegen = new PythonPydanticV1ClientCodegen();
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
     }
 
     @Test
@@ -58,8 +58,8 @@ public class PythonPydanticV1ClientCodegenTest {
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
     @Test
@@ -68,8 +68,8 @@ public class PythonPydanticV1ClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assertions.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
     @Test(description = "test enum null/nullable patterns")
@@ -91,21 +91,21 @@ public class PythonPydanticV1ClientCodegenTest {
         final Operation p = openAPI.getPaths().get(path).getGet();
         final CodegenOperation op = codegen.fromOperation(path, "get", p, null);
         // pattern_no_forward_slashes '^pattern$'
-        Assertions.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
+        Assert.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
         // pattern_two_slashes '/^pattern$/'
-        Assertions.assertEquals(op.allParams.get(1).pattern, "/^pattern$/");
+        Assert.assertEquals(op.allParams.get(1).pattern, "/^pattern$/");
         // pattern_dont_escape_backslash '/^pattern\d{3}$/'
-        Assertions.assertEquals(op.allParams.get(2).pattern, "/^pattern\\d{3}$/");
+        Assert.assertEquals(op.allParams.get(2).pattern, "/^pattern\\d{3}$/");
         // pattern_dont_escape_escaped_forward_slash '/^pattern\/\d{3}$/'
-        Assertions.assertEquals(op.allParams.get(3).pattern, "/^pattern\\/\\d{3}$/");
+        Assert.assertEquals(op.allParams.get(3).pattern, "/^pattern\\/\\d{3}$/");
         // pattern_escape_unescaped_forward_slash '^pattern/\d{3}$'
-        Assertions.assertEquals(op.allParams.get(4).pattern, "/^pattern\\/\\d{3}$/");
+        Assert.assertEquals(op.allParams.get(4).pattern, "/^pattern\\/\\d{3}$/");
         // pattern_with_modifiers '/^pattern\d{3}$/i
-        Assertions.assertEquals(op.allParams.get(5).pattern, "/^pattern\\d{3}$/i");
+        Assert.assertEquals(op.allParams.get(5).pattern, "/^pattern\\d{3}$/i");
         // pattern_with_backslash_after_bracket '/^[\pattern\d{3}$/i'
         // added to test fix for issue #6675
         // removed because "/^[\\pattern\\d{3}$/i" is invalid regex because [ is not escaped and there is no closing ]
-        // Assertions.assertEquals(op.allParams.get(6).pattern, "/^[\\pattern\\d{3}$/i");
+        // Assert.assertEquals(op.allParams.get(6).pattern, "/^[\\pattern\\d{3}$/i");
 
     }
 
@@ -122,9 +122,9 @@ public class PythonPydanticV1ClientCodegenTest {
         final String namePattern = codegen.patternCorrection(nameSchema.getPattern());
         final String numberPattern = codegen.patternCorrection(numberSchema.getPattern());
         final String addressPattern = codegen.patternCorrection(addressSchema.getPattern());
-        Assertions.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(nameSchema)).matches(namePattern));
-        Assertions.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(numberSchema)).matches(numberPattern));
-        Assertions.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(addressSchema)).matches(addressPattern));
+        Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(nameSchema)).matches(namePattern));
+        Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(numberSchema)).matches(numberPattern));
+        Assert.assertTrue(codegen.escapeQuotationMark(codegen.toExampleValue(addressSchema)).matches(addressPattern));
     }
 
     @Test(description = "test single quotes escape")
@@ -133,7 +133,7 @@ public class PythonPydanticV1ClientCodegenTest {
         StringSchema schema = new StringSchema();
         schema.setDefault("Text containing 'single' quote");
         String defaultValue = codegen.toDefaultValue(schema);
-        Assertions.assertEquals("'Text containing \'single\' quote'", defaultValue);
+        Assert.assertEquals("'Text containing \'single\' quote'", defaultValue);
     }
 
     @Test(description = "test backslash default")
@@ -142,7 +142,7 @@ public class PythonPydanticV1ClientCodegenTest {
         StringSchema schema = new StringSchema();
         schema.setDefault("\\");
         String defaultValue = codegen.toDefaultValue(schema);
-        Assertions.assertEquals("'\\\\'", defaultValue);
+        Assert.assertEquals("'\\\\'", defaultValue);
     }
 
     @Test(description = "convert a python model with dots")
@@ -153,21 +153,21 @@ public class PythonPydanticV1ClientCodegenTest {
 
         codegen.setOpenAPI(openAPI);
         final CodegenModel simpleName = codegen.fromModel("v1beta3.Binding", openAPI.getComponents().getSchemas().get("v1beta3.Binding"));
-        Assertions.assertEquals(simpleName.name, "v1beta3.Binding");
-        Assertions.assertEquals(simpleName.classname, "V1beta3Binding");
-        Assertions.assertEquals(simpleName.classVarName, "v1beta3_binding");
+        Assert.assertEquals(simpleName.name, "v1beta3.Binding");
+        Assert.assertEquals(simpleName.classname, "V1beta3Binding");
+        Assert.assertEquals(simpleName.classVarName, "v1beta3_binding");
 
         codegen.setOpenAPI(openAPI);
         final CodegenModel compoundName = codegen.fromModel("v1beta3.ComponentStatus", openAPI.getComponents().getSchemas().get("v1beta3.ComponentStatus"));
-        Assertions.assertEquals(compoundName.name, "v1beta3.ComponentStatus");
-        Assertions.assertEquals(compoundName.classname, "V1beta3ComponentStatus");
-        Assertions.assertEquals(compoundName.classVarName, "v1beta3_component_status");
+        Assert.assertEquals(compoundName.name, "v1beta3.ComponentStatus");
+        Assert.assertEquals(compoundName.classname, "V1beta3ComponentStatus");
+        Assert.assertEquals(compoundName.classVarName, "v1beta3_component_status");
 
         final String path = "/api/v1beta3/namespaces/{namespaces}/bindings";
         final Operation operation = openAPI.getPaths().get(path).getPost();
         final CodegenOperation codegenOperation = codegen.fromOperation(path, "get", operation, null);
-        Assertions.assertEquals(codegenOperation.returnType, "V1beta3Binding");
-        Assertions.assertEquals(codegenOperation.returnBaseType, "V1beta3Binding");
+        Assert.assertEquals(codegenOperation.returnType, "V1beta3Binding");
+        Assert.assertEquals(codegenOperation.returnBaseType, "V1beta3Binding");
     }
 
     @Test(description = "convert a simple java model")
@@ -184,36 +184,36 @@ public class PythonPydanticV1ClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "Sample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 3);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 3);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "id");
-        Assertions.assertEquals(property1.dataType, "int");
-        Assertions.assertEquals(property1.name, "id");
-        Assertions.assertNull(property1.defaultValue);
-        Assertions.assertEquals(property1.baseType, "int");
-        Assertions.assertTrue(property1.required);
-        Assertions.assertTrue(property1.isPrimitiveType);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.dataType, "int");
+        Assert.assertEquals(property1.name, "id");
+        Assert.assertNull(property1.defaultValue);
+        Assert.assertEquals(property1.baseType, "int");
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
 
         final CodegenProperty property2 = cm.vars.get(1);
-        Assertions.assertEquals(property2.baseName, "name");
-        Assertions.assertEquals(property2.dataType, "str");
-        Assertions.assertEquals(property2.name, "name");
-        Assertions.assertNull(property2.defaultValue);
-        Assertions.assertEquals(property2.baseType, "str");
-        Assertions.assertTrue(property2.required);
-        Assertions.assertTrue(property2.isPrimitiveType);
+        Assert.assertEquals(property2.baseName, "name");
+        Assert.assertEquals(property2.dataType, "str");
+        Assert.assertEquals(property2.name, "name");
+        Assert.assertNull(property2.defaultValue);
+        Assert.assertEquals(property2.baseType, "str");
+        Assert.assertTrue(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
 
         final CodegenProperty property3 = cm.vars.get(2);
-        Assertions.assertEquals(property3.baseName, "createdAt");
-        Assertions.assertEquals(property3.dataType, "datetime");
-        Assertions.assertEquals(property3.name, "created_at");
-        Assertions.assertNull(property3.defaultValue);
-        Assertions.assertEquals(property3.baseType, "datetime");
-        Assertions.assertFalse(property3.required);
+        Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(property3.dataType, "datetime");
+        Assert.assertEquals(property3.name, "created_at");
+        Assert.assertNull(property3.defaultValue);
+        Assert.assertEquals(property3.baseType, "datetime");
+        Assert.assertFalse(property3.required);
     }
 
     @Test(description = "convert a model with list property")
@@ -229,30 +229,30 @@ public class PythonPydanticV1ClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "Sample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 2);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 2);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "id");
-        Assertions.assertEquals(property1.dataType, "int");
-        Assertions.assertEquals(property1.name, "id");
-        Assertions.assertNull(property1.defaultValue);
-        Assertions.assertEquals(property1.baseType, "int");
-        Assertions.assertTrue(property1.required);
-        Assertions.assertTrue(property1.isPrimitiveType);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.dataType, "int");
+        Assert.assertEquals(property1.name, "id");
+        Assert.assertNull(property1.defaultValue);
+        Assert.assertEquals(property1.baseType, "int");
+        Assert.assertTrue(property1.required);
+        Assert.assertTrue(property1.isPrimitiveType);
 
         final CodegenProperty property2 = cm.vars.get(1);
-        Assertions.assertEquals(property2.baseName, "urls");
-        Assertions.assertEquals(property2.dataType, "List[str]");
-        Assertions.assertEquals(property2.name, "urls");
-        Assertions.assertNull(property2.defaultValue);
-        Assertions.assertEquals(property2.baseType, "List");
-        Assertions.assertEquals(property2.containerType, "array");
-        Assertions.assertFalse(property2.required);
-        Assertions.assertTrue(property2.isPrimitiveType);
-        Assertions.assertTrue(property2.isContainer);
+        Assert.assertEquals(property2.baseName, "urls");
+        Assert.assertEquals(property2.dataType, "List[str]");
+        Assert.assertEquals(property2.name, "urls");
+        Assert.assertNull(property2.defaultValue);
+        Assert.assertEquals(property2.baseType, "List");
+        Assert.assertEquals(property2.containerType, "array");
+        Assert.assertFalse(property2.required);
+        Assert.assertTrue(property2.isPrimitiveType);
+        Assert.assertTrue(property2.isContainer);
     }
 
     @Test(description = "convert a model with a map property")
@@ -267,20 +267,20 @@ public class PythonPydanticV1ClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "Sample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "translations");
-        Assertions.assertEquals(property1.dataType, "Dict[str, str]");
-        Assertions.assertEquals(property1.name, "translations");
-        Assertions.assertEquals(property1.baseType, "Dict");
-        Assertions.assertEquals(property1.containerType, "map");
-        Assertions.assertFalse(property1.required);
-        Assertions.assertTrue(property1.isContainer);
-        Assertions.assertTrue(property1.isPrimitiveType);
+        Assert.assertEquals(property1.baseName, "translations");
+        Assert.assertEquals(property1.dataType, "Dict[str, str]");
+        Assert.assertEquals(property1.name, "translations");
+        Assert.assertEquals(property1.baseType, "Dict");
+        Assert.assertEquals(property1.containerType, "map");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
+        Assert.assertTrue(property1.isPrimitiveType);
     }
 
     @Test(description = "convert a model with complex property")
@@ -293,18 +293,18 @@ public class PythonPydanticV1ClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "Sample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "children");
-        Assertions.assertEquals(property1.dataType, "Children");
-        Assertions.assertEquals(property1.name, "children");
-        Assertions.assertEquals(property1.baseType, "Children");
-        Assertions.assertFalse(property1.required);
-        Assertions.assertFalse(property1.isContainer);
+        Assert.assertEquals(property1.baseName, "children");
+        Assert.assertEquals(property1.dataType, "Children");
+        Assert.assertEquals(property1.name, "children");
+        Assert.assertEquals(property1.baseType, "Children");
+        Assert.assertFalse(property1.required);
+        Assert.assertFalse(property1.isContainer);
     }
 
     @Test(description = "convert a model with complex list property")
@@ -318,20 +318,20 @@ public class PythonPydanticV1ClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "Sample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "children");
-        Assertions.assertEquals(property1.complexType, "Children");
-        Assertions.assertEquals(property1.dataType, "List[Children]");
-        Assertions.assertEquals(property1.name, "children");
-        Assertions.assertEquals(property1.baseType, "List");
-        Assertions.assertEquals(property1.containerType, "array");
-        Assertions.assertFalse(property1.required);
-        Assertions.assertTrue(property1.isContainer);
+        Assert.assertEquals(property1.baseName, "children");
+        Assert.assertEquals(property1.complexType, "Children");
+        Assert.assertEquals(property1.dataType, "List[Children]");
+        Assert.assertEquals(property1.name, "children");
+        Assert.assertEquals(property1.baseType, "List");
+        Assert.assertEquals(property1.containerType, "array");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
     }
 
     @Test(description = "convert a model with complex map property")
@@ -345,21 +345,21 @@ public class PythonPydanticV1ClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "Sample");
-        Assertions.assertEquals(cm.description, "a sample model");
-        Assertions.assertEquals(cm.vars.size(), 1);
-        Assertions.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
-        Assertions.assertEquals(property1.baseName, "children");
-        Assertions.assertEquals(property1.complexType, "Children");
-        Assertions.assertEquals(property1.dataType, "Dict[str, Children]");
-        Assertions.assertEquals(property1.name, "children");
-        Assertions.assertEquals(property1.baseType, "Dict");
-        Assertions.assertEquals(property1.containerType, "map");
-        Assertions.assertFalse(property1.required);
-        Assertions.assertTrue(property1.isContainer);
+        Assert.assertEquals(property1.baseName, "children");
+        Assert.assertEquals(property1.complexType, "Children");
+        Assert.assertEquals(property1.dataType, "Dict[str, Children]");
+        Assert.assertEquals(property1.name, "children");
+        Assert.assertEquals(property1.baseType, "Dict");
+        Assert.assertEquals(property1.containerType, "map");
+        Assert.assertFalse(property1.required);
+        Assert.assertTrue(property1.isContainer);
     }
 
 
@@ -375,13 +375,13 @@ public class PythonPydanticV1ClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "Sample");
-        Assertions.assertEquals(cm.description, "an array model");
-        Assertions.assertEquals(cm.vars.size(), 0);
-        Assertions.assertEquals(cm.parent, "null<Children>");
-        Assertions.assertEquals(cm.imports.size(), 1);
-        Assertions.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "an array model");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.parent, "null<Children>");
+        Assert.assertEquals(cm.imports.size(), 1);
+        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
     // should not start with 'null'. need help from the community to investigate further
@@ -395,12 +395,12 @@ public class PythonPydanticV1ClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "Sample");
-        Assertions.assertEquals(cm.description, "a map model");
-        Assertions.assertEquals(cm.vars.size(), 0);
-        Assertions.assertEquals(cm.parent, null);
-        Assertions.assertEquals(cm.imports.size(), 0);
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a map model");
+        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.parent, null);
+        Assert.assertEquals(cm.imports.size(), 0);
     }
     @Test(description ="check API example has input param(configuration) when it creates api_client")
     public void apiExampleDocTest() throws Exception {
@@ -429,7 +429,7 @@ public class PythonPydanticV1ClientCodegenTest {
         final DefaultGenerator generator = new DefaultGenerator();
         final List<File> files = generator.opts(input).generate();
 
-        Assertions.assertTrue(files.size() > 0);
+        Assert.assertTrue(files.size() > 0);
         return outputPath + "/";
     }
 
@@ -442,32 +442,32 @@ public class PythonPydanticV1ClientCodegenTest {
         String path = "/store/order/{orderId}";
         Operation p = openAPI.getPaths().get(path).getGet();
         CodegenOperation op = codegen.fromOperation(path, "get", p, null);
-        Assertions.assertEquals(op.allParams.get(0).containerType, null);
-        Assertions.assertEquals(op.allParams.get(0).baseName, "orderId");
+        Assert.assertEquals(op.allParams.get(0).containerType, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "orderId");
 
         // query parameter
         path = "/user/login";
         p = openAPI.getPaths().get(path).getGet();
         op = codegen.fromOperation(path, "get", p, null);
-        Assertions.assertEquals(op.allParams.get(0).containerType, null);
-        Assertions.assertEquals(op.allParams.get(0).baseName, "username");
-        Assertions.assertEquals(op.allParams.get(1).containerType, null);
-        Assertions.assertEquals(op.allParams.get(1).baseName, "password");
+        Assert.assertEquals(op.allParams.get(0).containerType, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "username");
+        Assert.assertEquals(op.allParams.get(1).containerType, null);
+        Assert.assertEquals(op.allParams.get(1).baseName, "password");
 
         // body parameter
         path = "/user/createWithList";
         p = openAPI.getPaths().get(path).getPost();
         op = codegen.fromOperation(path, "post", p, null);
-        Assertions.assertEquals(op.allParams.get(0).baseName, "User");
-        Assertions.assertEquals(op.allParams.get(0).containerType, "array");
-        Assertions.assertEquals(op.allParams.get(0).containerTypeMapped, "List");
+        Assert.assertEquals(op.allParams.get(0).baseName, "User");
+        Assert.assertEquals(op.allParams.get(0).containerType, "array");
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "List");
 
         path = "/pet";
         p = openAPI.getPaths().get(path).getPost();
         op = codegen.fromOperation(path, "post", p, null);
-        Assertions.assertEquals(op.allParams.get(0).baseName, "Pet");
-        Assertions.assertEquals(op.allParams.get(0).containerType, null);
-        Assertions.assertEquals(op.allParams.get(0).containerTypeMapped, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "Pet");
+        Assert.assertEquals(op.allParams.get(0).containerType, null);
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, null);
 
     }
 
@@ -480,9 +480,9 @@ public class PythonPydanticV1ClientCodegenTest {
         String path = "/query_parameter_dict";
         Operation p = openAPI.getPaths().get(path).getGet();
         CodegenOperation op = codegen.fromOperation(path, "get", p, null);
-        Assertions.assertEquals(op.allParams.get(0).containerType, "map");
-        Assertions.assertEquals(op.allParams.get(0).containerTypeMapped, "Dict");
-        Assertions.assertEquals(op.allParams.get(0).baseName, "dict_string_integer");
+        Assert.assertEquals(op.allParams.get(0).containerType, "map");
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "Dict");
+        Assert.assertEquals(op.allParams.get(0).baseName, "dict_string_integer");
     }
 
     @Test(description = "convert a model with dollar signs")
@@ -492,13 +492,13 @@ public class PythonPydanticV1ClientCodegenTest {
 
         codegen.setOpenAPI(openAPI);
         final CodegenModel simpleName = codegen.fromModel("$DollarModel$", openAPI.getComponents().getSchemas().get("$DollarModel$"));
-        Assertions.assertEquals(simpleName.name, "$DollarModel$");
-        Assertions.assertEquals(simpleName.classname, "DollarModel");
-        Assertions.assertEquals(simpleName.classVarName, "dollar_model");
+        Assert.assertEquals(simpleName.name, "$DollarModel$");
+        Assert.assertEquals(simpleName.classname, "DollarModel");
+        Assert.assertEquals(simpleName.classVarName, "dollar_model");
 
         List<CodegenProperty> vars = simpleName.getVars();
-        Assertions.assertEquals(vars.size(), 1);
+        Assert.assertEquals(vars.size(), 1);
         CodegenProperty property = vars.get(0);
-        Assertions.assertEquals(property.name, "dollar_value");
+        Assert.assertEquals(property.name, "dollar_value");
     }
 }

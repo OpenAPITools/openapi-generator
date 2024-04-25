@@ -24,7 +24,7 @@ public class TypeScriptNestjsClientCodegenTest {
         codegen.additionalProperties().put("modelSuffix", "MySuffix");
         codegen.processOpts();
 
-        Assertions.assertEquals("testNameMySuffix", codegen.toModelFilename("testName"));
+        Assert.assertEquals("testNameMySuffix", codegen.toModelFilename("testName"));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class TypeScriptNestjsClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT.[0-9]{12}$"));
+        Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT.[0-9]{12}$"));
 
         codegen = new TypeScriptNestjsClientCodegen();
         codegen.additionalProperties().put("npmName", "@openapi/typescript-nestjs-petstore");
@@ -60,7 +60,7 @@ public class TypeScriptNestjsClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
+        Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
 
     }
 
@@ -75,7 +75,7 @@ public class TypeScriptNestjsClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT$"));
+        Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT$"));
 
         codegen = new TypeScriptNestjsClientCodegen();
         codegen.additionalProperties().put("npmName", "@openapi/typescript-nestjs-petstore");
@@ -84,7 +84,7 @@ public class TypeScriptNestjsClientCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        Assertions.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
+        Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
 
     }
 
@@ -93,24 +93,24 @@ public class TypeScriptNestjsClientCodegenTest {
         TypeScriptNestjsClientCodegen codegen = new TypeScriptNestjsClientCodegen();
 
         // simple noop test
-        Assertions.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestName"));
 
         codegen.setModelNamePrefix("abc");
         codegen.setModelNameSuffix("def");
         codegen.additionalProperties().put("modelSuffix", "Ghi");
         codegen.processOpts();
 
-        Assertions.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestName"));
-        Assertions.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameGhi"));
-        Assertions.assertEquals("TestNameghi", codegen.removeModelPrefixSuffix("TestNameghi"));
-        Assertions.assertEquals("abcTestName", codegen.removeModelPrefixSuffix("abcTestName"));
-        Assertions.assertEquals("TestName", codegen.removeModelPrefixSuffix("AbcTestName"));
-        Assertions.assertEquals("AbcTestName", codegen.removeModelPrefixSuffix("AbcAbcTestName"));
-        Assertions.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDef"));
-        Assertions.assertEquals("TestNamedef", codegen.removeModelPrefixSuffix("TestNamedef"));
-        Assertions.assertEquals("TestNamedefghi", codegen.removeModelPrefixSuffix("TestNamedefghi"));
-        Assertions.assertEquals("TestNameDefghi", codegen.removeModelPrefixSuffix("TestNameDefghi"));
-        Assertions.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDefGhi"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameGhi"));
+        Assert.assertEquals("TestNameghi", codegen.removeModelPrefixSuffix("TestNameghi"));
+        Assert.assertEquals("abcTestName", codegen.removeModelPrefixSuffix("abcTestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("AbcTestName"));
+        Assert.assertEquals("AbcTestName", codegen.removeModelPrefixSuffix("AbcAbcTestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDef"));
+        Assert.assertEquals("TestNamedef", codegen.removeModelPrefixSuffix("TestNamedef"));
+        Assert.assertEquals("TestNamedefghi", codegen.removeModelPrefixSuffix("TestNamedefghi"));
+        Assert.assertEquals("TestNameDefghi", codegen.removeModelPrefixSuffix("TestNameDefghi"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDefGhi"));
     }
 
     @Test
@@ -131,7 +131,7 @@ public class TypeScriptNestjsClientCodegenTest {
         composedSchema.addAnyOfItem(schema3);
 
         String schemaType = codegen.getSchemaType(composedSchema);
-        Assertions.assertEquals(schemaType, "SchemaOne | SchemaTwo | SchemaThree");
+        Assert.assertEquals(schemaType, "SchemaOne | SchemaTwo | SchemaThree");
     }
 
 }

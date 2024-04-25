@@ -19,17 +19,17 @@ public class OpenApiSchemaValidationsTest {
         OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
 
         ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
-        Assertions.assertNotNull(result.getWarnings());
+        Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
                 .filter(invalid -> "Schema defines properties alongside oneOf." .equals(invalid.getRule().getDescription()))
                 .collect(Collectors.toList());
 
-        Assertions.assertNotNull(warnings);
+        Assert.assertNotNull(warnings);
         if (matches) {
-            Assertions.assertEquals(warnings.size(), 1, "Expected to match recommendation.");
+            Assert.assertEquals(warnings.size(), 1, "Expected to match recommendation.");
         } else {
-            Assertions.assertEquals(warnings.size(), 0, "Expected not to match recommendation.");
+            Assert.assertEquals(warnings.size(), 0, "Expected not to match recommendation.");
         }
     }
 
@@ -40,14 +40,14 @@ public class OpenApiSchemaValidationsTest {
         OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
 
         ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
-        Assertions.assertNotNull(result.getWarnings());
+        Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
                 .filter(invalid -> "Schema defines properties alongside oneOf." .equals(invalid.getRule().getDescription()))
                 .collect(Collectors.toList());
 
-        Assertions.assertNotNull(warnings);
-        Assertions.assertEquals(warnings.size(), 0, "Expected recommendations to be disabled completely.");
+        Assert.assertNotNull(warnings);
+        Assert.assertEquals(warnings.size(), 0, "Expected recommendations to be disabled completely.");
     }
 
     @Test(dataProvider = "apacheNginxRecommendationExpectations", description = "disable oneOf with sibling properties recommendation via turning off rule")
@@ -57,14 +57,14 @@ public class OpenApiSchemaValidationsTest {
         OpenApiSchemaValidations validator = new OpenApiSchemaValidations(config);
 
         ValidationResult result = validator.validate(new SchemaWrapper(null, schema));
-        Assertions.assertNotNull(result.getWarnings());
+        Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
                 .filter(invalid -> "Schema defines properties alongside oneOf." .equals(invalid.getRule().getDescription()))
                 .collect(Collectors.toList());
 
-        Assertions.assertNotNull(warnings);
-        Assertions.assertEquals(warnings.size(), 0, "Expected rule to be disabled.");
+        Assert.assertNotNull(warnings);
+        Assert.assertEquals(warnings.size(), 0, "Expected rule to be disabled.");
     }
 
     @DataProvider(name = "apacheNginxRecommendationExpectations")

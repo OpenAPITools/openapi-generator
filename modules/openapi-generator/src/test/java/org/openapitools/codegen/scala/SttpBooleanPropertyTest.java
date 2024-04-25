@@ -14,7 +14,7 @@ public class SttpBooleanPropertyTest {
         Map<String, Object> additionalProperties = new HashMap<>();
         booleanProperty.updateAdditionalProperties(additionalProperties);
 
-        Assertions.assertEquals(additionalProperties.get("k1"), false);
+        Assert.assertEquals(additionalProperties.get("k1"), false);
     }
 
     @Test
@@ -24,6 +24,6 @@ public class SttpBooleanPropertyTest {
         additionalProperties.put("k1", true);
         booleanProperty.updateAdditionalProperties(additionalProperties);
 
-        Assertions.assertEquals(additionalProperties.get("k1"), true);
+        Assert.assertEquals(additionalProperties.get("k1"), true);
     }
 }

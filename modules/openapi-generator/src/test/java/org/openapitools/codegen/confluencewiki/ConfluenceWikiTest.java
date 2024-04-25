@@ -46,16 +46,16 @@ public class ConfluenceWikiTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty enumVar = cm.vars.get(0);
-        Assertions.assertEquals(enumVar.baseName, "name");
-        Assertions.assertEquals(enumVar.dataType, "String");
-        Assertions.assertEquals(enumVar.datatypeWithEnum, "NameEnum");
-        Assertions.assertEquals(enumVar.name, "name");
-        Assertions.assertEquals(enumVar.defaultValue, "null");
-        Assertions.assertEquals(enumVar.baseType, "string");
-        Assertions.assertTrue(enumVar.isEnum);
+        Assert.assertEquals(enumVar.baseName, "name");
+        Assert.assertEquals(enumVar.dataType, "String");
+        Assert.assertEquals(enumVar.datatypeWithEnum, "NameEnum");
+        Assert.assertEquals(enumVar.name, "name");
+        Assert.assertEquals(enumVar.defaultValue, "null");
+        Assert.assertEquals(enumVar.baseType, "string");
+        Assert.assertTrue(enumVar.isEnum);
     }
 
     @Test(description = "convert a model with an enum inside a list")
@@ -69,25 +69,25 @@ public class ConfluenceWikiTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty enumVar = cm.vars.get(0);
-        Assertions.assertEquals(enumVar.baseName, "name");
-        Assertions.assertEquals(enumVar.dataType, "array[String]");
-        Assertions.assertEquals(enumVar.datatypeWithEnum, "array[String]");
-        Assertions.assertEquals(enumVar.name, "name");
-        Assertions.assertEquals(enumVar.defaultValue, "null");
-        Assertions.assertEquals(enumVar.baseType, "array");
-        Assertions.assertTrue(enumVar.isEnum);
+        Assert.assertEquals(enumVar.baseName, "name");
+        Assert.assertEquals(enumVar.dataType, "array[String]");
+        Assert.assertEquals(enumVar.datatypeWithEnum, "array[String]");
+        Assert.assertEquals(enumVar.name, "name");
+        Assert.assertEquals(enumVar.defaultValue, "null");
+        Assert.assertEquals(enumVar.baseType, "array");
+        Assert.assertTrue(enumVar.isEnum);
 
-        Assertions.assertEquals(enumVar.mostInnerItems.baseName, "name");
-        Assertions.assertEquals(enumVar.mostInnerItems.dataType, "String");
-        Assertions.assertEquals(enumVar.mostInnerItems.datatypeWithEnum, "NameEnum");
-        Assertions.assertEquals(enumVar.mostInnerItems.name, "name");
-        Assertions.assertEquals(enumVar.mostInnerItems.defaultValue, "null");
-        Assertions.assertEquals(enumVar.mostInnerItems.baseType, "string");
+        Assert.assertEquals(enumVar.mostInnerItems.baseName, "name");
+        Assert.assertEquals(enumVar.mostInnerItems.dataType, "String");
+        Assert.assertEquals(enumVar.mostInnerItems.datatypeWithEnum, "NameEnum");
+        Assert.assertEquals(enumVar.mostInnerItems.name, "name");
+        Assert.assertEquals(enumVar.mostInnerItems.defaultValue, "null");
+        Assert.assertEquals(enumVar.mostInnerItems.baseType, "string");
 
-        Assertions.assertEquals(enumVar.mostInnerItems.baseType, enumVar.items.baseType);
+        Assert.assertEquals(enumVar.mostInnerItems.baseType, enumVar.items.baseType);
     }
 
     @Test(description = "convert a model with an enum inside a list")
@@ -102,25 +102,25 @@ public class ConfluenceWikiTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
-        Assertions.assertEquals(cm.vars.size(), 1);
+        Assert.assertEquals(cm.vars.size(), 1);
 
         final CodegenProperty enumVar = cm.vars.get(0);
-        Assertions.assertEquals(enumVar.baseName, "name");
-        Assertions.assertEquals(enumVar.dataType, "array[array[String]]");
-        Assertions.assertEquals(enumVar.datatypeWithEnum, "array[array[String]]");
-        Assertions.assertEquals(enumVar.name, "name");
-        Assertions.assertEquals(enumVar.defaultValue, "null");
-        Assertions.assertEquals(enumVar.baseType, "array");
-        Assertions.assertTrue(enumVar.isEnum);
+        Assert.assertEquals(enumVar.baseName, "name");
+        Assert.assertEquals(enumVar.dataType, "array[array[String]]");
+        Assert.assertEquals(enumVar.datatypeWithEnum, "array[array[String]]");
+        Assert.assertEquals(enumVar.name, "name");
+        Assert.assertEquals(enumVar.defaultValue, "null");
+        Assert.assertEquals(enumVar.baseType, "array");
+        Assert.assertTrue(enumVar.isEnum);
 
-        Assertions.assertEquals(enumVar.mostInnerItems.baseName, "name");
-        Assertions.assertEquals(enumVar.mostInnerItems.dataType, "String");
-        Assertions.assertEquals(enumVar.mostInnerItems.datatypeWithEnum, "NameEnum");
-        Assertions.assertEquals(enumVar.mostInnerItems.name, "name");
-        Assertions.assertEquals(enumVar.mostInnerItems.defaultValue, "null");
-        Assertions.assertEquals(enumVar.mostInnerItems.baseType, "string");
+        Assert.assertEquals(enumVar.mostInnerItems.baseName, "name");
+        Assert.assertEquals(enumVar.mostInnerItems.dataType, "String");
+        Assert.assertEquals(enumVar.mostInnerItems.datatypeWithEnum, "NameEnum");
+        Assert.assertEquals(enumVar.mostInnerItems.name, "name");
+        Assert.assertEquals(enumVar.mostInnerItems.defaultValue, "null");
+        Assert.assertEquals(enumVar.mostInnerItems.baseType, "string");
 
-        Assertions.assertEquals(enumVar.mostInnerItems.baseType, enumVar.items.items.baseType);
+        Assert.assertEquals(enumVar.mostInnerItems.baseType, enumVar.items.items.baseType);
     }
 
     @Test(description = "not override identical parent enums")
@@ -161,10 +161,10 @@ public class ConfluenceWikiTest {
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", composedSchema);
 
-        Assertions.assertEquals(cm.name, "sample");
-        Assertions.assertEquals(cm.classname, "Sample");
-        Assertions.assertEquals(cm.parent, "ParentModel");
-        Assertions.assertTrue(cm.imports.contains("ParentModel"));
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.parent, "ParentModel");
+        Assert.assertTrue(cm.imports.contains("ParentModel"));
     }
 
     @Test
@@ -174,25 +174,25 @@ public class ConfluenceWikiTest {
         codegen.setOpenAPI(openAPI);
 
         Schema enumTest = openAPI.getComponents().getSchemas().get("Enum_Test");
-        Assertions.assertNotNull(enumTest);
+        Assert.assertNotNull(enumTest);
         CodegenModel cm = codegen.fromModel("Enum_Test", enumTest);
 
-        Assertions.assertEquals(cm.getVars().size(), 8);
+        Assert.assertEquals(cm.getVars().size(), 8);
         CodegenProperty cp0 = cm.getVars().get(0);
-        Assertions.assertEquals(cp0.dataType, "String");
+        Assert.assertEquals(cp0.dataType, "String");
         CodegenProperty cp1 = cm.getVars().get(1);
-        Assertions.assertEquals(cp1.dataType, "String");
+        Assert.assertEquals(cp1.dataType, "String");
         CodegenProperty cp2 = cm.getVars().get(2);
-        Assertions.assertEquals(cp2.dataType, "Integer");
+        Assert.assertEquals(cp2.dataType, "Integer");
         CodegenProperty cp3 = cm.getVars().get(3);
-        Assertions.assertEquals(cp3.dataType, "Double");
+        Assert.assertEquals(cp3.dataType, "Double");
         CodegenProperty cp4 = cm.getVars().get(4);
-        Assertions.assertEquals(cp4.dataType, "OuterEnum");
+        Assert.assertEquals(cp4.dataType, "OuterEnum");
         CodegenProperty cp5 = cm.getVars().get(5);
-        Assertions.assertEquals(cp5.dataType, "OuterEnumInteger");
+        Assert.assertEquals(cp5.dataType, "OuterEnumInteger");
         CodegenProperty cp6 = cm.getVars().get(6);
-        Assertions.assertEquals(cp6.dataType, "OuterEnumDefaultValue");
+        Assert.assertEquals(cp6.dataType, "OuterEnumDefaultValue");
         CodegenProperty cp7 = cm.getVars().get(7);
-        Assertions.assertEquals(cp7.dataType, "OuterEnumIntegerDefaultValue");
+        Assert.assertEquals(cp7.dataType, "OuterEnumIntegerDefaultValue");
     }
 }
