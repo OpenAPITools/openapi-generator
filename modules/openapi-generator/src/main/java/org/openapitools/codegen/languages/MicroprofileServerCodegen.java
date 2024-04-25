@@ -34,7 +34,7 @@ public class MicroprofileServerCodegen extends JavaClientCodegen {
     }
 
     public String getName() {
-        return "microprofile";
+        return "java-microprofile";
     }
 
     public String getHelp() {

@@ -1,5 +1,5 @@
-generatorName: microprofile
-outputDir: samples/server/petstore/microprofile
+generatorName: java-microprofile
+outputDir: samples/server/petstore/java-microprofile
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-multiple-2xx-responses.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
