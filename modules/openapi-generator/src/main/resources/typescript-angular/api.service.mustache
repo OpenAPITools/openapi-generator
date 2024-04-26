@@ -71,7 +71,7 @@ export class {{classname}} {
             this.configuration = configuration;
         }
         if (typeof this.configuration.basePath !== 'string') {
-            if (Array.isArray(basePath) && basePath.length > 0) {
+            if (Array.isArray(basePath) && basePath[0]) {
                 basePath = basePath[0];
             }
 
