@@ -2062,7 +2062,6 @@ public class DefaultCodegen implements CodegenConfig {
 
             String inner = getSchemaType(additionalProperties);
             String mapInstantion = instantiationTypes.get("map");
-            // TODO: Change AnyType in ts to unknown, add map instantionType to ts
             // Additional properties cannot be composed (allof, anyof, oneof)
             if (!ModelUtils.isComposedSchema(additionalProperties)
                 && !ModelUtils.isRefToSchemaWithProperties(unaliasedAdditionalPropertiesSchema.get$ref())
