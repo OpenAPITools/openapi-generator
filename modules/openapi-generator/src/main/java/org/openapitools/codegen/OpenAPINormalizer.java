@@ -943,7 +943,13 @@ public class OpenAPINormalizer {
             if (oneOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
                 for (Schema s: oneOfSchemas) {
-                    ts.add(ModelUtils.getType(s));
+                    s = ModelUtils.getReferencedSchema(openAPI, s);
+                    String type = ModelUtils.getType(s);
+                    if (type == null) {
+                        LOGGER.debug("Error null type found in schema when simplifying any type with 6 sub-schemas: {}", s);
+                    } else {
+                        ts.add(type);
+                    }
                 }
 
                 if (ts.equals(anyTypeTreeSet)) {
@@ -1068,7 +1074,13 @@ public class OpenAPINormalizer {
             if (anyOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
                 for (Schema s: anyOfSchemas) {
-                    ts.add(ModelUtils.getType(s));
+                    s = ModelUtils.getReferencedSchema(openAPI, s);
+                    String type = ModelUtils.getType(s);
+                    if (type == null) {
+                        LOGGER.debug("Error null type found in schema when simplifying any type with 6 sub-schemas: {}", s);
+                    } else {
+                        ts.add(type);
+                    }
                 }
 
                 if (ts.equals(anyTypeTreeSet)) {
