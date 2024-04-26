@@ -1,6 +1,6 @@
 ThisBuild / name := "scala-cask-petstore"
 ThisBuild / organization := "cask.groupId"
-ThisBuild / version := "0.0.1-SNAPSHOT"
+ThisBuild / version := "0.0.1"
 ThisBuild / scalaVersion := "3.4.1"
 ThisBuild / scalafmtOnCompile := true
 ThisBuild / versionScheme := Some("early-semver")

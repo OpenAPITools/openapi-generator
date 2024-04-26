@@ -178,6 +178,9 @@ public class OpenAPINormalizerTest {
         Schema schema13 = openAPI.getComponents().getSchemas().get("OneOfAnyType");
         assertEquals(schema13.getOneOf().size(), 6);
 
+        Schema schema15 = openAPI.getComponents().getSchemas().get("AnyOfAnyTypeWithRef");
+        assertEquals(schema15.getAnyOf().size(), 6);
+
         Map<String, String> options = new HashMap<>();
         options.put("SIMPLIFY_ONEOF_ANYOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
@@ -216,6 +219,9 @@ public class OpenAPINormalizerTest {
         assertEquals(schema14.getOneOf(), null);
         assertEquals(schema14.getType(), null);
 
+        Schema schema16 = openAPI.getComponents().getSchemas().get("AnyOfAnyTypeWithRef");
+        assertEquals(schema16.getAnyOf(), null);
+        assertEquals(schema16.getType(), null);
     }
 
     @Test
