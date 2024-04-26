@@ -41,10 +41,5 @@ export class Dog {
 }
 
 
-export enum DogBreedEnum {
-    Dingo = 'Dingo',
-    Husky = 'Husky',
-    Retriever = 'Retriever',
-    Shepherd = 'Shepherd'
-}
+    export type DogBreedEnum = "Dingo" | "Husky" | "Retriever" | "Shepherd" ;
 

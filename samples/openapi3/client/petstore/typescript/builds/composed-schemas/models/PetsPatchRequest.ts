@@ -58,10 +58,5 @@ export class PetsPatchRequest {
 }
 
 
-export enum PetsPatchRequestBreedEnum {
-    Dingo = 'Dingo',
-    Husky = 'Husky',
-    Retriever = 'Retriever',
-    Shepherd = 'Shepherd'
-}
+    export type PetsPatchRequestBreedEnum = "Dingo" | "Husky" | "Retriever" | "Shepherd" ;
 
