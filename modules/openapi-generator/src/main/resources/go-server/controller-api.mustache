@@ -3,9 +3,9 @@ package {{packageName}}
 
 {{#operations}}
 import (
-    {{#hasBodyParams}}
+	{{#hasBodyParams}}
 	"encoding/json"
-    {{/hasBodyParams}}
+	{{/hasBodyParams}}
 	{{#isBodyParam}}
 	    {{^required}}
 	"errors"
