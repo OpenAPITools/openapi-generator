@@ -74,6 +74,9 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     private static final String USE_OBJECT_PARAMS_SWITCH = "useObjectParameters";
     private static final String USE_OBJECT_PARAMS_DESC = "Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.";
+    private static final String ENUM_TYPE_SWITCH = "enumType";
+    private static final String ENUM_TYPE_SWITCH_DESC = "Specify the enum type which should be used in the client code.";
+    private static final String[] ENUM_TYPES = {"stringUnion", "enum"};
 
     private final Map<String, String> frameworkToHttpLibMap;
 
@@ -134,6 +137,13 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         platformOption.defaultValue(PLATFORMS[0]);
 
         cliOptions.add(platformOption);
+
+        CliOption enumTypeOption = new CliOption(TypeScriptClientCodegen.ENUM_TYPE_SWITCH, TypeScriptClientCodegen.ENUM_TYPE_SWITCH_DESC);
+        for (String option : TypeScriptClientCodegen.ENUM_TYPES) {
+            enumTypeOption.addEnum(option, option);
+        }
+        enumTypeOption.defaultValue(ENUM_TYPES[0]);
+        cliOptions.add(enumTypeOption);
 
         // Set property naming to camelCase
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
@@ -425,6 +435,15 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 "http" + File.separator + httpLibName + ".mustache",
                 "http", httpLibName + ".ts"
         ));
+
+        additionalProperties.putIfAbsent(ENUM_TYPE_SWITCH, ENUM_TYPES[0]);
+        Object propEnumType = additionalProperties.get(ENUM_TYPE_SWITCH);
+
+        Map<String, Boolean> enumTypes = new HashMap<>();
+        for (String enumType : ENUM_TYPES) {
+            enumTypes.put(enumType, enumType.equals(propEnumType));
+        }
+        additionalProperties.put("enumTypes", enumTypes);
 
         Object propPlatform = additionalProperties.get(PLATFORM_SWITCH);
         if (propPlatform == null) {
