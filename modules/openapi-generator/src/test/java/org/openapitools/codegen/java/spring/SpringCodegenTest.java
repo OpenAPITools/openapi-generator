@@ -4654,6 +4654,8 @@ public class SpringCodegenTest {
         final Map<String, Object> additionalProperties = new HashMap<>();
 
         Map<String, File> output = generateFromContract("src/test/resources/3_0/allOfDuplicatedProperties.yaml", SPRING_BOOT, Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true));
+        JavaFileAssert.assertThat(output.get("ModelC.java"))
+                .assertConstructor("String", "Integer", "Integer", "String", "String");
 
     }
     @Test
