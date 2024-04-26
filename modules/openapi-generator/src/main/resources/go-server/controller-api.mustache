@@ -3,7 +3,9 @@ package {{packageName}}
 
 {{#operations}}
 import (
+    {{#hasBodyParams}}
 	"encoding/json"
+    {{/hasBodyParams}}
 	{{#isBodyParam}}
 	    {{^required}}
 	"errors"
@@ -14,7 +16,7 @@ import (
 	"strings"
 {{#imports}}	"{{import}}"
 	{{/imports}}
-
+{{#hasPathParams}}
 {{#routers}}
 	{{#mux}}
 	"github.com/gorilla/mux"
@@ -23,6 +25,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	{{/chi}}
 {{/routers}}
+{{/hasPathParams}}
 )
 {{/operations}}
 
