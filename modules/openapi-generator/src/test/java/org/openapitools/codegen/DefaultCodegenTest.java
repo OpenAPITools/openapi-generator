@@ -4920,6 +4920,7 @@ public class DefaultCodegenTest {
         new OpenAPINormalizer(openAPI, Map.of("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", " true"))
                 .normalize();
         Schema catModel = ModelUtils.getSchema(openAPI, "Cat");
+        Schema cat2Model = ModelUtils.getSchema(openAPI, "Cat2");
         DefaultCodegen defaultCodegen = new DefaultCodegen();
         defaultCodegen.setOpenAPI(openAPI);
         CodegenModel defaultCat = defaultCodegen.fromModel("Cat", catModel);
@@ -4930,6 +4931,8 @@ public class DefaultCodegenTest {
         springCodegen.setOpenAPI(openAPI);
         CodegenModel springCat = springCodegen.fromModel("Cat", catModel);
         assertThat(getNames(springCat.allVars)).isEqualTo(List.of("petType"));  // should be name,petType
+        CodegenModel springCat2 = springCodegen.fromModel("Cat2", cat2Model);
+        assertThat(getNames(springCat2.allVars)).isEqualTo(List.of("petType", "name"));
 
         // Prove that supportsInheritance is the culprit
         SpringCodegen springCodegenNoSupportInheritance = new SpringCodegen() {
