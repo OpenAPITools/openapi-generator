@@ -14,14 +14,14 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <java.version>1.8</java.version>
+    <java.version>11</java.version>
     <scala.version>2.12.13</scala.version>
-    <json4s.jackson.version>3.6.7</json4s.jackson.version>
-    <json4s.ext.version>3.6.7</json4s.ext.version>
-    <akka.version>2.6.12</akka.version>
-    <akka.http.version>10.2.3</akka.http.version>
-    <typesafeconfig.version>1.4.1</typesafeconfig.version>
-    <akka.http.json4s.version>1.27.0</akka.http.json4s.version>
+    <json4s.jackson.version>4.0.7</json4s.jackson.version>
+    <json4s.ext.version>4.0.7</json4s.ext.version>
+    <akka.version>2.8.5</akka.version>
+    <akka.http.version>10.5.3</akka.http.version>
+    <typesafeconfig.version>1.4.3</typesafeconfig.version>
+    <akka.http.json4s.version>1.39.2</akka.http.json4s.version>
     <scala.compat.version>2.12.0</scala.compat.version>
     <scala.test.version>3.2.3</scala.test.version>
     <scala.test.plus.version>3.2.18.0</scala.test.plus.version>
@@ -107,27 +107,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>3.0.1</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.0.0-M1</version>
-        <executions>
-          <execution>
-            <id>enforce-maven</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <requireMavenVersion>
-                  <version>2.2.0</version>
-                </requireMavenVersion>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
+        <version>3.3.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -148,7 +128,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.0.2</version>
+        <version>3.6.1</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -166,7 +146,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.6</version>
+        <version>3.4.1</version>
         <executions>
           <execution>
             <goals>
@@ -182,7 +162,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.5.0</version>
         <executions>
           <execution>
             <id>add_sources</id>
@@ -217,7 +197,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
+        <version>3.13.0</version>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
@@ -257,7 +237,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>1.5.0</version>
+        <version>3.2.0</version>
         <executions>
           <execution>
             <id>sbt-test</id>
