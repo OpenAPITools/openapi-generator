@@ -423,9 +423,7 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#-first}}
 
                     {{/-first}}
-                    {{/required}}
-                    {{#required}}
-                    parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}{{#isNullable}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}{{/isNullable}}.ToString();
+                    parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{paramName}});
                     {{/required}}
                     {{/queryParams}}
 
@@ -438,7 +436,8 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#queryParams}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
-                        parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}.Value{{#isNullable}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}{{/isNullable}}.ToString();
+                        // here too
+                        parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{paramName}}.Value);
 
                     {{/required}}
                     {{#-last}}

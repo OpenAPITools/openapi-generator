@@ -22,7 +22,7 @@ print Query.to_json()
 # convert the object into a dict
 query_dict = query_instance.to_dict()
 # create an instance of Query from a dict
-query_form_dict = query.from_dict(query_dict)
+query_from_dict = Query.from_dict(query_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

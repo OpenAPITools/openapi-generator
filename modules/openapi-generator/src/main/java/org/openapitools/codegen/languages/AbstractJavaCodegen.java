@@ -192,7 +192,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         "ApiClient", "ApiException", "ApiResponse", "Configuration", "StringUtil",
 
                         // language reserved words
-                        "abstract", "continue", "for", "new", "switch", "assert",
+                        "_", "abstract", "continue", "for", "new", "switch", "assert",
                         "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
                         "this", "break", "double", "implements", "protected", "throw", "byte", "else",
                         "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
@@ -946,7 +946,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            Schema<?> items = ModelUtils.getSchemaItems(schema);
             return getSchemaType(target) + "<" + getBeanValidation(items) + getTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
@@ -999,6 +999,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return getNumberBeanValidation(items);
         }
 
+        if (ModelUtils.isLongSchema(items)) {
+            return getLongBeanValidation(items);
+        }
+
         if (ModelUtils.isIntegerSchema(items)) {
             return getIntegerBeanValidation(items);
         }
@@ -1017,6 +1021,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (items.getMaximum() != null) {
             return String.format(Locale.ROOT, "@Max(%s)", items.getMaximum());
+        }
+        return "";
+    }
+
+    private String getLongBeanValidation(Schema<?> items) {
+        if (items.getMinimum() != null && items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Min(%sL) @Max(%sL)", items.getMinimum(), items.getMaximum());
+        }
+
+        if (items.getMinimum() != null) {
+            return String.format(Locale.ROOT, "@Min(%sL)", items.getMinimum());
+        }
+
+        if (items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Max(%sL)", items.getMaximum());
         }
         return "";
     }
@@ -1908,10 +1927,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // string
         String var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
         if (var.matches("\\d.*")) {
-            return "_" + var;
-        } else {
-            return var;
+            var = "_" + var;
         }
+        return this.toVarName(var);
     }
 
     @Override

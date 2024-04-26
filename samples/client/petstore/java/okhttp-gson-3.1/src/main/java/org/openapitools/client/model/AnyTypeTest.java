@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * AnyTypeTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class AnyTypeTest {
   public static final String SERIALIZED_NAME_ANY_TYPE_PROPERTY = "any_type_property";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROPERTY)

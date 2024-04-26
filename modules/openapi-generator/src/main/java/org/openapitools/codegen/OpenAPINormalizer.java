@@ -499,7 +499,7 @@ public class OpenAPINormalizer {
         }
 
         if (StringUtils.isNotEmpty(schema.get$ref())) {
-            // not need to process $ref
+            // no need to process $ref
             return schema;
         }
 
@@ -509,9 +509,10 @@ public class OpenAPINormalizer {
             visitedSchemas.add(schema);
         }
 
-        if (schema instanceof ArraySchema) { // array
-            normalizeArraySchema(schema);
-            normalizeSchema(schema.getItems(), visitedSchemas);
+        if (ModelUtils.isArraySchema(schema)) { // array
+            Schema result = normalizeArraySchema(schema);
+            normalizeSchema(result.getItems(), visitedSchemas);
+            return result;
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeMapSchema(schema);
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
@@ -566,7 +567,8 @@ public class OpenAPINormalizer {
     }
 
     private Schema normalizeArraySchema(Schema schema) {
-        return processSetArraytoNullable(schema);
+        Schema result = processNormalize31Spec(schema, new HashSet<>());
+        return processSetArraytoNullable(result);
     }
 
     private Schema normalizeMapSchema(Schema schema) {
@@ -594,7 +596,7 @@ public class OpenAPINormalizer {
         }
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             Schema property = propertiesEntry.getValue();
-            Schema newProperty = normalizeSchema(property, visitedSchemas);
+            Schema newProperty = normalizeSchema(property, new HashSet<>());
             propertiesEntry.setValue(newProperty);
         }
     }
@@ -888,7 +890,7 @@ public class OpenAPINormalizer {
 
         if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
             // 3.1 spec
-            if (schema.getTypes().size() ==1) { // 1 type only
+            if (schema.getTypes().size() == 1) { // 1 type only
                 String type = (String) schema.getTypes().iterator().next();
                 return type == null || "null".equals(type);
             } else { // more than 1 type so must not be just null
@@ -898,6 +900,11 @@ public class OpenAPINormalizer {
 
         if (schema instanceof JsonSchema) { // 3.1 spec
             if (Boolean.TRUE.equals(schema.getNullable())) {
+                return true;
+            }
+
+            // for `type: null`
+            if (schema.getTypes() == null && schema.get$ref() == null) {
                 return true;
             }
         } else { // 3.0.x or 2.x spec
@@ -936,7 +943,13 @@ public class OpenAPINormalizer {
             if (oneOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
                 for (Schema s: oneOfSchemas) {
-                    ts.add(s.getType());
+                    s = ModelUtils.getReferencedSchema(openAPI, s);
+                    String type = ModelUtils.getType(s);
+                    if (type == null) {
+                        LOGGER.debug("Error null type found in schema when simplifying any type with 6 sub-schemas: {}", s);
+                    } else {
+                        ts.add(type);
+                    }
                 }
 
                 if (ts.equals(anyTypeTreeSet)) {
@@ -1061,7 +1074,13 @@ public class OpenAPINormalizer {
             if (anyOfSchemas.size() == 6) {
                 TreeSet<String> ts = new TreeSet<>();
                 for (Schema s: anyOfSchemas) {
-                    ts.add(s.getType());
+                    s = ModelUtils.getReferencedSchema(openAPI, s);
+                    String type = ModelUtils.getType(s);
+                    if (type == null) {
+                        LOGGER.debug("Error null type found in schema when simplifying any type with 6 sub-schemas: {}", s);
+                    } else {
+                        ts.add(type);
+                    }
                 }
 
                 if (ts.equals(anyTypeTreeSet)) {
@@ -1222,7 +1241,7 @@ public class OpenAPINormalizer {
         // only one item (type) left
         if (schema.getTypes().size() == 1) {
             String type = String.valueOf(schema.getTypes().iterator().next());
-            if ("array".equals(type)) {
+            if (ModelUtils.isArraySchema(schema)) {
                 ArraySchema as = new ArraySchema();
                 as.setDescription(schema.getDescription());
                 as.setDefault(schema.getDefault());

@@ -74,9 +74,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/Object2'
       properties:
-        timestamp:
-          type: string
-          format: date-time
         pageInfo:
           $ref: '#/components/schemas/Type1'
       required:

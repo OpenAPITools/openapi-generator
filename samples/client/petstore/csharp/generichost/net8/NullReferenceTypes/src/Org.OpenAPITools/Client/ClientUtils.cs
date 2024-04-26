@@ -148,7 +148,7 @@ namespace Org.OpenAPITools.Client
         /// <param name="obj">The parameter (header, path, query, form).</param>
         /// <param name="format">The DateTime serialization format.</param>
         /// <returns>Formatted string.</returns>
-        public static string? ParameterToString(object obj, string? format = ISO8601_DATETIME_FORMAT)
+        public static string? ParameterToString(object? obj, string? format = ISO8601_DATETIME_FORMAT)
         {
             if (obj is DateTime dateTime)
                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat

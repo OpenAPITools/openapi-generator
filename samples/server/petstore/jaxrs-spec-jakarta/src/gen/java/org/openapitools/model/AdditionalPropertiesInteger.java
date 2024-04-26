@@ -18,9 +18,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("AdditionalPropertiesInteger")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class AdditionalPropertiesInteger extends HashMap<String, Integer> implements Serializable {
-  private @Valid String name;
+  private String name;
 
   /**
    **/

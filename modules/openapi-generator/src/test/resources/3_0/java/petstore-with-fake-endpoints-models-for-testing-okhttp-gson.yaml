@@ -2675,3 +2675,22 @@ components:
           $ref: '#/components/schemas/Pet/properties/status'
       xml:
         name: Pet
+    ArrayOneOf:
+      oneOf:
+        - type: integer
+        - type: array
+          items:
+            type: string
+    ArrayAnyOf:
+      anyOf:
+        - type: integer
+        - type: array
+          items:
+            type: string
+    ModelWithOneOfAnyOfProperties:
+      type: object
+      properties:
+        oneof_prop:
+          $ref: '#/components/schemas/ArrayOneOf'
+        anyof_prop:
+          $ref: '#/components/schemas/ArrayAnyOf'

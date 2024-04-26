@@ -2,7 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
-  - Generator version: 7.5.0-SNAPSHOT
+  - Generator version: 7.6.0-SNAPSHOT
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
@@ -175,11 +175,13 @@ Class | Method | HTTP request | Description
  - [Animal](docs/Animal.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
+ - [ArrayAnyOf](docs/ArrayAnyOf.md)
  - [ArrayDefault](docs/ArrayDefault.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfInlineAllOf](docs/ArrayOfInlineAllOf.md)
  - [ArrayOfInlineAllOfArrayAllofDogPropertyInner](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
+ - [ArrayOneOf](docs/ArrayOneOf.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [Banana](docs/Banana.md)
  - [BananaReq](docs/BananaReq.md)
@@ -218,6 +220,7 @@ Class | Method | HTTP request | Description
  - [ModelFile](docs/ModelFile.md)
  - [ModelList](docs/ModelList.md)
  - [ModelReturn](docs/ModelReturn.md)
+ - [ModelWithOneOfAnyOfProperties](docs/ModelWithOneOfAnyOfProperties.md)
  - [Name](docs/Name.md)
  - [NewPet](docs/NewPet.md)
  - [NewPetCategoryInlineAllof](docs/NewPetCategoryInlineAllof.md)

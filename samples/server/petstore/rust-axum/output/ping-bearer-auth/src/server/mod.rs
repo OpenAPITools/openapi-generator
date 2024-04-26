@@ -30,7 +30,6 @@ where
 fn ping_get_validation() -> std::result::Result<(), ValidationErrors> {
     Ok(())
 }
-
 /// PingGet - GET /ping
 #[tracing::instrument(skip_all)]
 async fn ping_get<I, A>(

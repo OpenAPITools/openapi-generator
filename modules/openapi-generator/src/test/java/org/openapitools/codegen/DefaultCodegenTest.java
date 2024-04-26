@@ -40,6 +40,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.*;
@@ -4914,19 +4915,30 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testAllOf() throws IOException {
-        DefaultCodegen codegen = new DefaultCodegen();
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_16797.yaml");
-        codegen.setOpenAPI(openAPI);
+    public void testAllVars_issue_18340() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_18340.yaml");
+//        new OpenAPINormalizer(openAPI, Map.of("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", " true"))
+//                .normalize();
+        Schema catModel = ModelUtils.getSchema(openAPI, "Cat");
+        DefaultCodegen defaultCodegen = new DefaultCodegen();
+        defaultCodegen.setOpenAPI(openAPI);
+        CodegenModel defaultCat = defaultCodegen.fromModel("Cat", catModel);
+        assertThat(getNames(defaultCat.allVars)).isEqualTo(List.of("name", "petType"));
 
-        Schema object3 = openAPI.getComponents().getSchemas().get("Object3");
-        codegen.setOpenAPI(openAPI);
-        CodegenModel model = codegen.fromModel("Object3", object3);
-        Assert.assertEquals(names(model.allVars), List.of("timestamp", "pageInfo", "responseType", "requestId", "success"));
-        System.out.println(names(model.allVars));
-    }
+        // same model gives an invalid var when using SpringCodegen.  name is missing
+        SpringCodegen springCodegen = new SpringCodegen();
+        springCodegen.setOpenAPI(openAPI);
+        CodegenModel springCat = springCodegen.fromModel("Cat", catModel);
+        assertThat(getNames(springCat.allVars)).isEqualTo(List.of("petType"));  // should be name,petType
 
-    static List<String> names(List<CodegenProperty> vars) {
-        return vars.stream().map(CodegenProperty::getBaseName).collect(Collectors.toList());
+        // Prove that supportsInheritance is the culprit
+        SpringCodegen springCodegenNoSupportInheritance = new SpringCodegen() {
+            {
+                this.supportsInheritance = false;
+            }
+        };
+        springCodegenNoSupportInheritance.setOpenAPI(openAPI);
+        CodegenModel springCatNoSupportInheritance = springCodegenNoSupportInheritance.fromModel("Cat", catModel);
+        assertThat(getNames(springCatNoSupportInheritance.allVars)).isEqualTo(List.of("name", "petType"));
     }
 }

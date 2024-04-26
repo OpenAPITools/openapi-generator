@@ -632,7 +632,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_property_enum_integer_serialize**
-> OuterObjectWithEnumProperty fake_property_enum_integer_serialize(outer_object_with_enum_property)
+> OuterObjectWithEnumProperty fake_property_enum_integer_serialize(outer_object_with_enum_property, param=param)
 
 
 
@@ -643,6 +643,7 @@ Test serialization of enum (int) properties with examples
 
 ```python
 import petstore_api
+from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -659,9 +660,10 @@ with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     outer_object_with_enum_property = petstore_api.OuterObjectWithEnumProperty() # OuterObjectWithEnumProperty | Input enum (int) as post body
+    param = [petstore_api.OuterEnumInteger()] # List[OuterEnumInteger] |  (optional)
 
     try:
-        api_response = api_instance.fake_property_enum_integer_serialize(outer_object_with_enum_property)
+        api_response = api_instance.fake_property_enum_integer_serialize(outer_object_with_enum_property, param=param)
         print("The response of FakeApi->fake_property_enum_integer_serialize:\n")
         pprint(api_response)
     except Exception as e:
@@ -676,6 +678,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **outer_object_with_enum_property** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)| Input enum (int) as post body | 
+ **param** | [**List[OuterEnumInteger]**](OuterEnumInteger.md)|  | [optional] 
 
 ### Return type
 

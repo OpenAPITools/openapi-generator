@@ -2155,7 +2155,7 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["required_string_uuid"] = requiredStringUuid.ToString();
+                    parseQueryStringLocalVar["required_string_uuid"] = ClientUtils.ParameterToString(requiredStringUuid);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
@@ -2974,7 +2974,7 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["query"] = query.ToString();
+                    parseQueryStringLocalVar["query"] = ClientUtils.ParameterToString(query);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
@@ -3796,16 +3796,20 @@ namespace Org.OpenAPITools.Api
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
                     if (enumQueryStringArray.IsSet)
-                        parseQueryStringLocalVar["enum_query_string_array"] = enumQueryStringArray.Value.ToString();
+                        // here too
+                        parseQueryStringLocalVar["enum_query_string_array"] = ClientUtils.ParameterToString(enumQueryStringArray.Value);
 
                     if (enumQueryString.IsSet)
-                        parseQueryStringLocalVar["enum_query_string"] = enumQueryString.Value.ToString();
+                        // here too
+                        parseQueryStringLocalVar["enum_query_string"] = ClientUtils.ParameterToString(enumQueryString.Value);
 
                     if (enumQueryDouble.IsSet)
-                        parseQueryStringLocalVar["enum_query_double"] = enumQueryDouble.Value.ToString();
+                        // here too
+                        parseQueryStringLocalVar["enum_query_double"] = ClientUtils.ParameterToString(enumQueryDouble.Value);
 
                     if (enumQueryInteger.IsSet)
-                        parseQueryStringLocalVar["enum_query_integer"] = enumQueryInteger.Value.ToString();
+                        // here too
+                        parseQueryStringLocalVar["enum_query_integer"] = ClientUtils.ParameterToString(enumQueryInteger.Value);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
@@ -4037,14 +4041,16 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["required_string_group"] = requiredStringGroup.ToString();
-                    parseQueryStringLocalVar["required_int64_group"] = requiredInt64Group.ToString();
+                    parseQueryStringLocalVar["required_string_group"] = ClientUtils.ParameterToString(requiredStringGroup);
+                    parseQueryStringLocalVar["required_int64_group"] = ClientUtils.ParameterToString(requiredInt64Group);
 
                     if (stringGroup.IsSet)
-                        parseQueryStringLocalVar["string_group"] = stringGroup.Value.ToString();
+                        // here too
+                        parseQueryStringLocalVar["string_group"] = ClientUtils.ParameterToString(stringGroup.Value);
 
                     if (int64Group.IsSet)
-                        parseQueryStringLocalVar["int64_group"] = int64Group.Value.ToString();
+                        // here too
+                        parseQueryStringLocalVar["int64_group"] = ClientUtils.ParameterToString(int64Group.Value);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
@@ -4899,19 +4905,21 @@ namespace Org.OpenAPITools.Api
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["pipe"] = pipe.ToString();
-                    parseQueryStringLocalVar["ioutil"] = ioutil.ToString();
-                    parseQueryStringLocalVar["http"] = http.ToString();
-                    parseQueryStringLocalVar["url"] = url.ToString();
-                    parseQueryStringLocalVar["context"] = context.ToString();
-                    parseQueryStringLocalVar["requiredNotNullable"] = requiredNotNullable.ToString();
-                    parseQueryStringLocalVar["requiredNullable"] = requiredNullable.ToString();
+                    parseQueryStringLocalVar["pipe"] = ClientUtils.ParameterToString(pipe);
+                    parseQueryStringLocalVar["ioutil"] = ClientUtils.ParameterToString(ioutil);
+                    parseQueryStringLocalVar["http"] = ClientUtils.ParameterToString(http);
+                    parseQueryStringLocalVar["url"] = ClientUtils.ParameterToString(url);
+                    parseQueryStringLocalVar["context"] = ClientUtils.ParameterToString(context);
+                    parseQueryStringLocalVar["requiredNotNullable"] = ClientUtils.ParameterToString(requiredNotNullable);
+                    parseQueryStringLocalVar["requiredNullable"] = ClientUtils.ParameterToString(requiredNullable);
 
                     if (notRequiredNotNullable.IsSet)
-                        parseQueryStringLocalVar["notRequiredNotNullable"] = notRequiredNotNullable.Value.ToString();
+                        // here too
+                        parseQueryStringLocalVar["notRequiredNotNullable"] = ClientUtils.ParameterToString(notRequiredNotNullable.Value);
 
                     if (notRequiredNullable.IsSet)
-                        parseQueryStringLocalVar["notRequiredNullable"] = notRequiredNullable.Value.ToString();
+                        // here too
+                        parseQueryStringLocalVar["notRequiredNullable"] = ClientUtils.ParameterToString(notRequiredNullable.Value);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 

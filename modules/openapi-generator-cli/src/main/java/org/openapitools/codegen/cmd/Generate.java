@@ -515,11 +515,11 @@ public class Generate extends OpenApiGeneratorCommand {
         applyModelNameMappingsKvpList(modelNameMappings, configurator);
         applyEnumNameMappingsKvpList(enumNameMappings, configurator);
         applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
-        applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
+        applyOpenapiNormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
-        applyOpenAPIGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
+        applyOpenapiGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
         applyServerVariablesKvpList(serverVariableOverrides, configurator);
 

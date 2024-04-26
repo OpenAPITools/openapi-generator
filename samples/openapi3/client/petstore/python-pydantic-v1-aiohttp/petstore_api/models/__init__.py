@@ -18,6 +18,7 @@ from petstore_api.models.additional_properties_any_type import AdditionalPropert
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
 from petstore_api.models.additional_properties_object import AdditionalPropertiesObject
 from petstore_api.models.additional_properties_with_description_only import AdditionalPropertiesWithDescriptionOnly
+from petstore_api.models.all_of_super_model import AllOfSuperModel
 from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
 from petstore_api.models.animal import Animal
 from petstore_api.models.any_of_color import AnyOfColor
@@ -32,6 +33,7 @@ from petstore_api.models.bathing import Bathing
 from petstore_api.models.capitalization import Capitalization
 from petstore_api.models.cat import Cat
 from petstore_api.models.category import Category
+from petstore_api.models.circular_all_of_ref import CircularAllOfRef
 from petstore_api.models.circular_reference_model import CircularReferenceModel
 from petstore_api.models.class_model import ClassModel
 from petstore_api.models.client import Client
@@ -90,6 +92,7 @@ from petstore_api.models.poop_cleaning import PoopCleaning
 from petstore_api.models.property_map import PropertyMap
 from petstore_api.models.property_name_collision import PropertyNameCollision
 from petstore_api.models.read_only_first import ReadOnlyFirst
+from petstore_api.models.second_circular_all_of_ref import SecondCircularAllOfRef
 from petstore_api.models.second_ref import SecondRef
 from petstore_api.models.self_reference_model import SelfReferenceModel
 from petstore_api.models.single_ref_type import SingleRefType
