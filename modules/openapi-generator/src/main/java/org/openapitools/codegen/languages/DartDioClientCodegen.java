@@ -112,7 +112,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         cliOptions.add(serializationLibrary);
 
         // Equality check option
-        final CliOption equalityCheckOption = CliOption.newString(EQUALITY_CHECK_METHOD, "Specify equality check method");
+        final CliOption equalityCheckOption = CliOption.newString(EQUALITY_CHECK_METHOD, "Specify equality check method. Takes effect only in case if serializationLibrary is json_serializable.");
         equalityCheckOption.setDefault(EQUALITY_CHECK_METHOD_DEFAULT);
 
         final Map<String, String> equalityCheckOptions = new HashMap<>();
