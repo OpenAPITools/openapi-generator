@@ -110,5 +110,6 @@ else
   (cd samples/client/petstore/java/resteasy && mvn integration-test)
   (cd samples/client/petstore/java-micronaut-client && mvn integration-test)
   (cd samples/client/petstore/java/apache-httpclient && mvn integration-test)
+  (cd samples/client/petstore/java/resttemplate-jakarta && mvn integration-test)
 
 fi
