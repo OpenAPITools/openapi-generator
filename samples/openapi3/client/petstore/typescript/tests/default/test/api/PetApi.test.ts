@@ -18,7 +18,7 @@ describe("PetApi", () => {
         pet.id = Math.floor(Math.random() * 100000)
         pet.name = "PetName"
         pet.photoUrls = []
-        pet.status = petstore.PetStatusEnum.Available
+        pet.status = "available"
         pet.tags = [ tag ]
 
         await petApi.addPet(pet);
