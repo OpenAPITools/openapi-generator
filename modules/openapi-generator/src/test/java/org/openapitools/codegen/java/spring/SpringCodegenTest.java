@@ -714,13 +714,13 @@ public class SpringCodegenTest {
 
         // Check that the delegate handles the array
         JavaFileAssert.assertThat(files.get("MultipartArrayApiDelegate.java"))
-                .assertMethod("multipartArray", "List<MultipartFile>")
-                .hasParameter("files").withType("List<MultipartFile>");
+                .assertMethod("multipartArray", "List<org.springframework.core.io.Resource>")
+                .hasParameter("files").withType("List<org.springframework.core.io.Resource>");
 
         // Check that the api handles the array
         JavaFileAssert.assertThat(files.get("MultipartArrayApi.java"))
-                .assertMethod("multipartArray", "List<MultipartFile>")
-                .hasParameter("files").withType("List<MultipartFile>")
+                .assertMethod("multipartArray", "List<org.springframework.core.io.Resource>")
+                .hasParameter("files").withType("List<org.springframework.core.io.Resource>")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"Many files\""))
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"files\"", "required", "false"));
@@ -734,22 +734,22 @@ public class SpringCodegenTest {
 
         // Check that the api handles the single file
         JavaFileAssert.assertThat(files.get("MultipartSingleApi.java"))
-                .assertMethod("multipartSingle", "MultipartFile")
-                .hasParameter("file").withType("MultipartFile")
+                .assertMethod("multipartSingle", "org.springframework.core.io.Resource")
+                .hasParameter("file").withType("org.springframework.core.io.Resource")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"One file\""))
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "false"));
 
         // Check that api validates mixed multipart request
         JavaFileAssert.assertThat(files.get("MultipartMixedApi.java"))
-                .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker", "List<MultipartMixedStatus>")
+                .assertMethod("multipartMixed", "MultipartMixedStatus", "org.springframework.core.io.Resource", "MultipartMixedRequestMarker", "List<MultipartMixedStatus>")
                 .hasParameter("status").withType("MultipartMixedStatus")
                 .assertParameterAnnotations()
                 .containsWithName("Valid")
                 .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"\""))
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"status\"", "required", "true"))
                 .toParameter().toMethod()
-                .hasParameter("file").withType("MultipartFile")
+                .hasParameter("file").withType("org.springframework.core.io.Resource")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "true"))
                 .toParameter().toMethod()
@@ -1488,8 +1488,8 @@ public class SpringCodegenTest {
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/issue7506.yaml");
 
         final File multipartArrayApiDelegate = files.get("ExampleApi.java");
-        assertFileContains(multipartArrayApiDelegate.toPath(), "@RequestPart(value = \"super\", required = false) MultipartFile _super");
-        assertFileContains(multipartArrayApiDelegate.toPath(), "@RequestPart(value = \"package\", required = false) MultipartFile _package");
+        assertFileContains(multipartArrayApiDelegate.toPath(), "@RequestPart(value = \"super\", required = false) org.springframework.core.io.Resource _super");
+        assertFileContains(multipartArrayApiDelegate.toPath(), "@RequestPart(value = \"package\", required = false) org.springframework.core.io.Resource _package");
     }
 
     @Test
