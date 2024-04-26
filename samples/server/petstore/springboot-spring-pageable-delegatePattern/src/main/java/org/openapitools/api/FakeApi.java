@@ -20,7 +20,6 @@ import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -326,7 +325,7 @@ public interface FakeApi {
         @ApiParam(value = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
         @ApiParam(value = "None") @Valid @RequestParam(value = "float", required = false) Float _float,
         @ApiParam(value = "None") @Valid @RequestParam(value = "string", required = false) String string,
-        @ApiParam(value = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
+        @ApiParam(value = "None") @RequestPart(value = "binary", required = false) org.springframework.core.io.Resource binary,
         @ApiParam(value = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @ApiParam(value = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
         @ApiParam(value = "None") @Valid @RequestParam(value = "password", required = false) String password,
@@ -546,7 +545,7 @@ public interface FakeApi {
     
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
+        @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) org.springframework.core.io.Resource requiredFile,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     ) {
         return getDelegate().uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);

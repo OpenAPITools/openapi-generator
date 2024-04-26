@@ -12,7 +12,6 @@ import java.util.Set;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -196,7 +195,7 @@ public interface PetApi {
     ResponseEntity<ApiResponseDto> uploadFile(
          @PathVariable("petId") Long petId,
          @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
-         @RequestPart(value = "file", required = false) MultipartFile file
+         @RequestPart(value = "file", required = false) org.springframework.core.io.Resource file
     );
 
 
@@ -217,7 +216,7 @@ public interface PetApi {
     )
     ResponseEntity<ApiResponseDto> uploadFileWithRequiredFile(
          @PathVariable("petId") Long petId,
-         @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
+         @RequestPart(value = "requiredFile", required = true) org.springframework.core.io.Resource requiredFile,
          @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     );
 

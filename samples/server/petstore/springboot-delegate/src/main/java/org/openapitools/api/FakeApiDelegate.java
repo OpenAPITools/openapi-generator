@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -212,7 +211,7 @@ public interface FakeApiDelegate {
         Long int64,
         Float _float,
         String string,
-        MultipartFile binary,
+        org.springframework.core.io.Resource binary,
         LocalDate date,
         OffsetDateTime dateTime,
         String password,
@@ -364,7 +363,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#uploadFileWithRequiredFile
      */
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
-        MultipartFile requiredFile,
+        org.springframework.core.io.Resource requiredFile,
         String additionalMetadata) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
