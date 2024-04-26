@@ -18,6 +18,12 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
+void CreateUserOrPet_request::validate()
+{
+    // TODO: implement validation
+}
+
 const CreateUserOrPet_request::VariantType& CreateUserOrPet_request::getVariant() const
 {
     return m_variantValue;

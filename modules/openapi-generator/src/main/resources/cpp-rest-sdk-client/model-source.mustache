@@ -7,6 +7,12 @@
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
 {{#oneOf}}{{#-first}}
+
+void {{classname}}::validate()
+{
+    // TODO: implement validation
+}
+
 const {{classname}}::VariantType& {{classname}}::getVariant() const
 {
     return m_variantValue;

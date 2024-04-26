@@ -39,18 +39,16 @@ class Tag;
 #include <variant>
 
 class  CreateUserOrPet_request
-    : public ModelBase
 {
 public:
-    CreateUserOrPet_request();
-    virtual ~CreateUserOrPet_request();
+    CreateUserOrPet_request() = default;
+    ~CreateUserOrPet_request() = default;
 
     /////////////////////////////////////////////
-    /// ModelBase overrides
 
-    void validate() override;
+    void validate();
 
-    web::json::value toJson() const override;
+    web::json::value toJson() const;
 
     template<typename Target>
     bool fromJson(const web::json::value& json) {
@@ -64,7 +62,7 @@ public:
         return true;
     }
 
-    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
+    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const;
 
     template<typename Target>
     bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) {
