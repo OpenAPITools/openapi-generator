@@ -1,0 +1,11 @@
+{{>partial_header}}
+package {{packageName}}
+
+// ImplResponse defines an implementation response with error code and the associated body
+type ImplResponse struct {
+	Code int
+	{{#addResponseHeaders}}
+	Headers map[string][]string
+	{{/addResponseHeaders}}
+	Body interface{}
+}

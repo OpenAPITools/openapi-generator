@@ -1,0 +1,179 @@
+{{>partial_header}}
+package {{packageName}}
+
+{{#models}}{{#imports}}
+{{#-first}}import (
+{{/-first}}	"{{import}}"{{#-last}}
+)
+{{/-last}}{{/imports}}
+
+{{#model}}{{#isEnum}}{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
+type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{{format}}}
+
+// List of {{{classname}}}
+const (
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{#enumClassPrefix}}{{{classname.toUpperCase}}}_{{/enumClassPrefix}}{{name}} {{{classname}}} = {{{value}}}
+	{{/enumVars}}
+	{{/allowableValues}}
+)
+
+// Allowed{{{classname}}}EnumValues is all the allowed values of {{{classname}}} enum
+var Allowed{{{classname}}}EnumValues = []{{{classname}}}{
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{{value}}},
+	{{/enumVars}}
+	{{/allowableValues}}
+}
+
+// valid{{{classname}}}EnumValue provides a map of {{classname}}s for fast verification of use input
+var valid{{{classname}}}EnumValues = map[{{{classname}}}]struct{}{
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{{value}}}: {},
+	{{/enumVars}}
+	{{/allowableValues}}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v {{{classname}}}) IsValid() bool {
+	_, ok := valid{{{classname}}}EnumValues[v]
+	return ok
+}
+
+// New{{{classname}}}FromValue returns a pointer to a valid {{{classname}}}
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func New{{{classname}}}FromValue(v {{{format}}}{{^format}}{{dataType}}{{/format}}) ({{{classname}}}, error) {
+	ev := {{{classname}}}(v)
+	if ev.IsValid() {
+		return ev, nil
+	} else {
+		return "", fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, Allowed{{{classname}}}EnumValues)
+	}
+}
+
+{{/isEnum}}{{^isEnum}}{{#description}}
+// {{classname}} - {{{description}}}{{/description}}
+type {{classname}} struct {
+{{#parent}}
+{{^isMap}}
+{{^isArray}}
+	{{{parent}}}
+{{/isArray}}
+{{/isMap}}
+{{#isArray}}
+	Items {{{parent}}}
+{{/isArray}}
+{{/parent}}
+{{#vars}}{{#description}}
+	// {{{.}}}{{/description}}
+	{{#deprecated}}
+	// Deprecated
+	{{/deprecated}}
+	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+{{/vars}}
+}{{/isEnum}}
+
+// Assert{{classname}}Required checks if the required fields are not zero-ed
+func Assert{{classname}}Required(obj {{classname}}) error {
+{{#hasRequired}}
+	elements := map[string]interface{}{
+{{#requiredVars}}		"{{baseName}}": obj.{{name}},
+{{/requiredVars}}	}
+	for name, el := range elements {
+		if isZero := IsZeroValue(el); isZero {
+			return &RequiredError{Field: name}
+		}
+	}
+
+{{/hasRequired}}
+{{#parent}}
+	{{^isMap}}
+		{{^isArray}}
+	if err := Assert{{{parent}}}Required(obj.{{{parent}}}); err != nil {
+		return err
+	}
+
+		{{/isArray}}
+	{{/isMap}}
+{{/parent}}
+{{#Vars}}
+	{{#isNullable}}
+		{{#isModel}}
+	if obj.{{name}} != nil {
+		{{/isModel}}
+		{{#isArray}}
+			{{#items.isModel}}
+	if obj.{{name}} != nil {
+			{{/items.isModel}}
+			{{^items.isModel}}
+				{{#mostInnerItems.isModel}}
+					{{^mostInnerItems.isPrimitiveType}}
+	if obj.{{name}} != nil {
+					{{/mostInnerItems.isPrimitiveType}}
+				{{/mostInnerItems.isModel}}
+			{{/items.isModel}}
+		{{/isArray}}
+	{{/isNullable}}
+	{{#isModel}}
+{{#isNullable}}	{{/isNullable}}	if err := Assert{{baseType}}Required({{#isNullable}}*{{/isNullable}}obj.{{name}}); err != nil {
+{{#isNullable}}	{{/isNullable}}		return err
+{{#isNullable}}	{{/isNullable}}	}
+	{{/isModel}}
+	{{#isArray}}
+		{{#items.isModel}}
+{{#isNullable}}	{{/isNullable}}	for _, el := range {{#isNullable}}*{{/isNullable}}obj.{{name}} {
+{{#isNullable}}	{{/isNullable}}		if err := Assert{{items.baseType}}Required(el); err != nil {
+{{#isNullable}}	{{/isNullable}}			return err
+{{#isNullable}}	{{/isNullable}}		}
+{{#isNullable}}	{{/isNullable}}	}
+		{{/items.isModel}}
+		{{^items.isModel}}
+			{{#mostInnerItems.isModel}}
+				{{^mostInnerItems.isPrimitiveType}}
+{{#isNullable}}	{{/isNullable}}	if err := AssertRecurseInterfaceRequired({{#isNullable}}*{{/isNullable}}obj.{{name}}, Assert{{mostInnerItems.dataType}}Required); err != nil {
+{{#isNullable}}	{{/isNullable}}		return err
+{{#isNullable}}	{{/isNullable}}	}
+				{{/mostInnerItems.isPrimitiveType}}
+			{{/mostInnerItems.isModel}}
+		{{/items.isModel}}
+	{{/isArray}}
+	{{#isNullable}}
+		{{#isModel}}
+	}
+		{{/isModel}}
+		{{#isArray}}
+			{{#items.isModel}}
+	}
+			{{/items.isModel}}
+			{{^items.isModel}}
+				{{#mostInnerItems.isModel}}
+					{{^mostInnerItems.isPrimitiveType}}
+	}
+					{{/mostInnerItems.isPrimitiveType}}
+				{{/mostInnerItems.isModel}}
+			{{/items.isModel}}
+		{{/isArray}}
+	{{/isNullable}}
+{{/Vars}}
+	return nil
+}
+
+// Assert{{classname}}Constraints checks if the values respects the defined constraints
+func Assert{{classname}}Constraints(obj {{classname}}) error {
+{{#Vars}}
+{{#minimum}}
+	if {{#isNullable}}obj.{{name}} != nil && *{{/isNullable}}obj.{{name}} < {{minimum}} {
+		return &ParsingError{Err: errors.New(errMsgMinValueConstraint)}
+	}
+{{/minimum}}
+{{#maximum}}
+	if {{#isNullable}}obj.{{name}} != nil && *{{/isNullable}}obj.{{name}} > {{maximum}} {
+		return &ParsingError{Err: errors.New(errMsgMaxValueConstraint)}
+	}
+{{/maximum}}
+{{/Vars}}
+	return nil
+}{{/model}}{{/models}}
