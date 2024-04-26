@@ -591,7 +591,12 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{paramName}}Param := r.Header.Get("{{baseName}}")
 	{{/isHeaderParam}}
 	{{#isBodyParam}}
+	{{#isArray}}
 	{{paramName}}Param := {{dataType}}{}
+	{{/isArray}}
+	{{^isArray}}
+	{{paramName}}Param := New{{dataType}}WithDefaults()
+	{{/isArray}}
 	d := json.NewDecoder(r.Body)
 	{{^isAdditionalPropertiesTrue}}
 	d.DisallowUnknownFields()

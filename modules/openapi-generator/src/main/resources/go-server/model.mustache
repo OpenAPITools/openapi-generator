@@ -74,7 +74,34 @@ type {{classname}} struct {
 	{{/deprecated}}
 	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
-}{{/isEnum}}
+}
+
+{{^isArray}}
+// New{{classname}}WithDefaults instantiates a new {{classname}} object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func New{{classname}}WithDefaults() {{classname}} {
+	this := {{classname}}{}
+{{#parent}}
+{{^isMap}}
+{{^isArray}}
+	this.{{{parent}}} = New{{{parent}}}WithDefaults()
+{{/isArray}}
+{{/isMap}}
+{{/parent}}
+{{#vars}}
+{{#defaultValue}}
+{{^isArray}}
+	this.{{name}} = {{#isBoolean}}{{{.}}}{{/isBoolean}}{{#isNumeric}}{{{.}}}{{/isNumeric}}{{^isBoolean}}{{^isNumeric}}"{{{.}}}"{{/isNumeric}}{{/isBoolean}}
+{{/isArray}}
+{{/defaultValue}}
+{{#isModel}}
+	{{#isNullable}}*{{/isNullable}}this.{{name}} = New{{dataType}}WithDefaults()
+{{/isModel}}
+{{/vars}}
+	return this
+}{{/isArray}}
+{{/isEnum}}
 
 // Assert{{classname}}Required checks if the required fields are not zero-ed
 func Assert{{classname}}Required(obj {{classname}}) error {

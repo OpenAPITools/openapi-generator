@@ -37,6 +37,16 @@ type Order struct {
 	Comment *string `json:"comment"`
 }
 
+// NewOrderWithDefaults instantiates a new Order object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewOrderWithDefaults() Order {
+	this := Order{}
+	this.SpecialInfo = NewSpecialInfoWithDefaults()
+	this.Complete = false
+	return this
+}
+
 // AssertOrderRequired checks if the required fields are not zero-ed
 func AssertOrderRequired(obj Order) error {
 	elements := map[string]interface{}{

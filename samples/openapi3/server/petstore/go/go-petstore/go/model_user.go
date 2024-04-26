@@ -40,6 +40,14 @@ type User struct {
 	DeepSliceMap [][]AnObject `json:"deepSliceMap,omitempty"`
 }
 
+// NewUserWithDefaults instantiates a new User object
+// This constructor will only assign default values to properties that have it defined,
+// but it doesn't guarantee that properties required by API are set
+func NewUserWithDefaults() User {
+	this := User{}
+	return this
+}
+
 // AssertUserRequired checks if the required fields are not zero-ed
 func AssertUserRequired(obj User) error {
 	elements := map[string]interface{}{
