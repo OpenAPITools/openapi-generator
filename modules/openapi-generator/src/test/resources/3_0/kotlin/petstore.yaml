@@ -766,3 +766,10 @@ components:
       oneOf:
         - $ref: "#/components/schemas/User"
         - $ref: "#/components/schemas/Pet"
+    UserOrPetOrArrayString:
+      oneOf:
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/Pet"
+        - type: array
+          items:
+            type: string

@@ -87,9 +87,8 @@ import java.io.IOException
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/isArray}}
             {{#isArray}}
-            // TODO
-            //val Type typeInstance = new TypeToken<{{{dataType}}}>(){}.getType()
-            //val TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance))
+            @Suppress("UNCHECKED_CAST")
+            val adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = gson.getDelegateAdapter(this, TypeToken.get(object : TypeToken<{{{dataType}}}>() {}.type)) as TypeAdapter<{{{dataType}}}>
             {{/isArray}}
             {{/oneOf}}
             {{/composedSchemas}}
@@ -107,7 +106,7 @@ import java.io.IOException
                     {{#oneOf}}
                     {{^vendorExtensions.x-duplicated-data-type}}
                     // check if the actual instance is of the type `{{{dataType}}}`
-                    if (value.actualInstance is {{#isArray}}List<?>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
+                    if (value.actualInstance is {{#isArray}}List<*>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
                     {{#isPrimitiveType}}
                         val primitive = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(value.actualInstance as {{{dataType}}}?).getAsJsonPrimitive()
                         elementAdapter.write(out, primitive)
@@ -178,18 +177,17 @@ import java.io.IOException
                             String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString())
                         }
 
-                        val array = jsonElement.getAsJsonArray()
                         // validate array items
-                        for(JsonElement element : array) {
+                        for(element in jsonElement.getAsJsonArray()) {
                         {{#items}}
                         {{#isNumber}}
-                            require(jsonElement.getAsJsonPrimitive().isNumber()) {
+                            require(jsonElement.getAsJsonPrimitive().isNumber) {
                                 String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString())
                             }
                         {{/isNumber}}
                         {{^isNumber}}
                         {{#isPrimitiveType}}
-                            require(element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
+                            require(element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}) {
                                 String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString())
                             }
                         {{/isPrimitiveType}}

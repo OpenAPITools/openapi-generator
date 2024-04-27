@@ -12,6 +12,7 @@ docs/Tag.md
 docs/User.md
 docs/UserApi.md
 docs/UserOrPet.md
+docs/UserOrPetOrArrayString.md
 gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
 gradlew
@@ -41,3 +42,4 @@ src/main/kotlin/org/openapitools/client/models/ApiPet.kt
 src/main/kotlin/org/openapitools/client/models/ApiTag.kt
 src/main/kotlin/org/openapitools/client/models/ApiUser.kt
 src/main/kotlin/org/openapitools/client/models/ApiUserOrPet.kt
+src/main/kotlin/org/openapitools/client/models/ApiUserOrPetOrArrayString.kt

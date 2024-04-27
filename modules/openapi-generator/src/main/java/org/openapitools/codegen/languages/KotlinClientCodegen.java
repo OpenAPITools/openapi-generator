@@ -517,7 +517,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         additionalProperties.put("sanitizeGeneric", (Mustache.Lambda) (fragment, writer) -> {
             String content = fragment.execute();
-            for (final String s: List.of("<", ">", ",", " ")) {
+            for (final String s: List.of("<", ">", ",", " ", ".")) {
                 content = content.replace(s, "");
             }
             writer.write(content);
