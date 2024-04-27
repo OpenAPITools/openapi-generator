@@ -3,51 +3,37 @@ package {{invokerPackage}};
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.util.function.Consumer;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.RequestEntity.BodyBuilder;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.BufferingClientHttpRequestFactory;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
+  import org.springframework.http.converter.HttpMessageConverter;
+  import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+{{#withXml}}
+  import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
+{{/withXml}}
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
-import org.springframework.http.client.reactive.ClientHttpRequest;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClient.ResponseSpec;
 import java.util.Optional;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -73,7 +59,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
 
         private final String separator;
-        private CollectionFormat(String separator) {
+        CollectionFormat(String separator) {
             this.separator = separator;
         }
 
@@ -82,10 +68,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         }
     }
 
-    private static final String URI_TEMPLATE_ATTRIBUTE = RestClient.class.getName() + ".uriTemplate";
-
-    private HttpHeaders defaultHeaders = new HttpHeaders();
-    private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
+    private final HttpHeaders defaultHeaders = new HttpHeaders();
+    private final MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<>();
 
     private String basePath = "{{basePath}}";
 
@@ -104,7 +88,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     public ApiClient(RestClient restClient) {
-        this(Optional.ofNullable(restClient).orElseGet(() -> buildRestClient()), createDefaultDateFormat());
+        this(Optional.ofNullable(restClient).orElseGet(ApiClient::buildRestClient), createDefaultDateFormat());
     }
 
     public ApiClient(ObjectMapper mapper, DateFormat format) {
@@ -145,7 +129,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     protected void init() {
         // Setup authentications (key: authentication name, value: authentication).
-        authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        authentications = new HashMap<>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
@@ -160,19 +144,22 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     * @return RestClient
     */
     public static RestClient.Builder buildRestClientBuilder(ObjectMapper mapper) {
-        List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-        messageConverters.add(new MappingJackson2HttpMessageConverter(mapper));
-
         {{#withXml}}
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
         {{#openApiNullable}}
           xmlMapper.registerModule(new JsonNullableModule());
         {{/openApiNullable}}
-        messageConverters.add(new MappingJackson2XmlHttpMessageConverter(xmlMapper));
-        {{/withXml}}
 
-        return restClientBuilder.messageConverters(messageConverters);
+        {{/withXml}}
+        Consumer<List<HttpMessageConverter<?>>> messageConverters = converters -> {
+            converters.add(new MappingJackson2HttpMessageConverter(mapper));
+            {{#withXml}}
+            converters.add(new MappingJackson2XmlHttpMessageConverter(xmlMapper));
+            {{/withXml}}
+        };
+
+        return RestClient.builder().messageConverters(messageConverters);
     }
 
     /**
@@ -438,7 +425,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return a Map containing the String value(s) of the input parameter
      */
     public MultiValueMap<String, String> parameterToMultiValueMap(CollectionFormat collectionFormat, String name, Object value) {
-        final MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 
         if (name == null || name.isEmpty() || value == null) {
             return params;
@@ -476,7 +463,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             return params;
         }
 
-        List<String> values = new ArrayList<String>();
+        List<String> values = new ArrayList<>();
         for(Object o : valueCollection) {
             values.add(parameterToString(o));
         }
@@ -568,27 +555,16 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     /**
-     * Select the body to use for the request
-     * @param obj the body object
-     * @param formParams the form parameters
-     * @param contentType the content type of the request
-     * @return Object the selected body
-     */
-    protected BodyInserter<?, ? super ClientHttpRequest> selectBody(Object obj, MultiValueMap<String, Object> formParams, MediaType contentType) {
-        if(MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
-            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-
-            formParams
-                    .toSingleValueMap()
-                    .entrySet()
-                    .forEach(es -> map.add(es.getKey(), String.valueOf(es.getValue())));
-
-            return BodyInserters.fromFormData(map);
-        } else if(MediaType.MULTIPART_FORM_DATA.equals(contentType)) {
-            return BodyInserters.fromMultipartData(formParams);
-        } else {
-            return obj != null ? BodyInserters.fromValue(obj) : null;
-        }
+    * Select the body to use for the request
+    *
+    * @param obj the body object
+    * @param formParams the form parameters
+    * @param contentType the content type of the request
+    * @return Object the selected body
+    */
+    protected Object selectBody(Object obj, MultiValueMap<String, Object> formParams, MediaType contentType) {
+        boolean isForm = MediaType.MULTIPART_FORM_DATA.isCompatibleWith(contentType) || MediaType.APPLICATION_FORM_URLENCODED.isCompatibleWith(contentType);
+        return isForm ? formParams : obj;
     }
 
     /**
@@ -678,8 +654,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         addCookiesToRequest(cookieParams, requestBuilder);
         addCookiesToRequest(defaultCookies, requestBuilder);
 
-        requestBuilder.attribute(URI_TEMPLATE_ATTRIBUTE, path);
-
         requestBuilder.body(selectBody(body, formParams, contentType));
         return requestBuilder;
     }
@@ -700,20 +674,34 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         }
     }
 
-    /**
+     /**
      * Add cookies to the request that is being built
-     * @param cookies The cookies to add
+     *
+     * @param cookies        The cookies to add
      * @param requestBuilder The current request
      */
     protected void addCookiesToRequest(MultiValueMap<String, String> cookies, RestClient.RequestBodySpec requestBuilder) {
-        for (Entry<String, List<String>> entry : cookies.entrySet()) {
-            List<String> values = entry.getValue();
-            for(String value : values) {
-                if (value != null) {
-                    requestBuilder.cookie(entry.getKey(), value);
-                }
-            }
+        if (!cookies.isEmpty()) {
+            requestBuilder.header("Cookie", buildCookieHeader(cookies));
         }
+    }
+
+    /**
+     * Build cookie header. Keeps a single value per cookie (as per <a href="https://tools.ietf.org/html/rfc6265#section-5.3">
+     * RFC6265 section 5.3</a>).
+     *
+     * @param cookies map all cookies
+     * @return header string for cookies.
+     */
+    private String buildCookieHeader(MultiValueMap<String, String> cookies) {
+        final StringBuilder cookieValue = new StringBuilder();
+        String delimiter = "";
+        for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
+            final String value = entry.getValue().get(entry.getValue().size() - 1);
+            cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), value));
+            delimiter = "; ";
+        }
+        return cookieValue.toString();
     }
 
     /**

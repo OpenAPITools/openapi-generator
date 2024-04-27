@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
@@ -76,7 +75,7 @@ public class {{classname}} {
         {{/required}}
         {{/allParams}}
         // create path and map variables
-        final Map<String, Object> pathParams = new HashMap<String, Object>();
+        final Map<String, Object> pathParams = new HashMap<>();
         {{#hasPathParams}}
 
         {{#pathParams}}
@@ -84,10 +83,10 @@ public class {{classname}} {
         {{/pathParams}}
         {{/hasPathParams}}
 
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<>();
         {{#hasQueryParams}}
 
         {{#queryParams}}{{#isExplode}}{{#hasVars}}{{#vars}}queryParams.putAll(apiClient.parameterToMultiValueMap({{#collectionFormat}}ApiClient.CollectionFormat.valueOf("{{{.}}}".toUpperCase(Locale.ROOT)){{/collectionFormat}}{{^collectionFormat}}null{{/collectionFormat}}, "{{baseName}}", {{paramName}}.{{getter}}()));
@@ -126,7 +125,7 @@ public class {{classname}} {
 
         String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
 
-        {{#returnType}}ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}> localVarReturnType = new ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
+        {{#returnType}}ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}
         return apiClient.invokeAPI("{{{path}}}", HttpMethod.{{httpMethod}}, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
 
@@ -142,8 +141,8 @@ public class {{classname}} {
     * @see <a href="{{url}}">{{summary}} Documentation</a>
 {{/externalDocs}}
      */
-    public {{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}{{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
-        {{#returnType}}ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}> localVarReturnType = new ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
+    public {{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
+        {{#returnType}}ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}
         {{#returnType}}return {{/returnType}}{{operationId}}RequestCreation({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).body(localVarReturnType);
     }
 
@@ -160,7 +159,7 @@ public class {{classname}} {
 {{/externalDocs}}
      */
     public {{#returnType}}ResponseEntity<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}ResponseEntity<Void>{{/returnType}} {{operationId}}WithHttpInfo({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws RestClientResponseException {
-        {{#returnType}}ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}> localVarReturnType = new ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};{{/returnType}}
+        {{#returnType}}ParameterizedTypeReference<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}{{^returnType}}ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};{{/returnType}}
         return {{operationId}}RequestCreation({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}).toEntity(localVarReturnType);
     }
 

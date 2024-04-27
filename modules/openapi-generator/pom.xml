@@ -56,8 +56,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <useNativeGit>true</useNativeGit>
-                    <offline>true</offline>
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
                     <generateGitPropertiesFilename>${project.build.outputDirectory}/openapi-generator-git.properties</generateGitPropertiesFilename>
                     <!-- REVIEWER NOTE: Never allow external contributors to change these without full clarification. -->
