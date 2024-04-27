@@ -134,15 +134,6 @@ data class ApiPet (
                 String.format("The required field(s) %s in ApiPet is not found in the empty JSON string", ApiPet.openapiRequiredFields.toString())
               }
             }
-
-            // TODO
-            //val entries = jsonElement!!.getAsJsonObject().entrySet()
-            // check to see if the JSON string contains additional fields
-            //for ((key) in entries) {
-            //  require(openapiFields.contains(key)) {
-            //    String.format("The field `%s` in the JSON string is not defined in the `ApiPet` properties. JSON: %s", key, jsonElement.toString())
-            //  }
-            //}
       
             // check to make sure all required properties/fields are present in the JSON string
             for (requiredField in openapiRequiredFields) {

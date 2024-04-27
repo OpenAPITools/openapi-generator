@@ -130,15 +130,6 @@ data class ApiUser (
                 String.format("The required field(s) %s in ApiUser is not found in the empty JSON string", ApiUser.openapiRequiredFields.toString())
               }
             }
-
-            // TODO
-            //val entries = jsonElement!!.getAsJsonObject().entrySet()
-            // check to see if the JSON string contains additional fields
-            //for ((key) in entries) {
-            //  require(openapiFields.contains(key)) {
-            //    String.format("The field `%s` in the JSON string is not defined in the `ApiUser` properties. JSON: %s", key, jsonElement.toString())
-            //  }
-            //}
       
             // check to make sure all required properties/fields are present in the JSON string
             for (requiredField in openapiRequiredFields) {

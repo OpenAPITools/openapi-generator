@@ -97,15 +97,6 @@ data class ApiCategory (
                 String.format("The required field(s) %s in ApiCategory is not found in the empty JSON string", ApiCategory.openapiRequiredFields.toString())
               }
             }
-
-            // TODO
-            //val entries = jsonElement!!.getAsJsonObject().entrySet()
-            // check to see if the JSON string contains additional fields
-            //for ((key) in entries) {
-            //  require(openapiFields.contains(key)) {
-            //    String.format("The field `%s` in the JSON string is not defined in the `ApiCategory` properties. JSON: %s", key, jsonElement.toString())
-            //  }
-            //}
             val jsonObj = jsonElement!!.getAsJsonObject()
             if (jsonObj["name"] != null && !jsonObj["name"].isJsonNull) {
               require(jsonObj.get("name").isJsonPrimitive) {

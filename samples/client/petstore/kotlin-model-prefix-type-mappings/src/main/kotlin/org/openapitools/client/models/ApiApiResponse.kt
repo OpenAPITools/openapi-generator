@@ -102,15 +102,6 @@ data class ApiApiResponse (
                 String.format("The required field(s) %s in ApiApiResponse is not found in the empty JSON string", ApiApiResponse.openapiRequiredFields.toString())
               }
             }
-
-            // TODO
-            //val entries = jsonElement!!.getAsJsonObject().entrySet()
-            // check to see if the JSON string contains additional fields
-            //for ((key) in entries) {
-            //  require(openapiFields.contains(key)) {
-            //    String.format("The field `%s` in the JSON string is not defined in the `ApiApiResponse` properties. JSON: %s", key, jsonElement.toString())
-            //  }
-            //}
             val jsonObj = jsonElement!!.getAsJsonObject()
             if (jsonObj["type"] != null && !jsonObj["type"].isJsonNull) {
               require(jsonObj.get("type").isJsonPrimitive) {

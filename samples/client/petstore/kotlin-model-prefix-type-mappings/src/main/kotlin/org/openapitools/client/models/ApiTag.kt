@@ -97,15 +97,6 @@ data class ApiTag (
                 String.format("The required field(s) %s in ApiTag is not found in the empty JSON string", ApiTag.openapiRequiredFields.toString())
               }
             }
-
-            // TODO
-            //val entries = jsonElement!!.getAsJsonObject().entrySet()
-            // check to see if the JSON string contains additional fields
-            //for ((key) in entries) {
-            //  require(openapiFields.contains(key)) {
-            //    String.format("The field `%s` in the JSON string is not defined in the `ApiTag` properties. JSON: %s", key, jsonElement.toString())
-            //  }
-            //}
             val jsonObj = jsonElement!!.getAsJsonObject()
             if (jsonObj["name"] != null && !jsonObj["name"].isJsonNull) {
               require(jsonObj.get("name").isJsonPrimitive) {

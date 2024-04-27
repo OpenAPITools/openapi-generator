@@ -225,17 +225,6 @@ import java.io.IOException
               }
             }
             {{^hasChildren}}
-            {{^isAdditionalPropertiesTrue}}
-
-            // TODO
-            //val entries = jsonElement!!.getAsJsonObject().entrySet()
-            // check to see if the JSON string contains additional fields
-            //for ((key) in entries) {
-            //  require(openapiFields.contains(key)) {
-            //    String.format("The field `%s` in the JSON string is not defined in the `{{classname}}` properties. JSON: %s", key, jsonElement.toString())
-            //  }
-            //}
-            {{/isAdditionalPropertiesTrue}}
             {{#requiredVars}}
             {{#-first}}
       

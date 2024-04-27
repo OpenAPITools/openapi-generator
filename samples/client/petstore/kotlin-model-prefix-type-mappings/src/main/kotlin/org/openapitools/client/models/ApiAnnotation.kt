@@ -92,15 +92,6 @@ data class ApiAnnotation (
                 String.format("The required field(s) %s in ApiAnnotation is not found in the empty JSON string", ApiAnnotation.openapiRequiredFields.toString())
               }
             }
-
-            // TODO
-            //val entries = jsonElement!!.getAsJsonObject().entrySet()
-            // check to see if the JSON string contains additional fields
-            //for ((key) in entries) {
-            //  require(openapiFields.contains(key)) {
-            //    String.format("The field `%s` in the JSON string is not defined in the `ApiAnnotation` properties. JSON: %s", key, jsonElement.toString())
-            //  }
-            //}
             val jsonObj = jsonElement!!.getAsJsonObject()
             if (jsonObj["id"] != null && !jsonObj["id"].isJsonNull) {
               require(jsonObj.get("id").isJsonPrimitive) {
