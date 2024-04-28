@@ -145,7 +145,7 @@ class QueryApi
     /**
      * @return Configuration
      */
-    public function getConfig(): Configuration
+    public function config(): Configuration
     {
         return $this->config;
     }

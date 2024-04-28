@@ -168,7 +168,7 @@ class PetApi
     /**
      * @return Configuration
      */
-    public function getConfig()
+    public function config()
     {
         return $this->config;
     }

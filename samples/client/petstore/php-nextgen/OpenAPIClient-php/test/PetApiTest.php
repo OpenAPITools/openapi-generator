@@ -81,7 +81,7 @@ class PetApiTest extends TestCase
      * // initialize the API client without host
      * $pet_id = 10005;  // ID of pet that needs to be fetched
      * $pet_api = new Api\PetApi();
-     * $pet_api->getApiClient()->getConfig()->setApiKey('api_key', '111222333444555');
+     * $pet_api->getApiClient()->config()->setApiKey('api_key', '111222333444555');
      * // return Pet (inline model)
      * $response = $pet_api->getPetByIdInObject($pet_id);
      * $this->assertInstanceOf('OpenAPI\Client\Model\InlineResponse200', $response);
