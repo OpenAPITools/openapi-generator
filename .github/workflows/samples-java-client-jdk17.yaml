@@ -5,10 +5,12 @@ on:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/webclient-jakarta/**
+      - samples/client/petstore/java/restclient-*/** 
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/webclient-jakarta/**
+      - samples/client/petstore/java/restclient-*/** 
 jobs:
   build:
     name: Build Java Client JDK17
@@ -20,6 +22,7 @@ jobs:
           # clients
           - samples/client/petstore/java/resttemplate-jakarta
           - samples/client/petstore/java/webclient-jakarta
+          - samples/client/petstore/java/restclient-*/** 
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
