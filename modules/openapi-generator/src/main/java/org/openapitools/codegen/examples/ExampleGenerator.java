@@ -396,6 +396,13 @@ public class ExampleGenerator {
         }
     }
 
+    /**
+     * Transverse and resolves all property examples for `allOf` composed schemas into `values` map object
+     * @param mediaType MIME type
+     * @param schema OAS schema
+     * @param processedModels Set containing all processed models
+     * @param values Example value map
+     */
     private void resolveAllOfSchemaProperties(String mediaType, Schema schema, Set<String> processedModels, Map<String, Object> values) {
         List<Schema> interfaces = schema.getAllOf();
         for (Schema composed : interfaces) {
