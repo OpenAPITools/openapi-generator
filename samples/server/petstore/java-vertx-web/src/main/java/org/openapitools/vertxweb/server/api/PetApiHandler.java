@@ -58,11 +58,7 @@ public class PetApiHandler {
         api.addPet(pet)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -82,11 +78,7 @@ public class PetApiHandler {
         api.deletePet(petId, apiKey)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -104,11 +96,7 @@ public class PetApiHandler {
         api.findPetsByStatus(status)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -126,11 +114,7 @@ public class PetApiHandler {
         api.findPetsByTags(tags)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -148,11 +132,7 @@ public class PetApiHandler {
         api.getPetById(petId)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -171,11 +151,7 @@ public class PetApiHandler {
         api.updatePet(pet)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -196,11 +172,7 @@ public class PetApiHandler {
         api.updatePetWithForm(petId, formBody)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -220,11 +192,7 @@ public class PetApiHandler {
         api.uploadFile(petId, _file)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
