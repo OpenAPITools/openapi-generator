@@ -184,10 +184,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
                 .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode,
-                SecurityFeature.OAuth2_ClientCredentials,
-                SecurityFeature.OAuth2_Password,
-                SecurityFeature.SignatureAuth,//jersey only
-                SecurityFeature.AWSV4Signature)//okhttp-gson only
+                        SecurityFeature.OAuth2_ClientCredentials,
+                        SecurityFeature.OAuth2_Password,
+                        SecurityFeature.SignatureAuth,//jersey only
+                        SecurityFeature.AWSV4Signature)//okhttp-gson only
         );
 
         outputFolder = "generated-code" + File.separator + "java";
@@ -224,7 +224,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT_DESC + " (only available for okhttp-gson library)", this.withAWSV4Signature));
         cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle properties to the gradle.properties file"));
-        cliOptions.add(CliOption.newString(ERROR_OBJECT_TYPE, "Error Object type. (This option is for okhttp-gson-next-gen only)"));
+        cliOptions.add(CliOption.newString(ERROR_OBJECT_TYPE, "Error Object type. (This option is for okhttp-gson only)"));
         cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option."));
         cliOptions.add(CliOption.newString(CONFIG_KEY_FROM_CLASS_NAME, "If true, set tag as key in @RegisterRestClient. Default to false. Only `microprofile` supports this option."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson support this option."));
@@ -477,15 +477,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(CodegenConstants.MAX_ATTEMPTS_FOR_RETRY)) {
             this.setMaxAttemptsForRetry(Integer.parseInt(additionalProperties.get(CodegenConstants.MAX_ATTEMPTS_FOR_RETRY).toString()));
-        }
-        else {
+        } else {
             additionalProperties.put(CodegenConstants.MAX_ATTEMPTS_FOR_RETRY, maxAttemptsForRetry);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.WAIT_TIME_OF_THREAD)) {
             this.setWaitTimeMillis(Long.parseLong((additionalProperties.get(CodegenConstants.WAIT_TIME_OF_THREAD).toString())));
-        }
-        else {
+        } else {
             additionalProperties.put(CodegenConstants.WAIT_TIME_OF_THREAD, waitTimeMillis);
         }
         writePropertyBack(USE_ENUM_CASE_INSENSITIVE, useEnumCaseInsensitive);
@@ -1277,11 +1275,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     public void setMaxAttemptsForRetry(int maxAttemptsForRetry) {
-        this.maxAttemptsForRetry= maxAttemptsForRetry;
+        this.maxAttemptsForRetry = maxAttemptsForRetry;
     }
 
     public void setWaitTimeMillis(long waitTimeMillis) {
-        this.waitTimeMillis= waitTimeMillis;
+        this.waitTimeMillis = waitTimeMillis;
     }
 
     /**
