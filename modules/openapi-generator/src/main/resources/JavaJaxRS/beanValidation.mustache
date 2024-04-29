@@ -1,1 +1,26 @@
-{{#required}}@NotNull {{/required}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}@Valid {{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}{{>beanValidationCore}}
+{{#required}}
+{{!Mark the property as required and hence not null}}
+    {{^isReadOnly}}
+    {{!isReadOnly marks the property read only}}
+        {{^isWriteOnly}}
+        {{!isWriteOnly marks the property write only}}
+            @NotNull 
+        {{/isWriteOnly}}
+    {{/isReadOnly}}
+{{/required}}
+{{^isPrimitiveType}}
+    {{^isDate}}
+    * @Assert\Date()
+    * @Type("DateTime<'Y-m-d'>")
+        {{^isDateTime}}
+        * @Assert\Type("{{dataType}}")
+        * @Type("{{dataType}}")
+            {{^isString}}
+                {{^isFile}}
+                    @Valid 
+                {{/isFile}}
+            {{/isString}}
+        {{/isDateTime}}
+    {{/isDate}}
+{{/isPrimitiveType}}
+{{>beanValidationCore}} 
