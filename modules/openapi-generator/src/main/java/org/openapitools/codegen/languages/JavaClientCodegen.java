@@ -387,10 +387,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(CONFIG_KEY)) {
             this.setConfigKey(additionalProperties.get(CONFIG_KEY).toString());
-        }
-
-        if(additionalProperties.containsKey(CONFIG_KEY_FROM_CLASS_NAME)) {
-            this.setConfigKey(null);
+        } else if (additionalProperties.containsKey(CONFIG_KEY_FROM_CLASS_NAME)) {
             this.setConfigKeyFromClassName(Boolean.parseBoolean(additionalProperties.get(CONFIG_KEY_FROM_CLASS_NAME).toString()));
         }
 
