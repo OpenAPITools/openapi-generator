@@ -2,28 +2,18 @@
 
 title OpenAPI Petstore Schemas Diagram
 
-entity ApiResponse { 
+entity ApiResponse {
     code: Integer
     type: String
     message: String
 }
 
-entity Category { 
+entity Category {
     id: Long
     name: String
 }
 
-entity InlineObject { 
-    name: String
-    status: String
-}
-
-entity InlineObject1 { 
-    additionalMetadata: String
-    file: File
-}
-
-entity Order { 
+entity Order {
     id: Long
     petId: Long
     quantity: Integer
@@ -32,7 +22,7 @@ entity Order {
     complete: Boolean
 }
 
-entity Pet { 
+entity Pet {
     id: Long
     category: Category
     * name: String
@@ -41,12 +31,12 @@ entity Pet {
     status: String
 }
 
-entity Tag { 
+entity Tag {
     id: Long
     name: String
 }
 
-entity User { 
+entity User {
     id: Long
     username: String
     firstName: String
