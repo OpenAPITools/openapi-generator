@@ -44,8 +44,8 @@ export class PetService {
             this.configuration = configuration;
         }
         if (typeof this.configuration.basePath !== 'string') {
-            const firstBasePath = Array.isArray(basePath)? basePath[0] : undefined;
-            if (firstBasePath !== undefined) {
+            const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;
+            if (firstBasePath != undefined) {
                 basePath = firstBasePath;
             }
 
