@@ -1,7 +1,7 @@
 // {{classname}} {{{description}}}{{^description}}struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
 	{{#anyOf}}
-	{{{.}}} *{{{.}}}
+	{{{.}}} *{{{.}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"`
 	{{/anyOf}}
 }
 
@@ -18,7 +18,7 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	{{#discriminator}}
 	{{#mappedModels}}
 	{{#-first}}
-	// use discriminator value to speed up the lookup
+	// use discriminator value to speed up the lookup -- Just seeing if I can change a comment
 	var jsonDict map[string]interface{}
 	err = json.Unmarshal(data, &jsonDict)
 	if err != nil {
