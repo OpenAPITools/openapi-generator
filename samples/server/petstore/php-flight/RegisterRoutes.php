@@ -47,7 +47,7 @@ class RegisterRoutes {
             \Flight::route('DELETE /pet/@petId', function (string $petId) use ($handler) {
                 $r = \Flight::request();
                 $handler->deletePet(
-                    parseParam($petId, 'int'),
+                    parseParam($petId, 'int'), 
                     parseParam($r->getHeader('api_key'), '?string')
                 );
                 \Flight::halt(204);
@@ -313,7 +313,7 @@ class RegisterRoutes {
             \Flight::route('GET /user/login', function () use ($handler) {
                 $r = \Flight::request();
                 $result = $handler->loginUser(
-                    parseParam($r->query['username'] ?? null, 'string'),
+                    parseParam($r->query['username'] ?? null, 'string'), 
                     parseParam($r->query['password'] ?? null, 'string')
                 );
                 if ($result === null) {
@@ -343,7 +343,7 @@ class RegisterRoutes {
             \Flight::route('PUT /user/@username', function (string $username) use ($handler) {
                 $r = \Flight::request();
                 $handler->updateUser(
-                    parseParam($username, 'string'),
+                    parseParam($username, 'string'), 
                     parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\User')
                 );
                 \Flight::halt(204);
