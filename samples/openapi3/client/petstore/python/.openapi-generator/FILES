@@ -236,7 +236,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_base_discriminator.py
-test/test_info.py
-test/test_primitive_string.py
 tox.ini
