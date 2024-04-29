@@ -53,6 +53,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
     public static final String IMPORT_FILE_EXTENSION_SWITCH_DESC = "File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html).";
     public static final String FILE_NAMING = "fileNaming";
+    public static final String KEBAB_CASE = "kebab-case";
+    public static final String CAMEL_CASE = "camelCase";
+    public static final String PASCAL_CASE = "PascalCase";
 
     protected String npmRepository = null;
     protected String importFileExtension = "";
@@ -62,7 +65,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean addedModelIndex = false;
     protected boolean withoutRuntimeChecks = false;
     protected boolean stringEnums = false;
-    protected String fileNaming = "PascalCase";
+    protected String fileNaming = PASCAL_CASE;
 
     // "Saga and Record" mode.
     public static final String SAGAS_AND_RECORDS = "sagasAndRecords";
@@ -131,9 +134,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
      */
     private String convertUsingFileNamingConvention(String originalName) {
         String name = originalName;
-        if ("kebab-case".equals(fileNaming)) {
+        if (KEBAB_CASE.equals(fileNaming)) {
             name = dashize(underscore(name));
-        } else if ("camelCase".equals(fileNaming)) {
+        } else if (CAMEL_CASE.equals(fileNaming)) {
             name = camelize(name, LOWERCASE_FIRST_LETTER);
         }
         return name;
@@ -186,7 +189,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
      * @param fileNaming the file naming to use
      */
     public void setFileNaming(String fileNaming) {
-        if ("PascalCase".equals(fileNaming) || "camelCase".equals(fileNaming) || "kebab-case".equals(fileNaming)) {
+        if (PASCAL_CASE.equals(fileNaming) || CAMEL_CASE.equals(fileNaming) || KEBAB_CASE.equals(fileNaming)) {
             this.fileNaming = fileNaming;
         } else {
             throw new IllegalArgumentException("Invalid file naming '" +

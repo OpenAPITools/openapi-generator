@@ -227,7 +227,7 @@ public class TypeScriptFetchClientCodegenTest {
     @Test(description = "Verify file name formatting from model name in PascalCase")
     public void testModelFileNameInPascalCase() {
         final TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
-        codegen.setFileNaming("PascalCase");
+        codegen.setFileNaming(TypeScriptFetchClientCodegen.PASCAL_CASE);
         Assert.assertEquals("FirstSimpleModel", codegen.toModelFilename("FirstSimpleModel"));
         codegen.setModelNameSuffix("suffix");
         Assert.assertEquals("FirstSimpleModelSuffix", codegen.toModelFilename("FirstSimpleModel"));
@@ -238,7 +238,7 @@ public class TypeScriptFetchClientCodegenTest {
     @Test(description = "Verify file name formatting from model name in camelCase")
     public void testModelFileNameInCamelCase() {
         final TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
-        codegen.setFileNaming("camelCase");
+        codegen.setFileNaming(TypeScriptFetchClientCodegen.CAMEL_CASE);
         Assert.assertEquals("firstSimpleModel", codegen.toModelFilename("FirstSimpleModel"));
         codegen.setModelNameSuffix("suffix");
         Assert.assertEquals("firstSimpleModelSuffix", codegen.toModelFilename("FirstSimpleModel"));
@@ -260,15 +260,15 @@ public class TypeScriptFetchClientCodegenTest {
     @Test(description = "Verify file name formatting from api name in PascalCase, camelCase and kebab-case")
     public void testApiFileNameInVariousFormat() {
         final TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
-        codegen.setFileNaming("PascalCase");
+        codegen.setFileNaming(TypeScriptFetchClientCodegen.PASCAL_CASE);
         String prefix = codegen.getApiNamePrefix() != null ? codegen.getApiNamePrefix() : "";
         String suffix = codegen.getApiNameSuffix() != null ? codegen.getApiNameSuffix() : "";
         Assert.assertEquals(StringUtils.capitalize(prefix + "FirstSimpleController") + StringUtils.capitalize(suffix),
                 codegen.toApiFilename("FirstSimpleController"));
-        codegen.setFileNaming("camelCase");
+        codegen.setFileNaming(TypeScriptFetchClientCodegen.CAMEL_CASE);
         Assert.assertEquals(StringUtils.uncapitalize(prefix + "FirstSimpleController") + StringUtils.capitalize(suffix),
                 codegen.toApiFilename("FirstSimpleController"));
-        codegen.setFileNaming("kebab-case");
+        codegen.setFileNaming(TypeScriptFetchClientCodegen.KEBAB_CASE);
         Assert.assertEquals((prefix.isBlank() ? "" : (StringUtils.lowerCase(suffix) + "-")) + "first-simple-controller" + (suffix.isBlank() ? "" : ("-" + StringUtils.lowerCase(suffix))),
                 codegen.toApiFilename("FirstSimpleController"));
     }
@@ -277,7 +277,7 @@ public class TypeScriptFetchClientCodegenTest {
     public void testGeneratedFilenamesInKebabCase() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put("fileNaming", "kebab-case");
+        properties.put("fileNaming", TypeScriptFetchClientCodegen.KEBAB_CASE);
 
         File output = generate(properties);
 
@@ -292,7 +292,7 @@ public class TypeScriptFetchClientCodegenTest {
     public void testGeneratedFilenamesInCamelCase() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put("fileNaming", "camelCase");
+        properties.put("fileNaming", TypeScriptFetchClientCodegen.CAMEL_CASE);
 
         File output = generate(properties);
 
