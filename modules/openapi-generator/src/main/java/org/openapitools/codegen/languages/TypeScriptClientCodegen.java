@@ -76,7 +76,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     private static final String USE_OBJECT_PARAMS_DESC = "Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.";
     private static final String ENUM_TYPE_SWITCH = "enumType";
     private static final String ENUM_TYPE_SWITCH_DESC = "Specify the enum type which should be used in the client code.";
-    private static final String[] ENUM_TYPES = {"stringUnion", "enum"};
+    private static final String[][] ENUM_TYPES = {{"stringUnion", "Union of literal string types"}, {"enum", "Typescript's [string enums](https://www.typescriptlang.org/docs/handbook/enums.html#string-enums)"}};
 
     private final Map<String, String> frameworkToHttpLibMap;
 
@@ -139,10 +139,10 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         cliOptions.add(platformOption);
 
         CliOption enumTypeOption = new CliOption(TypeScriptClientCodegen.ENUM_TYPE_SWITCH, TypeScriptClientCodegen.ENUM_TYPE_SWITCH_DESC);
-        for (String option : TypeScriptClientCodegen.ENUM_TYPES) {
-            enumTypeOption.addEnum(option, option);
+        for (String[] option : TypeScriptClientCodegen.ENUM_TYPES) {
+            enumTypeOption.addEnum(option[0], option[1]);
         }
-        enumTypeOption.defaultValue(ENUM_TYPES[0]);
+        enumTypeOption.defaultValue(ENUM_TYPES[0][0]);
         cliOptions.add(enumTypeOption);
 
         // Set property naming to camelCase
@@ -440,8 +440,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         Object propEnumType = additionalProperties.get(ENUM_TYPE_SWITCH);
 
         Map<String, Boolean> enumTypes = new HashMap<>();
-        for (String enumType : ENUM_TYPES) {
-            enumTypes.put(enumType, enumType.equals(propEnumType));
+        for (String[] enumType : ENUM_TYPES) {
+            enumTypes.put(enumType[0], enumType.equals(propEnumType));
         }
         additionalProperties.put("enumTypes", enumTypes);
 
