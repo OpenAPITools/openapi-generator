@@ -257,6 +257,12 @@ public class DefaultGenerator implements Generator {
             System.out.println(SerializerUtils.toJsonString(openAPI));
         }
 
+        // check to see if we need to apply camelize fix
+        if (config.additionalProperties().containsKey("applyCamelizeFix")) {
+            org.openapitools.codegen.utils.StringUtils.applyCamelizeFix =
+                    Boolean.parseBoolean(String.valueOf(config.additionalProperties().get("applyCamelizeFix")));
+        }
+
         config.processOpts();
         if (opts != null && opts.getGeneratorSettings() != null) {
             config.typeMapping().putAll(opts.getGeneratorSettings().getTypeMappings());

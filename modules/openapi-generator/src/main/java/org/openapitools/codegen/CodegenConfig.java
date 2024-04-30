@@ -361,5 +361,4 @@ public interface CodegenConfig {
     boolean getUseOpenapiNormalizer();
 
     Set<String> getOpenapiGeneratorIgnoreList();
-
 }

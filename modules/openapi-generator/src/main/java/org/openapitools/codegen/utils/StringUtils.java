@@ -29,6 +29,9 @@ public class StringUtils {
      */
     public static final String NAME_CACHE_EXPIRY_PROPERTY = "org.openapitools.codegen.utils.namecache.expireafter.seconds";
 
+    // if set true, enable the camelize fix
+    public static boolean applyCamelizeFix = false;
+
     // A cache of camelized words. The camelize() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
     private static Cache<Pair<String, CamelizeOption>, String> camelizedWordsCache;
@@ -38,7 +41,6 @@ public class StringUtils {
 
     // A cache of escaped words, used to optimize the performance of the escape() method.
     private static Cache<EscapedNameOptions, String> escapedWordsCache;
-
     static {
         int cacheSize = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "200"));
         int cacheExpiry = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_EXPIRY_PROPERTY, "5"));
@@ -117,6 +119,7 @@ public class StringUtils {
 
     private static Pattern camelizeSlashPattern = Pattern.compile("\\/(.?)");
     private static Pattern camelizeUppercasePattern = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
+    private static Pattern camelizeUppercaseStartPattern = Pattern.compile("^([A-Z]+)(([A-Z][a-z].*)|([^a-zA-Z].*)|$)$");
     private static Pattern camelizeUnderscorePattern = Pattern.compile("(_)(.)");
     private static Pattern camelizeHyphenPattern = Pattern.compile("(-)(.)");
     private static Pattern camelizeDollarPattern = Pattern.compile("\\$");
@@ -135,8 +138,18 @@ public class StringUtils {
         return camelizedWordsCache.get(key, pair -> {
             String word = pair.getKey();
             CamelizeOption option = pair.getValue();
+
+            Matcher m;
+            // Lowercase acronyms at start of word if not UPPERCASE_FIRST_CHAR
+            if (applyCamelizeFix) {
+                m = camelizeUppercaseStartPattern.matcher(word);
+                if (camelizeOption != UPPERCASE_FIRST_CHAR && m.find()) {
+                    word = m.group(1).toLowerCase(Locale.ROOT) + m.group(2);
+                }
+            }
+
             // Replace all slashes with dots (package separator)
-            Matcher m = camelizeSlashPattern.matcher(word);
+            m = camelizeSlashPattern.matcher(word);
             while (m.find()) {
                 word = m.replaceFirst("." + m.group(1).replace("\\", "\\\\")/*.toUpperCase()*/);
                 m = camelizeSlashPattern.matcher(word);

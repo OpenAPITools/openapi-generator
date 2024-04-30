@@ -4913,4 +4913,17 @@ public class DefaultCodegenTest {
         Assert.assertEquals(co.operationId, "newPetGet");
     }
 
+    public void testRemoveNonNameElementToCamelCase() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        Assert.assertFalse(org.openapitools.codegen.utils.StringUtils.applyCamelizeFix);
+
+        final String alreadyCamelCase = "aVATRate";
+        Assert.assertEquals(codegen.removeNonNameElementToCamelCase(alreadyCamelCase), alreadyCamelCase);
+
+        final String startWithCapitals = "VATRate";
+        Assert.assertEquals(codegen.removeNonNameElementToCamelCase(startWithCapitals), "vatRate");
+
+        final String startWithCapitalsThenNonNameElement = "DELETE_Invoice";
+        Assert.assertEquals(codegen.removeNonNameElementToCamelCase(startWithCapitalsThenNonNameElement), "deleteInvoice");
+    }
 }

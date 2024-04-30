@@ -284,6 +284,7 @@ public class AbstractKotlinCodegenTest {
         CodegenProperty cp1 = cm1.vars.get(0);
         Assert.assertEquals(cp1.getEnumName(), "PropertyName");
         Assert.assertEquals(cp1.getDefaultValue(), "PropertyName.VALUE");
+        //Assert.assertEquals(cp1.getDefaultValue(), "PropertyName.`value`");
     }
 
     @Test(description = "Issue #3804")
