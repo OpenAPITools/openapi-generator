@@ -23,6 +23,12 @@ import (
 type BodyAPIRouter interface { 
 	Body(http.ResponseWriter, *http.Request)
 }
+// BothAPIRouter defines the required methods for binding the api requests to a responses for the BothAPI
+// The BothAPIRouter implementation should parse necessary information from the http request,
+// pass the data to a BothAPIServicer to perform the required actions, then write the service results to the http response.
+type BothAPIRouter interface { 
+	Both(http.ResponseWriter, *http.Request)
+}
 // NoneAPIRouter defines the required methods for binding the api requests to a responses for the NoneAPI
 // The NoneAPIRouter implementation should parse necessary information from the http request,
 // pass the data to a NoneAPIServicer to perform the required actions, then write the service results to the http response.
@@ -43,6 +49,15 @@ type PathAPIRouter interface {
 // and updated with the logic required for the API.
 type BodyAPIServicer interface { 
 	Body(context.Context, BodyRequest) (ImplResponse, error)
+}
+
+
+// BothAPIServicer defines the api actions for the BothAPI service
+// This interface intended to stay up to date with the openapi yaml used to generate it,
+// while the service implementation can be ignored with the .openapi-generator-ignore file
+// and updated with the logic required for the API.
+type BothAPIServicer interface { 
+	Both(context.Context, string, BodyRequest) (ImplResponse, error)
 }
 
 

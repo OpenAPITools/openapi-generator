@@ -53,6 +53,34 @@ paths:
       summary: summary
       tags:
       - body
+  /both/endpoint/{pathParam}:
+    post:
+      description: description
+      operationId: both
+      parameters:
+      - explode: false
+        in: path
+        name: pathParam
+        required: true
+        schema:
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_request'
+          text/plain:
+            schema:
+              type: string
+        description: Optional description in *Markdown*
+        required: true
+      responses:
+        "204":
+          description: successful operation
+      summary: summary
+      tags:
+      - both
 components:
   schemas:
     body_request:

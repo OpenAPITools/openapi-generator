@@ -5,6 +5,8 @@ go.mod
 go/api.go
 go/api_body.go
 go/api_body_service.go
+go/api_both.go
+go/api_both_service.go
 go/api_none.go
 go/api_none_service.go
 go/api_path.go

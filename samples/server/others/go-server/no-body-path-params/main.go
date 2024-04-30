@@ -23,13 +23,16 @@ func main() {
 	BodyAPIService := petstoreserver.NewBodyAPIService()
 	BodyAPIController := petstoreserver.NewBodyAPIController(BodyAPIService)
 
+	BothAPIService := petstoreserver.NewBothAPIService()
+	BothAPIController := petstoreserver.NewBothAPIController(BothAPIService)
+
 	NoneAPIService := petstoreserver.NewNoneAPIService()
 	NoneAPIController := petstoreserver.NewNoneAPIController(NoneAPIService)
 
 	PathAPIService := petstoreserver.NewPathAPIService()
 	PathAPIController := petstoreserver.NewPathAPIController(PathAPIService)
 
-	router := petstoreserver.NewRouter(BodyAPIController, NoneAPIController, PathAPIController)
+	router := petstoreserver.NewRouter(BodyAPIController, BothAPIController, NoneAPIController, PathAPIController)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

@@ -58,3 +58,34 @@ paths:
         '204':
           description: successful operation
 
+  /both/endpoint/{pathParam}:
+    post:
+      tags:
+        - both
+      summary: summary
+      description: description
+      operationId: both
+      parameters:
+        - name: pathParam
+          in: path
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                param:
+                  type: string
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '204':
+          description: successful operation
