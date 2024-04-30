@@ -295,4 +295,3 @@ public class User  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
