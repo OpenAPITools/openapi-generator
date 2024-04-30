@@ -37,7 +37,9 @@ public class HasOnlyReadOnly {
 
   public HasOnlyReadOnly() {
   }
-
+  /**
+  * Constructor with only readonly parameters
+  */
   
   public HasOnlyReadOnly(
      String bar, 
@@ -57,7 +59,6 @@ public class HasOnlyReadOnly {
   public String getBar() {
     return bar;
   }
-
 
 
 

@@ -61,6 +61,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static org.openapitools.codegen.utils.CamelizeOption.*;
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig,
@@ -93,6 +94,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
     public static final String LOMBOK = "lombok";
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
+    public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generateConstructorWithAllArgs";
 
     protected String dateLibrary = "java8";
     protected boolean supportAsync = false;
@@ -142,7 +144,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean camelCaseDollarSign = false;
     protected boolean useJakartaEe = false;
     protected boolean containerDefaultToNull = false;
-
+    protected boolean generateConstructorWithAllArgs = false;
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
@@ -282,6 +284,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
         cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax"));
         cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
+        cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "whether to generate a constructor for all arguments").defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -355,6 +358,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE);
         }
 
+        if (additionalProperties.containsKey(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS)) {
+            this.setgenerateConstructorWithAllArgs(convertPropertyToBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS));
+        }
+        writePropertyBack(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, generateConstructorWithAllArgs);
 
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
@@ -677,10 +684,25 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         });
     }
 
+    public void setgenerateConstructorWithAllArgs(boolean aValue) {
+        this.generateConstructorWithAllArgs = aValue;
+    }
+
+    public boolean isgenerateConstructorWithAllArgs() {
+        return generateConstructorWithAllArgs;
+    }
+
+    /**
+     * Analyse and post process all Models.
+     * @param objs the models map.
+     * @return the processed models map.
+     **/
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
         objs = super.updateAllModels(objs);
+
+        Map<String, CodegenModel> allModels = getAllModels(objs);
 
         if (!additionalModelTypeAnnotations.isEmpty()) {
             for (String modelName : objs.keySet()) {
@@ -703,7 +725,99 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        /*
+         Add parentVars and parentRequiredVars to every Model which has a parent.
+         Add isInherited to every model which has children.
+         This allows
+            the generation of fluent setter methods for inherited properties
+            the generation of all arg constructors
+         ps: This code was specific to SpringCodeGen and now is available to all java generators.
+        */
+        for (ModelsMap modelsAttrs : objs.values()) {
+            for (ModelMap mo : modelsAttrs.getModels()) {
+                CodegenModel codegenModel = mo.getModel();
+                Set<String> inheritedImports = new HashSet<>();
+                Map<String, CodegenProperty> propertyHash = new HashMap<>(codegenModel.vars.size());
+                for (final CodegenProperty property : codegenModel.vars) {
+                    propertyHash.put(property.name, property);
+                }
+                List<CodegenModel> parentModelList = getParentModelList(codegenModel);
+                for (CodegenModel parentCodegenModel: parentModelList) {
+                    for (final CodegenProperty property : parentCodegenModel.vars) {
+                        // helper list of parentVars simplifies templating
+                        if (!propertyHash.containsKey(property.name)) {
+                            propertyHash.put(property.name, property);
+                            final CodegenProperty parentVar = property.clone();
+                            parentVar.isInherited = true;
+                            LOGGER.info("adding parent variable {} to {}", property.name, codegenModel.name);
+                            codegenModel.parentVars.add(parentVar);
+                            Set<String> imports = parentVar.getImports(true, this.importBaseType, generatorMetadata.getFeatureSet()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
+                            for (String imp : imports) {
+                                // Avoid dupes
+                                if (!codegenModel.getImports().contains(imp)) {
+                                    inheritedImports.add(imp);
+                                    codegenModel.getImports().add(imp);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (codegenModel.getParentModel() != null) {
+                    codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
+                }
+                // There must be a better way ...
+                for (String imp: inheritedImports) {
+                    String qimp = importMapping().get(imp);
+                    if (qimp != null) {
+                        Map<String,String> toAdd = new HashMap<>();
+                        toAdd.put("import", qimp);
+                        modelsAttrs.getImports().add(toAdd);
+                    }
+                }
+            }
+        }
+
+        if (isgenerateConstructorWithAllArgs()) {
+            // conditionally force the generation of all args constructor.
+            for (CodegenModel cm : allModels.values()) {
+                if (isConstructorWithAllArgsAllowed(cm)) {
+                    cm.vendorExtensions.put("x-java-all-args-constructor", true);
+                    List<Object> constructorArgs = new ArrayList<>();
+                    // vendorExtensions.x-java-all-args-constructor-vars should be equivalent to allVars
+                    // but it is not reliable when openapiNormalizer.REFACTOR_ALLOF_WITH_PROPERTIES_ONLY is disabled
+                    cm.vendorExtensions.put("x-java-all-args-constructor-vars", constructorArgs);
+                    if (cm.vars.size() + cm.parentVars.size() != cm.allVars.size()) {
+                        once(LOGGER).warn("Unexpected allVars for {} expecting:{} vars. actual:{} vars", cm.name, cm.vars.size() + cm.parentVars.size(), cm.allVars.size());
+                    }
+                    constructorArgs.addAll(cm.vars);
+                    constructorArgs.addAll(cm.parentVars);
+                }
+            }
+        }
+
         return objs;
+    }
+
+    private List<CodegenModel> getParentModelList(CodegenModel codegenModel) {
+        CodegenModel parentCodegenModel = codegenModel.parentModel;
+        List<CodegenModel> parentModelList = new ArrayList<>();
+        while (parentCodegenModel != null) {
+            parentModelList.add(parentCodegenModel);
+            parentCodegenModel = parentCodegenModel.parentModel;
+        }
+        return parentModelList;
+    }
+
+    /**
+     * trigger the generation of all arguments constructor or not.
+     * It avoids generating the same constructor twice.
+     *
+     * @return true if an allArgConstructor must be generated
+     */
+    protected boolean isConstructorWithAllArgsAllowed(CodegenModel codegenModel) {
+        // implementation detail: allVars is not reliable if openapiNormalizer.REFACTOR_ALLOF_WITH_PROPERTIES_ONLY is disabled
+        return (this.generateConstructorWithAllArgs &&
+                (!codegenModel.vars.isEmpty() || codegenModel.parentVars.isEmpty()));
     }
 
     private void sanitizeConfig() {
