@@ -99,6 +99,18 @@ public class Pet {
   public Pet() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Pet(Long id, String name, Category category, List<String> photoUrls, List<Tag> tags, StatusEnum status) {
+    this.id = id;
+    this.name = name;
+    this.category = category;
+    this.photoUrls = photoUrls;
+    this.tags = tags;
+    this.status = status;
+  }
+
   public Pet id(Long id) {
     
     this.id = id;
@@ -123,7 +135,6 @@ public class Pet {
   public void setId(Long id) {
     this.id = id;
   }
-
 
   public Pet name(String name) {
     
@@ -150,7 +161,6 @@ public class Pet {
     this.name = name;
   }
 
-
   public Pet category(Category category) {
     
     this.category = category;
@@ -175,7 +185,6 @@ public class Pet {
   public void setCategory(Category category) {
     this.category = category;
   }
-
 
   public Pet photoUrls(List<String> photoUrls) {
     
@@ -210,7 +219,6 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-
   public Pet tags(List<Tag> tags) {
     
     this.tags = tags;
@@ -243,7 +251,6 @@ public class Pet {
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
-
 
   public Pet status(StatusEnum status) {
     

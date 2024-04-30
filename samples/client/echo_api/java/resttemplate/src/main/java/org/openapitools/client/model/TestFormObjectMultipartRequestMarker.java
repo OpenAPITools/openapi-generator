@@ -38,6 +38,13 @@ public class TestFormObjectMultipartRequestMarker {
   public TestFormObjectMultipartRequestMarker() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public TestFormObjectMultipartRequestMarker(String name) {
+    this.name = name;
+  }
+
   public TestFormObjectMultipartRequestMarker name(String name) {
     
     this.name = name;

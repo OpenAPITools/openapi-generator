@@ -147,8 +147,13 @@ public class CodegenConstants {
     public static final String SORT_PARAMS_BY_REQUIRED_FLAG = "sortParamsByRequiredFlag";
     public static final String SORT_PARAMS_BY_REQUIRED_FLAG_DESC = "Sort method arguments to place required parameters before optional parameters.";
 
-    public static final String SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG = "sortModelPropertiesByRequiredFlag";
     public static final String SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG_DESC = "Sort model properties to place required parameters before optional parameters.";
+    public static final String SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG = "sortModelPropertiesByRequiredFlag";
+
+    public static final String SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST = "sortModelByInheritanceFirst";
+    public static final String SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST_DESC = "Sort model fields to place inherited properties before the inline properties.";
+    public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generatedConstructorWithAllArgs";
+    public static final String SORT_FIELD_DESC = "sort Field by properties first or by inheritance first";
 
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS = "prependFormOrBodyParameters";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_DESC = "Add form or body parameters to the beginning of the parameter list.";

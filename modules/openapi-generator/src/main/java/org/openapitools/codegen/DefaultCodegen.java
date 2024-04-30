@@ -26,7 +26,6 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
-import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -251,6 +250,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String library;
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean sortModelPropertiesByRequiredFlag = false;
+    protected boolean sortModelPropertiesByInheritanceFirst = false;
     protected Boolean ensureUniqueParams = true;
     protected Boolean allowUnicodeIdentifiers = false;
     protected String gitHost, gitUserId, gitRepoId, releaseNote;
@@ -355,6 +355,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG)) {
             this.setSortModelPropertiesByRequiredFlag(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG).toString()));
+        }
+        if (additionalProperties.containsKey(CodegenConstants.SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST)) {
+            this.setSortModelPropertiesByInheritanceFirst(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS)) {
@@ -1521,6 +1525,10 @@ public class DefaultCodegen implements CodegenConfig {
         this.sortModelPropertiesByRequiredFlag = sortModelPropertiesByRequiredFlag;
     }
 
+    public void setSortModelPropertiesByInheritanceFirst(boolean val) {
+        this.sortModelPropertiesByInheritanceFirst = val;
+    }
+
     public Boolean getPrependFormOrBodyParameters() {
         return prependFormOrBodyParameters;
     }
@@ -1879,6 +1887,8 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST,
+                CodegenConstants.SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST_DESC).defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENSURE_UNIQUE_PARAMS, CodegenConstants
                 .ENSURE_UNIQUE_PARAMS_DESC).defaultValue(Boolean.TRUE.toString()));
         // name formatting options
@@ -3230,18 +3240,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.setHasRequired(true);
         }
 
-        if (sortModelPropertiesByRequiredFlag) {
-            Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
-                @Override
-                public int compare(CodegenProperty one, CodegenProperty another) {
-                    if (one.required == another.required) return 0;
-                    else if (one.required) return -1;
-                    else return 1;
-                }
-            };
-            Collections.sort(m.vars, comparator);
-            Collections.sort(m.allVars, comparator);
-        }
+
 
         // post process model properties
         if (m.vars != null) {
@@ -3254,6 +3253,33 @@ public class DefaultCodegen implements CodegenConfig {
             for (CodegenProperty prop : m.allVars) {
                 postProcessModelProperty(m, prop);
             }
+        }
+
+        if (sortModelPropertiesByInheritanceFirst) {
+            new SortByInheritanceFirstBuilder(this)
+                    .buildAll(schema)
+                    .reorder(m);
+        }
+
+        if (sortModelPropertiesByRequiredFlag) {
+            /**
+             * primary order: sort by required flags and then
+             * secondary order: inheritance first or properties first
+             */
+            Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
+                @Override
+                public int compare(CodegenProperty one, CodegenProperty another) {
+                    /**
+                     * Warning: the secondary order is not guaranteed if there are many variables
+                     */
+
+                    if (one.required == another.required) return 0;
+                    else if (one.required) return -1;
+                    else return 1;
+                }
+            };
+            Collections.sort(m.vars, comparator);
+            Collections.sort(m.allVars, comparator);
         }
 
         return m;

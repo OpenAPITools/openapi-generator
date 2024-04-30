@@ -1146,6 +1146,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         return objs;
     }
 
+    @Override
+    protected void handleGenerateConstructorWithAllArgs(CodegenModel codegenModel) {
+        if (codegenModel.readOnlyVars.size() != codegenModel.vars.size() + codegenModel.parentVars.size()) {
+            super.handleGenerateConstructorWithAllArgs(codegenModel);
+        }
+    }
+
     public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
         this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
     }

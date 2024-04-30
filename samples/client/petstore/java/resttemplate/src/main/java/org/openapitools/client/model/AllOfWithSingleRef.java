@@ -42,6 +42,14 @@ public class AllOfWithSingleRef {
   public AllOfWithSingleRef() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AllOfWithSingleRef(String username, SingleRefType singleRefType) {
+    this.username = username;
+    this.singleRefType = singleRefType;
+  }
+
   public AllOfWithSingleRef username(String username) {
     
     this.username = username;
@@ -66,7 +74,6 @@ public class AllOfWithSingleRef {
   public void setUsername(String username) {
     this.username = username;
   }
-
 
   public AllOfWithSingleRef singleRefType(SingleRefType singleRefType) {
     

@@ -74,6 +74,7 @@ public class PhpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.DEVELOPER_ORGANIZATION, DEVELOPER_ORGANIZATION_VALUE)
                 .put(CodegenConstants.COMPOSER_PACKAGE_NAME, COMPOSER_PACKAGE_NAME_VALUE)
                 .put(CodegenConstants.LIBRARY, LIBRARY_VALUE)
+                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST, "false")
                 .build();
     }
 

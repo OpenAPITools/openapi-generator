@@ -114,6 +114,14 @@ public class EnumArrays {
   public EnumArrays() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public EnumArrays(JustSymbolEnum justSymbol, List<ArrayEnumEnum> arrayEnum) {
+    this.justSymbol = justSymbol;
+    this.arrayEnum = arrayEnum;
+  }
+
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     
     this.justSymbol = justSymbol;
@@ -138,7 +146,6 @@ public class EnumArrays {
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
-
 
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     

@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Query {
   public static final String JSON_PROPERTY_ID = "id";
-  private Long id;
+  protected Long id;
 
   /**
    * Gets or Sets outcomes
@@ -76,9 +76,17 @@ public class Query {
   }
 
   public static final String JSON_PROPERTY_OUTCOMES = "outcomes";
-  private List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
+  protected List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
 
   public Query() {
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Query(Long id, List<OutcomesEnum> outcomes) {
+    this.id = id;
+    this.outcomes = outcomes;
   }
 
   public Query id(Long id) {
@@ -105,7 +113,6 @@ public class Query {
   public void setId(Long id) {
     this.id = id;
   }
-
 
   public Query outcomes(List<OutcomesEnum> outcomes) {
     
