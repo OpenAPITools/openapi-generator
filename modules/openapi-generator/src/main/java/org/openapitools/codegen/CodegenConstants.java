@@ -443,6 +443,8 @@ public class CodegenConstants {
     public static final String GENERATE_MARSHAL_JSON = "generateMarshalJSON";
     public static final String GENERATE_MARSHAL_JSON_DESC = "Generate MarshalJSON method";
 
+    public static final String GENERATE_UNMARSHAL_JSON = "generateUnmarshalJSON";
+    public static final String GENERATE_UNMARSHAL_JSON_DESC = "Generate UnmarshalJSON method";
     public static final String MAX_ATTEMPTS_FOR_RETRY = "maxAttemptsForRetry";
 
     public static final String WAIT_TIME_OF_THREAD = "waitTimeMillis";

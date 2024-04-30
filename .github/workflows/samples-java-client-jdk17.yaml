@@ -34,9 +34,27 @@ jobs:
           path: |
             ~/.m2
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+
       - name: Build with Maven
         working-directory: ${{ matrix.sample }}
         run: mvn clean package
-      - name: Build with Gradle
+
+      - name: Cache gradle dependencies
+        uses: actions/cache@v4
+        env:
+          cache-name: gradle-caches
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
+
+      - name: Cache gradle wrapper
+        uses: actions/cache@v4
+        env:
+          cache-name: gradle-wrapper
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Build
         working-directory: ${{ matrix.sample }}
-        run: gradle clean build
+        run: ./gradlew build -x test

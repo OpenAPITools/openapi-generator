@@ -8139,7 +8139,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Post-process the auto-generated file, e.g. using go-fmt to format the Go code. The file type can be "model-test",
-     * "model-doc", "model", "api", "api-test", "api-doc", "supporting-mustache", "supporting-common",
+     * "model-doc", "model", "api", "api-test", "api-doc", "supporting-file",
      * "openapi-generator-ignore", "openapi-generator-version"
      * <p>
      * TODO: store these values in enum instead
