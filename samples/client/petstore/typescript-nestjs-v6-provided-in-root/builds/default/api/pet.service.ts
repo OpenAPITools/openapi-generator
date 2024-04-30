@@ -116,7 +116,6 @@ export class PetService {
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
 
-
         let headers = {...this.defaultHeaders};
         if (apiKey !== undefined && apiKey !== null) {
             headers['api_key'] = String(apiKey);
@@ -402,8 +401,6 @@ export class PetService {
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
 
-
-
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -478,8 +475,6 @@ export class PetService {
         if (petId === null || petId === undefined) {
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
-
-
 
         let headers = {...this.defaultHeaders};
 
