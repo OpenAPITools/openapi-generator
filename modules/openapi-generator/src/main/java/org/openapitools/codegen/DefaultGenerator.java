@@ -599,7 +599,10 @@ public class DefaultGenerator implements Generator {
             Json.prettyPrint(allModels);
         }
     }
-    
+
+    /**
+     * this method guesses the schema type of in parent model used variable and if the schema type is available it let the generate the model for the type of this variable
+     */
     private void generateModelsForVariable(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<String> processedModels, CodegenProperty variable) {
         if (variable == null) {
             return;
