@@ -448,7 +448,7 @@ public class DefaultGenerator implements Generator {
     }
 
     void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels) {
-    	generateModels(files, allModels, unusedModels, new ArrayList<>(), DefaultGenerator.this::modelKeys);
+        generateModels(files, allModels, unusedModels, new ArrayList<>(), DefaultGenerator.this::modelKeys);
     }
 
     void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<String> processedModels, Supplier<Set<String>> modelKeysSupplier) {
@@ -460,7 +460,7 @@ public class DefaultGenerator implements Generator {
 
         Set<String> modelKeys = modelKeysSupplier.get();
         if(modelKeys.isEmpty()) {
-        	return;
+            return;
         }
 
         // store all processed models
@@ -540,21 +540,21 @@ public class DefaultGenerator implements Generator {
         allProcessedModels = config.postProcessAllModels(allProcessedModels);
 
         if (generateRecursiveDependentModels) {
-        	for(ModelsMap modelsMap : allProcessedModels.values()) {
-        		for(ModelMap mm: modelsMap.getModels()) {
-        			CodegenModel cm = mm.getModel();
-        			if (cm != null) {
-        				for(CodegenProperty variable : cm.getVars()) {
-        					generateModelsForVariable(files, allModels, unusedModels, processedModels, variable);
-        				}
-					//TODO:  handle interfaces
-					String parentSchema = cm.getParentSchema();
-					if (parentSchema != null && !processedModels.contains(parentSchema) && ModelUtils.getSchemas(this.openAPI).containsKey(parentSchema)) {
-						generateModels(files, allModels, unusedModels, processedModels, () -> Set.of(parentSchema));
-					}
-        			}
-        		}
-        	}
+            for(ModelsMap modelsMap : allProcessedModels.values()) {
+                for(ModelMap mm: modelsMap.getModels()) {
+                    CodegenModel cm = mm.getModel();
+                    if (cm != null) {
+                        for(CodegenProperty variable : cm.getVars()) {
+                            generateModelsForVariable(files, allModels, unusedModels, processedModels, variable);
+                        }
+                        //TODO:  handle interfaces
+                        String parentSchema = cm.getParentSchema();
+                        if (parentSchema != null && !processedModels.contains(parentSchema) && ModelUtils.getSchemas(this.openAPI).containsKey(parentSchema)) {
+                            generateModels(files, allModels, unusedModels, processedModels, () -> Set.of(parentSchema));
+                        }
+                    }
+                }
+            }
         }
         
         // generate files based on processed models
@@ -601,40 +601,40 @@ public class DefaultGenerator implements Generator {
     }
     
     private void generateModelsForVariable(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<String> processedModels, CodegenProperty variable) {
-    	if (variable == null) {
-    		return;
-    	}
-    	
-    	final String schemaKey = calculateModelKey(variable.getOpenApiType(), variable.getRef());
-    	Map<String, Schema> allSchemas = ModelUtils.getSchemas(this.openAPI);
-		if (!processedModels.contains(schemaKey) && allSchemas.containsKey(schemaKey)) {
-    		generateModels(files, allModels, unusedModels, processedModels, () -> Set.of(schemaKey));
-    	} else if (variable.getComplexType() != null && variable.getComposedSchemas() == null) {
-    		String ref = variable.getHasItems() ? variable.getItems().getRef() : variable.getRef();
-    		final String key = calculateModelKey(variable.getComplexType(), ref);
-    		if (allSchemas.containsKey(key)) {
-    			generateModels(files, allModels, unusedModels, processedModels, () -> Set.of(key));
-    		} else {
-    			LOGGER.info("Type " + variable.getComplexType()+" of variable " + variable.getName() + " could not be resolve because it is not declared as a model.");
-    		}
-    	} else {
-			LOGGER.info("Type " + variable.getOpenApiType()+" of variable " + variable.getName() + " could not be resolve because it is not declared as a model.");    		
-    	}
+        if (variable == null) {
+            return;
+        }
+
+        final String schemaKey = calculateModelKey(variable.getOpenApiType(), variable.getRef());
+        Map<String, Schema> allSchemas = ModelUtils.getSchemas(this.openAPI);
+        if (!processedModels.contains(schemaKey) && allSchemas.containsKey(schemaKey)) {
+            generateModels(files, allModels, unusedModels, processedModels, () -> Set.of(schemaKey));
+        } else if (variable.getComplexType() != null && variable.getComposedSchemas() == null) {
+            String ref = variable.getHasItems() ? variable.getItems().getRef() : variable.getRef();
+            final String key = calculateModelKey(variable.getComplexType(), ref);
+            if (allSchemas.containsKey(key)) {
+                generateModels(files, allModels, unusedModels, processedModels, () -> Set.of(key));
+            } else {
+                LOGGER.info("Type " + variable.getComplexType()+" of variable " + variable.getName() + " could not be resolve because it is not declared as a model.");
+            }
+        } else {
+            LOGGER.info("Type " + variable.getOpenApiType()+" of variable " + variable.getName() + " could not be resolve because it is not declared as a model.");
+        }
     }
-    
+
     private String calculateModelKey(String type, String ref) {
-    	Map<String, Schema> schemaMap = ModelUtils.getSchemas(this.openAPI);
-    	Set<String> keys = schemaMap.keySet();
-    	String simpleRef;
-    	if(keys.contains(type)) {
-    		return type;
-    	} else if (keys.contains(simpleRef = ModelUtils.getSimpleRef(ref))) {
-    		return simpleRef;
-    	} else {
-    		return type;
-    	}
+        Map<String, Schema> schemaMap = ModelUtils.getSchemas(this.openAPI);
+        Set<String> keys = schemaMap.keySet();
+        String simpleRef;
+        if(keys.contains(type)) {
+            return type;
+        } else if (keys.contains(simpleRef = ModelUtils.getSimpleRef(ref))) {
+            return simpleRef;
+        } else {
+            return type;
+        }
     }
-    
+
     private Set<String> modelKeys() {
         final Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
         if (schemas == null) {
