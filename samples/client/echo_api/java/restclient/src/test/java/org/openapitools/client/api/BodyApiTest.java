@@ -79,7 +79,9 @@ public class BodyApiTest {
     // when
     String response = api.testBodyApplicationOctetstreamBinary(body);
 
-    // TODO: test validations
+    // then
+    assertThat(response, containsString("Content-Type: application/octet-stream"));
+    assertThat(response, containsString("test123"));
   }
 
   /**
@@ -88,11 +90,25 @@ public class BodyApiTest {
    * <p>Test array of binary in multipart mime
    */
   @Test
-  public void testBodyMultipartFormdataArrayOfBinaryTest() {
-    List<File> files = null;
+  public void testBodyMultipartFormdataArrayOfBinaryTest() throws IOException {
+    // given
+    var firstFile = Files.createTempFile("test", ".txt");
+    String firstFileContent = "Thanks for using OpenAPI generator :)";
+    Files.writeString(firstFile, firstFileContent);
+
+    var secondFile = Files.createTempFile("test2", ".txt");
+    String secondFileContent = "Your ad could be here";
+    Files.writeString(secondFile, secondFileContent);
+
+    List<File> files = List.of(firstFile.toFile(), secondFile.toFile());
+
+    // when
     String response = api.testBodyMultipartFormdataArrayOfBinary(files);
 
-    // TODO: test validations
+    // then
+    assertThat(response, containsString("Content-Type: multipart/form-data"));
+    assertThat(response, containsString(firstFileContent));
+    assertThat(response, containsString(secondFileContent));
   }
 
   /**
