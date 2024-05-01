@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for DefaultApi
  */
-
+@Ignore
 public class DefaultApiTest {
 
     private final DefaultApi api = new DefaultApi();

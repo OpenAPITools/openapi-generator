@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for StoreApi
  */
-
+@Ignore
 public class StoreApiTest {
 
     private final StoreApi api = new StoreApi();

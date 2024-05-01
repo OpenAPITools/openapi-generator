@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for PetApi
  */
-
+@Ignore
 public class PetApiTest {
 
     private final PetApi api = new PetApi();

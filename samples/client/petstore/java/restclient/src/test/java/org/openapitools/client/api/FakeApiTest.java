@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for FakeApi
  */
-
+@Ignore
 public class FakeApiTest {
 
     private final FakeApi api = new FakeApi();

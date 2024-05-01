@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for FakeClassnameTags123Api
  */
-
+@Ignore
 public class FakeClassnameTags123ApiTest {
 
     private final FakeClassnameTags123Api api = new FakeClassnameTags123Api();

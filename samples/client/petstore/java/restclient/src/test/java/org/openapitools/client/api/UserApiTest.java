@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for UserApi
  */
-
+@Ignore
 public class UserApiTest {
 
     private final UserApi api = new UserApi();

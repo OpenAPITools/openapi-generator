@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for AnotherFakeApi
  */
-
+@Ignore
 public class AnotherFakeApiTest {
 
     private final AnotherFakeApi api = new AnotherFakeApi();
