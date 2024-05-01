@@ -122,7 +122,6 @@ public class Order {
     this.id = id;
   }
 
-
   public Order petId(Long petId) {
     
     this.petId = petId;
@@ -148,7 +147,6 @@ public class Order {
   public void setPetId(Long petId) {
     this.petId = petId;
   }
-
 
   public Order quantity(Integer quantity) {
     
@@ -176,7 +174,6 @@ public class Order {
     this.quantity = quantity;
   }
 
-
   public Order shipDate(OffsetDateTime shipDate) {
     
     this.shipDate = shipDate;
@@ -203,7 +200,6 @@ public class Order {
     this.shipDate = shipDate;
   }
 
-
   public Order status(StatusEnum status) {
     
     this.status = status;
@@ -229,7 +225,6 @@ public class Order {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
 
   public Order complete(Boolean complete) {
     

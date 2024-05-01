@@ -611,7 +611,10 @@ public class ApiClient extends JavaTimeFormatter {
         addCookiesToRequest(cookieParams, requestBuilder);
         addCookiesToRequest(defaultCookies, requestBuilder);
 
-        requestBuilder.body(selectBody(body, formParams, contentType));
+        if(body != null) {
+          requestBuilder.body(selectBody(body, formParams, contentType));
+        }
+
         return requestBuilder;
     }
 
