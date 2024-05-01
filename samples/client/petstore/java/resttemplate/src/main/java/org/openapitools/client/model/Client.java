@@ -37,6 +37,13 @@ public class Client {
   public Client() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Client(@JsonProperty(JSON_PROPERTY_CLIENT) String client) {
+    this.client = client;
+  }
+
   public Client client(String client) {
     
     this.client = client;
