@@ -1,0 +1,13 @@
+generatorName: java
+outputDir: samples/client/echo_api/java/restclient
+library: restclient
+inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: echo-api-native
+  hideGenerationTimestamp: "true"
+
+typeMappings:
+  OffsetDateTime: "Instant"
+importMappings:
+  OffsetDateTime: "java.time.Instant"
