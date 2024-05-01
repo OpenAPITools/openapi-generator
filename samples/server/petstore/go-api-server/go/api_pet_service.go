@@ -25,7 +25,7 @@ type PetAPIService struct {
 }
 
 // NewPetAPIService creates a default api service
-func NewPetAPIService() PetAPIServicer {
+func NewPetAPIService() *PetAPIService {
 	return &PetAPIService{}
 }
 
