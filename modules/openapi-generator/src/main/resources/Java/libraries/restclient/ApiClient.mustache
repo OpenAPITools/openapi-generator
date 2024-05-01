@@ -654,7 +654,10 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         addCookiesToRequest(cookieParams, requestBuilder);
         addCookiesToRequest(defaultCookies, requestBuilder);
 
-        requestBuilder.body(selectBody(body, formParams, contentType));
+        if(body != null) {
+          requestBuilder.body(selectBody(body, formParams, contentType));
+        }
+
         return requestBuilder;
     }
 
