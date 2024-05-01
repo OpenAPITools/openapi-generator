@@ -50,7 +50,7 @@ func NewRouter(routers ...Router) chi.Router {
 	router.Use(middleware.Logger)
 	for _, api := range routers {
 		for _, route := range api.Routes() {
-			handler := route.HandlerFunc
+			var handler http.Handler = route.HandlerFunc
 			router.Method(route.Method, route.Pattern, handler)
 		}
 	}
