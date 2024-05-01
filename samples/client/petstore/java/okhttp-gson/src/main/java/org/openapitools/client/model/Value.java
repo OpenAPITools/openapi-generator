@@ -65,7 +65,6 @@ public class Value extends AbstractOpenApiSchema {
             }
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final TypeAdapter<Scalar> adapterScalar = gson.getDelegateAdapter(this, TypeToken.get(Scalar.class));
-
             final Type typeInstance = new TypeToken<List<Scalar>>(){}.getType();
             final TypeAdapter<List<Scalar>> adapterListScalar = (TypeAdapter<List<Scalar>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
 
