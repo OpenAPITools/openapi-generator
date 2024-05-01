@@ -12,6 +12,7 @@
 
 package org.openapitools.client.api;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,6 +24,7 @@ import java.util.List;
 import org.junit.Test;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.GifHttpMessageConverter;
+import org.openapitools.client.OctetStreamHttpMessageConverter;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.Tag;
@@ -40,8 +42,9 @@ public class BodyApiTest {
   @Test
   public void testBinaryGifTest() throws IOException {
     // given
-    var restClient = ApiClient.buildRestClientBuilder()
-                    .messageConverters(converters -> converters.add(new GifHttpMessageConverter()))
+    var restClient =
+        ApiClient.buildRestClientBuilder()
+            .messageConverters(converters -> converters.add(new GifHttpMessageConverter()))
             .build();
     api.setApiClient(new ApiClient(restClient));
 
@@ -60,8 +63,20 @@ public class BodyApiTest {
    * <p>Test body parameter(s)
    */
   @Test
-  public void testBodyApplicationOctetstreamBinaryTest() {
-    File body = null;
+  public void testBodyApplicationOctetstreamBinaryTest() throws IOException {
+    // given
+    var restClient =
+        ApiClient.buildRestClientBuilder()
+            .messageConverters(converters -> converters.add(new OctetStreamHttpMessageConverter()))
+            .build();
+    api.setApiClient(new ApiClient(restClient));
+
+    var tempFile = Files.createTempFile("test", ".txt");
+    Files.writeString(tempFile, "test123");
+
+    File body = tempFile.toFile();
+
+    // when
     String response = api.testBodyApplicationOctetstreamBinary(body);
 
     // TODO: test validations
