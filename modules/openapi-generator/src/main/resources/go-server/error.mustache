@@ -49,17 +49,17 @@ func DefaultErrorHandler(w http.ResponseWriter, _ *http.Request, err error, resu
 	var parsingErr *ParsingError
 	if ok := errors.As(err, &parsingErr); ok {
 		// Handle parsing errors
-		_ = EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusBadRequest), map[string][]string{}, w)
+		_ = EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusBadRequest),{{#addResponseHeaders}} map[string][]string{},{{/addResponseHeaders}} w)
 		return
 	}
 
 	var requiredErr *RequiredError
 	if ok := errors.As(err, &requiredErr); ok {
 		// Handle missing required errors
-		_ = EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusUnprocessableEntity), map[string][]string{}, w)
+		_ = EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusUnprocessableEntity),{{#addResponseHeaders}} map[string][]string{},{{/addResponseHeaders}} w)
 		return
 	} 
 
 	// Handle all other errors
-	_ = EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(err.Error(), &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
 }
