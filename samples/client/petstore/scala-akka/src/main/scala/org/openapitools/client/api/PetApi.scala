@@ -20,7 +20,7 @@ import org.openapitools.client.core.ApiKeyLocations._
 
 object PetApi {
 
-  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new PetApi(baseUrl)
+  def apply(baseUrl: String = "https://petstore.swagger.io/v2") = new PetApi(baseUrl)
 }
 
 class PetApi(baseUrl: String) {

@@ -15,7 +15,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <java.version>11</java.version>
-    <scala.version>2.12.13</scala.version>
+    <scala.version>2.13.13</scala.version>
     <json4s.jackson.version>4.0.7</json4s.jackson.version>
     <json4s.ext.version>4.0.7</json4s.ext.version>
     <akka.version>2.8.5</akka.version>
@@ -43,50 +43,50 @@
     </dependency>
     <dependency>
       <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-actor_2.12</artifactId>
+      <artifactId>akka-actor_2.13</artifactId>
       <version>${akka.version}</version>
     </dependency>
     <dependency>
       <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-stream_2.12</artifactId>
+      <artifactId>akka-stream_2.13</artifactId>
       <version>${akka.version}</version>
     </dependency>
     <dependency>
       <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-http_2.12</artifactId>
+      <artifactId>akka-http_2.13</artifactId>
       <version>${akka.http.version}</version>
     </dependency>
     <dependency>
       <groupId>org.json4s</groupId>
-      <artifactId>json4s-jackson_2.12</artifactId>
+      <artifactId>json4s-jackson_2.13</artifactId>
       <version>${json4s.jackson.version}</version>
     </dependency>
     <dependency>
       <groupId>org.json4s</groupId>
-      <artifactId>json4s-ext_2.12</artifactId>
+      <artifactId>json4s-ext_2.13</artifactId>
       <version>${json4s.jackson.version}</version>
     </dependency>
     <dependency>
       <groupId>de.heikoseeberger</groupId>
-      <artifactId>akka-http-json4s_2.12</artifactId>
+      <artifactId>akka-http-json4s_2.13</artifactId>
       <version>${akka.http.json4s.version}</version>
     </dependency>
     <dependency>
       <groupId>org.scala-lang.modules</groupId>
-      <artifactId>scala-collection-compat_2.12</artifactId>
+      <artifactId>scala-collection-compat_2.13</artifactId>
       <version>${scala.compat.version}</version>
     </dependency>
 
     <!--test dependencies-->
     <dependency>
       <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_2.12</artifactId>
+      <artifactId>scalatest_2.13</artifactId>
       <version>${scala.test.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.scalatestplus</groupId>
-      <artifactId>junit-5-10_2.12</artifactId>
+      <artifactId>junit-5-10_2.13</artifactId>
       <version>${scala.test.plus.version}</version>
       <scope>test</scope>
     </dependency>
