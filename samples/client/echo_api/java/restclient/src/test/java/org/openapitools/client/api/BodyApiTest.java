@@ -117,11 +117,18 @@ public class BodyApiTest {
    * <p>Test single binary in multipart mime
    */
   @Test
-  public void testBodyMultipartFormdataSingleBinaryTest() {
-    File myFile = null;
-    String response = api.testBodyMultipartFormdataSingleBinary(myFile);
+  public void testBodyMultipartFormdataSingleBinaryTest() throws IOException {
+    // given
+    var testFile = Files.createTempFile("test", ".txt");
+    String testFileContent = "Lorem ipsum dolor sit amet";
+    Files.writeString(testFile, testFileContent);
 
-    // TODO: test validations
+    // when
+    String response = api.testBodyMultipartFormdataSingleBinary(testFile.toFile());
+
+    // then
+    assertThat(response, containsString("Content-Type: multipart/form-data"));
+    assertThat(response, containsString(testFileContent));
   }
 
   /**
