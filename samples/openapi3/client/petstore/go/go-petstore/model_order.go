@@ -281,32 +281,6 @@ func (o Order) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Order) UnmarshalJSON(data []byte) (err error) {
-	varOrder := _Order{}
-
-	err = json.Unmarshal(data, &varOrder)
-
-	if err != nil {
-		return err
-	}
-
-	*o = Order(varOrder)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "id")
-		delete(additionalProperties, "petId")
-		delete(additionalProperties, "quantity")
-		delete(additionalProperties, "shipDate")
-		delete(additionalProperties, "status")
-		delete(additionalProperties, "complete")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableOrder struct {
 	value *Order
 	isSet bool

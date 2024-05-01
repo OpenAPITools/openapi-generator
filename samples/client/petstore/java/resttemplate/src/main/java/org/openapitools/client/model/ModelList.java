@@ -30,19 +30,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ModelList.JSON_PROPERTY_123LIST
 })
 @JsonTypeName("List")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
   private String _123list;
 
   public ModelList() {
-  }
-
-  /**
-  * Constructor with all args parameters
-  */
-  public ModelList(@JsonProperty(JSON_PROPERTY_123LIST) String _123list) {
-    this._123list = _123list;
   }
 
   public ModelList _123list(String _123list) {

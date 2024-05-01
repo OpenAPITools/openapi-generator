@@ -10,8 +10,6 @@ import org.openapitools.client.models.ApiPet
 import org.openapitools.client.models.ApiStringEnumRef
 import org.openapitools.client.models.ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 
-import org.openapitools.client.models.*
-
 interface QueryApi {
 
     /**

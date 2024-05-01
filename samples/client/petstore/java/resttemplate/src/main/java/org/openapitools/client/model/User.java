@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -63,20 +63,6 @@ public class User {
   private Integer userStatus;
 
   public User() {
-  }
-
-  /**
-  * Constructor with all args parameters
-  */
-  public User(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_USERNAME) String username, @JsonProperty(JSON_PROPERTY_FIRST_NAME) String firstName, @JsonProperty(JSON_PROPERTY_LAST_NAME) String lastName, @JsonProperty(JSON_PROPERTY_EMAIL) String email, @JsonProperty(JSON_PROPERTY_PASSWORD) String password, @JsonProperty(JSON_PROPERTY_PHONE) String phone, @JsonProperty(JSON_PROPERTY_USER_STATUS) Integer userStatus) {
-    this.id = id;
-    this.username = username;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-    this.password = password;
-    this.phone = phone;
-    this.userStatus = userStatus;
   }
 
   public User id(Long id) {

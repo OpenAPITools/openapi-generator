@@ -22,7 +22,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumClassPrefix|Prefix enum with class name| |false|
 |generateInterfaces|Generate interfaces for api classes| |false|
 |generateMarshalJSON|Generate MarshalJSON method| |true|
-|generateUnmarshalJSON|Generate UnmarshalJSON method| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |isGoSubmodule|whether the generated Go module is a submodule| |false|
 |packageName|Go package name (convention: lowercase).| |openapi|

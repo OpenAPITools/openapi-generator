@@ -263,54 +263,6 @@ func (o Pet) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Pet) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"name",
-		"photoUrls",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err;
-	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-
-	varPet := _Pet{}
-
-	err = json.Unmarshal(data, &varPet)
-
-	if err != nil {
-		return err
-	}
-
-	*o = Pet(varPet)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "id")
-		delete(additionalProperties, "category")
-		delete(additionalProperties, "name")
-		delete(additionalProperties, "photoUrls")
-		delete(additionalProperties, "tags")
-		delete(additionalProperties, "status")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullablePet struct {
 	value *Pet
 	isSet bool

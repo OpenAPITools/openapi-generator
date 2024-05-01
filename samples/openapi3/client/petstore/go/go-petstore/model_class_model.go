@@ -95,27 +95,6 @@ func (o ClassModel) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ClassModel) UnmarshalJSON(data []byte) (err error) {
-	varClassModel := _ClassModel{}
-
-	err = json.Unmarshal(data, &varClassModel)
-
-	if err != nil {
-		return err
-	}
-
-	*o = ClassModel(varClassModel)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "_class")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableClassModel struct {
 	value *ClassModel
 	isSet bool

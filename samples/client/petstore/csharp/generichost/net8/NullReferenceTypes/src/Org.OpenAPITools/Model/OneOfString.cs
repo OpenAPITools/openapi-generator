@@ -34,19 +34,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="OneOfString" /> class.
         /// </summary>
-        /// <param name="string"></param>
-        internal OneOfString(string @string)
+        /// <param name="varString"></param>
+        internal OneOfString(string varString)
         {
-            String = @string;
+            VarString = varString;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets String
+        /// Gets or Sets VarString
         /// </summary>
-        public string? String { get; set; }
+        public string? VarString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

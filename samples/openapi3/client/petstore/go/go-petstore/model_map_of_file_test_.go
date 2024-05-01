@@ -97,27 +97,6 @@ func (o MapOfFileTest) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *MapOfFileTest) UnmarshalJSON(data []byte) (err error) {
-	varMapOfFileTest := _MapOfFileTest{}
-
-	err = json.Unmarshal(data, &varMapOfFileTest)
-
-	if err != nil {
-		return err
-	}
-
-	*o = MapOfFileTest(varMapOfFileTest)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "prop_test")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableMapOfFileTest struct {
 	value *MapOfFileTest
 	isSet bool

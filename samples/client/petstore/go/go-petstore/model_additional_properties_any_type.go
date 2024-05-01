@@ -95,27 +95,6 @@ func (o AdditionalPropertiesAnyType) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *AdditionalPropertiesAnyType) UnmarshalJSON(data []byte) (err error) {
-	varAdditionalPropertiesAnyType := _AdditionalPropertiesAnyType{}
-
-	err = json.Unmarshal(data, &varAdditionalPropertiesAnyType)
-
-	if err != nil {
-		return err
-	}
-
-	*o = AdditionalPropertiesAnyType(varAdditionalPropertiesAnyType)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "name")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableAdditionalPropertiesAnyType struct {
 	value *AdditionalPropertiesAnyType
 	isSet bool

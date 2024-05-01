@@ -29,19 +29,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   private String client;
 
   public Client() {
-  }
-
-  /**
-  * Constructor with all args parameters
-  */
-  public Client(@JsonProperty(JSON_PROPERTY_CLIENT) String client) {
-    this.client = client;
   }
 
   public Client client(String client) {

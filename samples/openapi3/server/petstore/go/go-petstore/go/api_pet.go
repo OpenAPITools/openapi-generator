@@ -11,12 +11,9 @@
 package petstoreserver
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 	"os"
-
-	"github.com/go-chi/chi/v5"
 )
 
 // PetAPIController binds http requests to an api service and writes the service results to the http response

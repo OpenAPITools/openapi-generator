@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   private String uuid;
@@ -52,16 +52,6 @@ public class ObjectWithDeprecatedFields {
   private List<String> bars;
 
   public ObjectWithDeprecatedFields() {
-  }
-
-  /**
-  * Constructor with all args parameters
-  */
-  public ObjectWithDeprecatedFields(@JsonProperty(JSON_PROPERTY_UUID) String uuid, @JsonProperty(JSON_PROPERTY_ID) BigDecimal id, @JsonProperty(JSON_PROPERTY_DEPRECATED_REF) DeprecatedObject deprecatedRef, @JsonProperty(JSON_PROPERTY_BARS) List<String> bars) {
-    this.uuid = uuid;
-    this.id = id;
-    this.deprecatedRef = deprecatedRef;
-    this.bars = bars;
   }
 
   public ObjectWithDeprecatedFields uuid(String uuid) {

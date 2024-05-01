@@ -34,20 +34,20 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
-        /// <param name="bool"></param>
-        internal PolymorphicProperty(bool @bool)
+        /// <param name="varBool"></param>
+        internal PolymorphicProperty(bool varBool)
         {
-            Bool = @bool;
+            VarBool = varBool;
             OnCreated();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
-        /// <param name="string"></param>
-        internal PolymorphicProperty(string @string)
+        /// <param name="varString"></param>
+        internal PolymorphicProperty(string varString)
         {
-            String = @string;
+            VarString = varString;
             OnCreated();
         }
 
@@ -74,14 +74,14 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets Bool
+        /// Gets or Sets VarBool
         /// </summary>
-        public bool? Bool { get; set; }
+        public bool? VarBool { get; set; }
 
         /// <summary>
-        /// Gets or Sets String
+        /// Gets or Sets VarString
         /// </summary>
-        public string? String { get; set; }
+        public string? VarString { get; set; }
 
         /// <summary>
         /// Gets or Sets Object
@@ -161,11 +161,11 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
                 {
-                    Utf8JsonReader utf8JsonReaderBool = utf8JsonReader;
-                    ClientUtils.TryDeserialize<bool?>(ref utf8JsonReaderBool, jsonSerializerOptions, out varBool);
+                    Utf8JsonReader utf8JsonReaderVarBool = utf8JsonReader;
+                    ClientUtils.TryDeserialize<bool?>(ref utf8JsonReaderVarBool, jsonSerializerOptions, out varBool);
 
-                    Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
-                    ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
+                    Utf8JsonReader utf8JsonReaderVarString = utf8JsonReader;
+                    ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderVarString, jsonSerializerOptions, out varString);
 
                     Utf8JsonReader utf8JsonReaderObject = utf8JsonReader;
                     ClientUtils.TryDeserialize<Object?>(ref utf8JsonReaderObject, jsonSerializerOptions, out varObject);

@@ -95,27 +95,6 @@ func (o Banana) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Banana) UnmarshalJSON(data []byte) (err error) {
-	varBanana := _Banana{}
-
-	err = json.Unmarshal(data, &varBanana)
-
-	if err != nil {
-		return err
-	}
-
-	*o = Banana(varBanana)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "lengthCm")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableBanana struct {
 	value *Banana
 	isSet bool

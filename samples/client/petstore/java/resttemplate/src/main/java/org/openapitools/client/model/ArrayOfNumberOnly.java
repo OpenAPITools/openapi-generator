@@ -33,19 +33,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   private List<BigDecimal> arrayNumber;
 
   public ArrayOfNumberOnly() {
-  }
-
-  /**
-  * Constructor with all args parameters
-  */
-  public ArrayOfNumberOnly(@JsonProperty(JSON_PROPERTY_ARRAY_NUMBER) List<BigDecimal> arrayNumber) {
-    this.arrayNumber = arrayNumber;
   }
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {

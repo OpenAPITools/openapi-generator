@@ -96,27 +96,6 @@ func (o AllOfPrimitiveTypes) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *AllOfPrimitiveTypes) UnmarshalJSON(data []byte) (err error) {
-	varAllOfPrimitiveTypes := _AllOfPrimitiveTypes{}
-
-	err = json.Unmarshal(data, &varAllOfPrimitiveTypes)
-
-	if err != nil {
-		return err
-	}
-
-	*o = AllOfPrimitiveTypes(varAllOfPrimitiveTypes)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "test")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableAllOfPrimitiveTypes struct {
 	value *AllOfPrimitiveTypes
 	isSet bool

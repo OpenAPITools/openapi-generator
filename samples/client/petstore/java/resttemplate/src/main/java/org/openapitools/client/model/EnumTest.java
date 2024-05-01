@@ -45,7 +45,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -216,20 +216,6 @@ public class EnumTest {
   private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
 
   public EnumTest() {
-  }
-
-  /**
-  * Constructor with all args parameters
-  */
-  public EnumTest(@JsonProperty(JSON_PROPERTY_ENUM_STRING) EnumStringEnum enumString, @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED) EnumStringRequiredEnum enumStringRequired, @JsonProperty(JSON_PROPERTY_ENUM_INTEGER) EnumIntegerEnum enumInteger, @JsonProperty(JSON_PROPERTY_ENUM_NUMBER) EnumNumberEnum enumNumber, @JsonProperty(JSON_PROPERTY_OUTER_ENUM) OuterEnum outerEnum, @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER) OuterEnumInteger outerEnumInteger, @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE) OuterEnumDefaultValue outerEnumDefaultValue, @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE) OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
-    this.enumString = enumString;
-    this.enumStringRequired = enumStringRequired;
-    this.enumInteger = enumInteger;
-    this.enumNumber = enumNumber;
-    this.outerEnum = outerEnum == null ? JsonNullable.<OuterEnum>undefined() : JsonNullable.of(outerEnum);
-    this.outerEnumInteger = outerEnumInteger;
-    this.outerEnumDefaultValue = outerEnumDefaultValue;
-    this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
   }
 
   public EnumTest enumString(EnumStringEnum enumString) {

@@ -167,29 +167,6 @@ func (o ApiResponse) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ApiResponse) UnmarshalJSON(data []byte) (err error) {
-	varApiResponse := _ApiResponse{}
-
-	err = json.Unmarshal(data, &varApiResponse)
-
-	if err != nil {
-		return err
-	}
-
-	*o = ApiResponse(varApiResponse)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "code")
-		delete(additionalProperties, "type")
-		delete(additionalProperties, "message")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableApiResponse struct {
 	value *ApiResponse
 	isSet bool

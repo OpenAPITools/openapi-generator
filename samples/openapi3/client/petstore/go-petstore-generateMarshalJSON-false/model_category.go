@@ -123,28 +123,6 @@ func (o Category) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Category) UnmarshalJSON(data []byte) (err error) {
-	varCategory := _Category{}
-
-	err = json.Unmarshal(data, &varCategory)
-
-	if err != nil {
-		return err
-	}
-
-	*o = Category(varCategory)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "id")
-		delete(additionalProperties, "name")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableCategory struct {
 	value *Category
 	isSet bool

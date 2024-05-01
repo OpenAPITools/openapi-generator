@@ -95,27 +95,6 @@ func (o ArrayOfNumberOnly) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ArrayOfNumberOnly) UnmarshalJSON(data []byte) (err error) {
-	varArrayOfNumberOnly := _ArrayOfNumberOnly{}
-
-	err = json.Unmarshal(data, &varArrayOfNumberOnly)
-
-	if err != nil {
-		return err
-	}
-
-	*o = ArrayOfNumberOnly(varArrayOfNumberOnly)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "ArrayNumber")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableArrayOfNumberOnly struct {
 	value *ArrayOfNumberOnly
 	isSet bool

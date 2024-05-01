@@ -323,33 +323,6 @@ func (o ReadOnlyWithDefault) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ReadOnlyWithDefault) UnmarshalJSON(data []byte) (err error) {
-	varReadOnlyWithDefault := _ReadOnlyWithDefault{}
-
-	err = json.Unmarshal(data, &varReadOnlyWithDefault)
-
-	if err != nil {
-		return err
-	}
-
-	*o = ReadOnlyWithDefault(varReadOnlyWithDefault)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "prop1")
-		delete(additionalProperties, "prop2")
-		delete(additionalProperties, "prop3")
-		delete(additionalProperties, "boolProp1")
-		delete(additionalProperties, "boolProp2")
-		delete(additionalProperties, "intProp1")
-		delete(additionalProperties, "intProp2")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableReadOnlyWithDefault struct {
 	value *ReadOnlyWithDefault
 	isSet bool

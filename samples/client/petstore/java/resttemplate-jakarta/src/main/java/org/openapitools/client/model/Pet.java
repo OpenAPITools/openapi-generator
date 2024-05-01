@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -97,18 +97,6 @@ public class Pet {
   private StatusEnum status;
 
   public Pet() {
-  }
-
-  /**
-  * Constructor with all args parameters
-  */
-  public Pet(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_CATEGORY) Category category, @JsonProperty(JSON_PROPERTY_NAME) String name, @JsonProperty(JSON_PROPERTY_PHOTO_URLS) List<String> photoUrls, @JsonProperty(JSON_PROPERTY_TAGS) List<Tag> tags, @JsonProperty(JSON_PROPERTY_STATUS) StatusEnum status) {
-    this.id = id;
-    this.category = category;
-    this.name = name;
-    this.photoUrls = photoUrls;
-    this.tags = tags;
-    this.status = status;
   }
 
   public Pet id(Long id) {

@@ -276,32 +276,6 @@ func (o Capitalization) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Capitalization) UnmarshalJSON(data []byte) (err error) {
-	varCapitalization := _Capitalization{}
-
-	err = json.Unmarshal(data, &varCapitalization)
-
-	if err != nil {
-		return err
-	}
-
-	*o = Capitalization(varCapitalization)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "smallCamel")
-		delete(additionalProperties, "CapitalCamel")
-		delete(additionalProperties, "small_Snake")
-		delete(additionalProperties, "Capital_Snake")
-		delete(additionalProperties, "SCA_ETH_Flow_Points")
-		delete(additionalProperties, "ATT_NAME")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableCapitalization struct {
 	value *Capitalization
 	isSet bool

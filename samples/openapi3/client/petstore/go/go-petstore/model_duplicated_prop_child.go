@@ -107,61 +107,6 @@ func (o DuplicatedPropChild) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *DuplicatedPropChild) UnmarshalJSON(data []byte) (err error) {
-	type DuplicatedPropChildWithoutEmbeddedStruct struct {
-		// A discriminator value
-		DupProp *string `json:"dup-prop,omitempty"`
-	}
-
-	varDuplicatedPropChildWithoutEmbeddedStruct := DuplicatedPropChildWithoutEmbeddedStruct{}
-
-	err = json.Unmarshal(data, &varDuplicatedPropChildWithoutEmbeddedStruct)
-	if err == nil {
-		varDuplicatedPropChild := _DuplicatedPropChild{}
-		varDuplicatedPropChild.DupProp = varDuplicatedPropChildWithoutEmbeddedStruct.DupProp
-		*o = DuplicatedPropChild(varDuplicatedPropChild)
-	} else {
-		return err
-	}
-
-	varDuplicatedPropChild := _DuplicatedPropChild{}
-
-	err = json.Unmarshal(data, &varDuplicatedPropChild)
-	if err == nil {
-		o.DuplicatedPropParent = varDuplicatedPropChild.DuplicatedPropParent
-	} else {
-		return err
-	}
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "dup-prop")
-
-		// remove fields from embedded structs
-		reflectDuplicatedPropParent := reflect.ValueOf(o.DuplicatedPropParent)
-		for i := 0; i < reflectDuplicatedPropParent.Type().NumField(); i++ {
-			t := reflectDuplicatedPropParent.Type().Field(i)
-
-			if jsonTag := t.Tag.Get("json"); jsonTag != "" {
-				fieldName := ""
-				if commaIdx := strings.Index(jsonTag, ","); commaIdx > 0 {
-					fieldName = jsonTag[:commaIdx]
-				} else {
-					fieldName = jsonTag
-				}
-				if fieldName != "AdditionalProperties" {
-					delete(additionalProperties, fieldName)
-				}
-			}
-		}
-
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableDuplicatedPropChild struct {
 	value *DuplicatedPropChild
 	isSet bool

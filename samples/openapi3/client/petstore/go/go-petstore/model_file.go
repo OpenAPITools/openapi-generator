@@ -96,27 +96,6 @@ func (o File) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *File) UnmarshalJSON(data []byte) (err error) {
-	varFile := _File{}
-
-	err = json.Unmarshal(data, &varFile)
-
-	if err != nil {
-		return err
-	}
-
-	*o = File(varFile)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "sourceURI")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableFile struct {
 	value *File
 	isSet bool

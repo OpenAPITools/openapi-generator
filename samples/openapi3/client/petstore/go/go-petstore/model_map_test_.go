@@ -203,30 +203,6 @@ func (o MapTest) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *MapTest) UnmarshalJSON(data []byte) (err error) {
-	varMapTest := _MapTest{}
-
-	err = json.Unmarshal(data, &varMapTest)
-
-	if err != nil {
-		return err
-	}
-
-	*o = MapTest(varMapTest)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "map_map_of_string")
-		delete(additionalProperties, "map_of_enum_string")
-		delete(additionalProperties, "direct_map")
-		delete(additionalProperties, "indirect_map")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableMapTest struct {
 	value *MapTest
 	isSet bool

@@ -131,28 +131,6 @@ func (o HasOnlyReadOnly) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *HasOnlyReadOnly) UnmarshalJSON(data []byte) (err error) {
-	varHasOnlyReadOnly := _HasOnlyReadOnly{}
-
-	err = json.Unmarshal(data, &varHasOnlyReadOnly)
-
-	if err != nil {
-		return err
-	}
-
-	*o = HasOnlyReadOnly(varHasOnlyReadOnly)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "bar")
-		delete(additionalProperties, "foo")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableHasOnlyReadOnly struct {
 	value *HasOnlyReadOnly
 	isSet bool

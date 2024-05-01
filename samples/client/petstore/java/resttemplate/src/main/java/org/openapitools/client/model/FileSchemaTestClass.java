@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
   private ModelFile _file;
@@ -43,14 +43,6 @@ public class FileSchemaTestClass {
   private List<ModelFile> files;
 
   public FileSchemaTestClass() {
-  }
-
-  /**
-  * Constructor with all args parameters
-  */
-  public FileSchemaTestClass(@JsonProperty(JSON_PROPERTY_FILE) ModelFile _file, @JsonProperty(JSON_PROPERTY_FILES) List<ModelFile> files) {
-    this._file = _file;
-    this.files = files;
   }
 
   public FileSchemaTestClass _file(ModelFile _file) {

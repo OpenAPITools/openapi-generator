@@ -11,7 +11,6 @@
 package petstoreserver
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 )

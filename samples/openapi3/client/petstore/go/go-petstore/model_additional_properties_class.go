@@ -131,28 +131,6 @@ func (o AdditionalPropertiesClass) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *AdditionalPropertiesClass) UnmarshalJSON(data []byte) (err error) {
-	varAdditionalPropertiesClass := _AdditionalPropertiesClass{}
-
-	err = json.Unmarshal(data, &varAdditionalPropertiesClass)
-
-	if err != nil {
-		return err
-	}
-
-	*o = AdditionalPropertiesClass(varAdditionalPropertiesClass)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "map_property")
-		delete(additionalProperties, "map_of_map_property")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableAdditionalPropertiesClass struct {
 	value *AdditionalPropertiesClass
 	isSet bool

@@ -50,7 +50,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
@@ -101,28 +101,6 @@ public class FormatTest {
   private String patternWithDigitsAndDelimiter;
 
   public FormatTest() {
-  }
-
-  /**
-  * Constructor with all args parameters
-  */
-  public FormatTest(@JsonProperty(JSON_PROPERTY_INTEGER) Integer integer, @JsonProperty(JSON_PROPERTY_INT32) Integer int32, @JsonProperty(JSON_PROPERTY_INT64) Long int64, @JsonProperty(JSON_PROPERTY_NUMBER) BigDecimal number, @JsonProperty(JSON_PROPERTY_FLOAT) Float _float, @JsonProperty(JSON_PROPERTY_DOUBLE) Double _double, @JsonProperty(JSON_PROPERTY_DECIMAL) BigDecimal decimal, @JsonProperty(JSON_PROPERTY_STRING) String string, @JsonProperty(JSON_PROPERTY_BYTE) byte[] _byte, @JsonProperty(JSON_PROPERTY_BINARY) File binary, @JsonProperty(JSON_PROPERTY_DATE) LocalDate date, @JsonProperty(JSON_PROPERTY_DATE_TIME) OffsetDateTime dateTime, @JsonProperty(JSON_PROPERTY_UUID) UUID uuid, @JsonProperty(JSON_PROPERTY_PASSWORD) String password, @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS) String patternWithDigits, @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER) String patternWithDigitsAndDelimiter) {
-    this.integer = integer;
-    this.int32 = int32;
-    this.int64 = int64;
-    this.number = number;
-    this._float = _float;
-    this._double = _double;
-    this.decimal = decimal;
-    this.string = string;
-    this._byte = _byte;
-    this.binary = binary;
-    this.date = date;
-    this.dateTime = dateTime;
-    this.uuid = uuid;
-    this.password = password;
-    this.patternWithDigits = patternWithDigits;
-    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
   public FormatTest integer(Integer integer) {

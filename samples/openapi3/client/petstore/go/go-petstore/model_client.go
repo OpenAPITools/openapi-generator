@@ -95,27 +95,6 @@ func (o Client) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Client) UnmarshalJSON(data []byte) (err error) {
-	varClient := _Client{}
-
-	err = json.Unmarshal(data, &varClient)
-
-	if err != nil {
-		return err
-	}
-
-	*o = Client(varClient)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "client")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableClient struct {
 	value *Client
 	isSet bool

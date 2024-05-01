@@ -95,27 +95,6 @@ func (o FooGetDefaultResponse) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *FooGetDefaultResponse) UnmarshalJSON(data []byte) (err error) {
-	varFooGetDefaultResponse := _FooGetDefaultResponse{}
-
-	err = json.Unmarshal(data, &varFooGetDefaultResponse)
-
-	if err != nil {
-		return err
-	}
-
-	*o = FooGetDefaultResponse(varFooGetDefaultResponse)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "string")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableFooGetDefaultResponse struct {
 	value *FooGetDefaultResponse
 	isSet bool

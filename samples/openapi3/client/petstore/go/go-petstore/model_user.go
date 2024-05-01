@@ -499,38 +499,6 @@ func (o User) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *User) UnmarshalJSON(data []byte) (err error) {
-	varUser := _User{}
-
-	err = json.Unmarshal(data, &varUser)
-
-	if err != nil {
-		return err
-	}
-
-	*o = User(varUser)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "id")
-		delete(additionalProperties, "username")
-		delete(additionalProperties, "firstName")
-		delete(additionalProperties, "lastName")
-		delete(additionalProperties, "email")
-		delete(additionalProperties, "password")
-		delete(additionalProperties, "phone")
-		delete(additionalProperties, "userStatus")
-		delete(additionalProperties, "arbitraryObject")
-		delete(additionalProperties, "arbitraryNullableObject")
-		delete(additionalProperties, "arbitraryTypeValue")
-		delete(additionalProperties, "arbitraryNullableTypeValue")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableUser struct {
 	value *User
 	isSet bool

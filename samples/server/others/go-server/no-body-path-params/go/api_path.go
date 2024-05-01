@@ -13,8 +13,6 @@ package petstoreserver
 import (
 	"net/http"
 	"strings"
-
-	"github.com/gorilla/mux"
 )
 
 // PathAPIController binds http requests to an api service and writes the service results to the http response

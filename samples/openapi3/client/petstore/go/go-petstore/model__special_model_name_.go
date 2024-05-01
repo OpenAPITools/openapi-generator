@@ -95,27 +95,6 @@ func (o SpecialModelName) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *SpecialModelName) UnmarshalJSON(data []byte) (err error) {
-	varSpecialModelName := _SpecialModelName{}
-
-	err = json.Unmarshal(data, &varSpecialModelName)
-
-	if err != nil {
-		return err
-	}
-
-	*o = SpecialModelName(varSpecialModelName)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "$special[property.name]")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableSpecialModelName struct {
 	value *SpecialModelName
 	isSet bool

@@ -11,13 +11,10 @@
 package petstoreserver
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 	"time"
 	"os"
-
-	"github.com/gorilla/mux"
 )
 
 // PetAPIController binds http requests to an api service and writes the service results to the http response

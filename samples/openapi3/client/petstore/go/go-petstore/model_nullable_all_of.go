@@ -105,27 +105,6 @@ func (o NullableAllOf) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *NullableAllOf) UnmarshalJSON(data []byte) (err error) {
-	varNullableAllOf := _NullableAllOf{}
-
-	err = json.Unmarshal(data, &varNullableAllOf)
-
-	if err != nil {
-		return err
-	}
-
-	*o = NullableAllOf(varNullableAllOf)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "child")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableNullableAllOf struct {
 	value *NullableAllOf
 	isSet bool

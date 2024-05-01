@@ -95,27 +95,6 @@ func (o NumberOnly) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *NumberOnly) UnmarshalJSON(data []byte) (err error) {
-	varNumberOnly := _NumberOnly{}
-
-	err = json.Unmarshal(data, &varNumberOnly)
-
-	if err != nil {
-		return err
-	}
-
-	*o = NumberOnly(varNumberOnly)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "JustNumber")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableNumberOnly struct {
 	value *NumberOnly
 	isSet bool

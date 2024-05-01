@@ -32,7 +32,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|AnyType|#include &quot;AnyType.h&quot;|
 |HttpContent|#include &quot;HttpContent.h&quot;|
 |Object|#include &quot;Object.h&quot;|
 |std::map|#include &lt;map&gt;|
@@ -185,7 +184,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Uuid|✗|
 |Array|✓|OAS2,OAS3
 |Null|✗|OAS3
-|AnyType|✓|OAS2,OAS3
+|AnyType|✗|OAS2,OAS3
 |Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2

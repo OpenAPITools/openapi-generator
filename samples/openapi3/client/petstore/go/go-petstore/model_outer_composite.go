@@ -167,29 +167,6 @@ func (o OuterComposite) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *OuterComposite) UnmarshalJSON(data []byte) (err error) {
-	varOuterComposite := _OuterComposite{}
-
-	err = json.Unmarshal(data, &varOuterComposite)
-
-	if err != nil {
-		return err
-	}
-
-	*o = OuterComposite(varOuterComposite)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "my_number")
-		delete(additionalProperties, "my_string")
-		delete(additionalProperties, "my_boolean")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
-}
-
 type NullableOuterComposite struct {
 	value *OuterComposite
 	isSet bool
