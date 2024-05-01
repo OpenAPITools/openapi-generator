@@ -244,7 +244,48 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 		inlineEnumParam = param
 	} else {
 	}
-	result, err := c.service.FindPetsByStatus(r.Context(), statusParam, inlineEnumPathParam, inlineEnumParam)
+	var defaultIntParam int32
+	if query.Has("defaultInt") {
+		param, err := parseNumericParameter[int32](
+			query.Get("defaultInt"),
+			WithParse[int32](parseInt32),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		defaultIntParam = param
+	} else {
+		var param int32 = 1
+		defaultIntParam = param
+	}
+	var defaultNumParam float32
+	if query.Has("defaultNum") {
+		param, err := parseNumericParameter[float32](
+			query.Get("defaultNum"),
+			WithParse[float32](parseFloat32),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		defaultNumParam = param
+	} else {
+		var param float32 = 1.5
+		defaultNumParam = param
+	}
+	var defaultStrParam string
+	if query.Has("defaultStr") {
+		param := query.Get("defaultStr")
+
+		defaultStrParam = param
+	} else {
+		param := "default"
+		defaultStrParam = param
+	}
+	result, err := c.service.FindPetsByStatus(r.Context(), statusParam, inlineEnumPathParam, inlineEnumParam, defaultIntParam, defaultNumParam, defaultStrParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

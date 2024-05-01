@@ -183,10 +183,10 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
-	var booleanTestParam bool
-	if query.Has("boolean_test") {
+	var confirmationParam bool
+	if query.Has("confirmation") {
 		param, err := parseBoolParameter(
-			query.Get("boolean_test"),
+			query.Get("confirmation"),
 			WithParse[bool](parseBool),
 		)
 		if err != nil {
@@ -194,10 +194,10 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		booleanTestParam = param
+		confirmationParam = param
 	} else {
 	}
-	result, err := c.service.DeleteUser(r.Context(), usernameParam, booleanTestParam)
+	result, err := c.service.DeleteUser(r.Context(), usernameParam, confirmationParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -249,10 +249,10 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &RequiredError{Field: "password"}, nil)
 		return
 	}
-	var booleanTestParam bool
-	if query.Has("boolean_test") {
+	var rememberMeParam bool
+	if query.Has("remember_me") {
 		param, err := parseBoolParameter(
-			query.Get("boolean_test"),
+			query.Get("remember_me"),
 			WithParse[bool](parseBool),
 		)
 		if err != nil {
@@ -260,10 +260,10 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		booleanTestParam = param
+		rememberMeParam = param
 	} else {
 	}
-	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, booleanTestParam)
+	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, rememberMeParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
