@@ -10,158 +10,164 @@
  * Do not edit the class manually.
  */
 
-
 package org.openapitools.client.api;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
+import org.junit.Test;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.GifHttpMessageConverter;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.Tag;
-import org.junit.Test;
-import org.junit.Ignore;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-/**
- * API tests for BodyApi
- */
-@Ignore
+/** API tests for BodyApi */
 public class BodyApiTest {
 
-    private final BodyApi api = new BodyApi();
+  private final BodyApi api = new BodyApi();
 
-    
-    /**
-     * Test binary (gif) response body
-     *
-     * Test binary (gif) response body
-     */
-    @Test
-    public void testBinaryGifTest()  {
-        File response = api.testBinaryGif();
+  /**
+   * Test binary (gif) response body
+   *
+   * <p>Test binary (gif) response body
+   */
+  @Test
+  public void testBinaryGifTest() throws IOException {
+    // given
+    var restClient = ApiClient.buildRestClientBuilder()
+                    .messageConverters(converters -> converters.add(new GifHttpMessageConverter()))
+            .build();
+    api.setApiClient(new ApiClient(restClient));
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Test body parameter(s)
-     *
-     * Test body parameter(s)
-     */
-    @Test
-    public void testBodyApplicationOctetstreamBinaryTest()  {
-        File body = null;
-        String response = api.testBodyApplicationOctetstreamBinary(body);
+    // when
+    File response = api.testBinaryGif();
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Test array of binary in multipart mime
-     *
-     * Test array of binary in multipart mime
-     */
-    @Test
-    public void testBodyMultipartFormdataArrayOfBinaryTest()  {
-        List<File> files = null;
-        String response = api.testBodyMultipartFormdataArrayOfBinary(files);
+    // then
+    assertThat(response, notNullValue());
+    assertThat(response.exists(), is(true));
+    assertThat(Files.probeContentType(response.toPath()), is("image/gif"));
+  }
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Test single binary in multipart mime
-     *
-     * Test single binary in multipart mime
-     */
-    @Test
-    public void testBodyMultipartFormdataSingleBinaryTest()  {
-        File myFile = null;
-        String response = api.testBodyMultipartFormdataSingleBinary(myFile);
+  /**
+   * Test body parameter(s)
+   *
+   * <p>Test body parameter(s)
+   */
+  @Test
+  public void testBodyApplicationOctetstreamBinaryTest() {
+    File body = null;
+    String response = api.testBodyApplicationOctetstreamBinary(body);
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Test body parameter(s)
-     *
-     * Test body parameter(s)
-     */
-    @Test
-    public void testEchoBodyAllOfPetTest()  {
-        Pet pet = null;
-        Pet response = api.testEchoBodyAllOfPet(pet);
+    // TODO: test validations
+  }
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Test free form object
-     *
-     * Test free form object
-     */
-    @Test
-    public void testEchoBodyFreeFormObjectResponseStringTest()  {
-        Object body = null;
-        String response = api.testEchoBodyFreeFormObjectResponseString(body);
+  /**
+   * Test array of binary in multipart mime
+   *
+   * <p>Test array of binary in multipart mime
+   */
+  @Test
+  public void testBodyMultipartFormdataArrayOfBinaryTest() {
+    List<File> files = null;
+    String response = api.testBodyMultipartFormdataArrayOfBinary(files);
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Test body parameter(s)
-     *
-     * Test body parameter(s)
-     */
-    @Test
-    public void testEchoBodyPetTest()  {
-        Pet pet = null;
-        Pet response = api.testEchoBodyPet(pet);
+    // TODO: test validations
+  }
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Test empty response body
-     *
-     * Test empty response body
-     */
-    @Test
-    public void testEchoBodyPetResponseStringTest()  {
-        Pet pet = null;
-        String response = api.testEchoBodyPetResponseString(pet);
+  /**
+   * Test single binary in multipart mime
+   *
+   * <p>Test single binary in multipart mime
+   */
+  @Test
+  public void testBodyMultipartFormdataSingleBinaryTest() {
+    File myFile = null;
+    String response = api.testBodyMultipartFormdataSingleBinary(myFile);
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Test string enum response body
-     *
-     * Test string enum response body
-     */
-    @Test
-    public void testEchoBodyStringEnumTest()  {
-        String body = null;
-        StringEnumRef response = api.testEchoBodyStringEnum(body);
+    // TODO: test validations
+  }
 
-        // TODO: test validations
-    }
-    
-    /**
-     * Test empty json (request body)
-     *
-     * Test empty json (request body)
-     */
-    @Test
-    public void testEchoBodyTagResponseStringTest()  {
-        Tag tag = null;
-        String response = api.testEchoBodyTagResponseString(tag);
+  /**
+   * Test body parameter(s)
+   *
+   * <p>Test body parameter(s)
+   */
+  @Test
+  public void testEchoBodyAllOfPetTest() {
+    Pet pet = null;
+    Pet response = api.testEchoBodyAllOfPet(pet);
 
-        // TODO: test validations
-    }
-    
+    // TODO: test validations
+  }
+
+  /**
+   * Test free form object
+   *
+   * <p>Test free form object
+   */
+  @Test
+  public void testEchoBodyFreeFormObjectResponseStringTest() {
+    Object body = null;
+    String response = api.testEchoBodyFreeFormObjectResponseString(body);
+
+    // TODO: test validations
+  }
+
+  /**
+   * Test body parameter(s)
+   *
+   * <p>Test body parameter(s)
+   */
+  @Test
+  public void testEchoBodyPetTest() {
+    Pet pet = null;
+    Pet response = api.testEchoBodyPet(pet);
+
+    // TODO: test validations
+  }
+
+  /**
+   * Test empty response body
+   *
+   * <p>Test empty response body
+   */
+  @Test
+  public void testEchoBodyPetResponseStringTest() {
+    Pet pet = null;
+    String response = api.testEchoBodyPetResponseString(pet);
+
+    // TODO: test validations
+  }
+
+  /**
+   * Test string enum response body
+   *
+   * <p>Test string enum response body
+   */
+  @Test
+  public void testEchoBodyStringEnumTest() {
+    String body = null;
+    StringEnumRef response = api.testEchoBodyStringEnum(body);
+
+    // TODO: test validations
+  }
+
+  /**
+   * Test empty json (request body)
+   *
+   * <p>Test empty json (request body)
+   */
+  @Test
+  public void testEchoBodyTagResponseStringTest() {
+    Tag tag = null;
+    String response = api.testEchoBodyTagResponseString(tag);
+
+    // TODO: test validations
+  }
 }
