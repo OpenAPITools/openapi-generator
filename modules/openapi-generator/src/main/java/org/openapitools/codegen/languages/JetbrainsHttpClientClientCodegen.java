@@ -25,6 +25,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.examples.Example;
+import lombok.Getter;
 import org.openapitools.codegen.*;
 
 import java.io.File;
@@ -230,7 +231,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         System.out.println("##########################################################################################");
     }
 
-    public class RequestItem {
+    @Getter public class RequestItem {
 
         private String name;
         private String body;
@@ -240,16 +241,8 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
             this.body = body;
         }
 
-        public String getName() {
-            return name;
-        }
-
         public void setName(String name) {
             this.name = name;
-        }
-
-        public String getBody() {
-            return body;
         }
 
         public void setBody(String body) {

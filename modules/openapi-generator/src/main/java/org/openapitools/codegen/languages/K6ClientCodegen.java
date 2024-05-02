@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.Getter;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -367,9 +368,9 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String projectVersion;
     protected String licenseName;
 
-    protected String invokerPackage;
+    @Getter protected String invokerPackage;
     protected String sourceFolder = "";
-    private String modelPropertyNaming = "camelCase";
+    @Getter private String modelPropertyNaming = "camelCase";
     protected boolean preserveLeadingParamChar = false;
 
     @Override
@@ -702,10 +703,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "${" + input + "}";
     }
 
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
-    }
-
     private String getNameUsingModelPropertyNaming(String name) {
         switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
             case original:
@@ -795,10 +792,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String apiFileFolder() {
         return createPath(outputFolder, sourceFolder, invokerPackage, apiPackage());
-    }
-
-    public String getInvokerPackage() {
-        return invokerPackage;
     }
 
     public void setInvokerPackage(String invokerPackage) {

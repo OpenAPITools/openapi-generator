@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import io.swagger.v3.oas.models.examples.Example;
+import lombok.Getter;
 
 /**
  * Describes a single operation parameter in the OAS specification.
@@ -67,7 +68,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public String containerType;
     public String containerTypeMapped; // language-specified container type (e.g. `dict` in python for map)
 
-    private CodegenProperty schema;
+    @Getter private CodegenProperty schema;
     private boolean additionalPropertiesIsAnyType;
     private boolean hasVars;
 
@@ -130,7 +131,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private CodegenComposedSchemas composedSchemas;
     private boolean hasMultipleTypes = false;
-    private LinkedHashMap<String, CodegenMediaType> content;
+    @Getter private LinkedHashMap<String, CodegenMediaType> content;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
 
@@ -988,16 +989,8 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         this.hasMultipleTypes = hasMultipleTypes;
     }
 
-    public CodegenProperty getSchema() {
-        return schema;
-    }
-
     public void setSchema(CodegenProperty schema) {
         this.schema = schema;
-    }
-
-    public LinkedHashMap<String, CodegenMediaType> getContent() {
-        return content;
     }
 
     public void setContent(LinkedHashMap<String, CodegenMediaType> content) {

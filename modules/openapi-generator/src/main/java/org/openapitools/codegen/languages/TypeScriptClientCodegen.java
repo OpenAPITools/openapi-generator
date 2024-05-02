@@ -23,6 +23,7 @@ import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
@@ -81,7 +82,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     private static final String NPM_REPOSITORY = "npmRepository";
 
     // NPM Option Values
-    protected String npmRepository = null;
+    @Getter protected String npmRepository = null;
     protected String snapshot = null;
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
 
@@ -169,10 +170,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
         apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-    }
-
-    public String getNpmRepository() {
-        return npmRepository;
     }
 
     public void setNpmRepository(String npmRepository) {

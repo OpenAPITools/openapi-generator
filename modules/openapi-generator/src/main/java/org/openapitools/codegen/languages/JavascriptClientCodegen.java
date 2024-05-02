@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -68,7 +69,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String projectVersion;
     protected String licenseName;
 
-    protected String invokerPackage;
+    @Getter protected String invokerPackage;
     protected String sourceFolder = "src";
     protected boolean usePromises;
     protected boolean emitModelMethods;
@@ -79,7 +80,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String modelTestPath = "model/";
     protected boolean useES6 = true; // default is ES6
     protected String npmRepository = null;
-    private String modelPropertyNaming = "camelCase";
+    @Getter private String modelPropertyNaming = "camelCase";
 
     public JavascriptClientCodegen() {
         super();
@@ -403,10 +404,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return createPath(outputFolder, sourceFolder, invokerPackage, modelPackage());
     }
 
-    public String getInvokerPackage() {
-        return invokerPackage;
-    }
-
     public void setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
     }
@@ -484,10 +481,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toModelTestFilename(String name) {
         return toModelName(name) + ".spec";
-    }
-
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
     }
 
     private String getNameUsingModelPropertyNaming(String name) {

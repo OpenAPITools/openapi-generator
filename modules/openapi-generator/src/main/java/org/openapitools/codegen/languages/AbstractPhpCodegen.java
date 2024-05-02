@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -48,8 +49,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_NAME = "packageName";
     public static final String SRC_BASE_PATH = "srcBasePath";
-    protected String invokerPackage = "php";
-    protected String packageName = "php-base";
+    @Getter protected String invokerPackage = "php";
+    @Getter protected String packageName = "php-base";
     protected String artifactVersion = null;
     protected String artifactUrl = "https://openapi-generator.tech";
     protected String licenseName = "unlicense";
@@ -282,10 +283,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
-    public String getPackageName() {
-        return packageName;
-    }
-
     public String toSrcPath(final String packageName, final String basePath) {
         String modifiedPackageName = packageName.replace(invokerPackage, "");
         String modifiedBasePath = basePath;
@@ -415,10 +412,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         return toModelName(type);
-    }
-
-    public String getInvokerPackage() {
-        return invokerPackage;
     }
 
     public void setInvokerPackage(String invokerPackage) {

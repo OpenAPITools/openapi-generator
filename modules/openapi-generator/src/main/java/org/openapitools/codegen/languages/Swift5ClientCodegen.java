@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -96,7 +97,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean generateModelAdditionalProperties = true;
     protected boolean hashableModels = true;
     protected boolean useJsonEncodable = true;
-    protected boolean mapFileBinaryToData = false;
+    @Getter protected boolean mapFileBinaryToData = false;
     protected boolean useCustomDateWithoutTime = false;
     protected boolean validatable = true;
     protected String[] responseAs = new String[0];
@@ -633,10 +634,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 break;
         }
 
-    }
-
-    public boolean isMapFileBinaryToData() {
-        return mapFileBinaryToData;
     }
 
     public void setMapFileBinaryToData(boolean mapFileBinaryToData) {

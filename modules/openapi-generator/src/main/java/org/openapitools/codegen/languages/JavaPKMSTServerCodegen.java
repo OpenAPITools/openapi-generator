@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.tags.Tag;
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
@@ -47,10 +48,10 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
     public static final String EUREKA_URI = "eurekaUri";
     public static final String ZIPKIN_URI = "zipkinUri";
     public static final String SPRINGADMIN_URI = "springBootAdminUri";
-    protected String basePackage = "com.prokarma.pkmst";
-    protected String serviceName = "Pkmst";
-    protected String configPackage = "com.prokarma.pkmst.config";
-    protected String title;
+    @Getter protected String basePackage = "com.prokarma.pkmst";
+    @Getter protected String serviceName = "Pkmst";
+    @Getter protected String configPackage = "com.prokarma.pkmst.config";
+    @Getter protected String title;
     protected String eurekaUri;
     protected String zipkinUri;
     protected String springBootAdminUri;
@@ -598,32 +599,16 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         this.springBootAdminUri = springBootAdminUri;
     }
 
-    public String getBasePackage() {
-        return basePackage;
-    }
-
     public void setBasePackage(String basePackage) {
         this.basePackage = basePackage;
-    }
-
-    public String getServiceName() {
-        return serviceName;
     }
 
     public void setServiceName(String serviceName) {
         this.serviceName = serviceName;
     }
 
-    public String getConfigPackage() {
-        return configPackage;
-    }
-
     public void setConfigPackage(String configPackage) {
         this.configPackage = configPackage;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public void setTitle(String title) {
@@ -637,13 +622,9 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         void setReturnContainer(String returnContainer);
     }
 
-    private static class ResourcePath {
+    @Getter private static class ResourcePath {
 
         private String path;
-
-        public String getPath() {
-            return path;
-        }
 
         public void setPath(String path) {
             this.path = path;

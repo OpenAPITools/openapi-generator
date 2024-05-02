@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -699,7 +700,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     }
 
-    class ExtendedCodegenOperation extends CodegenOperation {
+    @Getter class ExtendedCodegenOperation extends CodegenOperation {
         private List<String> pathTemplateNames = new ArrayList<>();
         private String replacedPathName;
 
@@ -762,16 +763,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.operationIdCamelCase = o.operationIdCamelCase;
         }
 
-        public List<String> getPathTemplateNames() {
-            return pathTemplateNames;
-        }
-
         public void setPathTemplateNames(List<String> pathTemplateNames) {
             this.pathTemplateNames = pathTemplateNames;
-        }
-
-        public String getReplacedPathName() {
-            return replacedPathName;
         }
 
         public void setReplacedPathName(String replacedPathName) {

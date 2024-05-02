@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -51,13 +52,38 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     public static final String ADD_SURROGATE_KEY = "addSurrogateKey";
     public static final Integer IDENTIFIER_MAX_LENGTH = 255;
 
-    protected String importModelPackageName = "";
-    protected String defaultDatabaseName = "sqlite.db";
+    /**
+     * -- GETTER --
+     *  Returns imported package name for the models
+     *
+     * @return name
+     */
+    @Getter protected String importModelPackageName = "";
+    /**
+     * -- GETTER --
+     *  Returns default database name for all queries
+     *  This value must be used with backticks only, eg. `database_name`
+     *
+     * @return default database name
+     */
+    @Getter protected String defaultDatabaseName = "sqlite.db";
     protected String databaseNamePrefix = "_", databaseNameSuffix = "";
     protected String tableNamePrefix = "_", tableNameSuffix = "";
     protected String columnNamePrefix = "_", columnNameSuffix = "";
-    protected String identifierNamingConvention = "original";
-    protected String primaryKeyConvention = "id";
+    /**
+     * -- GETTER --
+     *  Returns identifier naming convention for table names and column names.
+     *
+     * @return identifier naming convention
+     */
+    @Getter protected String identifierNamingConvention = "original";
+    /**
+     * -- GETTER --
+     *  Returns primary key naming convention
+     *
+     * @return name
+     */
+    @Getter protected String primaryKeyConvention = "id";
     protected boolean addSurrogateKey = false;
 
     protected Map<String, String> sqlTypeMapping = new HashMap<String, String>();
@@ -1117,31 +1143,12 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Returns default database name for all queries
-     * This value must be used with backticks only, eg. `database_name`
-     *
-     * @return default database name
-     */
-    public String getDefaultDatabaseName() {
-        return this.defaultDatabaseName;
-    }
-
-    /**
      * Sets imported package name for the models
      *
      * @param name name
      */
     public void setImportModelPackageName(String name) {
         this.importModelPackageName = name;
-    }
-
-    /**
-     * Returns imported package name for the models
-     *
-     * @return name
-     */
-    public String getImportModelPackageName() {
-        return this.importModelPackageName;
     }
 
     /**
@@ -1163,30 +1170,12 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Returns identifier naming convention for table names and column names.
-     *
-     * @return identifier naming convention
-     */
-    public String getIdentifierNamingConvention() {
-        return this.identifierNamingConvention;
-    }
-
-    /**
      * Sets primary key naming convention
      *
      * @param name name
      */
     public void setPrimaryKeyConvention(String name) {
         this.primaryKeyConvention = name;
-    }
-
-    /**
-     * Returns primary key naming convention
-     *
-     * @return name
-     */
-    public String getPrimaryKeyConvention() {
-        return this.primaryKeyConvention;
     }
 
     /**

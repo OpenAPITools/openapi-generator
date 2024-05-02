@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.samskivert.mustache.Mustache;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -109,7 +110,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected String authFolder;
 
-    protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
+    @Getter protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
     public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson' or 'jackson' or 'kotlinx_serialization'";
 
     public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson, kotlinx_serialization}
@@ -348,10 +349,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setGenerateOneOfAnyOfWrappers(boolean generateOneOfAnyOfWrappers) {
         this.generateOneOfAnyOfWrappers = generateOneOfAnyOfWrappers;
-    }
-
-    public SERIALIZATION_LIBRARY_TYPE getSerializationLibrary() {
-        return this.serializationLibrary;
     }
 
     /**

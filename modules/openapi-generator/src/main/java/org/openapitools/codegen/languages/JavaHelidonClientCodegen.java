@@ -33,6 +33,7 @@ import java.util.TreeSet;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -72,7 +73,7 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     protected boolean caseInsensitiveResponseHeaders = false;
     protected Path invokerFolder;
     protected Path apiFolder;
-    protected String serializationLibrary = null;
+    @Getter protected String serializationLibrary = null;
 
     /**
      * Constructor for this generator. Uses the embedded template dir to find common templates
@@ -478,10 +479,6 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
-    }
-
-    public String getSerializationLibrary() {
-        return serializationLibrary;
     }
 
     public void setSerializationLibrary(String serializationLibrary) {

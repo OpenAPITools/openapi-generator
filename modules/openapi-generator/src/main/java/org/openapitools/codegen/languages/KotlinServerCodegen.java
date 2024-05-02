@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -37,13 +38,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinServerCodegen.class);
 
-    private Boolean autoHeadFeatureEnabled = true;
-    private Boolean conditionalHeadersFeatureEnabled = false;
-    private Boolean hstsFeatureEnabled = true;
-    private Boolean corsFeatureEnabled = false;
-    private Boolean compressionFeatureEnabled = true;
-    private Boolean resourcesFeatureEnabled = true;
-    private Boolean metricsFeatureEnabled = true;
+    @Getter private Boolean autoHeadFeatureEnabled = true;
+    @Getter private Boolean conditionalHeadersFeatureEnabled = false;
+    @Getter private Boolean hstsFeatureEnabled = true;
+    @Getter private Boolean corsFeatureEnabled = false;
+    @Getter private Boolean compressionFeatureEnabled = true;
+    @Getter private Boolean resourcesFeatureEnabled = true;
+    @Getter private Boolean metricsFeatureEnabled = true;
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
     private boolean useCoroutines = false;
@@ -138,32 +139,16 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(USE_JAKARTA_EE, Constants.USE_JAKARTA_EE_DESC, useJakartaEe);
     }
 
-    public Boolean getAutoHeadFeatureEnabled() {
-        return autoHeadFeatureEnabled;
-    }
-
     public void setAutoHeadFeatureEnabled(Boolean autoHeadFeatureEnabled) {
         this.autoHeadFeatureEnabled = autoHeadFeatureEnabled;
-    }
-
-    public Boolean getCompressionFeatureEnabled() {
-        return compressionFeatureEnabled;
     }
 
     public void setCompressionFeatureEnabled(Boolean compressionFeatureEnabled) {
         this.compressionFeatureEnabled = compressionFeatureEnabled;
     }
 
-    public Boolean getConditionalHeadersFeatureEnabled() {
-        return conditionalHeadersFeatureEnabled;
-    }
-
     public void setConditionalHeadersFeatureEnabled(Boolean conditionalHeadersFeatureEnabled) {
         this.conditionalHeadersFeatureEnabled = conditionalHeadersFeatureEnabled;
-    }
-
-    public Boolean getCorsFeatureEnabled() {
-        return corsFeatureEnabled;
     }
 
     public void setCorsFeatureEnabled(Boolean corsFeatureEnabled) {
@@ -175,16 +160,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         return "Generates a Kotlin server.";
     }
 
-    public Boolean getHstsFeatureEnabled() {
-        return hstsFeatureEnabled;
-    }
-
     public void setHstsFeatureEnabled(Boolean hstsFeatureEnabled) {
         this.hstsFeatureEnabled = hstsFeatureEnabled;
-    }
-
-    public Boolean getResourcesFeatureEnabled() {
-        return resourcesFeatureEnabled;
     }
 
     public boolean getOmitGradleWrapper() {
@@ -197,10 +174,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
     public void setResourcesFeatureEnabled(Boolean resourcesFeatureEnabled) {
         this.resourcesFeatureEnabled = resourcesFeatureEnabled;
-    }
-
-    public Boolean getMetricsFeatureEnabled() {
-        return metricsFeatureEnabled;
     }
 
     public void setMetricsFeatureEnabled(Boolean metricsEnabled) {

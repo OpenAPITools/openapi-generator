@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -49,8 +50,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
     private final Logger LOGGER = LoggerFactory.getLogger(HaskellYesodServerCodegen.class);
 
-    protected String projectName;
-    protected String apiModuleName;
+    @Getter protected String projectName;
+    @Getter protected String apiModuleName;
 
     @Override
     public CodegenType getTag() {
@@ -67,16 +68,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         return "Generates a haskell-yesod server.";
     }
 
-    public String getProjectName() {
-        return projectName;
-    }
-
     public void setProjectName(String projectName) {
         this.projectName = projectName;
-    }
-
-    public String getApiModuleName() {
-        return apiModuleName;
     }
 
     public void setApiModuleName(String apiModuleName) {

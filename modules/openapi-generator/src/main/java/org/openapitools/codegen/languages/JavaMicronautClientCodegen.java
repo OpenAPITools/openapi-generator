@@ -3,6 +3,7 @@ package org.openapitools.codegen.languages;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
@@ -22,7 +23,7 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
 
     public static final String NAME = "java-micronaut-client";
 
-    protected boolean configureAuthorization;
+    @Getter protected boolean configureAuthorization;
     protected List<String> additionalClientTypeAnnotations;
     protected String authorizationFilterPattern;
     protected String basePathSeparator = "-";
@@ -59,10 +60,6 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
     @Override
     public String getHelp() {
         return "Generates a Java Micronaut Client.";
-    }
-
-    public boolean isConfigureAuthorization() {
-        return configureAuthorization;
     }
 
     @Override

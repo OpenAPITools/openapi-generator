@@ -23,6 +23,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -68,20 +69,20 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected boolean parcelizeModels = false;
-    protected boolean serializableModel = false;
+    @Getter protected boolean serializableModel = false;
 
     protected boolean useJakartaEe = false;
 
     protected boolean nonPublicApi = false;
 
-    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original;
+    @Getter protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original;
 
     // model classes cannot use the same property names defined in HashMap
     // ref: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/
     protected Set<String> propertyAdditionalKeywords = new HashSet<>(Arrays.asList("entries", "keys", "size", "values"));
 
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
-    protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    @Getter protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
 
     public AbstractKotlinCodegen() {
         super();
@@ -302,10 +303,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
-    public CodegenConstants.ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
-        return this.enumPropertyNaming;
     }
 
 
@@ -571,10 +568,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setParcelizeModels(Boolean parcelizeModels) {
         this.parcelizeModels = parcelizeModels;
-    }
-
-    public boolean isSerializableModel() {
-        return serializableModel;
     }
 
     public void setSerializableModel(boolean serializableModel) {
@@ -1164,10 +1157,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
         // process 'additionalProperties'
         setAddProps(schema, m);
-    }
-
-    public List<String> getAdditionalModelTypeAnnotations() {
-        return additionalModelTypeAnnotations;
     }
 
     public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {

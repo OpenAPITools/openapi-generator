@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -400,8 +401,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
-        private List<String> pathTemplateNames = new ArrayList<String>();
-        private String replacedPathName;
+        @Getter     private List<String> pathTemplateNames = new ArrayList<String>();
+        @Getter     private String replacedPathName;
         String arityRequired;
         String arityOptional;
 
@@ -466,16 +467,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             this.operationIdCamelCase = o.operationIdCamelCase;
         }
 
-        public List<String> getPathTemplateNames() {
-            return pathTemplateNames;
-        }
-
         public void setPathTemplateNames(List<String> pathTemplateNames) {
             this.pathTemplateNames = pathTemplateNames;
-        }
-
-        public String getReplacedPathName() {
-            return replacedPathName;
         }
 
         public void setReplacedPathName(String replacedPathName) {

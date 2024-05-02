@@ -23,6 +23,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -79,14 +80,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     public static final String DATETIME_FORMAT = "dateTimeFormat";
     protected String dateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
-    protected String interfacePrefix = "I";
+    @Getter protected String interfacePrefix = "I";
     protected String enumNameSuffix = "Enum";
     protected String enumValueSuffix = "Enum";
 
     protected String sourceFolder = "src";
     protected static final String invalidParameterNamePrefix = "var";
     protected static final String invalidPropertyNamePrefix = "Var";
-    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase;
+    @Getter protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase;
 
     // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
     //       This would require updating relative paths (e.g. path to main project file in test project file)
@@ -96,7 +97,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     protected Set<String> mapTypes;
 
     // true if support nullable type
-    protected boolean supportNullable = Boolean.FALSE;
+    @Getter protected boolean supportNullable = Boolean.FALSE;
 
     protected Boolean zeroBasedEnums = null;
     protected static final String zeroBasedEnumVendorExtension = "x-zero-based-enum";
@@ -1595,10 +1596,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         this.testFolder = testFolder;
     }
 
-    public String getInterfacePrefix() {
-        return interfacePrefix;
-    }
-
     public void setZeroBasedEnums(final Boolean zeroBasedEnums) {
         this.zeroBasedEnums = zeroBasedEnums;
     }
@@ -1641,16 +1638,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         this.enumValueSuffix = enumValueSuffix;
     }
 
-    public boolean isSupportNullable() {
-        return supportNullable;
-    }
-
     public void setSupportNullable(final boolean supportNullable) {
         this.supportNullable = supportNullable;
-    }
-
-    public CodegenConstants.ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
-        return this.enumPropertyNaming;
     }
 
     public void setEnumPropertyNaming(final String enumPropertyNamingType) {

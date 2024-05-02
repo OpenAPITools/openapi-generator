@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -51,7 +52,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     protected String composerVendorName = "openapi";
     protected String composerProjectName = "server-bundle";
     protected String testsDirName = "Tests";
-    protected String bundleName;
+    @Getter protected String bundleName;
     protected String bundleClassName;
     protected String bundleExtensionName;
     protected String bundleAlias;
@@ -210,10 +211,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(PHP_LEGACY_SUPPORT, "Should the generated code be compatible with PHP 5.x?").defaultValue(Boolean.TRUE.toString()));
-    }
-
-    public String getBundleName() {
-        return bundleName;
     }
 
     public void setBundleName(String bundleName) {

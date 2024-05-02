@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -56,7 +57,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     protected boolean useGzipFeature = false;
     private boolean useJackson = false;
-    private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
+    @Getter private String openApiSpecFileLocation = "src/main/openapi/openapi.yaml";
 
     public JavaJAXRSSpecServerCodegen() {
         super();
@@ -266,10 +267,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public String getName() {
         return "jaxrs-spec";
-    }
-
-    public String getOpenApiSpecFileLocation() {
-        return openApiSpecFileLocation;
     }
 
     /**

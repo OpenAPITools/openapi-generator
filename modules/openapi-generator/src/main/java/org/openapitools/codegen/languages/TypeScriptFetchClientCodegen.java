@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -57,8 +58,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String CAMEL_CASE = "camelCase";
     public static final String PASCAL_CASE = "PascalCase";
 
-    protected String npmRepository = null;
-    protected String importFileExtension = "";
+    @Getter protected String npmRepository = null;
+    @Getter protected String importFileExtension = "";
     private boolean useSingleRequestParameter = true;
     private boolean prefixParameterInterfaces = false;
     protected boolean addedApiIndex = false;
@@ -80,9 +81,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
 
     protected boolean sagasAndRecords = false;
-    protected String detectPassthroughModelsWithSuffixAndField = null; // Ex: "Response;data"
+    @Getter protected String detectPassthroughModelsWithSuffixAndField = null; // Ex: "Response;data"
     protected boolean inferUniqueIdFromNameSuffix = false;
-    protected String inferEntityFromUniqueIdWithName = null;
+    @Getter protected String inferEntityFromUniqueIdWithName = null;
     protected boolean packageAsSourceOnlyLibrary = false;
 
 
@@ -152,16 +153,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return "Generates a TypeScript client library using Fetch API (beta).";
     }
 
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
     public void setNpmRepository(String npmRepository) {
         this.npmRepository = npmRepository;
-    }
-
-    public String getImportFileExtension() {
-        return importFileExtension;
     }
 
     public void setImportFileExtension(String importFileExtension) {
@@ -213,10 +206,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return detectPassthroughModelsWithSuffixAndField != null ? detectPassthroughModelsWithSuffixAndField.split("\\.")[1] : null;
     }
 
-    public String getDetectPassthroughModelsWithSuffixAndField() {
-        return detectPassthroughModelsWithSuffixAndField;
-    }
-
     public void setDetectPassthroughModelsWithSuffixAndField(String detectPassthroughModelsWithSuffixAndField) {
         this.detectPassthroughModelsWithSuffixAndField = detectPassthroughModelsWithSuffixAndField;
     }
@@ -227,10 +216,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     public void setInferUniqueIdFromNameSuffix(boolean inferUniqueIdFromNameSuffix) {
         this.inferUniqueIdFromNameSuffix = inferUniqueIdFromNameSuffix;
-    }
-
-    public String getInferEntityFromUniqueIdWithName() {
-        return inferEntityFromUniqueIdWithName;
     }
 
     public void setInferEntityFromUniqueIdWithName(String inferEntityFromUniqueIdWithName) {
@@ -1500,7 +1485,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     class ExtendedCodegenModel extends CodegenModel {
-        public Set<String> modelImports = new TreeSet<String>();
+        @Getter     public Set<String> modelImports = new TreeSet<String>();
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
         public boolean hasReturnPassthroughVoid;
@@ -1597,10 +1582,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.setItems(cm.getItems());
             this.setAdditionalProperties(cm.getAdditionalProperties());
             this.setIsModel(cm.getIsModel());
-        }
-
-        public Set<String> getModelImports() {
-            return modelImports;
         }
 
         public void setModelImports(Set<String> modelImports) {

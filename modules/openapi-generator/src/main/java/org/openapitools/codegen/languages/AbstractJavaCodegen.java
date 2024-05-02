@@ -31,6 +31,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -96,46 +97,47 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
     public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generateConstructorWithAllArgs";
     public static final String GENERATE_BUILDERS = "generateBuilders";
-    protected String dateLibrary = "java8";
+
+    @Getter protected String dateLibrary = "java8";
     protected boolean supportAsync = false;
     protected boolean withXml = false;
-    protected String invokerPackage = "org.openapitools";
-    protected String groupId = "org.openapitools";
-    protected String artifactId = "openapi-java";
-    protected String artifactVersion = null;
-    protected String artifactUrl = "https://github.com/openapitools/openapi-generator";
-    protected String artifactDescription = "OpenAPI Java";
-    protected String developerName = "OpenAPI-Generator Contributors";
-    protected String developerEmail = "team@openapitools.org";
-    protected String developerOrganization = "OpenAPITools.org";
-    protected String developerOrganizationUrl = "http://openapitools.org";
-    protected String scmConnection = "scm:git:git@github.com:openapitools/openapi-generator.git";
-    protected String scmDeveloperConnection = "scm:git:git@github.com:openapitools/openapi-generator.git";
-    protected String scmUrl = "https://github.com/openapitools/openapi-generator";
-    protected String licenseName = "Unlicense";
-    protected String licenseUrl = "http://unlicense.org";
+    @Getter protected String invokerPackage = "org.openapitools";
+    @Getter protected String groupId = "org.openapitools";
+    @Getter protected String artifactId = "openapi-java";
+    @Getter protected String artifactVersion = null;
+    @Getter protected String artifactUrl = "https://github.com/openapitools/openapi-generator";
+    @Getter protected String artifactDescription = "OpenAPI Java";
+    @Getter protected String developerName = "OpenAPI-Generator Contributors";
+    @Getter protected String developerEmail = "team@openapitools.org";
+    @Getter protected String developerOrganization = "OpenAPITools.org";
+    @Getter protected String developerOrganizationUrl = "http://openapitools.org";
+    @Getter protected String scmConnection = "scm:git:git@github.com:openapitools/openapi-generator.git";
+    @Getter protected String scmDeveloperConnection = "scm:git:git@github.com:openapitools/openapi-generator.git";
+    @Getter protected String scmUrl = "https://github.com/openapitools/openapi-generator";
+    @Getter protected String licenseName = "Unlicense";
+    @Getter protected String licenseUrl = "http://unlicense.org";
     protected String projectFolder = "src/main";
     protected String projectTestFolder = "src/test";
     // this must not be OS-specific
-    protected String sourceFolder = projectFolder + "/java";
-    protected String testFolder = projectTestFolder + "/java";
+    @Getter protected String sourceFolder = projectFolder + "/java";
+    @Getter protected String testFolder = projectTestFolder + "/java";
     protected boolean discriminatorCaseSensitive = true; // True if the discriminator value lookup should be case-sensitive.
-    protected Boolean serializableModel = false;
+    @Getter protected Boolean serializableModel = false;
     protected boolean serializeBigDecimalAsString = false;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected boolean disableHtmlEscaping = false;
-    protected String booleanGetterPrefix = "get";
+    @Getter protected String booleanGetterPrefix = "get";
     protected boolean ignoreAnyOfInEnum = false;
     protected String parentGroupId = "";
     protected String parentArtifactId = "";
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
-    protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    @Getter protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
     protected Map<String, Boolean> lombokAnnotations = null;
-    protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
+    @Getter protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
     protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
-    protected boolean openApiNullable = true;
+    @Getter protected boolean openApiNullable = true;
     protected String outputTestFolder = "";
     protected DocumentationProvider documentationProvider;
     protected AnnotationLibrary annotationLibrary;
@@ -144,8 +146,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean camelCaseDollarSign = false;
     protected boolean useJakartaEe = false;
     protected boolean containerDefaultToNull = false;
-    protected boolean generateConstructorWithAllArgs = false;
-    protected boolean generateBuilder = false;
+    @Getter protected boolean generateConstructorWithAllArgs = false;
+    @Getter protected boolean generateBuilder = false;
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
@@ -696,16 +698,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.generateConstructorWithAllArgs = aValue;
     }
 
-    public boolean isGenerateConstructorWithAllArgs() {
-        return generateConstructorWithAllArgs;
-    }
-
     public void setGenerateBuilder(boolean aValue) {
         this.generateBuilder = aValue;
-    }
-
-    public boolean isGenerateBuilder() {
-        return generateBuilder;
     }
 
     /**
@@ -2133,136 +2127,68 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return packageName;
     }
 
-    public String getInvokerPackage() {
-        return invokerPackage;
-    }
-
     public void setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
-    }
-
-    public String getGroupId() {
-        return groupId;
     }
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
 
-    public String getArtifactId() {
-        return artifactId;
-    }
-
     public void setArtifactId(String artifactId) {
         this.artifactId = artifactId;
-    }
-
-    public String getArtifactVersion() {
-        return artifactVersion;
     }
 
     public void setArtifactVersion(String artifactVersion) {
         this.artifactVersion = artifactVersion;
     }
 
-    public String getArtifactUrl() {
-        return artifactUrl;
-    }
-
     public void setArtifactUrl(String artifactUrl) {
         this.artifactUrl = artifactUrl;
-    }
-
-    public String getArtifactDescription() {
-        return artifactDescription;
     }
 
     public void setArtifactDescription(String artifactDescription) {
         this.artifactDescription = artifactDescription;
     }
 
-    public String getScmConnection() {
-        return scmConnection;
-    }
-
     public void setScmConnection(String scmConnection) {
         this.scmConnection = scmConnection;
-    }
-
-    public String getScmDeveloperConnection() {
-        return scmDeveloperConnection;
     }
 
     public void setScmDeveloperConnection(String scmDeveloperConnection) {
         this.scmDeveloperConnection = scmDeveloperConnection;
     }
 
-    public String getScmUrl() {
-        return scmUrl;
-    }
-
     public void setScmUrl(String scmUrl) {
         this.scmUrl = scmUrl;
-    }
-
-    public String getDeveloperName() {
-        return developerName;
     }
 
     public void setDeveloperName(String developerName) {
         this.developerName = developerName;
     }
 
-    public String getDeveloperEmail() {
-        return developerEmail;
-    }
-
     public void setDeveloperEmail(String developerEmail) {
         this.developerEmail = developerEmail;
-    }
-
-    public String getDeveloperOrganization() {
-        return developerOrganization;
     }
 
     public void setDeveloperOrganization(String developerOrganization) {
         this.developerOrganization = developerOrganization;
     }
 
-    public String getDeveloperOrganizationUrl() {
-        return developerOrganizationUrl;
-    }
-
     public void setDeveloperOrganizationUrl(String developerOrganizationUrl) {
         this.developerOrganizationUrl = developerOrganizationUrl;
-    }
-
-    public String getLicenseName() {
-        return licenseName;
     }
 
     public void setLicenseName(String licenseName) {
         this.licenseName = licenseName;
     }
 
-    public String getLicenseUrl() {
-        return licenseUrl;
-    }
-
     public void setLicenseUrl(String licenseUrl) {
         this.licenseUrl = licenseUrl;
     }
 
-    public String getSourceFolder() {
-        return sourceFolder;
-    }
-
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
-    }
-
-    public String getTestFolder() {
-        return testFolder;
     }
 
     public void setTestFolder(String testFolder) {
@@ -2271,10 +2197,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setSerializeBigDecimalAsString(boolean s) {
         this.serializeBigDecimalAsString = s;
-    }
-
-    public Boolean getSerializableModel() {
-        return serializableModel;
     }
 
     public void setSerializableModel(Boolean serializableModel) {
@@ -2299,10 +2221,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.withXml = withXml;
     }
 
-    public String getDateLibrary() {
-        return dateLibrary;
-    }
-
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
     }
@@ -2315,20 +2233,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.disableHtmlEscaping = disabled;
     }
 
-    public String getBooleanGetterPrefix() {
-        return booleanGetterPrefix;
-    }
-
     public void setBooleanGetterPrefix(String booleanGetterPrefix) {
         this.booleanGetterPrefix = booleanGetterPrefix;
     }
 
     public void setIgnoreAnyOfInEnum(boolean ignoreAnyOfInEnum) {
         this.ignoreAnyOfInEnum = ignoreAnyOfInEnum;
-    }
-
-    public boolean isOpenApiNullable() {
-        return openApiNullable;
     }
 
     public void setOpenApiNullable(final boolean openApiNullable) {
@@ -2536,16 +2446,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.parentOverridden = parentOverridden;
     }
 
-    public List<String> getAdditionalModelTypeAnnotations() {
-        return additionalModelTypeAnnotations;
-    }
-
     public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {
         this.additionalModelTypeAnnotations = additionalModelTypeAnnotations;
-    }
-
-    public List<String> getAdditionalOneOfTypeAnnotations() {
-        return additionalOneOfTypeAnnotations;
     }
 
     public void setAdditionalOneOfTypeAnnotations(final List<String> additionalOneOfTypeAnnotations) {

@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.BinarySchema;
 import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
@@ -43,7 +44,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     public static final String USE_RXJS6 = "useRxJS6";
     public static final String TAGGED_UNIONS = "taggedUnions";
 
-    protected String npmRepository = null;
+    @Getter protected String npmRepository = null;
     private boolean taggedUnions = false;
 
     public TypeScriptInversifyClientCodegen() {
@@ -333,10 +334,6 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     @Override
     public String toModelImport(String name) {
         return modelPackage() + "/" + toModelFilename(name);
-    }
-
-    public String getNpmRepository() {
-        return npmRepository;
     }
 
     public void setNpmRepository(String npmRepository) {

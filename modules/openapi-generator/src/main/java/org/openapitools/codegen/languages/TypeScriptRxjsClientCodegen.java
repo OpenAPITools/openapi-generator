@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
@@ -38,7 +39,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_PROGRESS_SUBSCRIBER = "withProgressSubscriber";
 
-    protected String npmRepository = null;
+    @Getter protected String npmRepository = null;
     protected Set<String> reservedParamNames = new HashSet<>();
 
     public TypeScriptRxjsClientCodegen() {
@@ -75,10 +76,6 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     @Override
     public String getHelp() {
         return "Generates a TypeScript client library using Rxjs API.";
-    }
-
-    public String getNpmRepository() {
-        return npmRepository;
     }
 
     public void setNpmRepository(String npmRepository) {

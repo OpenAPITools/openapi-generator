@@ -42,6 +42,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.StringEscapeUtils;
@@ -182,8 +183,8 @@ public class DefaultCodegen implements CodegenConfig {
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
-    protected String modelNamePrefix = "", modelNameSuffix = "";
-    protected String apiNamePrefix = "", apiNameSuffix = "Api";
+    @Getter protected String modelNamePrefix = "", modelNameSuffix = "";
+    @Getter protected String apiNamePrefix = "", apiNameSuffix = "Api";
     protected String testPackage = "";
     protected String filesMetadataFilename = "FILES";
     protected String versionMetadataFilename = "VERSION";
@@ -213,8 +214,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<CliOption> cliOptions = new ArrayList<>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
-    protected String removeOperationIdPrefixDelimiter = "_";
-    protected int removeOperationIdPrefixCount = 1;
+    @Getter protected String removeOperationIdPrefixDelimiter = "_";
+    @Getter protected int removeOperationIdPrefixCount = 1;
     protected boolean skipOperationExample;
 
     protected final static Pattern XML_MIME_PATTERN = Pattern.compile("(?i)application\\/(.*)[+]?xml(;.*)?");
@@ -246,10 +247,10 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean supportsMixins;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<>();
     protected String library;
-    protected Boolean sortParamsByRequiredFlag = true;
-    protected Boolean sortModelPropertiesByRequiredFlag = false;
-    protected Boolean ensureUniqueParams = true;
-    protected Boolean allowUnicodeIdentifiers = false;
+    @Getter protected Boolean sortParamsByRequiredFlag = true;
+    @Getter protected Boolean sortModelPropertiesByRequiredFlag = false;
+    @Getter protected Boolean ensureUniqueParams = true;
+    @Getter protected Boolean allowUnicodeIdentifiers = false;
     protected String gitHost, gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
     protected Boolean hideGenerationTimestamp = true;
@@ -259,7 +260,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> specialCharReplacements = new LinkedHashMap<>();
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = Collections.emptyMap();
-    protected Boolean prependFormOrBodyParameters = false;
+    @Getter protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
     protected String docExtension;
     protected String ignoreFilePathOverride;
@@ -1478,32 +1479,16 @@ public class DefaultCodegen implements CodegenConfig {
         this.modelPackage = modelPackage;
     }
 
-    public String getModelNamePrefix() {
-        return modelNamePrefix;
-    }
-
     public void setModelNamePrefix(String modelNamePrefix) {
         this.modelNamePrefix = modelNamePrefix;
-    }
-
-    public String getModelNameSuffix() {
-        return modelNameSuffix;
     }
 
     public void setModelNameSuffix(String modelNameSuffix) {
         this.modelNameSuffix = modelNameSuffix;
     }
 
-    public String getApiNameSuffix() {
-        return apiNameSuffix;
-    }
-
     public void setApiNameSuffix(String apiNameSuffix) {
         this.apiNameSuffix = apiNameSuffix;
-    }
-
-    public String getApiNamePrefix() {
-        return apiNamePrefix;
     }
 
     public void setApiNamePrefix(String apiNamePrefix) {
@@ -1514,32 +1499,16 @@ public class DefaultCodegen implements CodegenConfig {
         this.apiPackage = apiPackage;
     }
 
-    public Boolean getSortParamsByRequiredFlag() {
-        return sortParamsByRequiredFlag;
-    }
-
     public void setSortParamsByRequiredFlag(Boolean sortParamsByRequiredFlag) {
         this.sortParamsByRequiredFlag = sortParamsByRequiredFlag;
-    }
-
-    public Boolean getSortModelPropertiesByRequiredFlag() {
-        return sortModelPropertiesByRequiredFlag;
     }
 
     public void setSortModelPropertiesByRequiredFlag(Boolean sortModelPropertiesByRequiredFlag) {
         this.sortModelPropertiesByRequiredFlag = sortModelPropertiesByRequiredFlag;
     }
 
-    public Boolean getPrependFormOrBodyParameters() {
-        return prependFormOrBodyParameters;
-    }
-
     public void setPrependFormOrBodyParameters(Boolean prependFormOrBodyParameters) {
         this.prependFormOrBodyParameters = prependFormOrBodyParameters;
-    }
-
-    public Boolean getEnsureUniqueParams() {
-        return ensureUniqueParams;
     }
 
     public void setEnsureUniqueParams(Boolean ensureUniqueParams) {
@@ -1568,10 +1537,6 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setEnumUnknownDefaultCase(boolean val) {
         this.enumUnknownDefaultCase = val;
-    }
-
-    public Boolean getAllowUnicodeIdentifiers() {
-        return allowUnicodeIdentifiers;
     }
 
     public void setAllowUnicodeIdentifiers(Boolean allowUnicodeIdentifiers) {
@@ -6278,16 +6243,8 @@ public class DefaultCodegen implements CodegenConfig {
         this.removeOperationIdPrefix = removeOperationIdPrefix;
     }
 
-    public String getRemoveOperationIdPrefixDelimiter() {
-        return removeOperationIdPrefixDelimiter;
-    }
-
     public void setRemoveOperationIdPrefixDelimiter(String removeOperationIdPrefixDelimiter) {
         this.removeOperationIdPrefixDelimiter = removeOperationIdPrefixDelimiter;
-    }
-
-    public int getRemoveOperationIdPrefixCount() {
-        return removeOperationIdPrefixCount;
     }
 
     public void setRemoveOperationIdPrefixCount(int removeOperationIdPrefixCount) {
@@ -8303,7 +8260,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * An map entry for cached sanitized names.
      */
-    private static class SanitizeNameOptions {
+    @Getter private static class SanitizeNameOptions {
         public SanitizeNameOptions(String name, String removeCharRegEx, List<String> exceptions) {
             this.name = name;
             this.removeCharRegEx = removeCharRegEx;
@@ -8312,18 +8269,6 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 this.exceptions = Collections.emptyList();
             }
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getRemoveCharRegEx() {
-            return removeCharRegEx;
-        }
-
-        public List<String> getExceptions() {
-            return exceptions;
         }
 
         private final String name;

@@ -15,6 +15,7 @@
  */
 
 package org.openapitools.codegen;
+import lombok.Getter;
 import org.openapitools.codegen.templating.TemplateManagerOptions;
 
 import java.io.File;
@@ -31,15 +32,8 @@ import java.util.Map;
  *
  * @deprecated Please avoid using this type, as it is not a mock and invokes real generation. Prefer {@link DefaultGenerator#DefaultGenerator(Boolean)} with dryRun=true and/or true mocked spies.
  */
-@Deprecated
+@Getter @Deprecated
 public class MockDefaultGenerator extends DefaultGenerator {
-    public List<WrittenTemplateBasedFile> getTemplateBasedFiles() {
-        return templateBasedFiles;
-    }
-
-    public Map<String, String> getFiles() {
-        return files;
-    }
 
     //        public static final String INPUT_STREAM_CONTENT = "INPUT STREAM CONTENT";
     private List<WrittenTemplateBasedFile> templateBasedFiles = new ArrayList<>();
@@ -61,7 +55,7 @@ public class MockDefaultGenerator extends DefaultGenerator {
         return o;
     }
 
-    public static class WrittenTemplateBasedFile {
+    @Getter public static class WrittenTemplateBasedFile {
         private Map<String, Object> templateData;
         private String templateName;
         private String outputFilename;
@@ -70,18 +64,6 @@ public class MockDefaultGenerator extends DefaultGenerator {
             this.templateData = templateData;
             this.templateName = templateName;
             this.outputFilename = outputFilename;
-        }
-
-        public Map<String, Object> getTemplateData() {
-            return templateData;
-        }
-
-        public String getTemplateName() {
-            return templateName;
-        }
-
-        public String getOutputFilename() {
-            return outputFilename;
         }
 
         @Override

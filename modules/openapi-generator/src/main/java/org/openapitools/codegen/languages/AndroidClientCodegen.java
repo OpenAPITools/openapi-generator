@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -40,16 +41,16 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     public static final String ANDROID_GRADLE_VERSION = "androidGradleVersion";
     public static final String ANDROID_SDK_VERSION = "androidSdkVersion";
     public static final String ANDROID_BUILD_TOOLS_VERSION = "androidBuildToolsVersion";
-    protected String invokerPackage = "org.openapitools.client";
+    @Getter protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-android-client";
     protected String artifactVersion = "1.0.0";
     protected String projectFolder = "src/main";
     protected String sourceFolder = projectFolder + "/java";
-    protected Boolean useAndroidMavenGradlePlugin = true;
-    protected String androidGradleVersion;
-    protected String androidSdkVersion;
-    protected String androidBuildToolsVersion;
+    @Getter protected Boolean useAndroidMavenGradlePlugin = true;
+    @Getter protected String androidGradleVersion;
+    @Getter protected String androidSdkVersion;
+    @Getter protected String androidBuildToolsVersion;
     protected Boolean serializableModel = false;
 
     // requestPackage and authPackage are used by the "volley" template/library
@@ -498,22 +499,6 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         }
     }
 
-    public Boolean getUseAndroidMavenGradlePlugin() {
-        return useAndroidMavenGradlePlugin;
-    }
-
-    public String getAndroidGradleVersion() {
-        return androidGradleVersion;
-    }
-
-    public String getAndroidSdkVersion() {
-        return androidSdkVersion;
-    }
-
-    public String getAndroidBuildToolsVersion() {
-        return androidBuildToolsVersion;
-    }
-
     public void setUseAndroidMavenGradlePlugin(Boolean useAndroidMavenGradlePlugin) {
         this.useAndroidMavenGradlePlugin = useAndroidMavenGradlePlugin;
     }
@@ -528,10 +513,6 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     public void setAndroidBuildToolsVersion(String androidBuildToolsVersion) {
         this.androidBuildToolsVersion = androidBuildToolsVersion;
-    }
-
-    public String getInvokerPackage() {
-        return invokerPackage;
     }
 
     public void setInvokerPackage(String invokerPackage) {

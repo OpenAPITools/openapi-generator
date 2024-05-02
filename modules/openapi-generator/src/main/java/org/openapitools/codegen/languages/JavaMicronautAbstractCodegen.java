@@ -5,6 +5,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -58,9 +59,9 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautAbstractCodegen.class);
 
     protected String title;
-    protected boolean useBeanValidation;
-    protected boolean useOptional;
-    protected boolean visitable;
+    @Getter protected boolean useBeanValidation;
+    @Getter protected boolean useOptional;
+    @Getter protected boolean visitable;
     protected String buildTool;
     protected String testTool;
     protected boolean requiredPropertiesInConstructor = true;
@@ -447,18 +448,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             apiVarName = escapeReservedWord(apiVarName);
         }
         return apiVarName;
-    }
-
-    public boolean isUseBeanValidation() {
-        return useBeanValidation;
-    }
-
-    public boolean isUseOptional() {
-        return useOptional;
-    }
-
-    public boolean isVisitable() {
-        return visitable;
     }
 
     @Override

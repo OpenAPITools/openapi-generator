@@ -17,7 +17,9 @@
 
 package org.openapitools.codegen.ignore.rules;
 
-class Part {
+import lombok.Getter;
+
+@Getter class Part {
     private final IgnoreLineParser.Token token;
     private final String value;
 
@@ -31,11 +33,4 @@ class Part {
         this.value = token.getPattern();
     }
 
-    public IgnoreLineParser.Token getToken() {
-        return token;
-    }
-
-    public String getValue() {
-        return value;
-    }
 }

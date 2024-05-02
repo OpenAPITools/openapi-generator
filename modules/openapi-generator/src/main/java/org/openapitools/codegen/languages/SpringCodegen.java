@@ -37,6 +37,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
@@ -112,14 +114,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
 
-    public enum RequestMappingMode {
+    @Getter public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
         controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
         none("Do not add a class level @RequestMapping annotation.");
-
-        public String getDescription() {
-            return description;
-        }
 
         private String description;
 
@@ -132,9 +130,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String CLOSE_BRACE = "}";
 
     protected String title = "OpenAPI Spring";
-    protected String configPackage = "org.openapitools.configuration";
-    protected String basePackage = "org.openapitools";
-    protected String resourceFolder = projectFolder + "/resources";
+    @Getter protected String configPackage = "org.openapitools.configuration";
+    @Getter protected String basePackage = "org.openapitools";
+    @Getter protected String resourceFolder = projectFolder + "/resources";
 
     protected boolean interfaceOnly = false;
     protected boolean useFeignClientUrl = true;
@@ -154,14 +152,14 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean virtualService = false;
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
-    protected boolean unhandledException = false;
+    @Getter protected boolean unhandledException = false;
     protected boolean useSpringController = false;
     protected boolean useSwaggerUI = true;
     protected boolean useResponseEntity = true;
     protected boolean useEnumCaseInsensitive = false;
-    protected boolean useSpringBoot3 = false;
+    @Getter protected boolean useSpringBoot3 = false;
     protected boolean generatedConstructorWithRequiredArgs = true;
-    protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
+    @Getter protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
 
     public SpringCodegen() {
         super();
@@ -1032,20 +1030,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.configPackage = configPackage;
     }
 
-    public String getConfigPackage() {
-        return configPackage;
-    }
-
-    public boolean isUnhandledException() {
-        return unhandledException;
-    }
-
     public void setBasePackage(String basePackage) {
         this.basePackage = basePackage;
-    }
-
-    public String getBasePackage() {
-        return basePackage;
     }
 
     public void setInterfaceOnly(boolean interfaceOnly) {
@@ -1381,16 +1367,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         return extensions;
     }
 
-    public boolean isUseSpringBoot3() {
-        return useSpringBoot3;
-    }
-
     public void setUseSpringBoot3(boolean useSpringBoot3) {
         this.useSpringBoot3 = useSpringBoot3;
-    }
-
-    public RequestMappingMode getRequestMappingMode() {
-        return requestMappingMode;
     }
 
     public void setRequestMappingMode(RequestMappingMode requestMappingMode) {
@@ -1401,7 +1379,4 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.resourceFolder = resourceFolder;
     }
 
-    public String getResourceFolder() {
-        return resourceFolder;
-    }
 }

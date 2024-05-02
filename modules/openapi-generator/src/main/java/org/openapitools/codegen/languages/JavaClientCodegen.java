@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -132,7 +133,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected String gradleProperties;
     protected String errorObjectType;
     protected String authFolder;
-    protected String serializationLibrary = null;
+    /**
+     * -- GETTER --
+     *  Serialization library.
+     *
+     * @return 'gson' or 'jackson'
+     */
+    @Getter protected String serializationLibrary = null;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new LinkedHashMap<>();
@@ -1293,15 +1300,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setWaitTimeMillis(long waitTimeMillis) {
         this.waitTimeMillis = waitTimeMillis;
-    }
-
-    /**
-     * Serialization library.
-     *
-     * @return 'gson' or 'jackson'
-     */
-    public String getSerializationLibrary() {
-        return serializationLibrary;
     }
 
     public void setSerializationLibrary(String serializationLibrary) {

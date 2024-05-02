@@ -20,6 +20,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -502,7 +503,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
-        private String replacedPathName;
+        @Getter     private String replacedPathName;
         String arity;
 
         ExtendedCodegenOperation(CodegenOperation o) {
@@ -561,10 +562,6 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.nickname = o.nickname;
             this.operationIdLowerCase = o.operationIdLowerCase;
             this.operationIdCamelCase = o.operationIdCamelCase;
-        }
-
-        public String getReplacedPathName() {
-            return replacedPathName;
         }
 
         public void setReplacedPathName(String replacedPathName) {

@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenType;
@@ -56,7 +57,13 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     protected String authPackage = "";
     protected String appDirName = "App";
     protected String appPackage = "";
-    protected String psr7Implementation = "slim-psr7";
+    /**
+     * -- GETTER --
+     *  Returns PSR-7 implementation package.
+     *
+     * @return PSR-7 implementation package
+     */
+    @Getter protected String psr7Implementation = "slim-psr7";
     protected String interfacesDirName = "Interfaces";
     protected String interfacesPackage = "";
 
@@ -394,12 +401,4 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         }
     }
 
-    /**
-     * Returns PSR-7 implementation package.
-     *
-     * @return PSR-7 implementation package
-     */
-    public String getPsr7Implementation() {
-        return this.psr7Implementation;
-    }
 }

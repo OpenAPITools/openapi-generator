@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -53,8 +54,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
 
     protected String title = "openapi-java-playframework";
-    protected String configPackage = "org.openapitools.configuration";
-    protected String basePackage = "org.openapitools";
+    @Getter protected String configPackage = "org.openapitools.configuration";
+    @Getter protected String basePackage = "org.openapitools";
     protected boolean controllerOnly = false;
     protected boolean useInterfaces = true;
     protected boolean useBeanValidation = true;
@@ -262,16 +263,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         this.title = title;
     }
 
-    public String getConfigPackage() {
-        return configPackage;
-    }
-
     public void setConfigPackage(String configPackage) {
         this.configPackage = configPackage;
-    }
-
-    public String getBasePackage() {
-        return basePackage;
     }
 
     public void setBasePackage(String basePackage) {

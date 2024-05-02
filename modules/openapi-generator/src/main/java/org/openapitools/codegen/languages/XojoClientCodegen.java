@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -52,7 +53,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String projectName = "OpenAPIClient";
     protected boolean nonPublicApi = false;
     protected boolean supportsAsync = true;
-    protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.xoson;
+    @Getter protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.xoson;
 
     // Number for each object that appears in the xojo_project file.
     // We start with a relatively high value, to have space for other static objects.
@@ -691,10 +692,6 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(codegenParameter.isFreeFormObject)) {
             codegenParameter.example = "New Dictionary";
         }
-    }
-
-    public SERIALIZATION_LIBRARY_TYPE getSerializationLibrary() {
-        return this.serializationLibrary;
     }
 
     /**

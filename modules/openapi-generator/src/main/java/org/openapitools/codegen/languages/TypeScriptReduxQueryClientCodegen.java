@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -38,7 +39,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
 
-    protected String npmRepository = null;
+    @Getter protected String npmRepository = null;
     private boolean useSingleRequestParameter = true;
     protected boolean addedApiIndex = false;
     protected boolean addedModelIndex = false;
@@ -81,10 +82,6 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
     @Override
     public String getHelp() {
         return "Generates a TypeScript client library using redux-query API (beta).";
-    }
-
-    public String getNpmRepository() {
-        return npmRepository;
     }
 
     public void setNpmRepository(String npmRepository) {

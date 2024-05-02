@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -113,7 +114,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean validatable = Boolean.TRUE;
     protected boolean equatable = Boolean.FALSE;
     // By default, generated code is considered public
-    protected boolean nonPublicApi = Boolean.FALSE;
+    @Getter protected boolean nonPublicApi = Boolean.FALSE;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
     protected String releaseNote = "Minor update";
@@ -573,10 +574,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
-    }
-
-    public boolean isNonPublicApi() {
-        return nonPublicApi;
     }
 
     public void setNonPublicApi(final boolean nonPublicApi) {

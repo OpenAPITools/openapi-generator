@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.Operation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -106,10 +107,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String APPEND_REQUEST_TO_HANDLER = "appendRequestToHandler";
 
-    private String basePackage;
-    protected String configPackage;
-    private String invokerPackage;
-    private String serverPort = "8080";
+    @Getter private String basePackage;
+    @Getter protected String configPackage;
+    @Getter private String invokerPackage;
+    @Getter private String serverPort = "8080";
     private String title = "OpenAPI Kotlin Spring";
     private boolean useBeanValidation = true;
     private boolean skipDefaultInterface = false;
@@ -118,7 +119,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean useSwaggerUI = true;
     private boolean serviceInterface = false;
     private boolean serviceImplementation = false;
-    private boolean reactive = false;
+    @Getter private boolean reactive = false;
     private boolean interfaceOnly = false;
     protected boolean useFeignClientUrl = true;
     protected boolean useFeignClient = false;
@@ -126,7 +127,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     protected boolean useTags = false;
     private boolean beanQualifiers = false;
 
-    protected boolean useSpringBoot3 = false;
+    @Getter protected boolean useSpringBoot3 = false;
     private DocumentationProvider documentationProvider;
     private AnnotationLibrary annotationLibrary;
 
@@ -294,28 +295,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.configPackage = configPackage;
     }
 
-    public String getConfigPackage() {
-        return configPackage;
-    }
-
-    public String getBasePackage() {
-        return this.basePackage;
-    }
-
     public void setBasePackage(String basePackage) {
         this.basePackage = basePackage;
     }
 
-    public String getInvokerPackage() {
-        return this.invokerPackage;
-    }
-
     public void setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
-    }
-
-    public String getServerPort() {
-        return this.serverPort;
     }
 
     public void setServerPort(String serverPort) {
@@ -391,10 +376,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.useSpringBoot3 = isSpringBoot3;
     }
 
-    public boolean isUseSpringBoot3() {
-        return useSpringBoot3;
-    }
-
     @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
@@ -406,10 +387,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public void setSkipDefaultInterface(boolean skipDefaultInterface) {
         this.skipDefaultInterface = skipDefaultInterface;
-    }
-
-    public boolean isReactive() {
-        return reactive;
     }
 
     public void setReactive(boolean reactive) {

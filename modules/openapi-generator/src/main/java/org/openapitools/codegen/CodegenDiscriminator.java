@@ -1,5 +1,7 @@
 package org.openapitools.codegen;
 
+import lombok.Getter;
+
 import java.util.*;
 
 /**
@@ -14,11 +16,11 @@ import java.util.*;
 public class CodegenDiscriminator {
     // The name of the property in the payload that will hold the discriminator value.
     // This is the propertyName as specified in the OpenAPI discriminator object.
-    private String propertyName;
-    private String propertyBaseName;
-    private String propertyGetter;
-    private String propertyType;
-    private Map<String, String> mapping;
+    @Getter private String propertyName;
+    @Getter private String propertyBaseName;
+    @Getter private String propertyGetter;
+    @Getter private String propertyType;
+    @Getter private Map<String, String> mapping;
     private boolean isEnum;
 
     // mappedModels is populated differently if legacyDiscriminatorBehavior is
@@ -36,52 +38,28 @@ public class CodegenDiscriminator {
     //
     // see the method createDiscriminator in DefaultCodegen.java
 
-    private Set<MappedModel> mappedModels = new TreeSet<>();
-    private Map<String, Object> vendorExtensions = new HashMap<>();
+    @Getter private Set<MappedModel> mappedModels = new TreeSet<>();
+    @Getter private Map<String, Object> vendorExtensions = new HashMap<>();
 
-
-    public String getPropertyName() {
-        return propertyName;
-    }
 
     public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
-    }
-
-    public String getPropertyGetter() {
-        return propertyGetter;
     }
 
     public void setPropertyGetter(String propertyGetter) {
         this.propertyGetter = propertyGetter;
     }
 
-    public String getPropertyBaseName() {
-        return propertyBaseName;
-    }
-
     public void setPropertyBaseName(String propertyBaseName) {
         this.propertyBaseName = propertyBaseName;
-    }
-
-    public String getPropertyType() {
-        return propertyType;
     }
 
     public void setPropertyType(String propertyType) {
         this.propertyType = propertyType;
     }
 
-    public Map<String, String> getMapping() {
-        return mapping;
-    }
-
     public void setMapping(Map<String, String> mapping) {
         this.mapping = mapping;
-    }
-
-    public Set<MappedModel> getMappedModels() {
-        return mappedModels;
     }
 
     public void setMappedModels(Set<MappedModel> mappedModels) {
@@ -94,10 +72,6 @@ public class CodegenDiscriminator {
 
     public void setIsEnum(boolean isEnum) {
         this.isEnum = isEnum;
-    }
-
-    public Map<String, Object> getVendorExtensions() {
-        return vendorExtensions;
     }
 
     public void setVendorExtensions(Map<String, Object> vendorExtensions) {
@@ -116,12 +90,12 @@ public class CodegenDiscriminator {
      */
     public static class MappedModel implements Comparable<MappedModel>{
         // The value of the discriminator property in the payload.
-        private String mappingName;
+        @Getter     private String mappingName;
         // The OAS schema name. It is obtained from the OAS document, and the string value
         // is converted to a sanitized, internal representation within codegen.
-        private String modelName;
+        @Getter     private String modelName;
 
-        private CodegenModel model;
+        @Getter     private CodegenModel model;
 
         private final boolean explicitMapping;
 
@@ -154,23 +128,13 @@ public class CodegenDiscriminator {
             }
         }
 
-        public String getMappingName() {
-            return mappingName;
-        }
-
         public void setMappingName(String mappingName) {
             this.mappingName = mappingName;
-        }
-
-        public String getModelName() {
-            return modelName;
         }
 
         public void setModelName(String modelName) {
             this.modelName = modelName;
         }
-
-        public CodegenModel getModel() { return model; }
 
         public void setModel(CodegenModel model) { this.model = model; }
 

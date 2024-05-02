@@ -22,6 +22,7 @@ import com.samskivert.mustache.Mustache.Lambda;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -52,7 +53,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
 
-    protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
+    @Getter protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
     protected String licenseUrl = "http://localhost";
     protected String licenseName = "NoLicense";
@@ -66,7 +67,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     protected String packageCopyright = "No Copyright";
     protected String packageAuthors = "OpenAPI";
 
-    protected String interfacePrefix = "I";
+    @Getter protected String interfacePrefix = "I";
 
     protected String projectFolder = packageName;
     protected String sourceFolder = projectFolder + File.separator + "src";
@@ -76,7 +77,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     protected Set<String> mapTypes;
 
     // true if nullable types will be supported (as option)
-    protected boolean supportNullable = Boolean.TRUE;
+    @Getter protected boolean supportNullable = Boolean.TRUE;
 
     protected Set<String> nullableType = new HashSet<>();
 
@@ -641,10 +642,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         return camelize(sanitizeName(operationId));
     }
 
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
-    }
-
     public void setModelPropertyNaming(String naming) {
         if ("original".equals(naming) || "camelCase".equals(naming) ||
                 "PascalCase".equals(naming) || "snake_case".equals(naming)) {
@@ -983,16 +980,8 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         this.sourceFolder = sourceFolder;
     }
 
-    public String getInterfacePrefix() {
-        return interfacePrefix;
-    }
-
     public void setInterfacePrefix(final String interfacePrefix) {
         this.interfacePrefix = interfacePrefix;
-    }
-
-    public boolean isSupportNullable() {
-        return supportNullable;
     }
 
     public void setSupportNullable(final boolean supportNullable) {

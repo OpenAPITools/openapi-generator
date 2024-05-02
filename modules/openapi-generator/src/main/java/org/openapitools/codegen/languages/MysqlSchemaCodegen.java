@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -59,12 +60,37 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             "GEOMETRY", "GEOMETRYCOLLECTION", "LINESTRING", "MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON", "POINT", "POLYGON"
     ));
 
-    protected String defaultDatabaseName = "", databaseNamePrefix = "", databaseNameSuffix = "_db";
+    /**
+     * -- GETTER --
+     *  Returns default database name for all MySQL queries
+     *  This value must be used with backticks only, eg. `database_name`
+     *
+     * @return default database name
+     */
+    @Getter protected String defaultDatabaseName = "", databaseNamePrefix = "", databaseNameSuffix = "_db";
     protected String tableNamePrefix = "tbl_", tableNameSuffix = "";
     protected String columnNamePrefix = "col_", columnNameSuffix = "";
-    protected Boolean jsonDataTypeEnabled = true;
-    protected Boolean namedParametersEnabled = false;
-    protected String identifierNamingConvention = "original";
+    /**
+     * -- GETTER --
+     *  Whether JSON data type enabled or disabled in all MySQL queries
+     *
+     * @return true if enabled otherwise false
+     */
+    @Getter protected Boolean jsonDataTypeEnabled = true;
+    /**
+     * -- GETTER --
+     *  Whether named parameters enabled or disabled in prepared SQLs
+     *
+     * @return true if enabled otherwise false
+     */
+    @Getter protected Boolean namedParametersEnabled = false;
+    /**
+     * -- GETTER --
+     *  Returns identifier naming convention for table names and column names.
+     *
+     * @return identifier naming convention
+     */
+    @Getter protected String identifierNamingConvention = "original";
 
     public MysqlSchemaCodegen() {
         super();
@@ -1163,16 +1189,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     /**
-     * Returns default database name for all MySQL queries
-     * This value must be used with backticks only, eg. `database_name`
-     *
-     * @return default database name
-     */
-    public String getDefaultDatabaseName() {
-        return this.defaultDatabaseName;
-    }
-
-    /**
      * Enables special JSON data type in all MySQL queries
      * JSON data type requires MySQL version 5.7.8
      *
@@ -1183,30 +1199,12 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     /**
-     * Whether JSON data type enabled or disabled in all MySQL queries
-     *
-     * @return true if enabled otherwise false
-     */
-    public Boolean getJsonDataTypeEnabled() {
-        return this.jsonDataTypeEnabled;
-    }
-
-    /**
      * Enables named parameters in prepared SQLs
      *
      * @param enabled true to enable, otherwise false
      */
     public void setNamedParametersEnabled(Boolean enabled) {
         this.namedParametersEnabled = enabled;
-    }
-
-    /**
-     * Whether named parameters enabled or disabled in prepared SQLs
-     *
-     * @return true if enabled otherwise false
-     */
-    public Boolean getNamedParametersEnabled() {
-        return this.namedParametersEnabled;
     }
 
     /**
@@ -1225,15 +1223,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 LOGGER.warn("\"{}\" is invalid \"identifierNamingConvention\" argument. Current \"{}\" used instead.",
                         naming, this.identifierNamingConvention);
         }
-    }
-
-    /**
-     * Returns identifier naming convention for table names and column names.
-     *
-     * @return identifier naming convention
-     */
-    public String getIdentifierNamingConvention() {
-        return this.identifierNamingConvention;
     }
 
     /**
