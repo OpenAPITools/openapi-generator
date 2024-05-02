@@ -17,60 +17,17 @@
 
 package org.openapitools.codegen.java.spring;
 
-import static java.util.stream.Collectors.groupingBy;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
-import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
-import static org.openapitools.codegen.languages.SpringCodegen.ASYNC;
-import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
-import static org.openapitools.codegen.languages.SpringCodegen.DocumentationProvider;
-import static org.openapitools.codegen.languages.SpringCodegen.IMPLICIT_HEADERS;
-import static org.openapitools.codegen.languages.SpringCodegen.INTERFACE_ONLY;
-import static org.openapitools.codegen.languages.SpringCodegen.OPENAPI_NULLABLE;
-import static org.openapitools.codegen.languages.SpringCodegen.REACTIVE;
-import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
-import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
-import static org.openapitools.codegen.languages.SpringCodegen.RETURN_SUCCESS_CODE;
-import static org.openapitools.codegen.languages.SpringCodegen.SKIP_DEFAULT_INTERFACE;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_CLOUD_LIBRARY;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_CONTROLLER;
-import static org.openapitools.codegen.languages.SpringCodegen.SSE;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_ENUM_CASE_INSENSITIVE;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_RESPONSE_ENTITY;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_TAGS;
-import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
-import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
-
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import com.google.common.collect.ImmutableMap;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.MapAssert;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
@@ -85,15 +42,30 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-import com.google.common.collect.ImmutableMap;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
+import static java.util.stream.Collectors.groupingBy;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
+import static org.openapitools.codegen.languages.SpringCodegen.*;
+import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
+import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 public class SpringCodegenTest {
 
@@ -4888,6 +4860,73 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("Color.java"))
                 .assertMethod("fromValue").bodyContainsLines("throw new IllegalArgumentException(\"Unexpected value '\" + value + \"'\");");
+    }
 
+    /**
+     * General XML annotations test (both JAXB and Jackson)
+     * <br>
+     * Includes regression tests for:
+     * - <a href="https://github.com/OpenAPITools/openapi-generator/issues/2417">Correct Jackson annotation when `wrapped: false`</a>
+     */
+    @Test void shouldGenerateCorrectXmlAnnotations() throws IOException {
+        // Arrange
+        final String TEST_SPEC = "src/test/resources/3_0/spring/xml-annotations-test.yaml";
+        final Path output = Files.createTempDirectory("test-xml-annotations_");
+        output.toFile().deleteOnExit();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setWithXml(true);
+        codegen.setOutputDir(output.toString());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGenerateMetadata(false);
+
+        // Act
+        generator.opts(new ClientOptInput().config(codegen).openAPI(TestUtils.parseSpec(TEST_SPEC))).generate();
+
+        // Assert
+        JavaFileAssert.assertThat(output.resolve("src/main/java/org/openapitools/model/Pet.java").toFile())
+            .assertTypeAnnotations()
+            .containsWithNameAndAttributes("JacksonXmlRootElement", Map.of("localName", "\"Pet\""))
+            .containsWithNameAndAttributes("XmlRootElement", Map.of("name", "\"Pet\""))
+            .containsWithNameAndAttributes("XmlAccessorType", Map.of("value", "XmlAccessType.FIELD"))
+            .toType()
+
+            .assertMethod("getTags").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlAttribute")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Tag\""))
+            .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"TagList\""))
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Tag\""))
+            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"TagList\""))
+            .toMethod().toFileAssert()
+
+            .assertMethod("getPhotoUrls").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlAttribute")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"photoUrls\""))
+            .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"photoUrls\""))
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"photoUrls\""))
+            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"photoUrls\""))
+            .toMethod().toFileAssert()
+
+            .assertMethod("getName").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlElement")
+            .doesNotContainsWithName("XmlElementWrapper")
+            .containsWithNameAndAttributes("XmlAttribute", Map.of("name", "\"name\""))
+            .doesNotContainsWithName("JacksonXmlElementWrapper")
+            .containsWithNameAndAttributes(
+                "JacksonXmlProperty",
+                Map.of("isAttribute", "true", "localName", "\"name\"")
+            )
+            .toMethod().toFileAssert()
+
+            .assertMethod("getCategories").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlAttribute")
+            .doesNotContainsWithName("XmlElementWrapper")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Category\""))
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Category\""))
+            // ↓ specific regression test for #2417: (useWrapping=false) needs to be present
+            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("useWrapping", "false"));
     }
 }
