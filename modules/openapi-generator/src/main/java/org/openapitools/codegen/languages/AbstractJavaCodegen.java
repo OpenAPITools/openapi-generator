@@ -1241,14 +1241,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return validations;
     }
 
-    @Override
-    public String getAlias(String name) {
-        if (typeAliases != null && typeAliases.containsKey(name)) {
-            return typeAliases.get(name);
-        }
-        return name;
-    }
-
     /**
      * Return the default value of array property
      * <p>

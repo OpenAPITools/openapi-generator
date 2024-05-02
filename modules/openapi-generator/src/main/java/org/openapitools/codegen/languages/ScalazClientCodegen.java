@@ -153,24 +153,6 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         return formatIdentifier(property.baseName, true);
     }
 
-    public String getNameUsingModelPropertyNaming(String name) {
-        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
-            case original:
-                return name;
-            case camelCase:
-                return camelize(name, LOWERCASE_FIRST_LETTER);
-            case PascalCase:
-                return camelize(name);
-            case snake_case:
-                return underscore(name);
-            default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
-        }
-
-    }
-
     @Override
     public String toDefaultValue(Schema p) {
         if (p.getDefault() != null) {

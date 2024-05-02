@@ -171,28 +171,12 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
     }
 
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
     public String getNpmRepository() {
         return npmRepository;
     }
 
     public void setNpmRepository(String npmRepository) {
         this.npmRepository = npmRepository;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
     }
 
     @Override

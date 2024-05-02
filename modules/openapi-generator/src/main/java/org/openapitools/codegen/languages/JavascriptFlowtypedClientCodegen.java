@@ -208,22 +208,6 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         return "Generates a Javascript client library (beta) using Flow types and Fetch API.";
     }
 
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
-    }
-
     public String getNpmRepository() {
         return npmRepository;
     }

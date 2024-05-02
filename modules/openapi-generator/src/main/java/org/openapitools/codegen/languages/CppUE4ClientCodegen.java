@@ -562,17 +562,6 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
-    @Override
     public String toBooleanGetter(String name) {
         return "Is" + getterAndSetterCapitalize(name);
     }

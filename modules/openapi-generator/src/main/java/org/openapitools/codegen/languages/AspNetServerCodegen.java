@@ -308,11 +308,6 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected Set<String> getValueTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
-    }
-
-    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }

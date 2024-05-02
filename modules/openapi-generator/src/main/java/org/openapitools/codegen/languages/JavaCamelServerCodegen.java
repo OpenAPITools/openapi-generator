@@ -59,11 +59,6 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
     private final Logger LOGGER = LoggerFactory.getLogger(JavaCamelServerCodegen.class);
 
     @Override
-    public CodegenType getTag() {
-        return CodegenType.SERVER;
-    }
-
-    @Override
     public String getName() {
         return "java-camel";
     }

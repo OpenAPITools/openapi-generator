@@ -375,12 +375,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-
-    @Override
     public String toModelName(String name) {
         if (schemaKeyToModelNameCache.containsKey(name)) {
             return schemaKeyToModelNameCache.get(name);

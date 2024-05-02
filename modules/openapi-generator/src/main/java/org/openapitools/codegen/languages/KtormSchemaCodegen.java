@@ -1100,11 +1100,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         return input.replace("'", "");
     }
 
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
     /**
      * Sets default database name for all queries
      * Provided value will be escaped when necessary

@@ -209,14 +209,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String getAlias(String name) {
-        if (typeAliases != null && typeAliases.containsKey(name)) {
-            return typeAliases.get(name);
-        }
-        return name;
-    }
-
-    @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             final String pattern = "new ArrayList<%s>()";

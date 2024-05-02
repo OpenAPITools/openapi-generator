@@ -160,10 +160,6 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         return objs;
     }
 
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
     public void setGenerateJbossDeploymentDescriptor(boolean generateJbossDeploymentDescriptor) {
         this.generateJbossDeploymentDescriptor = generateJbossDeploymentDescriptor;
     }

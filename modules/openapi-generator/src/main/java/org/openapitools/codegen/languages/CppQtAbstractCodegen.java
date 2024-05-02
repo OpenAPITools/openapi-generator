@@ -368,11 +368,6 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
     }
 
     @Override
-    public String toEnumValue(String value, String datatype) {
-        return escapeText(value);
-    }
-
-    @Override
     public boolean isDataTypeString(String dataType) {
         return "QString".equals(dataType);
     }
