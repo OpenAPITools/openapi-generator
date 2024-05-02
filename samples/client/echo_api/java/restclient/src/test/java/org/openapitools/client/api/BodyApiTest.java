@@ -25,7 +25,9 @@ import org.junit.Test;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.GifHttpMessageConverter;
 import org.openapitools.client.OctetStreamHttpMessageConverter;
+import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.Pet.StatusEnum;
 import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.Tag;
 
@@ -138,10 +140,26 @@ public class BodyApiTest {
    */
   @Test
   public void testEchoBodyAllOfPetTest() {
-    Pet pet = null;
+    // given
+    // The content length must be set to disable the Transfer-Encoding: chunked which would lead to
+    // unparsable response because the echo server is replying them as body.
+    api.getApiClient().addDefaultHeader("Content-Length", "192");
+
+    Pet pet =
+        new Pet()
+            .id(42L)
+            .name("Corgi")
+            .category(new Category().id(1L).name("Dogs"))
+            .status(StatusEnum.SOLD)
+            .addPhotoUrlsItem(
+                "https://cdn.pixabay.com/photo/2021/10/13/09/01/corgi-6705821_1280.jpg")
+            .addTagsItem(new Tag().id(1L).name("cute"));
+
+    // when
     Pet response = api.testEchoBodyAllOfPet(pet);
 
-    // TODO: test validations
+    // then
+    assertThat(response, is(pet));
   }
 
   /**
