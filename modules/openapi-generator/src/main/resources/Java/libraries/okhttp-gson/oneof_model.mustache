@@ -55,6 +55,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{/isMap}}
             {{/isArray}}
             {{#isArray}}
+
             final Type typeInstance = new TypeToken<{{{dataType}}}>(){}.getType();
             final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
             {{/isArray}}
