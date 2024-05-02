@@ -26,10 +26,13 @@ export type BehaviorType = typeof BehaviorType[keyof typeof BehaviorType];
 
 
 export function instanceOfBehaviorType(value: any): boolean {
-    for (const key in BehaviorType)
-        if (Object.prototype.hasOwnProperty.call(BehaviorType, key))
-            if (BehaviorType[key] == value)
+    for (const key in BehaviorType) {
+        if (Object.prototype.hasOwnProperty.call(BehaviorType, key)) {
+            if (BehaviorType[key] == value) {
                 return true;
+            }
+        }
+    }
     return false;
 }
 

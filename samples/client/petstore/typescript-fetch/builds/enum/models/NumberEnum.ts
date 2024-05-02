@@ -26,10 +26,13 @@ export type NumberEnum = typeof NumberEnum[keyof typeof NumberEnum];
 
 
 export function instanceOfNumberEnum(value: any): boolean {
-    for (const key in NumberEnum)
-        if (Object.prototype.hasOwnProperty.call(NumberEnum, key))
-            if (NumberEnum[key] == value)
+    for (const key in NumberEnum) {
+        if (Object.prototype.hasOwnProperty.call(NumberEnum, key)) {
+            if (NumberEnum[key] == value) {
                 return true;
+            }
+        }
+    }
     return false;
 }
 

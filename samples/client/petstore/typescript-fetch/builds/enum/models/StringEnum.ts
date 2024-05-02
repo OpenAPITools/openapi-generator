@@ -26,10 +26,13 @@ export type StringEnum = typeof StringEnum[keyof typeof StringEnum];
 
 
 export function instanceOfStringEnum(value: any): boolean {
-    for (const key in StringEnum)
-        if (Object.prototype.hasOwnProperty.call(StringEnum, key))
-            if (StringEnum[key] == value)
+    for (const key in StringEnum) {
+        if (Object.prototype.hasOwnProperty.call(StringEnum, key)) {
+            if (StringEnum[key] == value) {
                 return true;
+            }
+        }
+    }
     return false;
 }
 

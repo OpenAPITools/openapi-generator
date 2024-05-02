@@ -25,10 +25,13 @@ export type SingleRefType = typeof SingleRefType[keyof typeof SingleRefType];
 
 
 export function instanceOfSingleRefType(value: any): boolean {
-    for (const key in SingleRefType)
-        if (Object.prototype.hasOwnProperty.call(SingleRefType, key))
-            if (SingleRefType[key] == value)
+    for (const key in SingleRefType) {
+        if (Object.prototype.hasOwnProperty.call(SingleRefType, key)) {
+            if (SingleRefType[key] == value) {
                 return true;
+            }
+        }
+    }
     return false;
 }
 

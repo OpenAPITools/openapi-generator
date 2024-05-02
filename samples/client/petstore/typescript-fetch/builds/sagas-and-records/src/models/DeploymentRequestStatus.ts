@@ -35,10 +35,13 @@ export type DeploymentRequestStatus = typeof DeploymentRequestStatus[keyof typeo
 
 
 export function instanceOfDeploymentRequestStatus(value: any): boolean {
-    for (const key in DeploymentRequestStatus)
-        if (Object.prototype.hasOwnProperty.call(DeploymentRequestStatus, key))
-            if (DeploymentRequestStatus[key] == value)
+    for (const key in DeploymentRequestStatus) {
+        if (Object.prototype.hasOwnProperty.call(DeploymentRequestStatus, key)) {
+            if (DeploymentRequestStatus[key] == value) {
                 return true;
+            }
+        }
+    }
     return false;
 }
 
