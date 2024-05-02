@@ -112,7 +112,7 @@ func (c *StoreAPIController) GetOrderById(w http.ResponseWriter, r *http.Request
 		WithMaximum[int64](5),
 	)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "orderId", Err: err}, nil)
 		return
 	}
 	result, err := c.service.GetOrderById(r.Context(), orderIdParam)

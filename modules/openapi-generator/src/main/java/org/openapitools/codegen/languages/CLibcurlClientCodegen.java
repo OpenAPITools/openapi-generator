@@ -910,7 +910,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // only process the following type (or we can simply rely on the file extension to check if it's a .c or .h file)
         Set<String> supportedFileType = new HashSet<>(
                 Arrays.asList(
-                        "supporting-mustache",
+                        "supporting-file",
                         "model-test",
                         "model",
                         "api-test",

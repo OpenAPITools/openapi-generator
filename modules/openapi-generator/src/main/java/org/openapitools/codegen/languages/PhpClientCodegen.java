@@ -44,6 +44,7 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .includeGlobalFeatures(GlobalFeature.MultiServer)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
                         SecurityFeature.BearerToken,

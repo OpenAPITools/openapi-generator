@@ -42,6 +42,14 @@ public class Model200Response {
   public Model200Response() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Model200Response(@JsonProperty(JSON_PROPERTY_NAME) Integer name, @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS) String propertyClass) {
+    this.name = name;
+    this.propertyClass = propertyClass;
+  }
+
   public Model200Response name(Integer name) {
     
     this.name = name;
@@ -66,7 +74,6 @@ public class Model200Response {
   public void setName(Integer name) {
     this.name = name;
   }
-
 
   public Model200Response propertyClass(String propertyClass) {
     

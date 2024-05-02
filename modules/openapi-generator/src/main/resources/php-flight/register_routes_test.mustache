@@ -5,6 +5,8 @@
 {{#apiInfo}}
 namespace {{testPackage}};
 
+use function {{invokerPackage}}\parseParam;
+
 class RegisterRoutesTest extends \PHPUnit\Framework\TestCase {
 {{#apis}}
     public function testRegisterRoutes{{classname}}(): void
@@ -27,5 +29,25 @@ class RegisterRoutesTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue(true);
     }
 {{/apis}}
+{{#models}}
+{{#model}}
+{{#isEnum}}
+    public function testParseParamsEnum{{classname}}(): void
+    {
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{#-first}}
+        $value = {{{value}}};
+        {{/-first}}
+        {{/enumVars}}
+        {{/allowableValues}}
+        $this->assertEquals(
+            parseParam($value, '\\{{escapedModelPackage}}\\{{classname}}'),
+            \{{modelPackage}}\{{classname}}::{{#allowableValues}}{{#enumVars}}{{#-first}}{{{name}}}{{/-first}}{{/enumVars}}{{/allowableValues}}
+        );
+    }
+{{/isEnum}}
+{{/model}}
+{{/models}}
 }
 {{/apiInfo}}

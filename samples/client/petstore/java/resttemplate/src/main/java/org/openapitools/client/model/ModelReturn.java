@@ -38,6 +38,13 @@ public class ModelReturn {
   public ModelReturn() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ModelReturn(@JsonProperty(JSON_PROPERTY_RETURN) Integer _return) {
+    this._return = _return;
+  }
+
   public ModelReturn _return(Integer _return) {
     
     this._return = _return;
