@@ -11,12 +11,9 @@ import {
 
 {{/hasImports}}
 {{#discriminator}}
-import {
 {{#discriminator.mappedModels}}
-     {{modelName}}FromJSONTyped{{^-last}},{{/-last}}
+import { {{modelName}}FromJSONTyped } from './{{modelName}}{{importFileExtension}}';
 {{/discriminator.mappedModels}}
-} from './index{{importFileExtension}}';
-
 {{/discriminator}}
 {{>modelGenericInterfaces}}
 
