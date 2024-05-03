@@ -1007,8 +1007,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.isFreeFormObject = isFreeFormObject;
     }
 
+    @Override
     public boolean getIsUuid() { return isUuid; }
 
+    @Override
     public void setIsUuid(boolean isUuid) { this.isUuid = isUuid; }
 
     public boolean getIsUri() { return isUri; }

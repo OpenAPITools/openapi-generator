@@ -48,14 +48,17 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     protected String sourceFolder = "src";
     protected String modelFolder = "model";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "erlang-proper";
     }
 
+    @Override
     public String getHelp() {
         return "Generates an Erlang library with PropEr generators (beta).";
     }

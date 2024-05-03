@@ -119,14 +119,17 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         addCliOptionWithDefault(USE_SWAGGER_UI, "Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies", useSwaggerUI);
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "scala-play-server";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Scala server application (beta) with Play Framework.";
     }

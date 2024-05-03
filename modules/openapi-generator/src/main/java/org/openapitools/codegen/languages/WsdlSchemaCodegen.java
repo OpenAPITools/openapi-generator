@@ -36,14 +36,17 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean useSpecifiedOperationId = false;
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SCHEMA;
     }
 
+    @Override
     public String getName() {
         return "wsdl-schema";
     }
 
+    @Override
     public String getHelp() {
         return "Generates WSDL files.";
     }
@@ -78,6 +81,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
                 "jaxb-customization.xml"));
     }
 
+    @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         Info info = openAPI.getInfo();
 

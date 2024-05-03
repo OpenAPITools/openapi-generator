@@ -296,6 +296,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         return isLibrary(SPRING_HTTP_INTERFACE) ? null : DocumentationProvider.SPRINGDOC;
     }
 
+    @Override
     public List<DocumentationProvider> supportedDocumentationProvider() {
         List<DocumentationProvider> supportedProviders = new ArrayList<>();
         supportedProviders.add(DocumentationProvider.NONE);

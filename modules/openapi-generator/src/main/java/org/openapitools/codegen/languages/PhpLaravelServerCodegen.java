@@ -43,6 +43,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
      * @return the CodegenType for this generator
      * @see org.openapitools.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -53,6 +54,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "php-laravel";
     }
@@ -63,6 +65,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a PHP laravel server library.";
     }

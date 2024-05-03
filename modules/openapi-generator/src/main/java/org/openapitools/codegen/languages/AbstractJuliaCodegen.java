@@ -440,6 +440,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      * @param input String to be cleaned up
      * @return string with quotation mark removed or escaped
      */
+    @Override
     public String escapeQuotationMark(String input) {
         return input.replace("\"", "\\\"");
     }
@@ -500,6 +501,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      * @param operationId operation ID
      * @return the sanitized method name
      */
+    @Override
     @SuppressWarnings("static-method")
     public String toOperationId(String operationId) {
         CamelizeOption camelizeOption = CamelizeOption.UPPERCASE_FIRST_CHAR;

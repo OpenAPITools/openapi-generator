@@ -737,6 +737,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
      * does not support this in as natural a way so it needs to convert it. See
      * https://docs.python.org/2/howto/regex.html#compilation-flags for details.
      */
+    @Override
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
             int i = pattern.lastIndexOf('/');

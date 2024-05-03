@@ -270,14 +270,17 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "kotlin";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Kotlin client.";
     }

@@ -59,6 +59,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      *
      * @return the CodegenType for this generator
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -69,6 +70,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "haskell";
     }
@@ -79,6 +81,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a Haskell server and client library.";
     }

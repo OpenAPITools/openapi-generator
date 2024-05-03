@@ -52,6 +52,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      *
      * @return the CodegenType for this generator
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -62,6 +63,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "scala-gatling";
     }
@@ -72,6 +74,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a gatling simulation library (beta).";
     }
@@ -231,6 +234,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      * Location to write model files.  You can use the modelPackage() as defined when the class is
      * instantiated
      */
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }

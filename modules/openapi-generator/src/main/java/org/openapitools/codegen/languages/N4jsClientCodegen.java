@@ -79,14 +79,17 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     private boolean checkSuperfluousBodyProps = true;
     private boolean generateDefaultApiExecuter = true;
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "n4js";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a n4js client.";
     }

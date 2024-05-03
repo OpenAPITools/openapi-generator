@@ -1838,6 +1838,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    @Override
     public void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property) {
         if (response == null || property == null || response.dataType == null || property.dataType == null) {
             return;

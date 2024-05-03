@@ -70,14 +70,17 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "rust";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Rust client library (beta).";
     }

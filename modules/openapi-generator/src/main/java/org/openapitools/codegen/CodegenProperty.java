@@ -280,6 +280,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.baseName = baseName;
     }
 
+    @Override
     public String getComplexType() {
         return complexType;
     }
@@ -322,6 +323,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return getDataType();
     }
 
+    @Override
     public String getDataType() {
         return dataType;
     }
@@ -334,6 +336,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.dataType = datatype;
     }
 
+    @Override
     public void setDataType(String dataType) {
         this.dataType = dataType;
     }
@@ -394,6 +397,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.defaultValueWithParam = defaultValueWithParam;
     }
 
+    @Override
     public String getBaseType() {
         return baseType;
     }
@@ -1044,10 +1048,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.hasMultipleTypes = hasMultipleTypes;
     }
 
+    @Override
     public boolean getIsUuid() {
         return isUuid;
     }
 
+    @Override
     public void setIsUuid(boolean isUuid) {
         this.isUuid = isUuid;
     }

@@ -62,14 +62,17 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     private Map<String, Schema> enumHash = new HashMap<>();
     private Map<String, String> enumUniqNames;
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "ocaml";
     }
 
+    @Override
     public String getHelp() {
         return "Generates an OCaml client library (beta).";
     }

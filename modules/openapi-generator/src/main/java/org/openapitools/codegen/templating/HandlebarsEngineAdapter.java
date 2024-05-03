@@ -62,6 +62,7 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         return "handlebars";
     }
 
+    @Override
     public String compileTemplate(TemplatingExecutor executor,
                                   Map<String, Object> bundle, String templateFile) throws IOException {
         TemplateLoader loader = new AbstractTemplateLoader() {

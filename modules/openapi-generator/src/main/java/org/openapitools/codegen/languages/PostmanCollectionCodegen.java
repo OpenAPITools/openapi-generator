@@ -85,6 +85,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * @return  the CodegenType for this generator
      * @see     org.openapitools.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SCHEMA;
     }
@@ -101,6 +102,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "postman-collection";
     }
@@ -453,6 +455,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a Postman collection (format v2.1.0) JSON file";
     }
@@ -505,6 +508,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * @param input String to be cleaned up
      * @return string with quotation mark removed or escaped
      */
+    @Override
     public String escapeQuotationMark(String input) {
         //TODO: check that this logic is safe to escape quotation mark to avoid code injection
         return input.replace("\"", "\\\"");

@@ -67,14 +67,17 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
     public List<String> customHeaders = new ArrayList<>();
 
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "jetbrains-http-client";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a jetbrains-http client. See https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html";
     }

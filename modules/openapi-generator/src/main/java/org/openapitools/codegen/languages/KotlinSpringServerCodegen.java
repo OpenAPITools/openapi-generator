@@ -260,6 +260,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return DocumentationProvider.SPRINGDOC;
     }
 
+    @Override
     public List<DocumentationProvider> supportedDocumentationProvider() {
         return Arrays.asList(
                 DocumentationProvider.NONE,

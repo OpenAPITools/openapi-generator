@@ -52,14 +52,17 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     protected String projectName;
     protected String apiModuleName;
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "haskell-yesod";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a haskell-yesod server.";
     }

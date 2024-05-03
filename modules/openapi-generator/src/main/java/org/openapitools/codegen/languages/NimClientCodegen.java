@@ -46,14 +46,17 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packageName = "openapiclient";
     protected String packageVersion = "1.0.0";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "nim";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a nim client (beta).";
     }

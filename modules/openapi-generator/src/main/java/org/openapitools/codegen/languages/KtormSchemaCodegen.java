@@ -232,14 +232,17 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SCHEMA;
     }
 
+    @Override
     public String getName() {
         return "ktorm-schema";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a kotlin-ktorm schema (beta)";
     }

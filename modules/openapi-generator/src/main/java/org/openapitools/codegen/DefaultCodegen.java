@@ -314,6 +314,7 @@ public class DefaultCodegen implements CodegenConfig {
     // Whether to automatically hardcode params that are considered Constants by OpenAPI Spec
     protected boolean autosetConstants = false;
 
+    @Override
     public boolean getAddSuffixToDuplicateOperationNicknames() {
         return addSuffixToDuplicateOperationNicknames;
     }

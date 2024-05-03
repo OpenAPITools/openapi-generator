@@ -41,14 +41,17 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaCaskServerCodegen.class);
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "scala-cask";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a scala-cask server.";
     }
@@ -152,6 +155,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         return "jvm/src/test/scala";
     }
 
+    @Override
     public String toModelTestFilename(String name) {
         String n = super.toModelTestFilename(name);
         return (modelPackage + "." + n).replace('.', '/');

@@ -885,6 +885,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             this.name = name;
         }
 
+        @Override
         public int compareTo(ModelDepend second) {
 
             if (depend != null && depend.contains(second.name)) {

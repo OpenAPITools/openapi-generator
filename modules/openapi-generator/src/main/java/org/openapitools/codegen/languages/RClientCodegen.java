@@ -81,14 +81,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "r";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a R client library (beta).";
     }
@@ -387,6 +390,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         return outputFolder + File.separator + "R" + File.separator;
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + "R" + File.separator;
     }
@@ -822,6 +826,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @param codegenParameter Codegen parameter
      * @param parameter        Parameter
      */
+    @Override
     public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
         if (parameter.getExample() != null) {
             codegenParameter.example = parameter.getExample().toString();

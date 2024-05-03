@@ -245,14 +245,17 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .doNotOverwrite());
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "rust-axum";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Rust server library which bases on Axum.";
     }

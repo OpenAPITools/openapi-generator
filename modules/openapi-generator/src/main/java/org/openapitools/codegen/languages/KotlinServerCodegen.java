@@ -170,6 +170,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         this.corsFeatureEnabled = corsFeatureEnabled;
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Kotlin server.";
     }
@@ -206,10 +207,12 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         this.metricsFeatureEnabled = metricsEnabled;
     }
 
+    @Override
     public String getName() {
         return "kotlin-server";
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }

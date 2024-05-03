@@ -162,6 +162,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }

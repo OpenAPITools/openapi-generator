@@ -492,6 +492,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
      * @param name the name of the property
      * @return getter name based on naming convention
      */
+    @Override
     public String toBooleanGetter(String name) {
         return "is" + getterAndSetterCapitalize(name);
     }
@@ -611,6 +612,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         return escapeText(pattern);
     }
 
+    @Override
     public String toApiName(String name) {
         if (name.isEmpty()) {
             return "DefaultApiInterface";

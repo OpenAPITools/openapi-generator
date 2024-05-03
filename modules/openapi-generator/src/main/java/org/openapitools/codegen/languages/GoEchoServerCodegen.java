@@ -40,14 +40,17 @@ public class GoEchoServerCodegen extends AbstractGoCodegen {
     private static final String API_PACKAGE_NAME = "handlers";
     private static final String OUTPUT_PATH = "generated-code" + File.separator + "go-echo-server";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "go-echo-server";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a go-echo server. (Beta)";
     }

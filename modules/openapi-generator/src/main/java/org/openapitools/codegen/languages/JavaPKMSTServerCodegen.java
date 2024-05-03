@@ -95,19 +95,23 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         }
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "java-pkmst";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a PKMST SpringBoot Server application using the SpringFox integration."
                 + " Also enables EurekaServerClient / Zipkin / Spring-Boot admin";
     }
 
+    @Override
     public void processOpts() {
         super.processOpts();
         if (this.additionalProperties.containsKey("basePackage")) {
@@ -319,10 +323,12 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                         }
                         doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
 
+                            @Override
                             public void setReturnType(final String returnType) {
                                 resp.dataType = returnType;
                             }
 
+                            @Override
                             public void setReturnContainer(final String returnContainer) {
                                 resp.containerType = returnContainer;
                             }
@@ -332,10 +338,12 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
                 doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
 
+                    @Override
                     public void setReturnType(final String returnType) {
                         operation.returnType = returnType;
                     }
 
+                    @Override
                     public void setReturnContainer(final String returnContainer) {
                         operation.returnContainer = returnContainer;
                     }
