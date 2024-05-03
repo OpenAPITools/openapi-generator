@@ -169,7 +169,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
      * Configures the type of generator.
      *
      * @return the CodegenType for this generator
-     * @see org.openapitools.codegen.CodegenType
+     * @see CodegenType
      */
     @Override
     public CodegenType getTag() {
@@ -425,7 +425,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     /**
      * Determines if at least one of the allOf pieces of a schema are of type string
      *
-     * @param p
+     * @param schema
      * @return
      */
     private boolean isAllOfStringSchema(Schema schema) {
