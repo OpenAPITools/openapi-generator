@@ -13,6 +13,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Copyright (2024) András Gábor Kis, Deutsche Telekom AG
+ * This file is made available under the terms of the license Apache-2.0 license
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 package org.openapitools.codegen.java;
