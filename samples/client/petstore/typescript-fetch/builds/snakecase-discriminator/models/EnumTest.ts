@@ -19,24 +19,24 @@ import {
     OuterEnumFromJSONTyped,
     OuterEnumToJSON,
 } from './OuterEnum';
-import type { OuterEnumDefaultValue } from './OuterEnumDefaultValue';
-import {
-    OuterEnumDefaultValueFromJSON,
-    OuterEnumDefaultValueFromJSONTyped,
-    OuterEnumDefaultValueToJSON,
-} from './OuterEnumDefaultValue';
-import type { OuterEnumInteger } from './OuterEnumInteger';
-import {
-    OuterEnumIntegerFromJSON,
-    OuterEnumIntegerFromJSONTyped,
-    OuterEnumIntegerToJSON,
-} from './OuterEnumInteger';
 import type { OuterEnumIntegerDefaultValue } from './OuterEnumIntegerDefaultValue';
 import {
     OuterEnumIntegerDefaultValueFromJSON,
     OuterEnumIntegerDefaultValueFromJSONTyped,
     OuterEnumIntegerDefaultValueToJSON,
 } from './OuterEnumIntegerDefaultValue';
+import type { OuterEnumInteger } from './OuterEnumInteger';
+import {
+    OuterEnumIntegerFromJSON,
+    OuterEnumIntegerFromJSONTyped,
+    OuterEnumIntegerToJSON,
+} from './OuterEnumInteger';
+import type { OuterEnumDefaultValue } from './OuterEnumDefaultValue';
+import {
+    OuterEnumDefaultValueFromJSON,
+    OuterEnumDefaultValueFromJSONTyped,
+    OuterEnumDefaultValueToJSON,
+} from './OuterEnumDefaultValue';
 
 /**
  * 
