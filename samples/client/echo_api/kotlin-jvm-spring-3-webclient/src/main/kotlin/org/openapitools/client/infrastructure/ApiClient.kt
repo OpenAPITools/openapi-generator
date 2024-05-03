@@ -4,13 +4,14 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
-import org.springframework.web.client.RestClient
+import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.http.ResponseEntity
 import org.springframework.util.LinkedMultiValueMap
+import reactor.core.publisher.Mono
 
-open class ApiClient(protected val client: RestClient) {
+open class ApiClient(protected val client: WebClient) {
 
-    protected inline fun <reified I : Any, reified T: Any?> request(requestConfig: RequestConfig<I>): ResponseEntity<T> {
+    protected inline fun <reified I : Any, reified T: Any?> request(requestConfig: RequestConfig<I>): Mono<ResponseEntity<T>> {
         return prepare(defaults(requestConfig))
             .retrieve()
             .toEntity(object : ParameterizedTypeReference<T>() {})
@@ -20,7 +21,7 @@ open class ApiClient(protected val client: RestClient) {
         client.method(requestConfig)
             .uri(requestConfig)
             .headers(requestConfig)
-            .nullableBody(requestConfig)
+            .body(requestConfig)
 
     protected fun <I> defaults(requestConfig: RequestConfig<I>) =
         requestConfig.apply {
@@ -32,10 +33,10 @@ open class ApiClient(protected val client: RestClient) {
             }
         }
 
-    private fun <I> RestClient.method(requestConfig: RequestConfig<I>)=
+    private fun <I> WebClient.method(requestConfig: RequestConfig<I>)=
         method(HttpMethod.valueOf(requestConfig.method.name))
 
-    private fun <I> RestClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>) =
+    private fun <I> WebClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>) =
         uri { builder ->
             builder
                 .path(requestConfig.path)
@@ -43,11 +44,11 @@ open class ApiClient(protected val client: RestClient) {
                 .build(requestConfig.params)
         }
 
-    private fun <I> RestClient.RequestBodySpec.headers(requestConfig: RequestConfig<I>) =
+    private fun <I> WebClient.RequestBodySpec.headers(requestConfig: RequestConfig<I>) =
         apply { requestConfig.headers.forEach { (name, value) -> header(name, value) } }
 
-    private fun <I : Any> RestClient.RequestBodySpec.nullableBody(requestConfig: RequestConfig<I>) =
-        apply { if (requestConfig.body != null) body(requestConfig.body) }
+    private fun <I : Any> WebClient.RequestBodySpec.body(requestConfig: RequestConfig<I>) =
+        apply { if (requestConfig.body != null) bodyValue(requestConfig.body) }
 }
 
 inline fun <reified T: Any> parseDateToQueryString(value : T): String {
