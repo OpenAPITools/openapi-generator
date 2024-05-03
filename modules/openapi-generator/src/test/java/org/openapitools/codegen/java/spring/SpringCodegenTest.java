@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
-import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.GENERATE_BUILDERS;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.SpringCodegen.ASYNC;
 import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
 import static org.openapitools.codegen.languages.SpringCodegen.DocumentationProvider;
@@ -44,7 +44,6 @@ import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
 import static org.openapitools.codegen.languages.SpringCodegen.USE_TAGS;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
-import static org.openapitools.codegen.languages.features.OptionalFeatures.USE_OPTIONAL;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
@@ -3382,7 +3381,7 @@ public class SpringCodegenTest {
             // Fluent method assertions
             .assertMethod("alias")
             .hasReturnType("Animal")
-            .bodyContainsLines("this.alias = JsonNullable.ofNullable(alias);", "return this;")
+            .bodyContainsLines("this.alias = JsonNullable.of(alias);", "return this;")
             .hasParameter("alias")
             .withType("String")
             .toMethod()
@@ -3559,7 +3558,7 @@ public class SpringCodegenTest {
 
                 .assertMethod("colors")
                 .hasReturnType("Animal")
-                .bodyContainsLines("this.colors = JsonNullable.ofNullable(colors);", "return this;")
+                .bodyContainsLines("this.colors = JsonNullable.of(colors);", "return this;")
                 .hasParameter("colors")
                 .withType("List<String>")
                 .toMethod()
@@ -3777,7 +3776,7 @@ public class SpringCodegenTest {
 
                 .assertMethod("colors")
                 .hasReturnType("Animal")
-                .bodyContainsLines("this.colors = JsonNullable.ofNullable(colors);", "return this;")
+                .bodyContainsLines("this.colors = JsonNullable.of(colors);", "return this;")
                 .hasParameter("colors")
                 .withType("List<String>")
                 .toMethod()
@@ -4707,7 +4706,7 @@ public class SpringCodegenTest {
     @Test
     void testBuilderJavaSpring() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/java/builder.yaml", SPRING_BOOT,
-                Map.of(GENERATE_BUILDERS, true, USE_OPTIONAL, false));
+                Map.of(GENERATE_BUILDERS, true, SpringCodegen.USE_OPTIONAL, false));
 
         JavaFileAssert.assertThat(files.get("Pet.java"))
                 .fileContains("toBuilder()",
@@ -4802,7 +4801,7 @@ public class SpringCodegenTest {
         additionalProperties.put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
         additionalProperties.put(SpringCodegen.SPRING_CONTROLLER, "true");
         additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
-        additionalProperties.put(USE_OPTIONAL, "true");
+        additionalProperties.put(SpringCodegen.USE_OPTIONAL, "true");
         additionalProperties.put(DELEGATE_PATTERN, "true");
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_17768.yaml", SPRING_BOOT, additionalProperties);
         JavaFileAssert.assertThat(files.get("TestApiDelegate.java"))

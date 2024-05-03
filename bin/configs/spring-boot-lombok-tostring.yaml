@@ -9,3 +9,4 @@ additionalProperties:
   performBeanValidation: "true"
   useSpringBoot3: "true"
   additionalModelTypeAnnotations: "@lombok.Getter;@lombok.Setter;@lombok.ToString;@lombok.EqualsAndHashCode"
+  generateBuilders: true

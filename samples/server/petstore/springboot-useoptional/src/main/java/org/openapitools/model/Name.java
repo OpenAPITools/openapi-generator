@@ -63,7 +63,7 @@ public class Name {
   }
 
   public Name snakeCase(Integer snakeCase) {
-    this.snakeCase = Optional.of(snakeCase);
+    this.snakeCase = Optional.ofNullable(snakeCase);
     return this;
   }
 
@@ -83,7 +83,7 @@ public class Name {
   }
 
   public Name property(String property) {
-    this.property = Optional.of(property);
+    this.property = Optional.ofNullable(property);
     return this;
   }
 
@@ -103,7 +103,7 @@ public class Name {
   }
 
   public Name _123number(Integer _123number) {
-    this._123number = Optional.of(_123number);
+    this._123number = Optional.ofNullable(_123number);
     return this;
   }
 
@@ -164,5 +164,81 @@ public class Name {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Name instance;
+
+    public Builder() {
+      this(new Name());
+    }
+
+    protected Builder(Name instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Name value) { 
+      this.instance.setName(value.name);
+      this.instance.setSnakeCase(value.snakeCase);
+      this.instance.setProperty(value.property);
+      this.instance.set123number(value._123number);
+      return this;
+    }
+
+    public Name.Builder name(Integer name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    public Name.Builder snakeCase(Integer snakeCase) {
+      this.instance.snakeCase(snakeCase);
+      return this;
+    }
+    
+    public Name.Builder property(String property) {
+      this.instance.property(property);
+      return this;
+    }
+    
+    public Name.Builder _123number(Integer _123number) {
+      this.instance._123number(_123number);
+      return this;
+    }
+    
+    /**
+    * returns a built Name instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Name build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Name.Builder builder() {
+    return new Name.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Name.Builder toBuilder() {
+    Name.Builder builder = new Name.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

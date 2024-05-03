@@ -502,5 +502,98 @@ public class EnumTest {
     return o.toString().replace("\n", "\n    ");
   }
 
+  public static class Builder {
+
+    private EnumTest instance;
+
+    public Builder() {
+      this(new EnumTest());
+    }
+
+    protected Builder(EnumTest instance) {
+      this.instance = instance;
+    }
+
+    public EnumTest.Builder enumString(EnumStringEnum enumString) {
+      this.instance.enumString = enumString;
+      return this;
+    }
+    public EnumTest.Builder enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+      this.instance.enumStringRequired = enumStringRequired;
+      return this;
+    }
+    public EnumTest.Builder enumInteger(EnumIntegerEnum enumInteger) {
+      this.instance.enumInteger = enumInteger;
+      return this;
+    }
+    public EnumTest.Builder enumNumber(EnumNumberEnum enumNumber) {
+      this.instance.enumNumber = enumNumber;
+      return this;
+    }
+    public EnumTest.Builder outerEnum(OuterEnum outerEnum) {
+      this.instance.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
+      return this;
+    }
+    public EnumTest.Builder outerEnum(JsonNullable<OuterEnum> outerEnum) {
+      this.instance.outerEnum = outerEnum;
+      return this;
+    }
+    public EnumTest.Builder outerEnumInteger(OuterEnumInteger outerEnumInteger) {
+      this.instance.outerEnumInteger = outerEnumInteger;
+      return this;
+    }
+    public EnumTest.Builder outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+      this.instance.outerEnumDefaultValue = outerEnumDefaultValue;
+      return this;
+    }
+    public EnumTest.Builder outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+      this.instance.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+      return this;
+    }
+
+
+    /**
+    * returns a built EnumTest instance.
+    *
+    * The builder is not reusable.
+    */
+    public EnumTest build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static EnumTest.Builder builder() {
+    return new EnumTest.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public EnumTest.Builder toBuilder() {
+    return new EnumTest.Builder()
+      .enumString(getEnumString())
+      .enumStringRequired(getEnumStringRequired())
+      .enumInteger(getEnumInteger())
+      .enumNumber(getEnumNumber())
+      .outerEnum(getOuterEnum())
+      .outerEnumInteger(getOuterEnumInteger())
+      .outerEnumDefaultValue(getOuterEnumDefaultValue())
+      .outerEnumIntegerDefaultValue(getOuterEnumIntegerDefaultValue());
+  }
+
+
 }
 

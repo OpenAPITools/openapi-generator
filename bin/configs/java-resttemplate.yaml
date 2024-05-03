@@ -9,3 +9,4 @@ additionalProperties:
   java8: true
   containerDefaultToNull: true
   generateConstructorWithAllArgs: true
+  generateBuilders: true

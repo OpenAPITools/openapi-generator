@@ -32,7 +32,7 @@ public class FileSchemaTestClass {
   private List<@Valid File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
-    this.file = Optional.of(file);
+    this.file = Optional.ofNullable(file);
     return this;
   }
 
@@ -117,5 +117,69 @@ public class FileSchemaTestClass {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private FileSchemaTestClass instance;
+
+    public Builder() {
+      this(new FileSchemaTestClass());
+    }
+
+    protected Builder(FileSchemaTestClass instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(FileSchemaTestClass value) { 
+      this.instance.setFile(value.file);
+      this.instance.setFiles(value.files);
+      return this;
+    }
+
+    public FileSchemaTestClass.Builder file(File file) {
+      this.instance.file(file);
+      return this;
+    }
+    
+    public FileSchemaTestClass.Builder files(List<@Valid File> files) {
+      this.instance.files(files);
+      return this;
+    }
+    
+    /**
+    * returns a built FileSchemaTestClass instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public FileSchemaTestClass build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static FileSchemaTestClass.Builder builder() {
+    return new FileSchemaTestClass.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public FileSchemaTestClass.Builder toBuilder() {
+    FileSchemaTestClass.Builder builder = new FileSchemaTestClass.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 
