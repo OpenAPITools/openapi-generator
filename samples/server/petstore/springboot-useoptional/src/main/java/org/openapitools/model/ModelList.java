@@ -26,6 +26,10 @@ public class ModelList {
 
   private Optional<String> _123list = Optional.empty();
 
+  public ModelList() {
+    super();
+  }
+
   public ModelList _123list(String _123list) {
     this._123list = Optional.ofNullable(_123list);
     return this;

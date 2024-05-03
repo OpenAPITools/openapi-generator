@@ -82,6 +82,10 @@ public class Order {
 
   private Boolean complete = false;
 
+  public Order() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

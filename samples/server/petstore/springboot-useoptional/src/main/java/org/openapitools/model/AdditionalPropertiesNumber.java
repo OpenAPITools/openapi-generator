@@ -29,6 +29,10 @@ public class AdditionalPropertiesNumber {
 
   private Optional<String> name = Optional.empty();
 
+  public AdditionalPropertiesNumber() {
+    super();
+  }
+
   public AdditionalPropertiesNumber name(String name) {
     this.name = Optional.ofNullable(name);
     return this;

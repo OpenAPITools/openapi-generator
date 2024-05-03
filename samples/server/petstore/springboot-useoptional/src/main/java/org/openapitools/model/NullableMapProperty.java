@@ -30,6 +30,10 @@ public class NullableMapProperty {
   @Valid
   private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
 
+  public NullableMapProperty() {
+    super();
+  }
+
   public NullableMapProperty languageValues(Map<String, String> languageValues) {
     this.languageValues = JsonNullable.of(languageValues);
     return this;

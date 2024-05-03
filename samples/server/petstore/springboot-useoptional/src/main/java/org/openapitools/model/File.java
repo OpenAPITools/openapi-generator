@@ -25,6 +25,10 @@ public class File {
 
   private Optional<String> sourceURI = Optional.empty();
 
+  public File() {
+    super();
+  }
+
   public File sourceURI(String sourceURI) {
     this.sourceURI = Optional.ofNullable(sourceURI);
     return this;

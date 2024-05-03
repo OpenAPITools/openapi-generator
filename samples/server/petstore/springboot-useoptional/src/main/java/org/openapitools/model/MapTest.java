@@ -72,6 +72,10 @@ public class MapTest {
   @Valid
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
+  public MapTest() {
+    super();
+  }
+
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
     return this;

@@ -27,6 +27,10 @@ public class ModelReturn {
 
   private Optional<Integer> _return = Optional.empty();
 
+  public ModelReturn() {
+    super();
+  }
+
   public ModelReturn _return(Integer _return) {
     this._return = Optional.ofNullable(_return);
     return this;

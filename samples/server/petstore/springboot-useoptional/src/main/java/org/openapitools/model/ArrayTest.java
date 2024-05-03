@@ -35,6 +35,10 @@ public class ArrayTest {
   @Valid
   private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
+  public ArrayTest() {
+    super();
+  }
+
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
     return this;

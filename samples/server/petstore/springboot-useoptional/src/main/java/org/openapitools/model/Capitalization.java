@@ -34,6 +34,10 @@ public class Capitalization {
 
   private Optional<String> ATT_NAME = Optional.empty();
 
+  public Capitalization() {
+    super();
+  }
+
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = Optional.ofNullable(smallCamel);
     return this;

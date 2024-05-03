@@ -31,6 +31,10 @@ public class Category {
 
   private String name;
 
+  public Category() {
+    super();
+  }
+
   public Category id(Long id) {
     this.id = id;
     return this;

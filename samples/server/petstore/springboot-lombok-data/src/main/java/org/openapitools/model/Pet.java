@@ -84,6 +84,14 @@ public class Pet {
   @Deprecated
   private StatusEnum status;
 
+  /**
+   * Constructor with only required parameters and all parameters
+   */
+  public Pet(String name, List<String> photoUrls) {
+    this.name = name;
+    this.photoUrls = photoUrls;
+  }
+
   
   public static class Builder {
 

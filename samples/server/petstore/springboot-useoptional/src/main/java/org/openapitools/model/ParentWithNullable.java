@@ -75,6 +75,10 @@ public class ParentWithNullable {
 
   private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
+  public ParentWithNullable() {
+    super();
+  }
+
   public ParentWithNullable type(TypeEnum type) {
     this.type = Optional.ofNullable(type);
     return this;

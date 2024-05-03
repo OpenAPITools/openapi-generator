@@ -93,17 +93,16 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/openApiNullable}}
   {{/isContainer}}
   {{/vars}}
-  {{^lombok.Data}}
+  {{#vendorExtensions.x-java-no-args-constructor}}
+
+  public {{classname}}() {
+    super();
+  }
+  {{/vendorExtensions.x-java-no-args-constructor}}
   {{^lombok.RequiredArgsConstructor}}
   {{#generatedConstructorWithRequiredArgs}}
   {{#hasRequired}}
 
-  {{^lombok.NoArgsConstructor}}
-  public {{classname}}() {
-    super();
-  }
-
-  {{/lombok.NoArgsConstructor}}
   /**
    * Constructor with only required parameters{{#generateConstructorWithAllArgs}}{{^vendorExtensions.x-java-all-args-constructor}} and all parameters{{/vendorExtensions.x-java-all-args-constructor}}{{/generateConstructorWithAllArgs}}
    */
@@ -144,7 +143,6 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/vars}}
   }
   {{/vendorExtensions.x-java-all-args-constructor}}
-  {{/lombok.Data}}
   {{#vars}}
   {{^lombok.Data}}
 

@@ -179,6 +179,10 @@ public class EnumTest {
 
   private OuterEnum outerEnum;
 
+  public EnumTest() {
+    super();
+  }
+
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;

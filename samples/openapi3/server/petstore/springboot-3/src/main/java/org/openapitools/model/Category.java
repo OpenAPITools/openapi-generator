@@ -33,6 +33,10 @@ public class Category {
 
   private String name;
 
+  public Category() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

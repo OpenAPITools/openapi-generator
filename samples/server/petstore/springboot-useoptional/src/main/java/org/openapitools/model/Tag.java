@@ -26,6 +26,10 @@ public class Tag {
 
   private Optional<String> name = Optional.empty();
 
+  public Tag() {
+    super();
+  }
+
   public Tag id(Long id) {
     this.id = Optional.ofNullable(id);
     return this;

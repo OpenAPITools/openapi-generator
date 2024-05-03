@@ -4706,7 +4706,8 @@ public class SpringCodegenTest {
     @Test
     void testBuilderJavaSpring() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/java/builder.yaml", SPRING_BOOT,
-                Map.of(GENERATE_BUILDERS, true, SpringCodegen.USE_OPTIONAL, false));
+                Map.of(GENERATE_BUILDERS, true,
+                        SpringCodegen.USE_OPTIONAL, false));
 
         JavaFileAssert.assertThat(files.get("Pet.java"))
                 .fileContains("toBuilder()",

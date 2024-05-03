@@ -145,6 +145,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean useJakartaEe = false;
     protected boolean containerDefaultToNull = false;
     protected boolean generateConstructorWithAllArgs = false;
+    protected boolean generateBuilder = false;
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
@@ -360,10 +361,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (additionalProperties.containsKey(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS)) {
-            this.setgenerateConstructorWithAllArgs(convertPropertyToBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS));
+            this.setGenerateConstructorWithAllArgs(convertPropertyToBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS));
         }
         writePropertyBack(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, generateConstructorWithAllArgs);
 
+        if (additionalProperties.containsKey(GENERATE_BUILDERS)) {
+            this.setGenerateBuilder(convertPropertyToBoolean(GENERATE_BUILDERS));
+        }
+        writePropertyBack(GENERATE_BUILDERS, generateBuilder);
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
@@ -685,12 +690,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         });
     }
 
-    public void setgenerateConstructorWithAllArgs(boolean aValue) {
+    public void setGenerateConstructorWithAllArgs(boolean aValue) {
         this.generateConstructorWithAllArgs = aValue;
     }
 
-    public boolean isgenerateConstructorWithAllArgs() {
+    public boolean isGenerateConstructorWithAllArgs() {
         return generateConstructorWithAllArgs;
+    }
+
+    public void setGenerateBuilder(boolean aValue) {
+        this.generateBuilder = aValue;
+    }
+
+    public boolean isGenerateBuilder() {
+        return generateBuilder;
     }
 
     /**
@@ -778,7 +791,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        if (isgenerateConstructorWithAllArgs()) {
+        if (isGenerateConstructorWithAllArgs()) {
             // conditionally force the generation of all args constructor.
             for (CodegenModel cm : allModels.values()) {
                 if (isConstructorWithAllArgsAllowed(cm)) {
@@ -793,6 +806,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     constructorArgs.addAll(cm.vars);
                     constructorArgs.addAll(cm.parentVars);
                 }
+            }
+        }
+        // conditionally force the generation of no args constructor
+        for (CodegenModel cm : allModels.values()) {
+            if (isConstructorWithNoArgsAllowed(cm)) {
+                cm.vendorExtensions.put("x-java-no-args-constructor", true);
             }
         }
 
@@ -819,6 +838,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // implementation detail: allVars is not reliable if openapiNormalizer.REFACTOR_ALLOF_WITH_PROPERTIES_ONLY is disabled
         return (this.generateConstructorWithAllArgs &&
                 (!codegenModel.vars.isEmpty() || codegenModel.parentVars.isEmpty()));
+    }
+
+    /**
+     * trigger the generation of no arguments constructor or not.
+     * It avoids generating the same constructor twice.
+     *
+     * @return true if an no arg Constructor must be generated
+     */
+    protected boolean isConstructorWithNoArgsAllowed(CodegenModel codegenModel) {
+        // to be overriden in generators that need it
+        return false;
     }
 
     private void sanitizeConfig() {

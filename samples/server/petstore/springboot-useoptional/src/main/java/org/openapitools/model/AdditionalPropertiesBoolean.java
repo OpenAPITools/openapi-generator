@@ -28,6 +28,10 @@ public class AdditionalPropertiesBoolean {
 
   private Optional<String> name = Optional.empty();
 
+  public AdditionalPropertiesBoolean() {
+    super();
+  }
+
   public AdditionalPropertiesBoolean name(String name) {
     this.name = Optional.ofNullable(name);
     return this;

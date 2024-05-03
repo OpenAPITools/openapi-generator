@@ -68,6 +68,10 @@ public class BigCatDto extends CatDto {
 
   private KindEnum kind;
 
+  public BigCatDto() {
+    super();
+  }
+
   public BigCatDto kind(KindEnum kind) {
     this.kind = kind;
     return this;

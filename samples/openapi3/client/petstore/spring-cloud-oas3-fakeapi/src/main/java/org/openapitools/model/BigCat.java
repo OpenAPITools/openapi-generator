@@ -68,6 +68,10 @@ public class BigCat extends Cat {
 
   private KindEnum kind;
 
+  public BigCat() {
+    super();
+  }
+
   public BigCat kind(KindEnum kind) {
     this.kind = kind;
     return this;

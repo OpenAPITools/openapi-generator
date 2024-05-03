@@ -30,6 +30,10 @@ public class ModelApiResponse {
 
   private Optional<String> message = Optional.empty();
 
+  public ModelApiResponse() {
+    super();
+  }
+
   public ModelApiResponse code(Integer code) {
     this.code = Optional.ofNullable(code);
     return this;

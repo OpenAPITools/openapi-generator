@@ -75,6 +75,10 @@ public class Order {
 
   private Optional<Boolean> complete = Optional.of(false);
 
+  public Order() {
+    super();
+  }
+
   public Order id(Long id) {
     this.id = Optional.ofNullable(id);
     return this;

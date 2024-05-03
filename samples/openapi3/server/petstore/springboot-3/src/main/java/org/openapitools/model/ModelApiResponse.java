@@ -37,6 +37,10 @@ public class ModelApiResponse {
 
   private String message;
 
+  public ModelApiResponse() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

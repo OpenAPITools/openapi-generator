@@ -33,6 +33,10 @@ public class Tag {
 
   private String name;
 
+  public Tag() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

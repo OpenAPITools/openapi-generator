@@ -45,6 +45,10 @@ public class User {
 
   private Integer userStatus;
 
+  public User() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */
