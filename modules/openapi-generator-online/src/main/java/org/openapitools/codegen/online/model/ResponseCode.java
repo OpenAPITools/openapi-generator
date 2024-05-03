@@ -18,14 +18,13 @@
 package org.openapitools.codegen.online.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
+@Setter @NoArgsConstructor
 public class ResponseCode {
     private String code;
     private String link;
-
-    public ResponseCode() {}
 
     public ResponseCode(String code, String link) {
         setCode(code);
