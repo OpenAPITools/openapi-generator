@@ -329,7 +329,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     /**
-     * @deprecated use {@link #setDataType()} instead.
+     * @deprecated use {@link #setDataType(String)} instead.
      */
     @Deprecated
     public void setDatatype(String datatype) {
