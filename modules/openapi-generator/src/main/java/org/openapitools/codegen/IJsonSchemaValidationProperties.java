@@ -290,7 +290,6 @@ public interface IJsonSchemaValidationProperties {
             setIsArray(true);
         } else if (ModelUtils.isFileSchema(p) && !ModelUtils.isStringSchema(p)) {
             // swagger v2 only, type file
-            ;
         } else if (ModelUtils.isStringSchema(p)) {
             setIsString(true);
             if (ModelUtils.isByteArraySchema(p)) {

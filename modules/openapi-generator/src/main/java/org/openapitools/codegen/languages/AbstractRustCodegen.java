@@ -148,8 +148,6 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     public enum CasingType {CAMEL_CASE, SNAKE_CASE}
 
-    ;
-
     /**
      * General purpose sanitizing function for Rust identifiers (fields, variables, structs, parameters, etc.).<br>
      * Rules for Rust are fairly simple:
