@@ -84,6 +84,15 @@ class ApiClient(
                 addAuthorization(authName, auth)
             }
         }
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnnotation.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiApiResponse.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiCategory.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiOrder.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiPet.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiTag.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUser.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPet.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPetOrArrayString.CustomTypeAdapterFactory())
     }
 
     constructor(
@@ -101,6 +110,15 @@ class ApiClient(
             ?.setClientSecret(secret)
             ?.setUsername(username)
             ?.setPassword(password)
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnnotation.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiApiResponse.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiCategory.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiOrder.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiPet.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiTag.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUser.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPet.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPetOrArrayString.CustomTypeAdapterFactory())
     }
 
     /**

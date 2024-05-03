@@ -148,6 +148,19 @@ import okhttp3.MediaType.Companion.toMediaType
                 addAuthorization(authName, auth)
             }
         }
+        {{^kotlinx_serialization}}
+        {{#gson}}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^hasChildren}}
+        serializerBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+        {{/hasChildren}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{/gson}}
+        {{/kotlinx_serialization}}
     }
 
     {{#authMethods}}
@@ -162,6 +175,19 @@ import okhttp3.MediaType.Companion.toMediaType
         password: String
     ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
         setCredentials(username, password)
+        {{^kotlinx_serialization}}
+        {{#gson}}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^hasChildren}}
+        serializerBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+        {{/hasChildren}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{/gson}}
+        {{/kotlinx_serialization}}
     }
 
     {{/isBasicBasic}}
@@ -174,6 +200,19 @@ import okhttp3.MediaType.Companion.toMediaType
         bearerToken: String
     ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
         setBearerToken(bearerToken)
+        {{^kotlinx_serialization}}
+        {{#gson}}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^hasChildren}}
+        serializerBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+        {{/hasChildren}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{/gson}}
+        {{/kotlinx_serialization}}
     }
 
     {{/isBasicBearer}}
@@ -195,6 +234,19 @@ import okhttp3.MediaType.Companion.toMediaType
             ?.setClientSecret(secret)
             ?.setUsername(username)
             ?.setPassword(password)
+        {{^kotlinx_serialization}}
+        {{#gson}}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^hasChildren}}
+        serializerBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+        {{/hasChildren}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{/gson}}
+        {{/kotlinx_serialization}}
     }
 
     {{/hasOAuthMethods}}
