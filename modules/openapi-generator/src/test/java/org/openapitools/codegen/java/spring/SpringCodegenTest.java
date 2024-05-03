@@ -2810,6 +2810,34 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
     }
 
+    /**
+     * Regression test for issues #3839 and #5764
+     */
+    @Test void withXmlIsInheritedFromGlobalConfig() throws IOException {
+        Path output = Files.createTempDirectory("test");
+        output.toFile().deleteOnExit();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.toString());
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.WITH_XML, "true");   // ← global property to transpire
+        
+        Map<String, File> files = generator
+            .opts(
+                new ClientOptInput()
+                    .openAPI(
+                        new OpenAPIParser()
+                            .readLocation("src/test/resources/3_0/spring/issue_10278.yaml", null, null)
+                            .getOpenAPI()
+                    ).config(codegen)
+            )
+            .generate()
+            .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Category.java")).fileContains("@JacksonXmlProperty");
+    }
 
     @Test
     public void testMappingSubtypesIssue13150() throws IOException {
