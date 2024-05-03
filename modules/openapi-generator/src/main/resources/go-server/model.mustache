@@ -166,12 +166,12 @@ func Assert{{classname}}Constraints(obj {{classname}}) error {
 {{#Vars}}
 {{#minimum}}
 	if {{#isNullable}}obj.{{name}} != nil && *{{/isNullable}}obj.{{name}} < {{minimum}} {
-		return &ParsingError{Err: errors.New(errMsgMinValueConstraint)}
+		return &ParsingError{Param: "{{name}}", Err: errors.New(errMsgMinValueConstraint)}
 	}
 {{/minimum}}
 {{#maximum}}
 	if {{#isNullable}}obj.{{name}} != nil && *{{/isNullable}}obj.{{name}} > {{maximum}} {
-		return &ParsingError{Err: errors.New(errMsgMaxValueConstraint)}
+		return &ParsingError{Param: "{{name}}", Err: errors.New(errMsgMaxValueConstraint)}
 	}
 {{/maximum}}
 {{/Vars}}

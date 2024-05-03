@@ -13,18 +13,18 @@
  */
 
 import { mapValues } from '../runtime';
-import type { MatchingParts } from './MatchingParts';
-import {
-    MatchingPartsFromJSON,
-    MatchingPartsFromJSONTyped,
-    MatchingPartsToJSON,
-} from './MatchingParts';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
 } from './ResponseMeta';
+import type { MatchingParts } from './MatchingParts';
+import {
+    MatchingPartsFromJSON,
+    MatchingPartsFromJSONTyped,
+    MatchingPartsToJSON,
+} from './MatchingParts';
 
 /**
  * 

@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -1900,38 +1901,6 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testMicroprofileGenerateCorrectJacksonGenerator_issue18336() throws Exception {
-        Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
-        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
-
-        File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-
-                .setAdditionalProperties(properties)
-                .setGeneratorName("java")
-                .setLibrary(JavaClientCodegen.MICROPROFILE)
-                .setInputSpec("src/test/resources/bugs/issue_18336.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-
-        final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
-
-        JavaFileAssert.assertThat(files.get("Pet.java"))
-                .assertConstructor("String")
-                .assertConstructorAnnotations()
-                .containsWithName("JsonCreator")
-                .toConstructor()
-                .hasParameter("name")
-                .assertParameterAnnotations()
-                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "JSON_PROPERTY_NAME", "required", "true"));
-    }
-
-    @Test
     public void testJavaClientDefaultValues_issueNoNumber() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
@@ -2395,6 +2364,16 @@ public class JavaClientCodegenTest {
             final String library,
             final Map<String, Object> properties
     ) {
+        return generateFromContract(pathToSpecification, library, properties, configurator -> {});
+    }
+
+    @SneakyThrows
+    private static Map<String, File> generateFromContract(
+            final String pathToSpecification,
+            final String library,
+            final Map<String, Object> properties,
+            final Consumer<CodegenConfigurator> consumer
+    ) {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -2404,7 +2383,7 @@ public class JavaClientCodegenTest {
                 .setAdditionalProperties(properties)
                 .setInputSpec(pathToSpecification)
                 .setOutputDir(output.getAbsolutePath());
-
+        consumer.accept(configurator);
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         final DefaultGenerator generator = new DefaultGenerator();
         return generator.opts(clientOptInput).generate().stream()
@@ -3178,4 +3157,270 @@ public class JavaClientCodegenTest {
         Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/DepartmentApi.java");
         TestUtils.assertFileContains(petApi, "if (filter != null) {");
     }
+
+    @Test
+    public void generateAllArgsConstructor() {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/all_args_constructor.yaml", JavaClientCodegen.RESTTEMPLATE,
+                Map.of(AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE),
+                codegenConfigurator -> codegenConfigurator.addOpenapiNormalizer("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "false"));
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("protected String name", "protected String type")
+                .assertConstructor("String")
+                .hasParameter("type").toConstructor()
+                .toFileAssert()
+                .assertConstructor("LocalDate", "String", "String")
+                .hasParameter("dateOfBirth").toConstructor()
+                .hasParameter("name").toConstructor()
+                .hasParameter("type").toConstructor();
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .assertConstructor("Integer", "String", "LocalDate", "String", "String");
+
+        // test readonly constructor
+        JavaFileAssert.assertThat(files.get("Page.java"))
+                .assertConstructor("Integer")
+                .toFileAssert()
+                .fileContains("Constructor with only readonly parameters and all parameters");
+
+        JavaFileAssert.assertThat(files.get("PageOfPets.java"))
+                .assertConstructor("Integer")
+                .hasParameter("count").toConstructor()
+                .toFileAssert()
+                .assertConstructor("Integer", "List<Pet>")
+                .hasParameter("count").toConstructor()
+                .hasParameter("_list").toConstructor();
+    }
+
+    @Test
+    public void generateAllArgsConstructor_REFACTOR_ALLOF_WITH_PROPERTIES_ONLY() {
+        // try the generation with some additional OpenAPINormalizers
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/all_args_constructor.yaml", JavaClientCodegen.RESTTEMPLATE,
+                Map.of(AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE),
+                codegenConfigurator -> codegenConfigurator.addOpenapiNormalizer("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "true"));
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("protected String name", "protected String type")
+                .assertConstructor("String")
+                .hasParameter("type").toConstructor()
+                .toFileAssert()
+                .assertConstructor("LocalDate", "String", "String")
+                .hasParameter("dateOfBirth").toConstructor()
+                .hasParameter("name").toConstructor()
+                .hasParameter("type").toConstructor();
+
+        JavaFileAssert.assertThat(files.get("PageOfPets.java"))
+                .assertConstructor("Integer", "List<Pet>")
+                .hasParameter("count").toConstructor()
+                .hasParameter("_list").toConstructor()
+                .toFileAssert()
+                .assertConstructor("Integer")
+                .hasParameter("count").toConstructor();
+
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .assertConstructor("Integer", "String", "LocalDate", "String", "String");
+    }
+
+    @Test
+    public void testRestClientFormMultipart() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
+        TestUtils.assertFileContains(
+                defaultApi,
+                // multiple files
+                "multipartArray(List<File> files)",
+                "formParams.addAll(\"files\","
+                        + " files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
+
+                // mixed
+                "multipartMixed(MultipartMixedStatus status, File _file, MultipartMixedRequestMarker marker, List<MultipartMixedStatus> statusArray)",
+                "formParams.add(\"file\", new FileSystemResource(_file));",
+
+                // single file
+                "multipartSingle(File _file)",
+                "formParams.add(\"file\", new FileSystemResource(_file));");
+    }
+
+    @Test
+    public void testRestClientWithUseAbstractionForFiles() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
+        TestUtils.assertFileContains(
+                defaultApi,
+                // multiple files
+                "multipartArray(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
+                "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
+
+                // mixed
+                "multipartMixed(MultipartMixedStatus status, org.springframework.core.io.AbstractResource _file, MultipartMixedRequestMarker marker, List<MultipartMixedStatus> statusArray)",
+                "formParams.add(\"file\", _file);",
+
+                // single file
+                "multipartSingle(org.springframework.core.io.AbstractResource _file)",
+                "formParams.add(\"file\", _file);");
+    }
+
+    @Test
+    public void testRestClientWithFreeFormInQueryParameters() throws IOException {
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        final File output = Files.createTempDirectory("test")
+                .toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue8352.yaml")
+                .setOutputDir(output.getAbsolutePath()
+                        .replace("\\", "/"));
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(configurator.toClientOptInput())
+                .generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.assertFileContains(defaultApi, "value instanceof Map");
+    }
+
+    @Test
+    public void testRestClientJsonCreatorWithNullable_issue12790() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setInputSpec("src/test/resources/bugs/issue_12790.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("TestObject.java"))
+                .printFileContent()
+                .assertConstructor("String", "String")
+                .bodyContainsLines(
+                        "this.nullableProperty = nullableProperty == null ? JsonNullable.<String>undefined() :"
+                                + " JsonNullable.of(nullableProperty);",
+                        "this.notNullableProperty = notNullableProperty;");
+    }
+
+    @Test
+    public void testRestClientSupportListOfStringReturnType_issue7118() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+        TestUtils.assertFileContains(
+                userApi,
+                // set of string
+                "ParameterizedTypeReference<Set<String>> localVarReturnType = new"
+                        + " ParameterizedTypeReference<>() {};",
+                "getUserIdSetRequestCreation().toEntity(localVarReturnType)",
+                // list of string
+                "ParameterizedTypeReference<List<String>> localVarReturnType = new"
+                        + " ParameterizedTypeReference<>() {};",
+                "getUserIdListRequestCreation().toEntity(localVarReturnType)");
+    }
+
+    @Test
+    public void testRestClientResponseTypeWithUseAbstractionForFiles_issue16589() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue13146_file_abstraction_response.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/ResourceApi.java");
+
+        TestUtils.assertFileContains(defaultApi,
+                "org.springframework.core.io.Resource resourceInResponse()",
+                "ResponseEntity<org.springframework.core.io.Resource> resourceInResponseWithHttpInfo()",
+                "ParameterizedTypeReference<org.springframework.core.io.Resource> localVarReturnType = new ParameterizedTypeReference<>()"
+        );
+    }
+
 }

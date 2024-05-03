@@ -48,7 +48,7 @@ import org.hibernate.validator.constraints.*;
 
 public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
-  private Boolean declawed;
+  protected Boolean declawed;
 
   public Cat() {
 
