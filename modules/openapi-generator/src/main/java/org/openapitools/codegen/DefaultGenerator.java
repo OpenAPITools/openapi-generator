@@ -237,6 +237,13 @@ public class DefaultGenerator implements Generator {
         generateApiDocumentation = GlobalSettings.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
         generateRecursiveDependentModels = GlobalSettings.getProperty(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, false);
 
+        final Boolean globalWithXml = GlobalSettings.getProperty(CodegenConstants.WITH_XML) != null
+            ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.WITH_XML))
+            : getGeneratorPropertyDefaultSwitch(CodegenConstants.WITH_XML, null);
+        if (!config.additionalProperties().containsKey(CodegenConstants.WITH_XML) && globalWithXml != null) {
+            config.additionalProperties().put(CodegenConstants.WITH_XML, globalWithXml);
+        }
+
         // Additional properties added for tests to exclude references in project related files
         config.additionalProperties().put(CodegenConstants.GENERATE_API_TESTS, generateApiTests);
         config.additionalProperties().put(CodegenConstants.GENERATE_MODEL_TESTS, generateModelTests);
