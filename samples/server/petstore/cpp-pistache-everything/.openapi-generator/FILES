@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 CMakeLists.txt
 README.md
 api/ApiBase.h
