@@ -1748,7 +1748,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (cp.getMinItems()!= null) {
                 pt.constrain("min_length", cp.getMinItems());
             }
-            if (cp.getUniqueItems()) {
+            if (Boolean.TRUE.equals(cp.getUniqueItems())) {
                 // A unique "array" is a set
                 // TODO: pydantic v2: Pydantic suggest to convert this to a set, but this has some implications:
                 // https://github.com/pydantic/pydantic-core/issues/296

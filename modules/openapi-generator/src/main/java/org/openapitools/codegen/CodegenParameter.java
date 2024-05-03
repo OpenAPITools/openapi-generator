@@ -114,7 +114,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     /**
      * See http://json-schema.org/latest/json-schema-validation.html#anchor49
      */
-    public boolean uniqueItems;
+    public Boolean uniqueItems;
     private Boolean uniqueItemsBoolean;
     /**
      * See http://json-schema.org/latest/json-schema-validation.html#anchor14
@@ -347,7 +347,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 getHasRequired() == that.getHasRequired() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
-                getUniqueItems() == that.getUniqueItems() &&
+                Objects.equals(getUniqueItems(), that.getUniqueItems()) &&
                 Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean()) &&
                 Objects.equals(ref, that.getRef()) &&
                 Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
@@ -656,12 +656,12 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getUniqueItems() {
+    public Boolean getUniqueItems() {
         return uniqueItems;
     }
 
     @Override
-    public void setUniqueItems(boolean uniqueItems) {
+    public void setUniqueItems(Boolean uniqueItems) {
         this.uniqueItems = uniqueItems;
     }
 

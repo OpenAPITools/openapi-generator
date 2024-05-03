@@ -606,7 +606,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 if (items.getAdditionalProperties() != null) {
                     addBuiltValueSerializer(new BuiltValueSerializer(
                             items.isArray,
-                            items.getUniqueItems(),
+                            Boolean.TRUE.equals(items.getUniqueItems()),
                             items.isMap,
                             items.items.isNullable,
                             items.getAdditionalProperties().dataType

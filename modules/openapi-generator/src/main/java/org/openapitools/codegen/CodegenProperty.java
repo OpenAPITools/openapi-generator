@@ -194,7 +194,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     private Integer maxProperties;
     private Integer minProperties;
-    private boolean uniqueItems;
+    private Boolean uniqueItems;
     private Boolean uniqueItemsBoolean;
 
     // XML
@@ -837,12 +837,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
-    public boolean getUniqueItems() {
+    public Boolean getUniqueItems() {
         return uniqueItems;
     }
 
     @Override
-    public void setUniqueItems(boolean uniqueItems) {
+    public void setUniqueItems(Boolean uniqueItems) {
         this.uniqueItems = uniqueItems;
     }
 

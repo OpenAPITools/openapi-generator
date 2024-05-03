@@ -1079,7 +1079,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             if (cp.minItems != null) {
                 constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
             }
-            if (cp.getUniqueItems()) {
+            if (Boolean.TRUE.equals(cp.getUniqueItems())) {
                 constraints += ", unique_items=True";
             }
             pydanticImports.add("conlist");
@@ -1364,7 +1364,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             if (cp.minItems != null) {
                 constraints += String.format(Locale.ROOT, ", min_items=%d", cp.minItems);
             }
-            if (cp.getUniqueItems()) {
+            if (Boolean.TRUE.equals(cp.getUniqueItems())) {
                 constraints += ", unique_items=True";
             }
             pydanticImports.add("conlist");

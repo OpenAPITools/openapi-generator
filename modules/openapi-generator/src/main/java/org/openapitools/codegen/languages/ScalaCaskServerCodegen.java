@@ -733,7 +733,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     private static String defaultValueNonOption(IJsonSchemaValidationProperties p, String fallbackDefaultValue) {
         if (p.getIsArray()) {
-            if (p.getUniqueItems()) {
+            if (Boolean.TRUE.equals(p.getUniqueItems())) {
                 return "Set.empty";
             }
             return "Nil";

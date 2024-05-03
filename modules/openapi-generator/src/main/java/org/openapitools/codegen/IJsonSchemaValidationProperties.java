@@ -60,11 +60,9 @@ public interface IJsonSchemaValidationProperties {
 
     void setMaxItems(Integer maxItems);
 
-    // TODO update this value to Boolean in 7.0.0
-    boolean getUniqueItems();
+    Boolean getUniqueItems();
 
-    // TODO update this value to Boolean in 7.0.0
-    void setUniqueItems(boolean uniqueItems);
+    void setUniqueItems(Boolean uniqueItems);
 
     // TODO remove in 7.0.0
     Boolean getUniqueItemsBoolean();

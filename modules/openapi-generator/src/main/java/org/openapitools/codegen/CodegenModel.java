@@ -168,7 +168,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     private Integer maxProperties;
     private Integer minProperties;
-    private boolean uniqueItems;
+    private Boolean uniqueItems;
     private Boolean uniqueItemsBoolean;
     private Integer maxItems;
     private Integer minItems;
@@ -642,12 +642,12 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public boolean getUniqueItems() {
+    public Boolean getUniqueItems() {
         return uniqueItems;
     }
 
     @Override
-    public void setUniqueItems(boolean uniqueItems) {
+    public void setUniqueItems(Boolean uniqueItems) {
         this.uniqueItems = uniqueItems;
     }
 
@@ -1143,7 +1143,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getSchemaIsFromAdditionalProperties() == that.getSchemaIsFromAdditionalProperties() &&
                 getIsAnyType() == that.getIsAnyType() &&
                 getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
-                getUniqueItems() == that.getUniqueItems() &&
+                Objects.equals(getUniqueItems(), that.getUniqueItems()) &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
                 Objects.equals(contains, that.getContains()) &&
