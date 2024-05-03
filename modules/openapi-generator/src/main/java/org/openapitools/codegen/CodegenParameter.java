@@ -115,7 +115,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
      * See http://json-schema.org/latest/json-schema-validation.html#anchor49
      */
     public Boolean uniqueItems;
-    private Boolean uniqueItemsBoolean;
     /**
      * See http://json-schema.org/latest/json-schema-validation.html#anchor14
      */
@@ -170,7 +169,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.maxItems = this.maxItems;
         output.minItems = this.minItems;
         output.uniqueItems = this.uniqueItems;
-        output.setUniqueItemsBoolean(this.uniqueItemsBoolean);
         output.multipleOf = this.multipleOf;
         output.jsonSchema = this.jsonSchema;
         output.defaultValue = this.defaultValue;
@@ -287,7 +285,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf, isNull,isVoid,
                 additionalPropertiesIsAnyType, hasVars, hasRequired, isShort, isUnboundedInteger,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, schema, content,
-                requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties,
+                requiredVarsMap, ref, schemaIsFromAdditionalProperties,
                 nameInPascalCase, nameInCamelCase, nameInLowerCase, nameInSnakeCase);
     }
 
@@ -348,7 +346,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 Objects.equals(getUniqueItems(), that.getUniqueItems()) &&
-                Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean()) &&
                 Objects.equals(ref, that.getRef()) &&
                 Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
                 Objects.equals(content, that.getContent()) &&
@@ -490,7 +487,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", maxItems=").append(maxItems);
         sb.append(", minItems=").append(minItems);
         sb.append(", uniqueItems=").append(uniqueItems);
-        sb.append(", uniqueItemsBoolean=").append(uniqueItemsBoolean);
         sb.append(", contentType=").append(contentType);
         sb.append(", multipleOf=").append(multipleOf);
         sb.append(", isNull=").append(isNull);
@@ -663,16 +659,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setUniqueItems(Boolean uniqueItems) {
         this.uniqueItems = uniqueItems;
-    }
-
-    @Override
-    public Boolean getUniqueItemsBoolean() {
-        return uniqueItemsBoolean;
-    }
-
-    @Override
-    public void setUniqueItemsBoolean(Boolean uniqueItemsBoolean) {
-        this.uniqueItemsBoolean = uniqueItemsBoolean;
     }
 
     @Override

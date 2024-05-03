@@ -64,12 +64,6 @@ public interface IJsonSchemaValidationProperties {
 
     void setUniqueItems(Boolean uniqueItems);
 
-    // TODO remove in 7.0.0
-    Boolean getUniqueItemsBoolean();
-
-    // TODO remove in 7.0.0
-    void setUniqueItemsBoolean(Boolean uniqueItems);
-
     Integer getMinProperties();
 
     void setMinProperties(Integer minProperties);

@@ -195,7 +195,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private Integer maxProperties;
     private Integer minProperties;
     private Boolean uniqueItems;
-    private Boolean uniqueItemsBoolean;
 
     // XML
     public boolean isXmlAttribute = false;
@@ -847,16 +846,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
-    public Boolean getUniqueItemsBoolean() {
-        return uniqueItemsBoolean;
-    }
-
-    @Override
-    public void setUniqueItemsBoolean(Boolean uniqueItemsBoolean) {
-        this.uniqueItemsBoolean = uniqueItemsBoolean;
-    }
-
-    @Override
     public Integer getMinProperties() {
         return minProperties;
     }
@@ -1232,7 +1221,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", maxProperties=").append(maxProperties);
         sb.append(", minProperties=").append(minProperties);
         sb.append(", uniqueItems=").append(uniqueItems);
-        sb.append(", uniqueItemsBoolean=").append(uniqueItemsBoolean);
         sb.append(", multipleOf=").append(multipleOf);
         sb.append(", isXmlAttribute=").append(isXmlAttribute);
         sb.append(", xmlPrefix='").append(xmlPrefix).append('\'');
@@ -1324,7 +1312,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(contains, that.getContains()) &&
                 Objects.equals(dependentRequired, that.getDependentRequired()) &&
                 Objects.equals(format, that.getFormat()) &&
-                Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean()) &&
                 Objects.equals(ref, that.getRef()) &&
                 Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
                 Objects.equals(composedSchemas, that.composedSchemas) &&
@@ -1393,7 +1380,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped, isNull, isVoid, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, requiredVarsMap,
-                ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
+                ref, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
                 format, dependentRequired, contains);
     }
 }
