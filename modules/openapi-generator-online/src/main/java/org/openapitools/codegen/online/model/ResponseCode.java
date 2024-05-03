@@ -18,18 +18,14 @@
 package org.openapitools.codegen.online.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter @NoArgsConstructor
+@Setter @NoArgsConstructor @AllArgsConstructor
 public class ResponseCode {
     private String code;
     private String link;
-
-    public ResponseCode(String code, String link) {
-        setCode(code);
-        setLink(link);
-    }
 
     @ApiModelProperty(value = "File download code",
             example = "d40029be-eda6-4d62-b1ef-d05e2e91a72a")
