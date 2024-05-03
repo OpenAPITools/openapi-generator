@@ -497,7 +497,7 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean generateApiDocumentation = true;
 
     /**
-     * Generate the api documentation
+     * Generate XML annotations on models and API (only some generators implement it)
      */
     @Parameter(name = "withXml", property = "openapi.generator.maven.plugin.withXml")
     private Boolean withXml = false;
