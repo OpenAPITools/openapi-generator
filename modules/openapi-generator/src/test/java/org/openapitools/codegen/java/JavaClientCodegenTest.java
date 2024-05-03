@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Copyright (2024) András Gábor Kis, Deutsche Telekom AG
+ * Copyright 2024 András Gábor Kis, Deutsche Telekom AG
  * This file is made available under the terms of the license Apache-2.0 license
  * SPDX-License-Identifier: Apache-2.0
  */
