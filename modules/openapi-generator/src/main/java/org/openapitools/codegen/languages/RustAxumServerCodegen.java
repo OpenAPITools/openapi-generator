@@ -555,7 +555,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
         // Include renderUuidConversionImpl exactly once in the vendorExtensions map when 
         // at least one `uuid::Uuid` converted from a header value in the resulting Rust code. 
-        Boolean renderUuidConversionImpl = op.headerParams.stream().anyMatch(h -> h.getDataType().equals(uuidType));
+        final Boolean renderUuidConversionImpl = op.headerParams.stream().anyMatch(h -> h.getDataType().equals(uuidType));
         if (renderUuidConversionImpl) {
             additionalProperties.put("renderUuidConversionImpl", "true");
         }        
