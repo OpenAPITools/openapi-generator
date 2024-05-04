@@ -129,7 +129,7 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 		WithRequire[int64](parseInt64),
 	)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
 		return
 	}
 	apiKeyParam := r.Header.Get("api_key")
@@ -193,7 +193,7 @@ func (c *PetAPIController) GetPetById(w http.ResponseWriter, r *http.Request) {
 		WithRequire[int64](parseInt64),
 	)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
 		return
 	}
 	result, err := c.service.GetPetById(r.Context(), petIdParam)
@@ -244,7 +244,7 @@ func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		WithRequire[int64](parseInt64),
 	)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
 		return
 	}
 	
@@ -274,7 +274,7 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		WithRequire[int64](parseInt64),
 	)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
 		return
 	}
 	
@@ -284,7 +284,7 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	{
 		param, err := ReadFormFileToTempFile(r, "file")
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "file", Err: err}, nil)
 			return
 		}
 

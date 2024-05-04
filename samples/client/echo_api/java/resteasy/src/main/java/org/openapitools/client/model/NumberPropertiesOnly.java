@@ -71,7 +71,6 @@ public class NumberPropertiesOnly {
     this.number = number;
   }
 
-
   public NumberPropertiesOnly _float(Float _float) {
     
     this._float = _float;
@@ -96,7 +95,6 @@ public class NumberPropertiesOnly {
   public void setFloat(Float _float) {
     this._float = _float;
   }
-
 
   public NumberPropertiesOnly _double(Double _double) {
     

@@ -141,7 +141,7 @@ commands: # a reusable command with parameters
 jobs:
   node0:
     machine:
-      image: ubuntu-2004:202201-02
+      image: ubuntu-2004:2024.01.1
     working_directory: ~/OpenAPITools/openapi-generator
     shell: /bin/bash --login
     environment:
@@ -154,7 +154,7 @@ jobs:
           nodeNo: "0"
   node1:
     machine:
-      image: ubuntu-2004:202201-02
+      image: ubuntu-2004:2024.01.1
     working_directory: ~/OpenAPITools/openapi-generator
     shell: /bin/bash --login
     environment:
@@ -167,7 +167,7 @@ jobs:
           nodeNo: "1"
   node2:
     machine:
-      image: ubuntu-2004:202201-02
+      image: ubuntu-2004:2024.01.1
     working_directory: ~/OpenAPITools/openapi-generator
     shell: /bin/bash --login
     environment:
@@ -180,7 +180,7 @@ jobs:
           nodeNo: "2"
   node3:
     machine:
-      image: ubuntu-2004:202201-02
+      image: ubuntu-2004:2024.01.1
     working_directory: ~/OpenAPITools/openapi-generator
     shell: /bin/bash --login
     environment:

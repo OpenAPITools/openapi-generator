@@ -74,6 +74,26 @@ public class FormatTest {
     this.password = password;
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public FormatTest(Integer integer, Integer int32, Long int64, BigDecimal number, Float _float, Double _double, String string, byte[] _byte, org.springframework.core.io.Resource binary, LocalDate date, OffsetDateTime dateTime, UUID uuid, String password, BigDecimal bigDecimal) {
+      this.integer = integer;
+      this.int32 = int32;
+      this.int64 = int64;
+      this.number = number;
+      this._float = _float;
+      this._double = _double;
+      this.string = string;
+      this._byte = _byte;
+      this.binary = binary;
+      this.date = date;
+      this.dateTime = dateTime;
+      this.uuid = uuid;
+      this.password = password;
+      this.bigDecimal = bigDecimal;
+  }
+
   public FormatTest integer(Integer integer) {
     this.integer = integer;
     return this;

@@ -28,6 +28,13 @@ public class AdditionalPropertiesBoolean {
 
   private String name;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesBoolean(String name) {
+      this.name = name;
+  }
+
   public AdditionalPropertiesBoolean name(String name) {
     this.name = name;
     return this;

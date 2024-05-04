@@ -49,9 +49,17 @@ public class Animal {
   protected String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
-  private String color = "red";
+  protected String color = "red";
 
   public Animal() {
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Animal(@JsonProperty(JSON_PROPERTY_CLASS_NAME) String className, @JsonProperty(JSON_PROPERTY_COLOR) String color) {
+    this.className = className;
+    this.color = color;
   }
 
   public Animal className(String className) {
@@ -78,7 +86,6 @@ public class Animal {
   public void setClassName(String className) {
     this.className = className;
   }
-
 
   public Animal color(String color) {
     

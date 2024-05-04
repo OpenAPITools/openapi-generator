@@ -191,7 +191,7 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 			WithParse[bool](parseBool),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "boolean_test", Err: err}, nil)
 			return
 		}
 
@@ -258,7 +258,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			WithParse[bool](parseBool),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "boolean_test", Err: err}, nil)
 			return
 		}
 

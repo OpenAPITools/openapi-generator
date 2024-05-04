@@ -73,7 +73,10 @@ function parseParam(mixed $param, string $type)
     } elseif (str_ends_with($type, '[]')) {
         return array_map(fn($el) => parseParam($el, substr($type, 0, -2)), $param);
     } elseif (str_starts_with($nonNullType, '\\{{escapedModelPackage}}')) {
-        return new $nonNullType($param);
+        if (enum_exists($nonNullType)) {
+            return $nonNullType::tryFrom($param);
+        }
+        return $nonNullType::fromArray($param);
     } else {
         return $param;
     }

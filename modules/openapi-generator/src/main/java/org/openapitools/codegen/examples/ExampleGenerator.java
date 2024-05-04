@@ -19,7 +19,6 @@ package org.openapitools.codegen.examples;
 
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -364,17 +363,7 @@ public class ExampleGenerator {
             return schema.getExample();
         } else if (ModelUtils.isAllOf(schema) || ModelUtils.isAllOfWithProperties(schema)) {
             LOGGER.debug("Resolving allOf model '{}' to example", name);
-            List<Schema> interfaces = schema.getAllOf();
-            for (Schema composed : interfaces) {
-                traverseSchemaProperties(mediaType, composed, processedModels, values);
-                if (composed.get$ref() != null) {
-                    String ref = ModelUtils.getSimpleRef(composed.get$ref());
-                    Schema resolved = ModelUtils.getSchema(openAPI, ref);
-                    if (resolved != null) {
-                        traverseSchemaProperties(mediaType, resolved, processedModels, values);
-                    }
-                }
-            }
+            resolveAllOfSchemaProperties(mediaType, schema, processedModels, values);
             schema.setExample(values);
             return schema.getExample();
         } else if (ModelUtils.isAnyOf(schema) || ModelUtils.isOneOf(schema)) {
@@ -388,6 +377,8 @@ public class ExampleGenerator {
                 return null;
             }
             return resolvePropertyToExample(name, mediaType, found.get(), processedModels);
+        } else if (ModelUtils.isArraySchema(schema)) {
+            return resolvePropertyToExample(schema.getName(), mediaType, schema, processedModels);
         } else {
             // TODO log an error message as the model does not have any properties
             return null;
@@ -399,6 +390,29 @@ public class ExampleGenerator {
             for (Object propertyName : schema.getProperties().keySet()) {
                 Schema property = (Schema) schema.getProperties().get(propertyName.toString());
                 values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels));
+            }
+        } else if (ModelUtils.isAllOf(schema) || ModelUtils.isAllOfWithProperties(schema)) {
+            resolveAllOfSchemaProperties(mediaType, schema, processedModels, values);
+        }
+    }
+
+    /**
+     * Transverse and resolves all property examples for `allOf` composed schemas into `values` map object
+     * @param mediaType MIME type
+     * @param schema OAS schema
+     * @param processedModels Set containing all processed models
+     * @param values Example value map
+     */
+    private void resolveAllOfSchemaProperties(String mediaType, Schema schema, Set<String> processedModels, Map<String, Object> values) {
+        List<Schema> interfaces = schema.getAllOf();
+        for (Schema composed : interfaces) {
+            traverseSchemaProperties(mediaType, composed, processedModels, values);
+            if (composed.get$ref() != null) {
+                String ref = ModelUtils.getSimpleRef(composed.get$ref());
+                Schema resolved = ModelUtils.getSchema(openAPI, ref);
+                if (resolved != null) {
+                    traverseSchemaProperties(mediaType, resolved, processedModels, values);
+                }
             }
         }
     }

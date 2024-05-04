@@ -190,7 +190,7 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 			WithParse[bool](parseBool),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "boolean_test", Err: err}, nil)
 			return
 		}
 
@@ -256,7 +256,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			WithParse[int32](parseInt32),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "int32_test", Err: err}, nil)
 			return
 		}
 
@@ -270,7 +270,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			WithParse[int64](parseInt64),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "int64_test", Err: err}, nil)
 			return
 		}
 
@@ -284,7 +284,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			WithParse[float32](parseFloat32),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "float32_test", Err: err}, nil)
 			return
 		}
 
@@ -298,7 +298,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			WithParse[float64](parseFloat64),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "float64_test", Err: err}, nil)
 			return
 		}
 
@@ -312,7 +312,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			WithParse[bool](parseBool),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "boolean_test", Err: err}, nil)
 			return
 		}
 

@@ -26,3 +26,10 @@ components:
       properties:
         name:
           type: string
+    Cat2:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            name:
+              type: string
