@@ -4926,14 +4926,13 @@ public class DefaultCodegenTest {
         CodegenModel defaultCat = defaultCodegen.fromModel("Cat", catModel);
         assertThat(getNames(defaultCat.allVars)).isEqualTo(List.of("petType", "name"));
 
-        // the normalizer makes it work
+        // the normalizer makes it work even for generators supporting inheritance
         SpringCodegen springCodegen = new SpringCodegen();
         springCodegen.setOpenAPI(openAPI);
         CodegenModel springCat = springCodegen.fromModel("Cat", catModel);
         assertThat(getNames(springCat.allVars)).isEqualTo(List.of("petType", "name"));
         CodegenModel springCat2 = springCodegen.fromModel("Cat2", cat2Model);
         assertThat(getNames(springCat2.allVars)).isEqualTo(List.of("petType", "name"));
-
     }
 
 }
