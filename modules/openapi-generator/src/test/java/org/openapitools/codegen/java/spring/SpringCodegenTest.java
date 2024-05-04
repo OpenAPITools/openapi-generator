@@ -4324,7 +4324,7 @@ public class SpringCodegenTest {
     }
 
     private void assertOptionalMethod(JavaFileAssert javaFileAssert, String type, String expectedName, String getterReturnType){
-        assertWrapperMethod(javaFileAssert, "Optional", type, expectedName, getterReturnType);
+        assertWrapperMethod(javaFileAssert, "Optional", "ofNullable", type, expectedName, getterReturnType);
     }
 
     private void assertJsonNullableMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName, String getterReturnType){
@@ -4332,14 +4332,14 @@ public class SpringCodegenTest {
     }
 
     private void assertJsonNullableMethod(JavaFileAssert javaFileAssert, String type, String expectedName, String getterReturnType){
-        assertWrapperMethod(javaFileAssert, "JsonNullable", type, expectedName, getterReturnType);
+        assertWrapperMethod(javaFileAssert, "JsonNullable", "of", type, expectedName, getterReturnType);
     }
 
-    private void assertWrapperMethod(JavaFileAssert javaFileAssert, String wrapperType, String type, String expectedName, String getterReturnType){
+    private void assertWrapperMethod(JavaFileAssert javaFileAssert, String wrapperType, String method, String type, String expectedName, String getterReturnType){
         String methodName = StringUtils.capitalize(expectedName);
         javaFileAssert.assertMethod(expectedName)
                 .hasReturnType("Animal")
-                .bodyContainsLines("this."+expectedName+" = "+wrapperType+".ofNullable("+expectedName+");", "return this;")
+                .bodyContainsLines("this."+expectedName+" = "+wrapperType+"." + method + "("+expectedName+");", "return this;")
                 .hasParameter(expectedName)
                 .withType(type)
                 .toMethod()
