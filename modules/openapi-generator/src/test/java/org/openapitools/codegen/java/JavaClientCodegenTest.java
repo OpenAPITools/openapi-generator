@@ -3426,31 +3426,14 @@ public class JavaClientCodegenTest {
 
     @Test
     void testBuilderJavaClient() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-
-        final OpenAPI openAPI =
-                TestUtils.parseFlattenSpec("src/test/resources/3_0/java/builder.yaml");
-
-
-        final JavaClientCodegen codegen = new JavaClientCodegen();
-        codegen.additionalProperties().put(GENERATE_BUILDERS, true);
-
-        codegen.setLibrary("resttemplate");
-        codegen.setOutputDir(outputPath);
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.opts(input).generate();
-
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"))
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/builder.yaml", JavaClientCodegen.RESTTEMPLATE,
+                Map.of(AbstractJavaCodegen.GENERATE_BUILDERS, Boolean.TRUE));
+        JavaFileAssert.assertThat(files.get("Pet.java"))
                 .fileContains("protected String petReadonlyProperty",
                         "toBuilder()",
                         "builder()",
                         "public static class Builder {");
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Snake.java"))
+        JavaFileAssert.assertThat(files.get("Snake.java"))
                 .fileContains("toBuilder()",
                         "builder()",
                         "public static class Builder extends Reptile.Builder {",
