@@ -99,6 +99,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     super();
   }
   {{/vendorExtensions.x-java-no-args-constructor}}
+  {{^lombok.Data}}
   {{^lombok.RequiredArgsConstructor}}
   {{#generatedConstructorWithRequiredArgs}}
   {{#hasRequired}}
@@ -143,6 +144,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/vars}}
   }
   {{/vendorExtensions.x-java-all-args-constructor}}
+  {{/lombok.Data}}
   {{#vars}}
   {{^lombok.Data}}
 
@@ -349,8 +351,8 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     return o.toString().replace("\n", "\n    ");
   }
   {{/lombok.ToString}}
-  {{/lombok.Data}}
   {{#generateBuilders}}
   {{>javaBuilder}}
   {{/generateBuilders}}
+  {{/lombok.Data}}
 }

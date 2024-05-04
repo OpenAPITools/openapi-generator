@@ -29,10 +29,6 @@ public class OuterComposite {
 
   private Optional<Boolean> myBoolean = Optional.empty();
 
-  public OuterComposite() {
-    super();
-  }
-
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = Optional.ofNullable(myNumber);
     return this;

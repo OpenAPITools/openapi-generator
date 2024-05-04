@@ -26,10 +26,6 @@ public class ReadOnlyFirst {
 
   private Optional<String> baz = Optional.empty();
 
-  public ReadOnlyFirst() {
-    super();
-  }
-
   public ReadOnlyFirst bar(String bar) {
     this.bar = Optional.ofNullable(bar);
     return this;

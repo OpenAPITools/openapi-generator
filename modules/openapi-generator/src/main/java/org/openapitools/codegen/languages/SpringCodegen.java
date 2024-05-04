@@ -1181,17 +1181,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         return false;
     }
 
-    /**
-     *
-     * @param codegenModel
-     * @return true if a no args constructor is required
-     */
-    protected boolean isConstructorWithNoArgsAllowed(CodegenModel codegenModel) {
-        boolean hasLombokNoArgsConstructor = lombokAnnotations != null && lombokAnnotations.containsKey("NoArgsConstructor");
-        return !hasLombokNoArgsConstructor &&
-                (isGenerateBuilder() || codegenModel.hasRequired);
-    }
-
     /*
      * Add dynamic imports based on the parameters and vendor extensions of an operation.
      * The imports are expanded by the mustache {{import}} tag available to model and api
@@ -1317,6 +1306,21 @@ public class SpringCodegen extends AbstractJavaCodegen
         return provideArgsClassSet;
     }
 
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        Map<String, CodegenModel> allModels = getAllModels(objs);
+        // conditionally force the generation of no args constructor
+        for (CodegenModel cm : allModels.values()) {
+            boolean hasLombokNoArgsConstructor = lombokAnnotations != null && lombokAnnotations.containsKey("NoArgsConstructor");
+            if (!hasLombokNoArgsConstructor
+                  &&  (cm.hasRequired || cm.vendorExtensions.containsKey("x-java-all-args-constructor"))) {
+                cm.vendorExtensions.put("x-java-no-args-constructor", true);
+            }
+        }
+        return objs;
+    }
 
     @Override
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {

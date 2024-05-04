@@ -59,10 +59,6 @@ public class AdditionalPropertiesClass {
 
   private Optional<Object> anytype3 = Optional.empty();
 
-  public AdditionalPropertiesClass() {
-    super();
-  }
-
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;
     return this;

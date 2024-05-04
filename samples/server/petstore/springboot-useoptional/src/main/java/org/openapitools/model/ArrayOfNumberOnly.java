@@ -29,10 +29,6 @@ public class ArrayOfNumberOnly {
   @Valid
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 
-  public ArrayOfNumberOnly() {
-    super();
-  }
-
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
     return this;

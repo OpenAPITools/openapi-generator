@@ -31,10 +31,6 @@ public class FileSchemaTestClass {
   @Valid
   private List<@Valid File> files = new ArrayList<>();
 
-  public FileSchemaTestClass() {
-    super();
-  }
-
   public FileSchemaTestClass file(File file) {
     this.file = Optional.ofNullable(file);
     return this;

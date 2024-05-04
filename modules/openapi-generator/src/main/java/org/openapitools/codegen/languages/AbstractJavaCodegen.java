@@ -808,12 +808,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
         }
-        // conditionally force the generation of no args constructor
-        for (CodegenModel cm : allModels.values()) {
-            if (isConstructorWithNoArgsAllowed(cm)) {
-                cm.vendorExtensions.put("x-java-no-args-constructor", true);
-            }
-        }
 
         return objs;
     }
@@ -838,17 +832,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // implementation detail: allVars is not reliable if openapiNormalizer.REFACTOR_ALLOF_WITH_PROPERTIES_ONLY is disabled
         return (this.generateConstructorWithAllArgs &&
                 (!codegenModel.vars.isEmpty() || codegenModel.parentVars.isEmpty()));
-    }
-
-    /**
-     * trigger the generation of no arguments constructor or not.
-     * It avoids generating the same constructor twice.
-     *
-     * @return true if an no arg Constructor must be generated
-     */
-    protected boolean isConstructorWithNoArgsAllowed(CodegenModel codegenModel) {
-        // to be overriden in generators that need it
-        return false;
     }
 
     private void sanitizeConfig() {

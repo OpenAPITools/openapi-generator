@@ -35,10 +35,6 @@ public class ModelApiResponse {
 
   private String message;
 
-  public ModelApiResponse() {
-    super();
-  }
-
   public ModelApiResponse code(Integer code) {
     this.code = code;
     return this;

@@ -93,10 +93,6 @@ public class XmlItem {
   @Valid
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
-  public XmlItem() {
-    super();
-  }
-
   public XmlItem attributeString(String attributeString) {
     this.attributeString = Optional.ofNullable(attributeString);
     return this;

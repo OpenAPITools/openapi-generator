@@ -25,6 +25,10 @@ public class File {
 
   private String sourceURI;
 
+  public File() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

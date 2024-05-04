@@ -30,10 +30,6 @@ public class ResponseObjectWithDifferentFieldNames {
 
   private Optional<String> propertyNameWithSpaces = Optional.empty();
 
-  public ResponseObjectWithDifferentFieldNames() {
-    super();
-  }
-
   public ResponseObjectWithDifferentFieldNames normalPropertyName(String normalPropertyName) {
     this.normalPropertyName = Optional.ofNullable(normalPropertyName);
     return this;

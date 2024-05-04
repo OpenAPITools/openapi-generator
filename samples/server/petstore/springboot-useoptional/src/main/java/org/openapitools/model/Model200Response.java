@@ -29,10 +29,6 @@ public class Model200Response {
 
   private Optional<String> propertyClass = Optional.empty();
 
-  public Model200Response() {
-    super();
-  }
-
   public Model200Response name(Integer name) {
     this.name = Optional.ofNullable(name);
     return this;

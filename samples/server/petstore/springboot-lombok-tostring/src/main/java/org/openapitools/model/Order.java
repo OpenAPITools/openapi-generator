@@ -80,10 +80,6 @@ public class Order {
 
   private Boolean complete = false;
 
-  public Order() {
-    super();
-  }
-
   public Order id(Long id) {
     this.id = id;
     return this;

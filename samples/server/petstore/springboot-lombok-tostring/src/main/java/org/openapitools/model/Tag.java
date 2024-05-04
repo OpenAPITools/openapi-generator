@@ -31,10 +31,6 @@ public class Tag {
 
   private String name;
 
-  public Tag() {
-    super();
-  }
-
   public Tag id(Long id) {
     this.id = id;
     return this;

@@ -43,10 +43,6 @@ public class User {
 
   private Integer userStatus;
 
-  public User() {
-    super();
-  }
-
   public User id(Long id) {
     this.id = id;
     return this;

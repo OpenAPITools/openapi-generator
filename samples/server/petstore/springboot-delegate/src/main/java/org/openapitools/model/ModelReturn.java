@@ -27,6 +27,10 @@ public class ModelReturn {
 
   private Integer _return;
 
+  public ModelReturn() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

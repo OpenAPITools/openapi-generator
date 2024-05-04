@@ -25,10 +25,6 @@ public class NumberOnly {
 
   private Optional<BigDecimal> justNumber = Optional.empty();
 
-  public NumberOnly() {
-    super();
-  }
-
   public NumberOnly justNumber(BigDecimal justNumber) {
     this.justNumber = Optional.ofNullable(justNumber);
     return this;

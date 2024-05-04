@@ -38,10 +38,6 @@ public class User {
 
   private Optional<Integer> userStatus = Optional.empty();
 
-  public User() {
-    super();
-  }
-
   public User id(Long id) {
     this.id = Optional.ofNullable(id);
     return this;

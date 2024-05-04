@@ -28,10 +28,6 @@ public class HasOnlyReadOnly {
 
   private Optional<String> foo = Optional.empty();
 
-  public HasOnlyReadOnly() {
-    super();
-  }
-
   public HasOnlyReadOnly bar(String bar) {
     this.bar = Optional.ofNullable(bar);
     return this;
