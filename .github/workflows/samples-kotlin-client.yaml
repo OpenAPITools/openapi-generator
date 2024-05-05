@@ -10,9 +10,6 @@ on:
       - 'samples/client/petstore/kotlin*/**'
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
 
-env:
-  GRADLE_VERSION: 8.7
-
 jobs:
   build:
     name: Build Kotlin client
@@ -83,11 +80,7 @@ jobs:
             ~/.gradle
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Install Gradle wrapper
-        uses: eskatos/gradle-command-action@v3
-        with:
-          gradle-version: ${{ env.GRADLE_VERSION }}
-          build-root-directory: ${{ matrix.sample }}
-          arguments: wrapper
+        uses: gradle/gradle-build-action@v3
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: ./gradlew build -x test
