@@ -35,7 +35,14 @@ export type DeploymentRequestStatus = typeof DeploymentRequestStatus[keyof typeo
 
 
 export function instanceOfDeploymentRequestStatus(value: any): boolean {
-    return Object.values(DeploymentRequestStatus).includes(value);
+    for (const key in DeploymentRequestStatus) {
+        if (Object.prototype.hasOwnProperty.call(DeploymentRequestStatus, key)) {
+            if (DeploymentRequestStatus[key] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 export function DeploymentRequestStatusFromJSON(json: any): DeploymentRequestStatus {

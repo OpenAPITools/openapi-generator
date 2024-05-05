@@ -1,22 +1,19 @@
 import { mapValues } from '../runtime{{importFileExtension}}';
 {{#hasImports}}
-{{#imports}}
-import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
+{{#tsImports}}
+import type { {{{classname}}} } from './{{filename}}{{importFileExtension}}';
 import {
-    {{.}}FromJSON,
-    {{.}}FromJSONTyped,
-    {{.}}ToJSON,
-} from './{{.}}{{importFileExtension}}';
-{{/imports}}
+    {{classname}}FromJSON,
+    {{classname}}FromJSONTyped,
+    {{classname}}ToJSON,
+} from './{{filename}}{{importFileExtension}}';
+{{/tsImports}}
 
 {{/hasImports}}
 {{#discriminator}}
-import {
 {{#discriminator.mappedModels}}
-     {{modelName}}FromJSONTyped{{^-last}},{{/-last}}
+import { {{modelName}}FromJSONTyped } from './{{modelName}}{{importFileExtension}}';
 {{/discriminator.mappedModels}}
-} from './index{{importFileExtension}}';
-
 {{/discriminator}}
 {{>modelGenericInterfaces}}
 
