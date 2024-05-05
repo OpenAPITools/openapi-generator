@@ -25,7 +25,14 @@ export enum NumberEnum {
 
 
 export function instanceOfNumberEnum(value: any): boolean {
-    return Object.values(NumberEnum).includes(value);
+    for (const key in NumberEnum) {
+        if (Object.prototype.hasOwnProperty.call(NumberEnum, key)) {
+            if (NumberEnum[key] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 export function NumberEnumFromJSON(json: any): NumberEnum {
