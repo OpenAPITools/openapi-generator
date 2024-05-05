@@ -62,7 +62,6 @@ jobs:
           - samples/client/echo_api/kotlin-jvm-spring-3-webclient
           - samples/client/petstore/kotlin-jvm-spring-3-restclient
           - samples/client/echo_api/kotlin-jvm-spring-3-restclient
-          - samples/client/petstore/kotlin-spring-cloud
           - samples/client/petstore/kotlin-name-parameter-mappings
           - samples/client/others/kotlin-jvm-okhttp-parameter-tests
     steps:
