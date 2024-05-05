@@ -34,7 +34,10 @@ jobs:
             ~/.gradle
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Install Gradle wrapper
-        uses: gradle/gradle-build-action@v3
+        uses: eskatos/gradle-command-action@v3
+        with:
+          build-root-directory: ${{ matrix.sample }}
+          arguments: wrapper
       - name: Setup node.js
         uses: actions/setup-node@v4
       - name: Run echo server
