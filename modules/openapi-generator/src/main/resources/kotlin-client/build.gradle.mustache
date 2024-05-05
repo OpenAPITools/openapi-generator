@@ -3,7 +3,7 @@ version '{{artifactVersion}}'
 {{^omitGradleWrapper}}
 
 wrapper {
-    gradleVersion = '7.5'
+    gradleVersion = '8.7'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 {{/omitGradleWrapper}}
@@ -24,7 +24,7 @@ buildscript {
     {{/jvm-vertx}}
     {{#jvm-spring}}
     {{#useSpringBoot3}}
-    ext.spring_boot_version = "3.2.4"
+    ext.spring_boot_version = "3.2.5"
     {{/useSpringBoot3}}
     {{^useSpringBoot3}}
     ext.spring_boot_version = "2.7.18"
