@@ -36,7 +36,6 @@ jobs:
           - samples/server/petstore/kotlin-springboot-source-swagger1
           - samples/server/petstore/kotlin-springboot-source-swagger2
           - samples/server/petstore/kotlin-springboot-springfox
-          - samples/server/petstore/kotlin-springboot-cloud
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/jaxrs-spec
           - samples/server/petstore/kotlin-server/jaxrs-spec-mutiny
@@ -44,6 +43,7 @@ jobs:
           - samples/server/petstore/kotlin-server/javalin
           - samples/server/others/kotlin-server/jaxrs-spec
           - samples/server/others/kotlin-server/jaxrs-spec-array-response
+          - samples/server/petstore/kotlin-spring-cloud
           # comment out due to gradle build failure
           #- samples/server/petstore/kotlin-spring-default
           # no build.gradle file
