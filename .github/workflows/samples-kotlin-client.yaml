@@ -11,7 +11,7 @@ on:
       - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
 
 env:
-  GRADLE_VERSION: 6.9
+  GRADLE_VERSION: 8.7
 
 jobs:
   build:
@@ -73,7 +73,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: 8
+          java-version: 11
       - name: Cache maven dependencies
         uses: actions/cache@v4
         env:
