@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, dog, jsonSerializerOptions);
+            WriteProperties(writer, dog, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="dog"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
         {
             if (dog.BreedOption.IsSet && dog.Breed == null)
                 throw new ArgumentNullException(nameof(dog.Breed), "Property is required for class Dog.");

@@ -124,6 +124,14 @@ namespace Org.OpenAPITools.Model
             Option<string?> className = default;
             Option<string?> color = default;
 
+            string? discriminator = ClientUtils.GetDiscriminator(utf8JsonReader, "className");
+
+            if (discriminator != null && discriminator.Equals("Cat"))
+                return JsonSerializer.Deserialize<Cat>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
+
+            if (discriminator != null && discriminator.Equals("Dog"))
+                return JsonSerializer.Deserialize<Dog>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
+
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -172,9 +180,19 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (animal is Cat cat){
+                JsonSerializer.Serialize<Cat>(writer, cat, jsonSerializerOptions);
+                return;
+            }
+
+            if (animal is Dog dog){
+                JsonSerializer.Serialize<Dog>(writer, dog, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, animal, jsonSerializerOptions);
+            WriteProperties(writer, animal, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -185,7 +203,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="animal"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
         {
             if (animal.ColorOption.IsSet && animal.Color == null)
                 throw new ArgumentNullException(nameof(animal.Color), "Property is required for class Animal.");

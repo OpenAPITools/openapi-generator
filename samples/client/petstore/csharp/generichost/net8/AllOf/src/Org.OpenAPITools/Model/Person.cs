@@ -140,6 +140,14 @@ namespace Org.OpenAPITools.Model
             Option<string?> lastName = default;
             Option<string?> type = default;
 
+            string? discriminator = ClientUtils.GetDiscriminator(utf8JsonReader, "$_type");
+
+            if (discriminator != null && discriminator.Equals("Adult"))
+                return JsonSerializer.Deserialize<Adult>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
+
+            if (discriminator != null && discriminator.Equals("Child"))
+                return JsonSerializer.Deserialize<Child>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
+
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -191,9 +199,19 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (person is Adult adult){
+                JsonSerializer.Serialize<Adult>(writer, adult, jsonSerializerOptions);
+                return;
+            }
+
+            if (person is Child child){
+                JsonSerializer.Serialize<Child>(writer, child, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, person, jsonSerializerOptions);
+            WriteProperties(writer, person, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -204,7 +222,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="person"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
             if (person.FirstNameOption.IsSet && person.FirstName == null)
                 throw new ArgumentNullException(nameof(person.FirstName), "Property is required for class Person.");

@@ -213,15 +213,15 @@ namespace Org.OpenAPITools.Model
 
             if (quadrilateral.SimpleQuadrilateral != null) {
                 SimpleQuadrilateralJsonConverter simpleQuadrilateralJsonConverter = (SimpleQuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(quadrilateral.SimpleQuadrilateral.GetType()));
-                simpleQuadrilateralJsonConverter.WriteProperties(ref writer, quadrilateral.SimpleQuadrilateral, jsonSerializerOptions);
+                simpleQuadrilateralJsonConverter.WriteProperties(writer, quadrilateral.SimpleQuadrilateral, jsonSerializerOptions);
             }
 
             if (quadrilateral.ComplexQuadrilateral != null) {
                 ComplexQuadrilateralJsonConverter complexQuadrilateralJsonConverter = (ComplexQuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(quadrilateral.ComplexQuadrilateral.GetType()));
-                complexQuadrilateralJsonConverter.WriteProperties(ref writer, quadrilateral.ComplexQuadrilateral, jsonSerializerOptions);
+                complexQuadrilateralJsonConverter.WriteProperties(writer, quadrilateral.ComplexQuadrilateral, jsonSerializerOptions);
             }
 
-            WriteProperties(ref writer, quadrilateral, jsonSerializerOptions);
+            WriteProperties(writer, quadrilateral, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -232,7 +232,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="quadrilateral"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
 
         }

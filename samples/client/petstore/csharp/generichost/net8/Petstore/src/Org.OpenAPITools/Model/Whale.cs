@@ -186,7 +186,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, whale, jsonSerializerOptions);
+            WriteProperties(writer, whale, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -197,7 +197,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="whale"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Whale whale, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Whale whale, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("className", "whale");
 

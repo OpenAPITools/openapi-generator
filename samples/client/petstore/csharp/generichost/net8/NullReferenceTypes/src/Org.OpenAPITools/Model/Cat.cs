@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, cat, jsonSerializerOptions);
+            WriteProperties(writer, cat, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="cat"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
         {
             if (cat.ColorOption.IsSet && cat.Color == null)
                 throw new ArgumentNullException(nameof(cat.Color), "Property is required for class Cat.");

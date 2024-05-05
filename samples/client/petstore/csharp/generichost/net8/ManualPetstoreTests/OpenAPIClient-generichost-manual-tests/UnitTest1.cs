@@ -213,5 +213,15 @@ namespace OpenAPIClient_generichost_manual_tests
             string result = JsonSerializer.Serialize(apple, _jsonSerializerOptions);
             Assert.AreEqual(expected, result);
         }
+
+        [TestMethod]
+        public void AnimalFromJson()
+        {
+            string expected = """{"className":"Dog","breed":"maltese","color":"white"}""";
+            Animal? animal = JsonSerializer.Deserialize<Animal>(expected, _jsonSerializerOptions);
+            Assert.IsInstanceOfType<Dog>(animal);
+            string result = JsonSerializer.Serialize(animal, _jsonSerializerOptions);
+            Assert.AreEqual(expected, result);
+        }
     }
 }

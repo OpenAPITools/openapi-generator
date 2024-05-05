@@ -213,15 +213,15 @@ namespace Org.OpenAPITools.Model
 
             if (shape.Triangle != null) {
                 TriangleJsonConverter triangleJsonConverter = (TriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(shape.Triangle.GetType()));
-                triangleJsonConverter.WriteProperties(ref writer, shape.Triangle, jsonSerializerOptions);
+                triangleJsonConverter.WriteProperties(writer, shape.Triangle, jsonSerializerOptions);
             }
 
             if (shape.Quadrilateral != null) {
                 QuadrilateralJsonConverter quadrilateralJsonConverter = (QuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(shape.Quadrilateral.GetType()));
-                quadrilateralJsonConverter.WriteProperties(ref writer, shape.Quadrilateral, jsonSerializerOptions);
+                quadrilateralJsonConverter.WriteProperties(writer, shape.Quadrilateral, jsonSerializerOptions);
             }
 
-            WriteProperties(ref writer, shape, jsonSerializerOptions);
+            WriteProperties(writer, shape, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -232,7 +232,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shape"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Shape shape, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Shape shape, JsonSerializerOptions jsonSerializerOptions)
         {
 
         }

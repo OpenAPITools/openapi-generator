@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, childCat, jsonSerializerOptions);
+            WriteProperties(writer, childCat, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="childCat"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions jsonSerializerOptions)
         {
             if (childCat.NameOption.IsSet && childCat.Name == null)
                 throw new ArgumentNullException(nameof(childCat.Name), "Property is required for class ChildCat.");

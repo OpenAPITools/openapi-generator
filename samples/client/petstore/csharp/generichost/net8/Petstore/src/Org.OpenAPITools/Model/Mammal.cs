@@ -234,20 +234,20 @@ namespace Org.OpenAPITools.Model
 
             if (mammal.Whale != null) {
                 WhaleJsonConverter whaleJsonConverter = (WhaleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Whale.GetType()));
-                whaleJsonConverter.WriteProperties(ref writer, mammal.Whale, jsonSerializerOptions);
+                whaleJsonConverter.WriteProperties(writer, mammal.Whale, jsonSerializerOptions);
             }
 
             if (mammal.Zebra != null) {
                 ZebraJsonConverter zebraJsonConverter = (ZebraJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Zebra.GetType()));
-                zebraJsonConverter.WriteProperties(ref writer, mammal.Zebra, jsonSerializerOptions);
+                zebraJsonConverter.WriteProperties(writer, mammal.Zebra, jsonSerializerOptions);
             }
 
             if (mammal.Pig != null) {
                 PigJsonConverter pigJsonConverter = (PigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Pig.GetType()));
-                pigJsonConverter.WriteProperties(ref writer, mammal.Pig, jsonSerializerOptions);
+                pigJsonConverter.WriteProperties(writer, mammal.Pig, jsonSerializerOptions);
             }
 
-            WriteProperties(ref writer, mammal, jsonSerializerOptions);
+            WriteProperties(writer, mammal, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -258,7 +258,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mammal"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
 
         }

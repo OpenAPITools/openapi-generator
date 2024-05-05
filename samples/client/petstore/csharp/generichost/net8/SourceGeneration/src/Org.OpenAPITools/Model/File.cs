@@ -155,7 +155,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, file, jsonSerializerOptions);
+            WriteProperties(writer, file, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="file"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
             if (file.SourceURIOption.IsSet && file.SourceURI == null)
                 throw new ArgumentNullException(nameof(file.SourceURI), "Property is required for class File.");

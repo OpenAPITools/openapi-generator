@@ -81,6 +81,11 @@ namespace Org.OpenAPITools.Model
 
             Option<string?> petType = default;
 
+            string? discriminator = ClientUtils.GetDiscriminator(utf8JsonReader, "pet_type");
+
+            if (discriminator != null && discriminator.Equals("ChildCat"))
+                return JsonSerializer.Deserialize<ChildCat>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
+
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -123,9 +128,14 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (parentPet is ChildCat childCat){
+                JsonSerializer.Serialize<ChildCat>(writer, childCat, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, parentPet, jsonSerializerOptions);
+            WriteProperties(writer, parentPet, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -136,7 +146,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="parentPet"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("pet_type", "ParentPet");
         }

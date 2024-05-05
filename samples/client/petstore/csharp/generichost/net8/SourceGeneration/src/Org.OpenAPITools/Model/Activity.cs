@@ -155,7 +155,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, activity, jsonSerializerOptions);
+            WriteProperties(writer, activity, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="activity"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Activity activity, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Activity activity, JsonSerializerOptions jsonSerializerOptions)
         {
             if (activity.ActivityOutputsOption.IsSet && activity.ActivityOutputs == null)
                 throw new ArgumentNullException(nameof(activity.ActivityOutputs), "Property is required for class Activity.");

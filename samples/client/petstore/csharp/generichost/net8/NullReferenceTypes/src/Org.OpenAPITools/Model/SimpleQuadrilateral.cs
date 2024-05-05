@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, simpleQuadrilateral, jsonSerializerOptions);
+            WriteProperties(writer, simpleQuadrilateral, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -170,7 +170,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="simpleQuadrilateral"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, SimpleQuadrilateral simpleQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, SimpleQuadrilateral simpleQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
             if (simpleQuadrilateral.ShapeType == null)
                 throw new ArgumentNullException(nameof(simpleQuadrilateral.ShapeType), "Property is required for class SimpleQuadrilateral.");

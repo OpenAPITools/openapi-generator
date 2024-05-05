@@ -237,20 +237,20 @@ namespace Org.OpenAPITools.Model
 
             if (triangle.EquilateralTriangle != null) {
                 EquilateralTriangleJsonConverter equilateralTriangleJsonConverter = (EquilateralTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.EquilateralTriangle.GetType()));
-                equilateralTriangleJsonConverter.WriteProperties(ref writer, triangle.EquilateralTriangle, jsonSerializerOptions);
+                equilateralTriangleJsonConverter.WriteProperties(writer, triangle.EquilateralTriangle, jsonSerializerOptions);
             }
 
             if (triangle.IsoscelesTriangle != null) {
                 IsoscelesTriangleJsonConverter isoscelesTriangleJsonConverter = (IsoscelesTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.IsoscelesTriangle.GetType()));
-                isoscelesTriangleJsonConverter.WriteProperties(ref writer, triangle.IsoscelesTriangle, jsonSerializerOptions);
+                isoscelesTriangleJsonConverter.WriteProperties(writer, triangle.IsoscelesTriangle, jsonSerializerOptions);
             }
 
             if (triangle.ScaleneTriangle != null) {
                 ScaleneTriangleJsonConverter scaleneTriangleJsonConverter = (ScaleneTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.ScaleneTriangle.GetType()));
-                scaleneTriangleJsonConverter.WriteProperties(ref writer, triangle.ScaleneTriangle, jsonSerializerOptions);
+                scaleneTriangleJsonConverter.WriteProperties(writer, triangle.ScaleneTriangle, jsonSerializerOptions);
             }
 
-            WriteProperties(ref writer, triangle, jsonSerializerOptions);
+            WriteProperties(writer, triangle, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -261,7 +261,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="triangle"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
 
         }

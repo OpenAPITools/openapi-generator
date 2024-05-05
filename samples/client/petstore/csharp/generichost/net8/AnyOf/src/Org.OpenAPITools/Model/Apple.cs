@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, apple, jsonSerializerOptions);
+            WriteProperties(writer, apple, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="apple"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
             if (apple.KindOption.IsSet && apple.Kind == null)
                 throw new ArgumentNullException(nameof(apple.Kind), "Property is required for class Apple.");

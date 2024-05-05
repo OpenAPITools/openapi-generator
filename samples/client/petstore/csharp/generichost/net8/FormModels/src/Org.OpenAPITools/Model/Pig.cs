@@ -210,15 +210,15 @@ namespace Org.OpenAPITools.Model
 
             if (pig.BasquePig != null) {
                 BasquePigJsonConverter basquePigJsonConverter = (BasquePigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(pig.BasquePig.GetType()));
-                basquePigJsonConverter.WriteProperties(ref writer, pig.BasquePig, jsonSerializerOptions);
+                basquePigJsonConverter.WriteProperties(writer, pig.BasquePig, jsonSerializerOptions);
             }
 
             if (pig.DanishPig != null) {
                 DanishPigJsonConverter danishPigJsonConverter = (DanishPigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(pig.DanishPig.GetType()));
-                danishPigJsonConverter.WriteProperties(ref writer, pig.DanishPig, jsonSerializerOptions);
+                danishPigJsonConverter.WriteProperties(writer, pig.DanishPig, jsonSerializerOptions);
             }
 
-            WriteProperties(ref writer, pig, jsonSerializerOptions);
+            WriteProperties(writer, pig, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -229,7 +229,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="pig"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("className", "Pig");
         }

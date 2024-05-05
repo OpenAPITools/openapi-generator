@@ -160,7 +160,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, scaleneTriangle, jsonSerializerOptions);
+            WriteProperties(writer, scaleneTriangle, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -171,7 +171,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="scaleneTriangle"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, ScaleneTriangle scaleneTriangle, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, ScaleneTriangle scaleneTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
             if (scaleneTriangle.ShapeType == null)
                 throw new ArgumentNullException(nameof(scaleneTriangle.ShapeType), "Property is required for class ScaleneTriangle.");

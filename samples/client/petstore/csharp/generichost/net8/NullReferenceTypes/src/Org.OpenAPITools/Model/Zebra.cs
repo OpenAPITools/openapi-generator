@@ -245,7 +245,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, zebra, jsonSerializerOptions);
+            WriteProperties(writer, zebra, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -256,7 +256,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="zebra"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("className", "zebra");
 

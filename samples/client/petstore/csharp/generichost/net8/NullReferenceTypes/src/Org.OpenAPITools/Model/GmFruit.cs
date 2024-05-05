@@ -205,16 +205,16 @@ namespace Org.OpenAPITools.Model
             if (gmFruit.AppleOption.IsSet && gmFruit.AppleOption.Value != null)
             {
                 AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.AppleOption.Value.GetType()));
-                AppleJsonConverter.WriteProperties(ref writer, gmFruit.AppleOption.Value, jsonSerializerOptions);
+                AppleJsonConverter.WriteProperties(writer, gmFruit.AppleOption.Value, jsonSerializerOptions);
             }
 
             if (gmFruit.BananaOption.IsSet && gmFruit.BananaOption.Value != null)
             {
                 BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.BananaOption.Value.GetType()));
-                BananaJsonConverter.WriteProperties(ref writer, gmFruit.BananaOption.Value, jsonSerializerOptions);
+                BananaJsonConverter.WriteProperties(writer, gmFruit.BananaOption.Value, jsonSerializerOptions);
             }
 
-            WriteProperties(ref writer, gmFruit, jsonSerializerOptions);
+            WriteProperties(writer, gmFruit, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -225,7 +225,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="gmFruit"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
         {
             if (gmFruit.ColorOption.IsSet && gmFruit.Color == null)
                 throw new ArgumentNullException(nameof(gmFruit.Color), "Property is required for class GmFruit.");
