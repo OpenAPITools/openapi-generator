@@ -23,17 +23,16 @@ import org.gradle.api.GradleException
 import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
-import org.gradle.api.tasks.options.Option
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.validations.oas.OpenApiEvaluator
 import org.openapitools.codegen.validations.oas.RuleConfiguration
+import java.io.File
 
 /**
  * A generator which validates an Open API spec. This task outputs a list of validation issues and errors.
@@ -52,26 +51,25 @@ import org.openapitools.codegen.validations.oas.RuleConfiguration
  * @author Jim Schubert
  */
 open class ValidateTask : DefaultTask() {
+
     @get:InputFile
+    @Optional
+    @Deprecated("Input of type String is deprecated.", ReplaceWith("inputFile"))
     @PathSensitive(PathSensitivity.RELATIVE)
-    val inputSpec = project.objects.property<String>()
+    val inputSpec = project.objects.property<String>().convention(null)
+
+    @get:InputFile
+    val inputFile = project.objects.property<File>().convention(inputSpec.map { File(it) })
 
     @Optional
     @Input
     val recommend = project.objects.property<Boolean>().convention(true)
 
-    @get:Internal
-    @set:Option(option = "input", description = "The input specification.")
-    var input: String? = null
-        set(value) {
-            inputSpec.set(value)
-        }
-
     @TaskAction
     fun doWork() {
         val logger = Logging.getLogger(javaClass)
 
-        val spec = inputSpec.get()
+        val spec = inputFile.get()
         val recommendations = recommend.get()
 
         logger.quiet("Validating spec $spec")
@@ -79,7 +77,7 @@ open class ValidateTask : DefaultTask() {
         val options = ParseOptions()
         options.isResolve = true
 
-        val result = OpenAPIParser().readLocation(spec, null, options)
+        val result = OpenAPIParser().readContents(spec.readText(), null, options)
         val messages = result.messages.toSet()
         val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
 

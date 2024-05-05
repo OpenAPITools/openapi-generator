@@ -18,6 +18,7 @@ package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.property
+import java.io.File
 
 /**
  * Gradle project level extension object definition for the generators task
@@ -28,7 +29,13 @@ open class OpenApiGeneratorValidateExtension(project: Project) {
     /**
      * The input specification to validate. Supports all formats supported by the Parser.
      */
+    @Deprecated("Input of type String is deprecated.", ReplaceWith("inputFile"))
     val inputSpec = project.objects.property<String>()
+
+    /**
+     * The input specification to validate. Supports all formats supported by the Parser.
+     */
+    val inputFile = project.objects.property<File>().convention(inputSpec.map { File(it) })
 
     /**
      * Whether to offer recommendations related to the validated specification document.

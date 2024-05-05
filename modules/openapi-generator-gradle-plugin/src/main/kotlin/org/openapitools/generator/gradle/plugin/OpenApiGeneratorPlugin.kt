@@ -84,19 +84,20 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     description = "Validates an Open API 2.0 or 3.x specification document."
 
                     inputSpec.set(validate.inputSpec)
+                    inputFile.set(validate.inputFile)
                     recommend.set(validate.recommend)
                 }
 
                 register("openApiGenerate", GenerateTask::class.java).configure {
                     group = pluginGroup
-                    description =
-                        "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
+                    description = "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
 
                     verbose.set(generate.verbose)
                     validateSpec.set(generate.validateSpec)
                     generatorName.set(generate.generatorName)
                     outputDir.set(generate.outputDir)
                     inputSpec.set(generate.inputSpec)
+                    inputFile.set(generate.inputFile)
                     inputSpecRootDirectory.set(generate.inputSpecRootDirectory)
                     remoteInputSpec.set(generate.remoteInputSpec)
                     templateDir.set(generate.templateDir)

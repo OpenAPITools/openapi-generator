@@ -27,13 +27,11 @@ import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
-import org.gradle.api.tasks.options.Option
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.listProperty
@@ -45,6 +43,7 @@ import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
 import org.openapitools.codegen.config.GlobalSettings
 import org.openapitools.codegen.config.MergedSpecBuilder
+import java.io.File
 
 /**
  * A task which generates the desired code.
@@ -87,21 +86,22 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @get:OutputDirectory
     val outputDir = project.objects.property<String>()
 
-    @Suppress("unused")
-    @set:Option(option = "input", description = "The input specification.")
-    @Internal
-    var input: String? = null
-        set(value) {
-            inputSpec.set(value)
-        }
-
     /**
      * The Open API 2.0/3.x specification location.
      */
     @Optional
     @get:InputFile
     @PathSensitive(PathSensitivity.RELATIVE)
+    @Deprecated("Input of type String is deprecated.", ReplaceWith("inputFile"))
     val inputSpec = project.objects.property<String>()
+
+    /**
+     * The Open API 2.0/3.x specification location.
+     */
+    @Optional
+    @get:InputFile
+    @PathSensitive(PathSensitivity.NONE)
+    val inputFile = project.objects.property<File>().convention(inputSpec.map { File(it) })
 
     /**
      * Local root folder with spec files
@@ -608,8 +608,8 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     fun doWork() {
         var resolvedInputSpec = ""
 
-        inputSpec.ifNotEmpty { value ->
-            resolvedInputSpec = value
+        inputFile.ifNotEmpty { value ->
+            resolvedInputSpec = value.absolutePath
         }
 
         remoteInputSpec.ifNotEmpty { value ->
@@ -684,8 +684,8 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
                 GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
             }
 
-            if (inputSpec.isPresent && remoteInputSpec.isPresent) {
-                logger.warn("Both inputSpec and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
+            if (inputFile.isPresent && remoteInputSpec.isPresent) {
+                logger.warn("Both inputFile and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
             }
 
             configurator.setInputSpec(resolvedInputSpec)

@@ -17,11 +17,10 @@
 package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Optional
 import org.gradle.kotlin.dsl.listProperty
 import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
+import java.io.File
 
 /**
  * Gradle project level extension object definition for the `generate` task
@@ -52,7 +51,13 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * The Open API 2.0/3.x specification location.
      */
+    @Deprecated("Input of type String is deprecated.", ReplaceWith("inputFile"))
     val inputSpec = project.objects.property<String>()
+
+    /**
+     * The Open API 2.0/3.x specification location.
+     */
+    val inputFile = project.objects.property<File>().convention(inputSpec.map { File(it) })
 
     /**
      * Local root folder with spec files
