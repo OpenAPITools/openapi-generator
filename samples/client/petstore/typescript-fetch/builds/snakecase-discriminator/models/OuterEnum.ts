@@ -26,7 +26,14 @@ export type OuterEnum = typeof OuterEnum[keyof typeof OuterEnum];
 
 
 export function instanceOfOuterEnum(value: any): boolean {
-    return Object.values(OuterEnum).includes(value);
+    for (const key in OuterEnum) {
+        if (Object.prototype.hasOwnProperty.call(OuterEnum, key)) {
+            if (OuterEnum[key] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 export function OuterEnumFromJSON(json: any): OuterEnum {
