@@ -69,7 +69,7 @@ func (s *PetAPIService) FilterPetsByCategory(ctx context.Context, gender Gender,
 }
 
 // FindPetsByStatus - Finds Pets by status
-func (s *PetAPIService) FindPetsByStatus(ctx context.Context, status []string, inlineEnumPath string, inlineEnum string) (ImplResponse, error) {
+func (s *PetAPIService) FindPetsByStatus(ctx context.Context, status []string, inlineEnumPath string, inlineEnum string, defaultInt int32, defaultNum float32, defaultStr string) (ImplResponse, error) {
 	// TODO - update FindPetsByStatus with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 

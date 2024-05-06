@@ -46,6 +46,15 @@ public class ModelApiResponse {
   public ModelApiResponse() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ModelApiResponse(@JsonProperty(JSON_PROPERTY_CODE) Integer code, @JsonProperty(JSON_PROPERTY_TYPE) String type, @JsonProperty(JSON_PROPERTY_MESSAGE) String message) {
+    this.code = code;
+    this.type = type;
+    this.message = message;
+  }
+
   public ModelApiResponse code(Integer code) {
     
     this.code = code;
@@ -71,7 +80,6 @@ public class ModelApiResponse {
     this.code = code;
   }
 
-
   public ModelApiResponse type(String type) {
     
     this.type = type;
@@ -96,7 +104,6 @@ public class ModelApiResponse {
   public void setType(String type) {
     this.type = type;
   }
-
 
   public ModelApiResponse message(String message) {
     

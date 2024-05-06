@@ -2741,3 +2741,26 @@ components:
         _name:
           type: string
       type: object
+    Info:
+      allOf:
+        - $ref: '#/components/schemas/BaseDiscriminator'
+        - properties:
+            val:
+              $ref: '#/components/schemas/BaseDiscriminator'
+      type: object
+    BaseDiscriminator:
+      discriminator:
+        mapping:
+          string: '#/components/schemas/PrimitiveString'
+        propertyName: _typeName
+      properties:
+        _typeName:
+          type: string
+      type: object
+    PrimitiveString:
+      allOf:
+        - $ref: '#/components/schemas/BaseDiscriminator'
+        - properties:
+            _value:
+              type: string
+      type: object

@@ -26,6 +26,14 @@ public class Tag {
 
   private String name;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Tag(Long id, String name) {
+      this.id = id;
+      this.name = name;
+  }
+
   public Tag id(Long id) {
     this.id = id;
     return this;

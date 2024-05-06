@@ -161,7 +161,7 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 		WithRequire[int64](parseInt64),
 	)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
 		return
 	}
 	apiKeyParam := r.Header.Get("api_key")
@@ -185,7 +185,7 @@ func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.R
 	}
 	genderParam, err := NewGenderFromValue(params["gender"])
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "gender", Err: err}, nil)
 		return
 	}
 	var speciesParam Species
@@ -204,7 +204,7 @@ func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.R
 		for _, param := range paramSplits {
 			paramEnum, err := NewSpeciesFromValue(param)
 			if err != nil {
-				c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+				c.errorHandler(w, r, &ParsingError{Param: "notSpecies", Err: err}, nil)
 				return
 			}
 			notSpeciesParam = append(notSpeciesParam, paramEnum)
@@ -244,7 +244,48 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 		inlineEnumParam = param
 	} else {
 	}
-	result, err := c.service.FindPetsByStatus(r.Context(), statusParam, inlineEnumPathParam, inlineEnumParam)
+	var defaultIntParam int32
+	if query.Has("defaultInt") {
+		param, err := parseNumericParameter[int32](
+			query.Get("defaultInt"),
+			WithParse[int32](parseInt32),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		defaultIntParam = param
+	} else {
+		var param int32 = 1
+		defaultIntParam = param
+	}
+	var defaultNumParam float32
+	if query.Has("defaultNum") {
+		param, err := parseNumericParameter[float32](
+			query.Get("defaultNum"),
+			WithParse[float32](parseFloat32),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		defaultNumParam = param
+	} else {
+		var param float32 = 1.5
+		defaultNumParam = param
+	}
+	var defaultStrParam string
+	if query.Has("defaultStr") {
+		param := query.Get("defaultStr")
+
+		defaultStrParam = param
+	} else {
+		param := "default"
+		defaultStrParam = param
+	}
+	result, err := c.service.FindPetsByStatus(r.Context(), statusParam, inlineEnumPathParam, inlineEnumParam, defaultIntParam, defaultNumParam, defaultStrParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -270,7 +311,7 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	if query.Has("bornAfter"){
 		param, err := parseTime(query.Get("bornAfter"))
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "bornAfter", Err: err}, nil)
 			return
 		}
 
@@ -283,7 +324,7 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	if query.Has("bornBefore"){
 		param, err := parseTime(query.Get("bornBefore"))
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "bornBefore", Err: err}, nil)
 			return
 		}
 
@@ -315,7 +356,7 @@ func (c *PetAPIController) GetPetById(w http.ResponseWriter, r *http.Request) {
 		WithRequire[int64](parseInt64),
 	)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
 		return
 	}
 	result, err := c.service.GetPetById(r.Context(), petIdParam)
@@ -336,7 +377,7 @@ func (c *PetAPIController) GetPetImageById(w http.ResponseWriter, r *http.Reques
 		WithRequire[int64](parseInt64),
 	)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
 		return
 	}
 	result, err := c.service.GetPetImageById(r.Context(), petIdParam)
@@ -354,7 +395,7 @@ func (c *PetAPIController) GetPetsByTime(w http.ResponseWriter, r *http.Request)
 	params := mux.Vars(r)
 	createdTimeParam, err := parseTime(params["createdTime"])
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "createdTime", Err: err}, nil)
 		return
 	}
 	result, err := c.service.GetPetsByTime(r.Context(), createdTimeParam)
@@ -381,7 +422,7 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 			WithParse[bool](parseBool),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "expr", Err: err}, nil)
 			return
 		}
 
@@ -397,7 +438,7 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 			WithParse[bool](parseBool),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "grouping", Err: err}, nil)
 			return
 		}
 
@@ -411,7 +452,7 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 			WithParse[bool](parseBool),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "inactive", Err: err}, nil)
 			return
 		}
 
@@ -444,7 +485,7 @@ func (c *PetAPIController) SearchPet(w http.ResponseWriter, r *http.Request) {
 			WithParse[int64](parseInt64),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "age", Err: err}, nil)
 			return
 		}
 
@@ -458,7 +499,7 @@ func (c *PetAPIController) SearchPet(w http.ResponseWriter, r *http.Request) {
 			WithParse[float32](parseFloat32),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "price", Err: err}, nil)
 			return
 		}
 
@@ -469,7 +510,7 @@ func (c *PetAPIController) SearchPet(w http.ResponseWriter, r *http.Request) {
 	if query.Has("bornAfter"){
 		param, err := parseTime(query.Get("bornAfter"))
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "bornAfter", Err: err}, nil)
 			return
 		}
 
@@ -483,7 +524,7 @@ func (c *PetAPIController) SearchPet(w http.ResponseWriter, r *http.Request) {
 			WithParse[bool](parseBool),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "old", Err: err}, nil)
 			return
 		}
 
@@ -539,7 +580,7 @@ func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		WithRequire[int64](parseInt64),
 	)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
 		return
 	}
 	
@@ -570,7 +611,7 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		WithRequire[int64](parseInt64),
 	)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
 		return
 	}
 	
@@ -583,7 +624,7 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	{
 		param, err := ReadFormFileToTempFile(r, "file")
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "file", Err: err}, nil)
 			return
 		}
 
@@ -613,7 +654,7 @@ func (c *PetAPIController) UploadFileArrayOfFiles(w http.ResponseWriter, r *http
 		WithRequire[int64](parseInt64),
 	)
 	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		c.errorHandler(w, r, &ParsingError{Param: "petId", Err: err}, nil)
 		return
 	}
 	
@@ -623,7 +664,7 @@ func (c *PetAPIController) UploadFileArrayOfFiles(w http.ResponseWriter, r *http
 	{
 		param, err := ReadFormFilesToTempFiles(r, "files")
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "files", Err: err}, nil)
 			return
 		}
 

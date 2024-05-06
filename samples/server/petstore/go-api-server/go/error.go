@@ -23,7 +23,8 @@ var (
 
 // ParsingError indicates that an error has occurred when parsing request parameters
 type ParsingError struct {
-	Err error
+	Param string
+	Err   error
 }
 
 func (e *ParsingError) Unwrap() error {
@@ -31,7 +32,11 @@ func (e *ParsingError) Unwrap() error {
 }
 
 func (e *ParsingError) Error() string {
-	return e.Err.Error()
+	if e.Param == "" {
+		return e.Err.Error()
+	} else {
+		return e.Param + ": " + e.Err.Error()
+	}
 }
 
 // RequiredError indicates that an error has occurred when parsing request parameters
