@@ -25,14 +25,14 @@ import org.junit.Test;
 /**
  * Model tests for Tag
  */
-class TagTest {
+public class TagTest {
     private final Tag model = new Tag();
 
     /**
      * Model tests for Tag
      */
     @Test
-    void testTag() {
+    public void testTag() {
         // TODO: test Tag
     }
 
@@ -40,7 +40,7 @@ class TagTest {
      * Test the property 'id'
      */
     @Test
-    void idTest() {
+    public void idTest() {
         // TODO: test id
     }
 
@@ -48,7 +48,7 @@ class TagTest {
      * Test the property 'name'
      */
     @Test
-    void nameTest() {
+    public void nameTest() {
         // TODO: test name
     }
 

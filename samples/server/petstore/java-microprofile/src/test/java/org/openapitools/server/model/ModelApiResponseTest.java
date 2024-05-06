@@ -25,14 +25,14 @@ import org.junit.Test;
 /**
  * Model tests for ModelApiResponse
  */
-class ModelApiResponseTest {
+public class ModelApiResponseTest {
     private final ModelApiResponse model = new ModelApiResponse();
 
     /**
      * Model tests for ModelApiResponse
      */
     @Test
-    void testModelApiResponse() {
+    public void testModelApiResponse() {
         // TODO: test ModelApiResponse
     }
 
@@ -40,7 +40,7 @@ class ModelApiResponseTest {
      * Test the property 'code'
      */
     @Test
-    void codeTest() {
+    public void codeTest() {
         // TODO: test code
     }
 
@@ -48,7 +48,7 @@ class ModelApiResponseTest {
      * Test the property 'type'
      */
     @Test
-    void typeTest() {
+    public void typeTest() {
         // TODO: test type
     }
 
@@ -56,7 +56,7 @@ class ModelApiResponseTest {
      * Test the property 'message'
      */
     @Test
-    void messageTest() {
+    public void messageTest() {
         // TODO: test message
     }
 

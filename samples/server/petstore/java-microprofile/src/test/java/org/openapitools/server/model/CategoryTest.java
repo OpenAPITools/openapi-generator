@@ -25,14 +25,14 @@ import org.junit.Test;
 /**
  * Model tests for Category
  */
-class CategoryTest {
+public class CategoryTest {
     private final Category model = new Category();
 
     /**
      * Model tests for Category
      */
     @Test
-    void testCategory() {
+    public void testCategory() {
         // TODO: test Category
     }
 
@@ -40,7 +40,7 @@ class CategoryTest {
      * Test the property 'id'
      */
     @Test
-    void idTest() {
+    public void idTest() {
         // TODO: test id
     }
 
@@ -48,7 +48,7 @@ class CategoryTest {
      * Test the property 'name'
      */
     @Test
-    void nameTest() {
+    public void nameTest() {
         // TODO: test name
     }
 

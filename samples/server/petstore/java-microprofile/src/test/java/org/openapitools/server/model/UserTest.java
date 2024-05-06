@@ -25,14 +25,14 @@ import org.junit.Test;
 /**
  * Model tests for User
  */
-class UserTest {
+public class UserTest {
     private final User model = new User();
 
     /**
      * Model tests for User
      */
     @Test
-    void testUser() {
+    public void testUser() {
         // TODO: test User
     }
 
@@ -40,7 +40,7 @@ class UserTest {
      * Test the property 'id'
      */
     @Test
-    void idTest() {
+    public void idTest() {
         // TODO: test id
     }
 
@@ -48,7 +48,7 @@ class UserTest {
      * Test the property 'username'
      */
     @Test
-    void usernameTest() {
+    public void usernameTest() {
         // TODO: test username
     }
 
@@ -56,7 +56,7 @@ class UserTest {
      * Test the property 'firstName'
      */
     @Test
-    void firstNameTest() {
+    public void firstNameTest() {
         // TODO: test firstName
     }
 
@@ -64,7 +64,7 @@ class UserTest {
      * Test the property 'lastName'
      */
     @Test
-    void lastNameTest() {
+    public void lastNameTest() {
         // TODO: test lastName
     }
 
@@ -72,7 +72,7 @@ class UserTest {
      * Test the property 'email'
      */
     @Test
-    void emailTest() {
+    public void emailTest() {
         // TODO: test email
     }
 
@@ -80,7 +80,7 @@ class UserTest {
      * Test the property 'password'
      */
     @Test
-    void passwordTest() {
+    public void passwordTest() {
         // TODO: test password
     }
 
@@ -88,7 +88,7 @@ class UserTest {
      * Test the property 'phone'
      */
     @Test
-    void phoneTest() {
+    public void phoneTest() {
         // TODO: test phone
     }
 
@@ -96,7 +96,7 @@ class UserTest {
      * Test the property 'userStatus'
      */
     @Test
-    void userStatusTest() {
+    public void userStatusTest() {
         // TODO: test userStatus
     }
 

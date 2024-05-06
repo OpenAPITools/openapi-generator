@@ -29,14 +29,14 @@ import org.junit.Test;
 /**
  * Model tests for Pet
  */
-class PetTest {
+public class PetTest {
     private final Pet model = new Pet();
 
     /**
      * Model tests for Pet
      */
     @Test
-    void testPet() {
+    public void testPet() {
         // TODO: test Pet
     }
 
@@ -44,7 +44,7 @@ class PetTest {
      * Test the property 'id'
      */
     @Test
-    void idTest() {
+    public void idTest() {
         // TODO: test id
     }
 
@@ -52,7 +52,7 @@ class PetTest {
      * Test the property 'category'
      */
     @Test
-    void categoryTest() {
+    public void categoryTest() {
         // TODO: test category
     }
 
@@ -60,7 +60,7 @@ class PetTest {
      * Test the property 'name'
      */
     @Test
-    void nameTest() {
+    public void nameTest() {
         // TODO: test name
     }
 
@@ -68,7 +68,7 @@ class PetTest {
      * Test the property 'photoUrls'
      */
     @Test
-    void photoUrlsTest() {
+    public void photoUrlsTest() {
         // TODO: test photoUrls
     }
 
@@ -76,7 +76,7 @@ class PetTest {
      * Test the property 'tags'
      */
     @Test
-    void tagsTest() {
+    public void tagsTest() {
         // TODO: test tags
     }
 
@@ -84,7 +84,7 @@ class PetTest {
      * Test the property 'status'
      */
     @Test
-    void statusTest() {
+    public void statusTest() {
         // TODO: test status
     }
 
