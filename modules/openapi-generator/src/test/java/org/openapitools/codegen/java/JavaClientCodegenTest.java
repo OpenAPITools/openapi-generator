@@ -3218,4 +3218,209 @@ public class JavaClientCodegenTest {
         JavaFileAssert.assertThat(files.get("Cat.java"))
                 .assertConstructor("Integer", "String", "LocalDate", "String", "String");
     }
+
+    @Test
+    public void testRestClientFormMultipart() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
+        TestUtils.assertFileContains(
+                defaultApi,
+                // multiple files
+                "multipartArray(List<File> files)",
+                "formParams.addAll(\"files\","
+                        + " files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
+
+                // mixed
+                "multipartMixed(MultipartMixedStatus status, File _file, MultipartMixedRequestMarker marker, List<MultipartMixedStatus> statusArray)",
+                "formParams.add(\"file\", new FileSystemResource(_file));",
+
+                // single file
+                "multipartSingle(File _file)",
+                "formParams.add(\"file\", new FileSystemResource(_file));");
+    }
+
+    @Test
+    public void testRestClientWithUseAbstractionForFiles() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
+        TestUtils.assertFileContains(
+                defaultApi,
+                // multiple files
+                "multipartArray(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
+                "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
+
+                // mixed
+                "multipartMixed(MultipartMixedStatus status, org.springframework.core.io.AbstractResource _file, MultipartMixedRequestMarker marker, List<MultipartMixedStatus> statusArray)",
+                "formParams.add(\"file\", _file);",
+
+                // single file
+                "multipartSingle(org.springframework.core.io.AbstractResource _file)",
+                "formParams.add(\"file\", _file);");
+    }
+
+    @Test
+    public void testRestClientWithFreeFormInQueryParameters() throws IOException {
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        final File output = Files.createTempDirectory("test")
+                .toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue8352.yaml")
+                .setOutputDir(output.getAbsolutePath()
+                        .replace("\\", "/"));
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(configurator.toClientOptInput())
+                .generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.assertFileContains(defaultApi, "value instanceof Map");
+    }
+
+    @Test
+    public void testRestClientJsonCreatorWithNullable_issue12790() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setInputSpec("src/test/resources/bugs/issue_12790.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("TestObject.java"))
+                .printFileContent()
+                .assertConstructor("String", "String")
+                .bodyContainsLines(
+                        "this.nullableProperty = nullableProperty == null ? JsonNullable.<String>undefined() :"
+                                + " JsonNullable.of(nullableProperty);",
+                        "this.notNullableProperty = notNullableProperty;");
+    }
+
+    @Test
+    public void testRestClientSupportListOfStringReturnType_issue7118() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+        TestUtils.assertFileContains(
+                userApi,
+                // set of string
+                "ParameterizedTypeReference<Set<String>> localVarReturnType = new"
+                        + " ParameterizedTypeReference<>() {};",
+                "getUserIdSetRequestCreation().toEntity(localVarReturnType)",
+                // list of string
+                "ParameterizedTypeReference<List<String>> localVarReturnType = new"
+                        + " ParameterizedTypeReference<>() {};",
+                "getUserIdListRequestCreation().toEntity(localVarReturnType)");
+    }
+
+    @Test
+    public void testRestClientResponseTypeWithUseAbstractionForFiles_issue16589() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue13146_file_abstraction_response.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/ResourceApi.java");
+
+        TestUtils.assertFileContains(defaultApi,
+                "org.springframework.core.io.Resource resourceInResponse()",
+                "ResponseEntity<org.springframework.core.io.Resource> resourceInResponseWithHttpInfo()",
+                "ParameterizedTypeReference<org.springframework.core.io.Resource> localVarReturnType = new ParameterizedTypeReference<>()"
+        );
+    }
+
 }

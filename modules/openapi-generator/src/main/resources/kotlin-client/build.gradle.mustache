@@ -3,13 +3,13 @@ version '{{artifactVersion}}'
 {{^omitGradleWrapper}}
 
 wrapper {
-    gradleVersion = '7.5'
+    gradleVersion = '8.7'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 {{/omitGradleWrapper}}
 
 buildscript {
-    ext.kotlin_version = '1.8.10'
+    ext.kotlin_version = '1.9.23'
     {{#jvm-ktor}}
     ext.ktor_version = '2.3.9'
     {{/jvm-ktor}}
@@ -24,17 +24,13 @@ buildscript {
     {{/jvm-vertx}}
     {{#jvm-spring}}
     {{#useSpringBoot3}}
-    ext.spring_boot_version = "3.2.4"
+    ext.spring_boot_version = "3.2.5"
     {{/useSpringBoot3}}
     {{^useSpringBoot3}}
     ext.spring_boot_version = "2.7.18"
     {{/useSpringBoot3}}
-    {{#jvm-spring-webclient}}
-    ext.reactor_version = "3.6.4"
-    {{/jvm-spring-webclient}}
     {{/jvm-spring}}
-    // 6.13.0 is the latest stable release that supports JDK8
-    ext.spotless_version = "6.13.0"
+    ext.spotless_version = "6.25.0"
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -167,7 +163,7 @@ dependencies {
     {{/jvm-okhttp4}}
     {{#jvm-spring-webclient}}
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
-    implementation "io.projectreactor:reactor-core:$reactor_version"
+    implementation "io.projectreactor:reactor-core:3.6.5"
     {{/jvm-spring-webclient}}
     {{#jvm-spring-restclient}}
     implementation "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"

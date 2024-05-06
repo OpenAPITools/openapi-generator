@@ -17,33 +17,37 @@ package org.openapitools.client.apis
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-import org.springframework.web.client.RestClient
-import org.springframework.web.client.RestClientResponseException
-
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
+import org.springframework.http.codec.json.Jackson2JsonDecoder
+import org.springframework.http.codec.json.Jackson2JsonEncoder
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
-
+import reactor.core.publisher.Mono
+import org.springframework.util.LinkedMultiValueMap
 
 import org.openapitools.client.infrastructure.*
 
-class FormApi(client: RestClient) : ApiClient(client) {
+class FormApi(client: WebClient) : ApiClient(client) {
 
-    constructor(baseUrl: String) : this(RestClient.builder()
+    constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
-        .messageConverters { it.add(MappingJackson2HttpMessageConverter()) }
+        .codecs {
+            it.defaultCodecs().jackson2JsonEncoder(Jackson2JsonEncoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+            it.defaultCodecs().jackson2JsonDecoder(Jackson2JsonDecoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+        }
         .build()
     )
 
 
-    @Throws(RestClientResponseException::class)
-    fun testFormIntegerBooleanString(integerForm: kotlin.Int? = null, booleanForm: kotlin.Boolean? = null, stringForm: kotlin.String? = null): kotlin.String {
-        val result = testFormIntegerBooleanStringWithHttpInfo(integerForm = integerForm, booleanForm = booleanForm, stringForm = stringForm)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testFormIntegerBooleanString(integerForm: kotlin.Int? = null, booleanForm: kotlin.Boolean? = null, stringForm: kotlin.String? = null): Mono<kotlin.String> {
+        return testFormIntegerBooleanStringWithHttpInfo(integerForm = integerForm, booleanForm = booleanForm, stringForm = stringForm)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testFormIntegerBooleanStringWithHttpInfo(integerForm: kotlin.Int? = null, booleanForm: kotlin.Boolean? = null, stringForm: kotlin.String? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testFormIntegerBooleanStringWithHttpInfo(integerForm: kotlin.Int? = null, booleanForm: kotlin.Boolean? = null, stringForm: kotlin.String? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testFormIntegerBooleanStringRequestConfig(integerForm = integerForm, booleanForm = booleanForm, stringForm = stringForm)
         return request<Map<String, PartConfig<*>>, kotlin.String>(
             localVariableConfig
@@ -74,14 +78,14 @@ class FormApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testFormOneof(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null): kotlin.String {
-        val result = testFormOneofWithHttpInfo(form1 = form1, form2 = form2, form3 = form3, form4 = form4, id = id, name = name)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testFormOneof(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null): Mono<kotlin.String> {
+        return testFormOneofWithHttpInfo(form1 = form1, form2 = form2, form3 = form3, form4 = form4, id = id, name = name)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testFormOneofWithHttpInfo(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testFormOneofWithHttpInfo(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testFormOneofRequestConfig(form1 = form1, form2 = form2, form3 = form3, form4 = form4, id = id, name = name)
         return request<Map<String, PartConfig<*>>, kotlin.String>(
             localVariableConfig

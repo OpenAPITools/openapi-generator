@@ -13,18 +13,18 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ResponseMeta } from './ResponseMeta';
-import {
-    ResponseMetaFromJSON,
-    ResponseMetaFromJSONTyped,
-    ResponseMetaToJSON,
-} from './ResponseMeta';
 import type { User } from './User';
 import {
     UserFromJSON,
     UserFromJSONTyped,
     UserToJSON,
 } from './User';
+import type { ResponseMeta } from './ResponseMeta';
+import {
+    ResponseMetaFromJSON,
+    ResponseMetaFromJSONTyped,
+    ResponseMetaToJSON,
+} from './ResponseMeta';
 
 /**
  * 

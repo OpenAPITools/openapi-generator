@@ -1482,6 +1482,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -3912,6 +3914,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -6712,6 +6716,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -7207,6 +7213,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -7623,6 +7631,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -8039,6 +8049,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -10308,6 +10320,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {

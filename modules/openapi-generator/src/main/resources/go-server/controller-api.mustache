@@ -520,7 +520,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		{{/required}}
 		{{^required}}
 		{{#defaultValue}}
-		param := {{^isString}}{{dataType}}({{/isString}}{{defaultValue}}{{^isString}}){{/isString}}
+		param := {{^isString}}{{dataType}}({{/isString}}"{{defaultValue}}"{{^isString}}){{/isString}}
 		{{paramName}}Param = {{#isNullable}}&{{/isNullable}}param
 		{{/defaultValue}}
 		{{/required}}

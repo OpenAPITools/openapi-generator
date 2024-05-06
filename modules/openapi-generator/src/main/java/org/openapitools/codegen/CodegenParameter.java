@@ -76,48 +76,48 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
      */
     public boolean required;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor17.
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-maximum">JSON Schema Validation Spec, Section 6.2.2</a>
      */
     public String maximum;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor17
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-exclusivemaximum">JSON Schema Validation Spec, Section 6.2.3</a>
      */
     public boolean exclusiveMaximum;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor21
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-minimum">JSON Schema Validation Spec, Section 6.2.4</a>
      */
     public String minimum;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor21
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-exclusiveminimum">JSON Schema Validation Spec, Section 6.2.5</a>
      */
     public boolean exclusiveMinimum;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor26
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-maxlength">JSON Schema Validation Spec, Section 6.3.1</a>
      */
     public Integer maxLength;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor29
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-minlength">JSON Schema Validation Spec, Section 6.3.2</a>
      */
     public Integer minLength;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor33
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-pattern">JSON Schema Validation Spec, Section 6.3.3</a>
      */
     public String pattern;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor42
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-maxitems">JSON Schema Validation Spec, Section 6.4.1</a>
      */
     public Integer maxItems;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor45
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-minitems">JSON Schema Validation Spec, Section 6.4.2</a>
      */
     public Integer minItems;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor49
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-uniqueitems">JSON Schema Validation Spec, Section 6.4.3</a>
      */
     public boolean uniqueItems;
     private Boolean uniqueItemsBoolean;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor14
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-multipleof">JSON Schema Validation Spec, Section 6.2.1</a>
      */
     public Number multipleOf;
     private Integer maxProperties;
