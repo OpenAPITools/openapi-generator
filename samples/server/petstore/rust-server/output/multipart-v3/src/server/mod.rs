@@ -81,7 +81,7 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     }
 
     fn call(&mut self, target: Target) -> Self::Future {
-        futures::future::ok(Service::new(
+        future::ok(Service::new(
             self.api_impl.clone(),
         ))
     }
@@ -206,10 +206,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                             Some("application/json") if param_object_field.is_none() => {
                                                 // Extract JSON part.
                                                 let deserializer = &mut serde_json::Deserializer::from_slice(part.body.as_slice());
-                                                let json_data: models::MultipartRequestObjectField = match serde_ignored::deserialize(deserializer, |path| {
+                                                let handle_unknown_field = |path: serde_ignored::Path<'_>| {
                                                     warn!("Ignoring unknown field in JSON part: {}", path);
                                                     unused_elements.push(path.to_string());
-                                                }) {
+                                                };
+                                                let json_data: models::MultipartRequestObjectField = match serde_ignored::deserialize(deserializer, handle_unknown_field) {
                                                     Ok(json_data) => json_data,
                                                     Err(e) => return Ok(Response::builder()
                                                                     .status(StatusCode::BAD_REQUEST)
