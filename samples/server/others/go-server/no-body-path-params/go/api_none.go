@@ -32,7 +32,7 @@ func WithNoneAPIErrorHandler(h ErrorHandler) NoneAPIOption {
 }
 
 // NewNoneAPIController creates a default api controller
-func NewNoneAPIController(s NoneAPIServicer, opts ...NoneAPIOption) Router {
+func NewNoneAPIController(s NoneAPIServicer, opts ...NoneAPIOption) *NoneAPIController {
 	controller := &NoneAPIController{
 		service:      s,
 		errorHandler: DefaultErrorHandler,
@@ -65,5 +65,5 @@ func (c *NoneAPIController) One(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }

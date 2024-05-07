@@ -64,8 +64,7 @@ func NewRouter(routers ...Router) {{#routers}}{{#mux}}*mux.Router{{/mux}}{{#chi}
 {{/routers}}
 	for _, api := range routers {
 		for {{#routers}}{{#mux}}name{{/mux}}{{#chi}}_{{/chi}}{{/routers}}, route := range api.Routes() {
-			var handler http.Handler
-			handler = route.HandlerFunc
+			var handler http.Handler = route.HandlerFunc
 {{#routers}}
 	{{#mux}}
 			handler = Logger(handler, name)
@@ -373,7 +372,7 @@ func parseNumericArrayParameter[T Number](param, delim string, required bool, fn
 }
 
 
-// parseQuery parses query paramaters and returns an error if any malformed value pairs are encountered.
+// parseQuery parses query parameters and returns an error if any malformed value pairs are encountered.
 func parseQuery(rawQuery string) (url.Values, error) {
 	return url.ParseQuery(rawQuery)
 }

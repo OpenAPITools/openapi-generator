@@ -50,8 +50,7 @@ func NewRouter(routers ...Router) chi.Router {
 	router.Use(middleware.Logger)
 	for _, api := range routers {
 		for _, route := range api.Routes() {
-			var handler http.Handler
-			handler = route.HandlerFunc
+			var handler http.Handler = route.HandlerFunc
 			router.Method(route.Method, route.Pattern, handler)
 		}
 	}
@@ -341,7 +340,7 @@ func parseNumericArrayParameter[T Number](param, delim string, required bool, fn
 }
 
 
-// parseQuery parses query paramaters and returns an error if any malformed value pairs are encountered.
+// parseQuery parses query parameters and returns an error if any malformed value pairs are encountered.
 func parseQuery(rawQuery string) (url.Values, error) {
 	return url.ParseQuery(rawQuery)
 }

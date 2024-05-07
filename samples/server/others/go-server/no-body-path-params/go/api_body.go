@@ -33,7 +33,7 @@ func WithBodyAPIErrorHandler(h ErrorHandler) BodyAPIOption {
 }
 
 // NewBodyAPIController creates a default api controller
-func NewBodyAPIController(s BodyAPIServicer, opts ...BodyAPIOption) Router {
+func NewBodyAPIController(s BodyAPIServicer, opts ...BodyAPIOption) *BodyAPIController {
 	controller := &BodyAPIController{
 		service:      s,
 		errorHandler: DefaultErrorHandler,
@@ -81,5 +81,5 @@ func (c *BodyAPIController) Body(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
