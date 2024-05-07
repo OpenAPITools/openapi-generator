@@ -79,9 +79,9 @@ public class AdditionalPropertiesClass  implements Serializable {
     return this;
   }
 
-  public AdditionalPropertiesClass removeMapStringItem(String mapStringItem) {
-    if (mapStringItem != null && this.mapString != null) {
-      this.mapString.remove(mapStringItem);
+  public AdditionalPropertiesClass removeMapStringItem(String key) {
+    if (this.mapString != null) {
+      this.mapString.remove(key);
     }
 
     return this;
@@ -114,9 +114,9 @@ public class AdditionalPropertiesClass  implements Serializable {
     return this;
   }
 
-  public AdditionalPropertiesClass removeMapNumberItem(BigDecimal mapNumberItem) {
-    if (mapNumberItem != null && this.mapNumber != null) {
-      this.mapNumber.remove(mapNumberItem);
+  public AdditionalPropertiesClass removeMapNumberItem(String key) {
+    if (this.mapNumber != null) {
+      this.mapNumber.remove(key);
     }
 
     return this;
@@ -149,9 +149,9 @@ public class AdditionalPropertiesClass  implements Serializable {
     return this;
   }
 
-  public AdditionalPropertiesClass removeMapIntegerItem(Integer mapIntegerItem) {
-    if (mapIntegerItem != null && this.mapInteger != null) {
-      this.mapInteger.remove(mapIntegerItem);
+  public AdditionalPropertiesClass removeMapIntegerItem(String key) {
+    if (this.mapInteger != null) {
+      this.mapInteger.remove(key);
     }
 
     return this;
@@ -184,9 +184,9 @@ public class AdditionalPropertiesClass  implements Serializable {
     return this;
   }
 
-  public AdditionalPropertiesClass removeMapBooleanItem(Boolean mapBooleanItem) {
-    if (mapBooleanItem != null && this.mapBoolean != null) {
-      this.mapBoolean.remove(mapBooleanItem);
+  public AdditionalPropertiesClass removeMapBooleanItem(String key) {
+    if (this.mapBoolean != null) {
+      this.mapBoolean.remove(key);
     }
 
     return this;
@@ -219,9 +219,9 @@ public class AdditionalPropertiesClass  implements Serializable {
     return this;
   }
 
-  public AdditionalPropertiesClass removeMapArrayIntegerItem(List<Integer> mapArrayIntegerItem) {
-    if (mapArrayIntegerItem != null && this.mapArrayInteger != null) {
-      this.mapArrayInteger.remove(mapArrayIntegerItem);
+  public AdditionalPropertiesClass removeMapArrayIntegerItem(String key) {
+    if (this.mapArrayInteger != null) {
+      this.mapArrayInteger.remove(key);
     }
 
     return this;
@@ -254,9 +254,9 @@ public class AdditionalPropertiesClass  implements Serializable {
     return this;
   }
 
-  public AdditionalPropertiesClass removeMapArrayAnytypeItem(List<Object> mapArrayAnytypeItem) {
-    if (mapArrayAnytypeItem != null && this.mapArrayAnytype != null) {
-      this.mapArrayAnytype.remove(mapArrayAnytypeItem);
+  public AdditionalPropertiesClass removeMapArrayAnytypeItem(String key) {
+    if (this.mapArrayAnytype != null) {
+      this.mapArrayAnytype.remove(key);
     }
 
     return this;
@@ -289,9 +289,9 @@ public class AdditionalPropertiesClass  implements Serializable {
     return this;
   }
 
-  public AdditionalPropertiesClass removeMapMapStringItem(Map<String, String> mapMapStringItem) {
-    if (mapMapStringItem != null && this.mapMapString != null) {
-      this.mapMapString.remove(mapMapStringItem);
+  public AdditionalPropertiesClass removeMapMapStringItem(String key) {
+    if (this.mapMapString != null) {
+      this.mapMapString.remove(key);
     }
 
     return this;
@@ -324,9 +324,9 @@ public class AdditionalPropertiesClass  implements Serializable {
     return this;
   }
 
-  public AdditionalPropertiesClass removeMapMapAnytypeItem(Map<String, Object> mapMapAnytypeItem) {
-    if (mapMapAnytypeItem != null && this.mapMapAnytype != null) {
-      this.mapMapAnytype.remove(mapMapAnytypeItem);
+  public AdditionalPropertiesClass removeMapMapAnytypeItem(String key) {
+    if (this.mapMapAnytype != null) {
+      this.mapMapAnytype.remove(key);
     }
 
     return this;
