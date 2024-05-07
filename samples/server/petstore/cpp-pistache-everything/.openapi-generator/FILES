@@ -24,9 +24,11 @@ model/Order.cpp
 model/Order.h
 model/Pet.cpp
 model/Pet.h
-model/Pet_bestFriends.cpp
-model/Pet_bestFriends.h
+model/Pet_vaccinationBook.cpp
+model/Pet_vaccinationBook.h
 model/Tag.cpp
 model/Tag.h
 model/User.cpp
 model/User.h
+model/Vaccine.cpp
+model/Vaccine.h

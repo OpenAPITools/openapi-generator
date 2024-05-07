@@ -30,7 +30,8 @@ Pet::Pet()
     m_StatusIsSet = false;
     m_VeterinarianVisitIsSet = false;
     m_GoodiesIsSet = false;
-    m_BestFriendsIsSet = false;
+    m_CertificatesIsSet = false;
+    m_VaccinationBookIsSet = false;
     
 }
 
@@ -116,6 +117,32 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
         }
 
     }
+         
+    if (certificatesIsSet())
+    {
+        const std::set<std::string>& value = m_Certificates;
+        const std::string currentValuePath = _pathPrefix + ".certificates";
+                
+        
+        if (!org::openapitools::server::helpers::hasOnlyUniqueItems(value))
+        {
+            success = false;
+            msg << currentValuePath << ": may not contain the same item more than once;";
+        }
+        { // Recursive validation of array elements
+            const std::string oldValuePath = currentValuePath;
+            int i = 0;
+            for (const std::string& value : value)
+            { 
+                const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
+                        
+        
+ 
+                i++;
+            }
+        }
+
+    }
         
     return success;
 }
@@ -150,7 +177,10 @@ bool Pet::operator==(const Pet& rhs) const
     ((!goodiesIsSet() && !rhs.goodiesIsSet()) || (goodiesIsSet() && rhs.goodiesIsSet() && getGoodies() == rhs.getGoodies())) &&
     
     
-    ((!bestFriendsIsSet() && !rhs.bestFriendsIsSet()) || (bestFriendsIsSet() && rhs.bestFriendsIsSet() && getBestFriends() == rhs.getBestFriends()))
+    ((!certificatesIsSet() && !rhs.certificatesIsSet()) || (certificatesIsSet() && rhs.certificatesIsSet() && getCertificates() == rhs.getCertificates())) &&
+    
+    
+    ((!vaccinationBookIsSet() && !rhs.vaccinationBookIsSet()) || (vaccinationBookIsSet() && rhs.vaccinationBookIsSet() && getVaccinationBook() == rhs.getVaccinationBook()))
     
     ;
 }
@@ -177,8 +207,10 @@ void to_json(nlohmann::json& j, const Pet& o)
         j["veterinarianVisit"] = o.m_VeterinarianVisit;
     if(o.goodiesIsSet() || !o.m_Goodies.empty())
         j["goodies"] = o.m_Goodies;
-    if(o.bestFriendsIsSet())
-        j["bestFriends"] = o.m_BestFriends;
+    if(o.certificatesIsSet() || !o.m_Certificates.empty())
+        j["certificates"] = o.m_Certificates;
+    if(o.vaccinationBookIsSet())
+        j["vaccinationBook"] = o.m_VaccinationBook;
     
 }
 
@@ -216,10 +248,15 @@ void from_json(const nlohmann::json& j, Pet& o)
         j.at("goodies").get_to(o.m_Goodies);
         o.m_GoodiesIsSet = true;
     } 
-    if(j.find("bestFriends") != j.end())
+    if(j.find("certificates") != j.end())
     {
-        j.at("bestFriends").get_to(o.m_BestFriends);
-        o.m_BestFriendsIsSet = true;
+        j.at("certificates").get_to(o.m_Certificates);
+        o.m_CertificatesIsSet = true;
+    } 
+    if(j.find("vaccinationBook") != j.end())
+    {
+        j.at("vaccinationBook").get_to(o.m_VaccinationBook);
+        o.m_VaccinationBookIsSet = true;
     } 
     
 }
@@ -342,22 +379,39 @@ void Pet::unsetGoodies()
 {
     m_GoodiesIsSet = false;
 }
-org::openapitools::server::model::Pet_bestFriends Pet::getBestFriends() const
+std::set<std::string> Pet::getCertificates() const
 {
-    return m_BestFriends;
+    return m_Certificates;
 }
-void Pet::setBestFriends(org::openapitools::server::model::Pet_bestFriends const& value)
+void Pet::setCertificates(std::set<std::string> const& value)
 {
-    m_BestFriends = value;
-    m_BestFriendsIsSet = true;
+    m_Certificates = value;
+    m_CertificatesIsSet = true;
 }
-bool Pet::bestFriendsIsSet() const
+bool Pet::certificatesIsSet() const
 {
-    return m_BestFriendsIsSet;
+    return m_CertificatesIsSet;
 }
-void Pet::unsetBestFriends()
+void Pet::unsetCertificates()
 {
-    m_BestFriendsIsSet = false;
+    m_CertificatesIsSet = false;
+}
+org::openapitools::server::model::Pet_vaccinationBook Pet::getVaccinationBook() const
+{
+    return m_VaccinationBook;
+}
+void Pet::setVaccinationBook(org::openapitools::server::model::Pet_vaccinationBook const& value)
+{
+    m_VaccinationBook = value;
+    m_VaccinationBookIsSet = true;
+}
+bool Pet::vaccinationBookIsSet() const
+{
+    return m_VaccinationBookIsSet;
+}
+void Pet::unsetVaccinationBook()
+{
+    m_VaccinationBookIsSet = false;
 }
 
 
