@@ -35,7 +35,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  *
  */
 
-@RegisterRestClient(configKey="petstore")
+@RegisterRestClient(configKey="store-api")
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/store")
 public interface StoreApi  {
@@ -75,9 +75,12 @@ public interface StoreApi  {
     /**
      * Place an order for a pet
      *
+     * 
+     *
      */
     @POST
     @Path("/order")
+    @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
-    Order placeOrder(Order body) throws ApiException, ProcessingException;
+    Order placeOrder(Order order) throws ApiException, ProcessingException;
 }
