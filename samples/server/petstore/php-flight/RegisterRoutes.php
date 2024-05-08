@@ -33,11 +33,20 @@ class RegisterRoutes {
                     parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\Pet')
                 );
                 if ($result === null) {
-                    \Flight::halt(204);
+                    \Flight::halt(200);
                 } else {
-                    \Flight::json($result);
+                    \Flight::json($result, 200);
                 }
             });
+        }
+        if (declaresMethod($reflectionClass, 'addPetStream')) {
+            \Flight::route('POST /pet', function () use ($handler) {
+                $r = \Flight::request();
+                $handler->addPetStream(
+                    parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\Pet')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 200, 'Content-Type' => 'application/json']);
         }
 
         if (declaresMethod($reflectionClass, 'deletePet') && declaresMethod($reflectionClass, 'deletePetStream')) {
@@ -50,8 +59,18 @@ class RegisterRoutes {
                     parseParam($petId, 'int'), 
                     parseParam($r->getHeader('api_key'), '?string')
                 );
-                \Flight::halt(204);
+                \Flight::halt(400);
             });
+        }
+        if (declaresMethod($reflectionClass, 'deletePetStream')) {
+            \Flight::route('DELETE /pet/@petId', function (string $petId) use ($handler) {
+                $r = \Flight::request();
+                $handler->deletePetStream(
+                    parseParam($petId, 'int'), 
+                    parseParam($r->getHeader('api_key'), '?string')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 400]);
         }
 
         if (declaresMethod($reflectionClass, 'findPetsByStatus') && declaresMethod($reflectionClass, 'findPetsByStatusStream')) {
@@ -64,9 +83,9 @@ class RegisterRoutes {
                     parseParam($r->query['status'] ?? null, '\\OpenAPIServer\\Model\\FindPetsByStatusStatusParameterInner[]')
                 );
                 if ($result === null) {
-                    \Flight::halt(204);
+                    \Flight::halt(200);
                 } else {
-                    \Flight::json($result);
+                    \Flight::json($result, 200);
                 }
             });
         }
@@ -77,7 +96,7 @@ class RegisterRoutes {
                     parseParam($r->query['status'] ?? null, '\\OpenAPIServer\\Model\\FindPetsByStatusStatusParameterInner[]')
                 );
                 // ignore return value: streaming expected
-            })->streamWithHeaders(['Content-Type' => 'application/json']);
+            })->streamWithHeaders(['status' => 200, 'Content-Type' => 'application/json']);
         }
 
         if (declaresMethod($reflectionClass, 'findPetsByTags') && declaresMethod($reflectionClass, 'findPetsByTagsStream')) {
@@ -90,9 +109,9 @@ class RegisterRoutes {
                     parseParam($r->query['tags'] ?? null, 'string[]')
                 );
                 if ($result === null) {
-                    \Flight::halt(204);
+                    \Flight::halt(200);
                 } else {
-                    \Flight::json($result);
+                    \Flight::json($result, 200);
                 }
             });
         }
@@ -103,7 +122,7 @@ class RegisterRoutes {
                     parseParam($r->query['tags'] ?? null, 'string[]')
                 );
                 // ignore return value: streaming expected
-            })->streamWithHeaders(['Content-Type' => 'application/json']);
+            })->streamWithHeaders(['status' => 200, 'Content-Type' => 'application/json']);
         }
 
         if (declaresMethod($reflectionClass, 'getPetById') && declaresMethod($reflectionClass, 'getPetByIdStream')) {
@@ -116,11 +135,20 @@ class RegisterRoutes {
                     parseParam($petId, 'int')
                 );
                 if ($result === null) {
-                    \Flight::halt(204);
+                    \Flight::halt(200);
                 } else {
-                    \Flight::json($result);
+                    \Flight::json($result, 200);
                 }
             });
+        }
+        if (declaresMethod($reflectionClass, 'getPetByIdStream')) {
+            \Flight::route('GET /pet/@petId', function (string $petId) use ($handler) {
+                $r = \Flight::request();
+                $handler->getPetByIdStream(
+                    parseParam($petId, 'int')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 200, 'Content-Type' => 'application/json']);
         }
 
         if (declaresMethod($reflectionClass, 'updatePet') && declaresMethod($reflectionClass, 'updatePetStream')) {
@@ -133,11 +161,20 @@ class RegisterRoutes {
                     parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\Pet')
                 );
                 if ($result === null) {
-                    \Flight::halt(204);
+                    \Flight::halt(200);
                 } else {
-                    \Flight::json($result);
+                    \Flight::json($result, 200);
                 }
             });
+        }
+        if (declaresMethod($reflectionClass, 'updatePetStream')) {
+            \Flight::route('PUT /pet', function () use ($handler) {
+                $r = \Flight::request();
+                $handler->updatePetStream(
+                    parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\Pet')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 200, 'Content-Type' => 'application/json']);
         }
 
         if (declaresMethod($reflectionClass, 'updatePetWithForm') && declaresMethod($reflectionClass, 'updatePetWithFormStream')) {
@@ -149,8 +186,17 @@ class RegisterRoutes {
                 $handler->updatePetWithForm(
                     parseParam($petId, 'int')
                 );
-                \Flight::halt(204);
+                \Flight::halt(405);
             });
+        }
+        if (declaresMethod($reflectionClass, 'updatePetWithFormStream')) {
+            \Flight::route('POST /pet/@petId', function (string $petId) use ($handler) {
+                $r = \Flight::request();
+                $handler->updatePetWithFormStream(
+                    parseParam($petId, 'int')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 405]);
         }
 
         if (declaresMethod($reflectionClass, 'uploadFile') && declaresMethod($reflectionClass, 'uploadFileStream')) {
@@ -163,11 +209,20 @@ class RegisterRoutes {
                     parseParam($petId, 'int')
                 );
                 if ($result === null) {
-                    \Flight::halt(204);
+                    \Flight::halt(200);
                 } else {
-                    \Flight::json($result);
+                    \Flight::json($result, 200);
                 }
             });
+        }
+        if (declaresMethod($reflectionClass, 'uploadFileStream')) {
+            \Flight::route('POST /pet/@petId/uploadImage', function (string $petId) use ($handler) {
+                $r = \Flight::request();
+                $handler->uploadFileStream(
+                    parseParam($petId, 'int')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 200, 'Content-Type' => 'application/json']);
         }
 
         if (declaresMethod($reflectionClass, 'deleteOrder') && declaresMethod($reflectionClass, 'deleteOrderStream')) {
@@ -179,8 +234,17 @@ class RegisterRoutes {
                 $handler->deleteOrder(
                     parseParam($orderId, 'string')
                 );
-                \Flight::halt(204);
+                \Flight::halt(400);
             });
+        }
+        if (declaresMethod($reflectionClass, 'deleteOrderStream')) {
+            \Flight::route('DELETE /store/order/@orderId', function (string $orderId) use ($handler) {
+                $r = \Flight::request();
+                $handler->deleteOrderStream(
+                    parseParam($orderId, 'string')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 400]);
         }
 
         if (declaresMethod($reflectionClass, 'getInventory') && declaresMethod($reflectionClass, 'getInventoryStream')) {
@@ -191,7 +255,7 @@ class RegisterRoutes {
                 $r = \Flight::request();
                 $handler->getInventory(
                 );
-                \Flight::halt(204);
+                \Flight::halt(200);
             });
         }
         if (declaresMethod($reflectionClass, 'getInventoryStream')) {
@@ -200,7 +264,7 @@ class RegisterRoutes {
                 $handler->getInventoryStream(
                 );
                 // ignore return value: streaming expected
-            })->streamWithHeaders(['Content-Type' => 'application/json']);
+            })->streamWithHeaders(['status' => 200]);
         }
 
         if (declaresMethod($reflectionClass, 'getOrderById') && declaresMethod($reflectionClass, 'getOrderByIdStream')) {
@@ -213,11 +277,20 @@ class RegisterRoutes {
                     parseParam($orderId, 'int')
                 );
                 if ($result === null) {
-                    \Flight::halt(204);
+                    \Flight::halt(200);
                 } else {
-                    \Flight::json($result);
+                    \Flight::json($result, 200);
                 }
             });
+        }
+        if (declaresMethod($reflectionClass, 'getOrderByIdStream')) {
+            \Flight::route('GET /store/order/@orderId', function (string $orderId) use ($handler) {
+                $r = \Flight::request();
+                $handler->getOrderByIdStream(
+                    parseParam($orderId, 'int')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 200, 'Content-Type' => 'application/json']);
         }
 
         if (declaresMethod($reflectionClass, 'placeOrder') && declaresMethod($reflectionClass, 'placeOrderStream')) {
@@ -230,11 +303,20 @@ class RegisterRoutes {
                     parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\Order')
                 );
                 if ($result === null) {
-                    \Flight::halt(204);
+                    \Flight::halt(200);
                 } else {
-                    \Flight::json($result);
+                    \Flight::json($result, 200);
                 }
             });
+        }
+        if (declaresMethod($reflectionClass, 'placeOrderStream')) {
+            \Flight::route('POST /store/order', function () use ($handler) {
+                $r = \Flight::request();
+                $handler->placeOrderStream(
+                    parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\Order')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 200, 'Content-Type' => 'application/json']);
         }
 
         if (declaresMethod($reflectionClass, 'createUser') && declaresMethod($reflectionClass, 'createUserStream')) {
@@ -246,8 +328,17 @@ class RegisterRoutes {
                 $handler->createUser(
                     parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\User')
                 );
-                \Flight::halt(204);
+                \Flight::halt(200);
             });
+        }
+        if (declaresMethod($reflectionClass, 'createUserStream')) {
+            \Flight::route('POST /user', function () use ($handler) {
+                $r = \Flight::request();
+                $handler->createUserStream(
+                    parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\User')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 200]);
         }
 
         if (declaresMethod($reflectionClass, 'createUsersWithArrayInput') && declaresMethod($reflectionClass, 'createUsersWithArrayInputStream')) {
@@ -259,8 +350,17 @@ class RegisterRoutes {
                 $handler->createUsersWithArrayInput(
                     parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\User[]')
                 );
-                \Flight::halt(204);
+                \Flight::halt(200);
             });
+        }
+        if (declaresMethod($reflectionClass, 'createUsersWithArrayInputStream')) {
+            \Flight::route('POST /user/createWithArray', function () use ($handler) {
+                $r = \Flight::request();
+                $handler->createUsersWithArrayInputStream(
+                    parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\User[]')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 200]);
         }
 
         if (declaresMethod($reflectionClass, 'createUsersWithListInput') && declaresMethod($reflectionClass, 'createUsersWithListInputStream')) {
@@ -272,8 +372,17 @@ class RegisterRoutes {
                 $handler->createUsersWithListInput(
                     parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\User[]')
                 );
-                \Flight::halt(204);
+                \Flight::halt(200);
             });
+        }
+        if (declaresMethod($reflectionClass, 'createUsersWithListInputStream')) {
+            \Flight::route('POST /user/createWithList', function () use ($handler) {
+                $r = \Flight::request();
+                $handler->createUsersWithListInputStream(
+                    parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\User[]')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 200]);
         }
 
         if (declaresMethod($reflectionClass, 'deleteUser') && declaresMethod($reflectionClass, 'deleteUserStream')) {
@@ -285,8 +394,17 @@ class RegisterRoutes {
                 $handler->deleteUser(
                     parseParam($username, 'string')
                 );
-                \Flight::halt(204);
+                \Flight::halt(400);
             });
+        }
+        if (declaresMethod($reflectionClass, 'deleteUserStream')) {
+            \Flight::route('DELETE /user/@username', function (string $username) use ($handler) {
+                $r = \Flight::request();
+                $handler->deleteUserStream(
+                    parseParam($username, 'string')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 400]);
         }
 
         if (declaresMethod($reflectionClass, 'getUserByName') && declaresMethod($reflectionClass, 'getUserByNameStream')) {
@@ -299,11 +417,20 @@ class RegisterRoutes {
                     parseParam($username, 'string')
                 );
                 if ($result === null) {
-                    \Flight::halt(204);
+                    \Flight::halt(200);
                 } else {
-                    \Flight::json($result);
+                    \Flight::json($result, 200);
                 }
             });
+        }
+        if (declaresMethod($reflectionClass, 'getUserByNameStream')) {
+            \Flight::route('GET /user/@username', function (string $username) use ($handler) {
+                $r = \Flight::request();
+                $handler->getUserByNameStream(
+                    parseParam($username, 'string')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 200, 'Content-Type' => 'application/json']);
         }
 
         if (declaresMethod($reflectionClass, 'loginUser') && declaresMethod($reflectionClass, 'loginUserStream')) {
@@ -317,11 +444,21 @@ class RegisterRoutes {
                     parseParam($r->query['password'] ?? null, 'string')
                 );
                 if ($result === null) {
-                    \Flight::halt(204);
+                    \Flight::halt(200);
                 } else {
-                    \Flight::json($result);
+                    \Flight::json($result, 200);
                 }
             });
+        }
+        if (declaresMethod($reflectionClass, 'loginUserStream')) {
+            \Flight::route('GET /user/login', function () use ($handler) {
+                $r = \Flight::request();
+                $handler->loginUserStream(
+                    parseParam($r->query['username'] ?? null, 'string'), 
+                    parseParam($r->query['password'] ?? null, 'string')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 200, 'Content-Type' => 'application/json']);
         }
 
         if (declaresMethod($reflectionClass, 'logoutUser') && declaresMethod($reflectionClass, 'logoutUserStream')) {
@@ -332,8 +469,16 @@ class RegisterRoutes {
                 $r = \Flight::request();
                 $handler->logoutUser(
                 );
-                \Flight::halt(204);
+                \Flight::halt(200);
             });
+        }
+        if (declaresMethod($reflectionClass, 'logoutUserStream')) {
+            \Flight::route('GET /user/logout', function () use ($handler) {
+                $r = \Flight::request();
+                $handler->logoutUserStream(
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 200]);
         }
 
         if (declaresMethod($reflectionClass, 'updateUser') && declaresMethod($reflectionClass, 'updateUserStream')) {
@@ -346,8 +491,18 @@ class RegisterRoutes {
                     parseParam($username, 'string'), 
                     parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\User')
                 );
-                \Flight::halt(204);
+                \Flight::halt(400);
             });
+        }
+        if (declaresMethod($reflectionClass, 'updateUserStream')) {
+            \Flight::route('PUT /user/@username', function (string $username) use ($handler) {
+                $r = \Flight::request();
+                $handler->updateUserStream(
+                    parseParam($username, 'string'), 
+                    parseParam(json_decode($r->getBody(), true), '\\OpenAPIServer\\Model\\User')
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => 400]);
         }
 
     }
