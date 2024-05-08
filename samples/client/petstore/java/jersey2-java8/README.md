@@ -115,7 +115,7 @@ public class AnotherFakeApiExample {
 
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+        defaultClient.setBasePath("https://petstore.swagger.io/v2");
         
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
         UUID uuidTest = UUID.randomUUID(); // UUID | to test uuid example value
@@ -137,7 +137,7 @@ public class AnotherFakeApiExample {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *https://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -240,7 +240,7 @@ Authentication schemes defined for the API:
 
 - **Type**: OAuth
 - **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Authorization URL**: https://petstore.swagger.io/api/oauth/dialog
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
