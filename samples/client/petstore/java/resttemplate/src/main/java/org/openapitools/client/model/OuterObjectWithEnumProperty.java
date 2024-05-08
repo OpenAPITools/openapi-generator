@@ -38,6 +38,13 @@ public class OuterObjectWithEnumProperty {
   public OuterObjectWithEnumProperty() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public OuterObjectWithEnumProperty(@JsonProperty(JSON_PROPERTY_VALUE) OuterEnumInteger value) {
+    this.value = value;
+  }
+
   public OuterObjectWithEnumProperty value(OuterEnumInteger value) {
     
     this.value = value;

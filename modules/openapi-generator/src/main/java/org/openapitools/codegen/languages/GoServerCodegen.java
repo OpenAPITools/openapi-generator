@@ -398,8 +398,28 @@ public class GoServerCodegen extends AbstractGoCodegen {
             }
         }
 
+        this.addConditionalImportInformation(objs);
+
         return objs;
     }
+
+    private void addConditionalImportInformation(OperationsMap operations) {
+        boolean hasPathParams = false;
+        boolean hasBodyParams = false;
+
+        for (CodegenOperation op : operations.getOperations().getOperation()) {
+            if (op.getHasPathParams()) {
+                hasPathParams = true;
+            }
+            if (op.getHasBodyParam()) {
+                hasBodyParams = true;
+            }
+        }
+
+        additionalProperties.put("hasPathParams", hasPathParams);
+        additionalProperties.put("hasBodyParams", hasBodyParams);
+    }
+
 
     @Override
     public String apiPackage() {

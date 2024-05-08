@@ -26,7 +26,14 @@ export type PetPartType = typeof PetPartType[keyof typeof PetPartType];
 
 
 export function instanceOfPetPartType(value: any): boolean {
-    return Object.values(PetPartType).includes(value);
+    for (const key in PetPartType) {
+        if (Object.prototype.hasOwnProperty.call(PetPartType, key)) {
+            if (PetPartType[key] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 export function PetPartTypeFromJSON(json: any): PetPartType {

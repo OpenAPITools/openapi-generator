@@ -11,3 +11,4 @@ additionalProperties:
   useBeanValidation: true
   withXml: true
   hideGenerationTimestamp: "true"
+  generateConstructorWithAllArgs: true
