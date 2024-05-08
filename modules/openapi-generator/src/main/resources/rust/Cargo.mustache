@@ -55,13 +55,13 @@ secrecy = "0.8.0"
 {{^supportAsync}}
 reqwest = { version = "^0.12", features = ["json", "blocking", "multipart"] }
 {{#supportMiddleware}}
-reqwest-middleware= { version = "^0.3", features = ["json", "blocking", "multipart"] }
+reqwest-middleware = { version = "^0.3", features = ["json", "blocking", "multipart"] }
 {{/supportMiddleware}}
 {{/supportAsync}}
 {{#supportAsync}}
 reqwest = { version = "^0.12", features = ["json", "multipart"] }
 {{#supportMiddleware}}
-reqwest-middleware= { version = "^0.3", features = ["json", "multipart"] }
+reqwest-middleware = { version = "^0.3", features = ["json", "multipart"] }
 {{/supportMiddleware}}
 {{/supportAsync}}
 {{/reqwest}}
