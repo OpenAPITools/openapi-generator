@@ -71,7 +71,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class)
     })
-    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull  Pet pet,@Context SecurityContext securityContext)
+    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet pet,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.addPet(pet, securityContext);
     }
@@ -125,7 +125,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid tag value", response = Void.class)
     })
-    public Response findPetsByTags(@ApiParam(value = "Tags to filter by", required = true) @QueryParam("tags") @NotNull @Valid  Set<String> tags,@Context SecurityContext securityContext)
+    public Response findPetsByTags(@ApiParam(value = "Tags to filter by", required = true) @QueryParam("tags") @NotNull  Set<String> tags,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.findPetsByTags(tags, securityContext);
     }
@@ -161,7 +161,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class)
     })
-    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull  Pet pet,@Context SecurityContext securityContext)
+    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet pet,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updatePet(pet, securityContext);
     }

@@ -132,7 +132,7 @@ public class Pet   {
    **/
   @JsonProperty(value = "category")
   @ApiModelProperty(value = "")
-  
+  @Valid 
   public Category getCategory() {
     return category;
   }
@@ -209,7 +209,7 @@ public class Pet   {
    **/
   @JsonProperty(value = "tags")
   @ApiModelProperty(value = "")
-  @Valid @Valid 
+  @Valid 
   public List<@Valid Tag> getTags() {
     return tags;
   }

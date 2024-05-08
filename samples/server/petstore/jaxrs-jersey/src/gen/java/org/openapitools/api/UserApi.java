@@ -63,7 +63,7 @@ public class UserApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUser(@ApiParam(value = "Created user object", required = true) @NotNull  User user,@Context SecurityContext securityContext)
+    public Response createUser(@ApiParam(value = "Created user object", required = true) @NotNull @Valid  User user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUser(user, securityContext);
     }
@@ -75,7 +75,7 @@ public class UserApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @NotNull @Valid @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
+    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object", required = true) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithArrayInput(user, securityContext);
     }
@@ -87,7 +87,7 @@ public class UserApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @NotNull @Valid @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
+    public Response createUsersWithListInput(@ApiParam(value = "List of user object", required = true) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithListInput(user, securityContext);
     }
@@ -152,7 +152,7 @@ public class UserApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class)
     })
-    public Response updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathParam("username") @NotNull  String username,@ApiParam(value = "Updated user object", required = true) @NotNull  User user,@Context SecurityContext securityContext)
+    public Response updateUser(@ApiParam(value = "name that need to be deleted", required = true) @PathParam("username") @NotNull  String username,@ApiParam(value = "Updated user object", required = true) @NotNull @Valid  User user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updateUser(username, user, securityContext);
     }

@@ -136,7 +136,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    **/
   @JsonProperty(value = "map_number")
   @ApiModelProperty(value = "")
-  @Valid @Valid 
+  @Valid 
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
@@ -220,7 +220,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    **/
   @JsonProperty(value = "map_array_integer")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
@@ -248,7 +248,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    **/
   @JsonProperty(value = "map_array_anytype")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
@@ -276,7 +276,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    **/
   @JsonProperty(value = "map_map_string")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
@@ -304,7 +304,7 @@ public class AdditionalPropertiesClass  implements Serializable {
    **/
   @JsonProperty(value = "map_map_anytype")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }

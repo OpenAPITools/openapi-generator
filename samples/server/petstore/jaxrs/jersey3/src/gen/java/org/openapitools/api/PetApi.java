@@ -73,7 +73,7 @@ public class PetApi  {
             },security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }, tags={ "pet", }) 
-    public Response addPet(@Schema(description = "Pet object that needs to be added to the store", required = true) @NotNull  Pet pet,@Context SecurityContext securityContext)
+    public Response addPet(@Schema(description = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet pet,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.addPet(pet, securityContext);
     }
@@ -120,7 +120,7 @@ public class PetApi  {
             },security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }, tags={ "pet", }) 
-    public Response findPetsByTags(@Schema(description = "Tags to filter by") @QueryParam("tags") @NotNull @Valid  Set<String> tags,@Context SecurityContext securityContext)
+    public Response findPetsByTags(@Schema(description = "Tags to filter by") @QueryParam("tags") @NotNull  Set<String> tags,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.findPetsByTags(tags, securityContext);
     }
@@ -157,7 +157,7 @@ public class PetApi  {
             },security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }, tags={ "pet", }) 
-    public Response updatePet(@Schema(description = "Pet object that needs to be added to the store", required = true) @NotNull  Pet pet,@Context SecurityContext securityContext)
+    public Response updatePet(@Schema(description = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet pet,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updatePet(pet, securityContext);
     }

@@ -210,7 +210,7 @@ public class XmlItem  implements Serializable {
    **/
   @JsonProperty(value = "attribute_number")
   @ApiModelProperty(example = "1.234", value = "")
-  
+  @Valid 
   public BigDecimal getAttributeNumber() {
     return attributeNumber;
   }
@@ -318,7 +318,7 @@ public class XmlItem  implements Serializable {
    **/
   @JsonProperty(value = "name_number")
   @ApiModelProperty(example = "1.234", value = "")
-  
+  @Valid 
   public BigDecimal getNameNumber() {
     return nameNumber;
   }
@@ -454,7 +454,7 @@ public class XmlItem  implements Serializable {
    **/
   @JsonProperty(value = "prefix_number")
   @ApiModelProperty(example = "1.234", value = "")
-  
+  @Valid 
   public BigDecimal getPrefixNumber() {
     return prefixNumber;
   }
@@ -590,7 +590,7 @@ public class XmlItem  implements Serializable {
    **/
   @JsonProperty(value = "namespace_number")
   @ApiModelProperty(example = "1.234", value = "")
-  
+  @Valid 
   public BigDecimal getNamespaceNumber() {
     return namespaceNumber;
   }
@@ -726,7 +726,7 @@ public class XmlItem  implements Serializable {
    **/
   @JsonProperty(value = "prefix_ns_number")
   @ApiModelProperty(example = "1.234", value = "")
-  
+  @Valid 
   public BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
   }

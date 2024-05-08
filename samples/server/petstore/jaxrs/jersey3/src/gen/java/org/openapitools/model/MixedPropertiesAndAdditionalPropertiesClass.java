@@ -107,7 +107,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    **/
   @JsonProperty(value = "map")
   @Schema(description = "")
-  @Valid @Valid 
+  @Valid 
   public Map<String, Animal> getMap() {
     return map;
   }

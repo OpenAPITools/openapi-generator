@@ -191,7 +191,7 @@ public class FormatTest   {
    **/
   @JsonProperty(value = "number")
   @ApiModelProperty(required = true, value = "")
-  @NotNull  @DecimalMin("32.1") @DecimalMax("543.2")
+  @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")
   public BigDecimal getNumber() {
     return number;
   }
@@ -255,7 +255,7 @@ public class FormatTest   {
    **/
   @JsonProperty(value = "decimal")
   @ApiModelProperty(value = "")
-  
+  @Valid 
   public BigDecimal getDecimal() {
     return decimal;
   }

@@ -126,7 +126,7 @@ public class NullableClass extends HashMap<String, Object>  {
    **/
   @JsonProperty(value = "number_prop")
   @Schema(description = "")
-  
+  @Valid 
   public BigDecimal getNumberProp() {
     return numberProp;
   }

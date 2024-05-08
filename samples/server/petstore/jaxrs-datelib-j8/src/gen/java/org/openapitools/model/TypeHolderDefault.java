@@ -90,7 +90,7 @@ public class TypeHolderDefault  implements Serializable {
    **/
   @JsonProperty(value = "number_item")
   @ApiModelProperty(required = true, value = "")
-  @NotNull 
+  @NotNull @Valid 
   public BigDecimal getNumberItem() {
     return numberItem;
   }

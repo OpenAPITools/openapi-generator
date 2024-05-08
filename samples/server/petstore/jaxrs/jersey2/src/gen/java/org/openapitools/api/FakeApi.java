@@ -71,7 +71,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createXmlItem(@ApiParam(value = "XmlItem Body", required = true) @NotNull  XmlItem xmlItem,@Context SecurityContext securityContext)
+    public Response createXmlItem(@ApiParam(value = "XmlItem Body", required = true) @NotNull @Valid  XmlItem xmlItem,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createXmlItem(xmlItem, securityContext);
     }
@@ -95,7 +95,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class)
     })
-    public Response fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body")  OuterComposite body,@Context SecurityContext securityContext)
+    public Response fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body") @Valid  OuterComposite body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterCompositeSerialize(body, securityContext);
     }
@@ -131,7 +131,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithFileSchema(@ApiParam(value = "", required = true) @NotNull  FileSchemaTestClass body,@Context SecurityContext securityContext)
+    public Response testBodyWithFileSchema(@ApiParam(value = "", required = true) @NotNull @Valid  FileSchemaTestClass body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithFileSchema(body, securityContext);
     }
@@ -143,7 +143,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithQueryParams(@ApiParam(value = "", required = true) @QueryParam("query") @NotNull  String query,@ApiParam(value = "", required = true) @NotNull  User body,@Context SecurityContext securityContext)
+    public Response testBodyWithQueryParams(@ApiParam(value = "", required = true) @QueryParam("query") @NotNull  String query,@ApiParam(value = "", required = true) @NotNull @Valid  User body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithQueryParams(query, body, securityContext);
     }
@@ -155,7 +155,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response testClientModel(@ApiParam(value = "client model", required = true) @NotNull  Client body,@Context SecurityContext securityContext)
+    public Response testClientModel(@ApiParam(value = "client model", required = true) @NotNull @Valid  Client body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClientModel(body, securityContext);
     }
@@ -208,7 +208,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testInlineAdditionalProperties(@ApiParam(value = "request body", required = true) @NotNull @Valid  Map<String, String> param,@Context SecurityContext securityContext)
+    public Response testInlineAdditionalProperties(@ApiParam(value = "request body", required = true) @NotNull  Map<String, String> param,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testInlineAdditionalProperties(param, securityContext);
     }
@@ -232,7 +232,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testQueryParameterCollectionFormat(@ApiParam(value = "", required = true) @QueryParam("pipe") @NotNull @Valid  List<String> pipe,@ApiParam(value = "", required = true) @QueryParam("ioutil") @NotNull @Valid  List<String> ioutil,@ApiParam(value = "", required = true) @QueryParam("http") @NotNull @Valid  List<String> http,@ApiParam(value = "", required = true) @QueryParam("url") @NotNull @Valid  List<String> url,@ApiParam(value = "", required = true) @QueryParam("context") @NotNull @Valid  List<String> context,@Context SecurityContext securityContext)
+    public Response testQueryParameterCollectionFormat(@ApiParam(value = "", required = true) @QueryParam("pipe") @NotNull  List<String> pipe,@ApiParam(value = "", required = true) @QueryParam("ioutil") @NotNull  List<String> ioutil,@ApiParam(value = "", required = true) @QueryParam("http") @NotNull  List<String> http,@ApiParam(value = "", required = true) @QueryParam("url") @NotNull  List<String> url,@ApiParam(value = "", required = true) @QueryParam("context") @NotNull  List<String> context,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, securityContext);
     }

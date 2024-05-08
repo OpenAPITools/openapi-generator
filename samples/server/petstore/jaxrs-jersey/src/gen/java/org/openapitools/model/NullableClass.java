@@ -127,7 +127,7 @@ public class NullableClass extends HashMap<String, Object>  {
    **/
   @JsonProperty(value = "number_prop")
   @ApiModelProperty(value = "")
-  
+  @Valid 
   public BigDecimal getNumberProp() {
     return numberProp;
   }

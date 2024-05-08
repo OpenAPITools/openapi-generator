@@ -183,7 +183,7 @@ public class FormatTest  implements Serializable {
    **/
   @JsonProperty(value = "number")
   @ApiModelProperty(required = true, value = "")
-  @NotNull  @DecimalMin("32.1") @DecimalMax("543.2")
+  @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")
   public BigDecimal getNumber() {
     return number;
   }
@@ -387,7 +387,7 @@ public class FormatTest  implements Serializable {
    **/
   @JsonProperty(value = "BigDecimal")
   @ApiModelProperty(value = "")
-  
+  @Valid 
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

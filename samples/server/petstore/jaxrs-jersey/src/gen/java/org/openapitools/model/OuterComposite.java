@@ -56,7 +56,7 @@ public class OuterComposite   {
    **/
   @JsonProperty(value = "my_number")
   @ApiModelProperty(value = "")
-  
+  @Valid 
   public BigDecimal getMyNumber() {
     return myNumber;
   }
