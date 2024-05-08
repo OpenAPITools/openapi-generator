@@ -31,6 +31,7 @@ public class FormatTest  implements Serializable {
   private BigDecimal number;
   private Float _float;
   private Double _double;
+  private BigDecimal decimal;
   private String string;
   private byte[] _byte;
   private File binary;
@@ -38,7 +39,8 @@ public class FormatTest  implements Serializable {
   private Date dateTime;
   private UUID uuid;
   private String password;
-  private BigDecimal bigDecimal;
+  private String patternWithDigits;
+  private String patternWithDigitsAndDelimiter;
 
   protected FormatTest(FormatTestBuilder<?, ?> b) {
     this.integer = b.integer;
@@ -47,6 +49,7 @@ public class FormatTest  implements Serializable {
     this.number = b.number;
     this._float = b._float;
     this._double = b._double;
+    this.decimal = b.decimal;
     this.string = b.string;
     this._byte = b._byte;
     this.binary = b.binary;
@@ -54,7 +57,8 @@ public class FormatTest  implements Serializable {
     this.dateTime = b.dateTime;
     this.uuid = b.uuid;
     this.password = b.password;
-    this.bigDecimal = b.bigDecimal;
+    this.patternWithDigits = b.patternWithDigits;
+    this.patternWithDigitsAndDelimiter = b.patternWithDigitsAndDelimiter;
   }
 
   public FormatTest() {
@@ -186,6 +190,25 @@ public class FormatTest  implements Serializable {
 
   /**
    **/
+  public FormatTest decimal(BigDecimal decimal) {
+    this.decimal = decimal;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "")
+  @JsonProperty("decimal")
+  @Valid public BigDecimal getDecimal() {
+    return decimal;
+  }
+
+  @JsonProperty("decimal")
+  public void setDecimal(BigDecimal decimal) {
+    this.decimal = decimal;
+  }
+
+  /**
+   **/
   public FormatTest string(String string) {
     this.string = string;
     return this;
@@ -213,7 +236,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("byte")
-  @NotNull  @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")public byte[] getByte() {
+  @NotNull public byte[] getByte() {
     return _byte;
   }
 
@@ -318,22 +341,43 @@ public class FormatTest  implements Serializable {
   }
 
   /**
+   * A string that is a 10 digit number. Can have leading zeros.
    **/
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public FormatTest patternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
     return this;
   }
 
   
-  @ApiModelProperty(value = "")
-  @JsonProperty("BigDecimal")
-  @Valid public BigDecimal getBigDecimal() {
-    return bigDecimal;
+  @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
+  @JsonProperty("pattern_with_digits")
+   @Pattern(regexp="^\\d{10}$")public String getPatternWithDigits() {
+    return patternWithDigits;
   }
 
-  @JsonProperty("BigDecimal")
-  public void setBigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  @JsonProperty("pattern_with_digits")
+  public void setPatternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
+  }
+
+  /**
+   * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
+   **/
+  public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+  @JsonProperty("pattern_with_digits_and_delimiter")
+   @Pattern(regexp="/^image_\\d{1,3}$/i")public String getPatternWithDigitsAndDelimiter() {
+    return patternWithDigitsAndDelimiter;
+  }
+
+  @JsonProperty("pattern_with_digits_and_delimiter")
+  public void setPatternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
 
@@ -352,6 +396,7 @@ public class FormatTest  implements Serializable {
         Objects.equals(this.number, formatTest.number) &&
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.decimal, formatTest.decimal) &&
         Objects.equals(this.string, formatTest.string) &&
         Arrays.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
@@ -359,12 +404,13 @@ public class FormatTest  implements Serializable {
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
         Objects.equals(this.password, formatTest.password) &&
-        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
+        Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
+        Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
   @Override
@@ -378,6 +424,7 @@ public class FormatTest  implements Serializable {
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
+    sb.append("    decimal: ").append(toIndentedString(decimal)).append("\n");
     sb.append("    string: ").append(toIndentedString(string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
@@ -385,7 +432,8 @@ public class FormatTest  implements Serializable {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append("*").append("\n");
-    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
+    sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
+    sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -426,6 +474,7 @@ public class FormatTest  implements Serializable {
     private BigDecimal number;
     private Float _float;
     private Double _double;
+    private BigDecimal decimal;
     private String string;
     private byte[] _byte;
     private File binary;
@@ -433,7 +482,8 @@ public class FormatTest  implements Serializable {
     private Date dateTime;
     private UUID uuid;
     private String password;
-    private BigDecimal bigDecimal;
+    private String patternWithDigits;
+    private String patternWithDigitsAndDelimiter;
     protected abstract B self();
 
     public abstract C build();
@@ -460,6 +510,10 @@ public class FormatTest  implements Serializable {
     }
     public B _double(Double _double) {
       this._double = _double;
+      return self();
+    }
+    public B decimal(BigDecimal decimal) {
+      this.decimal = decimal;
       return self();
     }
     public B string(String string) {
@@ -490,8 +544,12 @@ public class FormatTest  implements Serializable {
       this.password = password;
       return self();
     }
-    public B bigDecimal(BigDecimal bigDecimal) {
-      this.bigDecimal = bigDecimal;
+    public B patternWithDigits(String patternWithDigits) {
+      this.patternWithDigits = patternWithDigits;
+      return self();
+    }
+    public B patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+      this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
       return self();
     }
   }
