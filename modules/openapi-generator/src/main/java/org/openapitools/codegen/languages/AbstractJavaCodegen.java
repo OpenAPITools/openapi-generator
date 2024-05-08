@@ -607,7 +607,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
         importMapping.put("JsonIgnoreProperties", "com.fasterxml.jackson.annotation.JsonIgnoreProperties");
         importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
-        importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
+        if (openApiNullable) {
+            importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
+        }
         importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
         importMapping.put("TypeAdapter", "com.google.gson.TypeAdapter");
         importMapping.put("JsonAdapter", "com.google.gson.annotations.JsonAdapter");

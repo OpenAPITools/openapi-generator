@@ -1,6 +1,6 @@
 package org.openapitools.api;
 
-import org.openapitools.model.Client;
+import org.openapitools.model.FooGetDefaultResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -16,19 +16,18 @@ import javax.validation.Valid;
 /**
 * Represents a collection of functions to interact with the API endpoints.
 */
-@Path("/another-fake/dummy")
-@Api(description = "the another-fake API")
+@Path("/foo")
+@Api(description = "the foo API")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
-public class AnotherFakeApi {
+public class FooApi {
 
-    @PATCH
-    @Consumes({ "application/json" })
+    @GET
     @Produces({ "application/json" })
-    @ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?" })
+    @ApiOperation(value = "", notes = "", response = FooGetDefaultResponse.class, tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class)
+        @ApiResponse(code = 200, message = "response", response = FooGetDefaultResponse.class)
     })
-    public Response call123testSpecialTags(@Valid @NotNull Client client) {
+    public Response fooGet() {
         return Response.ok().entity("magic!").build();
     }
 }

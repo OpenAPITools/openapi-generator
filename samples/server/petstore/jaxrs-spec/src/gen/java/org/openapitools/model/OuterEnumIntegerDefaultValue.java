@@ -8,35 +8,35 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Gets or Sets OuterEnum
+ * Gets or Sets OuterEnumIntegerDefaultValue
  */
-public enum OuterEnum {
+public enum OuterEnumIntegerDefaultValue {
   
-  PLACED("placed"),
+  NUMBER_0(0),
   
-  APPROVED("approved"),
+  NUMBER_1(1),
   
-  DELIVERED("delivered");
+  NUMBER_2(2);
 
-  private String value;
+  private Integer value;
 
-  OuterEnum(String value) {
+  OuterEnumIntegerDefaultValue(Integer value) {
     this.value = value;
   }
 
     /**
-     * Convert a String into String, as specified in the
+     * Convert a String into Integer, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-    public static OuterEnum fromString(String s) {
-      for (OuterEnum b : OuterEnum.values()) {
+    public static OuterEnumIntegerDefaultValue fromString(String s) {
+      for (OuterEnumIntegerDefaultValue b : OuterEnumIntegerDefaultValue.values()) {
         // using Objects.toString() to be safe if value type non-object type
         // because types like 'int' etc. will be auto-boxed
         if (java.util.Objects.toString(b.value).equals(s)) {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected string value '" + s + "'");
     }
 
   @Override
@@ -46,13 +46,13 @@ public enum OuterEnum {
   }
 
   @JsonCreator
-  public static OuterEnum fromValue(String value) {
-    for (OuterEnum b : OuterEnum.values()) {
+  public static OuterEnumIntegerDefaultValue fromValue(Integer value) {
+    for (OuterEnumIntegerDefaultValue b : OuterEnumIntegerDefaultValue.values()) {
       if (b.value.equals(value)) {
         return b;
       }
     }
-    return null;
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 }
 

@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
@@ -17,28 +18,28 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@JsonTypeName("AdditionalPropertiesInteger")
+@JsonTypeName("testInlineFreeformAdditionalProperties_request")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
-public class AdditionalPropertiesInteger extends HashMap<String, Integer> implements Serializable {
-  private String name;
+public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> implements Serializable {
+  private String someProperty;
 
   /**
    **/
-  public AdditionalPropertiesInteger name(String name) {
-    this.name = name;
+  public TestInlineFreeformAdditionalPropertiesRequest someProperty(String someProperty) {
+    this.someProperty = someProperty;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
-  @JsonProperty("name")
-  public String getName() {
-    return name;
+  @JsonProperty("someProperty")
+  public String getSomeProperty() {
+    return someProperty;
   }
 
-  @JsonProperty("name")
-  public void setName(String name) {
-    this.name = name;
+  @JsonProperty("someProperty")
+  public void setSomeProperty(String someProperty) {
+    this.someProperty = someProperty;
   }
 
 
@@ -50,22 +51,22 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> implem
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AdditionalPropertiesInteger additionalPropertiesInteger = (AdditionalPropertiesInteger) o;
-    return Objects.equals(this.name, additionalPropertiesInteger.name) &&
+    TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = (TestInlineFreeformAdditionalPropertiesRequest) o;
+    return Objects.equals(this.someProperty, testInlineFreeformAdditionalPropertiesRequest.someProperty) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(someProperty, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AdditionalPropertiesInteger {\n");
+    sb.append("class TestInlineFreeformAdditionalPropertiesRequest {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    someProperty: ").append(toIndentedString(someProperty)).append("\n");
     sb.append("}");
     return sb.toString();
   }
