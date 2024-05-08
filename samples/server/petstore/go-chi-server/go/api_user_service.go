@@ -23,7 +23,7 @@ type UserAPIService struct {
 }
 
 // NewUserAPIService creates a default api service
-func NewUserAPIService() UserAPIServicer {
+func NewUserAPIService() *UserAPIService {
 	return &UserAPIService{}
 }
 

@@ -23,7 +23,7 @@ type BothAPIService struct {
 }
 
 // NewBothAPIService creates a default api service
-func NewBothAPIService() BothAPIServicer {
+func NewBothAPIService() *BothAPIService {
 	return &BothAPIService{}
 }
 
