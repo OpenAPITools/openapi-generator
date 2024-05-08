@@ -62,7 +62,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   @JsonProperty(value = "uuid")
   @ApiModelProperty(value = "")
   
-
   public UUID getUuid() {
     return uuid;
   }
@@ -83,7 +82,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   @JsonProperty(value = "dateTime")
   @ApiModelProperty(value = "")
   
-
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -112,7 +110,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   @JsonProperty(value = "map")
   @ApiModelProperty(value = "")
   @Valid 
-
   public Map<String, Animal> getMap() {
     return map;
   }

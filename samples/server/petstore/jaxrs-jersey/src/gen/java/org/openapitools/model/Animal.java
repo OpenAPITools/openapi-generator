@@ -59,7 +59,6 @@ public class Animal   {
   @JsonProperty(value = "className")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
-
   public String getClassName() {
     return className;
   }
@@ -80,7 +79,6 @@ public class Animal   {
   @JsonProperty(value = "color")
   @ApiModelProperty(value = "")
   
-
   public String getColor() {
     return color;
   }

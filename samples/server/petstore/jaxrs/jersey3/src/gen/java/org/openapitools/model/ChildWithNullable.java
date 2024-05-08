@@ -47,7 +47,6 @@ public class ChildWithNullable extends ParentWithNullable  {
   @JsonProperty(value = "otherProperty")
   @Schema(description = "")
   
-
   public String getOtherProperty() {
     return otherProperty;
   }

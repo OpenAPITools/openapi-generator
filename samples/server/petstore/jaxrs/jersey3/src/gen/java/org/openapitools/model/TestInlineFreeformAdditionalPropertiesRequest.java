@@ -48,7 +48,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
   @JsonProperty(value = "someProperty")
   @Schema(description = "")
   
-
   public String getSomeProperty() {
     return someProperty;
   }

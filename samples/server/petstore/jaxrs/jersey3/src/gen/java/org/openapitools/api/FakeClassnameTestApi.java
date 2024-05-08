@@ -69,8 +69,7 @@ public class FakeClassnameTestApi  {
             },security = {
             @SecurityRequirement(name = "api_key_query")
         }, tags={ "fake_classname_tags 123#$%^", }) 
-    public Response testClassname(@Schema(description = "client model", required = true) @NotNull 
- Client client,@Context SecurityContext securityContext)
+    public Response testClassname(@Schema(description = "client model", required = true) @NotNull @Valid  Client client,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClassname(client, securityContext);
     }

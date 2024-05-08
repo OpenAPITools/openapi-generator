@@ -47,7 +47,6 @@ public class ModelReturn   {
   @JsonProperty(value = "return")
   @Schema(description = "")
   
-
   public Integer getReturn() {
     return _return;
   }

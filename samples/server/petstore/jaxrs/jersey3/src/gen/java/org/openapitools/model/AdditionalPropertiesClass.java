@@ -60,7 +60,6 @@ public class AdditionalPropertiesClass   {
   @JsonProperty(value = "map_property")
   @Schema(description = "")
   
-
   public Map<String, String> getMapProperty() {
     return mapProperty;
   }
@@ -89,7 +88,6 @@ public class AdditionalPropertiesClass   {
   @JsonProperty(value = "map_of_map_property")
   @Schema(description = "")
   @Valid 
-
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }

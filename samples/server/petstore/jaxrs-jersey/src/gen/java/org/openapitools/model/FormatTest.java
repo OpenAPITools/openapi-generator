@@ -128,7 +128,6 @@ public class FormatTest   {
   @JsonProperty(value = "integer")
   @ApiModelProperty(value = "")
    @Min(10) @Max(100)
-
   public Integer getInteger() {
     return integer;
   }
@@ -151,7 +150,6 @@ public class FormatTest   {
   @JsonProperty(value = "int32")
   @ApiModelProperty(value = "")
    @Min(20) @Max(200)
-
   public Integer getInt32() {
     return int32;
   }
@@ -172,7 +170,6 @@ public class FormatTest   {
   @JsonProperty(value = "int64")
   @ApiModelProperty(value = "")
   
-
   public Long getInt64() {
     return int64;
   }
@@ -194,8 +191,7 @@ public class FormatTest   {
    **/
   @JsonProperty(value = "number")
   @ApiModelProperty(required = true, value = "")
-  @NotNull  @DecimalMin("32.1") @DecimalMax("543.2")
-
+  @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")
   public BigDecimal getNumber() {
     return number;
   }
@@ -218,7 +214,6 @@ public class FormatTest   {
   @JsonProperty(value = "float")
   @ApiModelProperty(value = "")
    @DecimalMin("54.3") @DecimalMax("987.6")
-
   public Float getFloat() {
     return _float;
   }
@@ -241,7 +236,6 @@ public class FormatTest   {
   @JsonProperty(value = "double")
   @ApiModelProperty(value = "")
    @DecimalMin("67.8") @DecimalMax("123.4")
-
   public Double getDouble() {
     return _double;
   }
@@ -261,8 +255,7 @@ public class FormatTest   {
    **/
   @JsonProperty(value = "decimal")
   @ApiModelProperty(value = "")
-  
-
+  @Valid 
   public BigDecimal getDecimal() {
     return decimal;
   }
@@ -283,7 +276,6 @@ public class FormatTest   {
   @JsonProperty(value = "string")
   @ApiModelProperty(value = "")
    @Pattern(regexp="/[a-z]/i")
-
   public String getString() {
     return string;
   }
@@ -304,7 +296,6 @@ public class FormatTest   {
   @JsonProperty(value = "byte")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
-
   public byte[] getByte() {
     return _byte;
   }
@@ -325,7 +316,6 @@ public class FormatTest   {
   @JsonProperty(value = "binary")
   @ApiModelProperty(value = "")
   
-
   public File getBinary() {
     return binary;
   }
@@ -346,7 +336,6 @@ public class FormatTest   {
   @JsonProperty(value = "date")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
-
   public Date getDate() {
     return date;
   }
@@ -367,7 +356,6 @@ public class FormatTest   {
   @JsonProperty(value = "dateTime")
   @ApiModelProperty(value = "")
   
-
   public Date getDateTime() {
     return dateTime;
   }
@@ -388,7 +376,6 @@ public class FormatTest   {
   @JsonProperty(value = "uuid")
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   
-
   public UUID getUuid() {
     return uuid;
   }
@@ -409,7 +396,6 @@ public class FormatTest   {
   @JsonProperty(value = "password")
   @ApiModelProperty(required = true, value = "")
   @NotNull  @Size(min=10,max=64)
-
   public String getPassword() {
     return password;
   }
@@ -430,7 +416,6 @@ public class FormatTest   {
   @JsonProperty(value = "pattern_with_digits")
   @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
    @Pattern(regexp="^\\d{10}$")
-
   public String getPatternWithDigits() {
     return patternWithDigits;
   }
@@ -451,7 +436,6 @@ public class FormatTest   {
   @JsonProperty(value = "pattern_with_digits_and_delimiter")
   @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
    @Pattern(regexp="/^image_\\d{1,3}$/i")
-
   public String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;
   }

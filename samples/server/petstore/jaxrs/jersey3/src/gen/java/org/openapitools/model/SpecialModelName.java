@@ -46,7 +46,6 @@ public class SpecialModelName   {
   @JsonProperty(value = "$special[property.name]")
   @Schema(description = "")
   
-
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }

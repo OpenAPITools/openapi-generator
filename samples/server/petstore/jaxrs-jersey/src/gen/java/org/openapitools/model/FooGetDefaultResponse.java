@@ -47,8 +47,7 @@ public class FooGetDefaultResponse   {
    **/
   @JsonProperty(value = "string")
   @ApiModelProperty(value = "")
-  
-
+  @Valid 
   public Foo getString() {
     return string;
   }

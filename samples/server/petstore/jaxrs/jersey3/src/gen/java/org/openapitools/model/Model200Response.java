@@ -52,7 +52,6 @@ public class Model200Response   {
   @JsonProperty(value = "name")
   @Schema(description = "")
   
-
   public Integer getName() {
     return name;
   }
@@ -73,7 +72,6 @@ public class Model200Response   {
   @JsonProperty(value = "class")
   @Schema(description = "")
   
-
   public String getPropertyClass() {
     return propertyClass;
   }
