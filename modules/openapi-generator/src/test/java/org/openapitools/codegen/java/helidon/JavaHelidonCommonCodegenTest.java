@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
@@ -77,8 +77,8 @@ public class JavaHelidonCommonCodegenTest {
 
     @Test
     public void bothNotEqualsVersionTest() {
-        IllegalArgumentException e = Assert.assertThrows(IllegalArgumentException.class,() -> runVersionTest("1.0.0", "2.0.0"));
-        Assert.assertEquals(
+        IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class,() -> runVersionTest("1.0.0", "2.0.0"));
+        Assertions.assertEquals(
                 "Both parentVersion and helidonVersion properties were set with different value.",
                 e.getMessage());
     }
