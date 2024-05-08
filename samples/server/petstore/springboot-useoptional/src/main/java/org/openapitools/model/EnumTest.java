@@ -192,7 +192,7 @@ public class EnumTest {
   }
 
   public EnumTest enumString(EnumStringEnum enumString) {
-    this.enumString = Optional.ofNullable(enumString);
+    this.enumString = Optional.of(enumString);
     return this;
   }
 
@@ -232,7 +232,7 @@ public class EnumTest {
   }
 
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
-    this.enumInteger = Optional.ofNullable(enumInteger);
+    this.enumInteger = Optional.of(enumInteger);
     return this;
   }
 
@@ -252,7 +252,7 @@ public class EnumTest {
   }
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
-    this.enumNumber = Optional.ofNullable(enumNumber);
+    this.enumNumber = Optional.of(enumNumber);
     return this;
   }
 
@@ -272,7 +272,7 @@ public class EnumTest {
   }
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
-    this.outerEnum = Optional.ofNullable(outerEnum);
+    this.outerEnum = Optional.of(outerEnum);
     return this;
   }
 

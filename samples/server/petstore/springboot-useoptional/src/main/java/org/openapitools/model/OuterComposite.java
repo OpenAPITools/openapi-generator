@@ -30,7 +30,7 @@ public class OuterComposite {
   private Optional<Boolean> myBoolean = Optional.empty();
 
   public OuterComposite myNumber(BigDecimal myNumber) {
-    this.myNumber = Optional.ofNullable(myNumber);
+    this.myNumber = Optional.of(myNumber);
     return this;
   }
 
@@ -50,7 +50,7 @@ public class OuterComposite {
   }
 
   public OuterComposite myString(String myString) {
-    this.myString = Optional.ofNullable(myString);
+    this.myString = Optional.of(myString);
     return this;
   }
 
@@ -70,7 +70,7 @@ public class OuterComposite {
   }
 
   public OuterComposite myBoolean(Boolean myBoolean) {
-    this.myBoolean = Optional.ofNullable(myBoolean);
+    this.myBoolean = Optional.of(myBoolean);
     return this;
   }
 

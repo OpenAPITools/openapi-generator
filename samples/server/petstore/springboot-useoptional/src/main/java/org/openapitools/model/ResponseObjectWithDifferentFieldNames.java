@@ -31,7 +31,7 @@ public class ResponseObjectWithDifferentFieldNames {
   private Optional<String> propertyNameWithSpaces = Optional.empty();
 
   public ResponseObjectWithDifferentFieldNames normalPropertyName(String normalPropertyName) {
-    this.normalPropertyName = Optional.ofNullable(normalPropertyName);
+    this.normalPropertyName = Optional.of(normalPropertyName);
     return this;
   }
 
@@ -51,7 +51,7 @@ public class ResponseObjectWithDifferentFieldNames {
   }
 
   public ResponseObjectWithDifferentFieldNames UPPER_CASE_PROPERTY_SNAKE(String UPPER_CASE_PROPERTY_SNAKE) {
-    this.UPPER_CASE_PROPERTY_SNAKE = Optional.ofNullable(UPPER_CASE_PROPERTY_SNAKE);
+    this.UPPER_CASE_PROPERTY_SNAKE = Optional.of(UPPER_CASE_PROPERTY_SNAKE);
     return this;
   }
 
@@ -71,7 +71,7 @@ public class ResponseObjectWithDifferentFieldNames {
   }
 
   public ResponseObjectWithDifferentFieldNames lowerCasePropertyDashes(String lowerCasePropertyDashes) {
-    this.lowerCasePropertyDashes = Optional.ofNullable(lowerCasePropertyDashes);
+    this.lowerCasePropertyDashes = Optional.of(lowerCasePropertyDashes);
     return this;
   }
 
@@ -91,7 +91,7 @@ public class ResponseObjectWithDifferentFieldNames {
   }
 
   public ResponseObjectWithDifferentFieldNames propertyNameWithSpaces(String propertyNameWithSpaces) {
-    this.propertyNameWithSpaces = Optional.ofNullable(propertyNameWithSpaces);
+    this.propertyNameWithSpaces = Optional.of(propertyNameWithSpaces);
     return this;
   }
 

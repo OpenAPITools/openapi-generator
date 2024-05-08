@@ -35,7 +35,7 @@ public class Capitalization {
   private Optional<String> ATT_NAME = Optional.empty();
 
   public Capitalization smallCamel(String smallCamel) {
-    this.smallCamel = Optional.ofNullable(smallCamel);
+    this.smallCamel = Optional.of(smallCamel);
     return this;
   }
 
@@ -55,7 +55,7 @@ public class Capitalization {
   }
 
   public Capitalization capitalCamel(String capitalCamel) {
-    this.capitalCamel = Optional.ofNullable(capitalCamel);
+    this.capitalCamel = Optional.of(capitalCamel);
     return this;
   }
 
@@ -75,7 +75,7 @@ public class Capitalization {
   }
 
   public Capitalization smallSnake(String smallSnake) {
-    this.smallSnake = Optional.ofNullable(smallSnake);
+    this.smallSnake = Optional.of(smallSnake);
     return this;
   }
 
@@ -95,7 +95,7 @@ public class Capitalization {
   }
 
   public Capitalization capitalSnake(String capitalSnake) {
-    this.capitalSnake = Optional.ofNullable(capitalSnake);
+    this.capitalSnake = Optional.of(capitalSnake);
     return this;
   }
 
@@ -115,7 +115,7 @@ public class Capitalization {
   }
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
-    this.scAETHFlowPoints = Optional.ofNullable(scAETHFlowPoints);
+    this.scAETHFlowPoints = Optional.of(scAETHFlowPoints);
     return this;
   }
 
@@ -135,7 +135,7 @@ public class Capitalization {
   }
 
   public Capitalization ATT_NAME(String ATT_NAME) {
-    this.ATT_NAME = Optional.ofNullable(ATT_NAME);
+    this.ATT_NAME = Optional.of(ATT_NAME);
     return this;
   }
 

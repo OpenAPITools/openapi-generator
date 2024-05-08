@@ -81,7 +81,7 @@ public class BigCat extends Cat {
   }
 
   public BigCat kind(KindEnum kind) {
-    this.kind = Optional.ofNullable(kind);
+    this.kind = Optional.of(kind);
     return this;
   }
 

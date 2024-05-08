@@ -75,7 +75,7 @@ public class FormatTest {
   }
 
   public FormatTest integer(Integer integer) {
-    this.integer = Optional.ofNullable(integer);
+    this.integer = Optional.of(integer);
     return this;
   }
 
@@ -97,7 +97,7 @@ public class FormatTest {
   }
 
   public FormatTest int32(Integer int32) {
-    this.int32 = Optional.ofNullable(int32);
+    this.int32 = Optional.of(int32);
     return this;
   }
 
@@ -119,7 +119,7 @@ public class FormatTest {
   }
 
   public FormatTest int64(Long int64) {
-    this.int64 = Optional.ofNullable(int64);
+    this.int64 = Optional.of(int64);
     return this;
   }
 
@@ -161,7 +161,7 @@ public class FormatTest {
   }
 
   public FormatTest _float(Float _float) {
-    this._float = Optional.ofNullable(_float);
+    this._float = Optional.of(_float);
     return this;
   }
 
@@ -183,7 +183,7 @@ public class FormatTest {
   }
 
   public FormatTest _double(Double _double) {
-    this._double = Optional.ofNullable(_double);
+    this._double = Optional.of(_double);
     return this;
   }
 
@@ -205,7 +205,7 @@ public class FormatTest {
   }
 
   public FormatTest string(String string) {
-    this.string = Optional.ofNullable(string);
+    this.string = Optional.of(string);
     return this;
   }
 
@@ -245,7 +245,7 @@ public class FormatTest {
   }
 
   public FormatTest binary(org.springframework.core.io.Resource binary) {
-    this.binary = Optional.ofNullable(binary);
+    this.binary = Optional.of(binary);
     return this;
   }
 
@@ -285,7 +285,7 @@ public class FormatTest {
   }
 
   public FormatTest dateTime(OffsetDateTime dateTime) {
-    this.dateTime = Optional.ofNullable(dateTime);
+    this.dateTime = Optional.of(dateTime);
     return this;
   }
 
@@ -305,7 +305,7 @@ public class FormatTest {
   }
 
   public FormatTest uuid(UUID uuid) {
-    this.uuid = Optional.ofNullable(uuid);
+    this.uuid = Optional.of(uuid);
     return this;
   }
 
@@ -345,7 +345,7 @@ public class FormatTest {
   }
 
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = Optional.ofNullable(bigDecimal);
+    this.bigDecimal = Optional.of(bigDecimal);
     return this;
   }
 

@@ -102,7 +102,7 @@ public class EnumArrays {
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
-    this.justSymbol = Optional.ofNullable(justSymbol);
+    this.justSymbol = Optional.of(justSymbol);
     return this;
   }
 

@@ -284,7 +284,7 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass anytype1(Object anytype1) {
-    this.anytype1 = Optional.ofNullable(anytype1);
+    this.anytype1 = Optional.of(anytype1);
     return this;
   }
 
@@ -324,7 +324,7 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass anytype3(Object anytype3) {
-    this.anytype3 = Optional.ofNullable(anytype3);
+    this.anytype3 = Optional.of(anytype3);
     return this;
   }
 

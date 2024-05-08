@@ -256,7 +256,7 @@ public class SpringCodegenTest {
                 .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE_TIME"))
                 .toProperty().toType()
                 .assertMethod("born", "LocalDate")
-                .bodyContainsLines("this.born = Optional.ofNullable(born)")
+                .bodyContainsLines("this.born = Optional.of(born)")
                 .doesNotHaveComment();
     }
 
@@ -4324,7 +4324,7 @@ public class SpringCodegenTest {
     }
 
     private void assertOptionalMethod(JavaFileAssert javaFileAssert, String type, String expectedName, String getterReturnType){
-        assertWrapperMethod(javaFileAssert, "Optional", "ofNullable", type, expectedName, getterReturnType);
+        assertWrapperMethod(javaFileAssert, "Optional", "of", type, expectedName, getterReturnType);
     }
 
     private void assertJsonNullableMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName, String getterReturnType){

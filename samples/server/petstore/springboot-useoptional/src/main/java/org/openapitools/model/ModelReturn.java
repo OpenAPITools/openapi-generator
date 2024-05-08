@@ -28,7 +28,7 @@ public class ModelReturn {
   private Optional<Integer> _return = Optional.empty();
 
   public ModelReturn _return(Integer _return) {
-    this._return = Optional.ofNullable(_return);
+    this._return = Optional.of(_return);
     return this;
   }
 

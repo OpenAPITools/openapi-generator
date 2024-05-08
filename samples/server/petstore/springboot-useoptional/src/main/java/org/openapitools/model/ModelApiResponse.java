@@ -31,7 +31,7 @@ public class ModelApiResponse {
   private Optional<String> message = Optional.empty();
 
   public ModelApiResponse code(Integer code) {
-    this.code = Optional.ofNullable(code);
+    this.code = Optional.of(code);
     return this;
   }
 
@@ -51,7 +51,7 @@ public class ModelApiResponse {
   }
 
   public ModelApiResponse type(String type) {
-    this.type = Optional.ofNullable(type);
+    this.type = Optional.of(type);
     return this;
   }
 
@@ -71,7 +71,7 @@ public class ModelApiResponse {
   }
 
   public ModelApiResponse message(String message) {
-    this.message = Optional.ofNullable(message);
+    this.message = Optional.of(message);
     return this;
   }
 

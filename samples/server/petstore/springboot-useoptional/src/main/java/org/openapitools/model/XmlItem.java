@@ -94,7 +94,7 @@ public class XmlItem {
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {
-    this.attributeString = Optional.ofNullable(attributeString);
+    this.attributeString = Optional.of(attributeString);
     return this;
   }
 
@@ -114,7 +114,7 @@ public class XmlItem {
   }
 
   public XmlItem attributeNumber(BigDecimal attributeNumber) {
-    this.attributeNumber = Optional.ofNullable(attributeNumber);
+    this.attributeNumber = Optional.of(attributeNumber);
     return this;
   }
 
@@ -134,7 +134,7 @@ public class XmlItem {
   }
 
   public XmlItem attributeInteger(Integer attributeInteger) {
-    this.attributeInteger = Optional.ofNullable(attributeInteger);
+    this.attributeInteger = Optional.of(attributeInteger);
     return this;
   }
 
@@ -154,7 +154,7 @@ public class XmlItem {
   }
 
   public XmlItem attributeBoolean(Boolean attributeBoolean) {
-    this.attributeBoolean = Optional.ofNullable(attributeBoolean);
+    this.attributeBoolean = Optional.of(attributeBoolean);
     return this;
   }
 
@@ -202,7 +202,7 @@ public class XmlItem {
   }
 
   public XmlItem nameString(String nameString) {
-    this.nameString = Optional.ofNullable(nameString);
+    this.nameString = Optional.of(nameString);
     return this;
   }
 
@@ -222,7 +222,7 @@ public class XmlItem {
   }
 
   public XmlItem nameNumber(BigDecimal nameNumber) {
-    this.nameNumber = Optional.ofNullable(nameNumber);
+    this.nameNumber = Optional.of(nameNumber);
     return this;
   }
 
@@ -242,7 +242,7 @@ public class XmlItem {
   }
 
   public XmlItem nameInteger(Integer nameInteger) {
-    this.nameInteger = Optional.ofNullable(nameInteger);
+    this.nameInteger = Optional.of(nameInteger);
     return this;
   }
 
@@ -262,7 +262,7 @@ public class XmlItem {
   }
 
   public XmlItem nameBoolean(Boolean nameBoolean) {
-    this.nameBoolean = Optional.ofNullable(nameBoolean);
+    this.nameBoolean = Optional.of(nameBoolean);
     return this;
   }
 
@@ -338,7 +338,7 @@ public class XmlItem {
   }
 
   public XmlItem prefixString(String prefixString) {
-    this.prefixString = Optional.ofNullable(prefixString);
+    this.prefixString = Optional.of(prefixString);
     return this;
   }
 
@@ -358,7 +358,7 @@ public class XmlItem {
   }
 
   public XmlItem prefixNumber(BigDecimal prefixNumber) {
-    this.prefixNumber = Optional.ofNullable(prefixNumber);
+    this.prefixNumber = Optional.of(prefixNumber);
     return this;
   }
 
@@ -378,7 +378,7 @@ public class XmlItem {
   }
 
   public XmlItem prefixInteger(Integer prefixInteger) {
-    this.prefixInteger = Optional.ofNullable(prefixInteger);
+    this.prefixInteger = Optional.of(prefixInteger);
     return this;
   }
 
@@ -398,7 +398,7 @@ public class XmlItem {
   }
 
   public XmlItem prefixBoolean(Boolean prefixBoolean) {
-    this.prefixBoolean = Optional.ofNullable(prefixBoolean);
+    this.prefixBoolean = Optional.of(prefixBoolean);
     return this;
   }
 
@@ -474,7 +474,7 @@ public class XmlItem {
   }
 
   public XmlItem namespaceString(String namespaceString) {
-    this.namespaceString = Optional.ofNullable(namespaceString);
+    this.namespaceString = Optional.of(namespaceString);
     return this;
   }
 
@@ -494,7 +494,7 @@ public class XmlItem {
   }
 
   public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
-    this.namespaceNumber = Optional.ofNullable(namespaceNumber);
+    this.namespaceNumber = Optional.of(namespaceNumber);
     return this;
   }
 
@@ -514,7 +514,7 @@ public class XmlItem {
   }
 
   public XmlItem namespaceInteger(Integer namespaceInteger) {
-    this.namespaceInteger = Optional.ofNullable(namespaceInteger);
+    this.namespaceInteger = Optional.of(namespaceInteger);
     return this;
   }
 
@@ -534,7 +534,7 @@ public class XmlItem {
   }
 
   public XmlItem namespaceBoolean(Boolean namespaceBoolean) {
-    this.namespaceBoolean = Optional.ofNullable(namespaceBoolean);
+    this.namespaceBoolean = Optional.of(namespaceBoolean);
     return this;
   }
 
@@ -610,7 +610,7 @@ public class XmlItem {
   }
 
   public XmlItem prefixNsString(String prefixNsString) {
-    this.prefixNsString = Optional.ofNullable(prefixNsString);
+    this.prefixNsString = Optional.of(prefixNsString);
     return this;
   }
 
@@ -630,7 +630,7 @@ public class XmlItem {
   }
 
   public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
-    this.prefixNsNumber = Optional.ofNullable(prefixNsNumber);
+    this.prefixNsNumber = Optional.of(prefixNsNumber);
     return this;
   }
 
@@ -650,7 +650,7 @@ public class XmlItem {
   }
 
   public XmlItem prefixNsInteger(Integer prefixNsInteger) {
-    this.prefixNsInteger = Optional.ofNullable(prefixNsInteger);
+    this.prefixNsInteger = Optional.of(prefixNsInteger);
     return this;
   }
 
@@ -670,7 +670,7 @@ public class XmlItem {
   }
 
   public XmlItem prefixNsBoolean(Boolean prefixNsBoolean) {
-    this.prefixNsBoolean = Optional.ofNullable(prefixNsBoolean);
+    this.prefixNsBoolean = Optional.of(prefixNsBoolean);
     return this;
   }
 

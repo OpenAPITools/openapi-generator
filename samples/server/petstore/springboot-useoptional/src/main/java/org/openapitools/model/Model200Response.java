@@ -30,7 +30,7 @@ public class Model200Response {
   private Optional<String> propertyClass = Optional.empty();
 
   public Model200Response name(Integer name) {
-    this.name = Optional.ofNullable(name);
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -50,7 +50,7 @@ public class Model200Response {
   }
 
   public Model200Response propertyClass(String propertyClass) {
-    this.propertyClass = Optional.ofNullable(propertyClass);
+    this.propertyClass = Optional.of(propertyClass);
     return this;
   }
 

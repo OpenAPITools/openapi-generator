@@ -27,7 +27,7 @@ public class Tag {
   private Optional<String> name = Optional.empty();
 
   public Tag id(Long id) {
-    this.id = Optional.ofNullable(id);
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -47,7 +47,7 @@ public class Tag {
   }
 
   public Tag name(String name) {
-    this.name = Optional.ofNullable(name);
+    this.name = Optional.of(name);
     return this;
   }
 

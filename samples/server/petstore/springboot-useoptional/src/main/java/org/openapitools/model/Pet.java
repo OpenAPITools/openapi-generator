@@ -96,7 +96,7 @@ public class Pet {
   }
 
   public Pet id(Long id) {
-    this.id = Optional.ofNullable(id);
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -116,7 +116,7 @@ public class Pet {
   }
 
   public Pet category(Category category) {
-    this.category = Optional.ofNullable(category);
+    this.category = Optional.of(category);
     return this;
   }
 
@@ -213,7 +213,7 @@ public class Pet {
   }
 
   public Pet status(StatusEnum status) {
-    this.status = Optional.ofNullable(status);
+    this.status = Optional.of(status);
     return this;
   }
 
