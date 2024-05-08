@@ -5,7 +5,7 @@
 
 | Name | Value |
 |---- | -----|{{#allowableValues}}{{#enumVars}}
-| {{name}} | {{value}} |{{/enumVars}}{{/allowableValues}}
+| {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}} | {{value}} |{{/enumVars}}{{/allowableValues}}
 
 {{/isEnum}}
 {{#discriminator}}

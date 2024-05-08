@@ -16,7 +16,7 @@ pub enum {{{classname}}} {
 {{#allowableValues}}
 {{#enumVars}}
     #[serde(rename = "{{{value}}}")]
-    {{{name}}},
+    {{#lambda.pascalcase}}{{{name}}}{{/lambda.pascalcase}},
 {{/enumVars}}{{/allowableValues}}
 }
 
@@ -25,7 +25,7 @@ impl ToString for {{{classname}}} {
         match self {
             {{#allowableValues}}
             {{#enumVars}}
-            Self::{{{name}}} => String::from("{{{value}}}"),
+            Self::{{#lambda.pascalcase}}{{{name}}}{{/lambda.pascalcase}} => String::from("{{{value}}}"),
             {{/enumVars}}
             {{/allowableValues}}
         }
@@ -35,7 +35,7 @@ impl ToString for {{{classname}}} {
 impl Default for {{{classname}}} {
     fn default() -> {{{classname}}} {
         {{#allowableValues}}
-        Self::{{ enumVars.0.name }}
+        Self::{{#lambda.pascalcase}}{{enumVars.0.name}}{{/lambda.pascalcase}}
         {{/allowableValues}}
     }
 }
@@ -148,7 +148,7 @@ pub enum {{{enumName}}} {
 {{#allowableValues}}
 {{#enumVars}}
     #[serde(rename = "{{{value}}}")]
-    {{{name}}},
+    {{#lambda.pascalcase}}{{{name}}}{{/lambda.pascalcase}},
 {{/enumVars}}
 {{/allowableValues}}
 }

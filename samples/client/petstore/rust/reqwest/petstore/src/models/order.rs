@@ -49,7 +49,7 @@ pub enum Status {
     #[serde(rename = "approved")]
     Approved,
     #[serde(rename = "delivered")]
-    shipped,
+    Shipped,
 }
 
 impl Default for Status {
