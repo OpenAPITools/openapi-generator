@@ -85,7 +85,7 @@ public class ObjectWithDeprecatedFields   {
    **/
   @JsonProperty(value = "id")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public BigDecimal getId() {
     return id;
   }
@@ -105,7 +105,7 @@ public class ObjectWithDeprecatedFields   {
    **/
   @JsonProperty(value = "deprecatedRef")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
   }

@@ -103,7 +103,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "The instance started successfully", response = Void.class)
     })
-    public Response fakeHttpSignatureTest(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet pet,@ApiParam(value = "query parameter") @QueryParam("query_1")  String query1,@ApiParam(value = "header parameter" )@HeaderParam("header_1") String header1,@Context SecurityContext securityContext)
+    public Response fakeHttpSignatureTest(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull  Pet pet,@ApiParam(value = "query parameter") @QueryParam("query_1")  String query1,@ApiParam(value = "header parameter" )@HeaderParam("header_1") String header1,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeHttpSignatureTest(pet, query1, header1, securityContext);
     }
@@ -127,7 +127,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class)
     })
-    public Response fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body") @Valid  OuterComposite outerComposite,@Context SecurityContext securityContext)
+    public Response fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body")  OuterComposite outerComposite,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterCompositeSerialize(outerComposite, securityContext);
     }
@@ -163,7 +163,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output enum (int)", response = OuterObjectWithEnumProperty.class)
     })
-    public Response fakePropertyEnumIntegerSerialize(@ApiParam(value = "Input enum (int) as post body", required = true) @NotNull @Valid  OuterObjectWithEnumProperty outerObjectWithEnumProperty,@Context SecurityContext securityContext)
+    public Response fakePropertyEnumIntegerSerialize(@ApiParam(value = "Input enum (int) as post body", required = true) @NotNull  OuterObjectWithEnumProperty outerObjectWithEnumProperty,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, securityContext);
     }
@@ -199,7 +199,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithFileSchema(@ApiParam(value = "", required = true) @NotNull @Valid  FileSchemaTestClass fileSchemaTestClass,@Context SecurityContext securityContext)
+    public Response testBodyWithFileSchema(@ApiParam(value = "", required = true) @NotNull  FileSchemaTestClass fileSchemaTestClass,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithFileSchema(fileSchemaTestClass, securityContext);
     }
@@ -211,7 +211,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithQueryParams(@ApiParam(value = "", required = true) @QueryParam("query") @NotNull  String query,@ApiParam(value = "", required = true) @NotNull @Valid  User user,@Context SecurityContext securityContext)
+    public Response testBodyWithQueryParams(@ApiParam(value = "", required = true) @QueryParam("query") @NotNull  String query,@ApiParam(value = "", required = true) @NotNull  User user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithQueryParams(query, user, securityContext);
     }
@@ -223,7 +223,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response testClientModel(@ApiParam(value = "client model", required = true) @NotNull @Valid  Client client,@Context SecurityContext securityContext)
+    public Response testClientModel(@ApiParam(value = "client model", required = true) @NotNull  Client client,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClientModel(client, securityContext);
     }
@@ -252,7 +252,7 @@ public class FakeApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Not found", response = Void.class)
     })
-    public Response testEnumParameters(@ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $")@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray,@ApiParam(value = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")@HeaderParam("enum_header_string") String enumHeaderString,@ApiParam(value = "Query parameter enum test (string array)") @QueryParam("enum_query_string_array") @Valid  List<String> enumQueryStringArray,@ApiParam(value = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue = "-efg") @DefaultValue("-efg") @QueryParam("enum_query_string")  String enumQueryString,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1, -2") @QueryParam("enum_query_integer")  Integer enumQueryInteger,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1.1, -1.2") @QueryParam("enum_query_double")  Double enumQueryDouble,@ApiParam(value = "") @QueryParam("enum_query_model_array") @Valid  List<EnumClass> enumQueryModelArray,@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $", defaultValue="$")  @DefaultValue("$") @FormParam("enum_form_string_array")  List<String> enumFormStringArray,@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")  @DefaultValue("-efg") @FormParam("enum_form_string")  String enumFormString,@Context SecurityContext securityContext)
+    public Response testEnumParameters(@ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $")@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray,@ApiParam(value = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")@HeaderParam("enum_header_string") String enumHeaderString,@ApiParam(value = "Query parameter enum test (string array)") @QueryParam("enum_query_string_array")  List<String> enumQueryStringArray,@ApiParam(value = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue = "-efg") @DefaultValue("-efg") @QueryParam("enum_query_string")  String enumQueryString,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1, -2") @QueryParam("enum_query_integer")  Integer enumQueryInteger,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1.1, -1.2") @QueryParam("enum_query_double")  Double enumQueryDouble,@ApiParam(value = "") @QueryParam("enum_query_model_array") @Valid  List<EnumClass> enumQueryModelArray,@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $", defaultValue="$")  @DefaultValue("$") @FormParam("enum_form_string_array")  List<String> enumFormStringArray,@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")  @DefaultValue("-efg") @FormParam("enum_form_string")  String enumFormString,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, securityContext);
     }
@@ -290,7 +290,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testInlineFreeformAdditionalProperties(@ApiParam(value = "request body", required = true) @NotNull @Valid  TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,@Context SecurityContext securityContext)
+    public Response testInlineFreeformAdditionalProperties(@ApiParam(value = "request body", required = true) @NotNull  TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, securityContext);
     }
@@ -314,7 +314,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testNullable(@ApiParam(value = "request body", required = true) @NotNull @Valid  ChildWithNullable childWithNullable,@Context SecurityContext securityContext)
+    public Response testNullable(@ApiParam(value = "request body", required = true) @NotNull  ChildWithNullable childWithNullable,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testNullable(childWithNullable, securityContext);
     }

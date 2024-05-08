@@ -67,7 +67,7 @@ public class AnotherFakeApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Client.class))),
             }, tags={ "$another-fake?", }) 
-    public Response call123testSpecialTags(@Schema(description = "client model", required = true) @NotNull @Valid  Client client,@Context SecurityContext securityContext)
+    public Response call123testSpecialTags(@Schema(description = "client model", required = true) @NotNull  Client client,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.call123testSpecialTags(client, securityContext);
     }

@@ -94,7 +94,7 @@ public class TypeHolderExample   {
    **/
   @JsonProperty(value = "number_item")
   @ApiModelProperty(example = "1.234", required = true, value = "")
-  @NotNull @Valid 
+  @NotNull 
   public BigDecimal getNumberItem() {
     return numberItem;
   }

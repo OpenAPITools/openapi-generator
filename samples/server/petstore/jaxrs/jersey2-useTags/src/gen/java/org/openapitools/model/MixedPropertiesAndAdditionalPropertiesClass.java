@@ -108,7 +108,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    **/
   @JsonProperty(value = "map")
   @ApiModelProperty(value = "")
-  @Valid 
+  @Valid @Valid 
   public Map<String, Animal> getMap() {
     return map;
   }

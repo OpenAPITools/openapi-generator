@@ -135,7 +135,7 @@ public class AdditionalPropertiesClass   {
    **/
   @JsonProperty(value = "map_number")
   @ApiModelProperty(value = "")
-  @Valid 
+  @Valid @Valid 
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }

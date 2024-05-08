@@ -89,7 +89,7 @@ public class TypeHolderDefault   {
    **/
   @JsonProperty(value = "number_item")
   @ApiModelProperty(required = true, value = "")
-  @NotNull @Valid 
+  @NotNull 
   public BigDecimal getNumberItem() {
     return numberItem;
   }

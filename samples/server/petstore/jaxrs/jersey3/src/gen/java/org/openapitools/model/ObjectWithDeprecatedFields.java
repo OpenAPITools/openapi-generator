@@ -84,7 +84,7 @@ public class ObjectWithDeprecatedFields   {
    **/
   @JsonProperty(value = "id")
   @Schema(description = "")
-  @Valid 
+  
   public BigDecimal getId() {
     return id;
   }
@@ -104,7 +104,7 @@ public class ObjectWithDeprecatedFields   {
    **/
   @JsonProperty(value = "deprecatedRef")
   @Schema(description = "")
-  @Valid 
+  
   public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
   }

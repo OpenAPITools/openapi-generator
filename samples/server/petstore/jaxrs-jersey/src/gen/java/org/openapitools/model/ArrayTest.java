@@ -123,7 +123,7 @@ public class ArrayTest   {
    **/
   @JsonProperty(value = "array_array_of_model")
   @ApiModelProperty(value = "")
-  @Valid 
+  @Valid @Valid 
   public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
