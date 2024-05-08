@@ -545,9 +545,7 @@ openApiGenerate {
     apiPackage.set("org.openapi.example.api")
     invokerPackage.set("org.openapi.example.invoker")
     modelPackage.set("org.openapi.example.model")
-    configOptions.set([
-        dateLibrary: "java8"
-    ])
+    configOptions.put("dateLibrary", "java8")
 }
 ----
 
