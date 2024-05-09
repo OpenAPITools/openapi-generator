@@ -13,25 +13,15 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
-import java.io.File;
-import org.openapitools.client.model.Pet;
-import org.openapitools.client.model.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Assertions;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.api.EchoServerResponseParser;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -117,9 +107,9 @@ public class BodyApiTest {
 
         String contentDisposition = parser.headers.get("Content-Disposition");
 
-        assertThat(contentDisposition, containsString(
+        assertThat(contentDisposition).contains(
                 "form-data; name=\"my-file\"; filename=\"test.txt\""
-        ));
+        );
     }
 
     /**
