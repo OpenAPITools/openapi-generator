@@ -1,6 +1,6 @@
 # AnotherFakeApi
 
-All URIs are relative to *https://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
@@ -30,7 +30,7 @@ import org.openapitools.client.api.AnotherFakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
         UUID uuidTest = UUID.randomUUID(); // UUID | to test uuid example value

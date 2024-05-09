@@ -154,7 +154,7 @@ public class PetApiTest {
     @Test
     public void getPetByIdTest() throws ApiException {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io/v2");
 
         // Configure API key authorization: api_key
         ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");

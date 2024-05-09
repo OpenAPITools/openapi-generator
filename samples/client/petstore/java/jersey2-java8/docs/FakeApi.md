@@ -1,6 +1,6 @@
 # FakeApi
 
-All URIs are relative to *https://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
@@ -42,7 +42,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         XmlItem xmlItem = new XmlItem(); // XmlItem | XmlItem Body
@@ -106,7 +106,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Boolean body = true; // Boolean | Input boolean as post body
@@ -171,7 +171,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         OuterComposite body = new OuterComposite(); // OuterComposite | Input composite as post body
@@ -237,7 +237,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         BigDecimal body = new BigDecimal(78); // BigDecimal | Input number as post body
@@ -302,7 +302,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         String body = "body_example"; // String | Input string as post body
@@ -367,7 +367,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         FileSchemaTestClass body = new FileSchemaTestClass(); // FileSchemaTestClass | 
@@ -429,7 +429,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         String query = "query_example"; // String | 
@@ -495,7 +495,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Client body = new Client(); // Client | client model
@@ -568,7 +568,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
         // Configure HTTP basic authorization: http_basic_test
         HttpBasicAuth http_basic_test = (HttpBasicAuth) defaultClient.getAuthentication("http_basic_test");
@@ -664,7 +664,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
@@ -743,7 +743,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Integer requiredStringGroup = 56; // Integer | Required String in group parameters
@@ -822,7 +822,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         Map<String, String> param = new HashMap(); // Map<String, String> | request body
@@ -884,7 +884,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         String param = "param_example"; // String | field1
@@ -950,7 +950,7 @@ import org.openapitools.client.api.FakeApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("https://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
         List<String> pipe = Arrays.asList(); // List<String> | 

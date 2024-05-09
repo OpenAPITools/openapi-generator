@@ -78,13 +78,13 @@ public class ApiClient extends JavaTimeFormatter {
 
   protected Map<String, String> defaultHeaderMap = new HashMap<>();
   protected Map<String, String> defaultCookieMap = new HashMap<>();
-  protected String basePath = "https://petstore.swagger.io/v2";
+  protected String basePath = "http://petstore.swagger.io:80/v2";
   protected String userAgent;
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   protected List<ServerConfiguration> servers = new ArrayList<>(Arrays.asList(
           new ServerConfiguration(
-                  "https://petstore.swagger.io/v2",
+                  "http://petstore.swagger.io:80/v2",
                   "No description provided",
                   new LinkedHashMap<>()
           )
