@@ -1227,8 +1227,8 @@
         <guava.version>32.1.3-jre</guava.version>
         <handlebars-java.version>4.3.1</handlebars-java.version>
         <jackson-threetenbp.version>2.15.2</jackson-threetenbp.version>
-        <jackson-databind.version>2.15.3</jackson-databind.version>
-        <jackson.version>2.15.3</jackson.version>
+        <jackson-databind.version>2.16.2</jackson-databind.version>
+        <jackson.version>2.16.2</jackson.version>
         <jacoco.version>0.8.10</jacoco.version>
         <jmustache.version>1.15</jmustache.version>
         <junit.version>5.10.2</junit.version>
@@ -1252,7 +1252,7 @@
         <slf4j.version>1.7.36</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
-        <swagger-parser.version>2.1.19</swagger-parser.version>
+        <swagger-parser.version>2.1.22</swagger-parser.version>
         <testng.version>7.5</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>

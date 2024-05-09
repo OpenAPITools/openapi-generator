@@ -17,8 +17,8 @@
 
     <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <gradleVersion>7.6</gradleVersion>
-        <gradle-tooling.version>7.3-20210825160000+0000</gradle-tooling.version>
+        <gradleVersion>7.6.4</gradleVersion>
+        <gradle-tooling.version>7.4.2</gradle-tooling.version>
     </properties>
 
     <pluginRepositories>
