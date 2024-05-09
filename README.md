@@ -260,7 +260,7 @@ To build from source, you need the following installed and available in your `$P
 
 * [Java 11](https://adoptium.net/)
 
-* [Apache Maven 3.3.4 or greater](https://maven.apache.org/) (optional)
+* [Apache Maven 3.8.8 or greater](https://maven.apache.org/) (optional)
 
 After cloning the project, you can build it from source using [maven wrapper](https://maven.apache.org/wrapper/):
 

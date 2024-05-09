@@ -101,6 +101,7 @@ The following generators are available:
 * [java-helidon-server (beta)](generators/java-helidon-server.md)  
 * [java-inflector](generators/java-inflector.md)  
 * [java-micronaut-server (beta)](generators/java-micronaut-server.md)  
+* [java-microprofile](generators/java-microprofile.md)  
 * [java-msf4j](generators/java-msf4j.md)  
 * [java-pkmst](generators/java-pkmst.md)  
 * [java-play-framework](generators/java-play-framework.md)  

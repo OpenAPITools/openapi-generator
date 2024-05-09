@@ -110,9 +110,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     return this;
   }
 
-  public {{classname}} remove{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
-    if ({{name}}Item != null && this.{{name}} != null) {
-      this.{{name}}.remove({{name}}Item);
+  public {{classname}} remove{{nameInPascalCase}}Item(String key) {
+    if (this.{{name}} != null) {
+      this.{{name}}.remove(key);
     }
 
     return this;

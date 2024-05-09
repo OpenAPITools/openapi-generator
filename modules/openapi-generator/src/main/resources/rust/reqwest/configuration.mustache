@@ -64,7 +64,7 @@ impl AWSv4Key {
 		                         value.to_str().expect("header value should be a string").to_string()));
             }
         }
-	return Ok(additional_headers);
+	Ok(additional_headers)
     }
 }
 {{/withAWSV4Signature}}

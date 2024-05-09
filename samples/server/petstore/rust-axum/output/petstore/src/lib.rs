@@ -301,6 +301,7 @@ pub trait Api {
         host: Host,
         cookies: CookieJar,
         path_params: models::UpdatePetWithFormPathParams,
+        body: Option<models::UpdatePetWithFormRequest>,
     ) -> Result<UpdatePetWithFormResponse, String>;
 
     /// uploads an image.

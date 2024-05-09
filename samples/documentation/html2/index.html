@@ -1482,6 +1482,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -3912,6 +3914,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -6712,6 +6716,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -7207,6 +7213,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -7623,6 +7631,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -8039,6 +8049,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -9512,19 +9524,19 @@ The password for login in clear text
                                               <th>Description</th>
                                           </tr>
                                               <tr>
-                                                  <td>SetMinusCookie</td>
+                                                  <td>SetDashCookie</td>
                                                   <td>String</td>
                                                   <td></td>
                                                   <td>Cookie authentication key for use with the &#x60;api_key&#x60; apiKey authentication.</td>
                                               </tr>
                                               <tr>
-                                                  <td>XMinusRateMinusLimit</td>
+                                                  <td>XDashRateDashLimit</td>
                                                   <td>Integer</td>
                                                   <td>int32</td>
                                                   <td>calls per hour allowed by the user</td>
                                               </tr>
                                               <tr>
-                                                  <td>XMinusExpiresMinusAfter</td>
+                                                  <td>XDashExpiresDashAfter</td>
                                                   <td>Date</td>
                                                   <td>date-time</td>
                                                   <td>date in UTC when token expires</td>
@@ -10308,6 +10320,8 @@ $(document).ready(function() {
   }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
+  } else if (schema.items != null && schema.items.$ref != null) {
+    schema.items = defsParser.$refs.get(schema.items.$ref);
   } else {
     schemaWrapper.definitions = Object.assign({}, defs);
     $RefParser.dereference(schemaWrapper).catch(function(err) {

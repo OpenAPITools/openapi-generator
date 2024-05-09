@@ -17,22 +17,26 @@ package org.openapitools.client.apis
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-import org.springframework.web.client.RestClient
-import org.springframework.web.client.RestClientResponseException
-
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
+import org.springframework.http.codec.json.Jackson2JsonDecoder
+import org.springframework.http.codec.json.Jackson2JsonEncoder
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
-
+import reactor.core.publisher.Mono
+import org.springframework.util.LinkedMultiValueMap
 
 import org.openapitools.client.models.StringEnumRef
 import org.openapitools.client.infrastructure.*
 
-class PathApi(client: RestClient) : ApiClient(client) {
+class PathApi(client: WebClient) : ApiClient(client) {
 
-    constructor(baseUrl: String) : this(RestClient.builder()
+    constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
-        .messageConverters { it.add(MappingJackson2HttpMessageConverter()) }
+        .codecs {
+            it.defaultCodecs().jackson2JsonEncoder(Jackson2JsonEncoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+            it.defaultCodecs().jackson2JsonDecoder(Jackson2JsonDecoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+        }
         .build()
     )
 
@@ -46,14 +50,14 @@ class PathApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: kotlin.String, pathInteger: kotlin.Int, enumNonrefStringPath: EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, enumRefStringPath: StringEnumRef): kotlin.String {
-        val result = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString = pathString, pathInteger = pathInteger, enumNonrefStringPath = enumNonrefStringPath, enumRefStringPath = enumRefStringPath)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: kotlin.String, pathInteger: kotlin.Int, enumNonrefStringPath: EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, enumRefStringPath: StringEnumRef): Mono<kotlin.String> {
+        return testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString = pathString, pathInteger = pathInteger, enumNonrefStringPath = enumNonrefStringPath, enumRefStringPath = enumRefStringPath)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString: kotlin.String, pathInteger: kotlin.Int, enumNonrefStringPath: EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, enumRefStringPath: StringEnumRef): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString: kotlin.String, pathInteger: kotlin.Int, enumNonrefStringPath: EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, enumRefStringPath: StringEnumRef): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestConfig(pathString = pathString, pathInteger = pathInteger, enumNonrefStringPath = enumNonrefStringPath, enumRefStringPath = enumRefStringPath)
         return request<Unit, kotlin.String>(
             localVariableConfig

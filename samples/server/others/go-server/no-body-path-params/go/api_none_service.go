@@ -23,7 +23,7 @@ type NoneAPIService struct {
 }
 
 // NewNoneAPIService creates a default api service
-func NewNoneAPIService() NoneAPIServicer {
+func NewNoneAPIService() *NoneAPIService {
 	return &NoneAPIService{}
 }
 

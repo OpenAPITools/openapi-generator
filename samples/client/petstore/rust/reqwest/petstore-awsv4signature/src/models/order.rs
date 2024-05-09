@@ -9,6 +9,7 @@
  */
 
 use crate::models;
+use serde::{Deserialize, Serialize};
 
 /// Order : An order for a pets from the pet store
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
