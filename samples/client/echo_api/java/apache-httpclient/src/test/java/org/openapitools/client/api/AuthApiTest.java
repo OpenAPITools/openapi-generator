@@ -14,9 +14,9 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Assertions;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -59,10 +59,10 @@ public class AuthApiTest {
         String response;
         api.getApiClient().setBearerToken("fixed token");
         response = api.testAuthHttpBearer();
-        Assert.assertTrue(response.contains("Authorization: Bearer fixed token"));
+        Assertions.assertTrue(response.contains("Authorization: Bearer fixed token"));
 
         api.getApiClient().setBearerToken(() -> "dynamic token");
         response = api.testAuthHttpBearer();
-        Assert.assertTrue(response.contains("Authorization: Bearer dynamic token"));
+        Assertions.assertTrue(response.contains("Authorization: Bearer dynamic token"));
     }
 }
