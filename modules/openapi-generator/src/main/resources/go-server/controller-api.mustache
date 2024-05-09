@@ -509,18 +509,18 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{paramName}}Param := strings.Split(r.FormValue("{{baseName}}"), ",")
 	{{/isArray}}
 	{{^isArray}}
-	{{paramName}}FormVal, ok := r.Form["{{baseName}}"]
+	{{paramName}}FormValues, ok := r.Form["{{baseName}}"]
 	{{#required}}
-	if !ok {
+	if !ok || len({{paramName}}FormValues) < 1 {
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}
-	{{paramName}}Param := getPointer({{paramName}}FormVal)
+	{{paramName}}Param := getPointer({{paramName}}FormValues[0])
 	{{/required}}
 	{{^required}}
 	var {{paramName}}Param *string
-	if ok {
-		{{paramName}}Param = getPointer({{paramName}})
+	if ok && len({{paramName}}FormValues) > 0 {
+		{{paramName}}Param = getPointer({{paramName}}FormValues[0])
 	}
 	{{/required}}
 	{{/isArray}}
