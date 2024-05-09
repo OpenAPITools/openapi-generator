@@ -1,7 +1,4 @@
 {{>server-imports}}
-use crate::{Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
-     {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-};
 
 {{>server-route}}
 {{#apiInfo}}
