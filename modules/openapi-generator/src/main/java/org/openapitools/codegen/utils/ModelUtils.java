@@ -20,7 +20,6 @@ package org.openapitools.codegen.utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.AnnotationsUtils;
-import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -733,6 +732,10 @@ public class ModelUtils {
         // format: number
         return SchemaTypeUtil.STRING_TYPE.equals(getType(schema)) // type: string
                 && "number".equals(schema.getFormat());
+    }
+
+    public static boolean isValidEnumSchema(Schema schema) {
+        return schema.getEnum() != null && !schema.getEnum().isEmpty();
     }
 
     /**
