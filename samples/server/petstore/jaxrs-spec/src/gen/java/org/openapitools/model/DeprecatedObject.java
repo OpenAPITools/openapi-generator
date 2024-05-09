@@ -2,8 +2,6 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
-import java.util.Map;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -17,14 +15,21 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@JsonTypeName("AdditionalPropertiesAnyType")
+@JsonTypeName("DeprecatedObject")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
-public class AdditionalPropertiesAnyType extends HashMap<String, Object> implements Serializable {
+public class DeprecatedObject  implements Serializable {
   private String name;
+
+  protected DeprecatedObject(DeprecatedObjectBuilder<?, ?> b) {
+    this.name = b.name;
+  }
+
+  public DeprecatedObject() {
+  }
 
   /**
    **/
-  public AdditionalPropertiesAnyType name(String name) {
+  public DeprecatedObject name(String name) {
     this.name = name;
     return this;
   }
@@ -50,21 +55,20 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> impleme
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AdditionalPropertiesAnyType additionalPropertiesAnyType = (AdditionalPropertiesAnyType) o;
-    return Objects.equals(this.name, additionalPropertiesAnyType.name) &&
-        super.equals(o);
+    DeprecatedObject deprecatedObject = (DeprecatedObject) o;
+    return Objects.equals(this.name, deprecatedObject.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(name);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AdditionalPropertiesAnyType {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("class DeprecatedObject {\n");
+    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -82,5 +86,33 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> impleme
   }
 
 
+  public static DeprecatedObjectBuilder<?, ?> builder() {
+    return new DeprecatedObjectBuilderImpl();
+  }
+
+  private static final class DeprecatedObjectBuilderImpl extends DeprecatedObjectBuilder<DeprecatedObject, DeprecatedObjectBuilderImpl> {
+
+    @Override
+    protected DeprecatedObjectBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public DeprecatedObject build() {
+      return new DeprecatedObject(this);
+    }
+  }
+
+  public static abstract class DeprecatedObjectBuilder<C extends DeprecatedObject, B extends DeprecatedObjectBuilder<C, B>>  {
+    private String name;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B name(String name) {
+      this.name = name;
+      return self();
+    }
+  }
 }
 

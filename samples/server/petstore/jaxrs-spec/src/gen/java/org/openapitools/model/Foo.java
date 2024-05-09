@@ -2,8 +2,6 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
-import java.util.Map;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -17,28 +15,35 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 
-@JsonTypeName("AdditionalPropertiesString")
+@JsonTypeName("Foo")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
-public class AdditionalPropertiesString extends HashMap<String, String> implements Serializable {
-  private String name;
+public class Foo  implements Serializable {
+  private String bar = "bar";
+
+  protected Foo(FooBuilder<?, ?> b) {
+    this.bar = b.bar;
+  }
+
+  public Foo() {
+  }
 
   /**
    **/
-  public AdditionalPropertiesString name(String name) {
-    this.name = name;
+  public Foo bar(String bar) {
+    this.bar = bar;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
-  @JsonProperty("name")
-  public String getName() {
-    return name;
+  @JsonProperty("bar")
+  public String getBar() {
+    return bar;
   }
 
-  @JsonProperty("name")
-  public void setName(String name) {
-    this.name = name;
+  @JsonProperty("bar")
+  public void setBar(String bar) {
+    this.bar = bar;
   }
 
 
@@ -50,22 +55,21 @@ public class AdditionalPropertiesString extends HashMap<String, String> implemen
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AdditionalPropertiesString additionalPropertiesString = (AdditionalPropertiesString) o;
-    return Objects.equals(this.name, additionalPropertiesString.name) &&
-        super.equals(o);
+    Foo foo = (Foo) o;
+    return Objects.equals(this.bar, foo.bar);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(bar);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AdditionalPropertiesString {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("class Foo {\n");
+    
+    sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -82,5 +86,33 @@ public class AdditionalPropertiesString extends HashMap<String, String> implemen
   }
 
 
+  public static FooBuilder<?, ?> builder() {
+    return new FooBuilderImpl();
+  }
+
+  private static final class FooBuilderImpl extends FooBuilder<Foo, FooBuilderImpl> {
+
+    @Override
+    protected FooBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public Foo build() {
+      return new Foo(this);
+    }
+  }
+
+  public static abstract class FooBuilder<C extends Foo, B extends FooBuilder<C, B>>  {
+    private String bar = "bar";
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B bar(String bar) {
+      this.bar = bar;
+      return self();
+    }
+  }
 }
 
