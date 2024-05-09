@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
@@ -76,10 +76,10 @@ public class JavaHelidonCommonCodegenPackagePrefixTest {
                                        String explicitPrefix,
                                        String generatorName,
                                        String libraryName) {
-    IllegalArgumentException e = Assert.assertThrows(IllegalArgumentException.class,
+    IllegalArgumentException e = Assertions.assertThrows(IllegalArgumentException.class,
         () -> runTest(explicitHelidonVersion, explicitPrefix, generatorName, libraryName));
-    Assert.assertTrue("Exception message '" + e.getMessage() + "' contains '" + EXCEPTION_MESSAGE_FRAGMENT + "'",
-        e.getMessage().contains(EXCEPTION_MESSAGE_FRAGMENT));
+    Assertions.assertTrue(e.getMessage().contains(EXCEPTION_MESSAGE_FRAGMENT),
+      "Exception message '" + e.getMessage() + "' contains '" + EXCEPTION_MESSAGE_FRAGMENT + "'");
   }
 
   @DataProvider(name = "valid")
