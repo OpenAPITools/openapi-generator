@@ -277,6 +277,12 @@
         </dependency>
         <!-- test dependencies -->
         <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-version}</version>
@@ -305,6 +311,7 @@
         {{/useJakartaEe}}
         <threetenbp-version>2.9.10</threetenbp-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
+        <assertj-version>3.23.1</junit-version>
         <junit-version>5.10.2</junit-version>
     </properties>
 </project>
