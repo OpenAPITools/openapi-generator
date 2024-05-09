@@ -1,7 +1,7 @@
 package org.openapitools.client;
 
 import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StringUtilTest {
     @Test

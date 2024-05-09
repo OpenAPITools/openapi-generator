@@ -1,6 +1,6 @@
 package org.openapitools.client;
 
-import static org.junit.jupiter.api.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.*;
 
