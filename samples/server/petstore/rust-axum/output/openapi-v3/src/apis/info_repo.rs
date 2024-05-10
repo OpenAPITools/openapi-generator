@@ -10,21 +10,21 @@ use crate::{models, types::*};
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
-pub enum CreateRepoResponse {
-    /// Success
-    Status200_Success,
+pub enum GetRepoInfoResponse {
+    /// OK
+    Status200_OK(String),
 }
 
-/// Repo
+/// InfoRepo
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait Repo {
-    /// CreateRepo - POST /repos
-    async fn create_repo(
+pub trait InfoRepo {
+    /// GetRepoInfo - GET /repos/{repoId}
+    async fn get_repo_info(
         &self,
         method: Method,
         host: Host,
         cookies: CookieJar,
-        body: models::ObjectParam,
-    ) -> Result<CreateRepoResponse, String>;
+        path_params: models::GetRepoInfoPathParams,
+    ) -> Result<GetRepoInfoResponse, String>;
 }

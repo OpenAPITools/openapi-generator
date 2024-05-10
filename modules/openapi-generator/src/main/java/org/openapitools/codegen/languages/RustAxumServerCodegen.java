@@ -657,13 +657,23 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
             op, Map<String, List<CodegenOperation>> operations) {
-        // only generate operation for the first tag of the tags
+        // If more than one tag, combine into a single unique group
         if (tag != null && op.tags.size() > 1) {
+            // Skip any tags other than the first one. This is because we
+            // override the tag with a combined version of all the tags.
             String expectedTag = sanitizeTag(op.tags.get(0).getName());
             if (!tag.equals(expectedTag)) {
                 LOGGER.info("generated skip additional tag `{}` with operationId={}", tag, op.operationId);
                 return;
             }
+
+            // Get all tags sorted by name
+            List<String> tags = op.tags.stream().map(t -> t.getName()).sorted().collect(Collectors.toList());
+            // Combine into a single group
+            String combinedTag = tags.stream().collect(Collectors.joining("-"));
+            // Add to group
+            super.addOperationToGroup(combinedTag, resourcePath, operation, op, operations);
+            return;
         }
         super.addOperationToGroup(tag, resourcePath, operation, op, operations);
     }

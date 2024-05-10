@@ -2,6 +2,7 @@
 Cargo.toml
 README.md
 src/apis/default.rs
+src/apis/info_repo.rs
 src/apis/mod.rs
 src/apis/repo.rs
 src/header.rs
