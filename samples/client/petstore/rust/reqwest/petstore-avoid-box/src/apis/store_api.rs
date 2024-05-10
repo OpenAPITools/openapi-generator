@@ -101,147 +101,152 @@ pub enum PlaceOrderError {
 }
 
 
-/// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-pub async fn delete_order(configuration: &configuration::Configuration, params: DeleteOrderParams) -> Result<ResponseContent<DeleteOrderSuccess>, Error<DeleteOrderError>> {
-    let local_var_configuration = configuration;
+pub struct StoreApi;
 
-    // unbox the parameters
-    let order_id = params.order_id;
+impl StoreApi {
+
+    /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+    pub async fn delete_order(configuration: &configuration::Configuration, params: DeleteOrderParams) -> Result<ResponseContent<DeleteOrderSuccess>, Error<DeleteOrderError>> {
+        let local_var_configuration = configuration;
+
+        // unbox the parameters
+        let order_id = params.order_id;
 
 
-    let local_var_client = &local_var_configuration.client;
+        let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=crate::apis::urlencode(order_id));
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
+        let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=crate::apis::urlencode(order_id));
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            let local_var_entity: Option<DeleteOrderSuccess> = serde_json::from_str(&local_var_content).ok();
+            let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Ok(local_var_result)
+        } else {
+            let local_var_entity: Option<DeleteOrderError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
     }
 
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    /// Returns a map of status codes to quantities
+    pub async fn get_inventory(configuration: &configuration::Configuration) -> Result<ResponseContent<GetInventorySuccess>, Error<GetInventoryError>> {
+        let local_var_configuration = configuration;
 
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<DeleteOrderSuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
-    } else {
-        let local_var_entity: Option<DeleteOrderError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
-    }
-}
-
-/// Returns a map of status codes to quantities
-pub async fn get_inventory(configuration: &configuration::Configuration) -> Result<ResponseContent<GetInventorySuccess>, Error<GetInventoryError>> {
-    let local_var_configuration = configuration;
-
-    // unbox the parameters
+        // unbox the parameters
 
 
-    let local_var_client = &local_var_configuration.client;
+        let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/store/inventory", local_var_configuration.base_path);
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+        let local_var_uri_str = format!("{}/store/inventory", local_var_configuration.base_path);
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+            let local_var_key = local_var_apikey.key.clone();
+            let local_var_value = match local_var_apikey.prefix {
+                Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+                None => local_var_key,
+            };
+            local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
         };
-        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
-    };
 
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
 
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<GetInventorySuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
-    } else {
-        let local_var_entity: Option<GetInventoryError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            let local_var_entity: Option<GetInventorySuccess> = serde_json::from_str(&local_var_content).ok();
+            let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Ok(local_var_result)
+        } else {
+            let local_var_entity: Option<GetInventoryError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
     }
+
+    /// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+    pub async fn get_order_by_id(configuration: &configuration::Configuration, params: GetOrderByIdParams) -> Result<ResponseContent<GetOrderByIdSuccess>, Error<GetOrderByIdError>> {
+        let local_var_configuration = configuration;
+
+        // unbox the parameters
+        let order_id = params.order_id;
+
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=order_id);
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            let local_var_entity: Option<GetOrderByIdSuccess> = serde_json::from_str(&local_var_content).ok();
+            let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Ok(local_var_result)
+        } else {
+            let local_var_entity: Option<GetOrderByIdError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
+    /// 
+    pub async fn place_order(configuration: &configuration::Configuration, params: PlaceOrderParams) -> Result<ResponseContent<PlaceOrderSuccess>, Error<PlaceOrderError>> {
+        let local_var_configuration = configuration;
+
+        // unbox the parameters
+        let order = params.order;
+
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!("{}/store/order", local_var_configuration.base_path);
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        local_var_req_builder = local_var_req_builder.json(&order);
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            let local_var_entity: Option<PlaceOrderSuccess> = serde_json::from_str(&local_var_content).ok();
+            let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Ok(local_var_result)
+        } else {
+            let local_var_entity: Option<PlaceOrderError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
+    }
+
 }
-
-/// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
-pub async fn get_order_by_id(configuration: &configuration::Configuration, params: GetOrderByIdParams) -> Result<ResponseContent<GetOrderByIdSuccess>, Error<GetOrderByIdError>> {
-    let local_var_configuration = configuration;
-
-    // unbox the parameters
-    let order_id = params.order_id;
-
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!("{}/store/order/{orderId}", local_var_configuration.base_path, orderId=order_id);
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
-
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<GetOrderByIdSuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
-    } else {
-        let local_var_entity: Option<GetOrderByIdError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
-    }
-}
-
-/// 
-pub async fn place_order(configuration: &configuration::Configuration, params: PlaceOrderParams) -> Result<ResponseContent<PlaceOrderSuccess>, Error<PlaceOrderError>> {
-    let local_var_configuration = configuration;
-
-    // unbox the parameters
-    let order = params.order;
-
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!("{}/store/order", local_var_configuration.base_path);
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    local_var_req_builder = local_var_req_builder.json(&order);
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
-
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<PlaceOrderSuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
-    } else {
-        let local_var_entity: Option<PlaceOrderError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
-    }
-}
-

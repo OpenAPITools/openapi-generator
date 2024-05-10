@@ -194,330 +194,335 @@ pub enum UpdateUserError {
 }
 
 
-/// This can only be done by the logged in user.
-pub async fn create_user(configuration: &configuration::Configuration, params: CreateUserParams) -> Result<ResponseContent<CreateUserSuccess>, Error<CreateUserError>> {
-    let local_var_configuration = configuration;
+pub struct UserApi;
 
-    // unbox the parameters
-    let user = params.user;
+impl UserApi {
+
+    /// This can only be done by the logged in user.
+    pub async fn create_user(configuration: &configuration::Configuration, params: CreateUserParams) -> Result<ResponseContent<CreateUserSuccess>, Error<CreateUserError>> {
+        let local_var_configuration = configuration;
+
+        // unbox the parameters
+        let user = params.user;
 
 
-    let local_var_client = &local_var_configuration.client;
+        let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/user", local_var_configuration.base_path);
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+        let local_var_uri_str = format!("{}/user", local_var_configuration.base_path);
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+            let local_var_key = local_var_apikey.key.clone();
+            let local_var_value = match local_var_apikey.prefix {
+                Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+                None => local_var_key,
+            };
+            local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
         };
-        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
-    };
-    local_var_req_builder = local_var_req_builder.json(&user);
+        local_var_req_builder = local_var_req_builder.json(&user);
 
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
 
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<CreateUserSuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
-    } else {
-        let local_var_entity: Option<CreateUserError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            let local_var_entity: Option<CreateUserSuccess> = serde_json::from_str(&local_var_content).ok();
+            let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Ok(local_var_result)
+        } else {
+            let local_var_entity: Option<CreateUserError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
     }
-}
 
-/// 
-pub async fn create_users_with_array_input(configuration: &configuration::Configuration, params: CreateUsersWithArrayInputParams) -> Result<ResponseContent<CreateUsersWithArrayInputSuccess>, Error<CreateUsersWithArrayInputError>> {
-    let local_var_configuration = configuration;
+    /// 
+    pub async fn create_users_with_array_input(configuration: &configuration::Configuration, params: CreateUsersWithArrayInputParams) -> Result<ResponseContent<CreateUsersWithArrayInputSuccess>, Error<CreateUsersWithArrayInputError>> {
+        let local_var_configuration = configuration;
 
-    // unbox the parameters
-    let user = params.user;
+        // unbox the parameters
+        let user = params.user;
 
 
-    let local_var_client = &local_var_configuration.client;
+        let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/user/createWithArray", local_var_configuration.base_path);
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+        let local_var_uri_str = format!("{}/user/createWithArray", local_var_configuration.base_path);
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+            let local_var_key = local_var_apikey.key.clone();
+            let local_var_value = match local_var_apikey.prefix {
+                Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+                None => local_var_key,
+            };
+            local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
         };
-        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
-    };
-    local_var_req_builder = local_var_req_builder.json(&user);
+        local_var_req_builder = local_var_req_builder.json(&user);
 
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
 
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<CreateUsersWithArrayInputSuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
-    } else {
-        let local_var_entity: Option<CreateUsersWithArrayInputError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            let local_var_entity: Option<CreateUsersWithArrayInputSuccess> = serde_json::from_str(&local_var_content).ok();
+            let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Ok(local_var_result)
+        } else {
+            let local_var_entity: Option<CreateUsersWithArrayInputError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
     }
-}
 
-/// 
-pub async fn create_users_with_list_input(configuration: &configuration::Configuration, params: CreateUsersWithListInputParams) -> Result<ResponseContent<CreateUsersWithListInputSuccess>, Error<CreateUsersWithListInputError>> {
-    let local_var_configuration = configuration;
+    /// 
+    pub async fn create_users_with_list_input(configuration: &configuration::Configuration, params: CreateUsersWithListInputParams) -> Result<ResponseContent<CreateUsersWithListInputSuccess>, Error<CreateUsersWithListInputError>> {
+        let local_var_configuration = configuration;
 
-    // unbox the parameters
-    let user = params.user;
+        // unbox the parameters
+        let user = params.user;
 
 
-    let local_var_client = &local_var_configuration.client;
+        let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/user/createWithList", local_var_configuration.base_path);
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+        let local_var_uri_str = format!("{}/user/createWithList", local_var_configuration.base_path);
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+            let local_var_key = local_var_apikey.key.clone();
+            let local_var_value = match local_var_apikey.prefix {
+                Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+                None => local_var_key,
+            };
+            local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
         };
-        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
-    };
-    local_var_req_builder = local_var_req_builder.json(&user);
+        local_var_req_builder = local_var_req_builder.json(&user);
 
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
 
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<CreateUsersWithListInputSuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
-    } else {
-        let local_var_entity: Option<CreateUsersWithListInputError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            let local_var_entity: Option<CreateUsersWithListInputSuccess> = serde_json::from_str(&local_var_content).ok();
+            let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Ok(local_var_result)
+        } else {
+            let local_var_entity: Option<CreateUsersWithListInputError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
     }
-}
 
-/// This can only be done by the logged in user.
-pub async fn delete_user(configuration: &configuration::Configuration, params: DeleteUserParams) -> Result<ResponseContent<DeleteUserSuccess>, Error<DeleteUserError>> {
-    let local_var_configuration = configuration;
+    /// This can only be done by the logged in user.
+    pub async fn delete_user(configuration: &configuration::Configuration, params: DeleteUserParams) -> Result<ResponseContent<DeleteUserSuccess>, Error<DeleteUserError>> {
+        let local_var_configuration = configuration;
 
-    // unbox the parameters
-    let username = params.username;
+        // unbox the parameters
+        let username = params.username;
 
 
-    let local_var_client = &local_var_configuration.client;
+        let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/user/{username}", local_var_configuration.base_path, username=crate::apis::urlencode(username));
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
+        let local_var_uri_str = format!("{}/user/{username}", local_var_configuration.base_path, username=crate::apis::urlencode(username));
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::DELETE, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+            let local_var_key = local_var_apikey.key.clone();
+            let local_var_value = match local_var_apikey.prefix {
+                Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+                None => local_var_key,
+            };
+            local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
         };
-        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
-    };
 
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
 
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<DeleteUserSuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
-    } else {
-        let local_var_entity: Option<DeleteUserError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
-    }
-}
-
-/// 
-pub async fn get_user_by_name(configuration: &configuration::Configuration, params: GetUserByNameParams) -> Result<ResponseContent<GetUserByNameSuccess>, Error<GetUserByNameError>> {
-    let local_var_configuration = configuration;
-
-    // unbox the parameters
-    let username = params.username;
-
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!("{}/user/{username}", local_var_configuration.base_path, username=crate::apis::urlencode(username));
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            let local_var_entity: Option<DeleteUserSuccess> = serde_json::from_str(&local_var_content).ok();
+            let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Ok(local_var_result)
+        } else {
+            let local_var_entity: Option<DeleteUserError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
     }
 
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    /// 
+    pub async fn get_user_by_name(configuration: &configuration::Configuration, params: GetUserByNameParams) -> Result<ResponseContent<GetUserByNameSuccess>, Error<GetUserByNameError>> {
+        let local_var_configuration = configuration;
 
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<GetUserByNameSuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
-    } else {
-        let local_var_entity: Option<GetUserByNameError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
-    }
-}
-
-/// 
-pub async fn login_user(configuration: &configuration::Configuration, params: LoginUserParams) -> Result<ResponseContent<LoginUserSuccess>, Error<LoginUserError>> {
-    let local_var_configuration = configuration;
-
-    // unbox the parameters
-    let username = params.username;
-    let password = params.password;
+        // unbox the parameters
+        let username = params.username;
 
 
-    let local_var_client = &local_var_configuration.client;
+        let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/user/login", local_var_configuration.base_path);
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+        let local_var_uri_str = format!("{}/user/{username}", local_var_configuration.base_path, username=crate::apis::urlencode(username));
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-    local_var_req_builder = local_var_req_builder.query(&[("username", &username.to_string())]);
-    local_var_req_builder = local_var_req_builder.query(&[("password", &password.to_string())]);
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            let local_var_entity: Option<GetUserByNameSuccess> = serde_json::from_str(&local_var_content).ok();
+            let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Ok(local_var_result)
+        } else {
+            let local_var_entity: Option<GetUserByNameError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
     }
 
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+    /// 
+    pub async fn login_user(configuration: &configuration::Configuration, params: LoginUserParams) -> Result<ResponseContent<LoginUserSuccess>, Error<LoginUserError>> {
+        let local_var_configuration = configuration;
 
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+        // unbox the parameters
+        let username = params.username;
+        let password = params.password;
 
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<LoginUserSuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
-    } else {
-        let local_var_entity: Option<LoginUserError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
+
+        let local_var_client = &local_var_configuration.client;
+
+        let local_var_uri_str = format!("{}/user/login", local_var_configuration.base_path);
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+        local_var_req_builder = local_var_req_builder.query(&[("username", &username.to_string())]);
+        local_var_req_builder = local_var_req_builder.query(&[("password", &password.to_string())]);
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
+
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            let local_var_entity: Option<LoginUserSuccess> = serde_json::from_str(&local_var_content).ok();
+            let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Ok(local_var_result)
+        } else {
+            let local_var_entity: Option<LoginUserError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
     }
-}
 
-/// 
-pub async fn logout_user(configuration: &configuration::Configuration) -> Result<ResponseContent<LogoutUserSuccess>, Error<LogoutUserError>> {
-    let local_var_configuration = configuration;
+    /// 
+    pub async fn logout_user(configuration: &configuration::Configuration) -> Result<ResponseContent<LogoutUserSuccess>, Error<LogoutUserError>> {
+        let local_var_configuration = configuration;
 
-    // unbox the parameters
+        // unbox the parameters
 
 
-    let local_var_client = &local_var_configuration.client;
+        let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/user/logout", local_var_configuration.base_path);
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+        let local_var_uri_str = format!("{}/user/logout", local_var_configuration.base_path);
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+            let local_var_key = local_var_apikey.key.clone();
+            let local_var_value = match local_var_apikey.prefix {
+                Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+                None => local_var_key,
+            };
+            local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
         };
-        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
-    };
 
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
 
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<LogoutUserSuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
-    } else {
-        let local_var_entity: Option<LogoutUserError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            let local_var_entity: Option<LogoutUserSuccess> = serde_json::from_str(&local_var_content).ok();
+            let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Ok(local_var_result)
+        } else {
+            let local_var_entity: Option<LogoutUserError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
     }
-}
 
-/// This can only be done by the logged in user.
-pub async fn update_user(configuration: &configuration::Configuration, params: UpdateUserParams) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
-    let local_var_configuration = configuration;
+    /// This can only be done by the logged in user.
+    pub async fn update_user(configuration: &configuration::Configuration, params: UpdateUserParams) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
+        let local_var_configuration = configuration;
 
-    // unbox the parameters
-    let username = params.username;
-    let user = params.user;
+        // unbox the parameters
+        let username = params.username;
+        let user = params.user;
 
 
-    let local_var_client = &local_var_configuration.client;
+        let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/user/{username}", local_var_configuration.base_path, username=crate::apis::urlencode(username));
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::PUT, local_var_uri_str.as_str());
+        let local_var_uri_str = format!("{}/user/{username}", local_var_configuration.base_path, username=crate::apis::urlencode(username));
+        let mut local_var_req_builder = local_var_client.request(reqwest::Method::PUT, local_var_uri_str.as_str());
 
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
+        if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+            local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+        }
+        if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+            let local_var_key = local_var_apikey.key.clone();
+            let local_var_value = match local_var_apikey.prefix {
+                Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+                None => local_var_key,
+            };
+            local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
         };
-        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
-    };
-    local_var_req_builder = local_var_req_builder.json(&user);
+        local_var_req_builder = local_var_req_builder.json(&user);
 
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
+        let local_var_req = local_var_req_builder.build()?;
+        let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
+        let local_var_status = local_var_resp.status();
+        let local_var_content = local_var_resp.text().await?;
 
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        let local_var_entity: Option<UpdateUserSuccess> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
-    } else {
-        let local_var_entity: Option<UpdateUserError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
+        if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+            let local_var_entity: Option<UpdateUserSuccess> = serde_json::from_str(&local_var_content).ok();
+            let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Ok(local_var_result)
+        } else {
+            let local_var_entity: Option<UpdateUserError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+            Err(Error::ResponseError(local_var_error))
+        }
     }
-}
 
+}

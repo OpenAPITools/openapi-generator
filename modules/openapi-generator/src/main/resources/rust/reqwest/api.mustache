@@ -5,49 +5,6 @@ use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
-{{#supportMultipleResponses}}
-    {{#operations}}
-        {{#operation}}
-/// struct for typed successes of method [`{{operationId}}`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum {{{operationIdCamelCase}}}Success {
-{{#responses}}
-    {{#is2xx}}
-        Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
-    {{/is2xx}}
-    {{#is3xx}}
-        Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
-    {{/is3xx}}
-{{/responses}}
-UnknownValue(serde_json::Value),
-}
-        {{/operation}}
-    {{/operations}}
-{{/supportMultipleResponses}}
-
-{{#operations}}
-    {{#operation}}
-/// struct for typed errors of method [`{{operationId}}`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum {{{operationIdCamelCase}}}Error {
-{{#responses}}
-{{#is4xx}}
-    Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
-{{/is4xx}}
-{{#is5xx}}
-    Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
-{{/is5xx}}
-{{#isDefault}}
-    DefaultResponse({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
-{{/isDefault}}
-{{/responses}}
-    UnknownValue(serde_json::Value),
-}
-    {{/operation}}
-{{/operations}}
-
 {{#operations}}
 {{#operation}}
 {{#vendorExtensions.x-group-parameters}}
@@ -57,21 +14,67 @@ pub enum {{{operationIdCamelCase}}}Error {
 #[derive(Clone, Debug)]
 pub struct {{{operationIdCamelCase}}}Params {
 {{/-first}}
-{{#description}}
-  /// {{{.}}}
-{{/description}}
-  pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^isUuid}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{/isUuid}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
+    {{#description}}
+    /// {{{.}}}
+    {{/description}}
+    pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^isUuid}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{/isUuid}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
 {{#-last}}
 }
+
 {{/-last}}
 {{/allParams}}
 {{/vendorExtensions.x-group-parameters}}
 {{/operation}}
 {{/operations}}
 
+{{#supportMultipleResponses}}
+{{#operations}}
+{{#operation}}
+/// struct for typed successes of method [`{{operationId}}`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum {{{operationIdCamelCase}}}Success {
+    {{#responses}}
+    {{#is2xx}}
+    Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
+    {{/is2xx}}
+    {{#is3xx}}
+    Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
+    {{/is3xx}}
+    {{/responses}}
+    UnknownValue(serde_json::Value),
+}
+
+{{/operation}}
+{{/operations}}
+{{/supportMultipleResponses}}
+{{#operations}}
+{{#operation}}
+/// struct for typed errors of method [`{{operationId}}`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum {{{operationIdCamelCase}}}Error {
+    {{#responses}}
+    {{#is4xx}}
+    Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
+    {{/is4xx}}
+    {{#is5xx}}
+    Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
+    {{/is5xx}}
+    {{#isDefault}}
+    DefaultResponse({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
+    {{/isDefault}}
+    {{/responses}}
+    UnknownValue(serde_json::Value),
+}
+
+{{/operation}}
+{{/operations}}
+
 pub struct {{{classname}}};
 
 impl {{{classname}}} {
+
 {{#operations}}
 {{#operation}}
 {{#description}}
