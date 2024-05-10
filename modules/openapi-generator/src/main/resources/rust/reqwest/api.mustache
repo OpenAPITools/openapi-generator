@@ -48,31 +48,30 @@ pub enum {{{operationIdCamelCase}}}Error {
     {{/operation}}
 {{/operations}}
 
-pub struct {{{classname}}};
-
-impl {{{classname}}} {
 {{#operations}}
 {{#operation}}
 {{#vendorExtensions.x-group-parameters}}
 {{#allParams}}
 {{#-first}}
-    /// struct for passing parameters to the method [`{{operationId}}`]
-    #[derive(Clone, Debug)]
-    pub struct {{{operationIdCamelCase}}}Params {
+/// struct for passing parameters to the method [`{{operationId}}`]
+#[derive(Clone, Debug)]
+pub struct {{{operationIdCamelCase}}}Params {
 {{/-first}}
-    {{#description}}
-        /// {{{.}}}
-    {{/description}}
-        pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^isUuid}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{/isUuid}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
+{{#description}}
+  /// {{{.}}}
+{{/description}}
+  pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^isUuid}}{{#isString}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isString}}{{/isUuid}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}String{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}},{{/-last}}
 {{#-last}}
-    }
-
+}
 {{/-last}}
 {{/allParams}}
 {{/vendorExtensions.x-group-parameters}}
 {{/operation}}
 {{/operations}}
 
+pub struct {{{classname}}};
+
+impl {{{classname}}} {
 {{#operations}}
 {{#operation}}
 {{#description}}
