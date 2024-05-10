@@ -43,6 +43,7 @@ pub trait Default {
         cookies: CookieJar,
         body: axum::body::Body,
     ) -> Result<MultipartRelatedRequestPostResponse, String>;
+
     /// MultipartRequestPost - POST /multipart_request
     async fn multipart_request_post(
         &self,
@@ -51,6 +52,7 @@ pub trait Default {
         cookies: CookieJar,
         body: Multipart,
     ) -> Result<MultipartRequestPostResponse, String>;
+
     /// MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
     async fn multiple_identical_mime_types_post(
         &self,

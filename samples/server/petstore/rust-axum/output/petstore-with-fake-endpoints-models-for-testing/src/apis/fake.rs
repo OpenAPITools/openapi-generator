@@ -126,6 +126,7 @@ pub trait Fake {
         host: Host,
         cookies: CookieJar,
     ) -> Result<Call123exampleResponse, String>;
+
     /// FakeOuterBooleanSerialize - POST /v2/fake/outer/boolean
     async fn fake_outer_boolean_serialize(
         &self,
@@ -134,6 +135,7 @@ pub trait Fake {
         cookies: CookieJar,
         body: Option<models::OuterBoolean>,
     ) -> Result<FakeOuterBooleanSerializeResponse, String>;
+
     /// FakeOuterCompositeSerialize - POST /v2/fake/outer/composite
     async fn fake_outer_composite_serialize(
         &self,
@@ -142,6 +144,7 @@ pub trait Fake {
         cookies: CookieJar,
         body: Option<models::OuterComposite>,
     ) -> Result<FakeOuterCompositeSerializeResponse, String>;
+
     /// FakeOuterNumberSerialize - POST /v2/fake/outer/number
     async fn fake_outer_number_serialize(
         &self,
@@ -150,6 +153,7 @@ pub trait Fake {
         cookies: CookieJar,
         body: Option<models::OuterNumber>,
     ) -> Result<FakeOuterNumberSerializeResponse, String>;
+
     /// FakeOuterStringSerialize - POST /v2/fake/outer/string
     async fn fake_outer_string_serialize(
         &self,
@@ -158,6 +162,7 @@ pub trait Fake {
         cookies: CookieJar,
         body: Option<models::OuterString>,
     ) -> Result<FakeOuterStringSerializeResponse, String>;
+
     /// FakeResponseWithNumericalDescription - GET /v2/fake/response-with-numerical-description
     async fn fake_response_with_numerical_description(
         &self,
@@ -165,6 +170,7 @@ pub trait Fake {
         host: Host,
         cookies: CookieJar,
     ) -> Result<FakeResponseWithNumericalDescriptionResponse, String>;
+
     /// HyphenParam - GET /v2/fake/hyphenParam/{hyphen-param}
     async fn hyphen_param(
         &self,
@@ -173,6 +179,7 @@ pub trait Fake {
         cookies: CookieJar,
         path_params: models::HyphenParamPathParams,
     ) -> Result<HyphenParamResponse, String>;
+
     /// TestBodyWithQueryParams - PUT /v2/fake/body-with-query-params
     async fn test_body_with_query_params(
         &self,
@@ -182,6 +189,7 @@ pub trait Fake {
         query_params: models::TestBodyWithQueryParamsQueryParams,
         body: models::User,
     ) -> Result<TestBodyWithQueryParamsResponse, String>;
+
     /// To test \"client\" model.
     ///
     /// TestClientModel - PATCH /v2/fake
@@ -192,6 +200,7 @@ pub trait Fake {
         cookies: CookieJar,
         body: models::Client,
     ) -> Result<TestClientModelResponse, String>;
+
     /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트.
     ///
     /// TestEndpointParameters - POST /v2/fake
@@ -202,6 +211,7 @@ pub trait Fake {
         cookies: CookieJar,
         body: models::TestEndpointParametersRequest,
     ) -> Result<TestEndpointParametersResponse, String>;
+
     /// To test enum parameters.
     ///
     /// TestEnumParameters - GET /v2/fake
@@ -214,6 +224,7 @@ pub trait Fake {
         query_params: models::TestEnumParametersQueryParams,
         body: Option<models::TestEnumParametersRequest>,
     ) -> Result<TestEnumParametersResponse, String>;
+
     /// test inline additionalProperties.
     ///
     /// TestInlineAdditionalProperties - POST /v2/fake/inline-additionalProperties
@@ -224,6 +235,7 @@ pub trait Fake {
         cookies: CookieJar,
         body: std::collections::HashMap<String, String>,
     ) -> Result<TestInlineAdditionalPropertiesResponse, String>;
+
     /// test json serialization of form data.
     ///
     /// TestJsonFormData - GET /v2/fake/jsonFormData

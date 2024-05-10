@@ -97,6 +97,7 @@ pub trait Pet {
         cookies: CookieJar,
         body: models::Pet,
     ) -> Result<AddPetResponse, String>;
+
     /// Deletes a pet.
     ///
     /// DeletePet - DELETE /v2/pet/{petId}
@@ -108,6 +109,7 @@ pub trait Pet {
         header_params: models::DeletePetHeaderParams,
         path_params: models::DeletePetPathParams,
     ) -> Result<DeletePetResponse, String>;
+
     /// Finds Pets by status.
     ///
     /// FindPetsByStatus - GET /v2/pet/findByStatus
@@ -118,6 +120,7 @@ pub trait Pet {
         cookies: CookieJar,
         query_params: models::FindPetsByStatusQueryParams,
     ) -> Result<FindPetsByStatusResponse, String>;
+
     /// Finds Pets by tags.
     ///
     /// FindPetsByTags - GET /v2/pet/findByTags
@@ -128,6 +131,7 @@ pub trait Pet {
         cookies: CookieJar,
         query_params: models::FindPetsByTagsQueryParams,
     ) -> Result<FindPetsByTagsResponse, String>;
+
     /// Find pet by ID.
     ///
     /// GetPetById - GET /v2/pet/{petId}
@@ -138,6 +142,7 @@ pub trait Pet {
         cookies: CookieJar,
         path_params: models::GetPetByIdPathParams,
     ) -> Result<GetPetByIdResponse, String>;
+
     /// Update an existing pet.
     ///
     /// UpdatePet - PUT /v2/pet
@@ -148,6 +153,7 @@ pub trait Pet {
         cookies: CookieJar,
         body: models::Pet,
     ) -> Result<UpdatePetResponse, String>;
+
     /// Updates a pet in the store with form data.
     ///
     /// UpdatePetWithForm - POST /v2/pet/{petId}
@@ -159,6 +165,7 @@ pub trait Pet {
         path_params: models::UpdatePetWithFormPathParams,
         body: Option<models::UpdatePetWithFormRequest>,
     ) -> Result<UpdatePetWithFormResponse, String>;
+
     /// uploads an image.
     ///
     /// UploadFile - POST /v2/pet/{petId}/uploadImage

@@ -66,6 +66,9 @@ pub trait {{classnamePascalCase}} {
     {{/x-consumes-multipart-related}}
     ) -> Result<{{{operationId}}}Response, String>;
   {{/vendorExtensions}}
+  {{^-last}}
+
+  {{/-last}}
 {{/operation}}
 }
 {{/operations}}

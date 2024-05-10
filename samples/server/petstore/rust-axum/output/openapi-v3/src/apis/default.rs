@@ -251,6 +251,7 @@ pub trait Default {
         cookies: CookieJar,
         query_params: models::AnyOfGetQueryParams,
     ) -> Result<AnyOfGetResponse, String>;
+
     /// CallbackWithHeaderPost - POST /callback-with-header
     async fn callback_with_header_post(
         &self,
@@ -259,6 +260,7 @@ pub trait Default {
         cookies: CookieJar,
         query_params: models::CallbackWithHeaderPostQueryParams,
     ) -> Result<CallbackWithHeaderPostResponse, String>;
+
     /// ComplexQueryParamGet - GET /complex-query-param
     async fn complex_query_param_get(
         &self,
@@ -267,6 +269,7 @@ pub trait Default {
         cookies: CookieJar,
         query_params: models::ComplexQueryParamGetQueryParams,
     ) -> Result<ComplexQueryParamGetResponse, String>;
+
     /// EnumInPathPathParamGet - GET /enum_in_path/{path_param}
     async fn enum_in_path_path_param_get(
         &self,
@@ -275,6 +278,7 @@ pub trait Default {
         cookies: CookieJar,
         path_params: models::EnumInPathPathParamGetPathParams,
     ) -> Result<EnumInPathPathParamGetResponse, String>;
+
     /// JsonComplexQueryParamGet - GET /json-complex-query-param
     async fn json_complex_query_param_get(
         &self,
@@ -283,6 +287,7 @@ pub trait Default {
         cookies: CookieJar,
         query_params: models::JsonComplexQueryParamGetQueryParams,
     ) -> Result<JsonComplexQueryParamGetResponse, String>;
+
     /// MandatoryRequestHeaderGet - GET /mandatory-request-header
     async fn mandatory_request_header_get(
         &self,
@@ -291,6 +296,7 @@ pub trait Default {
         cookies: CookieJar,
         header_params: models::MandatoryRequestHeaderGetHeaderParams,
     ) -> Result<MandatoryRequestHeaderGetResponse, String>;
+
     /// MergePatchJsonGet - GET /merge-patch-json
     async fn merge_patch_json_get(
         &self,
@@ -298,6 +304,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<MergePatchJsonGetResponse, String>;
+
     /// Get some stuff..
     ///
     /// MultigetGet - GET /multiget
@@ -307,6 +314,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<MultigetGetResponse, String>;
+
     /// MultipleAuthSchemeGet - GET /multiple_auth_scheme
     async fn multiple_auth_scheme_get(
         &self,
@@ -314,6 +322,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<MultipleAuthSchemeGetResponse, String>;
+
     /// OneOfGet - GET /one-of
     async fn one_of_get(
         &self,
@@ -321,6 +330,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<OneOfGetResponse, String>;
+
     /// OverrideServerGet - GET /override-server
     async fn override_server_get(
         &self,
@@ -328,6 +338,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<OverrideServerGetResponse, String>;
+
     /// Get some stuff with parameters..
     ///
     /// ParamgetGet - GET /paramget
@@ -338,6 +349,7 @@ pub trait Default {
         cookies: CookieJar,
         query_params: models::ParamgetGetQueryParams,
     ) -> Result<ParamgetGetResponse, String>;
+
     /// ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
     async fn readonly_auth_scheme_get(
         &self,
@@ -345,6 +357,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<ReadonlyAuthSchemeGetResponse, String>;
+
     /// RegisterCallbackPost - POST /register-callback
     async fn register_callback_post(
         &self,
@@ -353,6 +366,7 @@ pub trait Default {
         cookies: CookieJar,
         query_params: models::RegisterCallbackPostQueryParams,
     ) -> Result<RegisterCallbackPostResponse, String>;
+
     /// RequiredOctetStreamPut - PUT /required_octet_stream
     async fn required_octet_stream_put(
         &self,
@@ -361,6 +375,7 @@ pub trait Default {
         cookies: CookieJar,
         body: Bytes,
     ) -> Result<RequiredOctetStreamPutResponse, String>;
+
     /// ResponsesWithHeadersGet - GET /responses_with_headers
     async fn responses_with_headers_get(
         &self,
@@ -368,6 +383,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<ResponsesWithHeadersGetResponse, String>;
+
     /// Rfc7807Get - GET /rfc7807
     async fn rfc7807_get(
         &self,
@@ -375,6 +391,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<Rfc7807GetResponse, String>;
+
     /// UntypedPropertyGet - GET /untyped_property
     async fn untyped_property_get(
         &self,
@@ -383,6 +400,7 @@ pub trait Default {
         cookies: CookieJar,
         body: Option<models::ObjectUntypedProps>,
     ) -> Result<UntypedPropertyGetResponse, String>;
+
     /// UuidGet - GET /uuid
     async fn uuid_get(
         &self,
@@ -390,6 +408,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<UuidGetResponse, String>;
+
     /// XmlExtraPost - POST /xml_extra
     async fn xml_extra_post(
         &self,
@@ -398,6 +417,7 @@ pub trait Default {
         cookies: CookieJar,
         body: Bytes,
     ) -> Result<XmlExtraPostResponse, String>;
+
     /// XmlOtherPost - POST /xml_other
     async fn xml_other_post(
         &self,
@@ -406,6 +426,7 @@ pub trait Default {
         cookies: CookieJar,
         body: Bytes,
     ) -> Result<XmlOtherPostResponse, String>;
+
     /// XmlOtherPut - PUT /xml_other
     async fn xml_other_put(
         &self,
@@ -414,6 +435,7 @@ pub trait Default {
         cookies: CookieJar,
         body: Bytes,
     ) -> Result<XmlOtherPutResponse, String>;
+
     /// Post an array.
     ///
     /// XmlPost - POST /xml
@@ -424,6 +446,7 @@ pub trait Default {
         cookies: CookieJar,
         body: Bytes,
     ) -> Result<XmlPostResponse, String>;
+
     /// XmlPut - PUT /xml
     async fn xml_put(
         &self,

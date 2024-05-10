@@ -99,6 +99,7 @@ pub trait User {
         cookies: CookieJar,
         body: models::User,
     ) -> Result<CreateUserResponse, String>;
+
     /// Creates list of users with given input array.
     ///
     /// CreateUsersWithArrayInput - POST /v2/user/createWithArray
@@ -109,6 +110,7 @@ pub trait User {
         cookies: CookieJar,
         body: Vec<models::User>,
     ) -> Result<CreateUsersWithArrayInputResponse, String>;
+
     /// Creates list of users with given input array.
     ///
     /// CreateUsersWithListInput - POST /v2/user/createWithList
@@ -119,6 +121,7 @@ pub trait User {
         cookies: CookieJar,
         body: Vec<models::User>,
     ) -> Result<CreateUsersWithListInputResponse, String>;
+
     /// Delete user.
     ///
     /// DeleteUser - DELETE /v2/user/{username}
@@ -129,6 +132,7 @@ pub trait User {
         cookies: CookieJar,
         path_params: models::DeleteUserPathParams,
     ) -> Result<DeleteUserResponse, String>;
+
     /// Get user by user name.
     ///
     /// GetUserByName - GET /v2/user/{username}
@@ -139,6 +143,7 @@ pub trait User {
         cookies: CookieJar,
         path_params: models::GetUserByNamePathParams,
     ) -> Result<GetUserByNameResponse, String>;
+
     /// Logs user into the system.
     ///
     /// LoginUser - GET /v2/user/login
@@ -149,6 +154,7 @@ pub trait User {
         cookies: CookieJar,
         query_params: models::LoginUserQueryParams,
     ) -> Result<LoginUserResponse, String>;
+
     /// Logs out current logged in user session.
     ///
     /// LogoutUser - GET /v2/user/logout
@@ -158,6 +164,7 @@ pub trait User {
         host: Host,
         cookies: CookieJar,
     ) -> Result<LogoutUserResponse, String>;
+
     /// Updated user.
     ///
     /// UpdateUser - PUT /v2/user/{username}

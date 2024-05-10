@@ -90,6 +90,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<AllOfGetResponse, String>;
+
     /// A dummy endpoint to make the spec valid..
     ///
     /// DummyGet - GET /dummy
@@ -99,6 +100,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<DummyGetResponse, String>;
+
     /// DummyPut - PUT /dummy
     async fn dummy_put(
         &self,
@@ -107,6 +109,7 @@ pub trait Default {
         cookies: CookieJar,
         body: models::DummyPutRequest,
     ) -> Result<DummyPutResponse, String>;
+
     /// Get a file.
     ///
     /// FileResponseGet - GET /file_response
@@ -116,6 +119,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<FileResponseGetResponse, String>;
+
     /// GetStructuredYaml - GET /get-structured-yaml
     async fn get_structured_yaml(
         &self,
@@ -123,6 +127,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<GetStructuredYamlResponse, String>;
+
     /// Test HTML handling.
     ///
     /// HtmlPost - POST /html
@@ -133,6 +138,7 @@ pub trait Default {
         cookies: CookieJar,
         body: String,
     ) -> Result<HtmlPostResponse, String>;
+
     /// PostYaml - POST /post-yaml
     async fn post_yaml(
         &self,
@@ -141,6 +147,7 @@ pub trait Default {
         cookies: CookieJar,
         body: String,
     ) -> Result<PostYamlResponse, String>;
+
     /// Get an arbitrary JSON blob..
     ///
     /// RawJsonGet - GET /raw_json
@@ -150,6 +157,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
     ) -> Result<RawJsonGetResponse, String>;
+
     /// Send an arbitrary JSON blob.
     ///
     /// SoloObjectPost - POST /solo-object

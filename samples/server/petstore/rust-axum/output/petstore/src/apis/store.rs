@@ -61,6 +61,7 @@ pub trait Store {
         cookies: CookieJar,
         path_params: models::DeleteOrderPathParams,
     ) -> Result<DeleteOrderResponse, String>;
+
     /// Returns pet inventories by status.
     ///
     /// GetInventory - GET /v2/store/inventory
@@ -70,6 +71,7 @@ pub trait Store {
         host: Host,
         cookies: CookieJar,
     ) -> Result<GetInventoryResponse, String>;
+
     /// Find purchase order by ID.
     ///
     /// GetOrderById - GET /v2/store/order/{orderId}
@@ -80,6 +82,7 @@ pub trait Store {
         cookies: CookieJar,
         path_params: models::GetOrderByIdPathParams,
     ) -> Result<GetOrderByIdResponse, String>;
+
     /// Place an order for a pet.
     ///
     /// PlaceOrder - POST /v2/store/order
