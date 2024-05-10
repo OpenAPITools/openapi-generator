@@ -247,10 +247,18 @@ func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	}
 	
 	
-	nameParam := getPointerOrNilIfEmpty(r.FormValue("name"))
+	nameFormValues, ok := r.Form["name"]
+	var nameParam *string
+	if ok && len(nameFormValues) > 0 {
+		nameParam = getPointer(nameFormValues[0])
+	}
 	
 	
-	statusParam := getPointerOrNilIfEmpty(r.FormValue("status"))
+	statusFormValues, ok := r.Form["status"]
+	var statusParam *string
+	if ok && len(statusFormValues) > 0 {
+		statusParam = getPointer(statusFormValues[0])
+	}
 	result, err := c.service.UpdatePetWithForm(r.Context(), *petIdParam, nameParam, statusParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -277,7 +285,11 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	
-	additionalMetadataParam := getPointerOrNilIfEmpty(r.FormValue("additionalMetadata"))
+	additionalMetadataFormValues, ok := r.Form["additionalMetadata"]
+	var additionalMetadataParam *string
+	if ok && len(additionalMetadataFormValues) > 0 {
+		additionalMetadataParam = getPointer(additionalMetadataFormValues[0])
+	}
 	fileParam, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
