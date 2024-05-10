@@ -61,6 +61,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_PLAY_WS = "usePlayWS";
     public static final String ASYNC_NATIVE = "asyncNative";
     public static final String CONFIG_KEY = "configKey";
+    public static final String CONFIG_KEY_FROM_CLASS_NAME = "configKeyFromClassName";
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
@@ -114,6 +115,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected String microprofileFramework = MICROPROFILE_DEFAULT;
     protected boolean microprofileMutiny = false;
     protected String configKey = null;
+    protected boolean configKeyFromClassName = false;
 
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
@@ -224,6 +226,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(GRADLE_PROPERTIES, "Append additional Gradle properties to the gradle.properties file"));
         cliOptions.add(CliOption.newString(ERROR_OBJECT_TYPE, "Error Object type. (This option is for okhttp-gson only)"));
         cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none. Only `microprofile` supports this option."));
+        cliOptions.add(CliOption.newString(CONFIG_KEY_FROM_CLASS_NAME, "If true, set tag as key in @RegisterRestClient. Default to false. Only `microprofile` supports this option."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson support this option."));
         cliOptions.add(CliOption.newString(MICROPROFILE_REST_CLIENT_VERSION, "Version of MicroProfile Rest Client API."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson, microprofile support this option."));
@@ -385,6 +388,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(CONFIG_KEY)) {
             this.setConfigKey(additionalProperties.get(CONFIG_KEY).toString());
+        } else if (additionalProperties.containsKey(CONFIG_KEY_FROM_CLASS_NAME)) {
+            this.setConfigKeyFromClassName(Boolean.parseBoolean(additionalProperties.get(CONFIG_KEY_FROM_CLASS_NAME).toString()));
         }
 
         if (additionalProperties.containsKey(ASYNC_NATIVE)) {
@@ -904,6 +909,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (MICROPROFILE.equals(getLibrary())) {
             objs = AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
+            if (configKeyFromClassName) {
+                Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+                String configKeyFromClassName = operations.get("classname")
+                        .toString()
+                        .replaceFirst("Api", "")
+                        .toLowerCase(Locale.ROOT).concat("-api");
+                operations.put("configKey", configKeyFromClassName);
+            }
         }
 
         if (WEBCLIENT.equals(getLibrary())) {
@@ -1316,6 +1329,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
+    }
+
+    private void setConfigKeyFromClassName(boolean configKeyFromClassName) {
+        this.configKeyFromClassName = configKeyFromClassName;
     }
 
     @Override

@@ -9,6 +9,7 @@
  */
 
 use crate::models;
+use serde::{Deserialize, Serialize};
 
 /// EnumArrayTesting : Test of enum array
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]

@@ -9,6 +9,7 @@
  */
 
 use crate::models;
+use serde::{Deserialize, Serialize};
 
 /// ApiResponse : Describes the result of uploading an image resource
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]

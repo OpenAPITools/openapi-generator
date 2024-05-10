@@ -1,5 +1,6 @@
 {{>partial_header}}
 use crate::models;
+use serde::{Deserialize, Serialize};
 {{#models}}
 {{#model}}
 {{^isEnum}}{{#vendorExtensions.x-rust-has-byte-array}}
