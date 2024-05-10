@@ -35,7 +35,7 @@ func WithUserAPIErrorHandler(h ErrorHandler) UserAPIOption {
 }
 
 // NewUserAPIController creates a default api controller
-func NewUserAPIController(s UserAPIServicer, opts ...UserAPIOption) Router {
+func NewUserAPIController(s UserAPIServicer, opts ...UserAPIOption) *UserAPIController {
 	controller := &UserAPIController{
 		service:      s,
 		errorHandler: DefaultErrorHandler,
@@ -118,7 +118,7 @@ func (c *UserAPIController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
@@ -143,7 +143,7 @@ func (c *UserAPIController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
@@ -168,7 +168,7 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // DeleteUser - Delete user
@@ -190,7 +190,7 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 			WithParse[bool](parseBool),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Param: "boolean_test", Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "confirmation", Err: err}, nil)
 			return
 		}
 
@@ -204,7 +204,7 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // GetUserByName - Get user by user name
@@ -221,7 +221,7 @@ func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // LoginUser - Logs user into the system
@@ -256,7 +256,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 			WithParse[bool](parseBool),
 		)
 		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Param: "boolean_test", Err: err}, nil)
+			c.errorHandler(w, r, &ParsingError{Param: "remember_me", Err: err}, nil)
 			return
 		}
 
@@ -270,7 +270,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // LogoutUser - Logs out current logged in user session
@@ -282,7 +282,7 @@ func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // UpdateUser - Updated user
@@ -314,5 +314,5 @@ func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }

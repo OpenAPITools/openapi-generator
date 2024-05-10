@@ -1,0 +1,7 @@
+generatorName: cpp-pistache-server
+outputDir: samples/server/petstore/cpp-pistache-nested-schema-refs
+inputSpec: modules/openapi-generator/src/test/resources/3_0/nested-schema-refs.yaml
+templateDir: modules/openapi-generator/src/main/resources/cpp-pistache-server
+additionalProperties:
+  useStructModel: "false"
+  addExternalLibs: "true"

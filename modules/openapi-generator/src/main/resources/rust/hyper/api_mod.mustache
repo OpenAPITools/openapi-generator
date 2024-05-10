@@ -29,19 +29,19 @@ impl From<(hyper::StatusCode, hyper::body::Body)> for Error {
 
 impl From<http::Error> for Error {
     fn from(e: http::Error) -> Self {
-        return Error::Http(e)
+        Error::Http(e)
     }
 }
 
 impl From<hyper::Error> for Error {
     fn from(e: hyper::Error) -> Self {
-        return Error::Hyper(e)
+        Error::Hyper(e)
     }
 }
 
 impl From<serde_json::Error> for Error {
     fn from(e: serde_json::Error) -> Self {
-        return Error::Serde(e)
+        Error::Serde(e)
     }
 }
 

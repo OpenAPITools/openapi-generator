@@ -562,13 +562,31 @@ where
     })
 }
 
+#[derive(validator::Validate)]
+#[allow(dead_code)]
+struct UpdatePetWithFormBodyValidator<'a> {
+    #[validate(nested)]
+    body: &'a models::UpdatePetWithFormRequest,
+}
+
 #[tracing::instrument(skip_all)]
 fn update_pet_with_form_validation(
     path_params: models::UpdatePetWithFormPathParams,
-) -> std::result::Result<(models::UpdatePetWithFormPathParams,), ValidationErrors> {
+    body: Option<models::UpdatePetWithFormRequest>,
+) -> std::result::Result<
+    (
+        models::UpdatePetWithFormPathParams,
+        Option<models::UpdatePetWithFormRequest>,
+    ),
+    ValidationErrors,
+> {
     path_params.validate()?;
+    if let Some(body) = &body {
+        let b = UpdatePetWithFormBodyValidator { body };
+        b.validate()?;
+    }
 
-    Ok((path_params,))
+    Ok((path_params, body))
 }
 /// UpdatePetWithForm - POST /v2/pet/{petId}
 #[tracing::instrument(skip_all)]
@@ -578,6 +596,7 @@ async fn update_pet_with_form<I, A>(
     cookies: CookieJar,
     Path(path_params): Path<models::UpdatePetWithFormPathParams>,
     State(api_impl): State<I>,
+    Form(body): Form<Option<models::UpdatePetWithFormRequest>>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
@@ -585,11 +604,11 @@ where
 {
     #[allow(clippy::redundant_closure)]
     let validation =
-        tokio::task::spawn_blocking(move || update_pet_with_form_validation(path_params))
+        tokio::task::spawn_blocking(move || update_pet_with_form_validation(path_params, body))
             .await
             .unwrap();
 
-    let Ok((path_params,)) = validation else {
+    let Ok((path_params, body)) = validation else {
         return Response::builder()
             .status(StatusCode::BAD_REQUEST)
             .body(Body::from(validation.unwrap_err().to_string()))
@@ -598,7 +617,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .update_pet_with_form(method, host, cookies, path_params)
+        .update_pet_with_form(method, host, cookies, path_params, body)
         .await;
 
     let mut response = Response::builder();

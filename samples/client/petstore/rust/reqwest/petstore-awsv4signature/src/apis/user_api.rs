@@ -10,7 +10,7 @@
 
 
 use reqwest;
-
+use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
@@ -246,7 +246,7 @@ pub fn delete_user(configuration: &configuration::Configuration, username: &str)
         let local_var_new_headers = match local_var_aws_v4_key.sign(
 	    &local_var_uri_str,
 	    "DELETE",
-	    &"",
+	    "",
 	    ) {
 	      Ok(new_headers) => new_headers,
 	      Err(err) => return Err(Error::AWSV4SignatureError(err)),
@@ -353,7 +353,7 @@ pub fn logout_user(configuration: &configuration::Configuration, ) -> Result<(),
         let local_var_new_headers = match local_var_aws_v4_key.sign(
 	    &local_var_uri_str,
 	    "GET",
-	    &"",
+	    "",
 	    ) {
 	      Ok(new_headers) => new_headers,
 	      Err(err) => return Err(Error::AWSV4SignatureError(err)),
