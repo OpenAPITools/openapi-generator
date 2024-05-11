@@ -1,0 +1,17 @@
+@file:Suppress(
+    "RemoveRedundantQualifierName"
+)
+
+package {{modelPackage}}
+
+{{#models}}
+{{#model}}
+{{^isEnum}}
+data class {{classname}}(
+    {{#allVars}}
+    val {{{name}}}: {{{dataType}}},
+    {{/allVars}}
+)
+{{/isEnum}}
+{{/model}}
+{{/models}}

@@ -1,0 +1,16 @@
+build.gradle.kts
+gradle/libs.versions.toml
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
+settings.gradle.kts
+src/main/kotlin/org/openapitools/apis/PetApi.kt
+src/main/kotlin/org/openapitools/apis/StoreApi.kt
+src/main/kotlin/org/openapitools/apis/UserApi.kt
+src/main/kotlin/org/openapitools/models/Category.kt
+src/main/kotlin/org/openapitools/models/ModelApiResponse.kt
+src/main/kotlin/org/openapitools/models/Order.kt
+src/main/kotlin/org/openapitools/models/Pet.kt
+src/main/kotlin/org/openapitools/models/Tag.kt
+src/main/kotlin/org/openapitools/models/User.kt

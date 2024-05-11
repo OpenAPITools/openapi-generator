@@ -1,0 +1,15 @@
+group = "{{groupId}}"
+version = "{{artifactVersion}}"
+
+tasks.wrapper {
+    gradleVersion = "8.7"
+}
+
+plugins {
+    alias(libs.plugins.kotlin.jvm)
+}
+
+dependencies {
+    implementation(libs.wiremock)
+    implementation(libs.jackson.databind)
+}
