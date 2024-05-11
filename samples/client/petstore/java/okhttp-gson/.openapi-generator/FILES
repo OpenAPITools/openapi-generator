@@ -48,6 +48,8 @@ docs/FileSchemaTestClass.md
 docs/Foo.md
 docs/FooGetDefaultResponse.md
 docs/FormatTest.md
+docs/FreeFormObjectTestClass.md
+docs/FreeFormObjectTestClassProperties.md
 docs/Fruit.md
 docs/FruitReq.md
 docs/GmFruit.md
@@ -187,6 +189,8 @@ src/main/java/org/openapitools/client/model/FileSchemaTestClass.java
 src/main/java/org/openapitools/client/model/Foo.java
 src/main/java/org/openapitools/client/model/FooGetDefaultResponse.java
 src/main/java/org/openapitools/client/model/FormatTest.java
+src/main/java/org/openapitools/client/model/FreeFormObjectTestClass.java
+src/main/java/org/openapitools/client/model/FreeFormObjectTestClassProperties.java
 src/main/java/org/openapitools/client/model/Fruit.java
 src/main/java/org/openapitools/client/model/FruitReq.java
 src/main/java/org/openapitools/client/model/GmFruit.java

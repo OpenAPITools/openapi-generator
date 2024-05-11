@@ -1048,6 +1048,18 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
+  /fake/get-free-form-object:
+    get:
+      tags:
+        - fake
+      description: Get a free form object or Json string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreeFormObjectTestClass'
   /fake/test-query-parameters:
     put:
       tags:
@@ -2035,6 +2047,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/File'
+    FreeFormObjectTestClass:
+      type: object
+      properties:
+        name:
+          type: string
+        properties:
+          oneOf:
+            - type: string
+            - type: object
+              additionalProperties: true
     File:
       type: object
       description: Must be named `File` for test.
