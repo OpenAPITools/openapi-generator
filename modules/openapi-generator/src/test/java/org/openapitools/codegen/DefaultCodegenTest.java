@@ -1703,7 +1703,8 @@ public class DefaultCodegenTest {
         List<File> files = new ArrayList<>();
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
-        generator.generateModels(files, allModels, filteredSchemas);
+        List<ModelMap> aliasModels = new ArrayList<>();
+        generator.generateModels(files, allModels, filteredSchemas, aliasModels);
 
         // check that the model's children contain the x-discriminator-values
         modelName = "BaseObj";
