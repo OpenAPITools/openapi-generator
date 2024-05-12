@@ -40,14 +40,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
 |gradleProject|Whether to generate gradle project instead of maven.| |false|
 |groupId|groupId in generated pom.xml| |org.openapitools|
-|helidonVersion|Helidon version for generated code| |3.0.1|
+|helidonVersion|Helidon complete version identifier or major version number. The specified exact Helidon release or, if specified as a major version the latest release of that major version,  is used in the generated code.| |Highest released version.|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
 |implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|
 |invokerPackage|root package for generated code| |org.openapitools.server|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|library|library template (sub-template) to use|<dl><dt>**mp**</dt><dd>Helidon MP Server</dd><dt>**se**</dt><dd>Helidon SE Server</dd><dt>**nima**</dt><dd>Helidon NIMA Server</dd><dt>**nima-annotations**</dt><dd>Helidon NIMA Annotations Server</dd></dl>|se|
+|library|library template (sub-template) to use|<dl><dt>**mp**</dt><dd>Helidon MP Server</dd><dt>**se**</dt><dd>Helidon SE Server</dd></dl>|se|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |modelPackage|package for generated models| |org.openapitools.server.model|

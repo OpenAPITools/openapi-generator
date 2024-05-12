@@ -1250,6 +1250,7 @@
         <openrewrite.version>8.8.3</openrewrite.version>
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
         <reflections.version>0.10.2</reflections.version>
+        <resolver-util-version>1.9.18</resolver-util-version>
         <rxgen.version>1.4</rxgen.version>
         <scala-maven-plugin.version>4.6.1</scala-maven-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>

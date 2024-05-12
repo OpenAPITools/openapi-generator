@@ -300,6 +300,11 @@
             <version>${commons-text.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.maven.resolver</groupId>
+            <artifactId>maven-resolver-util</artifactId>
+            <version>${resolver-util-version}</version>
+        </dependency>
+        <dependency>
             <groupId>commons-cli</groupId>
             <artifactId>commons-cli</artifactId>
             <version>${commons-cli.version}</version>
