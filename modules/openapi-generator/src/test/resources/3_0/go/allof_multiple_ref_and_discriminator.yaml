@@ -8,9 +8,9 @@ components:
     FinalItem:
       type: object
       allOf:
-        - $ref: '#/components/schemas/BaseItem'
+        - $ref: '#/components/schemas/base.item'
         - $ref: '#/components/schemas/AdditionalData'
-    BaseItem:
+    base.item:
       type: object
       properties:
         title:
