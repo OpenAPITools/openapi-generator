@@ -26,6 +26,10 @@ public class ReadOnlyFirst {
 
   private String baz;
 
+  public ReadOnlyFirst() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

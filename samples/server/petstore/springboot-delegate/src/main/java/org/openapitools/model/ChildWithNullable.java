@@ -32,6 +32,10 @@ public class ChildWithNullable extends ParentWithNullable {
 
   private String otherProperty;
 
+  public ChildWithNullable() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

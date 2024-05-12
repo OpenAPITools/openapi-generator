@@ -4918,32 +4918,21 @@ public class DefaultCodegenTest {
     @Test
     public void testAllVars_issue_18340() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_18340.yaml");
-        new OpenAPINormalizer(openAPI, Map.of("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", " true"))
+        new OpenAPINormalizer(openAPI, Map.of("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "true"))
                 .normalize();
         Schema catModel = ModelUtils.getSchema(openAPI, "Cat");
         Schema cat2Model = ModelUtils.getSchema(openAPI, "Cat2");
         DefaultCodegen defaultCodegen = new DefaultCodegen();
         defaultCodegen.setOpenAPI(openAPI);
         CodegenModel defaultCat = defaultCodegen.fromModel("Cat", catModel);
-        assertThat(getNames(defaultCat.allVars)).isEqualTo(List.of("name", "petType"));
+        assertThat(getNames(defaultCat.allVars)).isEqualTo(List.of("petType", "name"));
 
-        // same model gives an invalid var when using SpringCodegen.  name is missing
+        // the normalizer makes it work even for generators supporting inheritance
         SpringCodegen springCodegen = new SpringCodegen();
         springCodegen.setOpenAPI(openAPI);
         CodegenModel springCat = springCodegen.fromModel("Cat", catModel);
-        assertThat(getNames(springCat.allVars)).isEqualTo(List.of("petType"));  // should be name,petType
+        assertThat(getNames(springCat.allVars)).isEqualTo(List.of("petType", "name"));
         CodegenModel springCat2 = springCodegen.fromModel("Cat2", cat2Model);
         assertThat(getNames(springCat2.allVars)).isEqualTo(List.of("petType", "name"));
-
-        // Prove that supportsInheritance is the culprit
-        SpringCodegen springCodegenNoSupportInheritance = new SpringCodegen() {
-            {
-                this.supportsInheritance = false;
-            }
-        };
-        springCodegenNoSupportInheritance.setOpenAPI(openAPI);
-        CodegenModel springCatNoSupportInheritance = springCodegenNoSupportInheritance.fromModel("Cat", catModel);
-        assertThat(getNames(springCatNoSupportInheritance.allVars)).isEqualTo(List.of("name", "petType"));
     }
-
 }

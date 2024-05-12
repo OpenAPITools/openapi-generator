@@ -8,3 +8,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   additionalModelTypeAnnotations: "@lombok.Data;@lombok.Builder;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor"
   generateConstructorWithAllArgs: true
+  generateBuilders: true

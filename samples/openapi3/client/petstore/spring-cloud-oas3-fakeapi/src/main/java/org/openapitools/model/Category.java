@@ -25,6 +25,10 @@ public class Category {
 
   private String name = "default-name";
 
+  public Category() {
+    super();
+  }
+
   public Category id(Long id) {
     this.id = id;
     return this;
