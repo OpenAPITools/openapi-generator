@@ -64,11 +64,11 @@ public class FakeAnyOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
             }
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
 
-            final Type typeInstance = new TypeToken<List<String>>(){}.getType();
-            final TypeAdapter<List<String>> adapterListString = (TypeAdapter<List<String>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final Type typeInstanceListString = new TypeToken<List<String>>(){}.getType();
+            final TypeAdapter<List<String>> adapterListString = (TypeAdapter<List<String>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListString));
 
-            final Type typeInstance = new TypeToken<List<Integer>>(){}.getType();
-            final TypeAdapter<List<Integer>> adapterListInteger = (TypeAdapter<List<Integer>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final Type typeInstanceListInteger = new TypeToken<List<Integer>>(){}.getType();
+            final TypeAdapter<List<Integer>> adapterListInteger = (TypeAdapter<List<Integer>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListInteger));
 
             return (TypeAdapter<T>) new TypeAdapter<FakeAnyOfWIthSameErasureGet200Response>() {
                 @Override
