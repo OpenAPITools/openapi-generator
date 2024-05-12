@@ -148,12 +148,7 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public FreeFormObjectTestClassProperties(Map<String, Object> o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public FreeFormObjectTestClassProperties(String o) {
+    public FreeFormObjectTestClassProperties(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

@@ -992,6 +992,30 @@ paths:
       x-content-type: application/json
       x-accepts:
       - application/json
+  /fake/oneOfWIthSameErasure:
+    get:
+      description: "Test route, this shouldn't cause a compiler error"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_fake_oneOfWIthSameErasure_get_200_response'
+          description: successful response
+      x-accepts:
+      - application/json
+  /fake/anyOfWIthSameErasure:
+    get:
+      description: "Test route, this shouldn't cause a compiler error"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_fake_anyOfWIthSameErasure_get_200_response'
+          description: successful response
+      x-accepts:
+      - application/json
   /fake/stringMap-reference:
     post:
       description: ""
@@ -2887,6 +2911,22 @@ components:
       - param
       - param2
       type: object
+    _fake_oneOfWIthSameErasure_get_200_response:
+      oneOf:
+      - items:
+          type: string
+        type: array
+      - items:
+          type: integer
+        type: array
+    _fake_anyOfWIthSameErasure_get_200_response:
+      anyOf:
+      - items:
+          type: string
+        type: array
+      - items:
+          type: integer
+        type: array
     testInlineFreeformAdditionalProperties_request:
       additionalProperties: true
       properties:

@@ -156,12 +156,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public ArrayOneOf(Integer o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public ArrayOneOf(List<String> o) {
+    public ArrayOneOf(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

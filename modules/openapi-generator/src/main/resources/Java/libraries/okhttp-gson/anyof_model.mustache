@@ -210,13 +210,11 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
 
-    {{#anyOf}}
-    public {{classname}}({{{.}}} o) {
+    public {{classname}}(Object o) {
         super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
         setActualInstance(o);
     }
 
-    {{/anyOf}}
     static {
         {{#composedSchemas}}
         {{#anyOf}}

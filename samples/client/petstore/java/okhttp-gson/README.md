@@ -118,6 +118,8 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**getParameterArrayNumber**](docs/AnotherFakeApi.md#getParameterArrayNumber) | **GET** /fake/parameter-array-number | parameter array number default value
 *AnotherFakeApi* | [**getParameterStringNumber**](docs/AnotherFakeApi.md#getParameterStringNumber) | **GET** /fake/parameter-string-number | parameter string number
 *AnotherFakeApi* | [**nullRequestBody**](docs/AnotherFakeApi.md#nullRequestBody) | **GET** /fake/null-request-body | null request body
+*DefaultApi* | [**fakeAnyOfWIthSameErasureGet**](docs/DefaultApi.md#fakeAnyOfWIthSameErasureGet) | **GET** /fake/anyOfWIthSameErasure | 
+*DefaultApi* | [**fakeOneOfWIthSameErasureGet**](docs/DefaultApi.md#fakeOneOfWIthSameErasureGet) | **GET** /fake/oneOfWIthSameErasure | 
 *DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
 *FakeApi* | [**fakeGetFreeFormObjectGet**](docs/FakeApi.md#fakeGetFreeFormObjectGet) | **GET** /fake/get-free-form-object | 
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
@@ -202,6 +204,8 @@ Class | Method | HTTP request | Description
  - [EnumStringDiscriminator](docs/EnumStringDiscriminator.md)
  - [EnumTest](docs/EnumTest.md)
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
+ - [FakeAnyOfWIthSameErasureGet200Response](docs/FakeAnyOfWIthSameErasureGet200Response.md)
+ - [FakeOneOfWIthSameErasureGet200Response](docs/FakeOneOfWIthSameErasureGet200Response.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)

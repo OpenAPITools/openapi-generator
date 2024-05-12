@@ -146,12 +146,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
         super("anyOf", Boolean.FALSE);
     }
 
-    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(Tag o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(User o) {
+    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(Object o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
