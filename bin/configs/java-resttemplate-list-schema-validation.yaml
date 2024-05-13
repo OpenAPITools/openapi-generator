@@ -1,5 +1,5 @@
 generatorName: java
-outputDir: samples/client/petstore/java/resttemplate-list-schema-validation
+outputDir: samples/client/others/java/resttemplate-list-schema-validation
 library: resttemplate
 inputSpec: modules/openapi-generator/src/test/resources/3_1/issue-17485.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
