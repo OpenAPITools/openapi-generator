@@ -37,5 +37,13 @@ func AssertAnObjectRequired(obj AnObject) error {
 
 // AssertAnObjectConstraints checks if the values respects the defined constraints
 func AssertAnObjectConstraints(obj AnObject) error {
+	if err := AssertTagConstraints(obj.Tag); err != nil {
+		return err
+	}
+	for _, el := range obj.Pet {
+		if err := AssertPetConstraints(el); err != nil {
+			return err
+		}
+	}
 	return nil
 }
