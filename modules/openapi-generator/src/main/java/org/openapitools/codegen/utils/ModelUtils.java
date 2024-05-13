@@ -722,6 +722,16 @@ public class ModelUtils {
                 && URI_FORMAT.equals(schema.getFormat());
     }
 
+    private static boolean isEnumSchema(final Schema<?> schema) {
+        // MyEnum:
+        //   type: string
+        //   enum:
+        //   - ENUM_1
+        //   - ENUM_2
+        return schema.getEnum() != null
+                && !schema.getEnum().isEmpty();
+    }
+
     public static boolean isEmailSchema(Schema schema) {
         return (schema instanceof EmailSchema) ||
                 // format: email
@@ -756,7 +766,8 @@ public class ModelUtils {
         return ModelUtils.isByteArraySchema(schema) ||
                 ModelUtils.isBinarySchema(schema) ||
                 ModelUtils.isUUIDSchema(schema) ||
-                ModelUtils.isURISchema(schema);
+                ModelUtils.isURISchema(schema) ||
+                ModelUtils.isEnumSchema(schema);
 
     }
 
@@ -1351,7 +1362,7 @@ public class ModelUtils {
                     once(LOGGER).warn("{} is not defined", schema.get$ref());
                 }
                 return schema;
-            } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
+            } else if (isEnumSchema(ref)) {
                 // top-level enum class
                 return schema;
             } else if (isArraySchema(ref)) {
