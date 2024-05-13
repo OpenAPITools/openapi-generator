@@ -191,7 +191,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
     {{/moshi}}
     {{#kotlinx_serialization}}
-    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0"
+    implementation "com.squareup.retrofit2:converter-kotlinx-serialization:$retrofitVersion"
     {{/kotlinx_serialization}}
     {{#jackson}}
     implementation "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
