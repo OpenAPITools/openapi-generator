@@ -1,0 +1,31 @@
+openapi: 3.1.0
+info:
+  title: issue-17485
+  version: 0.1.0
+servers:
+- url: http://api.example.xyz/v1
+paths:
+  /user:
+    get:
+      parameters:
+      - description: The name of the user
+        explode: false
+        in: path
+        name: username
+        required: true
+        schema:
+          items:
+            pattern: "^[a-zA-Z0-9]$"
+            type: string
+          type: array
+        style: simple
+      responses:
+        "200":
+          description: OK
+      tags:
+      - user
+      x-accepts:
+      - application/json
+components:
+  schemas: {}
+
