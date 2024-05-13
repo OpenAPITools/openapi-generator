@@ -52,47 +52,43 @@ import com.google.gson.JsonParseException;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
-public class ArrayOneOf extends AbstractOpenApiSchema {
-    private static final Logger log = Logger.getLogger(ArrayOneOf.class.getName());
+public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchema {
+    private static final Logger log = Logger.getLogger(FakeOneOfWIthSameErasureGet200Response.class.getName());
 
     public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
         @SuppressWarnings("unchecked")
         @Override
         public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-            if (!ArrayOneOf.class.isAssignableFrom(type.getRawType())) {
-                return null; // this class only serializes 'ArrayOneOf' and its subtypes
+            if (!FakeOneOfWIthSameErasureGet200Response.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes 'FakeOneOfWIthSameErasureGet200Response' and its subtypes
             }
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-            final TypeAdapter<Integer> adapterInteger = gson.getDelegateAdapter(this, TypeToken.get(Integer.class));
 
             final Type typeInstanceListString = new TypeToken<List<String>>(){}.getType();
             final TypeAdapter<List<String>> adapterListString = (TypeAdapter<List<String>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListString));
 
-            return (TypeAdapter<T>) new TypeAdapter<ArrayOneOf>() {
+            final Type typeInstanceListInteger = new TypeToken<List<Integer>>(){}.getType();
+            final TypeAdapter<List<Integer>> adapterListInteger = (TypeAdapter<List<Integer>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListInteger));
+
+            return (TypeAdapter<T>) new TypeAdapter<FakeOneOfWIthSameErasureGet200Response>() {
                 @Override
-                public void write(JsonWriter out, ArrayOneOf value) throws IOException {
+                public void write(JsonWriter out, FakeOneOfWIthSameErasureGet200Response value) throws IOException {
                     if (value == null || value.getActualInstance() == null) {
                         elementAdapter.write(out, null);
                         return;
                     }
 
-                    // check if the actual instance is of the type `Integer`
-                    if (value.getActualInstance() instanceof Integer) {
-                        JsonPrimitive primitive = adapterInteger.toJsonTree((Integer)value.getActualInstance()).getAsJsonPrimitive();
-                        elementAdapter.write(out, primitive);
-                        return;
-                    }
                     // check if the actual instance is of the type `List<String>`
                     if (value.getActualInstance() instanceof List<?>) {
                         JsonPrimitive primitive = adapterListString.toJsonTree((List<String>)value.getActualInstance()).getAsJsonPrimitive();
                         elementAdapter.write(out, primitive);
                         return;
                     }
-                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: Integer, List<String>");
+                    throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: List<Integer>, List<String>");
                 }
 
                 @Override
-                public ArrayOneOf read(JsonReader in) throws IOException {
+                public FakeOneOfWIthSameErasureGet200Response read(JsonReader in) throws IOException {
                     Object deserialized = null;
                     JsonElement jsonElement = elementAdapter.read(in);
 
@@ -100,20 +96,6 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
                     ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
-                    // deserialize Integer
-                    try {
-                        // validate the JSON object to see if any exception is thrown
-                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
-                        }
-                        actualAdapter = adapterInteger;
-                        match++;
-                        log.log(Level.FINER, "Input data matches schema 'Integer'");
-                    } catch (Exception e) {
-                        // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for Integer failed with `%s`.", e.getMessage()));
-                        log.log(Level.FINER, "Input data does not match schema 'Integer'", e);
-                    }
                     // deserialize List<String>
                     try {
                         // validate the JSON object to see if any exception is thrown
@@ -138,12 +120,12 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
                     }
 
                     if (match == 1) {
-                        ArrayOneOf ret = new ArrayOneOf();
+                        FakeOneOfWIthSameErasureGet200Response ret = new FakeOneOfWIthSameErasureGet200Response();
                         ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for ArrayOneOf: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format("Failed deserialization for FakeOneOfWIthSameErasureGet200Response: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -152,39 +134,33 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
     // store a list of schema names defined in oneOf
     public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
-    public ArrayOneOf() {
+    public FakeOneOfWIthSameErasureGet200Response() {
         super("oneOf", Boolean.FALSE);
     }
 
-    public ArrayOneOf(Object o) {
+    public FakeOneOfWIthSameErasureGet200Response(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     static {
-        schemas.put("Integer", Integer.class);
         schemas.put("List<String>", List.class);
     }
 
     @Override
     public Map<String, Class<?>> getSchemas() {
-        return ArrayOneOf.schemas;
+        return FakeOneOfWIthSameErasureGet200Response.schemas;
     }
 
     /**
      * Set the instance that matches the oneOf child schema, check
      * the instance parameter is valid against the oneOf child schemas:
-     * Integer, List<String>
+     * List<Integer>, List<String>
      *
      * It could be an instance of the 'oneOf' schemas.
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof Integer) {
-            super.setActualInstance(instance);
-            return;
-        }
-
         if (instance instanceof List<?>) {
             List<?> list = (List<?>) instance;
             if (list.get(0) instanceof String) {
@@ -193,14 +169,14 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
             }
         }
 
-        throw new RuntimeException("Invalid instance type. Must be Integer, List<String>");
+        throw new RuntimeException("Invalid instance type. Must be List<Integer>, List<String>");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * Integer, List<String>
+     * List<Integer>, List<String>
      *
-     * @return The actual instance (Integer, List<String>)
+     * @return The actual instance (List<Integer>, List<String>)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -208,16 +184,6 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
         return super.getActualInstance();
     }
 
-    /**
-     * Get the actual instance of `Integer`. If the actual instance is not `Integer`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `Integer`
-     * @throws ClassCastException if the instance is not `Integer`
-     */
-    public Integer getInteger() throws ClassCastException {
-        return (Integer)super.getActualInstance();
-    }
     /**
      * Get the actual instance of `List<String>`. If the actual instance is not `List<String>`,
      * the ClassCastException will be thrown.
@@ -233,22 +199,12 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
      * Validates the JSON Element and throws an exception if issues found
      *
      * @param jsonElement JSON Element
-     * @throws IOException if the JSON Element is invalid with respect to ArrayOneOf
+     * @throws IOException if the JSON Element is invalid with respect to FakeOneOfWIthSameErasureGet200Response
      */
     public static void validateJsonElement(JsonElement jsonElement) throws IOException {
         // validate oneOf schemas one by one
         int validCount = 0;
         ArrayList<String> errorMessages = new ArrayList<>();
-        // validate the json string with Integer
-        try {
-            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
-            }
-            validCount++;
-        } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for Integer failed with `%s`.", e.getMessage()));
-            // continue to the next one
-        }
         // validate the json string with List<String>
         try {
             if (!jsonElement.isJsonArray()) {
@@ -267,23 +223,23 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for ArrayOneOf with oneOf schemas: Integer, List<String>. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format("The JSON string is invalid for FakeOneOfWIthSameErasureGet200Response with oneOf schemas: List<Integer>, List<String>. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 
     /**
-     * Create an instance of ArrayOneOf given an JSON string
+     * Create an instance of FakeOneOfWIthSameErasureGet200Response given an JSON string
      *
      * @param jsonString JSON string
-     * @return An instance of ArrayOneOf
-     * @throws IOException if the JSON string is invalid with respect to ArrayOneOf
+     * @return An instance of FakeOneOfWIthSameErasureGet200Response
+     * @throws IOException if the JSON string is invalid with respect to FakeOneOfWIthSameErasureGet200Response
      */
-    public static ArrayOneOf fromJson(String jsonString) throws IOException {
-        return JSON.getGson().fromJson(jsonString, ArrayOneOf.class);
+    public static FakeOneOfWIthSameErasureGet200Response fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, FakeOneOfWIthSameErasureGet200Response.class);
     }
 
     /**
-     * Convert an instance of ArrayOneOf to an JSON string
+     * Convert an instance of FakeOneOfWIthSameErasureGet200Response to an JSON string
      *
      * @return JSON string
      */

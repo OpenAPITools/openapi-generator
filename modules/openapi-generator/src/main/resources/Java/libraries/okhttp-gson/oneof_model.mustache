@@ -56,12 +56,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{/isArray}}
             {{#isArray}}
 
-            final Type typeInstance = new TypeToken<{{{dataType}}}>(){}.getType();
-            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final Type typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = new TypeToken<{{{dataType}}}>(){}.getType();
+            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}));
             {{/isArray}}
             {{#isMap}}
-            final Type typeInstance = new TypeToken<{{{dataType}}}>(){}.getType();
-            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final Type typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = new TypeToken<{{{dataType}}}>(){}.getType();
+            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}));
             {{/isMap}}
             {{/oneOf}}
             {{/composedSchemas}}
@@ -288,13 +288,11 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
 
-    {{#oneOf}}
-    public {{classname}}({{{.}}} o) {
+    public {{classname}}(Object o) {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
         setActualInstance(o);
     }
 
-    {{/oneOf}}
     static {
         {{#composedSchemas}}
         {{#oneOf}}

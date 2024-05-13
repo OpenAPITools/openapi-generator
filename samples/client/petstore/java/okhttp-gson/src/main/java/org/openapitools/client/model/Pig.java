@@ -172,12 +172,7 @@ public class Pig extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Pig(BasquePig o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Pig(DanishPig o) {
+    public Pig(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

@@ -64,8 +64,8 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
             }
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final TypeAdapter<String> adapterString = gson.getDelegateAdapter(this, TypeToken.get(String.class));
-            final Type typeInstance = new TypeToken<Map<String, Object>>(){}.getType();
-            final TypeAdapter<Map<String, Object>> adapterMapStringObject = (TypeAdapter<Map<String, Object>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final Type typeInstanceMapStringObject = new TypeToken<Map<String, Object>>(){}.getType();
+            final TypeAdapter<Map<String, Object>> adapterMapStringObject = (TypeAdapter<Map<String, Object>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceMapStringObject));
 
             return (TypeAdapter<T>) new TypeAdapter<FreeFormObjectTestClassProperties>() {
                 @Override
@@ -148,12 +148,7 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public FreeFormObjectTestClassProperties(Map<String, Object> o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public FreeFormObjectTestClassProperties(String o) {
+    public FreeFormObjectTestClassProperties(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
