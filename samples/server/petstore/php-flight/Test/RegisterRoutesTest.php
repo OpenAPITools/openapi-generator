@@ -17,6 +17,8 @@
 
 namespace OpenAPIServer\Test;
 
+use function OpenAPIServer\parseParam;
+
 class RegisterRoutesTest extends \PHPUnit\Framework\TestCase {
     public function testRegisterRoutesAbstractPetApi(): void
     {
@@ -48,5 +50,29 @@ class RegisterRoutesTest extends \PHPUnit\Framework\TestCase {
         };
         \OpenAPIServer\RegisterRoutes::registerRoutes($handler);
         $this->assertTrue(true);
+    }
+    public function testParseParamsEnumFindPetsByStatusStatusParameterInner(): void
+    {
+        $value = 'available';
+        $this->assertEquals(
+            parseParam($value, '\\OpenAPIServer\\Model\\FindPetsByStatusStatusParameterInner'),
+            \OpenAPIServer\Model\FindPetsByStatusStatusParameterInner::AVAILABLE
+        );
+    }
+    public function testParseParamsEnumOrderStatus(): void
+    {
+        $value = 'placed';
+        $this->assertEquals(
+            parseParam($value, '\\OpenAPIServer\\Model\\OrderStatus'),
+            \OpenAPIServer\Model\OrderStatus::PLACED
+        );
+    }
+    public function testParseParamsEnumPetStatus(): void
+    {
+        $value = 'available';
+        $this->assertEquals(
+            parseParam($value, '\\OpenAPIServer\\Model\\PetStatus'),
+            \OpenAPIServer\Model\PetStatus::AVAILABLE
+        );
     }
 }

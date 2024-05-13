@@ -9,6 +9,7 @@
  */
 
 use crate::models;
+use serde::{Deserialize, Serialize};
 
 /// Baz : Test handling of empty variants
 /// Test handling of empty variants
@@ -23,12 +24,12 @@ pub enum Baz {
 
 }
 
-impl ToString for Baz {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Baz {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
-            Self::A => String::from("A"),
-            Self::B => String::from("B"),
-            Self::Empty => String::from(""),
+            Self::A => write!(f, "A"),
+            Self::B => write!(f, "B"),
+            Self::Empty => write!(f, ""),
         }
     }
 }

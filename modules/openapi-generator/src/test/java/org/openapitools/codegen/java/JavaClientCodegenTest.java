@@ -17,7 +17,7 @@
 
 package org.openapitools.codegen.java;
 
-import static org.junit.Assert.assertNotNull;
+import org.junit.jupiter.api.Assertions;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -108,9 +109,9 @@ public class JavaClientCodegenTest {
                                 "application/json",
                                 new MediaType().schema(new ArraySchema().items(new StringSchema()))));
         CodegenParameter codegenParameter1 = codegen.fromRequestBody(body1, new HashSet<String>(), null);
-        Assert.assertEquals(codegenParameter1.description, "A list of ids");
-        Assert.assertEquals(codegenParameter1.dataType, "List<String>");
-        Assert.assertEquals(codegenParameter1.baseType, "String");
+        Assertions.assertEquals(codegenParameter1.description, "A list of ids");
+        Assertions.assertEquals(codegenParameter1.dataType, "List<String>");
+        Assertions.assertEquals(codegenParameter1.baseType, "String");
 
         RequestBody body2 = new RequestBody();
         body2.setDescription("A list of list of values");
@@ -122,9 +123,9 @@ public class JavaClientCodegenTest {
                                         .schema(
                                                 new ArraySchema().items(new ArraySchema().items(new IntegerSchema())))));
         CodegenParameter codegenParameter2 = codegen.fromRequestBody(body2, new HashSet<String>(), null);
-        Assert.assertEquals(codegenParameter2.description, "A list of list of values");
-        Assert.assertEquals(codegenParameter2.dataType, "List<List<Integer>>");
-        Assert.assertEquals(codegenParameter2.baseType, "List");
+        Assertions.assertEquals(codegenParameter2.description, "A list of list of values");
+        Assertions.assertEquals(codegenParameter2.dataType, "List<List<Integer>>");
+        Assertions.assertEquals(codegenParameter2.baseType, "List");
 
         RequestBody body3 = new RequestBody();
         body3.setDescription("A list of points");
@@ -141,9 +142,9 @@ public class JavaClientCodegenTest {
         point.addProperty("x", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
         point.addProperty("y", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
         CodegenParameter codegenParameter3 = codegen.fromRequestBody(body3, new HashSet<String>(), null);
-        Assert.assertEquals(codegenParameter3.description, "A list of points");
-        Assert.assertEquals(codegenParameter3.dataType, "List<Point>");
-        Assert.assertEquals(codegenParameter3.baseType, "Point");
+        Assertions.assertEquals(codegenParameter3.description, "A list of points");
+        Assertions.assertEquals(codegenParameter3.dataType, "List<Point>");
+        Assertions.assertEquals(codegenParameter3.baseType, "Point");
     }
 
     @Test
@@ -152,7 +153,7 @@ public class JavaClientCodegenTest {
         ComposedSchema schema = new ComposedSchema();
         CodegenModel result = codegen.fromModel("CompSche",
                 schema);
-        Assert.assertEquals(result.name, "CompSche");
+        Assertions.assertEquals(result.name, "CompSche");
     }
 
     @Test
@@ -176,7 +177,7 @@ public class JavaClientCodegenTest {
 
         javaClientCodegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 
-        Assert.assertEquals(Arrays.asList(pathParam1, pathParam2, queryParamRequired, queryParamOptional), codegenOperation.allParams);
+        Assertions.assertEquals(Arrays.asList(pathParam1, pathParam2, queryParamRequired, queryParamOptional), codegenOperation.allParams);
     }
 
     @Test
@@ -184,22 +185,22 @@ public class JavaClientCodegenTest {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertFalse(codegen.isHideGenerationTimestamp());
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assertions.assertFalse(codegen.isHideGenerationTimestamp());
 
-        Assert.assertEquals(codegen.modelPackage(), "org.openapitools.client.model");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.modelPackage(), "org.openapitools.client.model");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
                 "org.openapitools.client.model");
-        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.client.api");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.apiPackage(), "org.openapitools.client.api");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
                 "org.openapitools.client.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.client");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.getInvokerPackage(), "org.openapitools.client");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
                 "org.openapitools.client");
-        Assert.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_GSON);
+        Assertions.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_GSON);
     }
 
     @Test
@@ -212,20 +213,20 @@ public class JavaClientCodegenTest {
         codegen.setSerializationLibrary("JACKSON");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertTrue(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.model");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assertions.assertTrue(codegen.isHideGenerationTimestamp());
+        Assertions.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.model");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
                 "xyz.yyyyy.zzzzzzz.model");
-        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.api");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.api");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.zzzzzzz.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.invoker");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.invoker");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
                 "xyz.yyyyy.zzzzzzz.invoker");
-        Assert.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_GSON); // the library JavaClientCodegen.OKHTTP_GSON only supports GSON
+        Assertions.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_GSON); // the library JavaClientCodegen.OKHTTP_GSON only supports GSON
     }
 
     @Test
@@ -243,21 +244,21 @@ public class JavaClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, JavaClientCodegen.JERSEY2);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertTrue(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.mmmmm.model");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assertions.assertTrue(codegen.isHideGenerationTimestamp());
+        Assertions.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.mmmmm.model");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
                 "xyz.yyyyy.zzzzzzz.mmmmm.model");
-        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.aaaaa.api");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.aaaaa.api");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
                 "xyz.yyyyy.zzzzzzz.aaaaa.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.iiii.invoker");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.iiii.invoker");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
                 "xyz.yyyyy.zzzzzzz.iiii.invoker");
-        Assert.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
+        Assertions.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
     }
 
     @Test
@@ -320,7 +321,7 @@ public class JavaClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, JavaClientCodegen.JERSEY3);
         codegen.processOpts();
 
-        Assert.assertTrue(codegen.getFeatureSet().getSecurityFeatures().contains(SecurityFeature.SignatureAuth));
+        Assertions.assertTrue(codegen.getFeatureSet().getSecurityFeatures().contains(SecurityFeature.SignatureAuth));
     }
 
     @Test
@@ -332,16 +333,16 @@ public class JavaClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.zzzzzzz.aaaaa.api");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.mmmmm.model");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.mmmmm.model");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
                 "xyz.yyyyy.zzzzzzz.mmmmm.model");
-        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.aaaaa.api");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.aaaaa.api");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
                 "xyz.yyyyy.zzzzzzz.aaaaa.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.aaaaa");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.aaaaa");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
                 "xyz.yyyyy.zzzzzzz.aaaaa");
     }
@@ -354,16 +355,16 @@ public class JavaClientCodegenTest {
                 .put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.zzzzzzz.mmmmm.model");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.mmmmm.model");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.mmmmm.model");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
                 "xyz.yyyyy.zzzzzzz.mmmmm.model");
-        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.client.api");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.apiPackage(), "org.openapitools.client.api");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
                 "org.openapitools.client.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.mmmmm");
-        Assert.assertEquals(
+        Assertions.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.mmmmm");
+        Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
                 "xyz.yyyyy.zzzzzzz.mmmmm");
     }
@@ -376,8 +377,8 @@ public class JavaClientCodegenTest {
 
         Operation operation = openAPI.getPaths().get("/ping").getPost();
         CodegenOperation co = codegen.fromOperation("/ping", "POST", operation, null);
-        Assert.assertEquals(co.allParams.size(), 1);
-        Assert.assertEquals(co.allParams.get(0).baseType, "MessageEventCoreWithTimeListEntries");
+        Assertions.assertEquals(co.allParams.size(), 1);
+        Assertions.assertEquals(co.allParams.get(0).baseType, "MessageEventCoreWithTimeListEntries");
     }
 
     @Test
@@ -389,11 +390,11 @@ public class JavaClientCodegenTest {
 
         List<Map<String, String>> enumVars =
                 (List<Map<String, String>>) array.getItems().getAllowableValues().get("enumVars");
-        Assert.assertNotNull(enumVars);
+        Assertions.assertNotNull(enumVars);
         Map<String, String> testedEnumVar = enumVars.get(0);
-        Assert.assertNotNull(testedEnumVar);
-        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""), "NUMBER_1");
-        Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
+        Assertions.assertNotNull(testedEnumVar);
+        Assertions.assertEquals(testedEnumVar.getOrDefault("name", ""), "NUMBER_1");
+        Assertions.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
     }
 
     @Test
@@ -409,11 +410,11 @@ public class JavaClientCodegenTest {
 
         List<Map<String, String>> enumVars =
                 (List<Map<String, String>>) array.getItems().getAllowableValues().get("enumVars");
-        Assert.assertNotNull(enumVars);
+        Assertions.assertNotNull(enumVars);
         Map<String, String> testedEnumVar = enumVars.get(0);
-        Assert.assertNotNull(testedEnumVar);
-        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""), "ONE");
-        Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
+        Assertions.assertNotNull(testedEnumVar);
+        Assertions.assertEquals(testedEnumVar.getOrDefault("name", ""), "ONE");
+        Assertions.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
     }
 
     @Test
@@ -434,7 +435,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 40);
+        Assertions.assertEquals(files.size(), 40);
         TestUtils.ensureContainsFile(files, output, ".gitignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
@@ -510,7 +511,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 43);
+        Assertions.assertEquals(files.size(), 43);
         TestUtils.ensureContainsFile(files, output, ".gitignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
         TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
@@ -598,7 +599,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 32);
+        Assertions.assertEquals(files.size(), 32);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(
@@ -667,7 +668,7 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 153);
+        Assertions.assertEquals(files.size(), 153);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Dog.java"),
@@ -694,7 +695,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 35);
+        Assertions.assertEquals(files.size(), 35);
         validateJavaSourceFiles(files);
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PingApi.java");
@@ -721,10 +722,10 @@ public class JavaClientCodegenTest {
         ApiResponse ok_200 = openAPI.getComponents().getResponses().get("OK_200");
         CodegenResponse response = codegen.fromResponse("200", ok_200);
 
-        Assert.assertEquals(response.headers.size(), 1);
+        Assertions.assertEquals(response.headers.size(), 1);
         CodegenProperty header = response.headers.get(0);
-        Assert.assertEquals(header.dataType, "UUID");
-        Assert.assertEquals(header.baseName, "Request");
+        Assertions.assertEquals(header.dataType, "UUID");
+        Assertions.assertEquals(header.baseName, "Request");
     }
 
     @Test
@@ -790,7 +791,7 @@ public class JavaClientCodegenTest {
 
         validateJavaSourceFiles(files);
 
-        Assert.assertEquals(files.size(), 1);
+        Assertions.assertEquals(files.size(), 1);
         files.forEach(File::deleteOnExit);
     }
 
@@ -819,7 +820,7 @@ public class JavaClientCodegenTest {
 
         validateJavaSourceFiles(files);
 
-        Assert.assertEquals(files.size(), 9);
+        Assertions.assertEquals(files.size(), 9);
         files.forEach(File::deleteOnExit);
     }
 
@@ -898,29 +899,29 @@ public class JavaClientCodegenTest {
         Schema test1 = openAPI.getComponents().getSchemas().get("MapTest1");
         codegen.setOpenAPI(openAPI);
         CodegenModel cm1 = codegen.fromModel("MapTest1", test1);
-        Assert.assertEquals(cm1.getDataType(), "Map");
-        Assert.assertEquals(cm1.getParent(), "HashMap<String, Object>");
-        Assert.assertEquals(cm1.getClassname(), "MapTest1");
+        Assertions.assertEquals(cm1.getDataType(), "Map");
+        Assertions.assertEquals(cm1.getParent(), "HashMap<String, Object>");
+        Assertions.assertEquals(cm1.getClassname(), "MapTest1");
 
         Schema test2 = openAPI.getComponents().getSchemas().get("MapTest2");
         codegen.setOpenAPI(openAPI);
         CodegenModel cm2 = codegen.fromModel("MapTest2", test2);
-        Assert.assertEquals(cm2.getDataType(), "Map");
-        Assert.assertEquals(cm2.getParent(), "HashMap<String, Object>");
-        Assert.assertEquals(cm2.getClassname(), "MapTest2");
+        Assertions.assertEquals(cm2.getDataType(), "Map");
+        Assertions.assertEquals(cm2.getParent(), "HashMap<String, Object>");
+        Assertions.assertEquals(cm2.getClassname(), "MapTest2");
 
         Schema test3 = openAPI.getComponents().getSchemas().get("MapTest3");
         codegen.setOpenAPI(openAPI);
         CodegenModel cm3 = codegen.fromModel("MapTest3", test3);
-        Assert.assertEquals(cm3.getDataType(), "Map");
-        Assert.assertEquals(cm3.getParent(), "HashMap<String, Object>");
-        Assert.assertEquals(cm3.getClassname(), "MapTest3");
+        Assertions.assertEquals(cm3.getDataType(), "Map");
+        Assertions.assertEquals(cm3.getParent(), "HashMap<String, Object>");
+        Assertions.assertEquals(cm3.getClassname(), "MapTest3");
 
         Schema other = openAPI.getComponents().getSchemas().get("OtherObj");
         codegen.setOpenAPI(openAPI);
         CodegenModel cm = codegen.fromModel("OtherObj", other);
-        Assert.assertEquals(cm.getDataType(), "Object");
-        Assert.assertEquals(cm.getClassname(), "OtherObj");
+        Assertions.assertEquals(cm.getDataType(), "Object");
+        Assertions.assertEquals(cm.getClassname(), "OtherObj");
     }
 
     /**
@@ -948,7 +949,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        Assert.assertEquals(
+        Assertions.assertEquals(
                 clientOptInput.getConfig().schemaMapping().get("TypeAlias"), "foo.bar.TypeAlias");
 
         DefaultGenerator generator = new DefaultGenerator();
@@ -963,7 +964,7 @@ public class JavaClientCodegenTest {
 
         validateJavaSourceFiles(files);
 
-        Assert.assertEquals(files.size(), 1);
+        Assertions.assertEquals(files.size(), 1);
         TestUtils.ensureContainsFile(
                 files, output, "src/main/java/org/openapitools/client/model/ParentType.java");
 
@@ -978,11 +979,11 @@ public class JavaClientCodegenTest {
 
         final Pattern FIELD_PATTERN = Pattern.compile(".* private (.*?) typeAlias;.*", Pattern.DOTALL);
         Matcher fieldMatcher = FIELD_PATTERN.matcher(parentTypeContents);
-        Assert.assertTrue(fieldMatcher.matches());
+        Assertions.assertTrue(fieldMatcher.matches());
 
         // this is the type of the field 'typeAlias'. With a working schemaMapping it should
         // be 'foo.bar.TypeAlias' or just 'TypeAlias'
-        Assert.assertEquals(fieldMatcher.group(1), "foo.bar.TypeAlias");
+        Assertions.assertEquals(fieldMatcher.group(1), "foo.bar.TypeAlias");
     }
 
     @Test
@@ -992,10 +993,43 @@ public class JavaClientCodegenTest {
         JavaClientCodegen codegen = new JavaClientCodegen();
 
         List<CodegenSecurity> security = codegen.fromSecurity(openAPI.getComponents().getSecuritySchemes());
-        Assert.assertEquals(security.size(), 1);
-        Assert.assertEquals(security.get(0).isBasic, Boolean.TRUE);
-        Assert.assertEquals(security.get(0).isBasicBasic, Boolean.FALSE);
-        Assert.assertEquals(security.get(0).isBasicBearer, Boolean.TRUE);
+        Assertions.assertEquals(security.size(), 1);
+        Assertions.assertEquals(security.get(0).isBasic, Boolean.TRUE);
+        Assertions.assertEquals(security.get(0).isBasicBasic, Boolean.FALSE);
+        Assertions.assertEquals(security.get(0).isBasicBearer, Boolean.TRUE);
+    }
+
+    @Test
+    public void testVertXAuthInfoWithHyphenSeparatedSecurityScheme() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.VERTX)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/ping-with-hyphen-separated-security-scheme.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        // Test that hyphen-separated security scheme names does not
+        // break the Java VertX client code generation
+        validateJavaSourceFiles(files);
+
+        // Test that the name was correctly transformed to camelCase
+        // starting with an uppercase letter
+        TestUtils.assertFileContains(
+            Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
+                "public static class AuthInfo {",
+                "public void addHyphenatedNameTestAuthentication(String bearerToken) {",
+                "public static AuthInfo forHyphenatedNameTestAuthentication(String bearerToken) {"
+            );
     }
 
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {
@@ -1048,135 +1082,135 @@ public class JavaClientCodegenTest {
         Schema test1 = openAPI.getComponents().getSchemas().get("AnyValueModel");
         codegen.setOpenAPI(openAPI);
         CodegenModel cm1 = codegen.fromModel("AnyValueModel", test1);
-        Assert.assertEquals(cm1.getClassname(), "AnyValueModel");
+        Assertions.assertEquals(cm1.getClassname(), "AnyValueModel");
 
         final CodegenProperty property1 = cm1.allVars.get(0);
-        Assert.assertEquals(property1.baseName, "any_value");
-        Assert.assertEquals(property1.dataType, "Object");
-        Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertFalse(property1.isContainer);
-        Assert.assertFalse(property1.isFreeFormObject);
-        Assert.assertTrue(property1.isAnyType);
+        Assertions.assertEquals(property1.baseName, "any_value");
+        Assertions.assertEquals(property1.dataType, "Object");
+        Assertions.assertTrue(property1.isPrimitiveType);
+        Assertions.assertFalse(property1.isContainer);
+        Assertions.assertFalse(property1.isFreeFormObject);
+        Assertions.assertTrue(property1.isAnyType);
 
         final CodegenProperty property2 = cm1.allVars.get(1);
-        Assert.assertEquals(property2.baseName, "any_value_with_desc");
-        Assert.assertEquals(property2.dataType, "Object");
-        Assert.assertFalse(property2.required);
-        Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertFalse(property2.isContainer);
-        Assert.assertFalse(property2.isFreeFormObject);
-        Assert.assertTrue(property2.isAnyType);
+        Assertions.assertEquals(property2.baseName, "any_value_with_desc");
+        Assertions.assertEquals(property2.dataType, "Object");
+        Assertions.assertFalse(property2.required);
+        Assertions.assertTrue(property2.isPrimitiveType);
+        Assertions.assertFalse(property2.isContainer);
+        Assertions.assertFalse(property2.isFreeFormObject);
+        Assertions.assertTrue(property2.isAnyType);
 
         final CodegenProperty property3 = cm1.allVars.get(2);
-        Assert.assertEquals(property3.baseName, "any_value_nullable");
-        Assert.assertEquals(property3.dataType, "Object");
-        Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isPrimitiveType);
-        Assert.assertFalse(property3.isContainer);
-        Assert.assertFalse(property3.isFreeFormObject);
-        Assert.assertTrue(property3.isAnyType);
+        Assertions.assertEquals(property3.baseName, "any_value_nullable");
+        Assertions.assertEquals(property3.dataType, "Object");
+        Assertions.assertFalse(property3.required);
+        Assertions.assertTrue(property3.isPrimitiveType);
+        Assertions.assertFalse(property3.isContainer);
+        Assertions.assertFalse(property3.isFreeFormObject);
+        Assertions.assertTrue(property3.isAnyType);
 
         Schema test2 = openAPI.getComponents().getSchemas().get("AnyValueModelInline");
         codegen.setOpenAPI(openAPI);
         CodegenModel cm2 = codegen.fromModel("AnyValueModelInline", test2);
-        Assert.assertEquals(cm2.getClassname(), "AnyValueModelInline");
+        Assertions.assertEquals(cm2.getClassname(), "AnyValueModelInline");
 
         final CodegenProperty cp1 = cm2.vars.get(0);
-        Assert.assertEquals(cp1.baseName, "any_value");
-        Assert.assertEquals(cp1.dataType, "Object");
-        Assert.assertFalse(cp1.required);
-        Assert.assertTrue(cp1.isPrimitiveType);
-        Assert.assertFalse(cp1.isContainer);
-        Assert.assertFalse(cp1.isFreeFormObject);
-        Assert.assertTrue(cp1.isAnyType);
+        Assertions.assertEquals(cp1.baseName, "any_value");
+        Assertions.assertEquals(cp1.dataType, "Object");
+        Assertions.assertFalse(cp1.required);
+        Assertions.assertTrue(cp1.isPrimitiveType);
+        Assertions.assertFalse(cp1.isContainer);
+        Assertions.assertFalse(cp1.isFreeFormObject);
+        Assertions.assertTrue(cp1.isAnyType);
 
         final CodegenProperty cp2 = cm2.vars.get(1);
-        Assert.assertEquals(cp2.baseName, "any_value_with_desc");
-        Assert.assertEquals(cp2.dataType, "Object");
-        Assert.assertFalse(cp2.required);
-        Assert.assertTrue(cp2.isPrimitiveType);
-        Assert.assertFalse(cp2.isContainer);
-        Assert.assertFalse(cp2.isFreeFormObject);
-        Assert.assertTrue(cp2.isAnyType);
+        Assertions.assertEquals(cp2.baseName, "any_value_with_desc");
+        Assertions.assertEquals(cp2.dataType, "Object");
+        Assertions.assertFalse(cp2.required);
+        Assertions.assertTrue(cp2.isPrimitiveType);
+        Assertions.assertFalse(cp2.isContainer);
+        Assertions.assertFalse(cp2.isFreeFormObject);
+        Assertions.assertTrue(cp2.isAnyType);
 
         final CodegenProperty cp3 = cm2.vars.get(2);
-        Assert.assertEquals(cp3.baseName, "any_value_nullable");
-        Assert.assertEquals(cp3.dataType, "Object");
-        Assert.assertFalse(cp3.required);
-        Assert.assertTrue(cp3.isPrimitiveType);
-        Assert.assertFalse(cp3.isContainer);
-        Assert.assertFalse(cp3.isFreeFormObject);
-        Assert.assertTrue(cp3.isAnyType);
+        Assertions.assertEquals(cp3.baseName, "any_value_nullable");
+        Assertions.assertEquals(cp3.dataType, "Object");
+        Assertions.assertFalse(cp3.required);
+        Assertions.assertTrue(cp3.isPrimitiveType);
+        Assertions.assertFalse(cp3.isContainer);
+        Assertions.assertFalse(cp3.isFreeFormObject);
+        Assertions.assertTrue(cp3.isAnyType);
 
         // map
         // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp4 = cm2.vars.get(3);
-        Assert.assertEquals(cp4.baseName, "map_free_form_object");
-        Assert.assertEquals(cp4.dataType, "Map<String, Object>");
-        Assert.assertFalse(cp4.required);
-        Assert.assertTrue(cp4.isPrimitiveType);
-        Assert.assertTrue(cp4.isContainer);
-        Assert.assertTrue(cp4.isMap);
-        Assert.assertTrue(cp4.isFreeFormObject);
-        Assert.assertFalse(cp4.isAnyType);
-        Assert.assertFalse(cp4.isModel);
+        Assertions.assertEquals(cp4.baseName, "map_free_form_object");
+        Assertions.assertEquals(cp4.dataType, "Map<String, Object>");
+        Assertions.assertFalse(cp4.required);
+        Assertions.assertTrue(cp4.isPrimitiveType);
+        Assertions.assertTrue(cp4.isContainer);
+        Assertions.assertTrue(cp4.isMap);
+        Assertions.assertTrue(cp4.isFreeFormObject);
+        Assertions.assertFalse(cp4.isAnyType);
+        Assertions.assertFalse(cp4.isModel);
 
         // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp5 = cm2.vars.get(4);
-        Assert.assertEquals(cp5.baseName, "map_any_value_with_desc");
-        Assert.assertEquals(cp5.dataType, "Map<String, Object>");
-        Assert.assertFalse(cp5.required);
-        Assert.assertTrue(cp5.isPrimitiveType);
-        Assert.assertTrue(cp5.isContainer);
-        Assert.assertTrue(cp5.isMap);
-        Assert.assertTrue(cp5.isFreeFormObject);
-        Assert.assertFalse(cp5.isAnyType);
-        Assert.assertFalse(cp5.isModel);
+        Assertions.assertEquals(cp5.baseName, "map_any_value_with_desc");
+        Assertions.assertEquals(cp5.dataType, "Map<String, Object>");
+        Assertions.assertFalse(cp5.required);
+        Assertions.assertTrue(cp5.isPrimitiveType);
+        Assertions.assertTrue(cp5.isContainer);
+        Assertions.assertTrue(cp5.isMap);
+        Assertions.assertTrue(cp5.isFreeFormObject);
+        Assertions.assertFalse(cp5.isAnyType);
+        Assertions.assertFalse(cp5.isModel);
 
         // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp6 = cm2.vars.get(5);
-        Assert.assertEquals(cp6.baseName, "map_any_value_nullable");
-        Assert.assertEquals(cp6.dataType, "Map<String, Object>");
-        Assert.assertFalse(cp6.required);
-        Assert.assertTrue(cp6.isPrimitiveType);
-        Assert.assertTrue(cp6.isContainer);
-        Assert.assertTrue(cp6.isMap);
-        Assert.assertTrue(cp6.isFreeFormObject);
-        Assert.assertFalse(cp6.isAnyType);
+        Assertions.assertEquals(cp6.baseName, "map_any_value_nullable");
+        Assertions.assertEquals(cp6.dataType, "Map<String, Object>");
+        Assertions.assertFalse(cp6.required);
+        Assertions.assertTrue(cp6.isPrimitiveType);
+        Assertions.assertTrue(cp6.isContainer);
+        Assertions.assertTrue(cp6.isMap);
+        Assertions.assertTrue(cp6.isFreeFormObject);
+        Assertions.assertFalse(cp6.isAnyType);
 
         // array
         // Should allow in any type including array, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp7 = cm2.vars.get(6);
-        Assert.assertEquals(cp7.baseName, "array_any_value");
-        Assert.assertEquals(cp7.dataType, "List<Object>");
-        Assert.assertFalse(cp7.required);
-        Assert.assertTrue(cp7.isPrimitiveType);
-        Assert.assertTrue(cp7.isContainer);
-        Assert.assertTrue(cp7.isArray);
-        Assert.assertFalse(cp7.isFreeFormObject);
-        Assert.assertFalse(cp7.isAnyType);
+        Assertions.assertEquals(cp7.baseName, "array_any_value");
+        Assertions.assertEquals(cp7.dataType, "List<Object>");
+        Assertions.assertFalse(cp7.required);
+        Assertions.assertTrue(cp7.isPrimitiveType);
+        Assertions.assertTrue(cp7.isContainer);
+        Assertions.assertTrue(cp7.isArray);
+        Assertions.assertFalse(cp7.isFreeFormObject);
+        Assertions.assertFalse(cp7.isAnyType);
 
         // Should allow in any type including array, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp8 = cm2.vars.get(7);
-        Assert.assertEquals(cp8.baseName, "array_any_value_with_desc");
-        Assert.assertEquals(cp8.dataType, "List<Object>");
-        Assert.assertFalse(cp8.required);
-        Assert.assertTrue(cp8.isPrimitiveType);
-        Assert.assertTrue(cp8.isContainer);
-        Assert.assertTrue(cp8.isArray);
-        Assert.assertFalse(cp8.isFreeFormObject);
-        Assert.assertFalse(cp8.isAnyType);
+        Assertions.assertEquals(cp8.baseName, "array_any_value_with_desc");
+        Assertions.assertEquals(cp8.dataType, "List<Object>");
+        Assertions.assertFalse(cp8.required);
+        Assertions.assertTrue(cp8.isPrimitiveType);
+        Assertions.assertTrue(cp8.isContainer);
+        Assertions.assertTrue(cp8.isArray);
+        Assertions.assertFalse(cp8.isFreeFormObject);
+        Assertions.assertFalse(cp8.isAnyType);
 
         // Should allow in any type including array, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp9 = cm2.vars.get(8);
-        Assert.assertEquals(cp9.baseName, "array_any_value_nullable");
-        Assert.assertEquals(cp9.dataType, "List<Object>");
-        Assert.assertFalse(cp9.required);
-        Assert.assertTrue(cp9.isPrimitiveType);
-        Assert.assertTrue(cp9.isContainer);
-        Assert.assertTrue(cp9.isArray);
-        Assert.assertFalse(cp9.isFreeFormObject);
-        Assert.assertFalse(cp9.isAnyType);
+        Assertions.assertEquals(cp9.baseName, "array_any_value_nullable");
+        Assertions.assertEquals(cp9.dataType, "List<Object>");
+        Assertions.assertFalse(cp9.required);
+        Assertions.assertTrue(cp9.isPrimitiveType);
+        Assertions.assertTrue(cp9.isContainer);
+        Assertions.assertTrue(cp9.isArray);
+        Assertions.assertFalse(cp9.isFreeFormObject);
+        Assertions.assertFalse(cp9.isAnyType);
     }
 
     /**
@@ -1328,7 +1362,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 49);
+        Assertions.assertEquals(files.size(), 49);
         TestUtils.ensureContainsFile(
                 files, output, "src/main/java/org/openapitools/client/model/RealCommand.java");
         TestUtils.ensureContainsFile(
@@ -1623,7 +1657,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 35);
+        Assertions.assertEquals(files.size(), 35);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(
@@ -1654,7 +1688,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 38);
+        Assertions.assertEquals(files.size(), 38);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(
@@ -1900,38 +1934,6 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testMicroprofileGenerateCorrectJacksonGenerator_issue18336() throws Exception {
-        Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
-        properties.put(CodegenConstants.SERIALIZATION_LIBRARY, JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
-
-        File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-
-                .setAdditionalProperties(properties)
-                .setGeneratorName("java")
-                .setLibrary(JavaClientCodegen.MICROPROFILE)
-                .setInputSpec("src/test/resources/bugs/issue_18336.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-
-        final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
-
-        JavaFileAssert.assertThat(files.get("Pet.java"))
-                .assertConstructor("String")
-                .assertConstructorAnnotations()
-                .containsWithName("JsonCreator")
-                .toConstructor()
-                .hasParameter("name")
-                .assertParameterAnnotations()
-                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "JSON_PROPERTY_NAME", "required", "true"));
-    }
-
-    @Test
     public void testJavaClientDefaultValues_issueNoNumber() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
@@ -2157,7 +2159,7 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 27);
+        Assertions.assertEquals(files.size(), 27);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(
@@ -2395,6 +2397,16 @@ public class JavaClientCodegenTest {
             final String library,
             final Map<String, Object> properties
     ) {
+        return generateFromContract(pathToSpecification, library, properties, configurator -> {});
+    }
+
+    @SneakyThrows
+    private static Map<String, File> generateFromContract(
+            final String pathToSpecification,
+            final String library,
+            final Map<String, Object> properties,
+            final Consumer<CodegenConfigurator> consumer
+    ) {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -2404,7 +2416,7 @@ public class JavaClientCodegenTest {
                 .setAdditionalProperties(properties)
                 .setInputSpec(pathToSpecification)
                 .setOutputDir(output.getAbsolutePath());
-
+        consumer.accept(configurator);
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         final DefaultGenerator generator = new DefaultGenerator();
         return generator.opts(clientOptInput).generate().stream()
@@ -2485,12 +2497,12 @@ public class JavaClientCodegenTest {
         CodegenModel cm1 = codegen.fromModel("Cat", test1);
 
         CodegenProperty cp0 = cm1.getAllVars().get(0);
-        Assert.assertEquals(cp0.getName(), "petType");
-        Assert.assertEquals(cp0.isOverridden, true);
+        Assertions.assertEquals(cp0.getName(), "petType");
+        Assertions.assertEquals(cp0.isOverridden, true);
 
         CodegenProperty cp1 = cm1.getAllVars().get(1);
-        Assert.assertEquals(cp1.getName(), "name");
-        Assert.assertEquals(cp1.isOverridden, false);
+        Assertions.assertEquals(cp1.getName(), "name");
+        Assertions.assertEquals(cp1.isOverridden, false);
     }
 
     @Test
@@ -3018,7 +3030,7 @@ public class JavaClientCodegenTest {
 
         File apiFile = files.get("HelloExampleApi.java");
 
-        assertNotNull(apiFile);
+        Assertions.assertNotNull(apiFile);
         JavaFileAssert.assertThat(apiFile)
                 .assertMethod("helloCall", "String", "ApiCallback")
                 .bodyContainsLines(
@@ -3142,12 +3154,12 @@ public class JavaClientCodegenTest {
 
         // enum
         File modelFile = files.get("Metadata.java");
-        assertNotNull(modelFile);
+        Assertions.assertNotNull(modelFile);
         JavaFileAssert.assertThat(modelFile).fileContains(expectedEnumLines);
 
         // Inner enum
         File apiFile = files.get("V1SchemasGetDefaultResponse.java");
-        assertNotNull(apiFile);
+        Assertions.assertNotNull(apiFile);
         JavaFileAssert.assertThat(apiFile).fileContains(expectedInnerEnumLines);
     }
 
@@ -3178,4 +3190,270 @@ public class JavaClientCodegenTest {
         Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/DepartmentApi.java");
         TestUtils.assertFileContains(petApi, "if (filter != null) {");
     }
+
+    @Test
+    public void generateAllArgsConstructor() {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/all_args_constructor.yaml", JavaClientCodegen.RESTTEMPLATE,
+                Map.of(AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE),
+                codegenConfigurator -> codegenConfigurator.addOpenapiNormalizer("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "false"));
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("protected String name", "protected String type")
+                .assertConstructor("String")
+                .hasParameter("type").toConstructor()
+                .toFileAssert()
+                .assertConstructor("LocalDate", "String", "String")
+                .hasParameter("dateOfBirth").toConstructor()
+                .hasParameter("name").toConstructor()
+                .hasParameter("type").toConstructor();
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .assertConstructor("Integer", "String", "LocalDate", "String", "String");
+
+        // test readonly constructor
+        JavaFileAssert.assertThat(files.get("Page.java"))
+                .assertConstructor("Integer")
+                .toFileAssert()
+                .fileContains("Constructor with only readonly parameters and all parameters");
+
+        JavaFileAssert.assertThat(files.get("PageOfPets.java"))
+                .assertConstructor("Integer")
+                .hasParameter("count").toConstructor()
+                .toFileAssert()
+                .assertConstructor("Integer", "List<Pet>")
+                .hasParameter("count").toConstructor()
+                .hasParameter("_list").toConstructor();
+    }
+
+    @Test
+    public void generateAllArgsConstructor_REFACTOR_ALLOF_WITH_PROPERTIES_ONLY() {
+        // try the generation with some additional OpenAPINormalizers
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/all_args_constructor.yaml", JavaClientCodegen.RESTTEMPLATE,
+                Map.of(AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE),
+                codegenConfigurator -> codegenConfigurator.addOpenapiNormalizer("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "true"));
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("protected String name", "protected String type")
+                .assertConstructor("String")
+                .hasParameter("type").toConstructor()
+                .toFileAssert()
+                .assertConstructor("LocalDate", "String", "String")
+                .hasParameter("dateOfBirth").toConstructor()
+                .hasParameter("name").toConstructor()
+                .hasParameter("type").toConstructor();
+
+        JavaFileAssert.assertThat(files.get("PageOfPets.java"))
+                .assertConstructor("Integer", "List<Pet>")
+                .hasParameter("count").toConstructor()
+                .hasParameter("_list").toConstructor()
+                .toFileAssert()
+                .assertConstructor("Integer")
+                .hasParameter("count").toConstructor();
+
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .assertConstructor("Integer", "String", "LocalDate", "String", "String");
+    }
+
+    @Test
+    public void testRestClientFormMultipart() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
+        TestUtils.assertFileContains(
+                defaultApi,
+                // multiple files
+                "multipartArray(List<File> files)",
+                "formParams.addAll(\"files\","
+                        + " files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
+
+                // mixed
+                "multipartMixed(MultipartMixedStatus status, File _file, MultipartMixedRequestMarker marker, List<MultipartMixedStatus> statusArray)",
+                "formParams.add(\"file\", new FileSystemResource(_file));",
+
+                // single file
+                "multipartSingle(File _file)",
+                "formParams.add(\"file\", new FileSystemResource(_file));");
+    }
+
+    @Test
+    public void testRestClientWithUseAbstractionForFiles() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
+        TestUtils.assertFileContains(
+                defaultApi,
+                // multiple files
+                "multipartArray(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
+                "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
+
+                // mixed
+                "multipartMixed(MultipartMixedStatus status, org.springframework.core.io.AbstractResource _file, MultipartMixedRequestMarker marker, List<MultipartMixedStatus> statusArray)",
+                "formParams.add(\"file\", _file);",
+
+                // single file
+                "multipartSingle(org.springframework.core.io.AbstractResource _file)",
+                "formParams.add(\"file\", _file);");
+    }
+
+    @Test
+    public void testRestClientWithFreeFormInQueryParameters() throws IOException {
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        final File output = Files.createTempDirectory("test")
+                .toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue8352.yaml")
+                .setOutputDir(output.getAbsolutePath()
+                        .replace("\\", "/"));
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(configurator.toClientOptInput())
+                .generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        final Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.assertFileContains(defaultApi, "value instanceof Map");
+    }
+
+    @Test
+    public void testRestClientJsonCreatorWithNullable_issue12790() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setInputSpec("src/test/resources/bugs/issue_12790.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("TestObject.java"))
+                .printFileContent()
+                .assertConstructor("String", "String")
+                .bodyContainsLines(
+                        "this.nullableProperty = nullableProperty == null ? JsonNullable.<String>undefined() :"
+                                + " JsonNullable.of(nullableProperty);",
+                        "this.notNullableProperty = notNullableProperty;");
+    }
+
+    @Test
+    public void testRestClientSupportListOfStringReturnType_issue7118() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/bugs/issue_7118.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path userApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UsersApi.java");
+        TestUtils.assertFileContains(
+                userApi,
+                // set of string
+                "ParameterizedTypeReference<Set<String>> localVarReturnType = new"
+                        + " ParameterizedTypeReference<>() {};",
+                "getUserIdSetRequestCreation().toEntity(localVarReturnType)",
+                // list of string
+                "ParameterizedTypeReference<List<String>> localVarReturnType = new"
+                        + " ParameterizedTypeReference<>() {};",
+                "getUserIdListRequestCreation().toEntity(localVarReturnType)");
+    }
+
+    @Test
+    public void testRestClientResponseTypeWithUseAbstractionForFiles_issue16589() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue13146_file_abstraction_response.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/ResourceApi.java");
+
+        TestUtils.assertFileContains(defaultApi,
+                "org.springframework.core.io.Resource resourceInResponse()",
+                "ResponseEntity<org.springframework.core.io.Resource> resourceInResponseWithHttpInfo()",
+                "ParameterizedTypeReference<org.springframework.core.io.Resource> localVarReturnType = new ParameterizedTypeReference<>()"
+        );
+    }
+
 }

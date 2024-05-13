@@ -6,9 +6,13 @@
     unused_extern_crates,
     non_camel_case_types,
     unused_imports,
-    unused_attributes
+    unused_attributes,
 )]
-#![allow(clippy::derive_partial_eq_without_eq, clippy::disallowed_names)]
+#![allow(
+    clippy::derive_partial_eq_without_eq,
+    clippy::disallowed_names,
+    clippy::too_many_arguments
+)]
 
 use async_trait::async_trait;
 use axum::extract::*;

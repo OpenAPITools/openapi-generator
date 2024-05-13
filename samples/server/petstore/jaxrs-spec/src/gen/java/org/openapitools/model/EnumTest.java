@@ -3,7 +3,11 @@ package org.openapitools.model;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.openapitools.model.OuterEnum;
+import org.openapitools.model.OuterEnumDefaultValue;
+import org.openapitools.model.OuterEnumInteger;
+import org.openapitools.model.OuterEnumIntegerDefaultValue;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -213,6 +217,9 @@ public class EnumTest  implements Serializable {
 
   private EnumNumberEnum enumNumber;
   private OuterEnum outerEnum;
+  private OuterEnumInteger outerEnumInteger;
+  private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
+  private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
 
   protected EnumTest(EnumTestBuilder<?, ?> b) {
     this.enumString = b.enumString;
@@ -220,6 +227,9 @@ public class EnumTest  implements Serializable {
     this.enumInteger = b.enumInteger;
     this.enumNumber = b.enumNumber;
     this.outerEnum = b.outerEnum;
+    this.outerEnumInteger = b.outerEnumInteger;
+    this.outerEnumDefaultValue = b.outerEnumDefaultValue;
+    this.outerEnumIntegerDefaultValue = b.outerEnumIntegerDefaultValue;
   }
 
   public EnumTest() {
@@ -320,6 +330,63 @@ public class EnumTest  implements Serializable {
     this.outerEnum = outerEnum;
   }
 
+  /**
+   **/
+  public EnumTest outerEnumInteger(OuterEnumInteger outerEnumInteger) {
+    this.outerEnumInteger = outerEnumInteger;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "")
+  @JsonProperty("outerEnumInteger")
+  @Valid public OuterEnumInteger getOuterEnumInteger() {
+    return outerEnumInteger;
+  }
+
+  @JsonProperty("outerEnumInteger")
+  public void setOuterEnumInteger(OuterEnumInteger outerEnumInteger) {
+    this.outerEnumInteger = outerEnumInteger;
+  }
+
+  /**
+   **/
+  public EnumTest outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+    this.outerEnumDefaultValue = outerEnumDefaultValue;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "")
+  @JsonProperty("outerEnumDefaultValue")
+  @Valid public OuterEnumDefaultValue getOuterEnumDefaultValue() {
+    return outerEnumDefaultValue;
+  }
+
+  @JsonProperty("outerEnumDefaultValue")
+  public void setOuterEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+    this.outerEnumDefaultValue = outerEnumDefaultValue;
+  }
+
+  /**
+   **/
+  public EnumTest outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+    this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "")
+  @JsonProperty("outerEnumIntegerDefaultValue")
+  @Valid public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
+    return outerEnumIntegerDefaultValue;
+  }
+
+  @JsonProperty("outerEnumIntegerDefaultValue")
+  public void setOuterEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+    this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -334,12 +401,15 @@ public class EnumTest  implements Serializable {
         Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
         Objects.equals(this.enumInteger, enumTest.enumInteger) &&
         Objects.equals(this.enumNumber, enumTest.enumNumber) &&
-        Objects.equals(this.outerEnum, enumTest.outerEnum);
+        Objects.equals(this.outerEnum, enumTest.outerEnum) &&
+        Objects.equals(this.outerEnumInteger, enumTest.outerEnumInteger) &&
+        Objects.equals(this.outerEnumDefaultValue, enumTest.outerEnumDefaultValue) &&
+        Objects.equals(this.outerEnumIntegerDefaultValue, enumTest.outerEnumIntegerDefaultValue);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
+    return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum, outerEnumInteger, outerEnumDefaultValue, outerEnumIntegerDefaultValue);
   }
 
   @Override
@@ -352,6 +422,9 @@ public class EnumTest  implements Serializable {
     sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");
     sb.append("    enumNumber: ").append(toIndentedString(enumNumber)).append("\n");
     sb.append("    outerEnum: ").append(toIndentedString(outerEnum)).append("\n");
+    sb.append("    outerEnumInteger: ").append(toIndentedString(outerEnumInteger)).append("\n");
+    sb.append("    outerEnumDefaultValue: ").append(toIndentedString(outerEnumDefaultValue)).append("\n");
+    sb.append("    outerEnumIntegerDefaultValue: ").append(toIndentedString(outerEnumIntegerDefaultValue)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -391,6 +464,9 @@ public class EnumTest  implements Serializable {
     private EnumIntegerEnum enumInteger;
     private EnumNumberEnum enumNumber;
     private OuterEnum outerEnum;
+    private OuterEnumInteger outerEnumInteger;
+    private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
+    private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
     protected abstract B self();
 
     public abstract C build();
@@ -413,6 +489,18 @@ public class EnumTest  implements Serializable {
     }
     public B outerEnum(OuterEnum outerEnum) {
       this.outerEnum = outerEnum;
+      return self();
+    }
+    public B outerEnumInteger(OuterEnumInteger outerEnumInteger) {
+      this.outerEnumInteger = outerEnumInteger;
+      return self();
+    }
+    public B outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+      this.outerEnumDefaultValue = outerEnumDefaultValue;
+      return self();
+    }
+    public B outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+      this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
       return self();
     }
   }

@@ -13,18 +13,18 @@
  */
 
 import { mapValues } from '../runtime';
-import type { PetPartType } from './PetPartType';
-import {
-    PetPartTypeFromJSON,
-    PetPartTypeFromJSONTyped,
-    PetPartTypeToJSON,
-} from './PetPartType';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
 } from './ResponseMeta';
+import type { PetPartType } from './PetPartType';
+import {
+    PetPartTypeFromJSON,
+    PetPartTypeFromJSONTyped,
+    PetPartTypeToJSON,
+} from './PetPartType';
 
 /**
  * 

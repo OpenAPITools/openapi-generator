@@ -895,9 +895,21 @@ where
     })
 }
 
+#[derive(validator::Validate)]
+#[allow(dead_code)]
+struct TestEndpointParametersBodyValidator<'a> {
+    #[validate(nested)]
+    body: &'a models::TestEndpointParametersRequest,
+}
+
 #[tracing::instrument(skip_all)]
-fn test_endpoint_parameters_validation() -> std::result::Result<(), ValidationErrors> {
-    Ok(())
+fn test_endpoint_parameters_validation(
+    body: models::TestEndpointParametersRequest,
+) -> std::result::Result<(models::TestEndpointParametersRequest,), ValidationErrors> {
+    let b = TestEndpointParametersBodyValidator { body: &body };
+    b.validate()?;
+
+    Ok((body,))
 }
 /// TestEndpointParameters - POST /v2/fake
 #[tracing::instrument(skip_all)]
@@ -906,17 +918,18 @@ async fn test_endpoint_parameters<I, A>(
     host: Host,
     cookies: CookieJar,
     State(api_impl): State<I>,
+    Form(body): Form<models::TestEndpointParametersRequest>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
     A: Api,
 {
     #[allow(clippy::redundant_closure)]
-    let validation = tokio::task::spawn_blocking(move || test_endpoint_parameters_validation())
+    let validation = tokio::task::spawn_blocking(move || test_endpoint_parameters_validation(body))
         .await
         .unwrap();
 
-    let Ok(()) = validation else {
+    let Ok((body,)) = validation else {
         return Response::builder()
             .status(StatusCode::BAD_REQUEST)
             .body(Body::from(validation.unwrap_err().to_string()))
@@ -925,7 +938,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .test_endpoint_parameters(method, host, cookies)
+        .test_endpoint_parameters(method, host, cookies, body)
         .await;
 
     let mut response = Response::builder();
@@ -954,21 +967,34 @@ where
     })
 }
 
+#[derive(validator::Validate)]
+#[allow(dead_code)]
+struct TestEnumParametersBodyValidator<'a> {
+    #[validate(nested)]
+    body: &'a models::TestEnumParametersRequest,
+}
+
 #[tracing::instrument(skip_all)]
 fn test_enum_parameters_validation(
     header_params: models::TestEnumParametersHeaderParams,
     query_params: models::TestEnumParametersQueryParams,
+    body: Option<models::TestEnumParametersRequest>,
 ) -> std::result::Result<
     (
         models::TestEnumParametersHeaderParams,
         models::TestEnumParametersQueryParams,
+        Option<models::TestEnumParametersRequest>,
     ),
     ValidationErrors,
 > {
     header_params.validate()?;
     query_params.validate()?;
+    if let Some(body) = &body {
+        let b = TestEnumParametersBodyValidator { body };
+        b.validate()?;
+    }
 
-    Ok((header_params, query_params))
+    Ok((header_params, query_params, body))
 }
 /// TestEnumParameters - GET /v2/fake
 #[tracing::instrument(skip_all)]
@@ -979,6 +1005,7 @@ async fn test_enum_parameters<I, A>(
     headers: HeaderMap,
     Query(query_params): Query<models::TestEnumParametersQueryParams>,
     State(api_impl): State<I>,
+    Form(body): Form<Option<models::TestEnumParametersRequest>>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
@@ -1036,12 +1063,12 @@ where
 
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || {
-        test_enum_parameters_validation(header_params, query_params)
+        test_enum_parameters_validation(header_params, query_params, body)
     })
     .await
     .unwrap();
 
-    let Ok((header_params, query_params)) = validation else {
+    let Ok((header_params, query_params, body)) = validation else {
         return Response::builder()
             .status(StatusCode::BAD_REQUEST)
             .body(Body::from(validation.unwrap_err().to_string()))
@@ -1050,7 +1077,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .test_enum_parameters(method, host, cookies, header_params, query_params)
+        .test_enum_parameters(method, host, cookies, header_params, query_params, body)
         .await;
 
     let mut response = Response::builder();
@@ -1147,9 +1174,21 @@ where
     })
 }
 
+#[derive(validator::Validate)]
+#[allow(dead_code)]
+struct TestJsonFormDataBodyValidator<'a> {
+    #[validate(nested)]
+    body: &'a models::TestJsonFormDataRequest,
+}
+
 #[tracing::instrument(skip_all)]
-fn test_json_form_data_validation() -> std::result::Result<(), ValidationErrors> {
-    Ok(())
+fn test_json_form_data_validation(
+    body: models::TestJsonFormDataRequest,
+) -> std::result::Result<(models::TestJsonFormDataRequest,), ValidationErrors> {
+    let b = TestJsonFormDataBodyValidator { body: &body };
+    b.validate()?;
+
+    Ok((body,))
 }
 /// TestJsonFormData - GET /v2/fake/jsonFormData
 #[tracing::instrument(skip_all)]
@@ -1158,17 +1197,18 @@ async fn test_json_form_data<I, A>(
     host: Host,
     cookies: CookieJar,
     State(api_impl): State<I>,
+    Form(body): Form<models::TestJsonFormDataRequest>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
     A: Api,
 {
     #[allow(clippy::redundant_closure)]
-    let validation = tokio::task::spawn_blocking(move || test_json_form_data_validation())
+    let validation = tokio::task::spawn_blocking(move || test_json_form_data_validation(body))
         .await
         .unwrap();
 
-    let Ok(()) = validation else {
+    let Ok((body,)) = validation else {
         return Response::builder()
             .status(StatusCode::BAD_REQUEST)
             .body(Body::from(validation.unwrap_err().to_string()))
@@ -1177,7 +1217,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .test_json_form_data(method, host, cookies)
+        .test_json_form_data(method, host, cookies, body)
         .await;
 
     let mut response = Response::builder();
@@ -1754,13 +1794,31 @@ where
     })
 }
 
+#[derive(validator::Validate)]
+#[allow(dead_code)]
+struct UpdatePetWithFormBodyValidator<'a> {
+    #[validate(nested)]
+    body: &'a models::UpdatePetWithFormRequest,
+}
+
 #[tracing::instrument(skip_all)]
 fn update_pet_with_form_validation(
     path_params: models::UpdatePetWithFormPathParams,
-) -> std::result::Result<(models::UpdatePetWithFormPathParams,), ValidationErrors> {
+    body: Option<models::UpdatePetWithFormRequest>,
+) -> std::result::Result<
+    (
+        models::UpdatePetWithFormPathParams,
+        Option<models::UpdatePetWithFormRequest>,
+    ),
+    ValidationErrors,
+> {
     path_params.validate()?;
+    if let Some(body) = &body {
+        let b = UpdatePetWithFormBodyValidator { body };
+        b.validate()?;
+    }
 
-    Ok((path_params,))
+    Ok((path_params, body))
 }
 /// UpdatePetWithForm - POST /v2/pet/{petId}
 #[tracing::instrument(skip_all)]
@@ -1770,6 +1828,7 @@ async fn update_pet_with_form<I, A>(
     cookies: CookieJar,
     Path(path_params): Path<models::UpdatePetWithFormPathParams>,
     State(api_impl): State<I>,
+    Form(body): Form<Option<models::UpdatePetWithFormRequest>>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
@@ -1777,11 +1836,11 @@ where
 {
     #[allow(clippy::redundant_closure)]
     let validation =
-        tokio::task::spawn_blocking(move || update_pet_with_form_validation(path_params))
+        tokio::task::spawn_blocking(move || update_pet_with_form_validation(path_params, body))
             .await
             .unwrap();
 
-    let Ok((path_params,)) = validation else {
+    let Ok((path_params, body)) = validation else {
         return Response::builder()
             .status(StatusCode::BAD_REQUEST)
             .body(Body::from(validation.unwrap_err().to_string()))
@@ -1790,7 +1849,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .update_pet_with_form(method, host, cookies, path_params)
+        .update_pet_with_form(method, host, cookies, path_params, body)
         .await;
 
     let mut response = Response::builder();

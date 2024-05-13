@@ -1304,6 +1304,10 @@ components:
       type: array
     RolesReportsHash:
       description: Role report Hash
+      example:
+        role:
+          name: name
+        role_uuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
         role_uuid:
           format: uuid
@@ -2894,6 +2898,8 @@ components:
         - country
         type: object
     RolesReportsHash_role:
+      example:
+        name: name
       properties:
         name:
           type: string
