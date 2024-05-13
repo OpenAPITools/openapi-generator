@@ -1362,7 +1362,7 @@ public class ModelUtils {
                     once(LOGGER).warn("{} is not defined", schema.get$ref());
                 }
                 return schema;
-            } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
+            } else if (isEnumSchema(ref)) {
                 // top-level enum class
                 return schema;
             } else if (isArraySchema(ref)) {
