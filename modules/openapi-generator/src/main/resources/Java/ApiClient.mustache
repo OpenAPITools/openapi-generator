@@ -8,7 +8,12 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.OffsetDateTime;
+{{#useJakartaEe}}
+import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+{{/useJakartaEe}}
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
