@@ -20,14 +20,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Category
  */
-public class CategoryTest {
+class CategoryTest {
     private final Category model = new Category();
 
     /**
      * Model tests for Category
      */
     @Test
-    public void testCategory() {
+    void testCategory() {
         // TODO: test Category
     }
 
@@ -35,7 +35,7 @@ public class CategoryTest {
      * Test the property 'id'
      */
     @Test
-    public void idTest() {
+    void idTest() {
         // TODO: test id
     }
 
@@ -43,7 +43,7 @@ public class CategoryTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 
