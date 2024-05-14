@@ -744,10 +744,6 @@ public class ModelUtils {
                 && "number".equals(schema.getFormat());
     }
 
-    public static boolean isValidEnumSchema(Schema schema) {
-        return schema.getEnum() != null && !schema.getEnum().isEmpty();
-    }
-
     /**
      * Returns true if the class defined by the schema cannot be used with bean validation annotations
      * E.g. The UUID is defined in the schema as follows:
