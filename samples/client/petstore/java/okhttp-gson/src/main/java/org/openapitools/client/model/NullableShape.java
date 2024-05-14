@@ -172,12 +172,7 @@ public class NullableShape extends AbstractOpenApiSchema {
         super("oneOf", Boolean.TRUE);
     }
 
-    public NullableShape(Quadrilateral o) {
-        super("oneOf", Boolean.TRUE);
-        setActualInstance(o);
-    }
-
-    public NullableShape(Triangle o) {
+    public NullableShape(Object o) {
         super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }

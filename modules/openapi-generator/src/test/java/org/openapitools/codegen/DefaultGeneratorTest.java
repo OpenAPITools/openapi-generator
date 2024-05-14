@@ -660,11 +660,12 @@ public class DefaultGeneratorTest {
         List<File> files = new ArrayList<>();
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
-        generator.generateModels(files, allModels, filteredSchemas);
+        List<ModelMap> aliasModels = new ArrayList<>();
+        generator.generateModels(files, allModels, filteredSchemas, aliasModels);
         List<OperationsMap> allOperations = new ArrayList<>();
         generator.generateApis(files, allOperations, allModels);
 
-        Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels);
+        Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels, aliasModels);
         LinkedList<CodegenServer> servers = (LinkedList<CodegenServer>) bundle.get("servers");
         Assert.assertEquals(servers.get(0).url, "");
         Assert.assertEquals(servers.get(1).url, "http://trailingshlash.io:80/v1");
@@ -686,11 +687,12 @@ public class DefaultGeneratorTest {
         List<File> files = new ArrayList<>();
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
-        generator.generateModels(files, allModels, filteredSchemas);
+        List<ModelMap> aliasModels = new ArrayList<>();
+        generator.generateModels(files, allModels, filteredSchemas, aliasModels);
         List<OperationsMap> allOperations = new ArrayList<>();
         generator.generateApis(files, allOperations, allModels);
 
-        Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels);
+        Map<String, Object> bundle = generator.buildSupportFileBundle(allOperations, allModels, aliasModels);
         LinkedList<CodegenServer> servers = (LinkedList<CodegenServer>) bundle.get("servers");
         Assert.assertEquals(servers.get(0).url, "/relative/url");
     }
@@ -768,8 +770,9 @@ public class DefaultGeneratorTest {
         List<File> files = new ArrayList<>();
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
+        List<ModelMap> aliasModels = new ArrayList<>();
         // The bug causes a StackOverflowError when calling generateModels
-        generator.generateModels(files, allModels, filteredSchemas);
+        generator.generateModels(files, allModels, filteredSchemas, aliasModels);
         // all fine, we have passed
     }
 }
