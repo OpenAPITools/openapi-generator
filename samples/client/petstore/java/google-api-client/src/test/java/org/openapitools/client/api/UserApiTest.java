@@ -15,8 +15,8 @@ package org.openapitools.client.api;
 
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * API tests for UserApi
  */
-@Ignore
+@Disabled
 public class UserApiTest {
 
     private final UserApi api = new UserApi();

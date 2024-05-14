@@ -13,7 +13,7 @@
 
 package org.openapitools.client.api;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assertions;
 import org.openapitools.client.ApiException;
 import org.junit.jupiter.api.Disabled;

@@ -14,8 +14,8 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.Order;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * API tests for StoreApi
  */
-@Ignore
+@Disabled
 public class StoreApiTest {
 
     private final StoreApi api = new StoreApi();
