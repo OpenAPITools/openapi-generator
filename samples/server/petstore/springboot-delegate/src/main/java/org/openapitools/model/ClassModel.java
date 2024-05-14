@@ -25,6 +25,10 @@ public class ClassModel {
 
   private String propertyClass;
 
+  public ClassModel() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

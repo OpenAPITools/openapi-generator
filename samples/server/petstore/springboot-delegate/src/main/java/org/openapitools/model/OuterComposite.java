@@ -29,6 +29,10 @@ public class OuterComposite {
 
   private Boolean myBoolean;
 
+  public OuterComposite() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

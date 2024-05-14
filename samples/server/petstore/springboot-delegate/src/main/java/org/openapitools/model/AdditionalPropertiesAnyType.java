@@ -28,6 +28,10 @@ public class AdditionalPropertiesAnyType {
 
   private String name;
 
+  public AdditionalPropertiesAnyType() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

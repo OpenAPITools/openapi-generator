@@ -29,6 +29,10 @@ public class AdditionalPropertiesNumber {
 
   private String name;
 
+  public AdditionalPropertiesNumber() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

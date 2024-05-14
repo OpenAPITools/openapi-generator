@@ -3456,4 +3456,22 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test
+    void testBuilderJavaClient() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/builder.yaml", JavaClientCodegen.RESTTEMPLATE,
+                Map.of(AbstractJavaCodegen.GENERATE_BUILDERS, Boolean.TRUE));
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("protected String petReadonlyProperty",
+                        "toBuilder()",
+                        "builder()",
+                        "public static class Builder {");
+        JavaFileAssert.assertThat(files.get("Snake.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder extends Reptile.Builder {",
+                        ".petType(getPetType())",
+                        ".name(getName())",
+                        "hasLegs(getHasLegs())");
+    }
+
 }
