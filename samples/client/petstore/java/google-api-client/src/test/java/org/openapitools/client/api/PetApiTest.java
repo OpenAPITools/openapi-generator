@@ -46,7 +46,7 @@ public class PetApiTest {
     @Test
     public void addPetTest() throws IOException {
         Pet body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.addPet(body);
 
         // TODO: test validations
@@ -64,7 +64,7 @@ public class PetApiTest {
     public void deletePetTest() throws IOException {
         Long petId = null;
         String apiKey = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.deletePet(petId, apiKey);
 
         // TODO: test validations
@@ -81,7 +81,7 @@ public class PetApiTest {
     @Test
     public void findPetsByStatusTest() throws IOException {
         List<String> status = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //List<Pet> response = api.findPetsByStatus(status);
 
         // TODO: test validations
@@ -98,7 +98,7 @@ public class PetApiTest {
     @Test
     public void findPetsByTagsTest() throws IOException {
         Set<String> tags = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //Set<Pet> response = api.findPetsByTags(tags);
 
         // TODO: test validations
@@ -115,7 +115,7 @@ public class PetApiTest {
     @Test
     public void getPetByIdTest() throws IOException {
         Long petId = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //Pet response = api.getPetById(petId);
 
         // TODO: test validations
@@ -132,7 +132,7 @@ public class PetApiTest {
     @Test
     public void updatePetTest() throws IOException {
         Pet body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.updatePet(body);
 
         // TODO: test validations
@@ -151,7 +151,7 @@ public class PetApiTest {
         Long petId = null;
         String name = null;
         String status = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.updatePetWithForm(petId, name, status);
 
         // TODO: test validations
@@ -170,7 +170,7 @@ public class PetApiTest {
         Long petId = null;
         String additionalMetadata = null;
         File _file = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
 
         // TODO: test validations
@@ -189,7 +189,7 @@ public class PetApiTest {
         Long petId = null;
         File requiredFile = null;
         String additionalMetadata = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
 
         // TODO: test validations

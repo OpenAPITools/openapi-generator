@@ -44,7 +44,7 @@ public class UserApiTest {
     @Test
     public void createUserTest() throws IOException {
         User body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.createUser(body);
 
         // TODO: test validations
@@ -61,7 +61,7 @@ public class UserApiTest {
     @Test
     public void createUsersWithArrayInputTest() throws IOException {
         List<User> body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.createUsersWithArrayInput(body);
 
         // TODO: test validations
@@ -78,7 +78,7 @@ public class UserApiTest {
     @Test
     public void createUsersWithListInputTest() throws IOException {
         List<User> body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.createUsersWithListInput(body);
 
         // TODO: test validations
@@ -95,7 +95,7 @@ public class UserApiTest {
     @Test
     public void deleteUserTest() throws IOException {
         String username = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.deleteUser(username);
 
         // TODO: test validations
@@ -112,7 +112,7 @@ public class UserApiTest {
     @Test
     public void getUserByNameTest() throws IOException {
         String username = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //User response = api.getUserByName(username);
 
         // TODO: test validations
@@ -130,7 +130,7 @@ public class UserApiTest {
     public void loginUserTest() throws IOException {
         String username = null;
         String password = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //String response = api.loginUser(username, password);
 
         // TODO: test validations
@@ -146,7 +146,7 @@ public class UserApiTest {
      */
     @Test
     public void logoutUserTest() throws IOException {
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.logoutUser();
 
         // TODO: test validations
@@ -164,7 +164,7 @@ public class UserApiTest {
     public void updateUserTest() throws IOException {
         String username = null;
         User body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.updateUser(username, body);
 
         // TODO: test validations

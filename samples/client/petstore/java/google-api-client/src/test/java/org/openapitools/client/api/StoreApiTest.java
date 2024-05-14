@@ -43,7 +43,7 @@ public class StoreApiTest {
     @Test
     public void deleteOrderTest() throws IOException {
         String orderId = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.deleteOrder(orderId);
 
         // TODO: test validations
@@ -59,7 +59,7 @@ public class StoreApiTest {
      */
     @Test
     public void getInventoryTest() throws IOException {
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //Map<String, Integer> response = api.getInventory();
 
         // TODO: test validations
@@ -76,7 +76,7 @@ public class StoreApiTest {
     @Test
     public void getOrderByIdTest() throws IOException {
         Long orderId = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //Order response = api.getOrderById(orderId);
 
         // TODO: test validations
@@ -93,7 +93,7 @@ public class StoreApiTest {
     @Test
     public void placeOrderTest() throws IOException {
         Order body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //Order response = api.placeOrder(body);
 
         // TODO: test validations

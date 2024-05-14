@@ -43,7 +43,7 @@ public class FakeClassnameTags123ApiTest {
     @Test
     public void testClassnameTest() throws IOException {
         Client body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //Client response = api.testClassname(body);
 
         // TODO: test validations

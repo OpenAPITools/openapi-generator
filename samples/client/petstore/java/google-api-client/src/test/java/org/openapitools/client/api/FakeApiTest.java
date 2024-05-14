@@ -51,7 +51,7 @@ public class FakeApiTest {
     @Test
     public void createXmlItemTest() throws IOException {
         XmlItem xmlItem = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.createXmlItem(xmlItem);
 
         // TODO: test validations
@@ -68,7 +68,7 @@ public class FakeApiTest {
     @Test
     public void fakeOuterBooleanSerializeTest() throws IOException {
         Boolean body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //Boolean response = api.fakeOuterBooleanSerialize(body);
 
         // TODO: test validations
@@ -85,7 +85,7 @@ public class FakeApiTest {
     @Test
     public void fakeOuterCompositeSerializeTest() throws IOException {
         OuterComposite body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //OuterComposite response = api.fakeOuterCompositeSerialize(body);
 
         // TODO: test validations
@@ -102,7 +102,7 @@ public class FakeApiTest {
     @Test
     public void fakeOuterNumberSerializeTest() throws IOException {
         BigDecimal body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //BigDecimal response = api.fakeOuterNumberSerialize(body);
 
         // TODO: test validations
@@ -119,7 +119,7 @@ public class FakeApiTest {
     @Test
     public void fakeOuterStringSerializeTest() throws IOException {
         String body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //String response = api.fakeOuterStringSerialize(body);
 
         // TODO: test validations
@@ -136,7 +136,7 @@ public class FakeApiTest {
     @Test
     public void testBodyWithFileSchemaTest() throws IOException {
         FileSchemaTestClass body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.testBodyWithFileSchema(body);
 
         // TODO: test validations
@@ -154,7 +154,7 @@ public class FakeApiTest {
     public void testBodyWithQueryParamsTest() throws IOException {
         String query = null;
         User body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.testBodyWithQueryParams(query, body);
 
         // TODO: test validations
@@ -171,7 +171,7 @@ public class FakeApiTest {
     @Test
     public void testClientModelTest() throws IOException {
         Client body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //Client response = api.testClientModel(body);
 
         // TODO: test validations
@@ -201,7 +201,7 @@ public class FakeApiTest {
         OffsetDateTime dateTime = null;
         String password = null;
         String paramCallback = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
 
         // TODO: test validations
@@ -225,7 +225,7 @@ public class FakeApiTest {
         Double enumQueryDouble = null;
         List<String> enumFormStringArray = null;
         String enumFormString = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
 
         // TODO: test validations
@@ -247,7 +247,7 @@ public class FakeApiTest {
         Integer stringGroup = null;
         Boolean booleanGroup = null;
         Long int64Group = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 
         // TODO: test validations
@@ -264,7 +264,7 @@ public class FakeApiTest {
     @Test
     public void testInlineAdditionalPropertiesTest() throws IOException {
         Map<String, String> param = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.testInlineAdditionalProperties(param);
 
         // TODO: test validations
@@ -282,7 +282,7 @@ public class FakeApiTest {
     public void testJsonFormDataTest() throws IOException {
         String param = null;
         String param2 = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.testJsonFormData(param, param2);
 
         // TODO: test validations
@@ -303,7 +303,7 @@ public class FakeApiTest {
         List<String> http = null;
         List<String> url = null;
         List<String> context = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
 
         // TODO: test validations

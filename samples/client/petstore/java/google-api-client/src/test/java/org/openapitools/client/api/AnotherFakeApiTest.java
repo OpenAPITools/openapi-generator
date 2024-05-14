@@ -45,7 +45,7 @@ public class AnotherFakeApiTest {
     public void call123testSpecialTagsTest() throws IOException {
         UUID uuidTest = null;
         Client body = null;
-        // uncomment below to make the test the API function
+        // uncomment below to test the API function
         //Client response = api.call123testSpecialTags(uuidTest, body);
 
         // TODO: test validations
