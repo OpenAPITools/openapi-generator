@@ -377,7 +377,7 @@ public class ExampleGenerator {
                 return null;
             }
             return resolvePropertyToExample(name, mediaType, found.get(), processedModels);
-        } else if (ModelUtils.isArraySchema(schema)) {
+        } else if (ModelUtils.isArraySchema(schema) || ModelUtils.isEnumSchema(schema)) {
             return resolvePropertyToExample(schema.getName(), mediaType, schema, processedModels);
         } else {
             // TODO log an error message as the model does not have any properties

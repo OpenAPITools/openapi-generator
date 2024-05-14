@@ -1,0 +1,27 @@
+swagger: '2.0'
+info:
+  title: 'Buggy Api'
+  version: '1.0'
+consumes:
+  - application/json
+paths:
+  /foo/bar:
+    post:
+      responses:
+        '200':
+          description: ok
+          schema:
+            $ref: "#/definitions/myresponse"
+definitions:
+  myresponse:
+    type: object
+    additionalProperties: false
+    properties:
+      x:
+        $ref: "#/definitions/myenum"
+  myenum:
+    type: string
+    enum:
+      - A
+      - B
+      - C
