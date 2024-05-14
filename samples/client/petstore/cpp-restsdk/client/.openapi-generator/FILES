@@ -3,6 +3,7 @@ CMakeLists.txt
 Config.cmake.in
 README.md
 git_push.sh
+include/CppRestPetstoreClient/AnyType.h
 include/CppRestPetstoreClient/ApiClient.h
 include/CppRestPetstoreClient/ApiConfiguration.h
 include/CppRestPetstoreClient/ApiException.h
@@ -21,6 +22,7 @@ include/CppRestPetstoreClient/model/Order.h
 include/CppRestPetstoreClient/model/Pet.h
 include/CppRestPetstoreClient/model/Tag.h
 include/CppRestPetstoreClient/model/User.h
+src/AnyType.cpp
 src/ApiClient.cpp
 src/ApiConfiguration.cpp
 src/ApiException.cpp

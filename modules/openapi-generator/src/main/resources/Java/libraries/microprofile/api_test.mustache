@@ -4,9 +4,13 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+{{#generateSpringBootApplication}}
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+{{/generateSpringBootApplication}}
 
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
@@ -26,7 +30,7 @@ import java.util.Set;
  * API tests for {{classname}}
  */
 {{#generateSpringBootApplication}}
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringApplicationConfiguration(classes = SpringBootApplication.class)
 @WebAppConfiguration
 @IntegrationTest("server.port=0")
@@ -36,7 +40,7 @@ public class {{classname}}Test {
     private {{classname}} client;
     private String baseUrl = "http://localhost:9080";
 
-    @Before
+    @BeforeEach
     public void setup() throws MalformedURLException {
         {{#microprofile3}}
         // TODO initialize the client
@@ -69,7 +73,7 @@ public class {{classname}}Test {
         {{^isFile}}{{{dataType}}} {{paramName}} = null;{{/isFile}}{{#isFile}}org.apache.cxf.jaxrs.ext.multipart.Attachment {{paramName}} = null;{{/isFile}}
         {{/allParams}}
         //{{^vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<{{{returnType}}}>{{/microprofileMutiny}}{{^microprofileMutiny}}{{{returnType}}}{{/microprofileMutiny}} response = {{/vendorExtensions.x-java-is-response-void}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-        //{{#returnType}}assertNotNull(response);{{/returnType}}
+        //{{#returnType}}Assertions.assertNotNull(response);{{/returnType}}
 
 
     }

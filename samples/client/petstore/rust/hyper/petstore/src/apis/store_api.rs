@@ -17,6 +17,7 @@ use std::option::Option;
 use hyper;
 use futures::Future;
 
+use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
@@ -36,9 +37,9 @@ impl<C: hyper::client::connect::Connect> StoreApiClient<C>
 
 pub trait StoreApi {
     fn delete_order(&self, order_id: &str) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
-    fn get_inventory(&self, ) -> Pin<Box<dyn Future<Output = Result<::std::collections::HashMap<String, i32>, Error>>>>;
-    fn get_order_by_id(&self, order_id: i64) -> Pin<Box<dyn Future<Output = Result<crate::models::Order, Error>>>>;
-    fn place_order(&self, order: crate::models::Order) -> Pin<Box<dyn Future<Output = Result<crate::models::Order, Error>>>>;
+    fn get_inventory(&self, ) -> Pin<Box<dyn Future<Output = Result<std::collections::HashMap<String, i32>, Error>>>>;
+    fn get_order_by_id(&self, order_id: i64) -> Pin<Box<dyn Future<Output = Result<models::Order, Error>>>>;
+    fn place_order(&self, order: models::Order) -> Pin<Box<dyn Future<Output = Result<models::Order, Error>>>>;
 }
 
 impl<C: hyper::client::connect::Connect>StoreApi for StoreApiClient<C>
@@ -54,7 +55,7 @@ impl<C: hyper::client::connect::Connect>StoreApi for StoreApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn get_inventory(&self, ) -> Pin<Box<dyn Future<Output = Result<::std::collections::HashMap<String, i32>, Error>>>> {
+    fn get_inventory(&self, ) -> Pin<Box<dyn Future<Output = Result<std::collections::HashMap<String, i32>, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/store/inventory".to_string())
             .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
                 in_header: true,
@@ -67,7 +68,7 @@ impl<C: hyper::client::connect::Connect>StoreApi for StoreApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn get_order_by_id(&self, order_id: i64) -> Pin<Box<dyn Future<Output = Result<crate::models::Order, Error>>>> {
+    fn get_order_by_id(&self, order_id: i64) -> Pin<Box<dyn Future<Output = Result<models::Order, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/store/order/{orderId}".to_string())
         ;
         req = req.with_path_param("orderId".to_string(), order_id.to_string());
@@ -76,7 +77,7 @@ impl<C: hyper::client::connect::Connect>StoreApi for StoreApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn place_order(&self, order: crate::models::Order) -> Pin<Box<dyn Future<Output = Result<crate::models::Order, Error>>>> {
+    fn place_order(&self, order: models::Order) -> Pin<Box<dyn Future<Output = Result<models::Order, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/store/order".to_string())
         ;
         req = req.with_body_param(order);

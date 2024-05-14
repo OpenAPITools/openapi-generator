@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   private String client;
@@ -146,5 +146,59 @@ public class Client {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private Client instance;
+
+    public Builder() {
+      this(new Client());
+    }
+
+    protected Builder(Client instance) {
+      this.instance = instance;
+    }
+
+    public Client.Builder client(String client) {
+      this.instance.client = client;
+      return this;
+    }
+
+
+    /**
+    * returns a built Client instance.
+    *
+    * The builder is not reusable.
+    */
+    public Client build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Client.Builder builder() {
+    return new Client.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Client.Builder toBuilder() {
+    return new Client.Builder()
+      .client(getClient());
+  }
+
 }
 

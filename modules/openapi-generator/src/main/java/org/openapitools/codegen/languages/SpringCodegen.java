@@ -68,6 +68,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -594,16 +595,16 @@ public class SpringCodegen extends AbstractJavaCodegen
                       (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                       "ApiKeyRequestInterceptor.java"));
 
-                supportingFiles.add(new SupportingFile("oauth2ClientProperties.mustache",
-                      resourceFolder, "oauth2-client.properties"));
-
-                supportingFiles.add(new SupportingFile("clientPropertiesConfiguration.mustache",
-                      (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                      "ClientPropertiesConfiguration.java"));
+                if (ProcessUtils.hasOAuthMethods(openAPI)) {
+                    supportingFiles.add(new SupportingFile("clientPropertiesConfiguration.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                            "ClientPropertiesConfiguration.java"));
+                }
 
                 supportingFiles.add(new SupportingFile("clientConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "ClientConfiguration.java"));
+
                 apiTemplateFiles.put("apiClient.mustache", "Client.java");
                 if (!additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
                     additionalProperties.put(SINGLE_CONTENT_TYPES, "true");
@@ -614,10 +615,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 additionalProperties.put(USE_FEIGN_CLIENT, "true");
             } else if (SPRING_BOOT.equals(library)) {
                 apiTemplateFiles.put("apiController.mustache", "Controller.java");
-                if (containsEnums()) {
-                    supportingFiles.add(new SupportingFile("converter.mustache",
-                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.java"));
-                }
                 supportingFiles.add(new SupportingFile("application.mustache",
                         ("src.main.resources").replace(".", java.io.File.separator), "application.properties"));
                 supportingFiles.add(new SupportingFile("homeController.mustache",
@@ -668,7 +665,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
         }
         if (reactive) {
-            additionalProperties.put(RESPONSE_WRAPPER, "Mono");
+            // The response wrapper when Reactive is enabled must depend on the return type:
+            // Flux<X> when X is an array
+            // Mono<X> otherwise
+            // But there are corner cases when also using response entity.
+            // When reactive is enabled, all this is managed in the mustache templates.
+            additionalProperties.put(RESPONSE_WRAPPER, "");
         }
 
         // Some well-known Spring or Spring-Cloud response wrappers
@@ -780,6 +782,12 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
+
+        if (!interfaceOnly && SPRING_BOOT.equals(library) && containsEnums()) {
+            supportingFiles.add(new SupportingFile("converter.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.java"));
+        }
+
         /*
          * TODO the following logic should not need anymore in OAS 3.0 if
          * ("/".equals(swagger.getBasePath())) { swagger.setBasePath(""); }
@@ -1160,65 +1168,18 @@ public class SpringCodegen extends AbstractJavaCodegen
         return codegenModel;
     }
 
-    /**
-     * Analyse and post process all Models.
-     *  Add parentVars to every Model which has a parent. This allows to generate
-     *  fluent setter methods for inherited properties.
-     * @param objs the models map.
-     * @return the processed models map.
-     */
     @Override
-    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
-        objs = super.postProcessAllModels(objs);
-        objs = super.updateAllModels(objs);
-
-        for (ModelsMap modelsAttrs : objs.values()) {
-            for (ModelMap mo : modelsAttrs.getModels()) {
-                CodegenModel codegenModel = mo.getModel();
-                Set<String> inheritedImports = new HashSet<>();
-                Map<String, CodegenProperty> propertyHash = new HashMap<>(codegenModel.vars.size());
-                for (final CodegenProperty property : codegenModel.vars) {
-                    propertyHash.put(property.name, property);
-                }
-                CodegenModel parentCodegenModel = codegenModel.parentModel;
-                while (parentCodegenModel != null) {
-                    for (final CodegenProperty property : parentCodegenModel.vars) {
-                        // helper list of parentVars simplifies templating
-                        if (!propertyHash.containsKey(property.name)) {
-                            propertyHash.put(property.name, property);
-                            final CodegenProperty parentVar = property.clone();
-                            parentVar.isInherited = true;
-                            LOGGER.info("adding parent variable {}", property.name);
-                            codegenModel.parentVars.add(parentVar);
-                            Set<String> imports = parentVar.getImports(true, this.importBaseType, generatorMetadata.getFeatureSet()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
-                            for (String imp: imports) {
-                                // Avoid dupes
-                                if (!codegenModel.getImports().contains(imp)) {
-                                    inheritedImports.add(imp);
-                                    codegenModel.getImports().add(imp);
-                                }
-                            }
-                        }
-                    }
-                    parentCodegenModel = parentCodegenModel.getParentModel();
-                }
-                if (codegenModel.getParentModel() != null) {
-                    codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
-                }
-                // There must be a better way ...
-                for (String imp: inheritedImports) {
-                    String qimp = importMapping().get(imp);
-                    if (qimp != null) {
-                        Map<String,String> toAdd = new HashMap<>();
-                        toAdd.put("import", qimp);
-                        modelsAttrs.getImports().add(toAdd);
-                    }
-                }
-            }
+    protected boolean isConstructorWithAllArgsAllowed(CodegenModel codegenModel) {
+        if (lombokAnnotations != null && lombokAnnotations.containsKey("AllArgsConstructor")) {
+            // constructor generated by lombok
+            return false;
         }
-        return objs;
+        if ((!generatedConstructorWithRequiredArgs && !codegenModel.vars.isEmpty() )
+                || !codegenModel.optionalVars.isEmpty()) {
+            return super.isConstructorWithAllArgsAllowed(codegenModel);
+        }
+        return false;
     }
-
 
     /*
      * Add dynamic imports based on the parameters and vendor extensions of an operation.
@@ -1345,6 +1306,21 @@ public class SpringCodegen extends AbstractJavaCodegen
         return provideArgsClassSet;
     }
 
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        Map<String, CodegenModel> allModels = getAllModels(objs);
+        // conditionally force the generation of no args constructor
+        for (CodegenModel cm : allModels.values()) {
+            boolean hasLombokNoArgsConstructor = lombokAnnotations != null && lombokAnnotations.containsKey("NoArgsConstructor");
+            if (!hasLombokNoArgsConstructor
+                  &&  (cm.hasRequired || cm.vendorExtensions.containsKey("x-java-all-args-constructor"))) {
+                cm.vendorExtensions.put("x-java-no-args-constructor", true);
+            }
+        }
+        return objs;
+    }
 
     @Override
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {

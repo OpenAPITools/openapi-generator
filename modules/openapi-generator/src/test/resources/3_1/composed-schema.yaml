@@ -1,0 +1,36 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /payment:
+    post:
+      operationId: payment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Payment"
+
+components:
+  schemas:
+    Payment:
+      type: object
+      properties:
+        label:
+          type: string
+        otherLabel:
+          type: string
+        amount:
+          type: number
+      oneOf:
+        - required:
+            - label
+            - amount
+        - required:
+            - otherLabel
+            - amount

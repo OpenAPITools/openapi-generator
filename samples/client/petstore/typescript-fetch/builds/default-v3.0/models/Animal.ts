@@ -12,12 +12,9 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
-import {
-     CatFromJSONTyped,
-     DogFromJSONTyped
-} from './index';
-
+import { mapValues } from '../runtime';
+import { CatFromJSONTyped } from './Cat';
+import { DogFromJSONTyped } from './Dog';
 /**
  * 
  * @export
@@ -42,10 +39,8 @@ export interface Animal {
  * Check if a given object implements the Animal interface.
  */
 export function instanceOfAnimal(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "className" in value;
-
-    return isInstance;
+    if (!('className' in value)) return false;
+    return true;
 }
 
 export function AnimalFromJSON(json: any): Animal {
@@ -53,7 +48,7 @@ export function AnimalFromJSON(json: any): Animal {
 }
 
 export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): Animal {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     if (!ignoreDiscriminator) {
@@ -67,21 +62,18 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
     return {
         
         'className': json['className'],
-        'color': !exists(json, 'color') ? undefined : json['color'],
+        'color': json['color'] == null ? undefined : json['color'],
     };
 }
 
 export function AnimalToJSON(value?: Animal | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'className': value.className,
-        'color': value.color,
+        'className': value['className'],
+        'color': value['color'],
     };
 }
 

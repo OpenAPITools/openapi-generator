@@ -105,6 +105,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(
                 Arrays.asList(
+                        // pydantic
+                        "field",
                         // local variable name used in API methods (endpoints)
                         "all_params", "resource_path", "path_params", "query_params",
                         "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
@@ -489,8 +491,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 includedSchemas.add(schema);
             }
-            ArraySchema arrayschema = (ArraySchema) schema;
-            example = "[\n" + indentationString + toExampleValueRecursive(arrayschema.getItems(), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
+            example = "[\n" + indentationString + toExampleValueRecursive(ModelUtils.getSchemaItems(schema), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
         } else if (ModelUtils.isMapSchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 includedSchemas.add(schema);
@@ -691,8 +692,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         p = ModelUtils.unaliasSchema(openAPI, p);
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getCollectionItemTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -927,17 +927,14 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 // if super class
                 if (model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
                     moduleImports.add("typing", "Union");
-                    Set<CodegenDiscriminator.MappedModel> discriminator = model.getDiscriminator().getMappedModels();
-                    for (CodegenDiscriminator.MappedModel mappedModel : discriminator) {
-                        postponedModelImports.add(mappedModel.getModelName());
-                    }
+                    moduleImports.add("importlib", "import_module");
                 }
             }
 
             if (!model.allOf.isEmpty()) { // allOf
                 for (CodegenProperty cp : model.allVars) {
                     if (!cp.isPrimitiveType || cp.isModel) {
-                        if (cp.isArray){ // if array
+                        if (cp.isArray || cp.isMap){ // if array or map
                             modelImports.add(cp.items.dataType);
                         }else{ // if model
                             modelImports.add(cp.getDataType());
@@ -956,6 +953,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
+            // if pydantic model
+            if (!model.isEnum) {
+                moduleImports.add("pydantic", "ConfigDict");
+            }
 
             //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
@@ -991,13 +992,21 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
                     } else {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
-                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
+                        // Do not overwrite the variable name if already set through x-enum-varnames
+                        if (model.vendorExtensions.get("x-enum-varnames") == null) {
+                            enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
+                        }
                     }
                 }
             }
 
             // set the extensions if the key is absent
             model.getVendorExtensions().putIfAbsent("x-py-readonly", readOnlyFields);
+
+            // remove the items of postponedModelImports in modelImports to avoid circular imports error
+            if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()){
+                modelImports.removeAll(postponedModelImports);
+            }
 
             // import models one by one
             if (!modelImports.isEmpty()) {
@@ -1055,8 +1064,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                                    Set<String> exampleImports,
                                    Set<String> postponedModelImports,
                                    Set<String> postponedExampleImports,
+                                   PythonImports moduleImports,
                                    String classname) {
-        PythonImports moduleImports = new PythonImports();
         PydanticType pt = new PydanticType(
             modelImports,
             exampleImports,
@@ -1244,11 +1253,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (!StringUtils.isEmpty(operation.returnType)) {
                 // Not interested in the result, only in the update of the imports
                 getPydanticType(
-                    operation.returnProperty, 
+                    operation.returnProperty,
                     modelImports,
-                    exampleImports, 
+                    exampleImports,
                     postponedModelImports,
-                    postponedExampleImports, 
+                    postponedExampleImports,
+                    moduleImports,
                     null
                 );
             }
@@ -1271,7 +1281,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
                 operation.vendorExtensions.put("x-py-example-import", imports);
             }
-            
+
             // Remove constant params from allParams list and add to constantParams
             handleConstantParams(operation);
         }
@@ -2061,7 +2071,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         values.add((String) enumVar.get("value"));
                     }
                 }
-                return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
+                return String.format(Locale.ROOT, "%sEnum", cp.nameInPascalCase);
             } else*/
 
             if (result == null) {
@@ -2170,7 +2180,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         // TODO process the first one only at the moment
                         if (cmt != null)
                             // TODO: don't loop back to the deprecated getPydanticType method
-                            return getPydanticType(cmt.getSchema(), modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname);
+                            return getPydanticType(cmt.getSchema(), modelImports, exampleImports, postponedModelImports, postponedExampleImports, moduleImports, classname);
                     }
                     throw new RuntimeException("Error! Failed to process getPydanticType when getting the content: " + cp);
                 } else {

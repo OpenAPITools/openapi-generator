@@ -47,7 +47,7 @@ public class OperationWrapper {
     /**
      * Returns the OpenAPI specification.
      *
-     * @return The the OpenAPI specification.
+     * @return The OpenAPI specification.
      */
     public OpenAPI getOpenAPI() {
         return specification;

@@ -1,0 +1,31 @@
+## BillingApi
+
+### Get GitHub Actions billing for an organization
+## Get GitHub Actions billing for an organization
+GET https://api.github.com/orgs/{{org}}/settings/billing/actions
+Accept: application/json
+
+### Get GitHub Actions billing for a user
+## Get GitHub Actions billing for a user
+GET https://api.github.com/users/{{username}}/settings/billing/actions
+Accept: application/json
+
+### Get GitHub Packages billing for an organization
+## Get GitHub Packages billing for an organization
+GET https://api.github.com/orgs/{{org}}/settings/billing/packages
+Accept: application/json
+
+### Get GitHub Packages billing for a user
+## Get GitHub Packages billing for a user
+GET https://api.github.com/users/{{username}}/settings/billing/packages
+Accept: application/json
+
+### Get shared storage billing for an organization
+## Get shared storage billing for an organization
+GET https://api.github.com/orgs/{{org}}/settings/billing/shared-storage
+Accept: application/json
+
+### Get shared storage billing for a user
+## Get shared storage billing for a user
+GET https://api.github.com/users/{{username}}/settings/billing/shared-storage
+Accept: application/json

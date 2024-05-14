@@ -268,7 +268,7 @@ public class DefaultGenerator implements Generator {
 
         // normalize the spec
         try {
-            if (config.getUseOpenAPINormalizer()) {
+            if (config.getUseOpenapiNormalizer()) {
                 SemVer version = new SemVer(openAPI.getOpenapi());
                 if (version.atLeast("3.1.0")) {
                     config.openapiNormalizer().put("NORMALIZE_31SPEC", "true");
@@ -295,7 +295,9 @@ public class DefaultGenerator implements Generator {
         // set OpenAPI to make these available to all methods
         config.setOpenAPI(openAPI);
 
-        config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
+        if (!config.additionalProperties().containsKey("generatorVersion")) {
+            config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
+        }
         config.additionalProperties().put("generatedDate", ZonedDateTime.now().toString());
         config.additionalProperties().put("generatedYear", String.valueOf(ZonedDateTime.now().getYear()));
         config.additionalProperties().put("generatorClass", config.getClass().getName());
@@ -443,7 +445,7 @@ public class DefaultGenerator implements Generator {
         }
     }
 
-    void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels) {
+    void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<ModelMap> aliasModels) {
         if (!generateModels) {
             // TODO: Process these anyway and add to dryRun info
             LOGGER.info("Skipping generation of models.");
@@ -568,6 +570,8 @@ public class DefaultGenerator implements Generator {
                         CodegenModel m = modelTemplate.getModel();
                         if (m.isAlias) {
                             // alias to number, string, enum, etc, which should not be generated as model
+                            // but aliases are still used to dereference models in some languages (such as in html2).
+                            aliasModels.add(modelTemplate);  // Store aliases in the separate list.
                             continue;  // Don't create user-defined classes for aliases
                         }
                     }
@@ -930,8 +934,8 @@ public class DefaultGenerator implements Generator {
     /*
      * Generate .openapi-generator-ignore if the option openapiGeneratorIgnoreFile is enabled.
      */
-    private void generateOpenAPIGeneratorIgnoreFile() {
-        if (config.getOpenAPIGeneratorIgnoreList() == null || config.getOpenAPIGeneratorIgnoreList().isEmpty()) {
+    private void generateOpenapiGeneratorIgnoreFile() {
+        if (config.getOpenapiGeneratorIgnoreList() == null || config.getOpenapiGeneratorIgnoreList().isEmpty()) {
             return;
         }
 
@@ -983,7 +987,7 @@ public class DefaultGenerator implements Generator {
             Writer fileWriter = Files.newBufferedWriter(ignoreFile.toPath(), StandardCharsets.UTF_8);
             fileWriter.write(header);
             // add entries provided by the users
-            for (String entry : config.getOpenAPIGeneratorIgnoreList()) {
+            for (String entry : config.getOpenapiGeneratorIgnoreList()) {
                 fileWriter.write(entry);
                 fileWriter.write("\n");
             }
@@ -1075,11 +1079,11 @@ public class DefaultGenerator implements Generator {
         generateVersionMetadata(files);
     }
 
-    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels) {
-        return this.buildSupportFileBundle(allOperations, allModels, null);
+    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels, List<ModelMap> aliasModels) {
+        return this.buildSupportFileBundle(allOperations, allModels, aliasModels, null);
     }
 
-    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels, List<WebhooksMap> allWebhooks) {
+    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels, List<ModelMap> aliasModels, List<WebhooksMap> allWebhooks) {
 
         Map<String, Object> bundle = new HashMap<>(config.additionalProperties());
         bundle.put("apiPackage", config.apiPackage());
@@ -1101,6 +1105,7 @@ public class DefaultGenerator implements Generator {
         bundle.put("apiInfo", apis);
         bundle.put("webhooks", allWebhooks);
         bundle.put("models", allModels);
+        bundle.put("aliasModels", aliasModels);
         bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
         bundle.put("modelPackage", config.modelPackage());
         bundle.put("library", config.getLibrary());
@@ -1220,13 +1225,14 @@ public class DefaultGenerator implements Generator {
         processUserDefinedTemplates();
 
         // generate .openapi-generator-ignore if the option openapiGeneratorIgnoreFile is enabled
-        generateOpenAPIGeneratorIgnoreFile();
+        generateOpenapiGeneratorIgnoreFile();
 
         List<File> files = new ArrayList<>();
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
-        generateModels(files, allModels, filteredSchemas);
+        List<ModelMap> aliasModels = new ArrayList<>();
+        generateModels(files, allModels, filteredSchemas, aliasModels);
         // apis
         List<OperationsMap> allOperations = new ArrayList<>();
         generateApis(files, allOperations, allModels);
@@ -1234,7 +1240,7 @@ public class DefaultGenerator implements Generator {
         List<WebhooksMap> allWebhooks = new ArrayList<>();
         generateWebhooks(files, allWebhooks, allModels);
         // supporting files
-        Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels, allWebhooks);
+        Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels, aliasModels, allWebhooks);
         generateSupportingFiles(files, bundle);
 
         if (dryRun) {
@@ -1867,7 +1873,7 @@ public class DefaultGenerator implements Generator {
         if (generateMetadata) {
             File versionMetadataFile = new File(versionMetadata);
             try {
-                File written = this.templateProcessor.writeToFile(versionMetadata, ImplementationVersion.read().getBytes(StandardCharsets.UTF_8));
+                File written = this.templateProcessor.writeToFile(versionMetadata, (ImplementationVersion.read() + "\n").getBytes(StandardCharsets.UTF_8));
                 if (written != null) {
                     files.add(versionMetadataFile);
                     if (config.isEnablePostProcessFile() && !dryRun) {

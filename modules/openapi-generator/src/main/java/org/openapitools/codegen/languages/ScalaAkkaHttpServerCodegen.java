@@ -134,7 +134,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         cliOptions.add(CliOption.newString(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC).defaultValue(invokerPackage));
         cliOptions.add(CliOption.newString(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC).defaultValue(groupId));
         cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID).defaultValue(artifactId));
-        cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC).defaultValue(artifactVersion));
+        cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_VERSION, "artifact version in generated pom.xml. This also becomes part of the generated library's filename").defaultValue(artifactVersion));
         cliOptions.add(CliOption.newString(AKKA_HTTP_VERSION, AKKA_HTTP_VERSION_DESC).defaultValue(akkaHttpVersion));
         cliOptions.add(CliOption.newBoolean(GENERATE_AS_MANAGED_SOURCES, GENERATE_AS_MANAGED_SOURCES_DESC).defaultValue(Boolean.valueOf(DEFAULT_GENERATE_AS_MANAGED_SOURCES).toString()));
         cliOptions.add(CliOption.newBoolean(USE_APACHE_PEKKO, USE_APACHE_PEKKO_DESC).defaultValue(Boolean.valueOf(DEFAULT_USE_APACHE_PEKKO).toString()));

@@ -5,7 +5,7 @@ authors = ["OpenAPI Generator team and contributors"]
 description = "API under test"
 # Override this license by providing a License Object in the OpenAPI.
 license = "Unlicense"
-edition = "2018"
+edition = "2021"
 
 [features]
 default = ["client", "server"]
@@ -17,7 +17,7 @@ client = [
 ]
 server = [
     "mime_0_2",
-    "multipart", "multipart/server",
+    "multipart", "multipart/server", "swagger/multipart_form",
     "hyper_0_10", "mime_multipart",
    "serde_ignored", "hyper", "regex", "percent-encoding", "url", "lazy_static"
 ]

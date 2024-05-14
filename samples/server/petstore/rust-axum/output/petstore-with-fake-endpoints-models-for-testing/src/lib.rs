@@ -3,11 +3,11 @@
     trivial_casts,
     unused_variables,
     unused_mut,
-    unused_imports,
     unused_extern_crates,
-    non_camel_case_types
+    non_camel_case_types,
+    unused_imports,
+    unused_attributes
 )]
-#![allow(unused_imports, unused_attributes)]
 #![allow(clippy::derive_partial_eq_without_eq, clippy::disallowed_names)]
 
 use async_trait::async_trait;
@@ -445,6 +445,7 @@ pub trait Api {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        body: models::TestEndpointParametersRequest,
     ) -> Result<TestEndpointParametersResponse, String>;
 
     /// To test enum parameters.
@@ -457,6 +458,7 @@ pub trait Api {
         cookies: CookieJar,
         header_params: models::TestEnumParametersHeaderParams,
         query_params: models::TestEnumParametersQueryParams,
+        body: Option<models::TestEnumParametersRequest>,
     ) -> Result<TestEnumParametersResponse, String>;
 
     /// test inline additionalProperties.
@@ -478,6 +480,7 @@ pub trait Api {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        body: models::TestJsonFormDataRequest,
     ) -> Result<TestJsonFormDataResponse, String>;
 
     /// To test class name in snake case.
@@ -567,6 +570,7 @@ pub trait Api {
         host: Host,
         cookies: CookieJar,
         path_params: models::UpdatePetWithFormPathParams,
+        body: Option<models::UpdatePetWithFormRequest>,
     ) -> Result<UpdatePetWithFormResponse, String>;
 
     /// uploads an image.

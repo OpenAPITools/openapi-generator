@@ -28,7 +28,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Imports |
 | ---------- | ------- |
-|Object|#include &quot;Object.h&quot;|
 |nlohmann::json|#include &lt;nlohmann/json.hpp&gt;|
 |std::map|#include &lt;map&gt;|
 |std::string|#include &lt;string&gt;|
@@ -57,6 +56,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>NULL</li>
 <li>alignas</li>
 <li>alignof</li>
 <li>and</li>

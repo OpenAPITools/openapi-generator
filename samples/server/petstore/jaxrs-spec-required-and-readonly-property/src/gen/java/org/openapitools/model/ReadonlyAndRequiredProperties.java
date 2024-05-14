@@ -16,12 +16,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ReadonlyAndRequiredProperties")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ReadonlyAndRequiredProperties  implements Serializable {
-  private @Valid String requiredYesReadonlyYes;
-  private @Valid String requiredYesReadonlyNo;
-  private @Valid String requiredNoReadonlyYes;
-  private @Valid String requiredNoReadonlyNo;
+  private String requiredYesReadonlyYes;
+  private String requiredYesReadonlyNo;
+  private String requiredNoReadonlyYes;
+  private String requiredNoReadonlyNo;
 
   protected ReadonlyAndRequiredProperties(ReadonlyAndRequiredPropertiesBuilder<?, ?> b) {
     this.requiredYesReadonlyYes = b.requiredYesReadonlyYes;
@@ -62,8 +62,7 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("requiredYesReadonlyNo")
-  @NotNull
-  public String getRequiredYesReadonlyNo() {
+  @NotNull public String getRequiredYesReadonlyNo() {
     return requiredYesReadonlyNo;
   }
 

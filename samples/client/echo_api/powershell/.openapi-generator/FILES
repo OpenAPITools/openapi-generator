@@ -16,6 +16,7 @@ docs/Query.md
 docs/QueryApi.md
 docs/StringEnumRef.md
 docs/Tag.md
+docs/TestFormObjectMultipartRequestMarker.md
 docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
 docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 src/PSOpenAPITools/Api/AuthApi.ps1
@@ -34,6 +35,7 @@ src/PSOpenAPITools/Model/Pet.ps1
 src/PSOpenAPITools/Model/Query.ps1
 src/PSOpenAPITools/Model/StringEnumRef.ps1
 src/PSOpenAPITools/Model/Tag.ps1
+src/PSOpenAPITools/Model/TestFormObjectMultipartRequestMarker.ps1
 src/PSOpenAPITools/Model/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.ps1
 src/PSOpenAPITools/Model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.ps1
 src/PSOpenAPITools/PSOpenAPITools.psm1

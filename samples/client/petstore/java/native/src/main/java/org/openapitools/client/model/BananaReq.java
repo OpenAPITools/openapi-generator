@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   BananaReq.JSON_PROPERTY_LENGTH_CM,
   BananaReq.JSON_PROPERTY_SWEET
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   private BigDecimal lengthCm;
@@ -183,5 +183,64 @@ public class BananaReq {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private BananaReq instance;
+
+    public Builder() {
+      this(new BananaReq());
+    }
+
+    protected Builder(BananaReq instance) {
+      this.instance = instance;
+    }
+
+    public BananaReq.Builder lengthCm(BigDecimal lengthCm) {
+      this.instance.lengthCm = lengthCm;
+      return this;
+    }
+    public BananaReq.Builder sweet(Boolean sweet) {
+      this.instance.sweet = sweet;
+      return this;
+    }
+
+
+    /**
+    * returns a built BananaReq instance.
+    *
+    * The builder is not reusable.
+    */
+    public BananaReq build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static BananaReq.Builder builder() {
+    return new BananaReq.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public BananaReq.Builder toBuilder() {
+    return new BananaReq.Builder()
+      .lengthCm(getLengthCm())
+      .sweet(getSweet());
+  }
+
 }
 

@@ -35,7 +35,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = ChildWithNullable.class, name = "ChildWithNullable")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
 public class ParentWithNullable {
 
   /**
@@ -74,6 +74,18 @@ public class ParentWithNullable {
   private TypeEnum type;
 
   private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
+
+  public ParentWithNullable() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ParentWithNullable(TypeEnum type, String nullableProperty) {
+      this.type = type;
+      this.nullableProperty = JsonNullable.of(nullableProperty);
+  }
 
   public ParentWithNullable type(TypeEnum type) {
     this.type = type;

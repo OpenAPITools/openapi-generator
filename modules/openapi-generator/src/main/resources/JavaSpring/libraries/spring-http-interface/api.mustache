@@ -53,11 +53,11 @@ public interface {{classname}} {
     {{/isDeprecated}}
     @HttpExchange(
         method = "{{{httpMethod}}}",
-        value = "{{{path}}}"{{#vendorExtensions.x-accepts}},
-        accept = "{{{vendorExtensions.x-accepts}}}"{{/vendorExtensions.x-accepts}}{{#vendorExtensions.x-content-type}},
+        value = "{{{path}}}",
+        accept = { {{#vendorExtensions.x-accepts}}"{{.}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{#vendorExtensions.x-content-type}},
         contentType = "{{{vendorExtensions.x-content-type}}}"{{/vendorExtensions.x-content-type}}
     )
-    {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}(
+    {{>responseType}} {{operationId}}(
         {{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}},
         {{/-last}}{{/allParams}}
     ){{#unhandledException}} throws Exception{{/unhandledException}};

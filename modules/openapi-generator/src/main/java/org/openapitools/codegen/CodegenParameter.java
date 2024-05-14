@@ -39,6 +39,9 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumDefaultValue, enumName, style;
 
     public String nameInLowerCase; // property name in lower case
+    public String nameInCamelCase; // property name in camel case (e.g.  modifiedDate)
+    public String nameInPascalCase; // property name in pascal case (e.g. ModifiedDate)
+    public String nameInSnakeCase; // property name in upper snake case
     public String example; // example value (x-example)
     public Map<String, Example> examples;
     public String jsonSchema;
@@ -73,48 +76,48 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
      */
     public boolean required;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor17.
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-maximum">JSON Schema Validation Spec, Section 6.2.2</a>
      */
     public String maximum;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor17
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-exclusivemaximum">JSON Schema Validation Spec, Section 6.2.3</a>
      */
     public boolean exclusiveMaximum;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor21
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-minimum">JSON Schema Validation Spec, Section 6.2.4</a>
      */
     public String minimum;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor21
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-exclusiveminimum">JSON Schema Validation Spec, Section 6.2.5</a>
      */
     public boolean exclusiveMinimum;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor26
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-maxlength">JSON Schema Validation Spec, Section 6.3.1</a>
      */
     public Integer maxLength;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor29
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-minlength">JSON Schema Validation Spec, Section 6.3.2</a>
      */
     public Integer minLength;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor33
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-pattern">JSON Schema Validation Spec, Section 6.3.3</a>
      */
     public String pattern;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor42
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-maxitems">JSON Schema Validation Spec, Section 6.4.1</a>
      */
     public Integer maxItems;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor45
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-minitems">JSON Schema Validation Spec, Section 6.4.2</a>
      */
     public Integer minItems;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor49
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-uniqueitems">JSON Schema Validation Spec, Section 6.4.3</a>
      */
     public boolean uniqueItems;
     private Boolean uniqueItemsBoolean;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor14
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-multipleof">JSON Schema Validation Spec, Section 6.2.1</a>
      */
     public Number multipleOf;
     private Integer maxProperties;
@@ -184,6 +187,11 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.additionalProperties = this.additionalProperties;
         output.isNull = this.isNull;
         output.isVoid = this.isVoid;
+        output.nameInPascalCase = this.nameInPascalCase;
+        output.nameInCamelCase = this.nameInCamelCase;
+        output.nameInLowerCase = this.nameInLowerCase;
+        output.nameInSnakeCase = this.nameInSnakeCase;
+
         output.setAdditionalPropertiesIsAnyType(this.getAdditionalPropertiesIsAnyType());
         output.setHasVars(this.hasVars);
         output.setHasRequired(this.hasRequired);
@@ -265,7 +273,22 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam, isBodyParam, isContainer, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName, paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description, unescapedDescription, baseType, containerType, containerTypeMapped, defaultValue, enumDefaultValue, enumName, style, isDeepObject, isMatrix, isAllowEmptyValue, example, examples, jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, isEnumRef, _enum, allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable, isDeprecated, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(), getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf, isNull, isVoid, additionalPropertiesIsAnyType, hasVars, hasRequired, isShort, isUnboundedInteger, hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, schema, content, requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties);
+        return Objects.hash(isFormParam, isQueryParam, isPathParam, isHeaderParam, isCookieParam,
+                isBodyParam, isContainer, isCollectionFormatMulti, isPrimitiveType, isModel, isExplode, baseName,
+                paramName, dataType, datatypeWithEnum, dataFormat, collectionFormat, description,
+                unescapedDescription, baseType, containerType, containerTypeMapped, defaultValue,
+                enumDefaultValue, enumName, style, isDeepObject, isMatrix, isAllowEmptyValue, example, examples,
+                jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
+                isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
+                isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, isEnumRef, _enum, allowableValues,
+                items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation,
+                getMaxProperties(), getMinProperties(), isNullable, isDeprecated, required, getMaximum(),
+                getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(),
+                getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf, isNull,isVoid,
+                additionalPropertiesIsAnyType, hasVars, hasRequired, isShort, isUnboundedInteger,
+                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, schema, content,
+                requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties,
+                nameInPascalCase, nameInCamelCase, nameInLowerCase, nameInSnakeCase);
     }
 
     @Override

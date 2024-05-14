@@ -212,7 +212,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart 2.x client library.";
+        return "Generates a Dart client library.";
     }
 
     @Override
@@ -512,7 +512,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            Schema<?> items = ModelUtils.getSchemaItems(schema);
             return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
         }
         if (ModelUtils.isMapSchema(target)) {

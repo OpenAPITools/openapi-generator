@@ -128,8 +128,7 @@ public class XmlExampleGenerator {
         StringBuilder sb = new StringBuilder();
 
         if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema as = (ArraySchema) schema;
-            Schema inner = as.getItems();
+            Schema inner = ModelUtils.getSchemaItems(schema);
             boolean wrapped = false;
             if (schema.getXml() != null && schema.getXml().getWrapped() != null && schema.getXml().getWrapped()) {
                 wrapped = true;

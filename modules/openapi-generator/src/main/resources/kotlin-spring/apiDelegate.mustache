@@ -30,7 +30,7 @@ interface {{classname}}Delegate {
     /**
      * @see {{classname}}#{{operationId}}
      */
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{paramName}}: {{^isFile}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}{{#isBodyParam}}Flow<{{{baseType}}}>{{/isBodyParam}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{/isArray}}{{/reactive}}{{/isFile}}{{#isFile}}Resource?{{/isFile}}{{^-last}},
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{^isFile}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}{{#isBodyParam}}Flow<{{{baseType}}}>{{/isBodyParam}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{/isArray}}{{/reactive}}{{/isFile}}{{#isFile}}Resource?{{/isFile}}{{^-last}},
         {{/-last}}{{/allParams}}): {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {
         {{>methodBody}}
     }

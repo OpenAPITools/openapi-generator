@@ -32,8 +32,8 @@ import com.squareup.moshi.adapters.EnumJsonAdapter
 {{#allowableValues}}
 {{#enumVars}}
 {{#-last}}
-            .add({{modelPackage}}.{{classname}}.{{{nameInCamelCase}}}::class.java, EnumJsonAdapter.create({{modelPackage}}.{{classname}}.{{{nameInCamelCase}}}::class.java)
-                .withUnknownFallback({{modelPackage}}.{{classname}}.{{{nameInCamelCase}}}.{{&name}}))
+            .add({{modelPackage}}.{{classname}}.{{{nameInPascalCase}}}::class.java, EnumJsonAdapter.create({{modelPackage}}.{{classname}}.{{{nameInPascalCase}}}::class.java)
+                .withUnknownFallback({{modelPackage}}.{{classname}}.{{{nameInPascalCase}}}.{{&name}}))
 {{/-last}}
 {{/enumVars}}
 {{/allowableValues}}

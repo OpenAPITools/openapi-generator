@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**TestEchoBodyFreeFormObjectResponseString**](BodyAPI.md#TestEchoBodyFreeFormObjectResponseString) | **Post** /echo/body/FreeFormObject/response_string | Test free form object
 [**TestEchoBodyPet**](BodyAPI.md#TestEchoBodyPet) | **Post** /echo/body/Pet | Test body parameter(s)
 [**TestEchoBodyPetResponseString**](BodyAPI.md#TestEchoBodyPetResponseString) | **Post** /echo/body/Pet/response_string | Test empty response body
+[**TestEchoBodyStringEnum**](BodyAPI.md#TestEchoBodyStringEnum) | **Post** /echo/body/string_enum | Test string enum response body
 [**TestEchoBodyTagResponseString**](BodyAPI.md#TestEchoBodyTagResponseString) | **Post** /echo/body/Tag/response_string | Test empty json (request body)
 
 
@@ -533,6 +534,72 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestEchoBodyStringEnum
+
+> StringEnumRef TestEchoBodyStringEnum(ctx).Body(body).Execute()
+
+Test string enum response body
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	body := string(987) // string | String enum (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.BodyAPI.TestEchoBodyStringEnum(context.Background()).Body(body).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyStringEnum``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestEchoBodyStringEnum`: StringEnumRef
+	fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestEchoBodyStringEnum`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestEchoBodyStringEnumRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **string** | String enum | 
+
+### Return type
+
+[**StringEnumRef**](StringEnumRef.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

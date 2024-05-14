@@ -15,10 +15,8 @@ class GetOrderByIdParameterData
      * @DTA\Data(subset="path", field="orderId")
      * @DTA\Strategy(subset="path", name="QueryStringScalar", options={"type":"int"})
      * @DTA\Validator(subset="path", name="QueryStringScalar", options={"type":"int"})
-     * @DTA\Validator(subset="path", name="GreaterThan", options={"min":1, "inclusive":true})
-     * @DTA\Validator(subset="path", name="LessThan", options={"max":5, "inclusive":true})
-     * @var int|null
+     * @DTA\Validator(subset="path", name="Range", options={"min":1, "max":5})
      */
-    public $order_id;
+    public ?int $order_id = null;
 
 }

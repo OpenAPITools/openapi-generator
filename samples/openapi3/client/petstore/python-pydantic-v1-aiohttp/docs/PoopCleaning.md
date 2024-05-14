@@ -23,7 +23,7 @@ print PoopCleaning.to_json()
 # convert the object into a dict
 poop_cleaning_dict = poop_cleaning_instance.to_dict()
 # create an instance of PoopCleaning from a dict
-poop_cleaning_form_dict = poop_cleaning.from_dict(poop_cleaning_dict)
+poop_cleaning_from_dict = PoopCleaning.from_dict(poop_cleaning_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -20,6 +20,10 @@ package org.openapitools.codegen.plugin;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.parser.OpenAPIResolver;
+import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,13 +37,17 @@ import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.ClasspathHelper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -52,6 +60,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.project.MavenProject;
 
+import org.apache.maven.project.MavenProjectHelper;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
@@ -106,14 +115,14 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Location of the OpenAPI spec, as URL or file.
      */
-    @Parameter(name = "inputSpec", property = "openapi.generator.maven.plugin.inputSpec", required = true)
-    private String inputSpec;
+    @Parameter(name = "inputSpec", property = "openapi.generator.maven.plugin.inputSpec")
+    protected String inputSpec;
 
     /**
      * Local root folder with spec files
      */
     @Parameter(name = "inputSpecRootDirectory", property = "openapi.generator.maven.plugin.inputSpecRootDirectory")
-    private String inputSpecRootDirectory;
+    protected String inputSpecRootDirectory;
 
     /**
      * Name of the file that will contain all merged specs
@@ -138,6 +147,18 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "gitRepoId", property = "openapi.generator.maven.plugin.gitRepoId")
     private String gitRepoId;
+
+    /**
+     * The path to the collapsed single-file representation of the OpenAPI spec.
+     */
+    @Parameter(name = "collapsedSpec", property = "openapi.generator.maven.plugin.collapsedSpec")
+    private String collapsedSpec;
+
+    /**
+     * Includes the collapsed spec in the Maven artifacts.
+     */
+    @Parameter(name = "includeCollapsedSpecInArtifacts", property = "openapi.generator.maven.plugin.publishCollapsedSpec", defaultValue = "false")
+    private boolean includeCollapsedSpecInArtifacts;
 
     /**
      * Folder containing the template files.
@@ -509,6 +530,18 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(property = "codegen.configHelp")
     private boolean configHelp = false;
 
+    /**
+     * The Maven project context.
+     */
+    @Parameter(defaultValue = "${project}", required = true, readonly = true)
+    MavenProject mavenProject;
+
+    /**
+     * Maven ProjectHelper used to manage build artifacts.
+     */
+    @Component
+    MavenProjectHelper mavenProjectHelper;
+
     @Parameter(defaultValue = "${mojoExecution}", readonly = true)
     private MojoExecution mojo;
 
@@ -524,6 +557,11 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+        if (StringUtils.isBlank(inputSpec) && StringUtils.isBlank(inputSpecRootDirectory)) {
+            LOGGER.error("inputSpec or inputSpecRootDirectory must be specified");
+            throw new MojoExecutionException("inputSpec or inputSpecRootDirectory must be specified");
+        }
+
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
             inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName)
                 .buildMergedSpec();
@@ -536,6 +574,17 @@ public class CodeGenMojo extends AbstractMojo {
             output = new File(project.getBuild().getDirectory(),
                     LifecyclePhase.GENERATE_TEST_SOURCES.id().equals(mojo.getLifecyclePhase()) ?
                             "generated-test-sources/openapi" : "generated-sources/openapi");
+        }
+
+        if (collapsedSpec != null) {
+            final var collapsedSpecPath = createCollapsedSpec();
+            if (includeCollapsedSpecInArtifacts) {
+                mavenProjectHelper.attachArtifact(
+                        mavenProject,
+                        collapsedSpecPath.toString().toLowerCase(Locale.ROOT).endsWith(".json") ? "json" : "yaml",
+                        collapsedSpec,
+                        collapsedSpecPath.toFile());
+            }
         }
 
         addCompileSourceRootIfConfigured();
@@ -780,7 +829,7 @@ public class CodeGenMojo extends AbstractMojo {
 
                 // Retained for backwards-compatibility with configOptions -> openapi-normalizer
                 if (openapiNormalizer == null && configOptions.containsKey("openapi-normalizer")) {
-                    applyOpenAPINormalizerKvp(configOptions.get("openapi-normalizer").toString(),
+                    applyOpenapiNormalizerKvp(configOptions.get("openapi-normalizer").toString(),
                             configurator);
                 }
 
@@ -797,7 +846,7 @@ public class CodeGenMojo extends AbstractMojo {
 
                 // Retained for backwards-compatibility with configOptions -> openapi-generator-ignore-list
                 if (openapiGeneratorIgnoreList == null && configOptions.containsKey("openapi-generator-ignore-list")) {
-                    applyOpenAPIGeneratorIgnoreListCsv(configOptions
+                    applyOpenapiGeneratorIgnoreListCsv(configOptions
                             .get("openapi-generator-ignore-list").toString(), configurator);
                 }
 
@@ -870,7 +919,7 @@ public class CodeGenMojo extends AbstractMojo {
 
             // Apply OpenAPI normalizer rules
             if (openapiNormalizer != null && (configOptions == null || !configOptions.containsKey("openapi-normalizer"))) {
-                applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
+                applyOpenapiNormalizerKvpList(openapiNormalizer, configurator);
             }
 
             // Apply Type Mappings
@@ -887,7 +936,7 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Language Specific Primitives
             if (openapiGeneratorIgnoreList != null
                     && (configOptions == null || !configOptions.containsKey("openapi-generator-ignore-list"))) {
-                applyOpenAPIGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
+                applyOpenapiGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
             }
 
             // Apply Additional Properties
@@ -1093,5 +1142,28 @@ public class CodeGenMojo extends AbstractMojo {
                 configAdditionalProperties.put(key, Boolean.FALSE);
             }
         }
+    }
+
+    private Path createCollapsedSpec() throws MojoExecutionException {
+        // Merge the OpenAPI spec file.
+        final var parseOptions = new ParseOptions();
+        parseOptions.setResolve(true);
+        final var openApiMerged = new OpenAPIResolver(new OpenAPIV3Parser().readLocation(inputSpec, null, parseOptions).getOpenAPI()).resolve();
+
+        // Switch based on JSON or YAML.
+        final var extension = inputSpec.toLowerCase(Locale.ROOT).endsWith(".json") ? ".json" : ".yaml";
+        final var mapper = inputSpec.toLowerCase(Locale.ROOT).endsWith(".json") ? Json.mapper() : Yaml.mapper();
+
+        // Write the merged spec to the output file.
+        final var collapsedSpecPath = output.toPath().resolve(collapsedSpec + extension).toAbsolutePath();
+        try {
+            final var openApiString = mapper.writeValueAsString(openApiMerged);
+            FileUtils.writeStringToFile(collapsedSpecPath.toFile(), openApiString, StandardCharsets.UTF_8);
+        } catch (final IOException e) {
+            throw new MojoExecutionException(new MessageFormat("Failed to write collapsed spec {0}", Locale.ROOT).format(collapsedSpecPath), e);
+        }
+
+        // Return the path to the collapsed spec file.
+        return collapsedSpecPath;
     }
 }

@@ -76,7 +76,7 @@ class OuterObjectWithEnumPropertyTest extends TestCase
     public function testOuterObjectWithEnumProperty()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class OuterObjectWithEnumPropertyTest extends TestCase
     public function testPropertyValue()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

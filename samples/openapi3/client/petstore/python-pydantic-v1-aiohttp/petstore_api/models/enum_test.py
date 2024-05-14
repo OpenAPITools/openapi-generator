@@ -34,11 +34,13 @@ class EnumTest(BaseModel):
     enum_integer_default: Optional[StrictInt] = 5
     enum_integer: Optional[StrictInt] = None
     enum_number: Optional[float] = None
-    outer_enum: Optional[OuterEnum] = Field(None, alias="outerEnum")
-    outer_enum_integer: Optional[OuterEnumInteger] = Field(None, alias="outerEnumInteger")
-    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(None, alias="outerEnumDefaultValue")
-    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(None, alias="outerEnumIntegerDefaultValue")
-    __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
+    enum_number_vendor_ext: Optional[StrictInt] = None
+    enum_string_vendor_ext: Optional[StrictStr] = None
+    outer_enum: Optional[OuterEnum] = Field(default=None, alias="outerEnum")
+    outer_enum_integer: Optional[OuterEnumInteger] = Field(default=None, alias="outerEnumInteger")
+    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=None, alias="outerEnumDefaultValue")
+    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=None, alias="outerEnumIntegerDefaultValue")
+    __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "enum_number_vendor_ext", "enum_string_vendor_ext", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
 
     @validator('enum_string')
     def enum_string_validate_enum(cls, value):
@@ -87,6 +89,26 @@ class EnumTest(BaseModel):
             raise ValueError("must be one of enum values (1.1, -1.2)")
         return value
 
+    @validator('enum_number_vendor_ext')
+    def enum_number_vendor_ext_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in (42, 18, 56):
+            raise ValueError("must be one of enum values (42, 18, 56)")
+        return value
+
+    @validator('enum_string_vendor_ext')
+    def enum_string_vendor_ext_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in ('FOO', 'Bar', 'baz'):
+            raise ValueError("must be one of enum values ('FOO', 'Bar', 'baz')")
+        return value
+
     class Config:
         """Pydantic configuration"""
         allow_population_by_field_name = True
@@ -133,6 +155,8 @@ class EnumTest(BaseModel):
             "enum_integer_default": obj.get("enum_integer_default") if obj.get("enum_integer_default") is not None else 5,
             "enum_integer": obj.get("enum_integer"),
             "enum_number": obj.get("enum_number"),
+            "enum_number_vendor_ext": obj.get("enum_number_vendor_ext"),
+            "enum_string_vendor_ext": obj.get("enum_string_vendor_ext"),
             "outer_enum": obj.get("outerEnum"),
             "outer_enum_integer": obj.get("outerEnumInteger"),
             "outer_enum_default_value": obj.get("outerEnumDefaultValue"),

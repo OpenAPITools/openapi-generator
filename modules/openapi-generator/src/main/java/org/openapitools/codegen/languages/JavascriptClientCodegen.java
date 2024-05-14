@@ -18,11 +18,13 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -610,8 +612,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -672,10 +673,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public void setParameterExampleValue(CodegenParameter p) {
         String example;
 
-        if (p.defaultValue == null) {
-            example = p.example;
-        } else {
+        if (p.example == null) {
             example = p.defaultValue;
+        } else {
+            example = p.example;
         }
 
         String type = p.baseType;
@@ -739,6 +740,24 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         p.example = example;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        Schema schema = parameter.getSchema();
+
+        if (parameter.getExample() != null) {
+            codegenParameter.example = parameter.getExample().toString();
+        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example example = parameter.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+            }
+        } else if (schema != null && schema.getExample() != null) {
+            codegenParameter.example = schema.getExample().toString();
+        }
+
+        setParameterExampleValue(codegenParameter);
     }
 
     protected String setPropertyExampleValue(CodegenProperty p) {
@@ -874,9 +893,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
         if (ModelUtils.isArraySchema(model)) {
-            ArraySchema am = (ArraySchema) model;
-            if (codegenModel != null && am.getItems() != null) {
-                String itemType = getSchemaType(am.getItems());
+            if (codegenModel != null && ModelUtils.getSchemaItems(model) != null) {
+                String itemType = getSchemaType(ModelUtils.getSchemaItems(model));
                 codegenModel.vendorExtensions.put("x-is-array", true);
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             }
