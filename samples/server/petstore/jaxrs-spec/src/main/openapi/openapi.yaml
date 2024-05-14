@@ -1484,6 +1484,23 @@ paths:
       - application/json
       x-tags:
       - tag: fake
+  /fake/tests/defaults:
+    get:
+      operationId: fake-tests-defaults
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fake_tests_defaults_default_response'
+          description: response
+      summary: test enum default in request body
+      tags:
+      - fake
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: fake
 components:
   requestBodies:
     UserArray:
@@ -2260,6 +2277,20 @@ components:
       - user
       title: SingleRefType
       type: string
+    StringEnum:
+      default: foo
+      enum:
+      - foo
+      - bar
+      - baz
+      type: string
+    IntegerEnum:
+      default: 1
+      enum:
+      - 1
+      - 2
+      - 3
+      type: integer
     _foo_get_default_response:
       example:
         string:
@@ -2421,6 +2452,32 @@ components:
           type: string
       required:
       - requiredFile
+      type: object
+    fake_tests_defaults_default_response:
+      example:
+        stringEnum: foo
+        integerEnum: 0
+        stringEnumInline: foo
+        integerEnumInline: 6
+      properties:
+        stringEnum:
+          $ref: '#/components/schemas/StringEnum'
+        integerEnum:
+          $ref: '#/components/schemas/IntegerEnum'
+        stringEnumInline:
+          default: foo
+          enum:
+          - foo
+          - bar
+          - baz
+          type: string
+        integerEnumInline:
+          default: 1
+          enum:
+          - 1
+          - 2
+          - 3
+          type: integer
       type: object
   securitySchemes:
     petstore_auth:

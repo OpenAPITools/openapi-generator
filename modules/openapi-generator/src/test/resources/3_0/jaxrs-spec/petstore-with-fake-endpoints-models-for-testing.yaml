@@ -1303,6 +1303,38 @@ paths:
       responses:
         200:
           description: The instance started successfully
+  /fake/tests/defaults:
+    get:
+      tags:
+        - fake
+      summary: test enum default in request body
+      operationId: fake-tests-defaults
+      responses:
+        default:
+          description: response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stringEnum:
+                    $ref: '#/components/schemas/StringEnum'
+                  integerEnum:
+                    $ref: '#/components/schemas/IntegerEnum'
+                  stringEnumInline:
+                    type: string
+                    enum:
+                    - foo
+                    - bar
+                    - baz
+                    default: foo
+                  integerEnumInline:
+                    type: integer
+                    enum:
+                    - 1
+                    - 2
+                    - 3
+                    default: 1
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2061,3 +2093,17 @@ components:
       enum:
         - admin
         - user
+    StringEnum:
+      type: string
+      enum:
+      - foo
+      - bar
+      - baz
+      default: foo
+    IntegerEnum:
+      type: integer
+      enum:
+      - 1
+      - 2
+      - 3
+      default: 1
