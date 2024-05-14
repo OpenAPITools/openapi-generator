@@ -6,6 +6,7 @@ import org.openapitools.model.Client;
 import java.util.Date;
 import org.openapitools.model.EnumClass;
 import org.openapitools.model.FakeBigDecimalMap200Response;
+import org.openapitools.model.FakeTestsDefaultsDefaultResponse;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
 import org.openapitools.model.HealthCheckResult;
@@ -130,6 +131,17 @@ public class FakeApi {
         @ApiResponse(code = 200, message = "Output enum (int)", response = OuterObjectWithEnumProperty.class)
     })
     public Response fakePropertyEnumIntegerSerialize(@Valid @NotNull OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @GET
+    @Path("/tests/defaults")
+    @Produces({ "application/json" })
+    @ApiOperation(value = "test enum default in request body", notes = "", response = FakeTestsDefaultsDefaultResponse.class, tags={ "fake" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "response", response = FakeTestsDefaultsDefaultResponse.class)
+    })
+    public Response fakeTestsDefaults() {
         return Response.ok().entity("magic!").build();
     }
 
