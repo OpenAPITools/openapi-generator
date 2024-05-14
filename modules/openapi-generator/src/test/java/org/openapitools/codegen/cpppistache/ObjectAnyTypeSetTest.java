@@ -32,6 +32,7 @@ public class ObjectAnyTypeSetTest extends AbstractGeneratorsTest {
 
     /** A Petstore inputspec with abstract properties added in the Pet */
     private static final String INPUT_SPEC = "src/test/resources/3_0/issues-anytype-object-set-petstore-everything.yaml";
+    private static final String ISSUE_6726 = "src/test/resources/3_0/issue_6726.yaml";
 
     /** Soft assert to check all the generators before eventually failing a test */
     private final SoftAssert softAssert = new SoftAssert();
@@ -44,7 +45,7 @@ public class ObjectAnyTypeSetTest extends AbstractGeneratorsTest {
     public void testSomeWithPetstoreWithAbstract() throws IOException {
 //        assertGeneratedFiles("c");
 //        assertGeneratedFiles("cpp-restsdk");
-        generateFiles("cpp-pistache-server");
+        generateFiles("cpp-pistache-server", ISSUE_6726);
 //        assertGeneratedFiles("typescript");
         this.softAssert.assertAll();
     }
@@ -52,11 +53,12 @@ public class ObjectAnyTypeSetTest extends AbstractGeneratorsTest {
     /**
      * Asserts that a generator has produced some files
      * @param generatorName The generator name to test
+     * @param inputSpec The inputspec to use.
      * @return List of files generated
      * @throws IOException if the test folder cannot be created
      */
-    private List<File> generateFiles(String generatorName) throws IOException {
+    private List<File> generateFiles(String generatorName, String inputSpec) throws IOException {
         Objects.requireNonNull(generatorName, "A generator name is expected for this assertion");
-        return oneWith(generatorName, INPUT_SPEC);
+        return oneWith(generatorName, inputSpec);
     }
 }

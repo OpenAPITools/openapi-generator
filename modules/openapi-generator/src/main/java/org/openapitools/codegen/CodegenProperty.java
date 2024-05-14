@@ -157,6 +157,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isAnyType;
     public boolean isArray;
     public boolean isMap;
+    /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
+    public boolean isOptional;
     public boolean isEnum; // true if the enum is defined inline
     public boolean isInnerEnum; // Enums declared inline will be located inside the generic model, changing how the enum is referenced in some cases.
     public boolean isEnumRef; // true if it's a reference to an enum
@@ -623,6 +625,16 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     @Override
     public void setIsMap(boolean isMap) {
         this.isMap = isMap;
+    }
+
+    @Override
+    public boolean getIsOptional() {
+        return isOptional;
+    }
+
+    @Override
+    public void setIsOptional(boolean isOptional) {
+        this.isOptional = isOptional;
     }
 
     @Override
@@ -1200,6 +1212,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isFreeFormObject=").append(isFreeFormObject);
         sb.append(", isArray=").append(isArray);
         sb.append(", isMap=").append(isMap);
+        sb.append(", isOptional=").append(isOptional);
         sb.append(", isEnum=").append(isEnum);
         sb.append(", isInnerEnum=").append(isInnerEnum);
         sb.append(", isEnumRef=").append(isEnumRef);
@@ -1295,6 +1308,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isFreeFormObject == that.isFreeFormObject &&
                 isArray == that.isArray &&
                 isMap == that.isMap &&
+                isOptional == that.isOptional &&
                 isEnum == that.isEnum &&
                 isInnerEnum == that.isInnerEnum &&
                 isEnumRef == that.isEnumRef &&
@@ -1386,7 +1400,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject,
-                isArray, isMap, isEnum, isInnerEnum, isEnumRef, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
+                isArray, isMap, isOptional, isEnum, isInnerEnum, isEnumRef, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
                 isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, isNew, isOverridden, _enum,
                 allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInPascalCase, nameInCamelCase,
