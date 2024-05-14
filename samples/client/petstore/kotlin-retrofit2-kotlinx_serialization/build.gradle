@@ -2,15 +2,14 @@ group 'org.openapitools'
 version '1.0.0'
 
 wrapper {
-    gradleVersion = '7.5'
+    gradleVersion = '8.7'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = '1.8.10'
+    ext.kotlin_version = '1.9.23'
     ext.retrofitVersion = '2.10.0'
-    // 6.13.0 is the latest stable release that supports JDK8
-    ext.spotless_version = "6.13.0"
+    ext.spotless_version = "6.25.0"
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -62,7 +61,7 @@ dependencies {
     implementation "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2"
     implementation "com.squareup.okhttp3:logging-interceptor:4.12.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0"
+    implementation "com.squareup.retrofit2:converter-kotlinx-serialization:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }

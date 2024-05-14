@@ -9,6 +9,7 @@
  */
 
 use crate::models;
+use serde::{Deserialize, Serialize};
 
 /// Category : A category for a pet
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]

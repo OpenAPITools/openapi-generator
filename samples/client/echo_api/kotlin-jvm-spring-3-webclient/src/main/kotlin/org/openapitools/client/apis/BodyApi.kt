@@ -17,35 +17,39 @@ package org.openapitools.client.apis
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-import org.springframework.web.client.RestClient
-import org.springframework.web.client.RestClientResponseException
-
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
+import org.springframework.http.codec.json.Jackson2JsonDecoder
+import org.springframework.http.codec.json.Jackson2JsonEncoder
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
-
+import reactor.core.publisher.Mono
+import org.springframework.util.LinkedMultiValueMap
 
 import org.openapitools.client.models.Pet
 import org.openapitools.client.models.Tag
 import org.openapitools.client.infrastructure.*
 
-class BodyApi(client: RestClient) : ApiClient(client) {
+class BodyApi(client: WebClient) : ApiClient(client) {
 
-    constructor(baseUrl: String) : this(RestClient.builder()
+    constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
-        .messageConverters { it.add(MappingJackson2HttpMessageConverter()) }
+        .codecs {
+            it.defaultCodecs().jackson2JsonEncoder(Jackson2JsonEncoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+            it.defaultCodecs().jackson2JsonDecoder(Jackson2JsonDecoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+        }
         .build()
     )
 
 
-    @Throws(RestClientResponseException::class)
-    fun testBinaryGif(): java.io.File {
-        val result = testBinaryGifWithHttpInfo()
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testBinaryGif(): Mono<java.io.File> {
+        return testBinaryGifWithHttpInfo()
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testBinaryGifWithHttpInfo(): ResponseEntity<java.io.File> {
+    @Throws(WebClientResponseException::class)
+    fun testBinaryGifWithHttpInfo(): Mono<ResponseEntity<java.io.File>> {
         val localVariableConfig = testBinaryGifRequestConfig()
         return request<Unit, java.io.File>(
             localVariableConfig
@@ -73,14 +77,14 @@ class BodyApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testBodyApplicationOctetstreamBinary(body: java.io.File? = null): kotlin.String {
-        val result = testBodyApplicationOctetstreamBinaryWithHttpInfo(body = body)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testBodyApplicationOctetstreamBinary(body: java.io.File? = null): Mono<kotlin.String> {
+        return testBodyApplicationOctetstreamBinaryWithHttpInfo(body = body)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testBodyApplicationOctetstreamBinaryWithHttpInfo(body: java.io.File? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testBodyApplicationOctetstreamBinaryWithHttpInfo(body: java.io.File? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testBodyApplicationOctetstreamBinaryRequestConfig(body = body)
         return request<java.io.File, kotlin.String>(
             localVariableConfig
@@ -109,14 +113,14 @@ class BodyApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testBodyMultipartFormdataArrayOfBinary(files: kotlin.collections.List<java.io.File>): kotlin.String {
-        val result = testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files = files)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testBodyMultipartFormdataArrayOfBinary(files: kotlin.collections.List<java.io.File>): Mono<kotlin.String> {
+        return testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files = files)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files: kotlin.collections.List<java.io.File>): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files: kotlin.collections.List<java.io.File>): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testBodyMultipartFormdataArrayOfBinaryRequestConfig(files = files)
         return request<Map<String, PartConfig<*>>, kotlin.String>(
             localVariableConfig
@@ -145,14 +149,14 @@ class BodyApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testBodyMultipartFormdataSingleBinary(myFile: java.io.File? = null): kotlin.String {
-        val result = testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile = myFile)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testBodyMultipartFormdataSingleBinary(myFile: java.io.File? = null): Mono<kotlin.String> {
+        return testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile = myFile)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile: java.io.File? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile: java.io.File? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testBodyMultipartFormdataSingleBinaryRequestConfig(myFile = myFile)
         return request<Map<String, PartConfig<*>>, kotlin.String>(
             localVariableConfig
@@ -181,14 +185,14 @@ class BodyApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testEchoBodyFreeFormObjectResponseString(body: kotlin.Any? = null): kotlin.String {
-        val result = testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body = body)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testEchoBodyFreeFormObjectResponseString(body: kotlin.Any? = null): Mono<kotlin.String> {
+        return testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body = body)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body: kotlin.Any? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body: kotlin.Any? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testEchoBodyFreeFormObjectResponseStringRequestConfig(body = body)
         return request<kotlin.Any, kotlin.String>(
             localVariableConfig
@@ -217,14 +221,14 @@ class BodyApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testEchoBodyPet(pet: Pet? = null): Pet {
-        val result = testEchoBodyPetWithHttpInfo(pet = pet)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testEchoBodyPet(pet: Pet? = null): Mono<Pet> {
+        return testEchoBodyPetWithHttpInfo(pet = pet)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testEchoBodyPetWithHttpInfo(pet: Pet? = null): ResponseEntity<Pet> {
+    @Throws(WebClientResponseException::class)
+    fun testEchoBodyPetWithHttpInfo(pet: Pet? = null): Mono<ResponseEntity<Pet>> {
         val localVariableConfig = testEchoBodyPetRequestConfig(pet = pet)
         return request<Pet, Pet>(
             localVariableConfig
@@ -253,14 +257,14 @@ class BodyApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testEchoBodyPetResponseString(pet: Pet? = null): kotlin.String {
-        val result = testEchoBodyPetResponseStringWithHttpInfo(pet = pet)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testEchoBodyPetResponseString(pet: Pet? = null): Mono<kotlin.String> {
+        return testEchoBodyPetResponseStringWithHttpInfo(pet = pet)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testEchoBodyPetResponseStringWithHttpInfo(pet: Pet? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testEchoBodyPetResponseStringWithHttpInfo(pet: Pet? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testEchoBodyPetResponseStringRequestConfig(pet = pet)
         return request<Pet, kotlin.String>(
             localVariableConfig
@@ -289,14 +293,14 @@ class BodyApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testEchoBodyTagResponseString(tag: Tag? = null): kotlin.String {
-        val result = testEchoBodyTagResponseStringWithHttpInfo(tag = tag)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testEchoBodyTagResponseString(tag: Tag? = null): Mono<kotlin.String> {
+        return testEchoBodyTagResponseStringWithHttpInfo(tag = tag)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testEchoBodyTagResponseStringWithHttpInfo(tag: Tag? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testEchoBodyTagResponseStringWithHttpInfo(tag: Tag? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testEchoBodyTagResponseStringRequestConfig(tag = tag)
         return request<Tag, kotlin.String>(
             localVariableConfig

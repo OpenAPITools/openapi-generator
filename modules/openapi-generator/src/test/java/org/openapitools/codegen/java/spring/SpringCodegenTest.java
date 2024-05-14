@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
 import static org.openapitools.codegen.languages.SpringCodegen.ASYNC;
 import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
@@ -4700,6 +4701,52 @@ public class SpringCodegenTest {
                 .toFileAssert()
                 .assertMethod("equals")
         ;
+    }
+
+    @Test
+    void testBuilderJavaSpring_noOptional() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/builder.yaml", SPRING_BOOT,
+                Map.of(GENERATE_BUILDERS, true,
+                        SpringCodegen.OPENAPI_NULLABLE, false,
+                        SpringCodegen.USE_OPTIONAL, false));
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder {");
+        JavaFileAssert.assertThat(files.get("Snake.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder extends Reptile.Builder {",
+                        "return builder.copyOf(this);");
+        JavaFileAssert.assertThat(files.get("SimpleObject.java"))
+                .fileContains("public SimpleObject.Builder additionalProperties(Map<String, Integer> additionalProperties) {",
+                        "SimpleObject.Builder nullableObject(String nullableObject) {",
+                        "SimpleObject.Builder nb(BigDecimal nb) {")
+                .fileDoesNotContains("SimpleObject.Builder nullableObject(JsonNullable<String> nullableObject) {");
+    }
+
+    @Test
+    void testBuilderJavaSpring_useOptional() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/builder.yaml", SPRING_BOOT,
+                Map.of(GENERATE_BUILDERS, true,
+                        SpringCodegen.OPENAPI_NULLABLE, true,
+                        SpringCodegen.USE_OPTIONAL, true));
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder {");
+        JavaFileAssert.assertThat(files.get("Snake.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder extends Reptile.Builder {",
+                        "return builder.copyOf(this);");
+        JavaFileAssert.assertThat(files.get("SimpleObject.java"))
+                .fileContains("public SimpleObject.Builder additionalProperties(Map<String, Integer> additionalProperties) {",
+                        "SimpleObject.Builder nullableObject(String nullableObject) {",
+                        "SimpleObject.Builder nullableObject(JsonNullable<String> nullableObject) {",
+                        "SimpleObject.Builder nb(BigDecimal nb) {");
     }
 
     @Test

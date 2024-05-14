@@ -78,9 +78,9 @@ public class FakeBigDecimalMap200Response  implements Serializable {
     return this;
   }
 
-  public FakeBigDecimalMap200Response removeSomeMapItem(BigDecimal someMapItem) {
-    if (someMapItem != null && this.someMap != null) {
-      this.someMap.remove(someMapItem);
+  public FakeBigDecimalMap200Response removeSomeMapItem(String key) {
+    if (this.someMap != null) {
+      this.someMap.remove(key);
     }
 
     return this;

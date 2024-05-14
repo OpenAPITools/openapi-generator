@@ -71,7 +71,7 @@ public class AllOfWithSingleRef   {
    **/
   @JsonProperty(value = "SingleRefType")
   @Schema(description = "")
-  @Valid 
+  
   public SingleRefType getSingleRefType() {
     return singleRefType;
   }

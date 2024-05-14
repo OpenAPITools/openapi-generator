@@ -9,6 +9,7 @@
  */
 
 use crate::models;
+use serde::{Deserialize, Serialize};
 
 /// EntityRef : Entity reference schema to be use for all entityRef class.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]

@@ -38,6 +38,28 @@ public class JSONTest {
     }
 
     @Test
+    public void testOneOfFreeFormObject() {
+        final Map<String, Object> map = new LinkedHashMap<>();
+        map.put("someString", "abc");
+        map.put("someBoolean", false);
+
+        final String json1 = "{\"someString\":\"abc\",\"someBoolean\":false}";
+        final FreeFormObjectTestClassProperties properties = new FreeFormObjectTestClassProperties();
+        properties.setActualInstance(map);
+
+        assertEquals(json1, json.serialize(properties));
+        assertEquals(json.deserialize(json1, FreeFormObjectTestClassProperties.class), properties);
+
+
+        final String json2 = "\"abc\"";
+        final FreeFormObjectTestClassProperties properties2 = new FreeFormObjectTestClassProperties();
+        properties2.setActualInstance("abc");
+
+        assertEquals(json2, json.serialize(properties2));
+        assertEquals(json.deserialize(json2, FreeFormObjectTestClassProperties.class), properties2);
+    }
+
+    @Test
     public void testSqlDateTypeAdapter() {
         final String str = "\"2015-11-07\"";
         final java.sql.Date date = java.sql.Date.valueOf("2015-11-07");

@@ -29,6 +29,10 @@ public class Model200Response {
 
   private String propertyClass;
 
+  public Model200Response() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

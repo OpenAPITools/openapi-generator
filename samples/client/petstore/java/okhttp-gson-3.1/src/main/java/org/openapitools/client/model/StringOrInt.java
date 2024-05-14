@@ -140,12 +140,7 @@ public class StringOrInt extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public StringOrInt(Integer o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public StringOrInt(String o) {
+    public StringOrInt(Object o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }

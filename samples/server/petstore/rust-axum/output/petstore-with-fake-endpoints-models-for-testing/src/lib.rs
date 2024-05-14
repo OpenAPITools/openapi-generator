@@ -445,6 +445,7 @@ pub trait Api {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        body: models::TestEndpointParametersRequest,
     ) -> Result<TestEndpointParametersResponse, String>;
 
     /// To test enum parameters.
@@ -457,6 +458,7 @@ pub trait Api {
         cookies: CookieJar,
         header_params: models::TestEnumParametersHeaderParams,
         query_params: models::TestEnumParametersQueryParams,
+        body: Option<models::TestEnumParametersRequest>,
     ) -> Result<TestEnumParametersResponse, String>;
 
     /// test inline additionalProperties.
@@ -478,6 +480,7 @@ pub trait Api {
         method: Method,
         host: Host,
         cookies: CookieJar,
+        body: models::TestJsonFormDataRequest,
     ) -> Result<TestJsonFormDataResponse, String>;
 
     /// To test class name in snake case.
@@ -567,6 +570,7 @@ pub trait Api {
         host: Host,
         cookies: CookieJar,
         path_params: models::UpdatePetWithFormPathParams,
+        body: Option<models::UpdatePetWithFormRequest>,
     ) -> Result<UpdatePetWithFormResponse, String>;
 
     /// uploads an image.

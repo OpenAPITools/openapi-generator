@@ -146,12 +146,7 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
         super("oneOf", Boolean.FALSE);
     }
 
-    public SimpleOneOf(Integer o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public SimpleOneOf(String o) {
+    public SimpleOneOf(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

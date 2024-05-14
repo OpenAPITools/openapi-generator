@@ -992,7 +992,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
                     } else {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
-                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
+                        // Do not overwrite the variable name if already set through x-enum-varnames
+                        if (model.vendorExtensions.get("x-enum-varnames") == null) {
+                            enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
+                        }
                     }
                 }
             }

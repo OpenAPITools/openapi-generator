@@ -95,7 +95,7 @@ public class ArrayTest   {
    **/
   @JsonProperty(value = "array_array_of_integer")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }

@@ -34,9 +34,9 @@ func (e *ParsingError) Unwrap() error {
 func (e *ParsingError) Error() string {
 	if e.Param == "" {
 		return e.Err.Error()
-	} else {
-		return e.Param + ": " + e.Err.Error()
 	}
+
+	return e.Param + ": " + e.Err.Error()
 }
 
 // RequiredError indicates that an error has occurred when parsing request parameters
@@ -54,15 +54,21 @@ type ErrorHandler func(w http.ResponseWriter, r *http.Request, err error, result
 
 // DefaultErrorHandler defines the default logic on how to handle errors from the controller. Any errors from parsing
 // request params will return a StatusBadRequest. Otherwise, the error code originating from the servicer will be used.
-func DefaultErrorHandler(w http.ResponseWriter, r *http.Request, err error, result *ImplResponse) {
-	if _, ok := err.(*ParsingError); ok {
+func DefaultErrorHandler(w http.ResponseWriter, _ *http.Request, err error, result *ImplResponse) {
+	var parsingErr *ParsingError
+	if ok := errors.As(err, &parsingErr); ok {
 		// Handle parsing errors
-		EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusBadRequest), map[string][]string{}, w)
-	} else if _, ok := err.(*RequiredError); ok {
-		// Handle missing required errors
-		EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusUnprocessableEntity), map[string][]string{}, w)
-	} else {
-		// Handle all other errors
-		EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
+		_ = EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusBadRequest), map[string][]string{}, w)
+		return
 	}
+
+	var requiredErr *RequiredError
+	if ok := errors.As(err, &requiredErr); ok {
+		// Handle missing required errors
+		_ = EncodeJSONResponse(err.Error(), func(i int) *int { return &i }(http.StatusUnprocessableEntity), map[string][]string{}, w)
+		return
+	} 
+
+	// Handle all other errors
+	_ = EncodeJSONResponse(err.Error(), &result.Code, result.Headers, w)
 }

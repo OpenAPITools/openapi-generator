@@ -5,10 +5,10 @@ var _ MappedNullable = &{{classname}}{}
 type {{classname}} struct {
 {{#parentModel.name}}
 {{^isArray}}
-	{{{parentModel.name}}}
+	{{{parentModel.classname}}}
 {{/isArray}}
 {{#isArray}}
-	Items {{{parentModel.name}}}
+	Items {{{parentModel.classname}}}
 {{/isArray}}
 {{/parentModel.name}}
 {{#vars}}
