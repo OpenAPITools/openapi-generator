@@ -27,14 +27,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for AdditionalPropertiesAnyType
  */
-public class AdditionalPropertiesAnyTypeTest {
+class AdditionalPropertiesAnyTypeTest {
     private final AdditionalPropertiesAnyType model = new AdditionalPropertiesAnyType();
 
     /**
      * Model tests for AdditionalPropertiesAnyType
      */
     @Test
-    public void testAdditionalPropertiesAnyType() {
+    void testAdditionalPropertiesAnyType() {
         // TODO: test AdditionalPropertiesAnyType
     }
 
@@ -42,7 +42,7 @@ public class AdditionalPropertiesAnyTypeTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 

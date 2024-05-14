@@ -18,12 +18,12 @@ import java.util.Map;
 /**
  * API tests for {{classname}}
  */
-@Disabled
 public class {{classname}}Test {
 
     private final {{classname}} api = new {{classname}}();
 
-    {{#operations}}{{#operation}}
+    {{#operations}}
+    {{#operation}}
     /**
      * {{summary}}
      *
@@ -37,9 +37,12 @@ public class {{classname}}Test {
         {{#allParams}}
         {{{dataType}}} {{paramName}} = null;
         {{/allParams}}
-        {{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        // uncomment below to make the test the API function
+        //{{#returnType}}{{{.}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
         // TODO: test validations
     }
-    {{/operation}}{{/operations}}
+
+    {{/operation}}
+    {{/operations}}
 }

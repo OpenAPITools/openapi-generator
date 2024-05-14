@@ -27,14 +27,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for AdditionalPropertiesObject
  */
-public class AdditionalPropertiesObjectTest {
+class AdditionalPropertiesObjectTest {
     private final AdditionalPropertiesObject model = new AdditionalPropertiesObject();
 
     /**
      * Model tests for AdditionalPropertiesObject
      */
     @Test
-    public void testAdditionalPropertiesObject() {
+    void testAdditionalPropertiesObject() {
         // TODO: test AdditionalPropertiesObject
     }
 
@@ -42,7 +42,7 @@ public class AdditionalPropertiesObjectTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 
