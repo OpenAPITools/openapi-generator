@@ -571,8 +571,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap operationsMap, List<ModelMap> allModels) {
         OperationMap operations = operationsMap.getOperations();
-        String classname = operations.getClassname();
-        operations.put("classnamePascalCase", camelize(classname));
+        operations.put("classnamePascalCase", camelize(operations.getClassname()));
         List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation op : operationList) {
@@ -668,9 +667,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             }
 
             // Get all tags sorted by name
-            List<String> tags = op.tags.stream().map(t -> t.getName()).sorted().collect(Collectors.toList());
+            final List<String> tags = op.tags.stream().map(t -> t.getName()).sorted().collect(Collectors.toList());
             // Combine into a single group
-            String combinedTag = tags.stream().collect(Collectors.joining("-"));
+            final String combinedTag = tags.stream().collect(Collectors.joining("-"));
             // Add to group
             super.addOperationToGroup(combinedTag, resourcePath, operation, op, operations);
             return;
