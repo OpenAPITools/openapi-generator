@@ -1,0 +1,27 @@
+use super::Service;
+use crate::{Api, AuthenticationApi};
+use swagger::{
+    Authorization, 
+    auth::{Basic, Bearer}, 
+    Has, 
+    XSpanIdString};
+
+impl<T,C> AuthenticationApi for Service<T, C> where
+T: Api<C> + Clone + Send + 'static + AuthenticationApi,
+C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static {
+
+    /// Passthrough of the task to the api-implementation
+    fn bearer_authorization(&self, token: &Bearer) -> Authorization {
+        self.api_impl.bearer_authorization(token)
+    }
+
+    /// Passthrough of the task to the api-implementation
+    fn apikey_authorization(&self, token: &str) -> Authorization {
+        self.api_impl.apikey_authorization(token)
+    }
+
+    /// Passthrough of the task to the api-implementation
+    fn basic_authorization(&self, basic: &Basic) -> Authorization {
+        self.api_impl.basic_authorization(basic)
+    }
+}
