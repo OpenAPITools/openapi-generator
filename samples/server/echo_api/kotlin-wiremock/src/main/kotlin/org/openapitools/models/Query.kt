@@ -5,7 +5,7 @@
 
 package org.openapitools.models
 
-data class Category(
+data class Query(
     val id: kotlin.Long?,
-    val name: kotlin.String?,
+    val outcomes: kotlin.collections.List<kotlin.String>?,
 )

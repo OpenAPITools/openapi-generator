@@ -1,3 +1,9 @@
+@file:Suppress(
+    "RemoveRedundantQualifierName",
+    "UnusedImport",
+    "unused",
+)
+
 package org.openapitools.apis
 
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -11,8 +17,8 @@ open class StoreApiStubs(protected val objectMapper: ObjectMapper) {
 
     fun deleteOrder(orderId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): DeleteOrderStubBuilder =
         DeleteOrderStubBuilder(delete("/store/order/{orderId}")
-            .configurer()
             .withPathParam("orderId", orderId)
+            .configurer()
         )
 
     inner class DeleteOrderStubBuilder(private val stub: MappingBuilder) {
@@ -21,16 +27,16 @@ open class StoreApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(400)
+                .configurer()
             )
 
         fun respondWith404(
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(404)
+                .configurer()
             )
 
         fun respondWith(
@@ -39,11 +45,9 @@ open class StoreApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 
@@ -59,10 +63,10 @@ open class StoreApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith(
@@ -71,18 +75,16 @@ open class StoreApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 
     fun getOrderById(orderId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): GetOrderByIdStubBuilder =
         GetOrderByIdStubBuilder(get("/store/order/{orderId}")
-            .configurer()
             .withPathParam("orderId", orderId)
+            .configurer()
         )
 
     inner class GetOrderByIdStubBuilder(private val stub: MappingBuilder) {
@@ -92,10 +94,10 @@ open class StoreApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith400(
@@ -103,10 +105,10 @@ open class StoreApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(400)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith404(
@@ -114,10 +116,10 @@ open class StoreApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(404)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith(
@@ -126,11 +128,9 @@ open class StoreApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 
@@ -146,10 +146,10 @@ open class StoreApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith400(
@@ -157,10 +157,10 @@ open class StoreApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(400)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith(
@@ -169,11 +169,9 @@ open class StoreApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 }

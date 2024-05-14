@@ -5,7 +5,7 @@
 
 package org.openapitools.models
 
-data class Category(
-    val id: kotlin.Long?,
-    val name: kotlin.String?,
+data class Bird(
+    val propertySize: kotlin.String?,
+    val color: kotlin.String?,
 )

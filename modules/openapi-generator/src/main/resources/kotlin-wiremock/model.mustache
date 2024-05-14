@@ -1,15 +1,25 @@
 @file:Suppress(
-    "RemoveRedundantQualifierName"
+    "RemoveRedundantQualifierName",
+    "unused",
 )
 
 package {{modelPackage}}
 
 {{#models}}
 {{#model}}
+{{#isEnum}}
+enum class {{classname}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{&name}},
+    {{/enumVars}}
+    {{/allowableValues}}
+}
+{{/isEnum}}
 {{^isEnum}}
 data class {{classname}}(
     {{#allVars}}
-    val {{{name}}}: {{{dataType}}},
+    val {{{name}}}: {{{dataType}}}{{^required}}?{{/required}},
     {{/allVars}}
 )
 {{/isEnum}}

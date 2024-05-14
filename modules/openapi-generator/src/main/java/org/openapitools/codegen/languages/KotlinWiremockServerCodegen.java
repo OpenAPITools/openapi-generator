@@ -3,6 +3,8 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.ParameterFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -32,6 +34,10 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
     public KotlinWiremockServerCodegen() {
         super();
 
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
+
         setApiPackage(packageName + ".apis");
         setModelPackage(packageName + ".models");
     }
@@ -41,19 +47,19 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
         super.processOpts();
 
         modifyFeatureSet(features -> features
-                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
-                .excludeWireFormatFeatures(
-                    WireFormatFeature.XML,
-                    WireFormatFeature.PROTOBUF
-                )
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
+            .securityFeatures(EnumSet.allOf(SecurityFeature.class))
+            .excludeWireFormatFeatures(
+                WireFormatFeature.XML,
+                WireFormatFeature.PROTOBUF
+            )
+            .excludeGlobalFeatures(
+                GlobalFeature.XMLStructureDefinitions,
+                GlobalFeature.Callbacks,
+                GlobalFeature.LinkObjects
+            )
+            .excludeParameterFeatures(
+                ParameterFeature.Cookie
+            )
         );
 
         typeMapping.put("array", "kotlin.collections.List");

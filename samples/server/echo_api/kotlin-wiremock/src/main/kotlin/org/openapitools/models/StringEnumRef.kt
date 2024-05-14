@@ -5,7 +5,8 @@
 
 package org.openapitools.models
 
-data class Category(
-    val id: kotlin.Long?,
-    val name: kotlin.String?,
-)
+enum class StringEnumRef {
+    success,
+    failure,
+    unclassified,
+}

@@ -1,3 +1,9 @@
+@file:Suppress(
+    "RemoveRedundantQualifierName",
+    "UnusedImport",
+    "unused",
+)
+
 package {{apiPackage}}
 
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -13,15 +19,13 @@ open class {{classname}}Stubs(protected val objectMapper: ObjectMapper) {
 
     fun {{operationId}}({{#pathParams}}{{paramName}}: StringValuePattern, {{/pathParams}}{{#queryParams}}{{paramName}}: StringValuePattern? = null, {{/queryParams}}configurer: MappingBuilder.() -> MappingBuilder = { this }): {{operationIdCamelCase}}StubBuilder =
         {{operationIdCamelCase}}StubBuilder({{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}")
-            .configurer()
             {{#pathParams}}
             .withPathParam("{{paramName}}", {{paramName}})
             {{/pathParams}}
             {{#queryParams}}
-            .apply {
-                {{paramName}}?.let { withQueryParam("{{paramName}}", it) }
-            }
+            .apply { {{paramName}}?.let { withQueryParam("{{paramName}}", it) } }
             {{/queryParams}}
+            .configurer()
         )
 
     inner class {{operationIdCamelCase}}StubBuilder(private val stub: MappingBuilder) {
@@ -35,12 +39,12 @@ open class {{classname}}Stubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus({{code}})
                 {{#returnType}}
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
                 {{/returnType}}
+                .configurer()
             )
         {{/wildcard}}
         {{/responses}}
@@ -51,11 +55,9 @@ open class {{classname}}Stubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 {{/operation}}

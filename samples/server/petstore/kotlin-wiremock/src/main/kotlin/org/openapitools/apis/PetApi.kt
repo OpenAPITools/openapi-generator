@@ -1,3 +1,9 @@
+@file:Suppress(
+    "RemoveRedundantQualifierName",
+    "UnusedImport",
+    "unused",
+)
+
 package org.openapitools.apis
 
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -21,10 +27,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith405(
@@ -32,10 +38,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(405)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith(
@@ -44,18 +50,16 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 
     fun deletePet(petId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): DeletePetStubBuilder =
         DeletePetStubBuilder(delete("/pet/{petId}")
-            .configurer()
             .withPathParam("petId", petId)
+            .configurer()
         )
 
     inner class DeletePetStubBuilder(private val stub: MappingBuilder) {
@@ -64,8 +68,8 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(400)
+                .configurer()
             )
 
         fun respondWith(
@@ -74,20 +78,16 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 
     fun findPetsByStatus(status: StringValuePattern? = null, configurer: MappingBuilder.() -> MappingBuilder = { this }): FindPetsByStatusStubBuilder =
         FindPetsByStatusStubBuilder(get("/pet/findByStatus")
+            .apply { status?.let { withQueryParam("status", it) } }
             .configurer()
-            .apply {
-                status?.let { withQueryParam("status", it) }
-            }
         )
 
     inner class FindPetsByStatusStubBuilder(private val stub: MappingBuilder) {
@@ -97,10 +97,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith400(
@@ -108,10 +108,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(400)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith(
@@ -120,20 +120,16 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 
     fun findPetsByTags(tags: StringValuePattern? = null, configurer: MappingBuilder.() -> MappingBuilder = { this }): FindPetsByTagsStubBuilder =
         FindPetsByTagsStubBuilder(get("/pet/findByTags")
+            .apply { tags?.let { withQueryParam("tags", it) } }
             .configurer()
-            .apply {
-                tags?.let { withQueryParam("tags", it) }
-            }
         )
 
     inner class FindPetsByTagsStubBuilder(private val stub: MappingBuilder) {
@@ -143,10 +139,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith400(
@@ -154,10 +150,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(400)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith(
@@ -166,18 +162,16 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 
     fun getPetById(petId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): GetPetByIdStubBuilder =
         GetPetByIdStubBuilder(get("/pet/{petId}")
-            .configurer()
             .withPathParam("petId", petId)
+            .configurer()
         )
 
     inner class GetPetByIdStubBuilder(private val stub: MappingBuilder) {
@@ -187,10 +181,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith400(
@@ -198,10 +192,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(400)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith404(
@@ -209,10 +203,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(404)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith(
@@ -221,11 +215,9 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 
@@ -241,10 +233,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith400(
@@ -252,10 +244,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(400)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith404(
@@ -263,10 +255,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(404)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith405(
@@ -274,10 +266,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(405)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith(
@@ -286,18 +278,16 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 
     fun updatePetWithForm(petId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): UpdatePetWithFormStubBuilder =
         UpdatePetWithFormStubBuilder(post("/pet/{petId}")
-            .configurer()
             .withPathParam("petId", petId)
+            .configurer()
         )
 
     inner class UpdatePetWithFormStubBuilder(private val stub: MappingBuilder) {
@@ -306,8 +296,8 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(405)
+                .configurer()
             )
 
         fun respondWith(
@@ -316,18 +306,16 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 
     fun uploadFile(petId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): UploadFileStubBuilder =
         UploadFileStubBuilder(post("/pet/{petId}/uploadImage")
-            .configurer()
             .withPathParam("petId", petId)
+            .configurer()
         )
 
     inner class UploadFileStubBuilder(private val stub: MappingBuilder) {
@@ -337,10 +325,10 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(200)
                 .withHeader("Content-Type", "application/json")
                 .withBody(objectMapper.writeValueAsString(body))
+                .configurer()
             )
 
         fun respondWith(
@@ -349,11 +337,9 @@ open class PetApiStubs(protected val objectMapper: ObjectMapper) {
             configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
         ): MappingBuilder =
             stub.willReturn(aResponse()
-                .configurer()
                 .withStatus(code)
-                .apply {
-                    body?.let { withBody(objectMapper.writeValueAsString(it)) }
-                }
+                .apply { body?.let { withBody(objectMapper.writeValueAsString(it)) } }
+                .configurer()
         )
     }
 }
