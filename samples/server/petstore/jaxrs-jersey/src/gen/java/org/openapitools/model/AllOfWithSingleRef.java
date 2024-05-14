@@ -72,7 +72,7 @@ public class AllOfWithSingleRef   {
    **/
   @JsonProperty(value = "SingleRefType")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public SingleRefType getSingleRefType() {
     return singleRefType;
   }

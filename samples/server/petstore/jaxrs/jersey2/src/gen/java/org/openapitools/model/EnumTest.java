@@ -276,7 +276,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnum")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
