@@ -37,7 +37,7 @@
     "url-parse": "^1.4.3"
   },
   "devDependencies": {
-    "typescript": "^4.0 || ^5.0",
+    "typescript": "^4.0",
     "@types/url-parse": "1.4.4"
   }
 }
