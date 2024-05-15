@@ -24,7 +24,9 @@
 #include "CppRestPetstoreClient/model/Tag.h"
 #include "CppRestPetstoreClient/model/Category.h"
 #include <cpprest/details/basic_types.h>
+#include "CppRestPetstoreClient/model/Pet_vaccinationBook.h"
 #include <vector>
+#include <set>
 
 namespace org {
 namespace openapitools {
@@ -33,6 +35,7 @@ namespace model {
 
 class Category;
 class Tag;
+class Pet_vaccinationBook;
 
 /// <summary>
 /// A pet for sale in the pet store
@@ -112,6 +115,24 @@ public:
 
     void setStatus(const utility::string_t& value);
 
+    /// <summary>
+    /// pedigree and other certificates
+    /// </summary>
+    std::set<utility::string_t>& getCertificates();
+    bool certificatesIsSet() const;
+    void unsetCertificates();
+
+    void setCertificates(const std::set<utility::string_t>& value);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    std::shared_ptr<Pet_vaccinationBook> getVaccinationBook() const;
+    bool vaccinationBookIsSet() const;
+    void unsetVaccinationBook();
+
+    void setVaccinationBook(const std::shared_ptr<Pet_vaccinationBook>& value);
+
 
 protected:
     int64_t m_Id;
@@ -126,6 +147,10 @@ protected:
     bool m_TagsIsSet;
     utility::string_t m_Status;
     bool m_StatusIsSet;
+    std::set<utility::string_t> m_Certificates;
+    bool m_CertificatesIsSet;
+    std::shared_ptr<Pet_vaccinationBook> m_VaccinationBook;
+    bool m_VaccinationBookIsSet;
 };
 
 

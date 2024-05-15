@@ -23,6 +23,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <set>
 
 namespace org::openapitools::server::helpers
 {
@@ -89,6 +90,15 @@ namespace org::openapitools::server::helpers
                 }
             }
         }
+        return true;
+    }
+
+    /// <summary>
+    /// Determine if the given vector<T> only has unique elements. T must provide the == operator.
+    /// </summary>
+    template <typename T>
+    bool hasOnlyUniqueItems(const std::set<T>& set)
+    {
         return true;
     }
 

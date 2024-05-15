@@ -70,7 +70,10 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     /** std:map (for map) */
     private static final String STD_MAP = "std::map";
 
-    /** std:vector (for array, set) */
+    /** std:set (for set) */
+    private static final String STD_SET = "std::set";
+
+    /** std:vector (for array) */
     private static final String STD_VECTOR = "std::vector";
 
     @Override
@@ -148,7 +151,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", STD_VECTOR);
         typeMapping.put("map", STD_MAP);
-        typeMapping.put("set", STD_VECTOR);
+        typeMapping.put("set", STD_SET);
         typeMapping.put("file", STD_STRING);
         typeMapping.put("object", NLOHMANN_JSON);
         typeMapping.put("binary", STD_STRING);
@@ -161,6 +164,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         super.importMapping = new HashMap<>();
         importMapping.put(STD_VECTOR, "#include <vector>");
         importMapping.put(STD_MAP, "#include <map>");
+        importMapping.put(STD_SET, "#include <set>");
         importMapping.put(STD_STRING, "#include <string>");
         importMapping.put(NLOHMANN_JSON, "#include <nlohmann/json.hpp>");
 
