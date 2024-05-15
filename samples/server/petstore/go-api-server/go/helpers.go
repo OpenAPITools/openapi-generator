@@ -37,16 +37,16 @@ func IsZeroValue(val interface{}) bool {
 	return val == nil || reflect.DeepEqual(val, reflect.Zero(reflect.TypeOf(val)).Interface())
 }
 
-// AssertRecurseInterface recursively checks each struct in a slice against the callback.
+// AssertRecurseInterfaceRequired recursively checks each struct in a slice against the callback.
 // This method traverse nested slices in a preorder fashion.
-func AssertRecurseInterface[T any](obj interface{}, callback func(T) error) error {
-	return AssertRecurseValue(reflect.ValueOf(obj), callback)
+func AssertRecurseInterfaceRequired[T any](obj interface{}, callback func(T) error) error {
+	return AssertRecurseValueRequired(reflect.ValueOf(obj), callback)
 }
 
-// AssertRecurseValue checks each struct in the nested slice against the callback.
+// AssertRecurseValueRequired checks each struct in the nested slice against the callback.
 // This method traverse nested slices in a preorder fashion. ErrTypeAssertionError is thrown if
 // the underlying struct does not match type T.
-func AssertRecurseValue[T any](value reflect.Value, callback func(T) error) error {
+func AssertRecurseValueRequired[T any](value reflect.Value, callback func(T) error) error {
 	switch value.Kind() {
 	// If it is a struct we check using callback
 	case reflect.Struct:
@@ -62,7 +62,7 @@ func AssertRecurseValue[T any](value reflect.Value, callback func(T) error) erro
 	// If it is a slice we continue recursion
 	case reflect.Slice:
 		for i := 0; i < value.Len(); i++ {
-			if err := AssertRecurseValue(value.Index(i), callback); err != nil {
+			if err := AssertRecurseValueRequired(value.Index(i), callback); err != nil {
 				return err
 			}
 		}

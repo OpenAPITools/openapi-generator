@@ -133,7 +133,7 @@ func Assert{{classname}}Required(obj {{classname}}) error {
 		{{^items.isModel}}
 			{{#mostInnerItems.isModel}}
 				{{^mostInnerItems.isPrimitiveType}}
-{{#isNullable}}	{{/isNullable}}	if err := AssertRecurseInterface({{#isNullable}}*{{/isNullable}}obj.{{name}}, Assert{{mostInnerItems.dataType}}Required); err != nil {
+{{#isNullable}}	{{/isNullable}}	if err := AssertRecurseInterfaceRequired({{#isNullable}}*{{/isNullable}}obj.{{name}}, Assert{{mostInnerItems.dataType}}Required); err != nil {
 {{#isNullable}}	{{/isNullable}}		return err
 {{#isNullable}}	{{/isNullable}}	}
 				{{/mostInnerItems.isPrimitiveType}}
@@ -203,7 +203,7 @@ func Assert{{classname}}Constraints(obj {{classname}}) error {
 {{#isNullable}}
     if obj.{{name}} != nil {
 {{/isNullable}}
-{{#isNullable}}     {{/isNullable}}	if err := AssertRecurseInterface({{#isNullable}}*{{/isNullable}}obj.{{name}}, Assert{{mostInnerItems.dataType}}Constraints); err != nil {
+{{#isNullable}}     {{/isNullable}}	if err := AssertRecurseInterfaceRequired({{#isNullable}}*{{/isNullable}}obj.{{name}}, Assert{{mostInnerItems.dataType}}Constraints); err != nil {
 {{#isNullable}}     {{/isNullable}}		return err
 {{#isNullable}}     {{/isNullable}}	}
 {{/mostInnerItems.isPrimitiveType}}

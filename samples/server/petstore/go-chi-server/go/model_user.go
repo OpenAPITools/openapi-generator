@@ -52,11 +52,11 @@ func AssertUserRequired(obj User) error {
 	}
 
 	if obj.DeepSliceModel != nil {
-		if err := AssertRecurseInterface(*obj.DeepSliceModel, AssertTagRequired); err != nil {
+		if err := AssertRecurseInterfaceRequired(*obj.DeepSliceModel, AssertTagRequired); err != nil {
 			return err
 		}
 	}
-	if err := AssertRecurseInterface(obj.DeepSliceMap, AssertAnObjectRequired); err != nil {
+	if err := AssertRecurseInterfaceRequired(obj.DeepSliceMap, AssertAnObjectRequired); err != nil {
 		return err
 	}
 	return nil
@@ -65,11 +65,11 @@ func AssertUserRequired(obj User) error {
 // AssertUserConstraints checks if the values respects the defined constraints
 func AssertUserConstraints(obj User) error {
     if obj.DeepSliceModel != nil {
-     	if err := AssertRecurseInterface(*obj.DeepSliceModel, AssertTagConstraints); err != nil {
+     	if err := AssertRecurseInterfaceRequired(*obj.DeepSliceModel, AssertTagConstraints); err != nil {
      		return err
      	}
     }
-	if err := AssertRecurseInterface(obj.DeepSliceMap, AssertAnObjectConstraints); err != nil {
+	if err := AssertRecurseInterfaceRequired(obj.DeepSliceMap, AssertAnObjectConstraints); err != nil {
 		return err
 	}
 	return nil
