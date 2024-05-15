@@ -23,7 +23,7 @@ type PathAPIService struct {
 }
 
 // NewPathAPIService creates a default api service
-func NewPathAPIService() PathAPIServicer {
+func NewPathAPIService() *PathAPIService {
 	return &PathAPIService{}
 }
 

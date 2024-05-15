@@ -27,17 +27,16 @@ class RegisterRoutes {
                 );
                 {{^vendorExtensions.x-return-type-is-void}}
                 if ($result === null) {
-                    \Flight::halt(204);
+                    \Flight::halt({{{vendorExtensions.x-default-status-code}}});
                 } else {
-                    \Flight::json($result);
+                    \Flight::json($result, {{{vendorExtensions.x-default-status-code}}});
                 }
                 {{/vendorExtensions.x-return-type-is-void}}
                 {{#vendorExtensions.x-return-type-is-void}}
-                \Flight::halt(204);
+                \Flight::halt({{{vendorExtensions.x-default-status-code}}});
                 {{/vendorExtensions.x-return-type-is-void}}
             });
         }
-        {{#returnContainer}}
         if (declaresMethod($reflectionClass, '{{operationId}}Stream')) {
             \Flight::route('{{httpMethod}} {{vendorExtensions.x-path}}', function ({{#pathParams}}string ${{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}) use ($handler) {
                 $r = \Flight::request();
@@ -47,9 +46,8 @@ class RegisterRoutes {
                 {{/vendorExtensions.x-nonFormParams}}
                 );
                 // ignore return value: streaming expected
-            })->streamWithHeaders(['Content-Type' => 'application/json']);
+            })->streamWithHeaders(['status' => {{{vendorExtensions.x-default-status-code}}}{{#vendorExtensions.x-default-media-type}}, 'Content-Type' => '{{{vendorExtensions.x-default-media-type}}}'{{/vendorExtensions.x-default-media-type}}]);
         }
-        {{/returnContainer}}
 
         {{/operation}}
         {{/operations}}

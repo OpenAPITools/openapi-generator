@@ -45,6 +45,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputFilter.Config;
 import java.math.BigInteger;
 import java.nio.file.Path;
 import java.util.*;
@@ -552,6 +553,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             }
         }
 
+        // Include renderUuidConversionImpl exactly once in the vendorExtensions map when 
+        // at least one `uuid::Uuid` converted from a header value in the resulting Rust code. 
+        final Boolean renderUuidConversionImpl = op.headerParams.stream().anyMatch(h -> h.getDataType().equals(uuidType));
+        if (renderUuidConversionImpl) {
+            additionalProperties.put("renderUuidConversionImpl", "true");
+        }        
         return op;
     }
 

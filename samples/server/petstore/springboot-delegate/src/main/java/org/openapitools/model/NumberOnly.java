@@ -25,6 +25,10 @@ public class NumberOnly {
 
   private BigDecimal justNumber;
 
+  public NumberOnly() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

@@ -29,6 +29,10 @@ public class AdditionalPropertiesArray {
 
   private String name;
 
+  public AdditionalPropertiesArray() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

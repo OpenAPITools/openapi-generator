@@ -59,6 +59,10 @@ public class AdditionalPropertiesClass {
 
   private Object anytype3;
 
+  public AdditionalPropertiesClass() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

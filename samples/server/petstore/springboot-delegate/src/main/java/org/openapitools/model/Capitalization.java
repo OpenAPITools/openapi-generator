@@ -34,6 +34,10 @@ public class Capitalization {
 
   private String ATT_NAME;
 
+  public Capitalization() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

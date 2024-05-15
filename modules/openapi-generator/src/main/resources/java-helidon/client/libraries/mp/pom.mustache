@@ -85,8 +85,14 @@
                 </executions>
             </plugin>
             <plugin>
+{{^x-helidon-useSmallRyeJandexPlugin}}
                 <groupId>org.jboss.jandex</groupId>
                 <artifactId>jandex-maven-plugin</artifactId>
+{{/x-helidon-useSmallRyeJandexPlugin}}
+{{#x-helidon-useSmallRyeJandexPlugin}}
+                <groupId>io.smallrye</groupId>
+                <artifactId>jandex-maven-plugin</artifactId>
+{{/x-helidon-useSmallRyeJandexPlugin}}
                 <executions>
                     <execution>
                         <id>make-index</id>

@@ -30,6 +30,10 @@ public class ResponseObjectWithDifferentFieldNames {
 
   private String propertyNameWithSpaces;
 
+  public ResponseObjectWithDifferentFieldNames() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

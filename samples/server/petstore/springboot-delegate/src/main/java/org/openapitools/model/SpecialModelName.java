@@ -26,6 +26,10 @@ public class SpecialModelName {
 
   private Long $specialPropertyName;
 
+  public SpecialModelName() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

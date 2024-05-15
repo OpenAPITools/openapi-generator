@@ -9,6 +9,7 @@
  */
 
 use crate::models;
+use serde::{Deserialize, Serialize};
 
 /// UniqueItemArrayTesting : Test handling of enum array with unique items
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]

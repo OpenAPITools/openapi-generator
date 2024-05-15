@@ -294,7 +294,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnum")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
@@ -314,7 +314,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnumInteger")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
   }
@@ -334,7 +334,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnumDefaultValue")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public OuterEnumDefaultValue getOuterEnumDefaultValue() {
     return outerEnumDefaultValue;
   }
@@ -354,7 +354,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnumIntegerDefaultValue")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;
   }
