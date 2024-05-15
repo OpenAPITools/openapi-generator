@@ -10,34 +10,36 @@
  */
 
 /*
- * Vaccine.h
+ * SchemaWithSet_vaccinationBook.h
  *
- * 
+ * Vaccination book of the pet
  */
 
-#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_Vaccine_H_
-#define ORG_OPENAPITOOLS_CLIENT_MODEL_Vaccine_H_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_SchemaWithSet_vaccinationBook_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_SchemaWithSet_vaccinationBook_H_
 
 
 #include "CppRestPetstoreClient/ModelBase.h"
 
-#include "CppRestPetstoreClient/AnyType.h"
+#include "CppRestPetstoreClient/model/Vaccine.h"
+#include <set>
 
 namespace org {
 namespace openapitools {
 namespace client {
 namespace model {
 
+class Vaccine;
 
 /// <summary>
-/// 
+/// Vaccination book of the pet
 /// </summary>
-class  Vaccine
+class  SchemaWithSet_vaccinationBook
     : public ModelBase
 {
 public:
-    Vaccine();
-    virtual ~Vaccine();
+    SchemaWithSet_vaccinationBook();
+    virtual ~SchemaWithSet_vaccinationBook();
 
     /////////////////////////////////////////////
     /// ModelBase overrides
@@ -51,32 +53,21 @@ public:
     bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
     /////////////////////////////////////////////
-    /// Vaccine members
+    /// SchemaWithSet_vaccinationBook members
 
     /// <summary>
-    /// vaccination date
+    /// 
     /// </summary>
-    std::shared_ptr<AnyType> getDate() const;
-    bool dateIsSet() const;
-    void unsetdate();
+    std::set<std::shared_ptr<Vaccine>>& getVaccines();
+    bool vaccinesIsSet() const;
+    void unsetVaccines();
 
-    void setDate(const std::shared_ptr<AnyType>& value);
-
-    /// <summary>
-    /// true if a booster is still needed to complete the vaccination
-    /// </summary>
-    bool isBoosterRequired() const;
-    bool boosterRequiredIsSet() const;
-    void unsetBoosterRequired();
-
-    void setBoosterRequired(bool value);
+    void setVaccines(const std::set<std::shared_ptr<Vaccine>>& value);
 
 
 protected:
-    std::shared_ptr<AnyType> m_date;
-    bool m_dateIsSet;
-    bool m_BoosterRequired;
-    bool m_BoosterRequiredIsSet;
+    std::set<std::shared_ptr<Vaccine>> m_Vaccines;
+    bool m_VaccinesIsSet;
 };
 
 
@@ -85,4 +76,4 @@ protected:
 }
 }
 
-#endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_Vaccine_H_ */
+#endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_SchemaWithSet_vaccinationBook_H_ */

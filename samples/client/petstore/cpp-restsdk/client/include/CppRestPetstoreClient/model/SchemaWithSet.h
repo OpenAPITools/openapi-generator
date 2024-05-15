@@ -10,34 +10,37 @@
  */
 
 /*
- * Tag.h
+ * SchemaWithSet.h
  *
- * A tag for a pet
+ * Schema with a set property
  */
 
-#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_Tag_H_
-#define ORG_OPENAPITOOLS_CLIENT_MODEL_Tag_H_
+#ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_SchemaWithSet_H_
+#define ORG_OPENAPITOOLS_CLIENT_MODEL_SchemaWithSet_H_
 
 
 #include "CppRestPetstoreClient/ModelBase.h"
 
+#include "CppRestPetstoreClient/model/SchemaWithSet_vaccinationBook.h"
 #include <cpprest/details/basic_types.h>
+#include <set>
 
 namespace org {
 namespace openapitools {
 namespace client {
 namespace model {
 
+class SchemaWithSet_vaccinationBook;
 
 /// <summary>
-/// A tag for a pet
+/// Schema with a set property
 /// </summary>
-class  Tag
+class  SchemaWithSet
     : public ModelBase
 {
 public:
-    Tag();
-    virtual ~Tag();
+    SchemaWithSet();
+    virtual ~SchemaWithSet();
 
     /////////////////////////////////////////////
     /// ModelBase overrides
@@ -51,32 +54,32 @@ public:
     bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
     /////////////////////////////////////////////
-    /// Tag members
+    /// SchemaWithSet members
+
+    /// <summary>
+    /// pedigree and other certificates
+    /// </summary>
+    std::set<utility::string_t>& getCertificates();
+    bool certificatesIsSet() const;
+    void unsetCertificates();
+
+    void setCertificates(const std::set<utility::string_t>& value);
 
     /// <summary>
     /// 
     /// </summary>
-    int64_t getId() const;
-    bool idIsSet() const;
-    void unsetId();
+    std::shared_ptr<SchemaWithSet_vaccinationBook> getVaccinationBook() const;
+    bool vaccinationBookIsSet() const;
+    void unsetVaccinationBook();
 
-    void setId(int64_t value);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    utility::string_t getName() const;
-    bool nameIsSet() const;
-    void unsetName();
-
-    void setName(const utility::string_t& value);
+    void setVaccinationBook(const std::shared_ptr<SchemaWithSet_vaccinationBook>& value);
 
 
 protected:
-    int64_t m_Id;
-    bool m_IdIsSet;
-    utility::string_t m_Name;
-    bool m_NameIsSet;
+    std::set<utility::string_t> m_Certificates;
+    bool m_CertificatesIsSet;
+    std::shared_ptr<SchemaWithSet_vaccinationBook> m_VaccinationBook;
+    bool m_VaccinationBookIsSet;
 };
 
 
@@ -85,4 +88,4 @@ protected:
 }
 }
 
-#endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_Tag_H_ */
+#endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_SchemaWithSet_H_ */

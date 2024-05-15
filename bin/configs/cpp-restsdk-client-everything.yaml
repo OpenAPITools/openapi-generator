@@ -1,6 +1,0 @@
-generatorName: cpp-restsdk
-outputDir: samples/client/petstore/cpp-restsdk/client-everything
-inputSpec: modules/openapi-generator/src/test/resources/3_0/issues-anytype-object-set-petstore-everything.yaml
-templateDir: modules/openapi-generator/src/main/resources/cpp-rest-sdk-client
-additionalProperties:
-  packageName: CppRestPetstoreClient

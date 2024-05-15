@@ -20,7 +20,8 @@ include/CppRestPetstoreClient/model/ApiResponse.h
 include/CppRestPetstoreClient/model/Category.h
 include/CppRestPetstoreClient/model/Order.h
 include/CppRestPetstoreClient/model/Pet.h
-include/CppRestPetstoreClient/model/Pet_vaccinationBook.h
+include/CppRestPetstoreClient/model/SchemaWithSet.h
+include/CppRestPetstoreClient/model/SchemaWithSet_vaccinationBook.h
 include/CppRestPetstoreClient/model/Tag.h
 include/CppRestPetstoreClient/model/User.h
 include/CppRestPetstoreClient/model/Vaccine.h
@@ -40,7 +41,8 @@ src/model/ApiResponse.cpp
 src/model/Category.cpp
 src/model/Order.cpp
 src/model/Pet.cpp
-src/model/Pet_vaccinationBook.cpp
+src/model/SchemaWithSet.cpp
+src/model/SchemaWithSet_vaccinationBook.cpp
 src/model/Tag.cpp
 src/model/User.cpp
 src/model/Vaccine.cpp

@@ -31,8 +31,6 @@ Pet::Pet()
     m_TagsIsSet = false;
     m_Status = utility::conversions::to_string_t("");
     m_StatusIsSet = false;
-    m_CertificatesIsSet = false;
-    m_VaccinationBookIsSet = false;
 }
 
 Pet::~Pet()
@@ -72,14 +70,6 @@ web::json::value Pet::toJson() const
     if(m_StatusIsSet)
     {
         val[utility::conversions::to_string_t(U("status"))] = ModelBase::toJson(m_Status);
-    }
-    if(m_CertificatesIsSet)
-    {
-        val[utility::conversions::to_string_t(U("certificates"))] = ModelBase::toJson(m_Certificates);
-    }
-    if(m_VaccinationBookIsSet)
-    {
-        val[utility::conversions::to_string_t(U("vaccinationBook"))] = ModelBase::toJson(m_VaccinationBook);
     }
 
     return val;
@@ -149,26 +139,6 @@ bool Pet::fromJson(const web::json::value& val)
             setStatus(refVal_setStatus);
         }
     }
-    if(val.has_field(utility::conversions::to_string_t(U("certificates"))))
-    {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("certificates")));
-        if(!fieldValue.is_null())
-        {
-            std::set<utility::string_t> refVal_setCertificates;
-            ok &= ModelBase::fromJson(fieldValue, refVal_setCertificates);
-            setCertificates(refVal_setCertificates);
-        }
-    }
-    if(val.has_field(utility::conversions::to_string_t(U("vaccinationBook"))))
-    {
-        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("vaccinationBook")));
-        if(!fieldValue.is_null())
-        {
-            std::shared_ptr<Pet_vaccinationBook> refVal_setVaccinationBook;
-            ok &= ModelBase::fromJson(fieldValue, refVal_setVaccinationBook);
-            setVaccinationBook(refVal_setVaccinationBook);
-        }
-    }
     return ok;
 }
 
@@ -202,14 +172,6 @@ void Pet::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utilit
     if(m_StatusIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("status")), m_Status));
-    }
-    if(m_CertificatesIsSet)
-    {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("certificates")), m_Certificates));
-    }
-    if(m_VaccinationBookIsSet)
-    {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(U("vaccinationBook")), m_VaccinationBook));
     }
 }
 
@@ -257,18 +219,6 @@ bool Pet::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const util
         utility::string_t refVal_setStatus;
         ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("status"))), refVal_setStatus );
         setStatus(refVal_setStatus);
-    }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("certificates"))))
-    {
-        std::set<utility::string_t> refVal_setCertificates;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("certificates"))), refVal_setCertificates );
-        setCertificates(refVal_setCertificates);
-    }
-    if(multipart->hasContent(utility::conversions::to_string_t(U("vaccinationBook"))))
-    {
-        std::shared_ptr<Pet_vaccinationBook> refVal_setVaccinationBook;
-        ok &= ModelBase::fromHttpContent(multipart->getContent(utility::conversions::to_string_t(U("vaccinationBook"))), refVal_setVaccinationBook );
-        setVaccinationBook(refVal_setVaccinationBook);
     }
     return ok;
 }
@@ -392,46 +342,6 @@ bool Pet::statusIsSet() const
 void Pet::unsetStatus()
 {
     m_StatusIsSet = false;
-}
-std::set<utility::string_t>& Pet::getCertificates()
-{
-    return m_Certificates;
-}
-
-void Pet::setCertificates(const std::set<utility::string_t>& value)
-{
-    m_Certificates = value;
-    m_CertificatesIsSet = true;
-}
-
-bool Pet::certificatesIsSet() const
-{
-    return m_CertificatesIsSet;
-}
-
-void Pet::unsetCertificates()
-{
-    m_CertificatesIsSet = false;
-}
-std::shared_ptr<Pet_vaccinationBook> Pet::getVaccinationBook() const
-{
-    return m_VaccinationBook;
-}
-
-void Pet::setVaccinationBook(const std::shared_ptr<Pet_vaccinationBook>& value)
-{
-    m_VaccinationBook = value;
-    m_VaccinationBookIsSet = true;
-}
-
-bool Pet::vaccinationBookIsSet() const
-{
-    return m_VaccinationBookIsSet;
-}
-
-void Pet::unsetVaccinationBook()
-{
-    m_VaccinationBookIsSet = false;
 }
 }
 }
