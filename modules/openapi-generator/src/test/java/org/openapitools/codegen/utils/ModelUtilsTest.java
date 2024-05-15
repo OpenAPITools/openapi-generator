@@ -430,4 +430,20 @@ public class ModelUtilsTest {
 
         Assert.assertEquals(composedSchema, deepCopy);
     }
+
+    @Test
+    public void testCloneArrayOfEnumsSchema() {
+        Schema arraySchema = new Schema()
+                .name("ArrayType")
+                .type("array")
+                .items(new Schema()
+                        .type("string")
+                        ._enum(List.of("SUCCESS", "FAILURE", "SKIPPED"))
+                )
+                ._default(List.of("SUCCESS", "FAILURE"));
+
+        var deepCopy = ModelUtils.cloneSchema(arraySchema);
+
+        Assert.assertEquals(arraySchema, deepCopy);
+    }
 }
