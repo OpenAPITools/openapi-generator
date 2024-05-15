@@ -11,7 +11,7 @@
 
 
 
-#include "CppRestPetstoreClient/model/Pet_vaccinationBook.h"
+#include "CppRestPetstoreClient/model/SchemaWithSet_vaccinationBook.h"
 
 namespace org {
 namespace openapitools {
@@ -20,21 +20,21 @@ namespace model {
 
 
 
-Pet_vaccinationBook::Pet_vaccinationBook()
+SchemaWithSet_vaccinationBook::SchemaWithSet_vaccinationBook()
 {
     m_VaccinesIsSet = false;
 }
 
-Pet_vaccinationBook::~Pet_vaccinationBook()
+SchemaWithSet_vaccinationBook::~SchemaWithSet_vaccinationBook()
 {
 }
 
-void Pet_vaccinationBook::validate()
+void SchemaWithSet_vaccinationBook::validate()
 {
     // TODO: implement validation
 }
 
-web::json::value Pet_vaccinationBook::toJson() const
+web::json::value SchemaWithSet_vaccinationBook::toJson() const
 {
 
     web::json::value val = web::json::value::object();
@@ -47,7 +47,7 @@ web::json::value Pet_vaccinationBook::toJson() const
     return val;
 }
 
-bool Pet_vaccinationBook::fromJson(const web::json::value& val)
+bool SchemaWithSet_vaccinationBook::fromJson(const web::json::value& val)
 {
     bool ok = true;
     
@@ -64,7 +64,7 @@ bool Pet_vaccinationBook::fromJson(const web::json::value& val)
     return ok;
 }
 
-void Pet_vaccinationBook::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
+void SchemaWithSet_vaccinationBook::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
 {
     utility::string_t namePrefix = prefix;
     if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t(U(".")))
@@ -77,7 +77,7 @@ void Pet_vaccinationBook::toMultipart(std::shared_ptr<MultipartFormData> multipa
     }
 }
 
-bool Pet_vaccinationBook::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
+bool SchemaWithSet_vaccinationBook::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
 {
     bool ok = true;
     utility::string_t namePrefix = prefix;
@@ -95,23 +95,23 @@ bool Pet_vaccinationBook::fromMultiPart(std::shared_ptr<MultipartFormData> multi
     return ok;
 }
 
-std::set<std::shared_ptr<Vaccine>>& Pet_vaccinationBook::getVaccines()
+std::set<std::shared_ptr<Vaccine>>& SchemaWithSet_vaccinationBook::getVaccines()
 {
     return m_Vaccines;
 }
 
-void Pet_vaccinationBook::setVaccines(const std::set<std::shared_ptr<Vaccine>>& value)
+void SchemaWithSet_vaccinationBook::setVaccines(const std::set<std::shared_ptr<Vaccine>>& value)
 {
     m_Vaccines = value;
     m_VaccinesIsSet = true;
 }
 
-bool Pet_vaccinationBook::vaccinesIsSet() const
+bool SchemaWithSet_vaccinationBook::vaccinesIsSet() const
 {
     return m_VaccinesIsSet;
 }
 
-void Pet_vaccinationBook::unsetVaccines()
+void SchemaWithSet_vaccinationBook::unsetVaccines()
 {
     m_VaccinesIsSet = false;
 }
