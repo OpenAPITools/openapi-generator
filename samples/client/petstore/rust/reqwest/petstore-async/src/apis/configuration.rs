@@ -9,11 +9,13 @@
  */
 
 
+use serde::Deserialize;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Configuration {
     pub base_path: String,
     pub user_agent: Option<String>,
+    #[serde(skip)]
     pub client: reqwest::Client,
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,

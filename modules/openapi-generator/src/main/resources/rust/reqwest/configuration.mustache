@@ -1,5 +1,6 @@
 {{>partial_header}}
 
+use serde::Deserialize;
 {{#withAWSV4Signature}}
 use std::time::SystemTime;
 use aws_sigv4::http_request::{sign, SigningSettings, SigningParams, SignableRequest};
@@ -7,10 +8,11 @@ use http;
 use secrecy::{SecretString, ExposeSecret};
 {{/withAWSV4Signature}}
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Configuration {
     pub base_path: String,
     pub user_agent: Option<String>,
+    #[serde(skip)]
     pub client: {{#supportMiddleware}}reqwest_middleware::ClientWithMiddleware{{/supportMiddleware}}{{^supportMiddleware}}reqwest{{^supportAsync}}::blocking{{/supportAsync}}::Client{{/supportMiddleware}},
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,

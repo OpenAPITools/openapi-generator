@@ -9,15 +9,17 @@
  */
 
 
+use serde::Deserialize;
 use std::time::SystemTime;
 use aws_sigv4::http_request::{sign, SigningSettings, SigningParams, SignableRequest};
 use http;
 use secrecy::{SecretString, ExposeSecret};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Configuration {
     pub base_path: String,
     pub user_agent: Option<String>,
+    #[serde(skip)]
     pub client: reqwest::blocking::Client,
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
