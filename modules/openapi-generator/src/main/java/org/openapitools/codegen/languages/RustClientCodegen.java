@@ -368,6 +368,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             additionalProperties.put(HYPER_LIBRARY, "true");
         } else if (REQWEST_LIBRARY.equals(getLibrary())) {
             additionalProperties.put(REQWEST_LIBRARY, "true");
+            typeMapping.put("file", "reqwest::Body");
+            typeMapping.put("binary", "reqwest::Body");
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }

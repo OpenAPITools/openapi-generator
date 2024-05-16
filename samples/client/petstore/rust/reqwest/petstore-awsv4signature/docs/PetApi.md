@@ -242,7 +242,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **pet_id** | **i64** | ID of pet to update | [required] |
 **additional_metadata** | Option<**String**> | Additional data to pass to server |  |
-**file** | Option<**std::path::PathBuf**> | file to upload |  |
+**file** | Option<**reqwest::Body**> | file to upload |  |
 
 ### Return type
 
