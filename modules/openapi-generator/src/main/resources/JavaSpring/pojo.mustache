@@ -66,6 +66,9 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
+  {{#defaultValue}}
+  @lombok.Builder.Default
+  {{/defaultValue}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
