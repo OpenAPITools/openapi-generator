@@ -16,10 +16,20 @@ use http;
 use secrecy::{SecretString, ExposeSecret};
 
 #[derive(Debug, Clone, Deserialize)]
+pub struct DeserializedConfiguration {
+    pub base_path: String,
+    pub user_agent: Option<String>,
+    pub basic_auth: Option<BasicAuth>,
+    pub oauth_access_token: Option<String>,
+    pub bearer_access_token: Option<String>,
+    pub api_key: Option<ApiKey>,
+    // TODO: take an oauth2 token source, similar to the go one
+}
+
+#[derive(Debug, Clone)]
 pub struct Configuration {
     pub base_path: String,
     pub user_agent: Option<String>,
-    #[serde(skip)]
     pub client: reqwest::blocking::Client,
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
@@ -31,7 +41,7 @@ pub struct Configuration {
 
 pub type BasicAuth = (String, Option<String>);
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct ApiKey {
     pub prefix: Option<String>,
     pub key: String,
@@ -90,6 +100,21 @@ impl Default for Configuration {
             oauth_access_token: None,
             bearer_access_token: None,
             api_key: None,
+            aws_v4_key: None,
+        }
+    }
+}
+
+impl From<DeserializedConfiguration> for Configuration {
+    fn from(value: DeserializedConfiguration) -> Self {
+        Configuration {
+            base_path: value.base_path,
+            user_agent: value.user_agent,
+            client: reqwest::blocking::Client::new(),
+            basic_auth: value.basic_auth,
+            oauth_access_token: value.oauth_access_token,
+            bearer_access_token: value.bearer_access_token,
+            api_key: value.api_key,
             aws_v4_key: None,
         }
     }
