@@ -13,18 +13,18 @@
  */
 
 import { mapValues } from '../runtime';
-import type { Pet } from './Pet';
-import {
-    PetFromJSON,
-    PetFromJSONTyped,
-    PetToJSON,
-} from './Pet';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
 } from './ResponseMeta';
+import type { Pet } from './Pet';
+import {
+    PetFromJSON,
+    PetFromJSONTyped,
+    PetToJSON,
+} from './Pet';
 
 /**
  * 

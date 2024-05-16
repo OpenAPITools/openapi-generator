@@ -285,9 +285,9 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
     return this;
   }
 
-  public NullableClass removeObjectNullablePropItem(Object objectNullablePropItem) {
-    if (objectNullablePropItem != null && this.objectNullableProp != null) {
-      this.objectNullableProp.remove(objectNullablePropItem);
+  public NullableClass removeObjectNullablePropItem(String key) {
+    if (this.objectNullableProp != null) {
+      this.objectNullableProp.remove(key);
     }
 
     return this;
@@ -320,9 +320,9 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
     return this;
   }
 
-  public NullableClass removeObjectAndItemsNullablePropItem(Object objectAndItemsNullablePropItem) {
-    if (objectAndItemsNullablePropItem != null && this.objectAndItemsNullableProp != null) {
-      this.objectAndItemsNullableProp.remove(objectAndItemsNullablePropItem);
+  public NullableClass removeObjectAndItemsNullablePropItem(String key) {
+    if (this.objectAndItemsNullableProp != null) {
+      this.objectAndItemsNullableProp.remove(key);
     }
 
     return this;
@@ -355,9 +355,9 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
     return this;
   }
 
-  public NullableClass removeObjectItemsNullableItem(Object objectItemsNullableItem) {
-    if (objectItemsNullableItem != null && this.objectItemsNullable != null) {
-      this.objectItemsNullable.remove(objectItemsNullableItem);
+  public NullableClass removeObjectItemsNullableItem(String key) {
+    if (this.objectItemsNullable != null) {
+      this.objectItemsNullable.remove(key);
     }
 
     return this;

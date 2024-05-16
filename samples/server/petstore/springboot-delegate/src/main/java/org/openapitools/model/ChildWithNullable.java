@@ -32,6 +32,18 @@ public class ChildWithNullable extends ParentWithNullable {
 
   private String otherProperty;
 
+  public ChildWithNullable() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ChildWithNullable(String otherProperty, TypeEnum type, String nullableProperty) {
+      super(type, nullableProperty);
+      this.otherProperty = otherProperty;
+  }
+
   public ChildWithNullable otherProperty(String otherProperty) {
     this.otherProperty = otherProperty;
     return this;

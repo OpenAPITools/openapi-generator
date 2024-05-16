@@ -447,11 +447,11 @@ public class DefaultGenerator implements Generator {
         }
     }
 
-    void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels) {
-        generateModels(files, allModels, unusedModels, new ArrayList<>(), DefaultGenerator.this::modelKeys);
+    void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<ModelMap> aliasModels) {
+        generateModels(files, allModels, unusedModels, aliasModels, new ArrayList<>(), DefaultGenerator.this::modelKeys);
     }
 
-    void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<String> processedModels, Supplier<Set<String>> modelKeysSupplier) {
+    void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<ModelMap> aliasModels, List<String> processedModels, Supplier<Set<String>> modelKeysSupplier) {
         if (!generateModels) {
             // TODO: Process these anyway and add to dryRun info
             LOGGER.info("Skipping generation of models.");
@@ -545,12 +545,12 @@ public class DefaultGenerator implements Generator {
                     CodegenModel cm = mm.getModel();
                     if (cm != null) {
                         for(CodegenProperty variable : cm.getVars()) {
-                            generateModelsForVariable(files, allModels, unusedModels, processedModels, variable);
+                            generateModelsForVariable(files, allModels, unusedModels, aliasModels, processedModels, variable);
                         }
                         //TODO:  handle interfaces
                         String parentSchema = cm.getParentSchema();
                         if (parentSchema != null && !processedModels.contains(parentSchema) && ModelUtils.getSchemas(this.openAPI).containsKey(parentSchema)) {
-                            generateModels(files, allModels, unusedModels, processedModels, () -> Set.of(parentSchema));
+                            generateModels(files, allModels, unusedModels, aliasModels, processedModels, () -> Set.of(parentSchema));
                         }
                     }
                 }
@@ -575,6 +575,8 @@ public class DefaultGenerator implements Generator {
                         CodegenModel m = modelTemplate.getModel();
                         if (m.isAlias) {
                             // alias to number, string, enum, etc, which should not be generated as model
+                            // but aliases are still used to dereference models in some languages (such as in html2).
+                            aliasModels.add(modelTemplate);  // Store aliases in the separate list.
                             continue;  // Don't create user-defined classes for aliases
                         }
                     }
@@ -603,7 +605,7 @@ public class DefaultGenerator implements Generator {
     /**
      * this method guesses the schema type of in parent model used variable and if the schema type is available it let the generate the model for the type of this variable
      */
-    private void generateModelsForVariable(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<String> processedModels, CodegenProperty variable) {
+    private void generateModelsForVariable(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<ModelMap> aliasModels, List<String> processedModels, CodegenProperty variable) {
         if (variable == null) {
             return;
         }
@@ -611,12 +613,12 @@ public class DefaultGenerator implements Generator {
         final String schemaKey = calculateModelKey(variable.getOpenApiType(), variable.getRef());
         Map<String, Schema> allSchemas = ModelUtils.getSchemas(this.openAPI);
         if (!processedModels.contains(schemaKey) && allSchemas.containsKey(schemaKey)) {
-            generateModels(files, allModels, unusedModels, processedModels, () -> Set.of(schemaKey));
+            generateModels(files, allModels, unusedModels, aliasModels, processedModels, () -> Set.of(schemaKey));
         } else if (variable.getComplexType() != null && variable.getComposedSchemas() == null) {
             String ref = variable.getHasItems() ? variable.getItems().getRef() : variable.getRef();
             final String key = calculateModelKey(variable.getComplexType(), ref);
             if (allSchemas.containsKey(key)) {
-                generateModels(files, allModels, unusedModels, processedModels, () -> Set.of(key));
+                generateModels(files, allModels, unusedModels, aliasModels, processedModels, () -> Set.of(key));
             } else {
                 LOGGER.info("Type " + variable.getComplexType()+" of variable " + variable.getName() + " could not be resolve because it is not declared as a model.");
             }
@@ -1146,11 +1148,11 @@ public class DefaultGenerator implements Generator {
         generateVersionMetadata(files);
     }
 
-    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels) {
-        return this.buildSupportFileBundle(allOperations, allModels, null);
+    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels, List<ModelMap> aliasModels) {
+        return this.buildSupportFileBundle(allOperations, allModels, aliasModels, null);
     }
 
-    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels, List<WebhooksMap> allWebhooks) {
+    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels, List<ModelMap> aliasModels, List<WebhooksMap> allWebhooks) {
 
         Map<String, Object> bundle = new HashMap<>(config.additionalProperties());
         bundle.put("apiPackage", config.apiPackage());
@@ -1172,6 +1174,7 @@ public class DefaultGenerator implements Generator {
         bundle.put("apiInfo", apis);
         bundle.put("webhooks", allWebhooks);
         bundle.put("models", allModels);
+        bundle.put("aliasModels", aliasModels);
         bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
         bundle.put("modelPackage", config.modelPackage());
         bundle.put("library", config.getLibrary());
@@ -1297,7 +1300,8 @@ public class DefaultGenerator implements Generator {
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
-        generateModels(files, allModels, filteredSchemas);
+        List<ModelMap> aliasModels = new ArrayList<>();
+        generateModels(files, allModels, filteredSchemas, aliasModels);
         // apis
         List<OperationsMap> allOperations = new ArrayList<>();
         generateApis(files, allOperations, allModels);
@@ -1305,7 +1309,7 @@ public class DefaultGenerator implements Generator {
         List<WebhooksMap> allWebhooks = new ArrayList<>();
         generateWebhooks(files, allWebhooks, allModels);
         // supporting files
-        Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels, allWebhooks);
+        Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels, aliasModels, allWebhooks);
         generateSupportingFiles(files, bundle);
 
         if (dryRun) {

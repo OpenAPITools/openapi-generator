@@ -75,6 +75,18 @@ public class ParentWithNullable {
 
   private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
+  public ParentWithNullable() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ParentWithNullable(TypeEnum type, String nullableProperty) {
+      this.type = type;
+      this.nullableProperty = JsonNullable.of(nullableProperty);
+  }
+
   public ParentWithNullable type(TypeEnum type) {
     this.type = type;
     return this;

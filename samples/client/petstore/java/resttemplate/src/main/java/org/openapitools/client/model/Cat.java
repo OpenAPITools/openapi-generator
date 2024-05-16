@@ -48,6 +48,14 @@ public class Cat extends Animal {
 
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Cat(@JsonProperty(JSON_PROPERTY_DECLAWED) Boolean declawed, @JsonProperty(JSON_PROPERTY_CLASS_NAME) String className, @JsonProperty(JSON_PROPERTY_COLOR) String color) {
+    super(className, color);
+    this.declawed = declawed;
+  }
+
   public Cat declawed(Boolean declawed) {
     
     this.declawed = declawed;
@@ -123,6 +131,74 @@ public class Cat extends Animal {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder extends Animal.Builder {
+
+    private Cat instance;
+
+    public Builder() {
+      this(new Cat());
+    }
+
+    protected Builder(Cat instance) {
+      super(instance);
+      this.instance = instance;
+    }
+
+    public Cat.Builder declawed(Boolean declawed) {
+      this.instance.declawed = declawed;
+      return this;
+    }
+
+    public Cat.Builder className(String className) { // inherited: true
+      super.className(className);
+      return this;
+   }
+
+    public Cat.Builder color(String color) { // inherited: true
+      super.color(color);
+      return this;
+   }
+
+
+    /**
+    * returns a built Cat instance.
+    *
+    * The builder is not reusable.
+    */
+    public Cat build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Cat.Builder builder() {
+    return new Cat.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Cat.Builder toBuilder() {
+    return new Cat.Builder()
+      .className(getClassName())
+      .color(getColor())
+      .declawed(getDeclawed());
+  }
+
 
 }
 

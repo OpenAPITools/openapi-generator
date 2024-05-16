@@ -23,7 +23,8 @@ abstract class AbstractPetApi
 
     /**
      * Operation addPet
-     * Path: /pet
+     *
+     * Path: `/pet`
      *
      * Add a new pet to the store
      *
@@ -37,8 +38,23 @@ abstract class AbstractPetApi
     }
 
     /**
+     * Operation addPet (stream)
+     *
+     * Path: `/pet`
+     *
+     * Add a new pet to the store
+     *
+     * @param \OpenAPIServer\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     */
+    public function addPetStream(\OpenAPIServer\Model\Pet $pet): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation deletePet
-     * Path: /pet/{petId}
+     *
+     * Path: `/pet/{petId}`
      *
      * Deletes a pet
      *
@@ -53,8 +69,24 @@ abstract class AbstractPetApi
     }
 
     /**
+     * Operation deletePet (stream)
+     *
+     * Path: `/pet/{petId}`
+     *
+     * Deletes a pet
+     *
+     * @param int $petId Pet id to delete (required)
+     * @param ?string $apiKey  (optional)
+     *
+     */
+    public function deletePetStream(int $petId, ?string $apiKey): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation findPetsByStatus
-     * Path: /pet/findByStatus
+     *
+     * Path: `/pet/findByStatus`
      *
      * Finds Pets by status
      *
@@ -70,6 +102,8 @@ abstract class AbstractPetApi
     /**
      * Operation findPetsByStatus (stream)
      *
+     * Path: `/pet/findByStatus`
+     *
      * Finds Pets by status
      *
      * @param array $status Status values that need to be considered for filter (required) (deprecated)
@@ -81,7 +115,8 @@ abstract class AbstractPetApi
     }
     /**
      * Operation findPetsByTags
-     * Path: /pet/findByTags
+     *
+     * Path: `/pet/findByTags`
      *
      * Finds Pets by tags
      *
@@ -98,6 +133,8 @@ abstract class AbstractPetApi
     /**
      * Operation findPetsByTags (stream)
      *
+     * Path: `/pet/findByTags`
+     *
      * Finds Pets by tags
      *
      * @param array $tags Tags to filter by (required)
@@ -110,7 +147,8 @@ abstract class AbstractPetApi
     }
     /**
      * Operation getPetById
-     * Path: /pet/{petId}
+     *
+     * Path: `/pet/{petId}`
      *
      * Find pet by ID
      *
@@ -124,8 +162,23 @@ abstract class AbstractPetApi
     }
 
     /**
+     * Operation getPetById (stream)
+     *
+     * Path: `/pet/{petId}`
+     *
+     * Find pet by ID
+     *
+     * @param int $petId ID of pet to return (required)
+     *
+     */
+    public function getPetByIdStream(int $petId): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation updatePet
-     * Path: /pet
+     *
+     * Path: `/pet`
      *
      * Update an existing pet
      *
@@ -139,8 +192,23 @@ abstract class AbstractPetApi
     }
 
     /**
+     * Operation updatePet (stream)
+     *
+     * Path: `/pet`
+     *
+     * Update an existing pet
+     *
+     * @param \OpenAPIServer\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     */
+    public function updatePetStream(\OpenAPIServer\Model\Pet $pet): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation updatePetWithForm
-     * Path: /pet/{petId}
+     *
+     * Path: `/pet/{petId}`
      *
      * Updates a pet in the store with form data
      *
@@ -154,8 +222,23 @@ abstract class AbstractPetApi
     }
 
     /**
+     * Operation updatePetWithForm (stream)
+     *
+     * Path: `/pet/{petId}`
+     *
+     * Updates a pet in the store with form data
+     *
+     * @param int $petId ID of pet that needs to be updated (required)
+     *
+     */
+    public function updatePetWithFormStream(int $petId): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation uploadFile
-     * Path: /pet/{petId}/uploadImage
+     *
+     * Path: `/pet/{petId}/uploadImage`
      *
      * uploads an image
      *
@@ -168,4 +251,18 @@ abstract class AbstractPetApi
         throw new \Exception('Not implemented');
     }
 
+    /**
+     * Operation uploadFile (stream)
+     *
+     * Path: `/pet/{petId}/uploadImage`
+     *
+     * uploads an image
+     *
+     * @param int $petId ID of pet to update (required)
+     *
+     */
+    public function uploadFileStream(int $petId): void
+    {
+        throw new \Exception('Not implemented');
+    }
 }

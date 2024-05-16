@@ -22,8 +22,8 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -36,12 +36,10 @@ import java.util.Map;
 /**
  * API tests for FakeApi
  */
-@Ignore
 public class FakeApiTest {
 
     private final FakeApi api = new FakeApi();
 
-    
     /**
      * creates an XmlItem
      *
@@ -53,11 +51,12 @@ public class FakeApiTest {
     @Test
     public void createXmlItemTest() throws IOException {
         XmlItem xmlItem = null;
-        api.createXmlItem(xmlItem);
+        // uncomment below to test the API function
+        //api.createXmlItem(xmlItem);
 
         // TODO: test validations
     }
-    
+
     /**
      * 
      *
@@ -69,11 +68,12 @@ public class FakeApiTest {
     @Test
     public void fakeOuterBooleanSerializeTest() throws IOException {
         Boolean body = null;
-        Boolean response = api.fakeOuterBooleanSerialize(body);
+        // uncomment below to test the API function
+        //Boolean response = api.fakeOuterBooleanSerialize(body);
 
         // TODO: test validations
     }
-    
+
     /**
      * 
      *
@@ -85,11 +85,12 @@ public class FakeApiTest {
     @Test
     public void fakeOuterCompositeSerializeTest() throws IOException {
         OuterComposite body = null;
-        OuterComposite response = api.fakeOuterCompositeSerialize(body);
+        // uncomment below to test the API function
+        //OuterComposite response = api.fakeOuterCompositeSerialize(body);
 
         // TODO: test validations
     }
-    
+
     /**
      * 
      *
@@ -101,11 +102,12 @@ public class FakeApiTest {
     @Test
     public void fakeOuterNumberSerializeTest() throws IOException {
         BigDecimal body = null;
-        BigDecimal response = api.fakeOuterNumberSerialize(body);
+        // uncomment below to test the API function
+        //BigDecimal response = api.fakeOuterNumberSerialize(body);
 
         // TODO: test validations
     }
-    
+
     /**
      * 
      *
@@ -117,11 +119,12 @@ public class FakeApiTest {
     @Test
     public void fakeOuterStringSerializeTest() throws IOException {
         String body = null;
-        String response = api.fakeOuterStringSerialize(body);
+        // uncomment below to test the API function
+        //String response = api.fakeOuterStringSerialize(body);
 
         // TODO: test validations
     }
-    
+
     /**
      * 
      *
@@ -133,11 +136,12 @@ public class FakeApiTest {
     @Test
     public void testBodyWithFileSchemaTest() throws IOException {
         FileSchemaTestClass body = null;
-        api.testBodyWithFileSchema(body);
+        // uncomment below to test the API function
+        //api.testBodyWithFileSchema(body);
 
         // TODO: test validations
     }
-    
+
     /**
      * 
      *
@@ -150,11 +154,12 @@ public class FakeApiTest {
     public void testBodyWithQueryParamsTest() throws IOException {
         String query = null;
         User body = null;
-        api.testBodyWithQueryParams(query, body);
+        // uncomment below to test the API function
+        //api.testBodyWithQueryParams(query, body);
 
         // TODO: test validations
     }
-    
+
     /**
      * To test \&quot;client\&quot; model
      *
@@ -166,11 +171,12 @@ public class FakeApiTest {
     @Test
     public void testClientModelTest() throws IOException {
         Client body = null;
-        Client response = api.testClientModel(body);
+        // uncomment below to test the API function
+        //Client response = api.testClientModel(body);
 
         // TODO: test validations
     }
-    
+
     /**
      * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
@@ -195,11 +201,12 @@ public class FakeApiTest {
         OffsetDateTime dateTime = null;
         String password = null;
         String paramCallback = null;
-        api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+        // uncomment below to test the API function
+        //api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
 
         // TODO: test validations
     }
-    
+
     /**
      * To test enum parameters
      *
@@ -218,11 +225,12 @@ public class FakeApiTest {
         Double enumQueryDouble = null;
         List<String> enumFormStringArray = null;
         String enumFormString = null;
-        api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+        // uncomment below to test the API function
+        //api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
 
         // TODO: test validations
     }
-    
+
     /**
      * Fake endpoint to test group parameters (optional)
      *
@@ -239,11 +247,12 @@ public class FakeApiTest {
         Integer stringGroup = null;
         Boolean booleanGroup = null;
         Long int64Group = null;
-        api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+        // uncomment below to test the API function
+        //api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 
         // TODO: test validations
     }
-    
+
     /**
      * test inline additionalProperties
      *
@@ -255,11 +264,12 @@ public class FakeApiTest {
     @Test
     public void testInlineAdditionalPropertiesTest() throws IOException {
         Map<String, String> param = null;
-        api.testInlineAdditionalProperties(param);
+        // uncomment below to test the API function
+        //api.testInlineAdditionalProperties(param);
 
         // TODO: test validations
     }
-    
+
     /**
      * test json serialization of form data
      *
@@ -272,11 +282,12 @@ public class FakeApiTest {
     public void testJsonFormDataTest() throws IOException {
         String param = null;
         String param2 = null;
-        api.testJsonFormData(param, param2);
+        // uncomment below to test the API function
+        //api.testJsonFormData(param, param2);
 
         // TODO: test validations
     }
-    
+
     /**
      * 
      *
@@ -292,9 +303,10 @@ public class FakeApiTest {
         List<String> http = null;
         List<String> url = null;
         List<String> context = null;
-        api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+        // uncomment below to test the API function
+        //api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
 
         // TODO: test validations
     }
-    
+
 }

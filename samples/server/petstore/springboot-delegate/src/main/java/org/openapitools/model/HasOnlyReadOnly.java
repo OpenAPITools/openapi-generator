@@ -28,6 +28,18 @@ public class HasOnlyReadOnly {
 
   private String foo;
 
+  public HasOnlyReadOnly() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public HasOnlyReadOnly(String bar, String foo) {
+      this.bar = bar;
+      this.foo = foo;
+  }
+
   public HasOnlyReadOnly bar(String bar) {
     this.bar = bar;
     return this;

@@ -30,6 +30,20 @@ public class ResponseObjectWithDifferentFieldNames {
 
   private String propertyNameWithSpaces;
 
+  public ResponseObjectWithDifferentFieldNames() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ResponseObjectWithDifferentFieldNames(String normalPropertyName, String UPPER_CASE_PROPERTY_SNAKE, String lowerCasePropertyDashes, String propertyNameWithSpaces) {
+      this.normalPropertyName = normalPropertyName;
+      this.UPPER_CASE_PROPERTY_SNAKE = UPPER_CASE_PROPERTY_SNAKE;
+      this.lowerCasePropertyDashes = lowerCasePropertyDashes;
+      this.propertyNameWithSpaces = propertyNameWithSpaces;
+  }
+
   public ResponseObjectWithDifferentFieldNames normalPropertyName(String normalPropertyName) {
     this.normalPropertyName = normalPropertyName;
     return this;

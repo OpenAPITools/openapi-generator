@@ -969,3 +969,15 @@ components:
         - Code 1
         - Code 2
         - Code 3
+    SimpleModelWithArrayProperty:
+      type: object
+      required:
+        - arrayOfStrings
+      properties:
+        arrayOfStrings:
+          type: array
+          items:
+            type: string
+    AllOfSimpleModel:
+      allOf:
+        - $ref: '#/components/schemas/SimpleModelWithArrayProperty'

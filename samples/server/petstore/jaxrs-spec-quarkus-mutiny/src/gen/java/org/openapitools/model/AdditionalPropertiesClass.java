@@ -57,9 +57,9 @@ public class AdditionalPropertiesClass  implements Serializable {
     return this;
   }
 
-  public AdditionalPropertiesClass removeMapPropertyItem(String mapPropertyItem) {
-    if (mapPropertyItem != null && this.mapProperty != null) {
-      this.mapProperty.remove(mapPropertyItem);
+  public AdditionalPropertiesClass removeMapPropertyItem(String key) {
+    if (this.mapProperty != null) {
+      this.mapProperty.remove(key);
     }
 
     return this;
@@ -92,9 +92,9 @@ public class AdditionalPropertiesClass  implements Serializable {
     return this;
   }
 
-  public AdditionalPropertiesClass removeMapOfMapPropertyItem(Map<String, String> mapOfMapPropertyItem) {
-    if (mapOfMapPropertyItem != null && this.mapOfMapProperty != null) {
-      this.mapOfMapProperty.remove(mapOfMapPropertyItem);
+  public AdditionalPropertiesClass removeMapOfMapPropertyItem(String key) {
+    if (this.mapOfMapProperty != null) {
+      this.mapOfMapProperty.remove(key);
     }
 
     return this;

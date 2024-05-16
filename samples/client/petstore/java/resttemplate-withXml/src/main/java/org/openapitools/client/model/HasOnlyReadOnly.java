@@ -66,7 +66,6 @@ public class HasOnlyReadOnly {
 
 
 
-
    /**
    * Get foo
    * @return foo
