@@ -7,6 +7,7 @@ use swagger::{ApiError, auth::{Basic, Bearer}};
 pub struct Claims {
     pub sub: String,
     pub iss: String,
+    pub aud: String,
     pub company: String,
     pub exp: u64,
     pub scopes: String,

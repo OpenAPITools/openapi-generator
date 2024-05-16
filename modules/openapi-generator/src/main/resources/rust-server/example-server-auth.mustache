@@ -5,7 +5,7 @@ use swagger::{
     XSpanIdString};
 use {{{externCrateName}}}::{AuthenticationApi, Claims};
 use crate::server::Server;
-use jsonwebtoken::{decode, errors as JwtError, Algorithm, DecodingKey, TokenData, Validation};
+use jsonwebtoken::{decode, errors as JwtError, decode_header, DecodingKey, TokenData, Validation};
 use swagger::auth::Authorization;
 use log::{error, debug};
 
@@ -19,6 +19,7 @@ fn full_permission_claim() -> Claims {
             sub: "tester@acme.com".to_owned(), 
             company: "ACME".to_owned(),
             iss: "mini-bank-IDP".to_owned(),
+            aud: "org.acme.Resource_Server".to_string(),
             // added a very long expiry time
             exp: 10000000000,
             // In this example code all available Scopes are added, so the current Bearer Token gets fully authorization.
@@ -39,10 +40,18 @@ fn extract_token_data(token: &str, key: &[u8]) -> Result<TokenData<Claims>, JwtE
     
     // Ensure that you set the correct algorithm and correct key.
     // See https://github.com/Keats/jsonwebtoken for more information.
+    let header = decode_header(token)?;
+    let validation = {
+        let mut validation = Validation::new(header.alg);
+        validation.set_audience(&["org.acme.Resource_Server"]);
+        validation.validate_exp = true;
+        validation
+    };
+
     let token_data = decode::<Claims>(
         &token,
         &DecodingKey::from_secret(key),
-        &Validation::new(Algorithm::HS512),
+        &validation,
     )?;
 
     Ok(token_data)
