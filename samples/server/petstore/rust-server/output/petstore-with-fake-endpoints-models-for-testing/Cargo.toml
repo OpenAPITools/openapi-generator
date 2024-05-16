@@ -4,7 +4,7 @@ version = "1.0.0"
 authors = ["OpenAPI Generator team and contributors"]
 description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
 license = "Apache-2.0"
-edition = "2021"
+edition = "2018"
 publish = ["crates-io"]
 
 [features]
@@ -70,6 +70,9 @@ frunk_derives = { version = "0.3.0", optional = true }
 frunk_core = { version = "0.3.0", optional = true }
 frunk-enum-derive = { version = "0.2.0", optional = true }
 frunk-enum-core = { version = "0.2.0", optional = true }
+
+# Bearer authentication
+jsonwebtoken = { version = "9.3.0", optional = false }
 
 [dev-dependencies]
 clap = "2.25"

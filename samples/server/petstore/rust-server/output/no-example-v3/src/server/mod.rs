@@ -14,8 +14,7 @@ use swagger::auth::Scopes;
 use url::form_urlencoded;
 
 #[allow(unused_imports)]
-use crate::models;
-use crate::header;
+use crate::{models, header, AuthenticationApi};
 
 pub use crate::context;
 
@@ -37,6 +36,8 @@ mod paths {
     pub(crate) static ID_OP: usize = 0;
 }
 
+mod server_auth;
+
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString>  + Send + Sync + 'static
@@ -57,6 +58,7 @@ impl<T, C> MakeService<T, C> where
     }
 }
 
+
 impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString>  + Send + Sync + 'static
@@ -70,7 +72,7 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     }
 
     fn call(&mut self, target: Target) -> Self::Future {
-        future::ok(Service::new(
+        futures::future::ok(Service::new(
             self.api_impl.clone(),
         ))
     }
@@ -150,11 +152,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_op_get_request: Option<models::OpGetRequest> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_op_get_request) => param_op_get_request,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)

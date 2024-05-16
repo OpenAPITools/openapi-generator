@@ -16,8 +16,7 @@ use multipart::server::Multipart;
 use multipart::server::save::SaveResult;
 
 #[allow(unused_imports)]
-use crate::models;
-use crate::header;
+use crate::{models, header, AuthenticationApi};
 
 pub use crate::context;
 
@@ -155,6 +154,8 @@ mod paths {
     }
 }
 
+mod server_auth;
+
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
@@ -175,6 +176,7 @@ impl<T, C> MakeService<T, C> where
     }
 }
 
+
 impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
@@ -188,7 +190,7 @@ impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     }
 
     fn call(&mut self, target: Target) -> Self::Future {
-        future::ok(Service::new(
+        futures::future::ok(Service::new(
             self.api_impl.clone(),
         ))
     }
@@ -268,11 +270,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::Client> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
@@ -378,11 +379,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::OuterBoolean> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(_) => None,
                                     }
@@ -449,11 +449,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::OuterComposite> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(_) => None,
                                     }
@@ -520,11 +519,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::OuterNumber> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(_) => None,
                                     }
@@ -591,11 +589,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::OuterString> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(_) => None,
                                     }
@@ -771,11 +768,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::User> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
@@ -846,11 +842,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::Client> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
@@ -1143,11 +1138,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_param: Option<std::collections::HashMap<String, String>> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_param) => param_param,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
@@ -1262,11 +1256,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::Client> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
@@ -1373,11 +1366,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::Pet> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
@@ -1813,11 +1805,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::Pet> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
@@ -2329,11 +2320,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::Order> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
@@ -2414,11 +2404,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::User> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
@@ -2488,11 +2477,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<Vec<models::User>> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
@@ -2562,11 +2550,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<Vec<models::User>> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
@@ -2942,11 +2929,10 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 let mut unused_elements = Vec::new();
                                 let param_body: Option<models::User> = if !body.is_empty() {
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_body) => param_body,
                                         Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
