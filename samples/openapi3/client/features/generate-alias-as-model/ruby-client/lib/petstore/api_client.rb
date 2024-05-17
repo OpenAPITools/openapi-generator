@@ -211,7 +211,7 @@ module Petstore
     # @param [String] mime MIME
     # @return [Boolean] True if the MIME is application/json
     def json_mime?(mime)
-      (mime == '*/*') || !(mime =~ /Application\/.*json(?!p)(;.*)?/i).nil?
+      (mime == '*/*') || !(mime =~ /^Application\/.*json(?!p)(;.*)?/i).nil?
     end
 
     # Deserialize the response to the given return type.
@@ -290,7 +290,7 @@ module Petstore
     # @param [String] filename the filename to be sanitized
     # @return [String] the sanitized filename
     def sanitize_filename(filename)
-      filename.gsub(/.*[\/\\]/, '')
+      filename.split(/[\/\\]/).last
     end
 
     def build_request_url(path, opts = {})
