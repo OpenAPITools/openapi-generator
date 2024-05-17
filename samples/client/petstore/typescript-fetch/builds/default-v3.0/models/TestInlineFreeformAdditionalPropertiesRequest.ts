@@ -19,7 +19,7 @@ import { mapValues } from '../runtime';
  * @interface TestInlineFreeformAdditionalPropertiesRequest
  */
 export interface TestInlineFreeformAdditionalPropertiesRequest {
-    [key: string]: any | any;
+    [key: string]: unknown | unknown;
     /**
      * 
      * @type {string}

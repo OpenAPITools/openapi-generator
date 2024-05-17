@@ -43,10 +43,10 @@ export interface AdditionalPropertiesClass {
     'map_of_map_property'?: { [key: string]: { [key: string]: string; }; };
     /**
      * 
-     * @type {any}
+     * @type {unknown}
      * @memberof AdditionalPropertiesClass
      */
-    'anytype_1'?: any;
+    'anytype_1'?: unknown;
     /**
      * 
      * @type {object}
@@ -61,10 +61,10 @@ export interface AdditionalPropertiesClass {
     'map_with_undeclared_properties_anytype_2'?: object;
     /**
      * 
-     * @type {{ [key: string]: any; }}
+     * @type {{ [key: string]: unknown; }}
      * @memberof AdditionalPropertiesClass
      */
-    'map_with_undeclared_properties_anytype_3'?: { [key: string]: any; };
+    'map_with_undeclared_properties_anytype_3'?: { [key: string]: unknown; };
     /**
      * an object with no declared properties and no undeclared properties, hence it\'s an empty map.
      * @type {object}
@@ -447,7 +447,7 @@ export interface Dog extends Animal {
  * @interface Drawing
  */
 export interface Drawing {
-    [key: string]: Fruit | any;
+    [key: string]: Fruit | unknown;
 
     /**
      * 
@@ -644,16 +644,16 @@ export interface EquilateralTriangle {
 export interface FileSchemaTestClass {
     /**
      * 
-     * @type {any}
+     * @type {unknown}
      * @memberof FileSchemaTestClass
      */
-    'file'?: any;
+    'file'?: unknown;
     /**
      * 
-     * @type {Array<any>}
+     * @type {Array<unknown>}
      * @memberof FileSchemaTestClass
      */
-    'files'?: Array<any>;
+    'files'?: Array<unknown>;
 }
 /**
  * 
@@ -1043,7 +1043,7 @@ export interface Name {
  * @interface NullableClass
  */
 export interface NullableClass {
-    [key: string]: object | any;
+    [key: string]: object | unknown;
 
     /**
      * 
@@ -1533,7 +1533,7 @@ export interface Tag {
  * @interface TestInlineFreeformAdditionalPropertiesRequest
  */
 export interface TestInlineFreeformAdditionalPropertiesRequest {
-    [key: string]: any;
+    [key: string]: unknown;
 
     /**
      * 
@@ -1629,16 +1629,16 @@ export interface User {
     'objectWithNoDeclaredPropsNullable'?: object | null;
     /**
      * test code generation for any type Here the \'type\' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
-     * @type {any}
+     * @type {unknown}
      * @memberof User
      */
-    'anyTypeProp'?: any;
+    'anyTypeProp'?: unknown;
     /**
      * test code generation for any type Here the \'type\' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The \'nullable\' attribute does not change the allowed values.
-     * @type {any}
+     * @type {unknown}
      * @memberof User
      */
-    'anyTypePropNullable'?: any | null;
+    'anyTypePropNullable'?: unknown | null;
 }
 /**
  * 
@@ -1671,7 +1671,7 @@ export interface Whale {
  * @interface Zebra
  */
 export interface Zebra {
-    [key: string]: any;
+    [key: string]: unknown;
 
     /**
      * 
@@ -2138,11 +2138,11 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary test referenced additionalProperties
-         * @param {{ [key: string]: any; }} requestBody request body
+         * @param {{ [key: string]: unknown; }} requestBody request body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testAdditionalPropertiesReference: async (requestBody: { [key: string]: any; }, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testAdditionalPropertiesReference: async (requestBody: { [key: string]: unknown; }, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'requestBody' is not null or undefined
             assertParamExists('testAdditionalPropertiesReference', 'requestBody', requestBody)
             const localVarPath = `/fake/additionalProperties-reference`;
@@ -2867,11 +2867,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary test referenced additionalProperties
-         * @param {{ [key: string]: any; }} requestBody request body
+         * @param {{ [key: string]: unknown; }} requestBody request body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testAdditionalPropertiesReference(requestBody: { [key: string]: any; }, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async testAdditionalPropertiesReference(requestBody: { [key: string]: unknown; }, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testAdditionalPropertiesReference(requestBody, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FakeApi.testAdditionalPropertiesReference']?.[localVarOperationServerIndex]?.url;
@@ -3125,11 +3125,11 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
         /**
          * 
          * @summary test referenced additionalProperties
-         * @param {{ [key: string]: any; }} requestBody request body
+         * @param {{ [key: string]: unknown; }} requestBody request body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testAdditionalPropertiesReference(requestBody: { [key: string]: any; }, options?: any): AxiosPromise<void> {
+        testAdditionalPropertiesReference(requestBody: { [key: string]: unknown; }, options?: any): AxiosPromise<void> {
             return localVarFp.testAdditionalPropertiesReference(requestBody, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3361,12 +3361,12 @@ export class FakeApi extends BaseAPI {
     /**
      * 
      * @summary test referenced additionalProperties
-     * @param {{ [key: string]: any; }} requestBody request body
+     * @param {{ [key: string]: unknown; }} requestBody request body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FakeApi
      */
-    public testAdditionalPropertiesReference(requestBody: { [key: string]: any; }, options?: RawAxiosRequestConfig) {
+    public testAdditionalPropertiesReference(requestBody: { [key: string]: unknown; }, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testAdditionalPropertiesReference(requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 

@@ -110,7 +110,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 "constructor"));
 
         typeMapping.put("List", "Array");
-        typeMapping.put("object", "any");
+        typeMapping.put("object", "object");
         typeMapping.put("DateTime", "Date");
 
         cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
@@ -494,7 +494,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         } else if (ModelUtils.isFileSchema(p)) {
             return "HttpFile";
         } else if (ModelUtils.isBinarySchema(p)) {
-            return "any";
+            return "unknown";
         } else {
             return super.getTypeDeclaration(p);
         }

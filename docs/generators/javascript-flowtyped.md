@@ -51,6 +51,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |array|Array|
 |list|Array|
 |map|Object|
+|set|Set|
 
 
 ## LANGUAGE PRIMITIVES

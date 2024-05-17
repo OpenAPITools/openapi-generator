@@ -79,10 +79,10 @@ export type DogBreedEnum = typeof DogBreedEnum[keyof typeof DogBreedEnum];
 export interface FilePostRequest {
     /**
      * 
-     * @type {any}
+     * @type {unknown}
      * @memberof FilePostRequest
      */
-    'file'?: any;
+    'file'?: unknown;
 }
 /**
  * 

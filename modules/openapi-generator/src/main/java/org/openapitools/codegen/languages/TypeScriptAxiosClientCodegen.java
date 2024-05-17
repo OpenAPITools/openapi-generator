@@ -227,7 +227,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             CodegenModel cm = mo.getModel();
 
             // Type is already any
-            if (cm.getAdditionalPropertiesIsAnyType() && "any".equals(cm.getAdditionalPropertiesType())) {
+            if (cm.getAdditionalPropertiesIsAnyType() && "unknown".equals(cm.getAdditionalPropertiesType())) {
                 cm.setAdditionalPropertiesIsAnyType(false);
             }
 

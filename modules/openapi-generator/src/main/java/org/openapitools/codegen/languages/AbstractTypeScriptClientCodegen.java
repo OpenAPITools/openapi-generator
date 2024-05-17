@@ -315,7 +315,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "Error",
                 "Map",
                 "object",
-                "Set"
+                "Set",
+                "Record",
+                "unknown"
         ));
 
         languageGenericTypes = new HashSet<>(Collections.singletonList(
@@ -323,6 +325,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         ));
 
         instantiationTypes.put("array", "Array");
+        instantiationTypes.put("map", "Record");
+        instantiationTypes.put("set", "Set");
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("Set", "Set");
@@ -340,18 +344,18 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("double", "number");
         typeMapping.put("object", "object");
         typeMapping.put("integer", "number");
-        typeMapping.put("Map", "any");
-        typeMapping.put("map", "any");
+        typeMapping.put("Map", "unknown");
+        typeMapping.put("map", "unknown");
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "string");
-        typeMapping.put("binary", "any");
-        typeMapping.put("File", "any");
-        typeMapping.put("file", "any");
+        typeMapping.put("binary", "unknown");
+        typeMapping.put("File", "unknown");
+        typeMapping.put("file", "unknown");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
         typeMapping.put("Error", "Error");
-        typeMapping.put("AnyType", "any");
+        typeMapping.put("AnyType", "unknown");
 
         cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC).defaultValue(this.enumPropertyNaming.name()));

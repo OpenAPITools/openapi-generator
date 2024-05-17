@@ -13,7 +13,7 @@
 import { HttpFile } from '../http/http';
 
 export class FilePostRequest {
-    'file'?: any;
+    'file'?: unknown;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -21,7 +21,7 @@ export class FilePostRequest {
         {
             "name": "file",
             "baseName": "file",
-            "type": "any",
+            "type": "unknown",
             "format": ""
         }    ];
 
