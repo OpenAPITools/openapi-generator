@@ -2055,7 +2055,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // string
-        String var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
+        String var = underscore(value.replaceAll("\\W+", "_")).toUpperCase(Locale.ROOT);
         if (var.matches("\\d.*")) {
             var = "_" + var;
         }
