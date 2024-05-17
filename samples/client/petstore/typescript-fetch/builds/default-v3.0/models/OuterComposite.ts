@@ -42,7 +42,7 @@ export interface OuterComposite {
 /**
  * Check if a given object implements the OuterComposite interface.
  */
-export function instanceOfOuterComposite(value: object): boolean {
+export function instanceOfOuterComposite(value: object): value is OuterComposite {
     return true;
 }
 

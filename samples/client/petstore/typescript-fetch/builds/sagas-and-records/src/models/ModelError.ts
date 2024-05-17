@@ -55,8 +55,8 @@ export interface ModelError {
 /**
  * Check if a given object implements the ModelError interface.
  */
-export function instanceOfModelError(value: object): boolean {
-    if (!('type' in value)) return false;
+export function instanceOfModelError(value: object): value is ModelError {
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 

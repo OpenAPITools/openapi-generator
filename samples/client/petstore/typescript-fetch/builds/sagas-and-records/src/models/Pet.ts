@@ -187,21 +187,21 @@ export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 /**
  * Check if a given object implements the Pet interface.
  */
-export function instanceOfPet(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('otherFriendIds' in value)) return false;
-    if (!('friendAge' in value)) return false;
-    if (!('age' in value)) return false;
-    if (!('isHappy' in value)) return false;
-    if (!('isTall' in value)) return false;
-    if (!('category' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('photoUrls' in value)) return false;
-    if (!('warningStatus' in value)) return false;
-    if (!('alternateStatus' in value)) return false;
-    if (!('otherDepStatuses' in value)) return false;
-    if (!('tags' in value)) return false;
-    if (!('status' in value)) return false;
+export function instanceOfPet(value: object): value is Pet {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('otherFriendIds' in value) || value['otherFriendIds'] === undefined) return false;
+    if (!('friendAge' in value) || value['friendAge'] === undefined) return false;
+    if (!('age' in value) || value['age'] === undefined) return false;
+    if (!('isHappy' in value) || value['isHappy'] === undefined) return false;
+    if (!('isTall' in value) || value['isTall'] === undefined) return false;
+    if (!('category' in value) || value['category'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('photoUrls' in value) || value['photoUrls'] === undefined) return false;
+    if (!('warningStatus' in value) || value['warningStatus'] === undefined) return false;
+    if (!('alternateStatus' in value) || value['alternateStatus'] === undefined) return false;
+    if (!('otherDepStatuses' in value) || value['otherDepStatuses'] === undefined) return false;
+    if (!('tags' in value) || value['tags'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
     return true;
 }
 
