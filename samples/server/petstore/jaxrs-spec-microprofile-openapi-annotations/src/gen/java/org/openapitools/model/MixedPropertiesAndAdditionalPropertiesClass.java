@@ -44,7 +44,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("uuid")
-  @Valid public UUID getUuid() {
+  public UUID getUuid() {
     return uuid;
   }
 
@@ -63,7 +63,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("dateTime")
-  @Valid public LocalDateTime getDateTime() {
+  public LocalDateTime getDateTime() {
     return dateTime;
   }
 

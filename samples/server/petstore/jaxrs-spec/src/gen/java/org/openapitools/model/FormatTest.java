@@ -255,7 +255,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("binary")
-  @Valid public File getBinary() {
+  public File getBinary() {
     return binary;
   }
 
@@ -274,7 +274,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("date")
-  @NotNull @Valid public LocalDate getDate() {
+  @NotNull public LocalDate getDate() {
     return date;
   }
 
@@ -293,7 +293,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
-  @Valid public Date getDateTime() {
+  public Date getDateTime() {
     return dateTime;
   }
 
@@ -312,7 +312,7 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty("uuid")
-  @Valid public UUID getUuid() {
+  public UUID getUuid() {
     return uuid;
   }
 

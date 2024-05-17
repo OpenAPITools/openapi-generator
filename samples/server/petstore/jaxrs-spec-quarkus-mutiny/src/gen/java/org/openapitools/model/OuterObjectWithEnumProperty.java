@@ -36,7 +36,7 @@ public class OuterObjectWithEnumProperty  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("value")
-  @NotNull @Valid public OuterEnumInteger getValue() {
+  @NotNull public OuterEnumInteger getValue() {
     return value;
   }
 

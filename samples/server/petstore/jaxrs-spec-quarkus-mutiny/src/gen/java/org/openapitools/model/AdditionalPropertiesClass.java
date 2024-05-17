@@ -74,7 +74,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("map_of_map_property")
-  @Valid public Map<String, Map<String, String>> getMapOfMapProperty() {
+  public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }
 

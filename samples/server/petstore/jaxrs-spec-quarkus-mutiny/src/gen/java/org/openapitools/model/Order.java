@@ -150,7 +150,7 @@ public class Order  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("shipDate")
-  @Valid public LocalDateTime getShipDate() {
+  public LocalDateTime getShipDate() {
     return shipDate;
   }
 
