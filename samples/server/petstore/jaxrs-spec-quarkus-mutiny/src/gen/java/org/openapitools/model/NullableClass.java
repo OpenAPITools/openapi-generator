@@ -124,7 +124,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("date_prop")
-  @Valid public LocalDate getDateProp() {
+  public LocalDate getDateProp() {
     return dateProp;
   }
 
@@ -143,7 +143,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("datetime_prop")
-  @Valid public LocalDateTime getDatetimeProp() {
+  public LocalDateTime getDatetimeProp() {
     return datetimeProp;
   }
 

@@ -78,7 +78,7 @@ public class ArrayTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("array_array_of_integer")
-  @Valid public List<List<Long>> getArrayArrayOfInteger() {
+  public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 

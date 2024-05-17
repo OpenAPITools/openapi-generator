@@ -59,7 +59,7 @@ public class AllOfWithSingleRef  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("SingleRefType")
-  @Valid public SingleRefType getSingleRefType() {
+  public SingleRefType getSingleRefType() {
     return singleRefType;
   }
 

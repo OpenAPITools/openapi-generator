@@ -140,7 +140,7 @@ public class FakeTestsDefaultsDefaultResponse  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("stringEnum")
-  @Valid public StringEnum getStringEnum() {
+  public StringEnum getStringEnum() {
     return stringEnum;
   }
 
@@ -159,7 +159,7 @@ public class FakeTestsDefaultsDefaultResponse  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("integerEnum")
-  @Valid public IntegerEnum getIntegerEnum() {
+  public IntegerEnum getIntegerEnum() {
     return integerEnum;
   }
 
