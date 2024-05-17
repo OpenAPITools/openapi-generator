@@ -30,7 +30,7 @@ export interface Owner {
 /**
  * Check if a given object implements the Owner interface.
  */
-export function instanceOfOwner(value: object): boolean {
+export function instanceOfOwner(value: object): value is Owner {
     return true;
 }
 
