@@ -20,18 +20,23 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingExecutor;
+import org.openapitools.codegen.utils.loaders.MustacheHelperLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.Map;
 
 
 public class MustacheEngineAdapter implements TemplatingEngineAdapter {
 
     private final Logger LOGGER = LoggerFactory.getLogger(TemplatingEngineAdapter.class);
+
+    private Map<String, Mustache.Lambda> _helpers = new HashMap<>();
 
     /**
      * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
@@ -62,6 +67,9 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
                 .defaultValue("")
                 .compile(executor.getFullTemplateContents(templateFile));
 
+        this.insertCustomHelpersToContext(bundle);
+
+        LOGGER.debug("Registered {} custom Mustache helpers", this._helpers.size());
         return tmpl.execute(bundle);
     }
 
@@ -90,5 +98,42 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
     @Override
     public String[] getFileExtensions() {
         return extensions;
+    }
+
+    @Override
+    public void useCustomHelpersFile(File helpersJar) throws IOException, FileNotFoundException {
+        if (helpersJar == null) {
+            LOGGER.warn("Helpers file is null. Ignoring");
+            return;
+        }
+
+        if (!helpersJar.exists()) {
+            LOGGER.warn("Helpers file at {} does not exist. Ignoring", helpersJar.getPath());
+            return;
+        }
+
+        try {
+            MustacheHelperLoader loader = new MustacheHelperLoader(helpersJar);
+            loader.load();
+            this._helpers = loader.getHelpers();
+        } catch (Exception e) {
+            LOGGER.error("Could not load customer template helpers from {} - {}", helpersJar.getPath(), e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * Inserts all available helpers into the given context
+     * @param context The Mustache engine context to insert helper Mustache.Lambdas to
+     * @throws IllegalStateException Some helper methods have keys that conflict with ones on the current context
+     */
+    private void insertCustomHelpersToContext(Map<String, Object> context) {
+        for (var entry : this._helpers.entrySet()) {
+            Object existingValue = context.putIfAbsent(entry.getKey(), entry.getValue());
+            if (existingValue != null && !(existingValue instanceof Mustache.Lambda)) {
+                throw new IllegalStateException("The Mustache context already has a definition for '" + entry.getKey() + "' that is not a Mustache.Lambda");
+            }
+            LOGGER.debug("Registered helper '{}' ({})", entry.getKey(), entry.getValue().getClass().getCanonicalName());
+        }
     }
 }

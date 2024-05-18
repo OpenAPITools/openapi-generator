@@ -126,6 +126,9 @@ public class DefaultGenerator implements Generator {
         } else {
             TemplatingEngineAdapter templatingEngine = this.config.getTemplatingEngine();
 
+            // Load custom helpers if an external JAR was given via props
+            this.loadCustomHelpers(templatingEngine);
+
             if (templatingEngine instanceof MustacheEngineAdapter) {
                 MustacheEngineAdapter mustacheEngineAdapter = (MustacheEngineAdapter) templatingEngine;
                 mustacheEngineAdapter.setCompiler(this.config.processCompiler(mustacheEngineAdapter.getCompiler()));
@@ -1950,4 +1953,20 @@ public class DefaultGenerator implements Generator {
         return StringUtils.removeEnd(value, "/");
     }
 
+    /**
+     * Loads custom template helpers from a file, if one was provided via the TEMPLATE_ENGINE_HELPERS property
+     * @param templatingEngine The template engine adapter to load the custom helpers to
+     */
+    private void loadCustomHelpers(TemplatingEngineAdapter templatingEngine) {
+        try {
+            String customHelpersFilePath = (String) this.config.additionalProperties().get(CodegenConstants.TEMPLATE_ENGINE_HELPERS);
+            if (customHelpersFilePath != null && !customHelpersFilePath.isEmpty()) {
+                LOGGER.info("Loading custom helpers from {}", customHelpersFilePath);
+                templatingEngine.useCustomHelpersFile(new File(customHelpersFilePath));
+            }
+        } catch (IOException e) {
+            LOGGER.error("Encountered an IO exception during loading of custom helpers", e);
+            throw new RuntimeException("Encountered an IO exception during loading of custom helpers", e);
+        }
+    }
 }

@@ -232,6 +232,9 @@ public class CodegenConstants {
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
 
+    public static final String TEMPLATE_ENGINE_HELPERS = "templatingEngineHelpers";
+    public static final String TEMPLATE_ENGINE_HELPERS_DESC = "A JAR containing helper methods for the template engine. Currently only the \"mustache\" engine supports this feature";
+
     public static enum PARAM_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
     public static enum MODEL_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original}

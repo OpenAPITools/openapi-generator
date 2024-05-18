@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.api;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -111,4 +112,11 @@ public interface TemplatingEngineAdapter {
             return false;
         });
     }
+
+    /**
+     * Loads helpers provided via an external JAR for use in the templating engine
+     * @param helpersJar The JAR to load helpers from
+     * @throws IOException Helpers could not be loaded from the given JAR
+     */
+    void useCustomHelpersFile(File helpersJar) throws IOException;
 }

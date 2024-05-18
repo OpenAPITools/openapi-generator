@@ -16,10 +16,7 @@
 
 package org.openapitools.codegen.templating;
 
-import com.github.jknack.handlebars.Context;
-import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Jackson2Helper;
-import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.*;
 import com.github.jknack.handlebars.context.FieldValueResolver;
 import com.github.jknack.handlebars.context.JavaBeanValueResolver;
 import com.github.jknack.handlebars.context.MapValueResolver;
@@ -32,15 +29,13 @@ import com.github.jknack.handlebars.io.TemplateLoader;
 import com.github.jknack.handlebars.io.TemplateSource;
 import org.openapitools.codegen.api.AbstractTemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingExecutor;
+import org.openapitools.codegen.utils.loaders.HandlebarsHelperLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.AccessibleObject;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
@@ -51,6 +46,9 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     private final String[] canCompileFromExtensions = {".handlebars",".hbs",".mustache"};
     private boolean infiniteLoops = false;
     private boolean prettyPrint = false;
+
+    @SuppressWarnings("rawtypes")
+    private Map<String, Helper> _helpers = new HashMap<>();
 
     /**
      * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
@@ -109,6 +107,10 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
             return "";
         });
         handlebars.registerHelper("json", Jackson2Helper.INSTANCE);
+
+        // Register custom helpers, if any were provided
+        this.registerCustomHelpers(handlebars);
+
         StringHelpers.register(handlebars);
         handlebars.registerHelpers(ConditionalHelpers.class);
         handlebars.registerHelpers(org.openapitools.codegen.templating.handlebars.StringHelpers.class);
@@ -168,5 +170,44 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     public void setPrettyPrint(boolean prettyPrint) {
         this.prettyPrint = prettyPrint;
     }
-}
 
+    @Override
+    public void useCustomHelpersFile(File helpersJar) throws IOException {
+        if (helpersJar == null) {
+            LOGGER.warn("Helpers file is null. Ignoring");
+            return;
+        }
+
+        if (!helpersJar.exists()) {
+            LOGGER.warn("Helpers file at {} does not exist. Ignoring", helpersJar.getPath());
+            return;
+        }
+
+        try {
+            HandlebarsHelperLoader loader = new HandlebarsHelperLoader(helpersJar);
+            loader.load();
+            this._helpers = loader.getHelpers();
+        } catch (Exception e) {
+            LOGGER.error("Could not load customer template helpers from {} - {}", helpersJar.getPath(), e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * Registers all available engine helpers to the given Handlebars instance
+     * @param hbsInstance The instance to register the helpers with
+     * @throws IllegalStateException Some helper methods have keys that conflict with ones already defined on the given Handlebars instance
+     */
+    private void registerCustomHelpers(Handlebars hbsInstance) {
+        this._helpers.forEach((key, value) -> {
+            if (hbsInstance.helper(key) != null) {
+                throw new IllegalStateException("Helper " + key + " is already registered. Throwing to avoid unintentional replacement");
+            }
+            // HBS can actually receive a file but exact behavior may not suit needs here - it overrides by default
+            // which is a bit of a risky behavior.
+            // The I.S for enumerating JARs and loading helper classes is already available so doesn't make a real difference either way
+            hbsInstance.registerHelper(key, (Helper<?>) value);
+        });
+        LOGGER.debug("Registered {} custom helpers", this._helpers.size());
+    }
+}
