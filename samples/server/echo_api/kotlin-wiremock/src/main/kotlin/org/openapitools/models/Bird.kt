@@ -5,7 +5,13 @@
 
 package org.openapitools.models
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class Bird(
-    val propertySize: kotlin.String?,
-    val color: kotlin.String?,
+    @field:JsonProperty("size")
+    val propertySize: kotlin.String? = null,
+
+    @field:JsonProperty("color")
+    val color: kotlin.String? = null,
+
 )

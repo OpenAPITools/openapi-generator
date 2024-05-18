@@ -5,7 +5,13 @@
 
 package org.openapitools.models
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class Query(
-    val id: kotlin.Long?,
-    val outcomes: kotlin.collections.List<kotlin.String>?,
+    @field:JsonProperty("id")
+    val id: kotlin.Long? = null,
+
+    @field:JsonProperty("outcomes")
+    val outcomes: kotlin.collections.List<kotlin.String>? = null,
+
 )

@@ -5,8 +5,16 @@
 
 package org.openapitools.models
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class NumberPropertiesOnly(
-    val number: java.math.BigDecimal?,
-    val float: kotlin.Float?,
-    val double: kotlin.Double?,
+    @field:JsonProperty("number")
+    val number: java.math.BigDecimal? = null,
+
+    @field:JsonProperty("float")
+    val float: kotlin.Float? = null,
+
+    @field:JsonProperty("double")
+    val double: kotlin.Double? = null,
+
 )

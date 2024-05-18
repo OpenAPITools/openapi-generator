@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -9,12 +10,18 @@ import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.ParameterFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 
 import java.io.File;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
+
+    protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
     @Override
     public CodegenType getTag() {
@@ -88,6 +95,32 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(
                 new SupportingFile(".gitignore.mustache", "", ".gitignore")
         );
+    }
+
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        var objects = super.postProcessModels(objs);
+
+        for (ModelMap model : objects.getModels()) {
+            var cm = model.getModel();
+            var vars = Stream.of(
+                cm.vars,
+                cm.allVars,
+                cm.optionalVars,
+                cm.requiredVars,
+                cm.readOnlyVars,
+                cm.readWriteVars,
+                cm.parentVars
+            )
+            .flatMap(List::stream)
+            .collect(Collectors.toList());
+
+            for (CodegenProperty var : vars) {
+                var.vendorExtensions.put(VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));
+            }
+        }
+
+        return objects;
     }
 
     @Override

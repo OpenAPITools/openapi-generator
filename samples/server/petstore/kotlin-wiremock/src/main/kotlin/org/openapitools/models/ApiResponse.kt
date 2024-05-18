@@ -5,8 +5,16 @@
 
 package org.openapitools.models
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class ApiResponse(
-    val code: kotlin.Int?,
-    val type: kotlin.String?,
-    val message: kotlin.String?,
+    @field:JsonProperty("code")
+    val code: kotlin.Int? = null,
+
+    @field:JsonProperty("type")
+    val type: kotlin.String? = null,
+
+    @field:JsonProperty("message")
+    val message: kotlin.String? = null,
+
 )

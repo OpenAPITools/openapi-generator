@@ -5,8 +5,10 @@
 
 package org.openapitools.models
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 enum class StringEnumRef {
-    success,
-    failure,
-    unclassified,
+    @JsonProperty(value = "success") success,
+    @JsonProperty(value = "failure") failure,
+    @JsonProperty(value = "unclassified") unclassified,
 }

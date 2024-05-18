@@ -5,6 +5,10 @@
 
 package org.openapitools.models
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(
-    val propertyValues: kotlin.collections.List<kotlin.String>?,
+    @field:JsonProperty("values")
+    val propertyValues: kotlin.collections.List<kotlin.String>? = null,
+
 )

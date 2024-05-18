@@ -5,7 +5,13 @@
 
 package org.openapitools.models
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 data class Category(
-    val id: kotlin.Long?,
-    val name: kotlin.String?,
+    @field:JsonProperty("id")
+    val id: kotlin.Long? = null,
+
+    @field:JsonProperty("name")
+    val name: kotlin.String? = null,
+
 )
