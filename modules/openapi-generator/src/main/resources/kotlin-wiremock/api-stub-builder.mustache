@@ -1,0 +1,57 @@
+@file:Suppress(
+    "RemoveRedundantQualifierName",
+    "UnusedImport",
+    "unused",
+)
+
+package {{apiPackage}}
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.tomakehurst.wiremock.client.MappingBuilder
+import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
+import com.github.tomakehurst.wiremock.client.WireMock.*
+import com.github.tomakehurst.wiremock.matching.StringValuePattern
+import {{modelPackage}}.*
+
+{{#operations}}
+{{#operation}}
+class {{operationIdCamelCase}}StubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
+    {{#responses}}
+    {{^wildcard}}
+
+    fun respondWith{{code}}(
+        {{#returnType}}
+        body: {{{.}}},
+        {{/returnType}}
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
+    ): MappingBuilder =
+        stub.willReturn(aResponse()
+            .withStatus({{code}})
+            {{#returnType}}
+            .withHeader("Content-Type", "application/json")
+            .withBody(objectMapper.writeValueAsString(body))
+            {{/returnType}}
+            .configurer()
+        )
+    {{/wildcard}}
+    {{/responses}}
+
+    fun respondWith(
+        code: Int,
+        body: Any? = null,
+        configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this }
+    ): MappingBuilder =
+        stub.willReturn(aResponse()
+            .withStatus(code)
+            .apply {
+                body?.let {
+                    withHeader("Content-Type", "application/json")
+                    withBody(objectMapper.writeValueAsString(it))
+                }
+            }
+            .configurer()
+    )
+}
+
+{{/operation}}
+{{/operations}}

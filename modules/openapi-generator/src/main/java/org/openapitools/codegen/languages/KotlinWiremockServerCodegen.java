@@ -64,10 +64,14 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
 
         typeMapping.put("array", "kotlin.collections.List");
 
+        reservedWords.remove("ApiResponse");
+
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
 
-        apiTemplateFiles.put("api.mustache", ".kt");
+        apiTemplateFiles.put("api-stub.mustache", "Stubs.kt");
+        apiTemplateFiles.put("api-stub-builder.mustache", "StubBuilders.kt");
+
         modelTemplateFiles.put("model.mustache", ".kt");
 
         supportingFiles.addAll(List.of(
@@ -79,6 +83,10 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
                 new SupportingFile("gradle-wrapper.properties.mustache", "gradle" + File.separator + "wrapper", "gradle-wrapper.properties"),
                 new SupportingFile("gradle-wrapper.jar", "gradle" + File.separator + "wrapper", "gradle-wrapper.jar")
             )
+        );
+
+        supportingFiles.add(
+                new SupportingFile(".gitignore.mustache", "", ".gitignore")
         );
     }
 

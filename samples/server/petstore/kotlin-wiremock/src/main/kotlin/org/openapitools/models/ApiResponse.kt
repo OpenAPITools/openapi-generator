@@ -5,7 +5,7 @@
 
 package org.openapitools.models
 
-data class ModelApiResponse(
+data class ApiResponse(
     val code: kotlin.Int?,
     val type: kotlin.String?,
     val message: kotlin.String?,
