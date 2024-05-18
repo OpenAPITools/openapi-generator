@@ -52,6 +52,7 @@ import com.google.common.io.CharSource;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.ClasspathHelper;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
@@ -1093,7 +1094,7 @@ public class CodeGenMojo extends AbstractMojo {
 
         if (url == null) {
             try {
-                url = new URI(inputSpec).toURL();
+                url = new URI(FilenameUtils.separatorsToUnix(inputSpec)).toURL();
             } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
             }
         }
