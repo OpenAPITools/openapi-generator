@@ -40,6 +40,7 @@ import org.apache.maven.project.ProjectBuildingRequest;
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.impl.DefaultServiceLocator;
+import org.eclipse.aether.internal.impl.SimpleLocalRepositoryManagerFactory;
 import org.eclipse.aether.repository.LocalRepository;
 import org.eclipse.aether.RepositorySystem;
 
@@ -254,10 +255,8 @@ public class CodeGenMojoTest extends BaseTestCase {
             throws Exception {
         File pom = new File(basedir, "pom.xml");
         LocalRepository localRepo = new LocalRepository(new File(basedir, "local-repo"));
-        DefaultServiceLocator locator = MavenRepositorySystemUtils.newServiceLocator();
-        RepositorySystem system = locator.getService(RepositorySystem.class);
         DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
-        session.setLocalRepositoryManager(system.newLocalRepositoryManager(session, localRepo));
+        session.setLocalRepositoryManager(new SimpleLocalRepositoryManagerFactory().newInstance(session, localRepo));
         MavenExecutionRequest request = new DefaultMavenExecutionRequest();
         request.setBaseDirectory(basedir);
         if (profile != null) {
