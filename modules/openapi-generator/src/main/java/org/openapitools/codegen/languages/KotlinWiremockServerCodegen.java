@@ -35,7 +35,7 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates Kotlin WireMock stubs, requests and responses samples.";
+        return "Generates Kotlin WireMock stub request and response samples.";
     }
 
     public KotlinWiremockServerCodegen() {
@@ -45,6 +45,7 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
                 .stability(Stability.BETA)
                 .build();
 
+        setArtifactId("kotlin-wiremock");
         setApiPackage(packageName + ".apis");
         setModelPackage(packageName + ".models");
     }
