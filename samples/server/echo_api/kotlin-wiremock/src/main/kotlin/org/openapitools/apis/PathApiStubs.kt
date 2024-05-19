@@ -21,11 +21,11 @@ open class PathApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath.
      *
-     * @param pathString Path parameter pathString pattern.
-     * @param pathInteger Path parameter pathInteger pattern.
-     * @param enumNonrefStringPath Path parameter enumNonrefStringPath pattern.
-     * @param enumRefStringPath Path parameter enumRefStringPath pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param pathString path parameter pathString pattern.
+     * @param pathInteger path parameter pathInteger pattern.
+     * @param enumNonrefStringPath path parameter enumNonrefStringPath pattern.
+     * @param enumRefStringPath path parameter enumRefStringPath pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: StringValuePattern, pathInteger: StringValuePattern, enumNonrefStringPath: StringValuePattern, enumRefStringPath: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathStubBuilder =

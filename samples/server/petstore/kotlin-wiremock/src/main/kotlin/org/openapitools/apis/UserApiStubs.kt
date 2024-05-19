@@ -21,7 +21,7 @@ open class UserApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation createUser.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [CreateUserStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun createUser(configurer: MappingBuilder.() -> MappingBuilder = { this }): CreateUserStubBuilder =
@@ -32,7 +32,7 @@ open class UserApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation createUsersWithArrayInput.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [CreateUsersWithArrayInputStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun createUsersWithArrayInput(configurer: MappingBuilder.() -> MappingBuilder = { this }): CreateUsersWithArrayInputStubBuilder =
@@ -43,7 +43,7 @@ open class UserApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation createUsersWithListInput.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [CreateUsersWithListInputStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun createUsersWithListInput(configurer: MappingBuilder.() -> MappingBuilder = { this }): CreateUsersWithListInputStubBuilder =
@@ -54,8 +54,8 @@ open class UserApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation deleteUser.
      *
-     * @param username Path parameter username pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param username path parameter username pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [DeleteUserStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun deleteUser(username: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): DeleteUserStubBuilder =
@@ -67,8 +67,8 @@ open class UserApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation getUserByName.
      *
-     * @param username Path parameter username pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param username path parameter username pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [GetUserByNameStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun getUserByName(username: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): GetUserByNameStubBuilder =
@@ -80,9 +80,9 @@ open class UserApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation loginUser.
      *
-     * @param username Query parameter username pattern.
-     * @param password Query parameter password pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param username query parameter username pattern.
+     * @param password query parameter password pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [LoginUserStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun loginUser(username: StringValuePattern? = null, password: StringValuePattern? = null, configurer: MappingBuilder.() -> MappingBuilder = { this }): LoginUserStubBuilder =
@@ -95,7 +95,7 @@ open class UserApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation logoutUser.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [LogoutUserStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun logoutUser(configurer: MappingBuilder.() -> MappingBuilder = { this }): LogoutUserStubBuilder =
@@ -106,8 +106,8 @@ open class UserApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation updateUser.
      *
-     * @param username Path parameter username pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param username path parameter username pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [UpdateUserStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun updateUser(username: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): UpdateUserStubBuilder =

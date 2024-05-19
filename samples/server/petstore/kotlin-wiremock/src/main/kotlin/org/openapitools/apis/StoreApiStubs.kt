@@ -21,8 +21,8 @@ open class StoreApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation deleteOrder.
      *
-     * @param orderId Path parameter orderId pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param orderId path parameter orderId pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [DeleteOrderStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun deleteOrder(orderId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): DeleteOrderStubBuilder =
@@ -34,7 +34,7 @@ open class StoreApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation getInventory.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [GetInventoryStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun getInventory(configurer: MappingBuilder.() -> MappingBuilder = { this }): GetInventoryStubBuilder =
@@ -45,8 +45,8 @@ open class StoreApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation getOrderById.
      *
-     * @param orderId Path parameter orderId pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param orderId path parameter orderId pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [GetOrderByIdStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun getOrderById(orderId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): GetOrderByIdStubBuilder =
@@ -58,7 +58,7 @@ open class StoreApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation placeOrder.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [PlaceOrderStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun placeOrder(configurer: MappingBuilder.() -> MappingBuilder = { this }): PlaceOrderStubBuilder =

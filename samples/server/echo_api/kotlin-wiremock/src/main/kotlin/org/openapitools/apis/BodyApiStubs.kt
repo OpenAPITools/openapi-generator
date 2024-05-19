@@ -21,7 +21,7 @@ open class BodyApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testBinaryGif.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestBinaryGifStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testBinaryGif(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestBinaryGifStubBuilder =
@@ -32,7 +32,7 @@ open class BodyApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testBodyApplicationOctetstreamBinary.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestBodyApplicationOctetstreamBinaryStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testBodyApplicationOctetstreamBinary(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestBodyApplicationOctetstreamBinaryStubBuilder =
@@ -43,7 +43,7 @@ open class BodyApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testBodyMultipartFormdataArrayOfBinary.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestBodyMultipartFormdataArrayOfBinaryStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testBodyMultipartFormdataArrayOfBinary(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestBodyMultipartFormdataArrayOfBinaryStubBuilder =
@@ -54,7 +54,7 @@ open class BodyApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testBodyMultipartFormdataSingleBinary.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestBodyMultipartFormdataSingleBinaryStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testBodyMultipartFormdataSingleBinary(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestBodyMultipartFormdataSingleBinaryStubBuilder =
@@ -65,7 +65,7 @@ open class BodyApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testEchoBodyFreeFormObjectResponseString.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestEchoBodyFreeFormObjectResponseStringStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testEchoBodyFreeFormObjectResponseString(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestEchoBodyFreeFormObjectResponseStringStubBuilder =
@@ -76,7 +76,7 @@ open class BodyApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testEchoBodyPet.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestEchoBodyPetStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testEchoBodyPet(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestEchoBodyPetStubBuilder =
@@ -87,7 +87,7 @@ open class BodyApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testEchoBodyPetResponseString.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestEchoBodyPetResponseStringStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testEchoBodyPetResponseString(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestEchoBodyPetResponseStringStubBuilder =
@@ -98,7 +98,7 @@ open class BodyApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testEchoBodyTagResponseString.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestEchoBodyTagResponseStringStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testEchoBodyTagResponseString(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestEchoBodyTagResponseStringStubBuilder =

@@ -21,9 +21,9 @@ class TestEnumRefStringStubBuilder internal constructor(private val objectMapper
     /**
      * Let the stub for testEnumRefString respond with HTTP status code 200.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
         body: kotlin.String,
@@ -39,9 +39,9 @@ class TestEnumRefStringStubBuilder internal constructor(private val objectMapper
     /**
      * Let the stub for testEnumRefString respond with HTTP status code [code].
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith(
         code: Int,
@@ -68,9 +68,9 @@ class TestQueryDatetimeDateStringStubBuilder internal constructor(private val ob
     /**
      * Let the stub for testQueryDatetimeDateString respond with HTTP status code 200.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
         body: kotlin.String,
@@ -86,9 +86,9 @@ class TestQueryDatetimeDateStringStubBuilder internal constructor(private val ob
     /**
      * Let the stub for testQueryDatetimeDateString respond with HTTP status code [code].
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith(
         code: Int,
@@ -115,9 +115,9 @@ class TestQueryIntegerBooleanStringStubBuilder internal constructor(private val 
     /**
      * Let the stub for testQueryIntegerBooleanString respond with HTTP status code 200.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
         body: kotlin.String,
@@ -133,9 +133,9 @@ class TestQueryIntegerBooleanStringStubBuilder internal constructor(private val 
     /**
      * Let the stub for testQueryIntegerBooleanString respond with HTTP status code [code].
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith(
         code: Int,
@@ -162,9 +162,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectStubBuilder internal constructor(
     /**
      * Let the stub for testQueryStyleDeepObjectExplodeTrueObject respond with HTTP status code 200.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
         body: kotlin.String,
@@ -180,9 +180,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectStubBuilder internal constructor(
     /**
      * Let the stub for testQueryStyleDeepObjectExplodeTrueObject respond with HTTP status code [code].
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith(
         code: Int,
@@ -209,9 +209,9 @@ class TestQueryStyleFormExplodeTrueArrayStringStubBuilder internal constructor(p
     /**
      * Let the stub for testQueryStyleFormExplodeTrueArrayString respond with HTTP status code 200.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
         body: kotlin.String,
@@ -227,9 +227,9 @@ class TestQueryStyleFormExplodeTrueArrayStringStubBuilder internal constructor(p
     /**
      * Let the stub for testQueryStyleFormExplodeTrueArrayString respond with HTTP status code [code].
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith(
         code: Int,
@@ -256,9 +256,9 @@ class TestQueryStyleFormExplodeTrueObjectStubBuilder internal constructor(privat
     /**
      * Let the stub for testQueryStyleFormExplodeTrueObject respond with HTTP status code 200.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
         body: kotlin.String,
@@ -274,9 +274,9 @@ class TestQueryStyleFormExplodeTrueObjectStubBuilder internal constructor(privat
     /**
      * Let the stub for testQueryStyleFormExplodeTrueObject respond with HTTP status code [code].
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith(
         code: Int,

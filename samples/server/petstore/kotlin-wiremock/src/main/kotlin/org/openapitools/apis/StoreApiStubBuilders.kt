@@ -21,8 +21,8 @@ class DeleteOrderStubBuilder internal constructor(private val objectMapper: Obje
     /**
      * Let the stub for deleteOrder respond with HTTP status code 400.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith400(
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
@@ -35,8 +35,8 @@ class DeleteOrderStubBuilder internal constructor(private val objectMapper: Obje
     /**
      * Let the stub for deleteOrder respond with HTTP status code 404.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith404(
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
@@ -49,8 +49,8 @@ class DeleteOrderStubBuilder internal constructor(private val objectMapper: Obje
     /**
      * Let the stub for deleteOrder respond with HTTP status code [code].
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith(
         code: Int,
@@ -77,9 +77,9 @@ class GetInventoryStubBuilder internal constructor(private val objectMapper: Obj
     /**
      * Let the stub for getInventory respond with HTTP status code 200.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
         body: kotlin.collections.Map<kotlin.String, kotlin.Int>,
@@ -95,9 +95,9 @@ class GetInventoryStubBuilder internal constructor(private val objectMapper: Obj
     /**
      * Let the stub for getInventory respond with HTTP status code [code].
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith(
         code: Int,
@@ -124,9 +124,9 @@ class GetOrderByIdStubBuilder internal constructor(private val objectMapper: Obj
     /**
      * Let the stub for getOrderById respond with HTTP status code 200.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
         body: Order,
@@ -142,9 +142,9 @@ class GetOrderByIdStubBuilder internal constructor(private val objectMapper: Obj
     /**
      * Let the stub for getOrderById respond with HTTP status code 400.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith400(
         body: Order,
@@ -160,9 +160,9 @@ class GetOrderByIdStubBuilder internal constructor(private val objectMapper: Obj
     /**
      * Let the stub for getOrderById respond with HTTP status code 404.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith404(
         body: Order,
@@ -178,9 +178,9 @@ class GetOrderByIdStubBuilder internal constructor(private val objectMapper: Obj
     /**
      * Let the stub for getOrderById respond with HTTP status code [code].
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith(
         code: Int,
@@ -207,9 +207,9 @@ class PlaceOrderStubBuilder internal constructor(private val objectMapper: Objec
     /**
      * Let the stub for placeOrder respond with HTTP status code 200.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
         body: Order,
@@ -225,9 +225,9 @@ class PlaceOrderStubBuilder internal constructor(private val objectMapper: Objec
     /**
      * Let the stub for placeOrder respond with HTTP status code 400.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith400(
         body: Order,
@@ -243,9 +243,9 @@ class PlaceOrderStubBuilder internal constructor(private val objectMapper: Objec
     /**
      * Let the stub for placeOrder respond with HTTP status code [code].
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith(
         code: Int,

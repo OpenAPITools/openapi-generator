@@ -26,10 +26,10 @@ class {{operationIdCamelCase}}StubBuilder internal constructor(private val objec
      * Let the stub for {{operationId}} respond with HTTP status code {{code}}.
      *
      {{#returnType}}
-     * @param body Response body for the [MappingBuilder].
+     * @param body response body for the [MappingBuilder].
      {{/returnType}}
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith{{code}}(
         {{#returnType}}
@@ -52,10 +52,10 @@ class {{operationIdCamelCase}}StubBuilder internal constructor(private val objec
      * Let the stub for {{operationId}} respond with HTTP status code [code].
      *
      {{#returnType}}
-     * @param body Response body for the [MappingBuilder].
+     * @param body response body for the [MappingBuilder].
      {{/returnType}}
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith(
         code: Int,

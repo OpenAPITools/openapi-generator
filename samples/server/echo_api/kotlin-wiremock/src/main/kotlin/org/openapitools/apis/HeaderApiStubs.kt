@@ -21,7 +21,7 @@ open class HeaderApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testHeaderIntegerBooleanStringEnums.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestHeaderIntegerBooleanStringEnumsStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testHeaderIntegerBooleanStringEnums(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestHeaderIntegerBooleanStringEnumsStubBuilder =

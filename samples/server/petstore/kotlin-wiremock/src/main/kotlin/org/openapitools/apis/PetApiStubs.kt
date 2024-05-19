@@ -21,7 +21,7 @@ open class PetApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation addPet.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [AddPetStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun addPet(configurer: MappingBuilder.() -> MappingBuilder = { this }): AddPetStubBuilder =
@@ -32,8 +32,8 @@ open class PetApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation deletePet.
      *
-     * @param petId Path parameter petId pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param petId path parameter petId pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [DeletePetStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun deletePet(petId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): DeletePetStubBuilder =
@@ -45,8 +45,8 @@ open class PetApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation findPetsByStatus.
      *
-     * @param status Query parameter status pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param status query parameter status pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [FindPetsByStatusStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun findPetsByStatus(status: StringValuePattern? = null, configurer: MappingBuilder.() -> MappingBuilder = { this }): FindPetsByStatusStubBuilder =
@@ -58,8 +58,8 @@ open class PetApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation findPetsByTags.
      *
-     * @param tags Query parameter tags pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param tags query parameter tags pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [FindPetsByTagsStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun findPetsByTags(tags: StringValuePattern? = null, configurer: MappingBuilder.() -> MappingBuilder = { this }): FindPetsByTagsStubBuilder =
@@ -71,8 +71,8 @@ open class PetApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation getPetById.
      *
-     * @param petId Path parameter petId pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param petId path parameter petId pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [GetPetByIdStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun getPetById(petId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): GetPetByIdStubBuilder =
@@ -84,7 +84,7 @@ open class PetApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation updatePet.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [UpdatePetStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun updatePet(configurer: MappingBuilder.() -> MappingBuilder = { this }): UpdatePetStubBuilder =
@@ -95,8 +95,8 @@ open class PetApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation updatePetWithForm.
      *
-     * @param petId Path parameter petId pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param petId path parameter petId pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [UpdatePetWithFormStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun updatePetWithForm(petId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): UpdatePetWithFormStubBuilder =
@@ -108,8 +108,8 @@ open class PetApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation uploadFile.
      *
-     * @param petId Path parameter petId pattern.
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param petId path parameter petId pattern.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [UploadFileStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun uploadFile(petId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): UploadFileStubBuilder =

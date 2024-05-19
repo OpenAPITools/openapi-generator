@@ -21,9 +21,9 @@ class TestHeaderIntegerBooleanStringEnumsStubBuilder internal constructor(privat
     /**
      * Let the stub for testHeaderIntegerBooleanStringEnums respond with HTTP status code 200.
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer fonfigurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith200(
         body: kotlin.String,
@@ -39,9 +39,9 @@ class TestHeaderIntegerBooleanStringEnumsStubBuilder internal constructor(privat
     /**
      * Let the stub for testHeaderIntegerBooleanStringEnums respond with HTTP status code [code].
      *
-     * @param body Response body for the [MappingBuilder].
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
-     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     * @param body response body for the [MappingBuilder].
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return a [MappingBuilder] to be registered with a WireMock instance.
      */
     fun respondWith(
         code: Int,

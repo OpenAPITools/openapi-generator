@@ -21,7 +21,7 @@ open class FormApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testFormIntegerBooleanString.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestFormIntegerBooleanStringStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testFormIntegerBooleanString(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestFormIntegerBooleanStringStubBuilder =
@@ -32,7 +32,7 @@ open class FormApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testFormOneof.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestFormOneofStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testFormOneof(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestFormOneofStubBuilder =

@@ -21,7 +21,7 @@ open class AuthApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testAuthHttpBasic.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestAuthHttpBasicStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testAuthHttpBasic(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestAuthHttpBasicStubBuilder =
@@ -32,7 +32,7 @@ open class AuthApiStubs(private val objectMapper: ObjectMapper) {
     /**
      * Construct a stub for the operation testAuthHttpBearer.
      *
-     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @param configurer configurer for the [MappingBuilder], allowing for arbitrary changes.
      * @return A [TestAuthHttpBearerStubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun testAuthHttpBearer(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestAuthHttpBearerStubBuilder =
