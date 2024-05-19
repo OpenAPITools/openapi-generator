@@ -24,7 +24,7 @@ data class {{classname}}(
     @field:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
     val {{{name}}}: {{{dataType}}}{{^required}}?{{/required}}{{!
     !}}{{^required}} = {{^defaultValue}}null{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}{{/required}}{{!
-    }}{{#required}}{{#defaultValue}}{{{.}}}{{/defaultValue}}{{/required}},
+    }}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}},
 
     {{/allVars}}
 )
