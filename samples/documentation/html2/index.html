@@ -9591,19 +9591,19 @@ The password for login in clear text
                                               <th>Description</th>
                                           </tr>
                                               <tr>
-                                                  <td>SetDashCookie</td>
+                                                  <td>Set-Cookie</td>
                                                   <td>String</td>
                                                   <td></td>
                                                   <td>Cookie authentication key for use with the &#x60;api_key&#x60; apiKey authentication.</td>
                                               </tr>
                                               <tr>
-                                                  <td>XDashRateDashLimit</td>
+                                                  <td>X-Rate-Limit</td>
                                                   <td>Integer</td>
                                                   <td>int32</td>
                                                   <td>calls per hour allowed by the user</td>
                                               </tr>
                                               <tr>
-                                                  <td>XDashExpiresDashAfter</td>
+                                                  <td>X-Expires-After</td>
                                                   <td>Date</td>
                                                   <td>date-time</td>
                                                   <td>date in UTC when token expires</td>
@@ -11660,7 +11660,7 @@ var JSONSchemaView = (function () {
     // Determine if a schema is an array
     this.isArray = !this.isAny && this.schema && this.schema.type === 'array';
 
-    this.isObject = this.schema && (this.schema.type === 'object' || this.schema.properties || this.schema.anyOf || this.schema.oneof || this.schema.allOf);
+    this.isObject = this.schema && (this.schema.type === 'object' || this.schema.properties || this.schema.anyOf || this.schema.oneOf || this.schema.allOf);
 
     // Determine if a schema is a primitive
     this.isPrimitive = !this.isAny && !this.isArray && !this.isObject;
