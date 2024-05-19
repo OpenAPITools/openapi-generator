@@ -120,6 +120,7 @@ The following generators are available:
 * [kotlin-server](generators/kotlin-server.md)  
 * [kotlin-spring](generators/kotlin-spring.md)  
 * [kotlin-vertx (beta)](generators/kotlin-vertx.md)  
+* [kotlin-wiremock (beta)](generators/kotlin-wiremock.md)  
 * [nodejs-express-server (beta)](generators/nodejs-express-server.md)  
 * [php-flight (experimental)](generators/php-flight.md)  
 * [php-laravel](generators/php-laravel.md)  
