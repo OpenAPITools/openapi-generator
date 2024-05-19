@@ -33,10 +33,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="EquilateralTriangle" /> class.
         /// </summary>
         /// <param name="shapeType">shapeType</param>
+        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public EquilateralTriangle(string shapeType)
+        public EquilateralTriangle(string shapeType, string triangleType)
         {
             ShapeType = shapeType;
+            TriangleType = triangleType;
             OnCreated();
         }
 
@@ -47,6 +49,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("shapeType")]
         public string ShapeType { get; set; }
+
+        /// <summary>
+        /// Gets or Sets TriangleType
+        /// </summary>
+        [JsonPropertyName("triangleType")]
+        public string TriangleType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,6 +71,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class EquilateralTriangle {\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
+            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -143,7 +152,7 @@ namespace Org.OpenAPITools.Model
             if (triangleType.IsSet && triangleType.Value == null)
                 throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class EquilateralTriangle.");
 
-            return new EquilateralTriangle(shapeType.Value);
+            return new EquilateralTriangle(shapeType.Value, triangleType.Value);
         }
 
         /// <summary>
@@ -173,9 +182,12 @@ namespace Org.OpenAPITools.Model
             if (equilateralTriangle.ShapeType == null)
                 throw new ArgumentNullException(nameof(equilateralTriangle.ShapeType), "Property is required for class EquilateralTriangle.");
 
+            if (equilateralTriangle.TriangleType == null)
+                throw new ArgumentNullException(nameof(equilateralTriangle.TriangleType), "Property is required for class EquilateralTriangle.");
+
             writer.WriteString("shapeType", equilateralTriangle.ShapeType);
 
-            writer.WriteString("triangleType", "EquilateralTriangle");
+            writer.WriteString("triangleType", equilateralTriangle.TriangleType);
         }
     }
 }

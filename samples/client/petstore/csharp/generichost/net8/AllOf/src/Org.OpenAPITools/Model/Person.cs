@@ -73,6 +73,13 @@ namespace Org.OpenAPITools.Model
         public string? LastName { get { return this.LastNameOption; } set { this.LastNameOption = new(value); } }
 
         /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public string Type { get; } = "Person";
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -235,6 +242,8 @@ namespace Org.OpenAPITools.Model
 
             if (person.LastNameOption.IsSet)
                 writer.WriteString("lastName", person.LastName);
+
+            writer.WriteString("$_type", person.Type);
         }
     }
 }

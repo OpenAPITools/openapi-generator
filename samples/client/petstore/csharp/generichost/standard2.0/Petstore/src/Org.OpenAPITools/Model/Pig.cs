@@ -231,7 +231,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("className", "Pig");
+
         }
     }
 }

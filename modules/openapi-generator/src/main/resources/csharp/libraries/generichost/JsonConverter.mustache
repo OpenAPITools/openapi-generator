@@ -292,7 +292,7 @@
             {{#model.hasDiscriminatorWithNonEmptyMapping}}
             {{#mappedModels}}
             if ({{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}} != null)
-                return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{#model.composedSchemas.anyOf}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{^isDiscriminator}}{{^vendorExtensions.x-is-discriminated}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#required}}.Value{{nrt!}}{{^isNullable}}{{#vendorExtensions.x-is-value-type}}.Value{{/vendorExtensions.x-is-value-type}}{{/isNullable}}{{/required}}  {{/vendorExtensions.x-is-discriminated}}{{/isDiscriminator}}{{/allVars}}{{/lambda.joinWithComma}});
+                return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{#model.composedSchemas.anyOf}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{^isDiscriminator}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#required}}.Value{{nrt!}}{{^isNullable}}{{#vendorExtensions.x-is-value-type}}.Value{{/vendorExtensions.x-is-value-type}}{{/isNullable}}{{/required}}  {{/isDiscriminator}}{{/allVars}}{{/lambda.joinWithComma}});
 
             {{#-last}}
             throw new JsonException();
@@ -311,14 +311,14 @@
 
             {{/-last}}
             {{/required}}
-            return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}ParsedValue{{#required}}.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{nrt!}}{{/vendorExtensions.x-is-value-type}}{{/required}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{^isDiscriminator}}{{^vendorExtensions.x-is-discriminated}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#required}}.Value{{nrt!}}{{^isNullable}}{{#vendorExtensions.x-is-value-type}}.Value{{nrt!}}{{/vendorExtensions.x-is-value-type}}{{/isNullable}}{{/required}}  {{/vendorExtensions.x-is-discriminated}}{{/isDiscriminator}}{{/allVars}}{{/lambda.joinWithComma}});
+            return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}ParsedValue{{#required}}.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{nrt!}}{{/vendorExtensions.x-is-value-type}}{{/required}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{^isDiscriminator}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#required}}.Value{{nrt!}}{{^isNullable}}{{#vendorExtensions.x-is-value-type}}.Value{{nrt!}}{{/vendorExtensions.x-is-value-type}}{{/isNullable}}{{/required}}  {{/isDiscriminator}}{{/allVars}}{{/lambda.joinWithComma}});
             {{/composedSchemas.oneOf}}
             {{^model.discriminator}}
             {{#composedSchemas}}
             {{#oneOf}}
             {{^vendorExtensions.x-duplicated-data-type}}
             if ({{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} != null)
-                return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}.Value{{/vendorExtensions.x-is-value-type}}  {{#model.composedSchemas.anyOf}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{^isDiscriminator}}{{^vendorExtensions.x-is-discriminated}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#required}}ParsedValue{{/required}}  {{/vendorExtensions.x-is-discriminated}}{{/isDiscriminator}}{{/allVars}}{{/lambda.joinWithComma}});
+                return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}.Value{{/vendorExtensions.x-is-value-type}}  {{#model.composedSchemas.anyOf}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{^isDiscriminator}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{#required}}ParsedValue{{/required}}  {{/isDiscriminator}}{{/allVars}}{{/lambda.joinWithComma}});
 
             {{/vendorExtensions.x-duplicated-data-type}}
             {{#-last}}
@@ -399,7 +399,6 @@
             {{#lambda.trimLineBreaks}}
             {{#allVars}}
             {{^isDiscriminator}}
-            {{^vendorExtensions.x-is-discriminated}}
             {{^isNullable}}
             {{#vendorExtensions.x-is-reference-type}}
             if ({{^required}}{{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet && {{/required}}{{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} == null)
@@ -407,29 +406,18 @@
 
             {{/vendorExtensions.x-is-reference-type}}
             {{/isNullable}}
-            {{/vendorExtensions.x-is-discriminated}}
             {{/isDiscriminator}}
             {{/allVars}}
             {{#allVars}}
-            {{#vendorExtensions.x-is-discriminated}}
-            writer.WriteString("{{.}}", "{{model.name}}");
-
-            {{/vendorExtensions.x-is-discriminated}}
             {{#isDiscriminator}}
-            {{^vendorExtensions.x-is-discriminated}}
-            {{#lambda.copy}}
-            writer.WriteString("{{baseName}}", "{{model.name}}");
-            {{/lambda.copy}}
-            {{#model.composedSchemas.allOf}}
-            {{#-first}}
-            {{#lambda.pasteLine}}{{/lambda.pasteLine}}
+            {{^model.composedSchemas.anyOf}}
+            {{^model.composedSchemas.oneOf}}
+            writer.WriteString("{{baseName}}", {{^isEnum}}{{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{/isEnum}}{{#isNew}}{{#isEnum}}{{#isInnerEnum}}{{classname}}.{{{datatypeWithEnum}}}ToJsonValue{{/isInnerEnum}}{{^isInnerEnum}}{{{datatypeWithEnum}}}ValueConverter.ToJsonValue{{/isInnerEnum}}({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}.Value{{/required}}){{/isEnum}}{{/isNew}});
 
-            {{/-first}}
-            {{/model.composedSchemas.allOf}}
-            {{/vendorExtensions.x-is-discriminated}}
+            {{/model.composedSchemas.oneOf}}
+            {{/model.composedSchemas.anyOf}}
             {{/isDiscriminator}}
             {{^isDiscriminator}}
-            {{^vendorExtensions.x-is-discriminated}}
             {{#isString}}
             {{^isMap}}
             {{^isEnum}}
@@ -625,7 +613,6 @@
             {{/isString}}
             {{/isEnum}}
             {{/isUuid}}
-            {{/vendorExtensions.x-is-discriminated}}
             {{/isDiscriminator}}
             {{/allVars}}
             {{/lambda.trimLineBreaks}}

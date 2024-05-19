@@ -35,15 +35,23 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleQuadrilateral" /> class.
         /// </summary>
+        /// <param name="quadrilateralType">quadrilateralType</param>
         /// <param name="shapeType">shapeType</param>
         [JsonConstructor]
-        public SimpleQuadrilateral(string shapeType)
+        public SimpleQuadrilateral(string quadrilateralType, string shapeType)
         {
+            QuadrilateralType = quadrilateralType;
             ShapeType = shapeType;
             OnCreated();
         }
 
         partial void OnCreated();
+
+        /// <summary>
+        /// Gets or Sets QuadrilateralType
+        /// </summary>
+        [JsonPropertyName("quadrilateralType")]
+        public string QuadrilateralType { get; set; }
 
         /// <summary>
         /// Gets or Sets ShapeType
@@ -65,6 +73,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class SimpleQuadrilateral {\n");
+            sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -146,7 +155,7 @@ namespace Org.OpenAPITools.Model
             if (shapeType.IsSet && shapeType.Value == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class SimpleQuadrilateral.");
 
-            return new SimpleQuadrilateral(shapeType.Value!);
+            return new SimpleQuadrilateral(quadrilateralType.Value!, shapeType.Value!);
         }
 
         /// <summary>
@@ -173,10 +182,13 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, SimpleQuadrilateral simpleQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (simpleQuadrilateral.QuadrilateralType == null)
+                throw new ArgumentNullException(nameof(simpleQuadrilateral.QuadrilateralType), "Property is required for class SimpleQuadrilateral.");
+
             if (simpleQuadrilateral.ShapeType == null)
                 throw new ArgumentNullException(nameof(simpleQuadrilateral.ShapeType), "Property is required for class SimpleQuadrilateral.");
 
-            writer.WriteString("quadrilateralType", "SimpleQuadrilateral");
+            writer.WriteString("quadrilateralType", simpleQuadrilateral.QuadrilateralType);
 
             writer.WriteString("shapeType", simpleQuadrilateral.ShapeType);
         }

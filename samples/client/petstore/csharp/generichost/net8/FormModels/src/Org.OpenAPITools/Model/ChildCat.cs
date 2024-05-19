@@ -43,6 +43,13 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public new ChildCatAllOfPetType PetType { get; } = (ChildCatAllOfPetType)Enum.Parse(typeof(ChildCatAllOfPetType), "ChildCat");
+
+        /// <summary>
         /// Used to track the state of Name
         /// </summary>
         [JsonIgnore]
@@ -163,7 +170,7 @@ namespace Org.OpenAPITools.Model
             if (childCat.NameOption.IsSet && childCat.Name == null)
                 throw new ArgumentNullException(nameof(childCat.Name), "Property is required for class ChildCat.");
 
-            writer.WriteString("pet_type", "ChildCat");
+            writer.WriteString("pet_type", ChildCatAllOfPetTypeValueConverter.ToJsonValue(childCat.PetType));
 
             if (childCat.NameOption.IsSet)
                 writer.WriteString("name", childCat.Name);

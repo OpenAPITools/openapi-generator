@@ -60,6 +60,13 @@ namespace Org.OpenAPITools.Model
         public List<Child>? Children { get { return this.ChildrenOption; } set { this.ChildrenOption = new(value); } }
 
         /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public new string Type { get; } = "Adult";
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -194,7 +201,7 @@ namespace Org.OpenAPITools.Model
             if (adult.LastNameOption.IsSet)
                 writer.WriteString("lastName", adult.LastName);
 
-            writer.WriteString("$_type", "Adult");
+            writer.WriteString("$_type", adult.Type);
         }
     }
 }

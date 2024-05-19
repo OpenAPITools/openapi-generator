@@ -34,13 +34,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="BasquePig" /> class.
         /// </summary>
+        /// <param name="className">className</param>
         [JsonConstructor]
-        public BasquePig()
+        public BasquePig(string className)
         {
+            ClassName = className;
             OnCreated();
         }
 
         partial void OnCreated();
+
+        /// <summary>
+        /// Gets or Sets ClassName
+        /// </summary>
+        [JsonPropertyName("className")]
+        public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -56,6 +64,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class BasquePig {\n");
+            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -126,7 +135,7 @@ namespace Org.OpenAPITools.Model
             if (className.IsSet && className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class BasquePig.");
 
-            return new BasquePig();
+            return new BasquePig(className.Value!);
         }
 
         /// <summary>
@@ -153,7 +162,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, BasquePig basquePig, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("className", "BasquePig");
+            if (basquePig.ClassName == null)
+                throw new ArgumentNullException(nameof(basquePig.ClassName), "Property is required for class BasquePig.");
+
+            writer.WriteString("className", basquePig.ClassName);
         }
     }
 }

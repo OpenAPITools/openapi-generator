@@ -62,6 +62,13 @@ namespace Org.OpenAPITools.Model
         public int? Age { get { return this.AgeOption; } set { this.AgeOption = new(value); } }
 
         /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public new string Type { get; } = "Child";
+
+        /// <summary>
         /// Used to track the state of BoosterSeat
         /// </summary>
         [JsonIgnore]
@@ -213,7 +220,7 @@ namespace Org.OpenAPITools.Model
             if (child.LastNameOption.IsSet)
                 writer.WriteString("lastName", child.LastName);
 
-            writer.WriteString("$_type", "Child");
+            writer.WriteString("$_type", child.Type);
 
             if (child.BoosterSeatOption.IsSet)
                 writer.WriteBoolean("boosterSeat", child.BoosterSeatOption.Value!.Value);

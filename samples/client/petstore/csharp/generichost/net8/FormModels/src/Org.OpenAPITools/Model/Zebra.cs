@@ -32,10 +32,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
+        /// <param name="className">className</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public Zebra(Option<ZebraType?> type = default)
+        public Zebra(string className, Option<ZebraType?> type = default)
         {
+            ClassName = className;
             TypeOption = type;
             OnCreated();
         }
@@ -56,6 +58,12 @@ namespace Org.OpenAPITools.Model
         public ZebraType? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
 
         /// <summary>
+        /// Gets or Sets ClassName
+        /// </summary>
+        [JsonPropertyName("className")]
+        public string ClassName { get; set; }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -69,6 +77,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
+            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -149,7 +158,7 @@ namespace Org.OpenAPITools.Model
             if (type.IsSet && type.Value == null)
                 throw new ArgumentNullException(nameof(type), "Property is not nullable for class Zebra.");
 
-            return new Zebra(type);
+            return new Zebra(className.Value, type);
         }
 
         /// <summary>
@@ -176,7 +185,10 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("className", "zebra");
+            if (zebra.ClassName == null)
+                throw new ArgumentNullException(nameof(zebra.ClassName), "Property is required for class Zebra.");
+
+            writer.WriteString("className", zebra.ClassName);
 
             if (zebra.TypeOption.IsSet)
             {

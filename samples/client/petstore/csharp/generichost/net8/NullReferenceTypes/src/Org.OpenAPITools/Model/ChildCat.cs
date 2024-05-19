@@ -110,6 +110,13 @@ namespace Org.OpenAPITools.Model
         public string? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
 
         /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public new PetTypeEnum PetType { get; } = (PetTypeEnum)Enum.Parse(typeof(PetTypeEnum), "ChildCat");
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -220,7 +227,7 @@ namespace Org.OpenAPITools.Model
             if (childCat.NameOption.IsSet)
                 writer.WriteString("name", childCat.Name);
 
-            writer.WriteString("pet_type", "ChildCat");
+            writer.WriteString("pet_type", ChildCat.PetTypeEnumToJsonValue(childCat.PetType));
         }
     }
 }

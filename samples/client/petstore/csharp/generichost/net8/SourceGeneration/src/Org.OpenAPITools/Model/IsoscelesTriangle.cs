@@ -36,10 +36,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="IsoscelesTriangle" /> class.
         /// </summary>
         /// <param name="shapeType">shapeType</param>
+        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public IsoscelesTriangle(string shapeType)
+        public IsoscelesTriangle(string shapeType, string triangleType)
         {
             ShapeType = shapeType;
+            TriangleType = triangleType;
             OnCreated();
         }
 
@@ -52,6 +54,12 @@ namespace Org.OpenAPITools.Model
         public string ShapeType { get; set; }
 
         /// <summary>
+        /// Gets or Sets TriangleType
+        /// </summary>
+        [JsonPropertyName("triangleType")]
+        public string TriangleType { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -60,6 +68,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class IsoscelesTriangle {\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
+            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -139,7 +148,7 @@ namespace Org.OpenAPITools.Model
             if (triangleType.IsSet && triangleType.Value == null)
                 throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class IsoscelesTriangle.");
 
-            return new IsoscelesTriangle(shapeType.Value!);
+            return new IsoscelesTriangle(shapeType.Value!, triangleType.Value!);
         }
 
         /// <summary>
@@ -169,9 +178,12 @@ namespace Org.OpenAPITools.Model
             if (isoscelesTriangle.ShapeType == null)
                 throw new ArgumentNullException(nameof(isoscelesTriangle.ShapeType), "Property is required for class IsoscelesTriangle.");
 
+            if (isoscelesTriangle.TriangleType == null)
+                throw new ArgumentNullException(nameof(isoscelesTriangle.TriangleType), "Property is required for class IsoscelesTriangle.");
+
             writer.WriteString("shapeType", isoscelesTriangle.ShapeType);
 
-            writer.WriteString("triangleType", "IsoscelesTriangle");
+            writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
         }
     }
 

@@ -44,6 +44,13 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public new string ClassName { get; } = "Dog";
+
+        /// <summary>
         /// Used to track the state of Breed
         /// </summary>
         [JsonIgnore]
@@ -172,7 +179,7 @@ namespace Org.OpenAPITools.Model
             if (dog.ColorOption.IsSet && dog.Color == null)
                 throw new ArgumentNullException(nameof(dog.Color), "Property is required for class Dog.");
 
-            writer.WriteString("className", "Dog");
+            writer.WriteString("className", dog.ClassName);
 
             if (dog.BreedOption.IsSet)
                 writer.WriteString("breed", dog.Breed);

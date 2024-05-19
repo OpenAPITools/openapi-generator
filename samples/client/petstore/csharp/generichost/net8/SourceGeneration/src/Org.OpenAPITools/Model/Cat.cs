@@ -47,6 +47,13 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public new string ClassName { get; } = "Cat";
+
+        /// <summary>
         /// Used to track the state of Declawed
         /// </summary>
         [JsonIgnore]
@@ -173,7 +180,7 @@ namespace Org.OpenAPITools.Model
             if (cat.ColorOption.IsSet && cat.Color == null)
                 throw new ArgumentNullException(nameof(cat.Color), "Property is required for class Cat.");
 
-            writer.WriteString("className", "Cat");
+            writer.WriteString("className", cat.ClassName);
 
             if (cat.ColorOption.IsSet)
                 writer.WriteString("color", cat.Color);

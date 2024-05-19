@@ -592,10 +592,21 @@ public class DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
+    /**
+     * A property is new if it is in a derived class and the derived property is different.
+     * This usually occurs when the data type is different.
+     * We can also consider discriminators as new because the derived class discriminator will have to be defined again
+     * to contain a new value. Doing so prevents having to include the discriminator in the constructor.
+     * @param model
+     * @param property
+     * @return
+     */
     private boolean codegenPropertyIsNew(CodegenModel model, CodegenProperty property) {
         return model.parentModel == null
                 ? false
-                : model.parentModel.allVars.stream().anyMatch(p -> p.name.equals(property.name) && (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false));
+                : model.parentModel.allVars.stream().anyMatch(p -> 
+                    p.name.equals(property.name) &&
+                    (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false || p.isDiscriminator));
     }
 
     /**

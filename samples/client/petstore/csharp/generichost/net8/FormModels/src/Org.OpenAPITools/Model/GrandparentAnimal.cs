@@ -41,6 +41,13 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public string PetType { get; } = "GrandparentAnimal";
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -179,7 +186,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
         {
-
+            writer.WriteString("pet_type", grandparentAnimal.PetType);
         }
     }
 }
