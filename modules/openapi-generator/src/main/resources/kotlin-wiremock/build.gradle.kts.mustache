@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 group = "{{groupId}}"
 version = "{{artifactVersion}}"
 
@@ -7,6 +9,10 @@ tasks.wrapper {
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "11"
 }
 
 dependencies {
