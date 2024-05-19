@@ -49,6 +49,8 @@ use crate::{Api,
      GetRepoInfoResponse
 };
 
+mod server_auth;
+
 pub mod callbacks;
 
 mod paths {
@@ -121,7 +123,6 @@ mod paths {
     pub(crate) static ID_XML_OTHER: usize = 23;
 }
 
-mod server_auth;
 
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,

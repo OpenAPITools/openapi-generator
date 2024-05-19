@@ -24,6 +24,8 @@ use crate::{Api,
      OpGetResponse
 };
 
+mod server_auth;
+
 mod paths {
     use lazy_static::lazy_static;
 
@@ -36,7 +38,6 @@ mod paths {
     pub(crate) static ID_OP: usize = 0;
 }
 
-mod server_auth;
 
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,

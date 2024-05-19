@@ -78,7 +78,7 @@ pub async fn create(addr: &str, https: bool) {
             }
         }
     } else {
-        info!("Starting a server (over https, so no TLS");
+        info!("Starting a server (over http, so no TLS)");
         // Using HTTP
         hyper::server::Server::bind(&addr).serve(service).await.unwrap()
     }
