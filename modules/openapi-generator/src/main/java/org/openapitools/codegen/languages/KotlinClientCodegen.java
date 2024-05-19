@@ -28,6 +28,7 @@ import java.util.stream.Stream;
 
 import com.samskivert.mustache.Mustache;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -95,18 +96,18 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
-    protected String dateLibrary = DateLibrary.JAVA8.value;
-    protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
-    protected String collectionType = CollectionType.LIST.value;
+    @Setter protected String dateLibrary = DateLibrary.JAVA8.value;
+    @Setter protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
+    @Setter protected String collectionType = CollectionType.LIST.value;
     protected boolean useRxJava3 = false;
     protected boolean useCoroutines = false;
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
     protected boolean doNotUseRxAndCoroutines = true;
     protected boolean generateRoomModels = false;
-    protected String roomModelPackage = "";
-    protected boolean omitGradleWrapper = false;
-    protected boolean generateOneOfAnyOfWrappers = true;
+    @Setter protected String roomModelPackage = "";
+    @Setter protected boolean omitGradleWrapper = false;
+    @Setter protected boolean generateOneOfAnyOfWrappers = true;
 
     protected String authFolder;
 
@@ -324,31 +325,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             this.doNotUseRxAndCoroutines = false;
         }
         this.useCoroutines = useCoroutines;
-    }
-
-
-    public void setDateLibrary(String library) {
-        this.dateLibrary = library;
-    }
-
-    public void setRequestDateConverter(String converter) {
-        this.requestDateConverter = converter;
-    }
-
-    public void setCollectionType(String collectionType) {
-        this.collectionType = collectionType;
-    }
-
-    public void setRoomModelPackage(String roomModelPackage) {
-        this.roomModelPackage = roomModelPackage;
-    }
-
-    public void setOmitGradleWrapper(boolean omitGradleWrapper) {
-        this.omitGradleWrapper = omitGradleWrapper;
-    }
-
-    public void setGenerateOneOfAnyOfWrappers(boolean generateOneOfAnyOfWrappers) {
-        this.generateOneOfAnyOfWrappers = generateOneOfAnyOfWrappers;
     }
 
     /**

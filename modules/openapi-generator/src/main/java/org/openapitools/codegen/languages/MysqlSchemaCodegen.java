@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -71,19 +72,16 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     protected String tableNamePrefix = "tbl_", tableNameSuffix = "";
     protected String columnNamePrefix = "col_", columnNameSuffix = "";
     /**
-     * -- GETTER --
-     *  Whether JSON data type enabled or disabled in all MySQL queries
-     *
-     * @return true if enabled otherwise false
+     *  Whether JSON data type enabled or disabled in all MySQL queries.
+     *  JSON data type requires MySQL version 5.7.8
      */
-    @Getter protected Boolean jsonDataTypeEnabled = true;
+    @Getter @Setter
+    protected Boolean jsonDataTypeEnabled = true;
     /**
-     * -- GETTER --
      *  Whether named parameters enabled or disabled in prepared SQLs
-     *
-     * @return true if enabled otherwise false
      */
-    @Getter protected Boolean namedParametersEnabled = false;
+    @Getter @Setter
+    protected Boolean namedParametersEnabled = false;
     /**
      * -- GETTER --
      *  Returns identifier naming convention for table names and column names.
@@ -1186,25 +1184,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                     databaseName, escapedName);
         }
         this.defaultDatabaseName = escapedName;
-    }
-
-    /**
-     * Enables special JSON data type in all MySQL queries
-     * JSON data type requires MySQL version 5.7.8
-     *
-     * @param enabled true to enable, otherwise false
-     */
-    public void setJsonDataTypeEnabled(Boolean enabled) {
-        this.jsonDataTypeEnabled = enabled;
-    }
-
-    /**
-     * Enables named parameters in prepared SQLs
-     *
-     * @param enabled true to enable, otherwise false
-     */
-    public void setNamedParametersEnabled(Boolean enabled) {
-        this.namedParametersEnabled = enabled;
     }
 
     /**

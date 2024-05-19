@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -74,10 +75,13 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     private static final String CLIENT_NAME = "clientName";
 
-    @Getter private String dateLibrary;
-    @Getter private String equalityCheckMethod;
+    @Getter @Setter
+    private String dateLibrary;
+    @Getter @Setter
+    private String equalityCheckMethod;
 
-    @Getter private String clientName;
+    @Getter @Setter
+    private String clientName;
 
     private TemplateManager templateManager;
 
@@ -136,18 +140,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
         finalProperties.setDefault("true");
         cliOptions.add(finalProperties);
-    }
-
-    public void setDateLibrary(String library) {
-        this.dateLibrary = library;
-    }
-
-    public void setEqualityCheckMethod(String equalityCheckMethod) {
-        this.equalityCheckMethod = equalityCheckMethod;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
     }
 
     @Override

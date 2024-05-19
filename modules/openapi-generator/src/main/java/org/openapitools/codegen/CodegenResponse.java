@@ -18,12 +18,14 @@
 package org.openapitools.codegen;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
 public class CodegenResponse implements IJsonSchemaValidationProperties {
     public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
-    @Getter private List<CodegenParameter> responseHeaders = new ArrayList<CodegenParameter>();
+    @Getter @Setter
+    private List<CodegenParameter> responseHeaders = new ArrayList<CodegenParameter>();
     public String code;
     public boolean is1xx;
     public boolean is2xx;
@@ -96,7 +98,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private CodegenComposedSchemas composedSchemas;
     private boolean hasMultipleTypes = false;
-    @Getter private LinkedHashMap<String, CodegenMediaType> content;
+    @Getter @Setter
+    private LinkedHashMap<String, CodegenMediaType> content;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
     public CodegenProperty returnProperty;
@@ -250,14 +253,6 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     // use content.mediaType.schema.setFormat instead of this
     @Override
     public void setFormat(String format) {}
-
-    public void setContent(LinkedHashMap<String, CodegenMediaType> content) {
-        this.content = content;
-    }
-
-    public void setResponseHeaders(List<CodegenParameter> responseHeaders) {
-        this.responseHeaders = responseHeaders;
-    }
 
     @Override
     public String getPattern() {

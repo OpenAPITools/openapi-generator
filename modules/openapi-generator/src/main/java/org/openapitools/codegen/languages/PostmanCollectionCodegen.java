@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -825,7 +826,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     }
 
     // Supporting models
-    @Getter public class PostmanRequestItem {
+    @Getter @Setter public class PostmanRequestItem {
 
         private String name;
         private String body;
@@ -838,16 +839,10 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             this.body = body;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setBody(String body) {
-            this.body = body;
-        }
     }
 
-    @Getter class PostmanVariable {
+    @Getter @Setter
+    class PostmanVariable {
 
         private String name;
         private String type;
@@ -866,18 +861,6 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         public PostmanVariable addeDefaultValue(String defaultValue) {
             this.defaultValue = defaultValue;
             return this;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public void setDefaultValue(String defaultValue) {
-            this.defaultValue = defaultValue;
         }
 
         @Override
@@ -902,6 +885,5 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                     '}';
         }
     }
-
 }
 

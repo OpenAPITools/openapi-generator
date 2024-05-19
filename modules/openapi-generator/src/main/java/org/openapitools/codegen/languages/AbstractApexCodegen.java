@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelsMap;
@@ -39,7 +40,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public abstract class AbstractApexCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
 
-    protected Boolean serializableModel = false;
+    @Setter protected Boolean serializableModel = false;
 
     public AbstractApexCodegen() {
         super();
@@ -625,10 +626,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         return packageName;
     }
 
-
-    public void setSerializableModel(Boolean serializableModel) {
-        this.serializableModel = serializableModel;
-    }
 
     private String sanitizePath(String p) {
         //prefer replace a ", instead of a fuLL URL encode for readability

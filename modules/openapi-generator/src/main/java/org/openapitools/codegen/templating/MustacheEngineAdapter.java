@@ -19,6 +19,7 @@ package org.openapitools.codegen.templating;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingExecutor;
 import org.slf4j.Logger;
@@ -45,7 +46,8 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
     }
 
     private final String[] extensions = {"mustache"};
-    @Getter Mustache.Compiler compiler = Mustache.compiler();
+    @Getter @Setter
+    Mustache.Compiler compiler = Mustache.compiler();
 
     /**
      * Compiles a template into a string
@@ -78,10 +80,6 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
         }
 
         throw new TemplateNotFoundException(name);
-    }
-
-    public void setCompiler(Mustache.Compiler compiler) {
-        this.compiler = compiler;
     }
 
     @Override

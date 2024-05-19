@@ -6,6 +6,7 @@ import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -61,7 +62,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected String title;
     @Getter protected boolean useBeanValidation;
     @Getter protected boolean useOptional;
-    @Getter protected boolean visitable;
+    @Getter @Setter
+    protected boolean visitable;
     protected String buildTool;
     protected String testTool;
     protected boolean requiredPropertiesInConstructor = true;
@@ -435,10 +437,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     @Override
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
-    }
-
-    public void setVisitable(boolean visitable) {
-        this.visitable = visitable;
     }
 
     @Override

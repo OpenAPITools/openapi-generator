@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import joptsimple.internal.Strings;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -69,7 +70,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String packageName;
-    protected String packageVersion;
+    @Setter protected String packageVersion;
     protected String externCrateName;
     protected Map<String, Map<String, String>> pathSetMap = new HashMap();
     protected Map<String, Map<String, String>> callbacksPathSetMap = new HashMap();
@@ -280,10 +281,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         // Also set the extern crate name, which has any '-' replace with a '_'.
         this.externCrateName = packageName.replace('-', '_');
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     @Override

@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -32,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Setter
 public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements JbossFeature, BeanValidationFeatures, SwaggerFeatures {
 
@@ -158,13 +160,5 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         objs = super.postProcessOperationsWithModels(objs, allModels);
         removeImport(objs, "java.util.List");
         return objs;
-    }
-
-    public void setGenerateJbossDeploymentDescriptor(boolean generateJbossDeploymentDescriptor) {
-        this.generateJbossDeploymentDescriptor = generateJbossDeploymentDescriptor;
-    }
-
-    public void setUseSwaggerFeature(boolean useSwaggerFeature) {
-        this.useSwaggerFeature = useSwaggerFeature;
     }
 }

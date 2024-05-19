@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -41,21 +42,26 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     public static final String ANDROID_GRADLE_VERSION = "androidGradleVersion";
     public static final String ANDROID_SDK_VERSION = "androidSdkVersion";
     public static final String ANDROID_BUILD_TOOLS_VERSION = "androidBuildToolsVersion";
-    @Getter protected String invokerPackage = "org.openapitools.client";
-    protected String groupId = "org.openapitools";
-    protected String artifactId = "openapi-android-client";
-    protected String artifactVersion = "1.0.0";
+    @Getter @Setter
+    protected String invokerPackage = "org.openapitools.client";
+    @Setter protected String groupId = "org.openapitools";
+    @Setter protected String artifactId = "openapi-android-client";
+    @Setter protected String artifactVersion = "1.0.0";
     protected String projectFolder = "src/main";
-    protected String sourceFolder = projectFolder + "/java";
-    @Getter protected Boolean useAndroidMavenGradlePlugin = true;
-    @Getter protected String androidGradleVersion;
-    @Getter protected String androidSdkVersion;
-    @Getter protected String androidBuildToolsVersion;
-    protected Boolean serializableModel = false;
+    @Setter protected String sourceFolder = projectFolder + "/java";
+    @Getter @Setter
+    protected Boolean useAndroidMavenGradlePlugin = true;
+    @Getter @Setter
+    protected String androidGradleVersion;
+    @Getter @Setter
+    protected String androidSdkVersion;
+    @Getter @Setter
+    protected String androidBuildToolsVersion;
+    @Setter protected Boolean serializableModel = false;
 
     // requestPackage and authPackage are used by the "volley" template/library
-    protected String requestPackage = "org.openapitools.client.request";
-    protected String authPackage = "org.openapitools.client.auth";
+    @Setter protected String requestPackage = "org.openapitools.client.request";
+    @Setter protected String authPackage = "org.openapitools.client.auth";
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -497,54 +503,6 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         } else {
             throw new IllegalArgumentException("Invalid 'library' option specified: '" + getLibrary() + "'. Must be 'httpclient' or 'volley' (default)");
         }
-    }
-
-    public void setUseAndroidMavenGradlePlugin(Boolean useAndroidMavenGradlePlugin) {
-        this.useAndroidMavenGradlePlugin = useAndroidMavenGradlePlugin;
-    }
-
-    public void setAndroidGradleVersion(String androidGradleVersion) {
-        this.androidGradleVersion = androidGradleVersion;
-    }
-
-    public void setAndroidSdkVersion(String androidSdkVersion) {
-        this.androidSdkVersion = androidSdkVersion;
-    }
-
-    public void setAndroidBuildToolsVersion(String androidBuildToolsVersion) {
-        this.androidBuildToolsVersion = androidBuildToolsVersion;
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
-    }
-
-    public void setRequestPackage(String requestPackage) {
-        this.requestPackage = requestPackage;
-    }
-
-    public void setAuthPackage(String authPackage) {
-        this.authPackage = authPackage;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    public void setArtifactId(String artifactId) {
-        this.artifactId = artifactId;
-    }
-
-    public void setArtifactVersion(String artifactVersion) {
-        this.artifactVersion = artifactVersion;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setSerializableModel(Boolean serializableModel) {
-        this.serializableModel = serializableModel;
     }
 
     @Override

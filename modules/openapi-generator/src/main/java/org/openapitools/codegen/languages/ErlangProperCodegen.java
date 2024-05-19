@@ -21,6 +21,7 @@ import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -44,8 +45,8 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ErlangProperCodegen.class);
 
-    protected String packageName = "openapi";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String packageVersion = "1.0.0";
     protected String sourceFolder = "src";
     protected String modelFolder = "model";
 
@@ -403,14 +404,6 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         return objs;
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
     String length(Object os) {
         int l = 1;
         for (CodegenParameter o : ((ExtendedCodegenOperation) os).allParams) {
@@ -503,7 +496,8 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
-        @Getter     private String replacedPathName;
+        @Getter @Setter
+        private String replacedPathName;
         String arity;
 
         ExtendedCodegenOperation(CodegenOperation o) {
@@ -564,9 +558,6 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             this.operationIdCamelCase = o.operationIdCamelCase;
         }
 
-        public void setReplacedPathName(String replacedPathName) {
-            this.replacedPathName = replacedPathName;
-        }
     }
 
     @Override

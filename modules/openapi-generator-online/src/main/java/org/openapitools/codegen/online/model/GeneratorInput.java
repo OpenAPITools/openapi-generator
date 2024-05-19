@@ -21,33 +21,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
+@Setter
 public class GeneratorInput {
     @Getter private JsonNode spec;
     @Getter private Map<String, String> options;
     private String openAPIUrl;
     @Getter private AuthorizationValue authorizationValue;
 
-    public void setAuthorizationValue(AuthorizationValue authorizationValue) {
-        this.authorizationValue = authorizationValue;
-    }
-
-    public void setSpec(JsonNode spec) {
-        this.spec = spec;
-    }
-
-    public void setOptions(Map<String, String> options) {
-        this.options = options;
-    }
-
     @ApiModelProperty(example = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml")
     public String getOpenAPIUrl() {
         return openAPIUrl;
-    }
-
-    public void setOpenAPIUrl(String url) {
-        this.openAPIUrl = url;
     }
 }

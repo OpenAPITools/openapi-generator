@@ -32,6 +32,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -98,56 +99,87 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generateConstructorWithAllArgs";
     public static final String GENERATE_BUILDERS = "generateBuilders";
 
-    @Getter protected String dateLibrary = "java8";
-    protected boolean supportAsync = false;
-    protected boolean withXml = false;
-    @Getter protected String invokerPackage = "org.openapitools";
-    @Getter protected String groupId = "org.openapitools";
-    @Getter protected String artifactId = "openapi-java";
-    @Getter protected String artifactVersion = null;
-    @Getter protected String artifactUrl = "https://github.com/openapitools/openapi-generator";
-    @Getter protected String artifactDescription = "OpenAPI Java";
-    @Getter protected String developerName = "OpenAPI-Generator Contributors";
-    @Getter protected String developerEmail = "team@openapitools.org";
-    @Getter protected String developerOrganization = "OpenAPITools.org";
-    @Getter protected String developerOrganizationUrl = "http://openapitools.org";
-    @Getter protected String scmConnection = "scm:git:git@github.com:openapitools/openapi-generator.git";
-    @Getter protected String scmDeveloperConnection = "scm:git:git@github.com:openapitools/openapi-generator.git";
-    @Getter protected String scmUrl = "https://github.com/openapitools/openapi-generator";
-    @Getter protected String licenseName = "Unlicense";
-    @Getter protected String licenseUrl = "http://unlicense.org";
+    @Getter @Setter
+    protected String dateLibrary = "java8";
+    @Setter protected boolean supportAsync = false;
+    @Setter protected boolean withXml = false;
+    @Getter @Setter
+    protected String invokerPackage = "org.openapitools";
+    @Getter @Setter
+    protected String groupId = "org.openapitools";
+    @Getter @Setter
+    protected String artifactId = "openapi-java";
+    @Getter @Setter
+    protected String artifactVersion = null;
+    @Getter @Setter
+    protected String artifactUrl = "https://github.com/openapitools/openapi-generator";
+    @Getter @Setter
+    protected String artifactDescription = "OpenAPI Java";
+    @Getter @Setter
+    protected String developerName = "OpenAPI-Generator Contributors";
+    @Getter @Setter
+    protected String developerEmail = "team@openapitools.org";
+    @Getter @Setter
+    protected String developerOrganization = "OpenAPITools.org";
+    @Getter @Setter
+    protected String developerOrganizationUrl = "http://openapitools.org";
+    @Getter @Setter
+    protected String scmConnection = "scm:git:git@github.com:openapitools/openapi-generator.git";
+    @Getter @Setter
+    protected String scmDeveloperConnection = "scm:git:git@github.com:openapitools/openapi-generator.git";
+    @Getter @Setter
+    protected String scmUrl = "https://github.com/openapitools/openapi-generator";
+    @Getter @Setter
+    protected String licenseName = "Unlicense";
+    @Getter @Setter
+    protected String licenseUrl = "http://unlicense.org";
     protected String projectFolder = "src/main";
     protected String projectTestFolder = "src/test";
     // this must not be OS-specific
-    @Getter protected String sourceFolder = projectFolder + "/java";
-    @Getter protected String testFolder = projectTestFolder + "/java";
-    protected boolean discriminatorCaseSensitive = true; // True if the discriminator value lookup should be case-sensitive.
-    @Getter protected Boolean serializableModel = false;
-    protected boolean serializeBigDecimalAsString = false;
+    @Getter @Setter
+    protected String sourceFolder = projectFolder + "/java";
+    @Getter @Setter
+    protected String testFolder = projectTestFolder + "/java";
+    /**
+     * -- SETTER --
+     * Set whether discriminator value lookup is case-sensitive or not.
+     *
+     * @param discriminatorCaseSensitive true if the discriminator value lookup should be case-sensitive.
+     */
+    @Setter protected boolean discriminatorCaseSensitive = true;
+    @Getter @Setter
+    protected Boolean serializableModel = false;
+    @Setter protected boolean serializeBigDecimalAsString = false;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected boolean disableHtmlEscaping = false;
-    @Getter protected String booleanGetterPrefix = "get";
-    protected boolean ignoreAnyOfInEnum = false;
-    protected String parentGroupId = "";
-    protected String parentArtifactId = "";
-    protected String parentVersion = "";
-    protected boolean parentOverridden = false;
-    @Getter protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    @Setter protected boolean disableHtmlEscaping = false;
+    @Getter @Setter
+    protected String booleanGetterPrefix = "get";
+    @Setter protected boolean ignoreAnyOfInEnum = false;
+    @Setter protected String parentGroupId = "";
+    @Setter protected String parentArtifactId = "";
+    @Setter protected String parentVersion = "";
+    @Setter protected boolean parentOverridden = false;
+    @Getter @Setter
+    protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
     protected Map<String, Boolean> lombokAnnotations = null;
-    @Getter protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
-    protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
-    @Getter protected boolean openApiNullable = true;
-    protected String outputTestFolder = "";
+    @Getter @Setter
+    protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
+    @Setter protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
+    @Getter @Setter
+    protected boolean openApiNullable = true;
+    @Setter protected String outputTestFolder = "";
     protected DocumentationProvider documentationProvider;
     protected AnnotationLibrary annotationLibrary;
-    protected boolean implicitHeaders = false;
-    protected String implicitHeadersRegex = null;
-    protected boolean camelCaseDollarSign = false;
-    protected boolean useJakartaEe = false;
-    protected boolean containerDefaultToNull = false;
-    @Getter protected boolean generateConstructorWithAllArgs = false;
-    @Getter protected boolean generateBuilder = false;
+    @Setter protected boolean implicitHeaders = false;
+    @Setter protected String implicitHeadersRegex = null;
+    @Setter protected boolean camelCaseDollarSign = false;
+    @Setter protected boolean useJakartaEe = false;
+    @Setter protected boolean containerDefaultToNull = false;
+    @Getter @Setter
+    protected boolean generateConstructorWithAllArgs = false;
+    @Getter @Setter
+    protected boolean generateBuilder = false;
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
@@ -692,14 +724,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             writer.write(content);
         });
-    }
-
-    public void setGenerateConstructorWithAllArgs(boolean aValue) {
-        this.generateConstructorWithAllArgs = aValue;
-    }
-
-    public void setGenerateBuilder(boolean aValue) {
-        this.generateBuilder = aValue;
     }
 
     /**
@@ -2127,122 +2151,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return packageName;
     }
 
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    public void setArtifactId(String artifactId) {
-        this.artifactId = artifactId;
-    }
-
-    public void setArtifactVersion(String artifactVersion) {
-        this.artifactVersion = artifactVersion;
-    }
-
-    public void setArtifactUrl(String artifactUrl) {
-        this.artifactUrl = artifactUrl;
-    }
-
-    public void setArtifactDescription(String artifactDescription) {
-        this.artifactDescription = artifactDescription;
-    }
-
-    public void setScmConnection(String scmConnection) {
-        this.scmConnection = scmConnection;
-    }
-
-    public void setScmDeveloperConnection(String scmDeveloperConnection) {
-        this.scmDeveloperConnection = scmDeveloperConnection;
-    }
-
-    public void setScmUrl(String scmUrl) {
-        this.scmUrl = scmUrl;
-    }
-
-    public void setDeveloperName(String developerName) {
-        this.developerName = developerName;
-    }
-
-    public void setDeveloperEmail(String developerEmail) {
-        this.developerEmail = developerEmail;
-    }
-
-    public void setDeveloperOrganization(String developerOrganization) {
-        this.developerOrganization = developerOrganization;
-    }
-
-    public void setDeveloperOrganizationUrl(String developerOrganizationUrl) {
-        this.developerOrganizationUrl = developerOrganizationUrl;
-    }
-
-    public void setLicenseName(String licenseName) {
-        this.licenseName = licenseName;
-    }
-
-    public void setLicenseUrl(String licenseUrl) {
-        this.licenseUrl = licenseUrl;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setTestFolder(String testFolder) {
-        this.testFolder = testFolder;
-    }
-
-    public void setSerializeBigDecimalAsString(boolean s) {
-        this.serializeBigDecimalAsString = s;
-    }
-
-    public void setSerializableModel(Boolean serializableModel) {
-        this.serializableModel = serializableModel;
-    }
-
     private String sanitizePath(String p) {
         //prefer replace a ", instead of a fuLL URL encode for readability
         return p.replaceAll("\"", "%22");
-    }
-
-    /**
-     * Set whether discriminator value lookup is case-sensitive or not.
-     *
-     * @param discriminatorCaseSensitive true if the discriminator value lookup should be case sensitive.
-     */
-    public void setDiscriminatorCaseSensitive(boolean discriminatorCaseSensitive) {
-        this.discriminatorCaseSensitive = discriminatorCaseSensitive;
-    }
-
-    public void setWithXml(boolean withXml) {
-        this.withXml = withXml;
-    }
-
-    public void setDateLibrary(String library) {
-        this.dateLibrary = library;
-    }
-
-    public void setSupportAsync(boolean enabled) {
-        this.supportAsync = enabled;
-    }
-
-    public void setDisableHtmlEscaping(boolean disabled) {
-        this.disableHtmlEscaping = disabled;
-    }
-
-    public void setBooleanGetterPrefix(String booleanGetterPrefix) {
-        this.booleanGetterPrefix = booleanGetterPrefix;
-    }
-
-    public void setIgnoreAnyOfInEnum(boolean ignoreAnyOfInEnum) {
-        this.ignoreAnyOfInEnum = ignoreAnyOfInEnum;
-    }
-
-    public void setOpenApiNullable(final boolean openApiNullable) {
-        this.openApiNullable = openApiNullable;
     }
 
     @Override
@@ -2258,10 +2169,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return DEFAULT_TEST_FOLDER;
         }
         return outputTestFolder;
-    }
-
-    public void setOutputTestFolder(String outputTestFolder) {
-        this.outputTestFolder = outputTestFolder;
     }
 
     @Override
@@ -2282,26 +2189,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public void setAnnotationLibrary(AnnotationLibrary annotationLibrary) {
         this.annotationLibrary = annotationLibrary;
-    }
-
-    public void setImplicitHeaders(boolean implicitHeaders) {
-        this.implicitHeaders = implicitHeaders;
-    }
-
-    public void setImplicitHeadersRegex(String implicitHeadersRegex) {
-        this.implicitHeadersRegex = implicitHeadersRegex;
-    }
-
-    public void setCamelCaseDollarSign(boolean camelCaseDollarSign) {
-        this.camelCaseDollarSign = camelCaseDollarSign;
-    }
-
-    public void setUseJakartaEe(boolean useJakartaEe) {
-        this.useJakartaEe = useJakartaEe;
-    }
-
-    public void setContainerDefaultToNull(boolean containerDefaultToNull) {
-        this.containerDefaultToNull = containerDefaultToNull;
     }
 
     @Override
@@ -2428,34 +2315,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 Thread.currentThread().interrupt();
             }
         }
-    }
-
-    public void setParentGroupId(final String parentGroupId) {
-        this.parentGroupId = parentGroupId;
-    }
-
-    public void setParentArtifactId(final String parentArtifactId) {
-        this.parentArtifactId = parentArtifactId;
-    }
-
-    public void setParentVersion(final String parentVersion) {
-        this.parentVersion = parentVersion;
-    }
-
-    public void setParentOverridden(final boolean parentOverridden) {
-        this.parentOverridden = parentOverridden;
-    }
-
-    public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {
-        this.additionalModelTypeAnnotations = additionalModelTypeAnnotations;
-    }
-
-    public void setAdditionalOneOfTypeAnnotations(final List<String> additionalOneOfTypeAnnotations) {
-        this.additionalOneOfTypeAnnotations = additionalOneOfTypeAnnotations;
-    }
-
-    public void setAdditionalEnumTypeAnnotations(final List<String> additionalEnumTypeAnnotations) {
-        this.additionalEnumTypeAnnotations = additionalEnumTypeAnnotations;
     }
 
     @Override

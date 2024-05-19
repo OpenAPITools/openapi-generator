@@ -19,7 +19,9 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -111,27 +113,27 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useRxJava3 = false;
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
-    protected boolean doNotUseRx = true;
-    protected boolean usePlayWS = false;
-    protected String microprofileFramework = MICROPROFILE_DEFAULT;
-    protected boolean microprofileMutiny = false;
-    protected String configKey = null;
-    protected boolean configKeyFromClassName = false;
+    @Setter protected boolean doNotUseRx = true;
+    @Setter protected boolean usePlayWS = false;
+    @Setter protected String microprofileFramework = MICROPROFILE_DEFAULT;
+    @Setter protected boolean microprofileMutiny = false;
+    @Setter protected String configKey = null;
+    @Setter(AccessLevel.PRIVATE) protected boolean configKeyFromClassName = false;
 
-    protected boolean asyncNative = false;
-    protected boolean parcelableModel = false;
-    protected boolean useBeanValidation = false;
-    protected boolean performBeanValidation = false;
-    protected boolean useGzipFeature = false;
-    protected boolean useRuntimeException = false;
-    protected boolean useReflectionEqualsHashCode = false;
+    @Setter protected boolean asyncNative = false;
+    @Setter protected boolean parcelableModel = false;
+    @Setter protected boolean useBeanValidation = false;
+    @Setter protected boolean performBeanValidation = false;
+    @Setter protected boolean useGzipFeature = false;
+    @Setter protected boolean useRuntimeException = false;
+    @Setter protected boolean useReflectionEqualsHashCode = false;
     protected boolean caseInsensitiveResponseHeaders = false;
-    protected boolean useAbstractionForFiles = false;
-    protected boolean dynamicOperations = false;
-    protected boolean supportStreaming = false;
-    protected boolean withAWSV4Signature = false;
-    protected String gradleProperties;
-    protected String errorObjectType;
+    @Setter protected boolean useAbstractionForFiles = false;
+    @Setter protected boolean dynamicOperations = false;
+    @Setter protected boolean supportStreaming = false;
+    @Setter protected boolean withAWSV4Signature = false;
+    @Setter protected String gradleProperties;
+    @Setter protected String errorObjectType;
     protected String authFolder;
     /**
      * -- GETTER --
@@ -140,16 +142,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
      * @return 'gson' or 'jackson'
      */
     @Getter protected String serializationLibrary = null;
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new LinkedHashMap<>();
-    protected boolean useSingleRequestParameter = false;
+    @Setter(AccessLevel.PRIVATE) protected boolean useSingleRequestParameter = false;
     protected boolean webclientBlockingOperations = false;
-    protected boolean generateClientAsBean = false;
-    protected boolean useEnumCaseInsensitive = false;
+    @Setter protected boolean generateClientAsBean = false;
+    @Setter protected boolean useEnumCaseInsensitive = false;
 
-    protected int maxAttemptsForRetry = 1;
-    protected long waitTimeMillis = 10l;
+    @Setter protected int maxAttemptsForRetry = 1;
+    @Setter protected long waitTimeMillis = 10l;
 
     private static class MpRestClientVersion {
         public final String rootPackage;
@@ -1179,20 +1181,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         return false;
     }
 
-    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
-        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
-    }
-
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
     }
 
     private boolean getUseSingleRequestParameter() {
         return useSingleRequestParameter;
-    }
-
-    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
-        this.useSingleRequestParameter = useSingleRequestParameter;
     }
 
     public void setUseRxJava(boolean useRxJava) {
@@ -1210,96 +1204,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         doNotUseRx = false;
     }
 
-    public void setDoNotUseRx(boolean doNotUseRx) {
-        this.doNotUseRx = doNotUseRx;
-    }
-
-    public void setUsePlayWS(boolean usePlayWS) {
-        this.usePlayWS = usePlayWS;
-    }
-
-    public void setAsyncNative(boolean asyncNative) {
-        this.asyncNative = asyncNative;
-    }
-
-    public void setMicroprofileFramework(String microprofileFramework) {
-        this.microprofileFramework = microprofileFramework;
-    }
-
-    public void setMicroprofileMutiny(boolean microprofileMutiny) {
-        this.microprofileMutiny = microprofileMutiny;
-    }
-
-    public void setConfigKey(String configKey) {
-        this.configKey = configKey;
-    }
-
-    public void setParcelableModel(boolean parcelableModel) {
-        this.parcelableModel = parcelableModel;
-    }
-
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
-    public void setPerformBeanValidation(boolean performBeanValidation) {
-        this.performBeanValidation = performBeanValidation;
-    }
-
-    public void setUseGzipFeature(boolean useGzipFeature) {
-        this.useGzipFeature = useGzipFeature;
-    }
-
-    public void setUseRuntimeException(boolean useRuntimeException) {
-        this.useRuntimeException = useRuntimeException;
-    }
-
-    public void setUseReflectionEqualsHashCode(boolean useReflectionEqualsHashCode) {
-        this.useReflectionEqualsHashCode = useReflectionEqualsHashCode;
-    }
-
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
-    }
-
-    public void setUseAbstractionForFiles(boolean useAbstractionForFiles) {
-        this.useAbstractionForFiles = useAbstractionForFiles;
-    }
-
-    public void setDynamicOperations(final boolean dynamicOperations) {
-        this.dynamicOperations = dynamicOperations;
-    }
-
-    public void setSupportStreaming(final boolean supportStreaming) {
-        this.supportStreaming = supportStreaming;
-    }
-
-    public void setWithAWSV4Signature(boolean withAWSV4Signature) {
-        this.withAWSV4Signature = withAWSV4Signature;
-    }
-
-    public void setGradleProperties(final String gradleProperties) {
-        this.gradleProperties = gradleProperties;
-    }
-
-    public void setErrorObjectType(final String errorObjectType) {
-        this.errorObjectType = errorObjectType;
-    }
-
-    public void setGenerateClientAsBean(boolean generateClientAsBean) {
-        this.generateClientAsBean = generateClientAsBean;
-    }
-
-    public void setUseEnumCaseInsensitive(boolean useEnumCaseInsensitive) {
-        this.useEnumCaseInsensitive = useEnumCaseInsensitive;
-    }
-
-    public void setMaxAttemptsForRetry(int maxAttemptsForRetry) {
-        this.maxAttemptsForRetry = maxAttemptsForRetry;
-    }
-
-    public void setWaitTimeMillis(long waitTimeMillis) {
-        this.waitTimeMillis = waitTimeMillis;
     }
 
     public void setSerializationLibrary(String serializationLibrary) {
@@ -1327,10 +1233,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
-    }
-
-    private void setConfigKeyFromClassName(boolean configKeyFromClassName) {
-        this.configKeyFromClassName = configKeyFromClassName;
     }
 
     @Override

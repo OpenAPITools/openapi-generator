@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -59,7 +60,8 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     protected String defaultServerPort = "8080";
     protected String implFolder = "services";
     protected String projectName = "openapi-server";
-    @Getter protected String exportedName;
+    @Getter @Setter
+    protected String exportedName;
 
     public NodeJSExpressServerCodegen() {
         super();
@@ -231,10 +233,6 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
-    }
-
-    public void setExportedName(String name) {
-        exportedName = name;
     }
 
     @Override

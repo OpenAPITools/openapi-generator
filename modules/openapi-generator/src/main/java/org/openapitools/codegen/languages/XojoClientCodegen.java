@@ -20,6 +20,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -50,8 +51,8 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public enum SERIALIZATION_LIBRARY_TYPE {xoson}
 
-    protected String projectName = "OpenAPIClient";
-    protected boolean nonPublicApi = false;
+    @Setter protected String projectName = "OpenAPIClient";
+    @Setter protected boolean nonPublicApi = false;
     protected boolean supportsAsync = true;
     @Getter protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.xoson;
 
@@ -60,14 +61,6 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected int projectObjectNumber = 100042;
 
     private final Logger LOGGER = LoggerFactory.getLogger(XojoClientCodegen.class);
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setNonPublicApi(boolean nonPublicApi) {
-        this.nonPublicApi = nonPublicApi;
-    }
 
     public void setSupportsAsync(Boolean supportsAsync) {
         this.supportsAsync = supportsAsync;

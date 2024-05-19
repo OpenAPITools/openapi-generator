@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import java.util.*;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -36,16 +37,22 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     // object is a discriminator, that object is set as the parent. If no discriminator is specified,
     // codegen returns the first one in the list, i.e. there is no obvious parent in the OpenAPI specification.
     // When possible, the mustache templates should use 'allParents' to handle multiple parents.
-    @Getter public String parent, parentSchema;
-    @Getter public List<String> interfaces;
+    @Getter @Setter
+    public String parent, parentSchema;
+    @Getter @Setter
+    public List<String> interfaces;
     // The list of parent model name from the schemas. In order of preference, the parent is obtained
     // from the 'allOf' attribute, then 'anyOf', and finally 'oneOf'.
-    @Getter public List<String> allParents;
+    @Getter @Setter
+    public List<String> allParents;
 
     // References to parent and interface CodegenModels. Only set when code generator supports inheritance.
-    @Getter public CodegenModel parentModel;
-    @Getter public List<CodegenModel> interfaceModels;
-    @Getter public List<CodegenModel> children;
+    @Getter @Setter
+    public CodegenModel parentModel;
+    @Getter @Setter
+    public List<CodegenModel> interfaceModels;
+    @Getter @Setter
+    public List<CodegenModel> children;
 
     // anyOf, oneOf, allOf
     public Set<String> anyOf = new TreeSet<>();
@@ -54,18 +61,25 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     // The schema name as written in the OpenAPI document
     // If it's a reserved word, it will be escaped.
-    @Getter public String name;
+    @Getter @Setter
+    public String name;
     // The original schema name as written in the OpenAPI document.
-    @Getter public String schemaName;
+    @Getter @Setter
+    public String schemaName;
     // The language-specific name of the class that implements this schema.
     // The name of the class is derived from the OpenAPI schema name with formatting rules applied.
     // The classname is derived from the OpenAPI schema name, with sanitization and escaping rules applied.
-    @Getter public String classname;
+    @Getter @Setter
+    public String classname;
     // The value of the 'title' attribute in the OpenAPI document.
-    @Getter public String title;
-    @Getter public String description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
-    @Getter public String classFilename; // store the class file name, mainly used for import
-    @Getter public String unescapedDescription;
+    @Getter @Setter
+    public String title;
+    @Getter @Setter
+    public String description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
+    @Getter @Setter
+    public String classFilename; // store the class file name, mainly used for import
+    @Getter @Setter
+    public String unescapedDescription;
     /**
      * -- GETTER --
      *  Returns the discriminator for this schema object, or null if no discriminator has been specified.
@@ -105,29 +119,42 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * @return the discriminator.
      */
     @Getter public CodegenDiscriminator discriminator;
-    @Getter public String defaultValue;
-    @Getter public String arrayModelType;
+    @Getter @Setter
+    public String defaultValue;
+    @Getter @Setter
+    public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
     public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime,
             isDecimal, isShort, isUnboundedInteger, isPrimitiveType, isBoolean, isFreeFormObject;
     private boolean additionalPropertiesIsAnyType;
     public List<CodegenProperty> vars = new ArrayList<>(); // all properties (without parent's properties)
-    @Getter public List<CodegenProperty> allVars = new ArrayList<>(); // all properties (with parent's properties)
+    @Getter @Setter
+    public List<CodegenProperty> allVars = new ArrayList<>(); // all properties (with parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<>(); // a list of required properties
-    @Getter public List<CodegenProperty> optionalVars = new ArrayList<>(); // a list of optional properties
-    @Getter public List<CodegenProperty> readOnlyVars = new ArrayList<>(); // a list of read-only properties
-    @Getter public List<CodegenProperty> readWriteVars = new ArrayList<>(); // a list of properties for read, write
-    @Getter public List<CodegenProperty> parentVars = new ArrayList<>();
+    @Getter @Setter
+    public List<CodegenProperty> optionalVars = new ArrayList<>(); // a list of optional properties
+    @Getter @Setter
+    public List<CodegenProperty> readOnlyVars = new ArrayList<>(); // a list of read-only properties
+    @Getter @Setter
+    public List<CodegenProperty> readWriteVars = new ArrayList<>(); // a list of properties for read, write
+    @Getter @Setter
+    public List<CodegenProperty> parentVars = new ArrayList<>();
     public List<CodegenProperty> parentRequiredVars = new ArrayList<>();
-    @Getter public List<CodegenProperty> nonNullableVars = new ArrayList<>(); // a list of non-nullable properties
-    @Getter public Map<String, Object> allowableValues;
+    @Getter @Setter
+    public List<CodegenProperty> nonNullableVars = new ArrayList<>(); // a list of non-nullable properties
+    @Getter @Setter
+    public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
-    @Getter public Set<String> mandatory = new TreeSet<>(); // without parent's required properties
-    @Getter public Set<String> allMandatory = new TreeSet<>(); // with parent's required properties
+    @Getter @Setter
+    public Set<String> mandatory = new TreeSet<>(); // without parent's required properties
+    @Getter @Setter
+    public Set<String> allMandatory = new TreeSet<>(); // with parent's required properties
 
-    @Getter public Set<String> imports = new TreeSet<>();
-    @Getter public boolean emptyVars;
+    @Getter @Setter
+    public Set<String> imports = new TreeSet<>();
+    @Getter @Setter
+    public boolean emptyVars;
     public boolean hasVars, hasMoreModels, hasEnums, isEnum, hasValidation;
     /**
      * Indicates the OAS schema specifies "nullable: true".
@@ -160,9 +187,11 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * Indicates the all properties of the type are read-only.
      */
     public boolean hasOnlyReadOnly = true;
-    @Getter public ExternalDocumentation externalDocumentation;
+    @Getter @Setter
+    public ExternalDocumentation externalDocumentation;
 
-    @Getter public Map<String, Object> vendorExtensions = new HashMap<>();
+    @Getter @Setter
+    public Map<String, Object> vendorExtensions = new HashMap<>();
     private CodegenComposedSchemas composedSchemas;
     private boolean hasMultipleTypes = false;
     public HashMap<String, SchemaTestCase> testCases = new HashMap<>();
@@ -198,7 +227,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      *   type: integer
      *
      */
-    @Getter public String additionalPropertiesType;
+    @Getter @Setter
+    public String additionalPropertiesType;
 
     /**
      * True if additionalProperties is set to true (boolean value), any type, free form object, etc
@@ -232,10 +262,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private boolean isUri;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
-
-    public void setAdditionalPropertiesType(String additionalPropertiesType) {
-        this.additionalPropertiesType = additionalPropertiesType;
-    }
 
     @Override
     public CodegenProperty getContains() {
@@ -307,42 +333,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.schemaIsFromAdditionalProperties = schemaIsFromAdditionalProperties;
     }
 
-    public void setAllMandatory(Set<String> allMandatory) {
-        this.allMandatory = allMandatory;
-    }
-
-    public void setAllParents(List<String> allParents) {
-        this.allParents = allParents;
-    }
-
-    public void setAllVars(List<CodegenProperty> allVars) {
-        this.allVars = allVars;
-    }
-
-    public void setNonNullableVars(List<CodegenProperty> nonNullableVars) {
-        this.nonNullableVars = nonNullableVars;
-    }
-
-    public void setAllowableValues(Map<String, Object> allowableValues) {
-        this.allowableValues = allowableValues;
-    }
-
-    public void setArrayModelType(String arrayModelType) {
-        this.arrayModelType = arrayModelType;
-    }
-
-    public void setChildren(List<CodegenModel> children) {
-        this.children = children;
-    }
-
-    public void setClassFilename(String classFilename) {
-        this.classFilename = classFilename;
-    }
-
-    public void setClassVarName(String classVarName) {
-        this.classVarName = classVarName;
-    }
-
     /**
      * Return true if the classname property is sanitized, false if it is the same as the OpenAPI schema name.
      * The OpenAPI schema name may be any valid JSON schema name, including non-ASCII characters.
@@ -352,22 +342,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      */
     public boolean getIsClassnameSanitized() {
         return !StringUtils.equals(classname, name);
-    }
-
-    public void setClassname(String classname) {
-        this.classname = classname;
-    }
-
-    public void setDataType(String dataType) {
-        this.dataType = dataType;
-    }
-
-    public void setDefaultValue(String defaultValue) {
-        this.defaultValue = defaultValue;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public void setDiscriminator(CodegenDiscriminator discriminator) {
@@ -389,58 +363,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return discriminator == null ? null : discriminator.getPropertyName();
     }
 
-    public void setExternalDocumentation(ExternalDocumentation externalDocumentation) {
-        this.externalDocumentation = externalDocumentation;
-    }
-
-    public void setImports(Set<String> imports) {
-        this.imports = imports;
-    }
-
-    public void setInterfaceModels(List<CodegenModel> interfaceModels) {
-        this.interfaceModels = interfaceModels;
-    }
-
-    public void setInterfaces(List<String> interfaces) {
-        this.interfaces = interfaces;
-    }
-
-    public void setMandatory(Set<String> mandatory) {
-        this.mandatory = mandatory;
-    }
-
-    public void setModelJson(String modelJson) {
-        this.modelJson = modelJson;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSchemaName(String schemaName) {
-        this.schemaName = schemaName;
-    }
-
-
-    public void setOptionalVars(List<CodegenProperty> optionalVars) {
-        this.optionalVars = optionalVars;
-    }
-
-    public void setParent(String parent) {
-        this.parent = parent;
-    }
-
-    public void setParentModel(CodegenModel parentModel) {
-        this.parentModel = parentModel;
-    }
-
-    public void setParentSchema(String parentSchema) {
-        this.parentSchema = parentSchema;
-    }
-
-    public void setParentVars(List<CodegenProperty> parentVars) {
-        this.parentVars = parentVars;
-    }
 
     @Override
     public String getPattern() {
@@ -712,14 +634,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.hasValidation = hasValidation;
     }
 
-    public void setReadOnlyVars(List<CodegenProperty> readOnlyVars) {
-        this.readOnlyVars = readOnlyVars;
-    }
-
-    public void setReadWriteVars(List<CodegenProperty> readWriteVars) {
-        this.readWriteVars = readWriteVars;
-    }
-
     @Override
     public List<CodegenProperty> getRequiredVars() {
         return requiredVars;
@@ -730,14 +644,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.requiredVars = requiredVars;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setUnescapedDescription(String unescapedDescription) {
-        this.unescapedDescription = unescapedDescription;
-    }
-
     @Override
     public List<CodegenProperty> getVars() {
         return vars;
@@ -746,22 +652,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public void setVars(List<CodegenProperty> vars) {
         this.vars = vars;
-    }
-
-    public void setVendorExtensions(Map<String, Object> vendorExtensions) {
-        this.vendorExtensions = vendorExtensions;
-    }
-
-    public void setXmlName(String xmlName) {
-        this.xmlName = xmlName;
-    }
-
-    public void setXmlNamespace(String xmlNamespace) {
-        this.xmlNamespace = xmlNamespace;
-    }
-
-    public void setXmlPrefix(String xmlPrefix) {
-        this.xmlPrefix = xmlPrefix;
     }
 
     @Override
@@ -1239,10 +1129,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 imports.add(mm.getModelName());
             }
         }
-    }
-
-    public void setEmptyVars(boolean emptyVars) {
-        this.emptyVars = emptyVars;
     }
 
     public boolean getHasItems() {

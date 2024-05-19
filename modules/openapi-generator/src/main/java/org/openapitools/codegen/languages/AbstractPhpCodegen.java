@@ -20,6 +20,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -49,15 +50,17 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_NAME = "packageName";
     public static final String SRC_BASE_PATH = "srcBasePath";
-    @Getter protected String invokerPackage = "php";
-    @Getter protected String packageName = "php-base";
-    protected String artifactVersion = null;
-    protected String artifactUrl = "https://openapi-generator.tech";
-    protected String licenseName = "unlicense";
-    protected String developerOrganization = "OpenAPI";
-    protected String developerOrganizationUrl = "https://openapi-generator.tech";
-    protected String srcBasePath = "lib";
-    protected String testBasePath = "test";
+    @Getter @Setter
+    protected String invokerPackage = "php";
+    @Getter @Setter
+    protected String packageName = "php-base";
+    @Setter protected String artifactVersion = null;
+    @Setter protected String artifactUrl = "https://openapi-generator.tech";
+    @Setter protected String licenseName = "unlicense";
+    @Setter protected String developerOrganization = "OpenAPI";
+    @Setter protected String developerOrganizationUrl = "https://openapi-generator.tech";
+    @Setter protected String srcBasePath = "lib";
+    @Setter protected String testBasePath = "test";
     protected String docsBasePath = "docs";
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
@@ -412,42 +415,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         return toModelName(type);
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
-    }
-
-    public void setArtifactVersion(String artifactVersion) {
-        this.artifactVersion = artifactVersion;
-    }
-
-    public void setArtifactUrl(String artifactUrl) {
-        this.artifactUrl = artifactUrl;
-    }
-
-    public void setLicenseName(String licenseName) {
-        this.licenseName = licenseName;
-    }
-
-    public void setDeveloperOrganization(String developerOrganization) {
-        this.developerOrganization = developerOrganization;
-    }
-
-    public void setDeveloperOrganizationUrl(String developerOrganizationUrl) {
-        this.developerOrganizationUrl = developerOrganizationUrl;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setSrcBasePath(String srcBasePath) {
-        this.srcBasePath = srcBasePath;
-    }
-
-    public void setTestBasePath(String testBasePath) {
-        this.testBasePath = testBasePath;
     }
 
     public void setParameterNamingConvention(String variableNamingConvention) {

@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -49,8 +50,8 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     protected String testsPackage;
     protected String apiTestsPackage;
     protected String modelTestsPackage;
-    protected String composerVendorName = "openapi";
-    protected String composerProjectName = "server-bundle";
+    @Setter protected String composerVendorName = "openapi";
+    @Setter protected String composerProjectName = "server-bundle";
     protected String testsDirName = "Tests";
     @Getter protected String bundleName;
     protected String bundleClassName;
@@ -61,7 +62,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     protected String controllerPackage;
     protected String controllerTestsPackage;
     protected String servicePackage;
-    protected Boolean phpLegacySupport = Boolean.TRUE;
+    @Setter protected Boolean phpLegacySupport = Boolean.TRUE;
 
     protected HashSet<String> typeHintable;
 
@@ -225,10 +226,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         } else {
             this.bundleAlias = lowerCamelCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase(Locale.ROOT);
         }
-    }
-
-    public void setPhpLegacySupport(Boolean support) {
-        this.phpLegacySupport = support;
     }
 
     public String controllerFileFolder() {
@@ -510,14 +507,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     @Override
     public String modelTestFileFolder() {
         return (outputFolder + File.separator + toSrcPath(modelTestsPackage, srcBasePath));
-    }
-
-    public void setComposerVendorName(String composerVendorName) {
-        this.composerVendorName = composerVendorName;
-    }
-
-    public void setComposerProjectName(String composerProjectName) {
-        this.composerProjectName = composerProjectName;
     }
 
     @Override

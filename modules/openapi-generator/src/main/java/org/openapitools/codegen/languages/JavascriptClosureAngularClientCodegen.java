@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -40,7 +41,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
     public static final String USE_ES6 = "useEs6";
 
-    protected boolean useEs6;
+    @Setter protected boolean useEs6;
 
     public JavascriptClosureAngularClientCodegen() {
         super();
@@ -309,10 +310,6 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
-    public void setUseEs6(boolean useEs6) {
-        this.useEs6 = useEs6;
     }
 
     @Override

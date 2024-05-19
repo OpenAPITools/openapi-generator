@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -50,12 +51,12 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
 
-    protected String packageName = "openapi";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String testFolder = "tests/testthat";
-    protected boolean returnExceptionOnFailure = false;
+    @Setter protected boolean returnExceptionOnFailure = false;
     protected String exceptionPackage = "default";
     protected Map<String, String> exceptionPackages = new LinkedHashMap<String, String>();
     protected Set<String> itemReservedWords = new TreeSet<String>();
@@ -74,10 +75,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean useDefaultExceptionHandling = false;
     protected boolean useRlangExceptionHandling = false;
-    protected String errorObjectType;
+    @Setter protected String errorObjectType;
     protected String operationIdNaming;
-    protected boolean generateWrapper;
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Setter protected boolean generateWrapper;
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -635,18 +636,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         return !languageSpecificPrimitives.contains(type);
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
-    public void setReturnExceptionOnFailure(boolean returnExceptionOnFailure) {
-        this.returnExceptionOnFailure = returnExceptionOnFailure;
-    }
-
     public void setExceptionPackageToUse(String exceptionPackage) {
         if (DEFAULT.equals(exceptionPackage))
             this.useDefaultExceptionHandling = true;
@@ -654,18 +643,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("api_exception.mustache", File.separator + "R", "api_exception.R"));
             this.useRlangExceptionHandling = true;
         }
-    }
-
-    public void setErrorObjectType(final String errorObjectType) {
-        this.errorObjectType = errorObjectType;
-    }
-
-    public void setGenerateWrapper(final boolean generateWrapper) {
-        this.generateWrapper = generateWrapper;
-    }
-
-    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
-        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
     }
 
     public boolean getUseOneOfDiscriminatorLookup() {

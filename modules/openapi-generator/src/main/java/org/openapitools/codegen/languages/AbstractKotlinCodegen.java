@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -56,24 +57,25 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
-    protected String artifactId;
-    protected String artifactVersion = "1.0.0";
-    protected String groupId = "org.openapitools";
-    protected String packageName = "org.openapitools";
-    protected String apiSuffix = "Api";
+    @Setter protected String artifactId;
+    @Setter protected String artifactVersion = "1.0.0";
+    @Setter protected String groupId = "org.openapitools";
+    @Setter protected String packageName = "org.openapitools";
+    @Setter protected String apiSuffix = "Api";
 
-    protected String sourceFolder = "src/main/kotlin";
-    protected String testFolder = "src/test/kotlin";
+    @Setter protected String sourceFolder = "src/main/kotlin";
+    @Setter protected String testFolder = "src/test/kotlin";
     protected String resourcesFolder = "src/main/resources";
 
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected boolean parcelizeModels = false;
-    @Getter protected boolean serializableModel = false;
+    @Getter @Setter
+    protected boolean serializableModel = false;
 
-    protected boolean useJakartaEe = false;
+    @Setter protected boolean useJakartaEe = false;
 
-    protected boolean nonPublicApi = false;
+    @Setter protected boolean nonPublicApi = false;
 
     @Getter protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original;
 
@@ -82,7 +84,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected Set<String> propertyAdditionalKeywords = new HashSet<>(Arrays.asList("entries", "keys", "size", "values"));
 
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
-    @Getter protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    @Getter @Setter
+    protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
 
     public AbstractKotlinCodegen() {
         super();
@@ -534,34 +537,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         return Boolean.TRUE.equals(additionalProperties.get(MODEL_MUTABLE));
     }
 
-    public void setArtifactId(String artifactId) {
-        this.artifactId = artifactId;
-    }
-
-    public void setArtifactVersion(String artifactVersion) {
-        this.artifactVersion = artifactVersion;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setApiSuffix(String apiSuffix) {
-        this.apiSuffix = apiSuffix;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setTestFolder(String testFolder) {
-        this.testFolder = testFolder;
-    }
-
     public Boolean getParcelizeModels() {
         return parcelizeModels;
     }
@@ -570,20 +545,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         this.parcelizeModels = parcelizeModels;
     }
 
-    public void setSerializableModel(boolean serializableModel) {
-        this.serializableModel = serializableModel;
-    }
-
-    public void setUseJakartaEe(boolean useJakartaEe) {
-        this.useJakartaEe = useJakartaEe;
-    }
-
     public boolean nonPublicApi() {
         return nonPublicApi;
-    }
-
-    public void setNonPublicApi(boolean nonPublicApi) {
-        this.nonPublicApi = nonPublicApi;
     }
 
     /**
@@ -1157,10 +1120,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
         // process 'additionalProperties'
         setAddProps(schema, m);
-    }
-
-    public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {
-        this.additionalModelTypeAnnotations = additionalModelTypeAnnotations;
     }
 
     @Override

@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
@@ -40,7 +41,7 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
 
-    protected boolean interfaceOnly = false;
+    @Setter protected boolean interfaceOnly = false;
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
@@ -207,10 +208,6 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", apiPath, "README.md")
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("go.mod.mustache", "go.mod"));
-    }
-
-    public void setInterfaceOnly(boolean interfaceOnly) {
-        this.interfaceOnly = interfaceOnly;
     }
 
     @Override

@@ -20,6 +20,7 @@ package org.openapitools.codegen;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,8 +28,10 @@ import java.util.Objects;
 
 public class CliOption {
     @Getter private final String opt;
-    @Getter private String description;
-    @Getter private String type;
+    @Getter @Setter
+    private String description;
+    @Getter @Setter
+    private String type;
     private String defaultValue;
     @Getter private String optValue;
     private Map<String, String> enumValues;
@@ -40,14 +43,6 @@ public class CliOption {
     public CliOption(String opt, String description, String type) {
         this.opt = opt;
         this.description = description;
-        this.type = type;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setType(String type) {
         this.type = type;
     }
 

@@ -23,6 +23,7 @@ import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -50,34 +51,36 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
     protected boolean useDateTimeOffsetFlag = false;
     protected boolean useCollection = false;
-    protected boolean returnICollection = false;
-    protected boolean netCoreProjectFileFlag = false;
+    @Setter protected boolean returnICollection = false;
+    @Setter protected boolean netCoreProjectFileFlag = false;
 
     @Getter protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
-    protected String licenseUrl = "http://localhost";
-    protected String licenseName = "NoLicense";
+    @Setter protected String licenseUrl = "http://localhost";
+    @Setter protected String licenseName = "NoLicense";
 
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageVersion = "1.0.0";
     protected String packageName = "OpenAPI";
-    protected String packageTitle = "OpenAPI Library";
-    protected String packageProductName = "OpenAPILibrary";
-    protected String packageDescription = "A library generated from a OpenAPI doc";
-    protected String packageCompany = "OpenAPI";
-    protected String packageCopyright = "No Copyright";
-    protected String packageAuthors = "OpenAPI";
+    @Setter protected String packageTitle = "OpenAPI Library";
+    @Setter protected String packageProductName = "OpenAPILibrary";
+    @Setter protected String packageDescription = "A library generated from a OpenAPI doc";
+    @Setter protected String packageCompany = "OpenAPI";
+    @Setter protected String packageCopyright = "No Copyright";
+    @Setter protected String packageAuthors = "OpenAPI";
 
-    @Getter protected String interfacePrefix = "I";
+    @Getter @Setter
+    protected String interfacePrefix = "I";
 
     protected String projectFolder = packageName;
-    protected String sourceFolder = projectFolder + File.separator + "src";
+    @Setter protected String sourceFolder = projectFolder + File.separator + "src";
     protected String testFolder = projectFolder + ".Tests";
 
     protected Set<String> collectionTypes;
     protected Set<String> mapTypes;
 
     // true if nullable types will be supported (as option)
-    @Getter protected boolean supportNullable = Boolean.TRUE;
+    @Getter @Setter
+    protected boolean supportNullable = Boolean.TRUE;
 
     protected Set<String> nullableType = new HashSet<>();
 
@@ -188,10 +191,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         );
     }
 
-    public void setReturnICollection(boolean returnICollection) {
-        this.returnICollection = returnICollection;
-    }
-
     public void setUseCollection(boolean useCollection) {
         this.useCollection = useCollection;
         if (useCollection) {
@@ -201,10 +200,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             instantiationTypes.put("array", "seq");
             instantiationTypes.put("list", "seq");
         }
-    }
-
-    public void setNetCoreProjectFileFlag(boolean flag) {
-        this.netCoreProjectFileFlag = flag;
     }
 
     public void useDateTimeOffset(boolean flag) {
@@ -933,59 +928,11 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         return toModelName(name) + "Tests";
     }
 
-    public void setLicenseUrl(String licenseUrl) {
-        this.licenseUrl = licenseUrl;
-    }
-
-    public void setLicenseName(String licenseName) {
-        this.licenseName = licenseName;
-    }
-
     public void setPackageName(String packageName) {
         this.packageName = packageName;
         this.projectFolder = packageName;
         this.sourceFolder = projectFolder + File.separator + "src";
         this.testFolder = projectFolder + ".Tests";
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
-    public void setPackageTitle(String packageTitle) {
-        this.packageTitle = packageTitle;
-    }
-
-    public void setPackageProductName(String packageProductName) {
-        this.packageProductName = packageProductName;
-    }
-
-    public void setPackageDescription(String packageDescription) {
-        this.packageDescription = packageDescription;
-    }
-
-    public void setPackageCompany(String packageCompany) {
-        this.packageCompany = packageCompany;
-    }
-
-    public void setPackageCopyright(String packageCopyright) {
-        this.packageCopyright = packageCopyright;
-    }
-
-    public void setPackageAuthors(String packageAuthors) {
-        this.packageAuthors = packageAuthors;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setInterfacePrefix(final String interfacePrefix) {
-        this.interfacePrefix = interfacePrefix;
-    }
-
-    public void setSupportNullable(final boolean supportNullable) {
-        this.supportNullable = supportNullable;
     }
 
     @Override

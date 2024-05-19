@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
@@ -56,7 +57,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
     @Getter private boolean useJackson = false;
 
-    protected boolean useAbstractionForFiles = false;
+    @Setter protected boolean useAbstractionForFiles = false;
 
     public JavaCXFClientCodegen() {
         super();
@@ -209,7 +210,4 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         this.useGenericResponse = useGenericResponse;
     }
 
-    public void setUseAbstractionForFiles(boolean useAbstractionForFiles) {
-        this.useAbstractionForFiles = useAbstractionForFiles;
-    }
 }

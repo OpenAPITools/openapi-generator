@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -58,8 +59,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String CAMEL_CASE = "camelCase";
     public static final String PASCAL_CASE = "PascalCase";
 
-    @Getter protected String npmRepository = null;
-    @Getter protected String importFileExtension = "";
+    @Getter @Setter
+    protected String npmRepository = null;
+    @Getter @Setter
+    protected String importFileExtension = "";
     private boolean useSingleRequestParameter = true;
     private boolean prefixParameterInterfaces = false;
     protected boolean addedApiIndex = false;
@@ -81,10 +84,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
 
     protected boolean sagasAndRecords = false;
-    @Getter protected String detectPassthroughModelsWithSuffixAndField = null; // Ex: "Response;data"
-    protected boolean inferUniqueIdFromNameSuffix = false;
-    @Getter protected String inferEntityFromUniqueIdWithName = null;
-    protected boolean packageAsSourceOnlyLibrary = false;
+    @Getter @Setter
+    protected String detectPassthroughModelsWithSuffixAndField = null; // Ex: "Response;data"
+    @Setter protected boolean inferUniqueIdFromNameSuffix = false;
+    @Getter @Setter
+    protected String inferEntityFromUniqueIdWithName = null;
+    @Setter protected boolean packageAsSourceOnlyLibrary = false;
 
 
     public TypeScriptFetchClientCodegen() {
@@ -153,14 +158,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return "Generates a TypeScript client library using Fetch API (beta).";
     }
 
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
-    public void setImportFileExtension(String importFileExtension) {
-        this.importFileExtension = importFileExtension;
-    }
-
     public Boolean getWithoutRuntimeChecks() {
         return withoutRuntimeChecks;
     }
@@ -206,28 +203,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return detectPassthroughModelsWithSuffixAndField != null ? detectPassthroughModelsWithSuffixAndField.split("\\.")[1] : null;
     }
 
-    public void setDetectPassthroughModelsWithSuffixAndField(String detectPassthroughModelsWithSuffixAndField) {
-        this.detectPassthroughModelsWithSuffixAndField = detectPassthroughModelsWithSuffixAndField;
-    }
-
     public boolean getInferUniqueIdFromNameSuffix() {
         return inferUniqueIdFromNameSuffix;
     }
 
-    public void setInferUniqueIdFromNameSuffix(boolean inferUniqueIdFromNameSuffix) {
-        this.inferUniqueIdFromNameSuffix = inferUniqueIdFromNameSuffix;
-    }
-
-    public void setInferEntityFromUniqueIdWithName(String inferEntityFromUniqueIdWithName) {
-        this.inferEntityFromUniqueIdWithName = inferEntityFromUniqueIdWithName;
-    }
-
     public boolean getPackageAsSourceOnlyLibrary() {
         return packageAsSourceOnlyLibrary;
-    }
-
-    public void setPackageAsSourceOnlyLibrary(boolean packageAsSourceOnlyLibrary) {
-        this.packageAsSourceOnlyLibrary = packageAsSourceOnlyLibrary;
     }
 
     public boolean isUniqueIdAccordingToNameSuffix(String name) {
@@ -1485,7 +1466,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     class ExtendedCodegenModel extends CodegenModel {
-        @Getter     public Set<String> modelImports = new TreeSet<String>();
+        @Getter @Setter
+        public Set<String> modelImports = new TreeSet<String>();
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
         public boolean hasReturnPassthroughVoid;
@@ -1584,10 +1566,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.setIsModel(cm.getIsModel());
         }
 
-        public void setModelImports(Set<String> modelImports) {
-            this.modelImports = modelImports;
-        }
-
         @Override
         public boolean equals(Object o) {
             if (o == null)
@@ -1622,7 +1600,5 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             sb.append(", hasReturnPassthroughVoid=").append(hasReturnPassthroughVoid);
             return sb.toString();
         }
-
     }
-
 }

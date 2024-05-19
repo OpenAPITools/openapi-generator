@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -63,9 +64,9 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
-    protected String packageName;
-    protected Boolean exportModels;
-    protected Boolean exportOperations;
+    @Setter protected String packageName;
+    @Setter protected Boolean exportModels;
+    @Setter protected Boolean exportOperations;
 
     protected final DateTimeFormatter OFFSET_DATE_TIME_FORMAT = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
     protected final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
@@ -145,18 +146,6 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.JULIA;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setExportModels(Boolean exportModels) {
-        this.exportModels = exportModels;
-    }
-
-    public void setExportOperations(Boolean exportOperations) {
-        this.exportOperations = exportOperations;
     }
 
     protected static String dropDots(String str) {

@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -42,11 +43,11 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
 
     protected String specFolder = "spec";
-    protected String packageName = "openapiclient";
-    protected String packageVersion = "1.0.0-1";
+    @Setter protected String packageName = "openapiclient";
+    @Setter protected String packageVersion = "1.0.0-1";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected String luaRocksFilename = "openapiclient-1.0.0-1.rockspec";
+    @Setter protected String luaRocksFilename = "openapiclient-1.0.0-1.rockspec";
 
     @Override
     public CodegenType getTag() {
@@ -502,18 +503,6 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type)
                 && !languageSpecificPrimitives.contains(type);
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
-    public void setLuaRocksFilename(String luaRocksFilename) {
-        this.luaRocksFilename = luaRocksFilename;
     }
 
     @Override

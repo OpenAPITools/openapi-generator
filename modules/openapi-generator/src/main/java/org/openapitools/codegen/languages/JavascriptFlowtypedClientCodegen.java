@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -33,7 +34,8 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 
-@Getter public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCodegen {
+@Getter @Setter
+public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCodegen {
     public static final String NPM_REPOSITORY = "npmRepository";
 
     protected String npmRepository = null;
@@ -207,10 +209,6 @@ import static org.openapitools.codegen.utils.StringUtils.dashize;
     @Override
     public String getHelp() {
         return "Generates a Javascript client library (beta) using Flow types and Fetch API.";
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
     }
 
     @Override

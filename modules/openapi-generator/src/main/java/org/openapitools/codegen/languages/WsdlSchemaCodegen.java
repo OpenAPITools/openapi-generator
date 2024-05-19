@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -29,6 +30,7 @@ import java.io.File;
 import java.text.Normalizer;
 import java.util.*;
 
+@Setter
 public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 
@@ -374,14 +376,6 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     public String escapeUnsafeCharacters(String input) {
         // just return the original string
         return input;
-    }
-
-    public void setContentTypeVersion(String contentTypeVersion) {
-        this.contentTypeVersion = contentTypeVersion;
-    }
-
-    public void setUseSpecifiedOperationId(boolean useSpecifiedOperationId) {
-        this.useSpecifiedOperationId = useSpecifiedOperationId;
     }
 
     @Override

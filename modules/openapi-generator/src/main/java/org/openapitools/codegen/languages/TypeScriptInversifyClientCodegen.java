@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
@@ -44,7 +45,8 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     public static final String USE_RXJS6 = "useRxJS6";
     public static final String TAGGED_UNIONS = "taggedUnions";
 
-    @Getter protected String npmRepository = null;
+    @Getter @Setter
+    protected String npmRepository = null;
     private boolean taggedUnions = false;
 
     public TypeScriptInversifyClientCodegen() {
@@ -336,10 +338,6 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         return modelPackage() + "/" + toModelFilename(name);
     }
 
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
     private String getApiFilenameFromClassname(String classname) {
         String name = classname.substring(0, classname.length() - "Service".length());
         return toApiFilename(name);
@@ -349,5 +347,4 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         String name = filename.substring((modelPackage() + "/").length());
         return camelize(name);
     }
-
 }

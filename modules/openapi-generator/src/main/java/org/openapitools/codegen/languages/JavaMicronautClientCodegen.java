@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
@@ -24,9 +25,9 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
     public static final String NAME = "java-micronaut-client";
 
     @Getter protected boolean configureAuthorization;
-    protected List<String> additionalClientTypeAnnotations;
+    @Setter protected List<String> additionalClientTypeAnnotations;
     protected String authorizationFilterPattern;
-    protected String basePathSeparator = "-";
+    @Setter protected String basePathSeparator = "-";
     protected String clientId;
 
     public JavaMicronautClientCodegen() {
@@ -140,10 +141,6 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
         apiDocTemplateFiles.put("client/doc/api_doc.mustache", ".md");
     }
 
-    public void setAdditionalClientTypeAnnotations(final List<String> additionalClientTypeAnnotations) {
-        this.additionalClientTypeAnnotations = additionalClientTypeAnnotations;
-    }
-
     public void setAuthorizationFilterPattern(final String pattern) {
         writePropertyBack(OPT_CONFIGURE_AUTH_FILTER_PATTERN, true);
         this.authorizationFilterPattern = pattern;
@@ -152,9 +149,5 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
     public void setClientId(final String id) {
         writePropertyBack(OPT_CONFIGURE_CLIENT_ID, true);
         this.clientId = id;
-    }
-
-    public void setBasePathSeparator(final String separator) {
-        this.basePathSeparator = separator;
     }
 }

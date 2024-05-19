@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.tags.Tag;
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
@@ -40,6 +41,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 /**
  * Created by prokarma on 04/09/17.
  */
+@Setter
 public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -587,34 +589,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         return (this.outputFolder + "/" + this.modelDocPath).replace("/", File.separator);
     }
 
-    public void setEurekaUri(String eurekaUri) {
-        this.eurekaUri = eurekaUri;
-    }
-
-    public void setZipkinUri(String zipkinUri) {
-        this.zipkinUri = zipkinUri;
-    }
-
-    public void setSpringBootAdminUri(String springBootAdminUri) {
-        this.springBootAdminUri = springBootAdminUri;
-    }
-
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public void setConfigPackage(String configPackage) {
-        this.configPackage = configPackage;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     private interface DataTypeAssigner {
 
         void setReturnType(String returnType);
@@ -622,13 +596,10 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         void setReturnContainer(String returnContainer);
     }
 
-    @Getter private static class ResourcePath {
+    @Getter @Setter
+    private static class ResourcePath {
 
         private String path;
-
-        public void setPath(String path) {
-            this.path = path;
-        }
 
         @Override
         public String toString() {

@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 
 import java.io.File;
@@ -154,11 +155,16 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
-    @Getter protected boolean headerAttributes = true;
-    @Getter protected boolean useIntroduction = false;
-    @Getter protected boolean skipExamples = false;
-    @Getter protected boolean useMethodAndPath = false;
-    @Getter protected boolean useTableTitles = false;
+    @Getter @Setter
+    protected boolean headerAttributes = true;
+    @Getter @Setter
+    protected boolean useIntroduction = false;
+    @Getter @Setter
+    protected boolean skipExamples = false;
+    @Getter @Setter
+    protected boolean useMethodAndPath = false;
+    @Getter @Setter
+    protected boolean useTableTitles = false;
 
     private IncludeMarkupLambda includeSpecMarkupLambda;
     private IncludeMarkupLambda includeSnippetMarkupLambda;
@@ -280,26 +286,6 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input; // just return the original string
-    }
-
-    public void setHeaderAttributes(boolean headerAttributes) {
-        this.headerAttributes = headerAttributes;
-    }
-
-    public void setUseIntroduction(boolean useIntroduction) {
-        this.useIntroduction = useIntroduction;
-    }
-
-    public void setSkipExamples(boolean skipExamples) {
-        this.skipExamples = skipExamples;
-    }
-
-    public void setUseMethodAndPath(boolean useMethodAndPath) {
-        this.useMethodAndPath = useMethodAndPath;
-    }
-
-    public void setUseTableTitles(boolean useTableTitles) {
-        this.useTableTitles = useTableTitles;
     }
 
     @Override

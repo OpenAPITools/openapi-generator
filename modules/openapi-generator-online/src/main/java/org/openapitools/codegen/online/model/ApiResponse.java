@@ -18,9 +18,11 @@
 package org.openapitools.codegen.online.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlTransient;
 
+@Setter
 @javax.xml.bind.annotation.XmlRootElement
 public class ApiResponse {
     public static final int ERROR = 1;
@@ -63,17 +65,5 @@ public class ApiResponse {
     @XmlTransient
     public int getCode() {
         return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 }

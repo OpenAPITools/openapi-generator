@@ -18,16 +18,10 @@
 package org.openapitools.codegen.online.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter public class Generated {
+@Getter @Setter 
+public class Generated {
     private String filename;
     private String friendlyName;
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    public void setFriendlyName(String friendlyName) {
-        this.friendlyName = friendlyName;
-    }
 }

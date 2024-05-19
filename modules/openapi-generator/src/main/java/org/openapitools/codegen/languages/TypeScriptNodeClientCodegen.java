@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -48,7 +49,8 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     private static final String DEFAULT_MODEL_FILENAME_DIRECTORY_PREFIX = "./";
     private static final String DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX = "../";
 
-    @Getter protected String npmRepository = null;
+    @Getter @Setter
+    protected String npmRepository = null;
     protected String apiSuffix = "Api";
 
     public TypeScriptNodeClientCodegen() {
@@ -238,10 +240,6 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         return operations;
     }
 
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
     @Override
     public void processOpts() {
         super.processOpts();
@@ -352,5 +350,4 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     public String toEnumDefaultValue(String value, String datatype) {
         return datatype + "." + value;
     }
-
 }

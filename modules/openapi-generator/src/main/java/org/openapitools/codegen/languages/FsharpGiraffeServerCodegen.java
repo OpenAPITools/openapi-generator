@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 
+import lombok.Setter;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
@@ -47,7 +48,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     public static final String SDK_WEB = "Microsoft.NET.Sdk.Web";
     public static final String SDK_LIB = "Microsoft.NET.Sdk";
 
-    private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
     @SuppressWarnings("hiding")
     protected final Logger LOGGER = LoggerFactory.getLogger(FsharpGiraffeServerCodegen.class);
@@ -209,10 +210,6 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         // TODO - support Swashbuckle
         if (useSwashbuckle)
             LOGGER.warn("Swashbuckle flag not currently supported, this will be ignored.");
-    }
-
-    public void setPackageGuid(String packageGuid) {
-        this.packageGuid = packageGuid;
     }
 
     @Override

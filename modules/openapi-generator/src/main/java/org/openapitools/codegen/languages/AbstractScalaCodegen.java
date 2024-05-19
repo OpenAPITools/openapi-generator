@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -50,8 +51,9 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
 
     @Getter protected String modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
-    protected String invokerPackage = "org.openapitools.client";
-    @Getter protected String sourceFolder = "src/main/scala";
+    @Setter protected String invokerPackage = "org.openapitools.client";
+    @Getter @Setter
+    protected String sourceFolder = "src/main/scala";
     protected String appName = "OpenAPI Sample";
     protected String appDescription = "A sample openapi server";
     protected String infoUrl = "http://org.openapitools";
@@ -307,10 +309,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                         name + "'. Must be 'original', 'camelCase', " +
                         "'PascalCase' or 'snake_case'");
         }
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
     }
 
     @Override
@@ -601,10 +599,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         }
 
         return operationId;
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
     }
 
     @Override

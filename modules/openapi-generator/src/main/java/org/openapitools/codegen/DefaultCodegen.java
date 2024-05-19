@@ -43,6 +43,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.StringEscapeUtils;
@@ -182,12 +183,15 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> operationIdNameMapping = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
-    protected String modelPackage = "", apiPackage = "", fileSuffix;
-    @Getter protected String modelNamePrefix = "", modelNameSuffix = "";
-    @Getter protected String apiNamePrefix = "", apiNameSuffix = "Api";
+    @Setter protected String modelPackage = "", apiPackage = "";
+    protected String fileSuffix;
+    @Getter @Setter
+    protected String modelNamePrefix = "", modelNameSuffix = "";
+    @Getter @Setter
+    protected String apiNamePrefix = "", apiNameSuffix = "Api";
     protected String testPackage = "";
-    protected String filesMetadataFilename = "FILES";
-    protected String versionMetadataFilename = "VERSION";
+    @Setter protected String filesMetadataFilename = "FILES";
+    @Setter protected String versionMetadataFilename = "VERSION";
     /*
     apiTemplateFiles are for API outputs only (controllers/handlers).
     API templates may be written multiple times; APIs are grouped by tag and the file is written once per tag group.
@@ -199,7 +203,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> apiDocTemplateFiles = new HashMap<>();
     protected Map<String, String> modelDocTemplateFiles = new HashMap<>();
     protected Map<String, String> reservedWordsMappings = new HashMap<>();
-    protected String templateDir;
+    @Setter protected String templateDir;
     protected String embeddedTemplateDir;
     protected Map<String, Object> additionalProperties = new HashMap<>();
     protected Map<String, String> serverVariables = new HashMap<>();
@@ -214,8 +218,10 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<CliOption> cliOptions = new ArrayList<>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
-    @Getter protected String removeOperationIdPrefixDelimiter = "_";
-    @Getter protected int removeOperationIdPrefixCount = 1;
+    @Getter @Setter
+    protected String removeOperationIdPrefixDelimiter = "_";
+    @Getter @Setter
+    protected int removeOperationIdPrefixCount = 1;
     protected boolean skipOperationExample;
 
     protected final static Pattern XML_MIME_PATTERN = Pattern.compile("(?i)application\\/(.*)[+]?xml(;.*)?");
@@ -247,10 +253,14 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean supportsMixins;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<>();
     protected String library;
-    @Getter protected Boolean sortParamsByRequiredFlag = true;
-    @Getter protected Boolean sortModelPropertiesByRequiredFlag = false;
-    @Getter protected Boolean ensureUniqueParams = true;
-    @Getter protected Boolean allowUnicodeIdentifiers = false;
+    @Getter @Setter
+    protected Boolean sortParamsByRequiredFlag = true;
+    @Getter @Setter
+    protected Boolean sortModelPropertiesByRequiredFlag = false;
+    @Getter @Setter
+    protected Boolean ensureUniqueParams = true;
+    @Getter @Setter
+    protected Boolean allowUnicodeIdentifiers = false;
     protected String gitHost, gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
     protected Boolean hideGenerationTimestamp = true;
@@ -260,7 +270,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> specialCharReplacements = new LinkedHashMap<>();
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = Collections.emptyMap();
-    @Getter protected Boolean prependFormOrBodyParameters = false;
+    @Getter @Setter
+    protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
     protected String docExtension;
     protected String ignoreFilePathOverride;
@@ -282,15 +293,15 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean removeEnumValuePrefix = true;
 
     // Support legacy logic for evaluating discriminators
-    protected boolean legacyDiscriminatorBehavior = true;
+    @Setter protected boolean legacyDiscriminatorBehavior = true;
 
     // Specify what to do if the 'additionalProperties' keyword is not present in a schema.
     // See CodegenConstants.java for more details.
-    protected boolean disallowAdditionalPropertiesIfNotPresent = true;
+    @Setter protected boolean disallowAdditionalPropertiesIfNotPresent = true;
 
     // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
     // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
-    protected boolean enumUnknownDefaultCase = false;
+    @Setter protected boolean enumUnknownDefaultCase = false;
     protected String enumUnknownDefaultCaseName = "unknown_default_open_api";
 
     // make openapi available to all methods
@@ -313,7 +324,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean addSuffixToDuplicateOperationNicknames = true;
 
     // Whether to automatically hardcode params that are considered Constants by OpenAPI Spec
-    protected boolean autosetConstants = false;
+    @Setter protected boolean autosetConstants = false;
 
     @Override
     public boolean getAddSuffixToDuplicateOperationNicknames() {
@@ -1458,89 +1469,21 @@ public class DefaultCodegen implements CodegenConfig {
         return filesMetadataFilename;
     }
 
-    public void setFilesMetadataFilename(String filesMetadataFilename) {
-        this.filesMetadataFilename = filesMetadataFilename;
-    }
-
     @Override
     public String getVersionMetadataFilename() {
         return versionMetadataFilename;
-    }
-
-    public void setVersionMetadataFilename(String versionMetadataFilename) {
-        this.versionMetadataFilename = versionMetadataFilename;
-    }
-
-    public void setTemplateDir(String templateDir) {
-        this.templateDir = templateDir;
-    }
-
-    public void setModelPackage(String modelPackage) {
-        this.modelPackage = modelPackage;
-    }
-
-    public void setModelNamePrefix(String modelNamePrefix) {
-        this.modelNamePrefix = modelNamePrefix;
-    }
-
-    public void setModelNameSuffix(String modelNameSuffix) {
-        this.modelNameSuffix = modelNameSuffix;
-    }
-
-    public void setApiNameSuffix(String apiNameSuffix) {
-        this.apiNameSuffix = apiNameSuffix;
-    }
-
-    public void setApiNamePrefix(String apiNamePrefix) {
-        this.apiNamePrefix = apiNamePrefix;
-    }
-
-    public void setApiPackage(String apiPackage) {
-        this.apiPackage = apiPackage;
-    }
-
-    public void setSortParamsByRequiredFlag(Boolean sortParamsByRequiredFlag) {
-        this.sortParamsByRequiredFlag = sortParamsByRequiredFlag;
-    }
-
-    public void setSortModelPropertiesByRequiredFlag(Boolean sortModelPropertiesByRequiredFlag) {
-        this.sortModelPropertiesByRequiredFlag = sortModelPropertiesByRequiredFlag;
-    }
-
-    public void setPrependFormOrBodyParameters(Boolean prependFormOrBodyParameters) {
-        this.prependFormOrBodyParameters = prependFormOrBodyParameters;
-    }
-
-    public void setEnsureUniqueParams(Boolean ensureUniqueParams) {
-        this.ensureUniqueParams = ensureUniqueParams;
     }
 
     public Boolean getLegacyDiscriminatorBehavior() {
         return legacyDiscriminatorBehavior;
     }
 
-    public void setLegacyDiscriminatorBehavior(boolean val) {
-        this.legacyDiscriminatorBehavior = val;
-    }
-
     public Boolean getDisallowAdditionalPropertiesIfNotPresent() {
         return disallowAdditionalPropertiesIfNotPresent;
     }
 
-    public void setDisallowAdditionalPropertiesIfNotPresent(boolean val) {
-        this.disallowAdditionalPropertiesIfNotPresent = val;
-    }
-
     public Boolean getEnumUnknownDefaultCase() {
         return enumUnknownDefaultCase;
-    }
-
-    public void setEnumUnknownDefaultCase(boolean val) {
-        this.enumUnknownDefaultCase = val;
-    }
-
-    public void setAllowUnicodeIdentifiers(Boolean allowUnicodeIdentifiers) {
-        this.allowUnicodeIdentifiers = allowUnicodeIdentifiers;
     }
 
     public Boolean getUseOneOfInterfaces() {
@@ -6243,14 +6186,6 @@ public class DefaultCodegen implements CodegenConfig {
         this.removeOperationIdPrefix = removeOperationIdPrefix;
     }
 
-    public void setRemoveOperationIdPrefixDelimiter(String removeOperationIdPrefixDelimiter) {
-        this.removeOperationIdPrefixDelimiter = removeOperationIdPrefixDelimiter;
-    }
-
-    public void setRemoveOperationIdPrefixCount(int removeOperationIdPrefixCount) {
-        this.removeOperationIdPrefixCount = removeOperationIdPrefixCount;
-    }
-
     @Override
     public void setSkipOperationExample(boolean skipOperationExample) {
         this.skipOperationExample = skipOperationExample;
@@ -8477,10 +8412,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             throw new IllegalArgumentException("Invalid schema type; type must be Boolean or Schema");
         }
-    }
-
-    public void setAutosetConstants(boolean autosetConstants) {
-        this.autosetConstants = autosetConstants;
     }
 
     /**

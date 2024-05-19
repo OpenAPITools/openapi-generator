@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -53,38 +54,25 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     public static final Integer IDENTIFIER_MAX_LENGTH = 255;
 
     /**
-     * -- GETTER --
-     *  Returns imported package name for the models
-     *
-     * @return name
+     * Imported package name for the models
      */
-    @Getter protected String importModelPackageName = "";
+    @Getter @Setter
+    protected String importModelPackageName = "";
     /**
-     * -- GETTER --
-     *  Returns default database name for all queries
-     *  This value must be used with backticks only, eg. `database_name`
-     *
-     * @return default database name
+     * Default database name for all queries
+     * This value must be used with backticks only, eg. `database_name`
      */
     @Getter protected String defaultDatabaseName = "sqlite.db";
     protected String databaseNamePrefix = "_", databaseNameSuffix = "";
     protected String tableNamePrefix = "_", tableNameSuffix = "";
     protected String columnNamePrefix = "_", columnNameSuffix = "";
     /**
-     * -- GETTER --
-     *  Returns identifier naming convention for table names and column names.
-     *
-     * @return identifier naming convention
+     *  Identifier naming convention for table names and column names.
      */
     @Getter protected String identifierNamingConvention = "original";
-    /**
-     * -- GETTER --
-     *  Returns primary key naming convention
-     *
-     * @return name
-     */
-    @Getter protected String primaryKeyConvention = "id";
-    protected boolean addSurrogateKey = false;
+    @Getter @Setter
+    protected String primaryKeyConvention = "id";
+    @Setter protected boolean addSurrogateKey = false;
 
     protected Map<String, String> sqlTypeMapping = new HashMap<String, String>();
 
@@ -1143,15 +1131,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Sets imported package name for the models
-     *
-     * @param name name
-     */
-    public void setImportModelPackageName(String name) {
-        this.importModelPackageName = name;
-    }
-
-    /**
      * Sets identifier naming convention for table names and column names.
      * This is not related to database name which is defined by defaultDatabaseName option.
      *
@@ -1167,24 +1146,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 LOGGER.warn("\"{}\" is invalid \"identifierNamingConvention\" argument. Current \"{}\" used instead.",
                         naming, this.identifierNamingConvention);
         }
-    }
-
-    /**
-     * Sets primary key naming convention
-     *
-     * @param name name
-     */
-    public void setPrimaryKeyConvention(String name) {
-        this.primaryKeyConvention = name;
-    }
-
-    /**
-     * Sets primary key naming convention
-     *
-     * @param enable enable this option
-     */
-    public void setAddSurrogateKey(boolean enable) {
-        this.addSurrogateKey = enable;
     }
 
     /**

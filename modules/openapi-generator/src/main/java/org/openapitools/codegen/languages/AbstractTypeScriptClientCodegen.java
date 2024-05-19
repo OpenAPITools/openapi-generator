@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -245,11 +246,15 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
     @Getter protected PARAM_NAMING_TYPE paramNaming = PARAM_NAMING_TYPE.camelCase;
     protected boolean enumPropertyNamingReplaceSpecialChar = false;
-    @Getter protected Boolean supportsES6 = false;
-    @Getter protected Boolean nullSafeAdditionalProps = false;
+    @Getter @Setter
+    protected Boolean supportsES6 = false;
+    @Getter @Setter
+    protected Boolean nullSafeAdditionalProps = false;
     protected HashSet<String> languageGenericTypes;
-    @Getter protected String npmName = null;
-    @Getter protected String npmVersion = "1.0.0";
+    @Getter @Setter
+    protected String npmName = null;
+    @Getter @Setter
+    protected String npmVersion = "1.0.0";
 
     protected String enumSuffix = "Enum";
 
@@ -1028,22 +1033,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             }
         }
         return result;
-    }
-
-    public void setSupportsES6(Boolean value) {
-        supportsES6 = value;
-    }
-
-    public void setNullSafeAdditionalProps(Boolean value) {
-        nullSafeAdditionalProps = value;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
     }
 
     private void setDiscriminatorValue(CodegenModel model, String baseName, String value) {
