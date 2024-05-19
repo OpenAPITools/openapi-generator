@@ -204,12 +204,6 @@ namespace Org.OpenAPITools.Client
                 return RequiredClass.RequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNotnullableEnumIntegerOnlyEnum).ToString();
             if (obj is RequiredClass.RequiredNotnullableEnumStringEnum requiredClassRequiredNotnullableEnumStringEnum)
                 return RequiredClass.RequiredNotnullableEnumStringEnumToJsonValue(requiredClassRequiredNotnullableEnumStringEnum);
-            if (obj is RequiredClass.RequiredNullableEnumIntegerEnum requiredClassRequiredNullableEnumIntegerEnum)
-                return RequiredClass.RequiredNullableEnumIntegerEnumToJsonValue(requiredClassRequiredNullableEnumIntegerEnum).ToString();
-            if (obj is RequiredClass.RequiredNullableEnumIntegerOnlyEnum requiredClassRequiredNullableEnumIntegerOnlyEnum)
-                return RequiredClass.RequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNullableEnumIntegerOnlyEnum).ToString();
-            if (obj is RequiredClass.RequiredNullableEnumStringEnum requiredClassRequiredNullableEnumStringEnum)
-                return RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClassRequiredNullableEnumStringEnum);
             if (obj is RequiredClass.NotrequiredNotnullableEnumIntegerEnum requiredClassNotrequiredNotnullableEnumIntegerEnum)
                 return RequiredClass.NotrequiredNotnullableEnumIntegerEnumToJsonValue(requiredClassNotrequiredNotnullableEnumIntegerEnum).ToString();
             if (obj is RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnum requiredClassNotrequiredNotnullableEnumIntegerOnlyEnum)
@@ -222,6 +216,12 @@ namespace Org.OpenAPITools.Client
                 return RequiredClass.NotrequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassNotrequiredNullableEnumIntegerOnlyEnum).ToString();
             if (obj is RequiredClass.NotrequiredNullableEnumStringEnum requiredClassNotrequiredNullableEnumStringEnum)
                 return RequiredClass.NotrequiredNullableEnumStringEnumToJsonValue(requiredClassNotrequiredNullableEnumStringEnum);
+            if (obj is RequiredClass.RequiredNullableEnumIntegerEnum requiredClassRequiredNullableEnumIntegerEnum)
+                return RequiredClass.RequiredNullableEnumIntegerEnumToJsonValue(requiredClassRequiredNullableEnumIntegerEnum).ToString();
+            if (obj is RequiredClass.RequiredNullableEnumIntegerOnlyEnum requiredClassRequiredNullableEnumIntegerOnlyEnum)
+                return RequiredClass.RequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNullableEnumIntegerOnlyEnum).ToString();
+            if (obj is RequiredClass.RequiredNullableEnumStringEnum requiredClassRequiredNullableEnumStringEnum)
+                return RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClassRequiredNullableEnumStringEnum);
             if (obj is Zebra.TypeEnum zebraTypeEnum)
                 return Zebra.TypeEnumToJsonValue(zebraTypeEnum);
             if (obj is ZeroBasedEnum zeroBasedEnum)
