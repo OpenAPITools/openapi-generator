@@ -15,10 +15,22 @@ import {{modelPackage}}.*
 
 {{#operations}}
 {{#operation}}
+/**
+ *  Builder for WireMock stubs of operation {{operationId}}.
+ */
 class {{operationIdCamelCase}}StubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
     {{#responses}}
     {{^wildcard}}
 
+    /**
+     * Let the stub for {{operationId}} respond with HTTP status code {{code}}.
+     *
+     {{#returnType}}
+     * @param body Response body for the [MappingBuilder].
+     {{/returnType}}
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     */
     fun respondWith{{code}}(
         {{#returnType}}
         body: {{{.}}},
@@ -36,6 +48,15 @@ class {{operationIdCamelCase}}StubBuilder internal constructor(private val objec
     {{/wildcard}}
     {{/responses}}
 
+    /**
+     * Let the stub for {{operationId}} respond with HTTP status code [code].
+     *
+     {{#returnType}}
+     * @param body Response body for the [MappingBuilder].
+     {{/returnType}}
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     */
     fun respondWith(
         code: Int,
         body: Any? = null,

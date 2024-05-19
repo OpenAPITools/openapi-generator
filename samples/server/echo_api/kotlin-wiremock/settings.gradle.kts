@@ -1,4 +1,4 @@
-rootProject.name = "echo-api-kotlin-wiremock"
+rootProject.name = "kotlin-wiremock"
 
 dependencyResolutionManagement {
     repositories {

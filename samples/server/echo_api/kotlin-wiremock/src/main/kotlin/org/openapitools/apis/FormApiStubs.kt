@@ -13,13 +13,28 @@ import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.matching.StringValuePattern
 import org.openapitools.models.*
 
+/**
+ * WireMock stub request builder.
+ */
 open class FormApiStubs(private val objectMapper: ObjectMapper) {
 
+    /**
+     * Construct a stub for the operation testFormIntegerBooleanString.
+     *
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [TestFormIntegerBooleanStringStubBuilder] to configure the response, and the final [MappingBuilder].
+     */
     fun testFormIntegerBooleanString(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestFormIntegerBooleanStringStubBuilder =
         TestFormIntegerBooleanStringStubBuilder(objectMapper, post(urlPathTemplate("/form/integer/boolean/string"))
             .configurer()
         )
 
+    /**
+     * Construct a stub for the operation testFormOneof.
+     *
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [TestFormOneofStubBuilder] to configure the response, and the final [MappingBuilder].
+     */
     fun testFormOneof(configurer: MappingBuilder.() -> MappingBuilder = { this }): TestFormOneofStubBuilder =
         TestFormOneofStubBuilder(objectMapper, post(urlPathTemplate("/form/oneof"))
             .configurer()

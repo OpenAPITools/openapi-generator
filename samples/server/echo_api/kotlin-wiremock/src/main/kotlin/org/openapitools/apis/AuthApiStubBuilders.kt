@@ -13,8 +13,18 @@ import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.matching.StringValuePattern
 import org.openapitools.models.*
 
+/**
+ *  Builder for WireMock stubs of operation testAuthHttpBasic.
+ */
 class TestAuthHttpBasicStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
+    /**
+     * Let the stub for testAuthHttpBasic respond with HTTP status code 200.
+     *
+     * @param body Response body for the [MappingBuilder].
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     */
     fun respondWith200(
         body: kotlin.String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
@@ -26,6 +36,13 @@ class TestAuthHttpBasicStubBuilder internal constructor(private val objectMapper
             .configurer()
         )
 
+    /**
+     * Let the stub for testAuthHttpBasic respond with HTTP status code [code].
+     *
+     * @param body Response body for the [MappingBuilder].
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     */
     fun respondWith(
         code: Int,
         body: Any? = null,
@@ -43,8 +60,18 @@ class TestAuthHttpBasicStubBuilder internal constructor(private val objectMapper
     )
 }
 
+/**
+ *  Builder for WireMock stubs of operation testAuthHttpBearer.
+ */
 class TestAuthHttpBearerStubBuilder internal constructor(private val objectMapper: ObjectMapper, private val stub: MappingBuilder) {
 
+    /**
+     * Let the stub for testAuthHttpBearer respond with HTTP status code 200.
+     *
+     * @param body Response body for the [MappingBuilder].
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     */
     fun respondWith200(
         body: kotlin.String,
         configurer: ResponseDefinitionBuilder.() -> ResponseDefinitionBuilder = { this },
@@ -56,6 +83,13 @@ class TestAuthHttpBearerStubBuilder internal constructor(private val objectMappe
             .configurer()
         )
 
+    /**
+     * Let the stub for testAuthHttpBearer respond with HTTP status code [code].
+     *
+     * @param body Response body for the [MappingBuilder].
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [MappingBuilder] to be registered with a WireMock instance.
+     */
     fun respondWith(
         code: Int,
         body: Any? = null,

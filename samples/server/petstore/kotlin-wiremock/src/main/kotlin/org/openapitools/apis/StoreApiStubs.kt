@@ -13,25 +13,54 @@ import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.matching.StringValuePattern
 import org.openapitools.models.*
 
+/**
+ * WireMock stub request builder.
+ */
 open class StoreApiStubs(private val objectMapper: ObjectMapper) {
 
+    /**
+     * Construct a stub for the operation deleteOrder.
+     *
+     * @param orderId Path parameter orderId pattern.
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [DeleteOrderStubBuilder] to configure the response, and the final [MappingBuilder].
+     */
     fun deleteOrder(orderId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): DeleteOrderStubBuilder =
         DeleteOrderStubBuilder(objectMapper, delete(urlPathTemplate("/store/order/{orderId}"))
             .withPathParam("orderId", orderId)
             .configurer()
         )
 
+    /**
+     * Construct a stub for the operation getInventory.
+     *
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [GetInventoryStubBuilder] to configure the response, and the final [MappingBuilder].
+     */
     fun getInventory(configurer: MappingBuilder.() -> MappingBuilder = { this }): GetInventoryStubBuilder =
         GetInventoryStubBuilder(objectMapper, get(urlPathTemplate("/store/inventory"))
             .configurer()
         )
 
+    /**
+     * Construct a stub for the operation getOrderById.
+     *
+     * @param orderId Path parameter orderId pattern.
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [GetOrderByIdStubBuilder] to configure the response, and the final [MappingBuilder].
+     */
     fun getOrderById(orderId: StringValuePattern, configurer: MappingBuilder.() -> MappingBuilder = { this }): GetOrderByIdStubBuilder =
         GetOrderByIdStubBuilder(objectMapper, get(urlPathTemplate("/store/order/{orderId}"))
             .withPathParam("orderId", orderId)
             .configurer()
         )
 
+    /**
+     * Construct a stub for the operation placeOrder.
+     *
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [PlaceOrderStubBuilder] to configure the response, and the final [MappingBuilder].
+     */
     fun placeOrder(configurer: MappingBuilder.() -> MappingBuilder = { this }): PlaceOrderStubBuilder =
         PlaceOrderStubBuilder(objectMapper, post(urlPathTemplate("/store/order"))
             .configurer()

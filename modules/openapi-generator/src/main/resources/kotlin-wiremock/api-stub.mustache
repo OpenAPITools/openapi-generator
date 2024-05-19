@@ -14,9 +14,24 @@ import com.github.tomakehurst.wiremock.matching.StringValuePattern
 import {{modelPackage}}.*
 
 {{#operations}}
+/**
+ * WireMock stub request builder.
+ */
 open class {{classname}}Stubs(private val objectMapper: ObjectMapper) {
 {{#operation}}
 
+    /**
+     * Construct a stub for the operation {{operationId}}.
+     *
+     {{#pathParams}}
+     * @param {{paramName}} Path parameter {{paramName}} pattern.
+     {{/pathParams}}
+     {{#queryParams}}
+     * @param {{paramName}} Query parameter {{paramName}} pattern.
+     {{/queryParams}}
+     * @param configurer Configurer for the [MappingBuilder], allowing for arbitrary changes.
+     * @return A [{{operationIdCamelCase}}StubBuilder] to configure the response, and the final [MappingBuilder].
+     */
     fun {{operationId}}({{#pathParams}}{{paramName}}: StringValuePattern, {{/pathParams}}{{#queryParams}}{{paramName}}: StringValuePattern? = null, {{/queryParams}}configurer: MappingBuilder.() -> MappingBuilder = { this }): {{operationIdCamelCase}}StubBuilder =
         {{operationIdCamelCase}}StubBuilder(objectMapper, {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}(urlPathTemplate("{{path}}"))
             {{#pathParams}}

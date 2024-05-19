@@ -1,4 +1,4 @@
-rootProject.name = "petstore-kotlin-wiremock"
+rootProject.name = "kotlin-wiremock"
 
 dependencyResolutionManagement {
     repositories {
