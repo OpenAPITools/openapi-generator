@@ -16,6 +16,9 @@ on:
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
+env:
+  GRADLE_VERSION: 6.9
+
 jobs:
   build:
     name: Build Kotlin server
@@ -40,8 +43,6 @@ jobs:
           - samples/server/petstore/kotlin-server/javalin
           - samples/server/others/kotlin-server/jaxrs-spec
           - samples/server/others/kotlin-server/jaxrs-spec-array-response
-          - samples/server/petstore/kotlin-wiremock
-          - samples/server/echo_api/kotlin-wiremock
           - samples/server/petstore/kotlin-spring-cloud
           # comment out due to gradle build failure
           #- samples/server/petstore/kotlin-spring-default
@@ -64,6 +65,7 @@ jobs:
       - name: Install Gradle wrapper
         uses: eskatos/gradle-command-action@v3
         with:
+          gradle-version: ${{ env.GRADLE_VERSION }}
           build-root-directory: ${{ matrix.sample }}
           arguments: wrapper
       - name: Build
