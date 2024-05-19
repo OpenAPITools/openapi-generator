@@ -639,33 +639,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 patchProperty(enumRefs, model, property);
             }
         }
-
-        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
-            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
-
-            if (model.parentModel != null) {
-                for (CodegenProperty property : model.allVars.stream().filter(v -> v.isNew).collect(Collectors.toList())) {
-                    annotateNewComposedPropertyDiscriminator(model, property);
-                }
-
-                for (CodegenProperty property : model.vars.stream().filter(v -> v.isNew).collect(Collectors.toList())) {
-                    annotateNewComposedPropertyDiscriminator(model, property);
-                }
-            }
-        }
-
         return processed;
-    }
-
-    /**
-     * The ChildCat#PetType needs to be annotated as a discriminator
-     * Derived classes that override the discriminator will not have the annotations
-     */
-    private void annotateNewComposedPropertyDiscriminator(CodegenModel model, CodegenProperty property) {
-        Optional<CodegenProperty> inheritedProperty = model.parentModel.allVars.stream().filter(p -> p.name.equals(property.name)).findFirst();
-        if (inheritedProperty.isPresent()) {
-            property.isDiscriminator = inheritedProperty.get().isDiscriminator;
-        }
     }
 
     /**
@@ -691,8 +665,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
     }
-
-
 
     private String patchPropertyName(CodegenModel model, String value) {
         String name = escapeReservedWord(model, value);
