@@ -163,17 +163,7 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public ScalarAnyOf(BigDecimal o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public ScalarAnyOf(Boolean o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public ScalarAnyOf(String o) {
+    public ScalarAnyOf(Object o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }

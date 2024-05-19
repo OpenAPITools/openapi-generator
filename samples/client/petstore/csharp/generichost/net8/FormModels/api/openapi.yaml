@@ -1276,7 +1276,7 @@ components:
         id: 0
         shipDate: 2020-02-02T20:20:20.000222Z
         complete: false
-        status: null
+        status: placed
       properties:
         id:
           format: int64
@@ -1400,7 +1400,7 @@ components:
           id: 1
         - name: name
           id: 1
-        status: null
+        status: available
       properties:
         id:
           format: int64

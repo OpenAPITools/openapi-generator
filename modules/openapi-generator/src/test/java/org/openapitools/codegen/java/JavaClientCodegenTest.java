@@ -999,6 +999,39 @@ public class JavaClientCodegenTest {
         Assertions.assertEquals(security.get(0).isBasicBearer, Boolean.TRUE);
     }
 
+    @Test
+    public void testVertXAuthInfoWithHyphenSeparatedSecurityScheme() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.VERTX)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/ping-with-hyphen-separated-security-scheme.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        // Test that hyphen-separated security scheme names does not
+        // break the Java VertX client code generation
+        validateJavaSourceFiles(files);
+
+        // Test that the name was correctly transformed to camelCase
+        // starting with an uppercase letter
+        TestUtils.assertFileContains(
+            Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
+                "public static class AuthInfo {",
+                "public void addHyphenatedNameTestAuthentication(String bearerToken) {",
+                "public static AuthInfo forHyphenatedNameTestAuthentication(String bearerToken) {"
+            );
+    }
+
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {
         CodegenProperty array = new CodegenProperty();
         final CodegenProperty items = new CodegenProperty();
@@ -3421,6 +3454,24 @@ public class JavaClientCodegenTest {
                 "ResponseEntity<org.springframework.core.io.Resource> resourceInResponseWithHttpInfo()",
                 "ParameterizedTypeReference<org.springframework.core.io.Resource> localVarReturnType = new ParameterizedTypeReference<>()"
         );
+    }
+
+    @Test
+    void testBuilderJavaClient() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/builder.yaml", JavaClientCodegen.RESTTEMPLATE,
+                Map.of(AbstractJavaCodegen.GENERATE_BUILDERS, Boolean.TRUE));
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("protected String petReadonlyProperty",
+                        "toBuilder()",
+                        "builder()",
+                        "public static class Builder {");
+        JavaFileAssert.assertThat(files.get("Snake.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder extends Reptile.Builder {",
+                        ".petType(getPetType())",
+                        ".name(getName())",
+                        "hasLegs(getHasLegs())");
     }
 
 }

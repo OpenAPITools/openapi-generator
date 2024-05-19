@@ -152,7 +152,7 @@ public class Order  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
-  @Valid public Date getShipDate() {
+  public Date getShipDate() {
     return shipDate;
   }
 

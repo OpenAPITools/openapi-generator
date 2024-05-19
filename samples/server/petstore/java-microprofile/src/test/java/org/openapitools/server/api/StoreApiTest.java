@@ -14,9 +14,9 @@
 package org.openapitools.server.api;
 
 import org.openapitools.server.model.Order;
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
@@ -38,7 +38,7 @@ public class StoreApiTest {
     private StoreApi client;
     private String baseUrl = "http://localhost:9080";
 
-    @Before
+    @BeforeEach
     public void setup() throws MalformedURLException {
         client = RestClientBuilder.newBuilder()
                         .baseUrl(new URL(baseUrl))
@@ -60,7 +60,7 @@ public class StoreApiTest {
         // TODO: test validations
         String orderId = null;
         //api.deleteOrder(orderId);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -77,7 +77,7 @@ public class StoreApiTest {
     public void getInventoryTest() {
         // TODO: test validations
         //Uni<Map<String, Integer>> response = api.getInventory();
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -95,7 +95,7 @@ public class StoreApiTest {
         // TODO: test validations
         Long orderId = null;
         //Uni<Order> response = api.getOrderById(orderId);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -113,7 +113,7 @@ public class StoreApiTest {
         // TODO: test validations
         Order order = null;
         //Uni<Order> response = api.placeOrder(order);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }

@@ -15,9 +15,9 @@ package org.openapitools.server.api;
 
 import java.util.Date;
 import org.openapitools.server.model.User;
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
@@ -39,7 +39,7 @@ public class UserApiTest {
     private UserApi client;
     private String baseUrl = "http://localhost:9080";
 
-    @Before
+    @BeforeEach
     public void setup() throws MalformedURLException {
         client = RestClientBuilder.newBuilder()
                         .baseUrl(new URL(baseUrl))
@@ -61,7 +61,7 @@ public class UserApiTest {
         // TODO: test validations
         User user = null;
         //api.createUser(user);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -79,7 +79,7 @@ public class UserApiTest {
         // TODO: test validations
         List<User> user = null;
         //api.createUsersWithArrayInput(user);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -97,7 +97,7 @@ public class UserApiTest {
         // TODO: test validations
         List<User> user = null;
         //api.createUsersWithListInput(user);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -115,7 +115,7 @@ public class UserApiTest {
         // TODO: test validations
         String username = null;
         //api.deleteUser(username);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -133,7 +133,7 @@ public class UserApiTest {
         // TODO: test validations
         String username = null;
         //Uni<User> response = api.getUserByName(username);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -152,7 +152,7 @@ public class UserApiTest {
         String username = null;
         String password = null;
         //Uni<String> response = api.loginUser(username, password);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -169,7 +169,7 @@ public class UserApiTest {
     public void logoutUserTest() {
         // TODO: test validations
         //api.logoutUser();
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -188,7 +188,7 @@ public class UserApiTest {
         String username = null;
         User user = null;
         //api.updateUser(username, user);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }

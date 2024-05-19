@@ -21,10 +21,11 @@
 
 #include "Tag.h"
 #include <nlohmann/json.hpp>
-#include "Pet_bestFriends.h"
+#include "Pet_vaccinationBook.h"
 #include <string>
 #include "Category.h"
 #include <vector>
+#include <set>
 #include <nlohmann/json.hpp>
 
 namespace org::openapitools::server::model
@@ -116,12 +117,19 @@ public:
     bool goodiesIsSet() const;
     void unsetGoodies();
     /// <summary>
+    /// pedigree and other certificates
+    /// </summary>
+    std::set<std::string> getCertificates() const;
+    void setCertificates(std::set<std::string> const& value);
+    bool certificatesIsSet() const;
+    void unsetCertificates();
+    /// <summary>
     /// 
     /// </summary>
-    org::openapitools::server::model::Pet_bestFriends getBestFriends() const;
-    void setBestFriends(org::openapitools::server::model::Pet_bestFriends const& value);
-    bool bestFriendsIsSet() const;
-    void unsetBestFriends();
+    org::openapitools::server::model::Pet_vaccinationBook getVaccinationBook() const;
+    void setVaccinationBook(org::openapitools::server::model::Pet_vaccinationBook const& value);
+    bool vaccinationBookIsSet() const;
+    void unsetVaccinationBook();
 
     friend  void to_json(nlohmann::json& j, const Pet& o);
     friend  void from_json(const nlohmann::json& j, Pet& o);
@@ -142,8 +150,10 @@ protected:
     bool m_VeterinarianVisitIsSet;
     std::vector<nlohmann::json> m_Goodies;
     bool m_GoodiesIsSet;
-    org::openapitools::server::model::Pet_bestFriends m_BestFriends;
-    bool m_BestFriendsIsSet;
+    std::set<std::string> m_Certificates;
+    bool m_CertificatesIsSet;
+    org::openapitools::server::model::Pet_vaccinationBook m_VaccinationBook;
+    bool m_VaccinationBookIsSet;
     
 };
 

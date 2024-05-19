@@ -30,7 +30,7 @@ export interface HealthCheckResult {
 /**
  * Check if a given object implements the HealthCheckResult interface.
  */
-export function instanceOfHealthCheckResult(value: object): boolean {
+export function instanceOfHealthCheckResult(value: object): value is HealthCheckResult {
     return true;
 }
 

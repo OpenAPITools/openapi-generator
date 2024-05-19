@@ -93,6 +93,10 @@ public class XmlItem {
   @Valid
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
+  public XmlItem() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

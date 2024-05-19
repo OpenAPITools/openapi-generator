@@ -38,7 +38,7 @@ public class OuterObjectWithEnumProperty  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("value")
-  @NotNull @Valid public OuterEnumInteger getValue() {
+  @NotNull public OuterEnumInteger getValue() {
     return value;
   }
 

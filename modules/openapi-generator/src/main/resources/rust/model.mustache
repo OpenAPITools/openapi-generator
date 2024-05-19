@@ -21,12 +21,12 @@ pub enum {{{classname}}} {
 {{/enumVars}}{{/allowableValues}}
 }
 
-impl ToString for {{{classname}}} {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
             {{#allowableValues}}
             {{#enumVars}}
-            Self::{{{name}}} => String::from("{{{value}}}"),
+            Self::{{{name}}} => write!(f, "{{{value}}}"),
             {{/enumVars}}
             {{/allowableValues}}
         }

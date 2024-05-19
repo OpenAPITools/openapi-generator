@@ -442,7 +442,7 @@ public class DefaultGenerator implements Generator {
         }
     }
 
-    void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels) {
+    void generateModels(List<File> files, List<ModelMap> allModels, List<String> unusedModels, List<ModelMap> aliasModels) {
         if (!generateModels) {
             // TODO: Process these anyway and add to dryRun info
             LOGGER.info("Skipping generation of models.");
@@ -567,6 +567,8 @@ public class DefaultGenerator implements Generator {
                         CodegenModel m = modelTemplate.getModel();
                         if (m.isAlias) {
                             // alias to number, string, enum, etc, which should not be generated as model
+                            // but aliases are still used to dereference models in some languages (such as in html2).
+                            aliasModels.add(modelTemplate);  // Store aliases in the separate list.
                             continue;  // Don't create user-defined classes for aliases
                         }
                     }
@@ -1074,11 +1076,11 @@ public class DefaultGenerator implements Generator {
         generateVersionMetadata(files);
     }
 
-    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels) {
-        return this.buildSupportFileBundle(allOperations, allModels, null);
+    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels, List<ModelMap> aliasModels) {
+        return this.buildSupportFileBundle(allOperations, allModels, aliasModels, null);
     }
 
-    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels, List<WebhooksMap> allWebhooks) {
+    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels, List<ModelMap> aliasModels, List<WebhooksMap> allWebhooks) {
 
         Map<String, Object> bundle = new HashMap<>(config.additionalProperties());
         bundle.put("apiPackage", config.apiPackage());
@@ -1100,6 +1102,7 @@ public class DefaultGenerator implements Generator {
         bundle.put("apiInfo", apis);
         bundle.put("webhooks", allWebhooks);
         bundle.put("models", allModels);
+        bundle.put("aliasModels", aliasModels);
         bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
         bundle.put("modelPackage", config.modelPackage());
         bundle.put("library", config.getLibrary());
@@ -1225,7 +1228,8 @@ public class DefaultGenerator implements Generator {
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
-        generateModels(files, allModels, filteredSchemas);
+        List<ModelMap> aliasModels = new ArrayList<>();
+        generateModels(files, allModels, filteredSchemas, aliasModels);
         // apis
         List<OperationsMap> allOperations = new ArrayList<>();
         generateApis(files, allOperations, allModels);
@@ -1233,7 +1237,7 @@ public class DefaultGenerator implements Generator {
         List<WebhooksMap> allWebhooks = new ArrayList<>();
         generateWebhooks(files, allWebhooks, allModels);
         // supporting files
-        Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels, allWebhooks);
+        Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels, aliasModels, allWebhooks);
         generateSupportingFiles(files, bundle);
 
         if (dryRun) {

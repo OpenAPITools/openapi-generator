@@ -80,7 +80,7 @@ public class ArrayTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
-  @Valid public List<List<Long>> getArrayArrayOfInteger() {
+  public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 

@@ -309,7 +309,7 @@ public class EnumTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("outerEnum")
-  @Valid public OuterEnum getOuterEnum() {
+  public OuterEnum getOuterEnum() {
     return outerEnum;
   }
 

@@ -28,6 +28,10 @@ public class AdditionalPropertiesBoolean {
 
   private String name;
 
+  public AdditionalPropertiesBoolean() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

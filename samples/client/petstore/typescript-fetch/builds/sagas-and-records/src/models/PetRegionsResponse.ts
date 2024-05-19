@@ -43,8 +43,8 @@ export interface PetRegionsResponse {
 /**
  * Check if a given object implements the PetRegionsResponse interface.
  */
-export function instanceOfPetRegionsResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfPetRegionsResponse(value: object): value is PetRegionsResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 

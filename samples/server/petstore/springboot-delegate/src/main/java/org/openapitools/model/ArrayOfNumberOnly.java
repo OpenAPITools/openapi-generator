@@ -29,6 +29,10 @@ public class ArrayOfNumberOnly {
   @Valid
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 
+  public ArrayOfNumberOnly() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

@@ -311,7 +311,7 @@ public class EnumTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("outerEnum")
-  @Valid public OuterEnum getOuterEnum() {
+  public OuterEnum getOuterEnum() {
     return outerEnum;
   }
 

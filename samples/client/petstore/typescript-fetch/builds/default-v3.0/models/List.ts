@@ -30,7 +30,7 @@ export interface List {
 /**
  * Check if a given object implements the List interface.
  */
-export function instanceOfList(value: object): boolean {
+export function instanceOfList(value: object): value is List {
     return true;
 }
 
