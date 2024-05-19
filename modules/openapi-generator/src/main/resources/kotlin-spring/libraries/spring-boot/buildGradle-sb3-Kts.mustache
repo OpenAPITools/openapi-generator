@@ -13,6 +13,10 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
 }
 
+tasks.wrapper {
+    gradleVersion = "6.9"
+}
+
 plugins {
     val kotlinVersion = "1.7.10"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion

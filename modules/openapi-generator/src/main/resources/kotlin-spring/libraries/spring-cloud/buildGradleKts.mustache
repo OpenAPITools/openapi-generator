@@ -16,6 +16,10 @@ repositories {
     mavenCentral()
 }
 
+tasks.wrapper {
+    gradleVersion = "6.9"
+}
+
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
