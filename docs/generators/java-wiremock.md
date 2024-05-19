@@ -11,7 +11,7 @@ title: Documentation for the java-wiremock Generator
 | generator type | SERVER | |
 | generator language | Java | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates Java Wiremock stubs, requests and responses samples. | |
+| helpTxt | Generates Java WireMock stubs, requests and responses samples. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
