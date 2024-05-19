@@ -20,10 +20,10 @@ import { {{modelName}}FromJSONTyped } from './{{modelName}}{{importFileExtension
 /**
  * Check if a given object implements the {{classname}} interface.
  */
-export function instanceOf{{classname}}(value: object): boolean {
+export function instanceOf{{classname}}(value: object): value is {{classname}} {
     {{#vars}}
     {{#required}}
-    if (!('{{name}}' in value)) return false;
+    if (!('{{name}}' in value) || value['{{name}}'] === undefined) return false;
     {{/required}}
     {{/vars}}
     return true;

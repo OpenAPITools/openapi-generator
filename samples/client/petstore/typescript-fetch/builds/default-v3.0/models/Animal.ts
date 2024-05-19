@@ -38,8 +38,8 @@ export interface Animal {
 /**
  * Check if a given object implements the Animal interface.
  */
-export function instanceOfAnimal(value: object): boolean {
-    if (!('className' in value)) return false;
+export function instanceOfAnimal(value: object): value is Animal {
+    if (!('className' in value) || value['className'] === undefined) return false;
     return true;
 }
 

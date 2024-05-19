@@ -321,7 +321,7 @@ public class EnumTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("outerEnum")
-  @Valid public OuterEnum getOuterEnum() {
+  public OuterEnum getOuterEnum() {
     return outerEnum;
   }
 
@@ -340,7 +340,7 @@ public class EnumTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("outerEnumInteger")
-  @Valid public OuterEnumInteger getOuterEnumInteger() {
+  public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
   }
 
@@ -359,7 +359,7 @@ public class EnumTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("outerEnumDefaultValue")
-  @Valid public OuterEnumDefaultValue getOuterEnumDefaultValue() {
+  public OuterEnumDefaultValue getOuterEnumDefaultValue() {
     return outerEnumDefaultValue;
   }
 
@@ -378,7 +378,7 @@ public class EnumTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("outerEnumIntegerDefaultValue")
-  @Valid public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
+  public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;
   }
 

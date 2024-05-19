@@ -184,7 +184,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_array_integer")
-  @Valid public Map<String, List<Integer>> getMapArrayInteger() {
+  public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
 
@@ -219,7 +219,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_array_anytype")
-  @Valid public Map<String, List<Object>> getMapArrayAnytype() {
+  public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
 
@@ -254,7 +254,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_string")
-  @Valid public Map<String, Map<String, String>> getMapMapString() {
+  public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
 
@@ -289,7 +289,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_anytype")
-  @Valid public Map<String, Map<String, Object>> getMapMapAnytype() {
+  public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
 

@@ -251,43 +251,45 @@ class FormatTest {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
-     other.integer == integer &&
-     other.int32 == int32 &&
-     other.int64 == int64 &&
-     other.number == number &&
-     other.float == float &&
-     other.double_ == double_ &&
-     other.decimal == decimal &&
-     other.string == string &&
-     other.byte == byte &&
-     other.binary == binary &&
-     other.date == date &&
-     other.dateTime == dateTime &&
-     other.uuid == uuid &&
-     other.password == password &&
-     other.patternWithDigits == patternWithDigits &&
-     other.patternWithDigitsAndDelimiter == patternWithDigitsAndDelimiter;
 
-  @override
-  int get hashCode =>
-    integer.hashCode +
-    int32.hashCode +
-    int64.hashCode +
-    number.hashCode +
-    float.hashCode +
-    double_.hashCode +
-    decimal.hashCode +
-    string.hashCode +
-    byte.hashCode +
-    binary.hashCode +
-    date.hashCode +
-    dateTime.hashCode +
-    uuid.hashCode +
-    password.hashCode +
-    patternWithDigits.hashCode +
-    patternWithDigitsAndDelimiter.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
+      other.integer == integer &&
+      other.int32 == int32 &&
+      other.int64 == int64 &&
+      other.number == number &&
+      other.float == float &&
+      other.double_ == double_ &&
+      other.decimal == decimal &&
+      other.string == string &&
+      other.byte == byte &&
+      other.binary == binary &&
+      other.date == date &&
+      other.dateTime == dateTime &&
+      other.uuid == uuid &&
+      other.password == password &&
+      other.patternWithDigits == patternWithDigits &&
+      other.patternWithDigitsAndDelimiter == patternWithDigitsAndDelimiter;
+
+    @override
+    int get hashCode =>
+        integer.hashCode +
+        int32.hashCode +
+        int64.hashCode +
+        number.hashCode +
+        float.hashCode +
+        double_.hashCode +
+        decimal.hashCode +
+        string.hashCode +
+        byte.hashCode +
+        binary.hashCode +
+        date.hashCode +
+        dateTime.hashCode +
+        uuid.hashCode +
+        password.hashCode +
+        patternWithDigits.hashCode +
+        patternWithDigitsAndDelimiter.hashCode;
 
   factory FormatTest.fromJson(Map<String, dynamic> json) => _$FormatTestFromJson(json);
 

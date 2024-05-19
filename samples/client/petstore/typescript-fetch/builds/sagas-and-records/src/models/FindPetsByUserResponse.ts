@@ -49,8 +49,8 @@ export interface FindPetsByUserResponse {
 /**
  * Check if a given object implements the FindPetsByUserResponse interface.
  */
-export function instanceOfFindPetsByUserResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfFindPetsByUserResponse(value: object): value is FindPetsByUserResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 
