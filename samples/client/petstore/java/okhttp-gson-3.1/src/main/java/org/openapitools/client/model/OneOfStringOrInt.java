@@ -145,12 +145,7 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public OneOfStringOrInt(Integer o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public OneOfStringOrInt(String o) {
+    public OneOfStringOrInt(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

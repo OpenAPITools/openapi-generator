@@ -75,6 +75,10 @@ public class ParentWithNullable {
 
   private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
+  public ParentWithNullable() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

@@ -64,7 +64,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M7</version>
+                <version>3.2.5</version>
                 <configuration>
                     <systemPropertyVariables>
                         <loggerPath>conf/log4j.properties</loggerPath>
@@ -274,8 +274,8 @@
 
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
@@ -305,7 +305,7 @@
         {{#hasFormParamsInSpec}}
         <httpmime-version>4.5.14</httpmime-version>
         {{/hasFormParamsInSpec}}
-        <junit-version>4.13.2</junit-version>
+        <junit-version>5.10.2</junit-version>
         <spotless.version>2.27.2</spotless.version>
     </properties>
 </project>

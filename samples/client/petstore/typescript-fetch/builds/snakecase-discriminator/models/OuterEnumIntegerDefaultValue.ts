@@ -26,7 +26,14 @@ export type OuterEnumIntegerDefaultValue = typeof OuterEnumIntegerDefaultValue[k
 
 
 export function instanceOfOuterEnumIntegerDefaultValue(value: any): boolean {
-    return Object.values(OuterEnumIntegerDefaultValue).includes(value);
+    for (const key in OuterEnumIntegerDefaultValue) {
+        if (Object.prototype.hasOwnProperty.call(OuterEnumIntegerDefaultValue, key)) {
+            if (OuterEnumIntegerDefaultValue[key] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 export function OuterEnumIntegerDefaultValueFromJSON(json: any): OuterEnumIntegerDefaultValue {

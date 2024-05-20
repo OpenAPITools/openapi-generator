@@ -23,7 +23,7 @@ type BodyAPIService struct {
 }
 
 // NewBodyAPIService creates a default api service
-func NewBodyAPIService() BodyAPIServicer {
+func NewBodyAPIService() *BodyAPIService {
 	return &BodyAPIService{}
 }
 

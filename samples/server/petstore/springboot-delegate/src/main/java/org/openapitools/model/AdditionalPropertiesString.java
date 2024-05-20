@@ -28,6 +28,10 @@ public class AdditionalPropertiesString {
 
   private String name;
 
+  public AdditionalPropertiesString() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

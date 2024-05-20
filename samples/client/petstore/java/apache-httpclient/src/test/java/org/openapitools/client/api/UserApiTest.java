@@ -15,9 +15,9 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.User;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * API tests for UserApi
  */
-@Ignore
+@Disabled
 public class UserApiTest {
 
     private final UserApi api = new UserApi();

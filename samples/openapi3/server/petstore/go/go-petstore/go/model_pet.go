@@ -60,5 +60,17 @@ func AssertPetRequired(obj Pet) error {
 
 // AssertPetConstraints checks if the values respects the defined constraints
 func AssertPetConstraints(obj Pet) error {
+    if obj.Category != nil {
+     	if err := AssertCategoryConstraints(*obj.Category); err != nil {
+     		return err
+     	}
+    }
+    if obj.Tags != nil {
+     	for _, el := range *obj.Tags {
+     		if err := AssertTagConstraints(el); err != nil {
+     			return err
+     		}
+     	}
+    }
 	return nil
 }

@@ -61,7 +61,7 @@ export interface Capitalization {
 /**
  * Check if a given object implements the Capitalization interface.
  */
-export function instanceOfCapitalization(value: object): boolean {
+export function instanceOfCapitalization(value: object): value is Capitalization {
     return true;
 }
 

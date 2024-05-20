@@ -36,7 +36,7 @@ public enum OuterEnum {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected string value '" + s + "'");
+      return null;
     }
 
   @Override
@@ -52,7 +52,7 @@ public enum OuterEnum {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    return null;
   }
 }
 

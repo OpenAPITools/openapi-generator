@@ -23,7 +23,8 @@ abstract class AbstractStoreApi
 
     /**
      * Operation deleteOrder
-     * Path: /store/order/{orderId}
+     *
+     * Path: `/store/order/{orderId}`
      *
      * Delete purchase order by ID
      *
@@ -37,8 +38,23 @@ abstract class AbstractStoreApi
     }
 
     /**
+     * Operation deleteOrder (stream)
+     *
+     * Path: `/store/order/{orderId}`
+     *
+     * Delete purchase order by ID
+     *
+     * @param string $orderId ID of the order that needs to be deleted (required)
+     *
+     */
+    public function deleteOrderStream(string $orderId): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation getInventory
-     * Path: /store/inventory
+     *
+     * Path: `/store/inventory`
      *
      * Returns pet inventories by status
      *
@@ -53,6 +69,8 @@ abstract class AbstractStoreApi
     /**
      * Operation getInventory (stream)
      *
+     * Path: `/store/inventory`
+     *
      * Returns pet inventories by status
      *
      *
@@ -63,7 +81,8 @@ abstract class AbstractStoreApi
     }
     /**
      * Operation getOrderById
-     * Path: /store/order/{orderId}
+     *
+     * Path: `/store/order/{orderId}`
      *
      * Find purchase order by ID
      *
@@ -77,8 +96,23 @@ abstract class AbstractStoreApi
     }
 
     /**
+     * Operation getOrderById (stream)
+     *
+     * Path: `/store/order/{orderId}`
+     *
+     * Find purchase order by ID
+     *
+     * @param int $orderId ID of pet that needs to be fetched (required)
+     *
+     */
+    public function getOrderByIdStream(int $orderId): void
+    {
+        throw new \Exception('Not implemented');
+    }
+    /**
      * Operation placeOrder
-     * Path: /store/order
+     *
+     * Path: `/store/order`
      *
      * Place an order for a pet
      *
@@ -91,4 +125,18 @@ abstract class AbstractStoreApi
         throw new \Exception('Not implemented');
     }
 
+    /**
+     * Operation placeOrder (stream)
+     *
+     * Path: `/store/order`
+     *
+     * Place an order for a pet
+     *
+     * @param \OpenAPIServer\Model\Order $order order placed for purchasing the pet (required)
+     *
+     */
+    public function placeOrderStream(\OpenAPIServer\Model\Order $order): void
+    {
+        throw new \Exception('Not implemented');
+    }
 }

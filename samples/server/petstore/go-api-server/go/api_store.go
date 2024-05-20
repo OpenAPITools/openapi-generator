@@ -35,7 +35,7 @@ func WithStoreAPIErrorHandler(h ErrorHandler) StoreAPIOption {
 }
 
 // NewStoreAPIController creates a default api controller
-func NewStoreAPIController(s StoreAPIServicer, opts ...StoreAPIOption) Router {
+func NewStoreAPIController(s StoreAPIServicer, opts ...StoreAPIOption) *StoreAPIController {
 	controller := &StoreAPIController{
 		service:      s,
 		errorHandler: DefaultErrorHandler,
@@ -89,7 +89,7 @@ func (c *StoreAPIController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // GetInventory - Returns pet inventories by status
@@ -101,7 +101,7 @@ func (c *StoreAPIController) GetInventory(w http.ResponseWriter, r *http.Request
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // GetOrderById - Find purchase order by ID
@@ -124,7 +124,7 @@ func (c *StoreAPIController) GetOrderById(w http.ResponseWriter, r *http.Request
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
 // PlaceOrder - Place an order for a pet
@@ -151,5 +151,5 @@ func (c *StoreAPIController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }

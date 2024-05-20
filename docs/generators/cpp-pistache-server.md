@@ -30,6 +30,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ---------- | ------- |
 |nlohmann::json|#include &lt;nlohmann/json.hpp&gt;|
 |std::map|#include &lt;map&gt;|
+|std::set|#include &lt;set&gt;|
 |std::string|#include &lt;string&gt;|
 |std::vector|#include &lt;vector&gt;|
 

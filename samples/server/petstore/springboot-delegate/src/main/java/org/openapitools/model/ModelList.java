@@ -26,6 +26,10 @@ public class ModelList {
 
   private String _123list;
 
+  public ModelList() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */
