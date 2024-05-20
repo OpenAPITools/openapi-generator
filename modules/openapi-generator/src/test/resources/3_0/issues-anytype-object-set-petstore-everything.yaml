@@ -763,9 +763,9 @@ components:
             - pending
             - sold
 
-        # ---------------------------------------------------------
-        # Properties that dedicate this configuration to this issue
-        # ---------------------------------------------------------
+        # -----------------------------------------------------------------------
+        # Properties that dedicate this configuration to some issues or checkings
+        # -----------------------------------------------------------------------
 
         # https://github.com/OpenAPITools/openapi-generator/issues/2769
         # object property (leading to Object.h)
@@ -782,21 +782,44 @@ components:
           description: to help you installing your pet at home
 
         # Leading to Set.h
+        certificates:
+          description: pedigree and other certificates
+          type: array
+          uniqueItems: true
+
+          items:
+            type: string
+
         # https://github.com/OpenAPITools/openapi-generator/issues/14234
-        bestFriends:
-          description: Pet best friends!
+        vaccinationBook:
+          description: Vaccination book of the pet
           type: object
 
           required:
-            - bestFriends
+           - vaccines
 
           properties:
-            bestFriends:
+            vaccines:
               type: array
               uniqueItems: true
 
               items:
-                type: string
+                title: vaccine
+                type: object
+
+                required:
+                  - date
+                  - boosterRequired
+
+                properties:
+                  date:
+                    format: date
+                    description: vaccination date
+
+                  boosterRequired:
+                    type: boolean
+                    description: true if a booster is still needed to complete the vaccination
+
 
       xml:
         name: Pet

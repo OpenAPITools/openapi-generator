@@ -11,7 +11,8 @@ namespace {{apiPackage}};
     {{#operation}}
     /**
      * Operation {{{operationId}}}
-     * Path: {{{path}}}
+     *
+     * Path: `{{{path}}}`
      *
      {{#summary}}
      * {{{summary}}}
@@ -31,9 +32,10 @@ namespace {{apiPackage}};
         throw new \Exception('Not implemented');
     }
 
-    {{#returnContainer}}
     /**
      * Operation {{{operationId}}} (stream)
+     *
+     * Path: `{{{path}}}`
      *
      {{#summary}}
      * {{{summary}}}
@@ -51,7 +53,6 @@ namespace {{apiPackage}};
     {
         throw new \Exception('Not implemented');
     }
-    {{/returnContainer}}
 {{/operation}}
 }
 {{/operations}}

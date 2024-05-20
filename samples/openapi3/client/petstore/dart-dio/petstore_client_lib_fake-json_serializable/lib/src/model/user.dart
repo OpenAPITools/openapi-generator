@@ -132,27 +132,29 @@ class User {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is User &&
-     other.id == id &&
-     other.username == username &&
-     other.firstName == firstName &&
-     other.lastName == lastName &&
-     other.email == email &&
-     other.password == password &&
-     other.phone == phone &&
-     other.userStatus == userStatus;
 
-  @override
-  int get hashCode =>
-    id.hashCode +
-    username.hashCode +
-    firstName.hashCode +
-    lastName.hashCode +
-    email.hashCode +
-    password.hashCode +
-    phone.hashCode +
-    userStatus.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is User &&
+      other.id == id &&
+      other.username == username &&
+      other.firstName == firstName &&
+      other.lastName == lastName &&
+      other.email == email &&
+      other.password == password &&
+      other.phone == phone &&
+      other.userStatus == userStatus;
+
+    @override
+    int get hashCode =>
+        id.hashCode +
+        username.hashCode +
+        firstName.hashCode +
+        lastName.hashCode +
+        email.hashCode +
+        password.hashCode +
+        phone.hashCode +
+        userStatus.hashCode;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

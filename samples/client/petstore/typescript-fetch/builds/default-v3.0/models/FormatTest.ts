@@ -127,11 +127,11 @@ export interface FormatTest {
 /**
  * Check if a given object implements the FormatTest interface.
  */
-export function instanceOfFormatTest(value: object): boolean {
-    if (!('number' in value)) return false;
-    if (!('_byte' in value)) return false;
-    if (!('date' in value)) return false;
-    if (!('password' in value)) return false;
+export function instanceOfFormatTest(value: object): value is FormatTest {
+    if (!('number' in value) || value['number'] === undefined) return false;
+    if (!('_byte' in value) || value['_byte'] === undefined) return false;
+    if (!('date' in value) || value['date'] === undefined) return false;
+    if (!('password' in value) || value['password'] === undefined) return false;
     return true;
 }
 

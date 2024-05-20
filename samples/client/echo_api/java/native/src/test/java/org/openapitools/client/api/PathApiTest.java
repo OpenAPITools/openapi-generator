@@ -13,22 +13,16 @@
 
 package org.openapitools.client.api;
 
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.StringEnumRef;
-import org.junit.Test;
-import org.junit.Ignore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 
 /**
  * API tests for PathApi
  */
-@Ignore
+@Disabled
 public class PathApiTest {
 
     private final PathApi api = new PathApi();

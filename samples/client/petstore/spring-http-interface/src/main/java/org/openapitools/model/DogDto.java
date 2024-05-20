@@ -28,6 +28,10 @@ public class DogDto extends AnimalDto {
 
   private String breed;
 
+  public DogDto() {
+    super();
+  }
+
   public DogDto breed(String breed) {
     this.breed = breed;
     return this;

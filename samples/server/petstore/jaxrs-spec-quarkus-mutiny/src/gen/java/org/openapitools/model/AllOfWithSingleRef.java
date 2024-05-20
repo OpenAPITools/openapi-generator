@@ -57,7 +57,7 @@ public class AllOfWithSingleRef  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("SingleRefType")
-  @Valid public SingleRefType getSingleRefType() {
+  public SingleRefType getSingleRefType() {
     return singleRefType;
   }
 

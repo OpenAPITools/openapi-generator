@@ -293,7 +293,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnum")
   @Schema(description = "")
-  @Valid 
+  
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
@@ -313,7 +313,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnumInteger")
   @Schema(description = "")
-  @Valid 
+  
   public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
   }
@@ -333,7 +333,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnumDefaultValue")
   @Schema(description = "")
-  @Valid 
+  
   public OuterEnumDefaultValue getOuterEnumDefaultValue() {
     return outerEnumDefaultValue;
   }
@@ -353,7 +353,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnumIntegerDefaultValue")
   @Schema(description = "")
-  @Valid 
+  
   public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;
   }

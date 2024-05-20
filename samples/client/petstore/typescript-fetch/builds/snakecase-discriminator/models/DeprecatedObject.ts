@@ -30,7 +30,7 @@ export interface DeprecatedObject {
 /**
  * Check if a given object implements the DeprecatedObject interface.
  */
-export function instanceOfDeprecatedObject(value: object): boolean {
+export function instanceOfDeprecatedObject(value: object): value is DeprecatedObject {
     return true;
 }
 

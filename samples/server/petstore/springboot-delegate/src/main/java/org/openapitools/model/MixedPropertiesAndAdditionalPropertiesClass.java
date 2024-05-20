@@ -36,6 +36,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @Valid
   private Map<String, Animal> map = new HashMap<>();
 
+  public MixedPropertiesAndAdditionalPropertiesClass() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

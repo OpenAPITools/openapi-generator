@@ -444,6 +444,12 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean generateModels = true;
 
     /**
+     * Generate the models recursively if models should generate selectively (see modelsToGenerate) and all dependent models are to generate
+     */
+    @Parameter(name = "generateRecursiveDependentModels", property = "openapi.generator.maven.plugin.generateRecursiveDependentModels")
+    private Boolean generateRecursiveDependentModels = false;
+
+    /**
      * A comma separated list of models to generate. All models is the default.
      */
     @Parameter(name = "modelsToGenerate", property = "openapi.generator.maven.plugin.modelsToGenerate")
@@ -795,6 +801,7 @@ public class CodeGenMojo extends AbstractMojo {
             GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
             GlobalSettings.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
             GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.toString());
+            GlobalSettings.setProperty(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, generateRecursiveDependentModels.toString());
 
             if (configOptions != null) {
                 // Retained for backwards-compatibility with configOptions -> instantiation-types

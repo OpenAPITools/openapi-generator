@@ -35,7 +35,7 @@ func WithBothAPIErrorHandler(h ErrorHandler) BothAPIOption {
 }
 
 // NewBothAPIController creates a default api controller
-func NewBothAPIController(s BothAPIServicer, opts ...BothAPIOption) Router {
+func NewBothAPIController(s BothAPIServicer, opts ...BothAPIOption) *BothAPIController {
 	controller := &BothAPIController{
 		service:      s,
 		errorHandler: DefaultErrorHandler,
@@ -89,5 +89,5 @@ func (c *BothAPIController) Both(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }

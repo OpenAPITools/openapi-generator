@@ -72,6 +72,10 @@ public class MapTest {
   @Valid
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
+  public MapTest() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */

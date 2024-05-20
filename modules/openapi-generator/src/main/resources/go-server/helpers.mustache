@@ -56,7 +56,7 @@ func AssertRecurseValueRequired[T any](value reflect.Value, callback func(T) err
 
 	// If it is a slice we continue recursion
 	case reflect.Slice:
-		for i := 0; i < value.Len(); i += 1 {
+		for i := 0; i < value.Len(); i++ {
 			if err := AssertRecurseValueRequired(value.Index(i), callback); err != nil {
 				return err
 			}

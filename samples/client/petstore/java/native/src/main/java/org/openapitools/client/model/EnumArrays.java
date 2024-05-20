@@ -266,5 +266,64 @@ public class EnumArrays {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private EnumArrays instance;
+
+    public Builder() {
+      this(new EnumArrays());
+    }
+
+    protected Builder(EnumArrays instance) {
+      this.instance = instance;
+    }
+
+    public EnumArrays.Builder justSymbol(JustSymbolEnum justSymbol) {
+      this.instance.justSymbol = justSymbol;
+      return this;
+    }
+    public EnumArrays.Builder arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+      this.instance.arrayEnum = arrayEnum;
+      return this;
+    }
+
+
+    /**
+    * returns a built EnumArrays instance.
+    *
+    * The builder is not reusable.
+    */
+    public EnumArrays build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static EnumArrays.Builder builder() {
+    return new EnumArrays.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public EnumArrays.Builder toBuilder() {
+    return new EnumArrays.Builder()
+      .justSymbol(getJustSymbol())
+      .arrayEnum(getArrayEnum());
+  }
+
 }
 

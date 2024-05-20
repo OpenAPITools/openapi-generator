@@ -923,6 +923,10 @@ public class AbstractJavaCodegenTest {
         schema = new Schema<>().type("string").format("binary").pattern("^[a-z]$").maxLength(36);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "File");
+
+        schema = new Schema<>().type("string")._enum(List.of("A","B")).pattern("^[a-z]$").maxLength(36);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "String");
     }
 
     @Test
@@ -945,6 +949,10 @@ public class AbstractJavaCodegenTest {
         schema = new ArraySchema().items(new Schema<>().type("string").format("binary").pattern("^[a-z]$").maxLength(36));
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<File>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string")._enum(List.of("A","B")).pattern("^[a-z]$").maxLength(36));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<String>");
     }
 
     @Test

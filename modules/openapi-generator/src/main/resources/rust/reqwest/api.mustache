@@ -1,7 +1,7 @@
 {{>partial_header}}
 
 use reqwest;
-
+use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
@@ -174,7 +174,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
 	    {{/bodyParams}}
 	    {{/hasBodyParam}}
 	    {{^hasBodyParam}}
-	    &"",
+	    "",
 	    {{/hasBodyParam}}
 	    ) {
 	      Ok(new_headers) => new_headers,

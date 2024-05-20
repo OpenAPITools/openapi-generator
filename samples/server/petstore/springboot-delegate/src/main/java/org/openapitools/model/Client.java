@@ -24,6 +24,10 @@ public class Client {
 
   private String client;
 
+  public Client() {
+    super();
+  }
+
   /**
   * Constructor with all args parameters
   */
