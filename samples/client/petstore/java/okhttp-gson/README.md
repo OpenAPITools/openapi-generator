@@ -126,6 +126,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**fakeRequiredNullableBodyGet**](docs/FakeApi.md#fakeRequiredNullableBodyGet) | **GET** /fake/required-nullable-body | fields in the response body, required and nullable are both true
 *FakeApi* | [**fakeUploadRefRequestBodies**](docs/FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake uploads an image with ref request bodies
 *FakeApi* | [**getFakeArrayofenums**](docs/FakeApi.md#getFakeArrayofenums) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**getFakeHealth**](docs/FakeApi.md#getFakeHealth) | **GET** /fake/health | Health check endpoint
@@ -233,6 +234,7 @@ Class | Method | HTTP request | Description
  - [NewPetCategoryInlineAllof](docs/NewPetCategoryInlineAllof.md)
  - [NewPetCategoryInlineAllofAllOfCategoryTag](docs/NewPetCategoryInlineAllofAllOfCategoryTag.md)
  - [NullableClass](docs/NullableClass.md)
+ - [NullableEnum](docs/NullableEnum.md)
  - [NullableShape](docs/NullableShape.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
@@ -253,6 +255,7 @@ Class | Method | HTTP request | Description
  - [Quadrilateral](docs/Quadrilateral.md)
  - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [RequiredNullableBody](docs/RequiredNullableBody.md)
  - [Scalar](docs/Scalar.md)
  - [ScalarAnyOf](docs/ScalarAnyOf.md)
  - [ScaleneTriangle](docs/ScaleneTriangle.md)
