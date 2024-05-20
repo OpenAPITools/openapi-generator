@@ -16,7 +16,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.exclusions>**/src/main/java/org/openapitools/codegen/plugin/**/*</sonar.exclusions>
-        <maven.version>3.9.4</maven.version>
+        <maven.version>3.9.6</maven.version>
     </properties>
     <dependencies>
         <dependency>
