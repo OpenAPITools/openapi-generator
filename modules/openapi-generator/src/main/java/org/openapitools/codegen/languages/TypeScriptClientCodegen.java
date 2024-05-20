@@ -142,7 +142,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         for (String[] option : TypeScriptClientCodegen.ENUM_TYPES) {
             enumTypeOption.addEnum(option[0], option[1]);
         }
-        enumTypeOption.defaultValue(ENUM_TYPES[0][0]);
+        enumTypeOption.defaultValue(ENUM_TYPES[1][0]);
         cliOptions.add(enumTypeOption);
 
         // Set property naming to camelCase
@@ -436,12 +436,12 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 "http", httpLibName + ".ts"
         ));
 
-        additionalProperties.putIfAbsent(ENUM_TYPE_SWITCH, ENUM_TYPES[0]);
+        additionalProperties.putIfAbsent(ENUM_TYPE_SWITCH, ENUM_TYPES[1][0]);
         Object propEnumType = additionalProperties.get(ENUM_TYPE_SWITCH);
 
         Map<String, Boolean> enumTypes = new HashMap<>();
-        for (String[] enumType : ENUM_TYPES) {
-            enumTypes.put(enumType[0], enumType.equals(propEnumType));
+        for (String[] option : ENUM_TYPES) {
+            enumTypes.put(option[0], option[0].equals(propEnumType));
         }
         additionalProperties.put("enumTypes", enumTypes);
 
