@@ -19,6 +19,7 @@ import org.openapitools.model.XmlItemDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -211,7 +212,7 @@ public interface FakeApi {
          @RequestParam(value = "int64", required = false) Long int64,
          @RequestParam(value = "float", required = false) Float _float,
          @RequestParam(value = "string", required = false) String string,
-         @RequestPart(value = "binary", required = false) org.springframework.core.io.Resource binary,
+         @RequestPart(value = "binary", required = false) MultipartFile binary,
          @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
          @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
          @RequestParam(value = "password", required = false) String password,

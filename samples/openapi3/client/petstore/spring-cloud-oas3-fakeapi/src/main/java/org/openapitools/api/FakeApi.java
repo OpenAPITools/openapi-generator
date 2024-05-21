@@ -33,6 +33,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -321,7 +322,7 @@ public interface FakeApi {
         @Parameter(name = "int64", description = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
         @Parameter(name = "float", description = "None") @Valid @RequestParam(value = "float", required = false) Float _float,
         @Parameter(name = "string", description = "None") @Valid @RequestParam(value = "string", required = false) String string,
-        @Parameter(name = "binary", description = "None") @RequestPart(value = "binary", required = false) org.springframework.core.io.Resource binary,
+        @Parameter(name = "binary", description = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
         @Parameter(name = "date", description = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @Parameter(name = "dateTime", description = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
         @Parameter(name = "password", description = "None") @Valid @RequestParam(value = "password", required = false) String password,

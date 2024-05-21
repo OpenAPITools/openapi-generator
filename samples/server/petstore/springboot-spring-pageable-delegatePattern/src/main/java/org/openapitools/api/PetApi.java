@@ -13,6 +13,7 @@ import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -370,7 +371,7 @@ public interface PetApi {
     default ResponseEntity<ModelApiResponse> uploadFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
-        @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) org.springframework.core.io.Resource file
+        @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     ) {
         return getDelegate().uploadFile(petId, additionalMetadata, file);
     }

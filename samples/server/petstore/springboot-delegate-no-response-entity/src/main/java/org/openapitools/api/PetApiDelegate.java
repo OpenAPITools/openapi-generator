@@ -5,6 +5,7 @@ import org.openapitools.model.Pet;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -215,7 +216,7 @@ public interface PetApiDelegate {
      */
     default ModelApiResponse uploadFile(Long petId,
         String additionalMetadata,
-        org.springframework.core.io.Resource file) {
+        MultipartFile file) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
