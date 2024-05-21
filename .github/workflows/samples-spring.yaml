@@ -59,7 +59,6 @@ jobs:
           - samples/server/petstore/springboot-spring-pageable
           - samples/server/petstore/springboot-spring-provide-args
           - samples/server/petstore/springboot-lombok-data
-          - samples/server/petstore/springboot-file-delegate-optional
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
