@@ -1091,6 +1091,7 @@ Here is a list of template creators:
    * Kotlin (Spring Boot): @dr4ke616
    * Kotlin (Vertx): @Wooyme
    * Kotlin (JAX-RS): @anttileppa
+   * Kotlin WireMock: @stefankoppier
    * NodeJS Express: @YishTish
    * PHP Flight: @daniel-sc
    * PHP Laravel: @renepardon
