@@ -62,6 +62,13 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void toEnumVarNameAddUnderscoresIfValueIsPascalCase() {
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("OnlyCamelCase", "String"), "ONLY_CAMEL_CASE");
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("WithNumber1", "String"), "WITH_NUMBER1");
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_LeadingUnderscore", "String"), "_LEADING_UNDERSCORE");
+    }
+
+    @Test
     public void toVarNameShouldAvoidOverloadingGetClassMethod() throws Exception {
         Assert.assertEquals(fakeJavaCodegen.toVarName("class"), "propertyClass");
         Assert.assertEquals(fakeJavaCodegen.toVarName("_class"), "propertyClass");

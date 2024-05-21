@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class ParentWithNullable  implements Serializable {
   public enum TypeEnum {
 
-    CHILDWITHNULLABLE(String.valueOf("ChildWithNullable"));
+    CHILD_WITH_NULLABLE(String.valueOf("ChildWithNullable"));
 
 
     private String value;
