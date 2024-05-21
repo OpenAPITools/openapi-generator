@@ -4900,7 +4900,7 @@ public class SpringCodegenTest {
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Tag\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"TagList\""))
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Tag\""))
-            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"TagList\""))
+            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"TagList\"", "useWrapping", "true"))
             .toMethod().toFileAssert()
 
             // ↓ custom internal xml-array element name, non-wrapped (1st example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
@@ -4928,7 +4928,7 @@ public class SpringCodegenTest {
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"photoUrls\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"photoUrls\""))
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"photoUrls\""))
-            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"photoUrls\""))
+            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"photoUrls\"", "useWrapping", "true"))
             .toMethod().toFileAssert()
 
             // ↓ test attribute generation (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Convert%20Property%20to%20an%20Attribute)

@@ -199,7 +199,7 @@ public class Pet {
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
   @JacksonXmlProperty(localName = "photoUrl")
-  @JacksonXmlElementWrapper(localName = "photoUrl")
+  @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
   @XmlElement(name = "photoUrl")
   @XmlElementWrapper(name = "photoUrl")
   public List<String> getPhotoUrls() {
@@ -231,7 +231,7 @@ public class Pet {
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "Tag")
-  @JacksonXmlElementWrapper(localName = "tag")
+  @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
   @XmlElement(name = "Tag")
   @XmlElementWrapper(name = "tag")
   public List<@Valid Tag> getTags() {
