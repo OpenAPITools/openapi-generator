@@ -34,13 +34,15 @@ class OuterObjectWithEnumProperty {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is OuterObjectWithEnumProperty &&
-     other.value == value;
 
-  @override
-  int get hashCode =>
-    value.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is OuterObjectWithEnumProperty &&
+      other.value == value;
+
+    @override
+    int get hashCode =>
+        value.hashCode;
 
   factory OuterObjectWithEnumProperty.fromJson(Map<String, dynamic> json) => _$OuterObjectWithEnumPropertyFromJson(json);
 

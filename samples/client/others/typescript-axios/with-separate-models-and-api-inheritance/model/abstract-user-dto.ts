@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { BranchDto } from './branch-dto';
+import type { BranchDto } from './branch-dto';
 
 /**
  * 

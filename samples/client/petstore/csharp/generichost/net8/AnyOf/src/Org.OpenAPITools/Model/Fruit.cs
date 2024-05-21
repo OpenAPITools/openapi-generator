@@ -212,16 +212,16 @@ namespace Org.OpenAPITools.Model
             if (fruit.AppleOption.IsSet && fruit.AppleOption.Value != null)
             {
                 AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.AppleOption.Value.GetType()));
-                AppleJsonConverter.WriteProperties(ref writer, fruit.AppleOption.Value, jsonSerializerOptions);
+                AppleJsonConverter.WriteProperties(writer, fruit.AppleOption.Value, jsonSerializerOptions);
             }
 
             if (fruit.BananaOption.IsSet && fruit.BananaOption.Value != null)
             {
                 BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.BananaOption.Value.GetType()));
-                BananaJsonConverter.WriteProperties(ref writer, fruit.BananaOption.Value, jsonSerializerOptions);
+                BananaJsonConverter.WriteProperties(writer, fruit.BananaOption.Value, jsonSerializerOptions);
             }
 
-            WriteProperties(ref writer, fruit, jsonSerializerOptions);
+            WriteProperties(writer, fruit, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -232,7 +232,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="fruit"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
             if (fruit.ColorOption.IsSet && fruit.Color == null)
                 throw new ArgumentNullException(nameof(fruit.Color), "Property is required for class Fruit.");

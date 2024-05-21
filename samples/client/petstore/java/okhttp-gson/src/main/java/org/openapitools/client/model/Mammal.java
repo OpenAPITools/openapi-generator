@@ -60,7 +60,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Mammal extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Mammal.class.getName());
 
@@ -196,17 +196,7 @@ public class Mammal extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Mammal(Pig o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Mammal(Whale o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Mammal(Zebra o) {
+    public Mammal(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

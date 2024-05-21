@@ -36,7 +36,7 @@ export interface ReadOnlyFirst {
 /**
  * Check if a given object implements the ReadOnlyFirst interface.
  */
-export function instanceOfReadOnlyFirst(value: object): boolean {
+export function instanceOfReadOnlyFirst(value: object): value is ReadOnlyFirst {
     return true;
 }
 

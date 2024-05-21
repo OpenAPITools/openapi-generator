@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response  implements Serializable {
   private BigDecimal someId;
   private @Valid Map<String, BigDecimal> someMap = new HashMap<>();
@@ -78,9 +78,9 @@ public class FakeBigDecimalMap200Response  implements Serializable {
     return this;
   }
 
-  public FakeBigDecimalMap200Response removeSomeMapItem(BigDecimal someMapItem) {
-    if (someMapItem != null && this.someMap != null) {
-      this.someMap.remove(someMapItem);
+  public FakeBigDecimalMap200Response removeSomeMapItem(String key) {
+    if (this.someMap != null) {
+      this.someMap.remove(key);
     }
 
     return this;

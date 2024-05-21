@@ -62,6 +62,13 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void toEnumVarNameAddUnderscoresIfValueIsPascalCase() {
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("OnlyCamelCase", "String"), "ONLY_CAMEL_CASE");
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("WithNumber1", "String"), "WITH_NUMBER1");
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_LeadingUnderscore", "String"), "_LEADING_UNDERSCORE");
+    }
+
+    @Test
     public void toVarNameShouldAvoidOverloadingGetClassMethod() throws Exception {
         Assert.assertEquals(fakeJavaCodegen.toVarName("class"), "propertyClass");
         Assert.assertEquals(fakeJavaCodegen.toVarName("_class"), "propertyClass");
@@ -923,6 +930,10 @@ public class AbstractJavaCodegenTest {
         schema = new Schema<>().type("string").format("binary").pattern("^[a-z]$").maxLength(36);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "File");
+
+        schema = new Schema<>().type("string")._enum(List.of("A","B")).pattern("^[a-z]$").maxLength(36);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "String");
     }
 
     @Test
@@ -945,6 +956,10 @@ public class AbstractJavaCodegenTest {
         schema = new ArraySchema().items(new Schema<>().type("string").format("binary").pattern("^[a-z]$").maxLength(36));
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<File>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string")._enum(List.of("A","B")).pattern("^[a-z]$").maxLength(36));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<String>");
     }
 
     @Test

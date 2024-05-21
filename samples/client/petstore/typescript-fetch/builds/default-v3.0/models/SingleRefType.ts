@@ -25,7 +25,14 @@ export type SingleRefType = typeof SingleRefType[keyof typeof SingleRefType];
 
 
 export function instanceOfSingleRefType(value: any): boolean {
-    return Object.values(SingleRefType).includes(value);
+    for (const key in SingleRefType) {
+        if (Object.prototype.hasOwnProperty.call(SingleRefType, key)) {
+            if (SingleRefType[key] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 export function SingleRefTypeFromJSON(json: any): SingleRefType {

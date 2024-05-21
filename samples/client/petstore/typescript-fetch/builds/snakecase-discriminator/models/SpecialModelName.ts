@@ -30,7 +30,7 @@ export interface SpecialModelName {
 /**
  * Check if a given object implements the SpecialModelName interface.
  */
-export function instanceOfSpecialModelName(value: object): boolean {
+export function instanceOfSpecialModelName(value: object): value is SpecialModelName {
     return true;
 }
 

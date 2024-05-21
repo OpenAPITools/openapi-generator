@@ -9,6 +9,7 @@
  */
 
 use crate::models;
+use serde::{Deserialize, Serialize};
 
 /// 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
@@ -22,12 +23,12 @@ pub enum Color {
 
 }
 
-impl ToString for Color {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for Color {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
-            Self::Red => String::from("RED"),
-            Self::Green => String::from("GREEN"),
-            Self::Blue => String::from("BLUE"),
+            Self::Red => write!(f, "RED"),
+            Self::Green => write!(f, "GREEN"),
+            Self::Blue => write!(f, "BLUE"),
         }
     }
 }

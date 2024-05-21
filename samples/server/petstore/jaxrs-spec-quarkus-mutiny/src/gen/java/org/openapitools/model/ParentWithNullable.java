@@ -22,11 +22,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("ParentWithNullable")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ParentWithNullable  implements Serializable {
   public enum TypeEnum {
 
-    CHILDWITHNULLABLE(String.valueOf("ChildWithNullable"));
+    CHILD_WITH_NULLABLE(String.valueOf("ChildWithNullable"));
 
 
     private String value;

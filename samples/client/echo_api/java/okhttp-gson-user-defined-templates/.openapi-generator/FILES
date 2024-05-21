@@ -1,7 +1,6 @@
 .github/workflows/maven.yml
 .gitignore
 .travis.yml
-README.md
 api/openapi.yaml
 build.gradle
 build.sbt

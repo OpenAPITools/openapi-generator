@@ -10,6 +10,4 @@ additionalProperties:
   dateLibrary: java8
   useOneOfDiscriminatorLookup: true
   disallowAdditionalPropertiesIfNotPresent: false
-systemProperties:
-  skipValidateSpec: "false"
-
+validateSpec: false

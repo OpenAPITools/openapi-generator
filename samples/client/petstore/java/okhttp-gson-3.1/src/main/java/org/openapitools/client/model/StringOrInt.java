@@ -50,7 +50,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class StringOrInt extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(StringOrInt.class.getName());
 
@@ -140,12 +140,7 @@ public class StringOrInt extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public StringOrInt(Integer o) {
-        super("anyOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public StringOrInt(String o) {
+    public StringOrInt(Object o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }

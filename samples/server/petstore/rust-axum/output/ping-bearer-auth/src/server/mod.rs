@@ -10,15 +10,13 @@ use validator::{Validate, ValidationErrors};
 use crate::{header, types::*};
 
 #[allow(unused_imports)]
-use crate::models;
-
-use crate::{Api, PingGetResponse};
+use crate::{apis, models};
 
 /// Setup API Server.
 pub fn new<I, A>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: Api + 'static,
+    A: apis::default::Default + 'static,
 {
     // build our application with a route
     Router::new()
@@ -40,7 +38,7 @@ async fn ping_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || ping_get_validation())
@@ -60,7 +58,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            PingGetResponse::Status201_OK => {
+            apis::default::PingGetResponse::Status201_OK => {
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }

@@ -45,7 +45,7 @@ import jakarta.validation.Valid;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   private Map<String, String> mapString = new HashMap<>();
@@ -117,7 +117,6 @@ public class AdditionalPropertiesClass {
     this.mapString = mapString;
   }
 
-
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
     
     this.mapNumber = mapNumber;
@@ -153,7 +152,6 @@ public class AdditionalPropertiesClass {
     this.mapNumber = mapNumber;
   }
 
-
   public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
     
     this.mapInteger = mapInteger;
@@ -188,7 +186,6 @@ public class AdditionalPropertiesClass {
     this.mapInteger = mapInteger;
   }
 
-
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
     
     this.mapBoolean = mapBoolean;
@@ -222,7 +219,6 @@ public class AdditionalPropertiesClass {
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
-
 
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     
@@ -259,7 +255,6 @@ public class AdditionalPropertiesClass {
     this.mapArrayInteger = mapArrayInteger;
   }
 
-
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     
     this.mapArrayAnytype = mapArrayAnytype;
@@ -294,7 +289,6 @@ public class AdditionalPropertiesClass {
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
-
 
   public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
     
@@ -331,7 +325,6 @@ public class AdditionalPropertiesClass {
     this.mapMapString = mapMapString;
   }
 
-
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     
     this.mapMapAnytype = mapMapAnytype;
@@ -367,7 +360,6 @@ public class AdditionalPropertiesClass {
     this.mapMapAnytype = mapMapAnytype;
   }
 
-
   public AdditionalPropertiesClass anytype1(Object anytype1) {
     
     this.anytype1 = anytype1;
@@ -394,7 +386,6 @@ public class AdditionalPropertiesClass {
     this.anytype1 = anytype1;
   }
 
-
   public AdditionalPropertiesClass anytype2(Object anytype2) {
     
     this.anytype2 = anytype2;
@@ -420,7 +411,6 @@ public class AdditionalPropertiesClass {
   public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
   }
-
 
   public AdditionalPropertiesClass anytype3(Object anytype3) {
     

@@ -13,18 +13,18 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ResponseMeta } from './ResponseMeta';
-import {
-    ResponseMetaFromJSON,
-    ResponseMetaFromJSONTyped,
-    ResponseMetaToJSON,
-} from './ResponseMeta';
 import type { User } from './User';
 import {
     UserFromJSON,
     UserFromJSONTyped,
     UserToJSON,
 } from './User';
+import type { ResponseMeta } from './ResponseMeta';
+import {
+    ResponseMetaFromJSON,
+    ResponseMetaFromJSONTyped,
+    ResponseMetaToJSON,
+} from './ResponseMeta';
 
 /**
  * 
@@ -49,8 +49,8 @@ export interface FindPetsByUserResponse {
 /**
  * Check if a given object implements the FindPetsByUserResponse interface.
  */
-export function instanceOfFindPetsByUserResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfFindPetsByUserResponse(value: object): value is FindPetsByUserResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 

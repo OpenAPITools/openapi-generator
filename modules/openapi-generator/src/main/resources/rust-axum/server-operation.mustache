@@ -47,7 +47,7 @@ async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A>(
 ) -> Result<Response, StatusCode>
 where 
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::{{classFilename}}::{{classnamePascalCase}},
 {
 {{#headerParams}}
   {{#-first}}
@@ -187,7 +187,7 @@ where
   let resp = match result {
                                             Ok(rsp) => match rsp {
 {{#responses}}
-                                                {{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
+                                                apis::{{classFilename}}::{{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
 {{#dataType}}
 {{^headers}}
                                                     (body)

@@ -30,7 +30,7 @@ export interface ArrayOfArrayOfNumberOnly {
 /**
  * Check if a given object implements the ArrayOfArrayOfNumberOnly interface.
  */
-export function instanceOfArrayOfArrayOfNumberOnly(value: object): boolean {
+export function instanceOfArrayOfArrayOfNumberOnly(value: object): value is ArrayOfArrayOfNumberOnly {
     return true;
 }
 
