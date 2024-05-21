@@ -2445,6 +2445,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (exts != null && exts.containsKey("x-one-of-name")) {
             return (String) exts.get("x-one-of-name");
         }
+        if (names.size() == 1) return names.get(0);
         return "oneOf<" + String.join(",", names) + ">";
     }
 
