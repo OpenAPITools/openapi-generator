@@ -113,8 +113,8 @@ public class Pet {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  @XmlElement(name = "id")
   @JacksonXmlProperty(localName = "id")
+  @XmlElement(name = "id")
   public Long getId() {
     return id;
   }
@@ -135,8 +135,8 @@ public class Pet {
   @Valid 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
-  @XmlElement(name = "Category")
   @JacksonXmlProperty(localName = "Category")
+  @XmlElement(name = "Category")
   public Category getCategory() {
     return category;
   }
@@ -157,8 +157,8 @@ public class Pet {
   @NotNull 
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
-  @XmlElement(name = "name")
   @JacksonXmlProperty(localName = "name")
+  @XmlElement(name = "name")
   public String getName() {
     return name;
   }
@@ -187,10 +187,10 @@ public class Pet {
   @NotNull 
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
-  @XmlElement(name = "photoUrl")
   @JacksonXmlProperty(localName = "photoUrl")
-  @XmlElementWrapper(name = "photoUrl")
   @JacksonXmlElementWrapper(localName = "photoUrl")
+  @XmlElement(name = "photoUrl")
+  @XmlElementWrapper(name = "photoUrl")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -219,10 +219,10 @@ public class Pet {
   @Valid 
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
-  @XmlElement(name = "Tag")
   @JacksonXmlProperty(localName = "Tag")
-  @XmlElementWrapper(name = "tag")
   @JacksonXmlElementWrapper(localName = "tag")
+  @XmlElement(name = "Tag")
+  @XmlElementWrapper(name = "tag")
   public List<@Valid Tag> getTags() {
     return tags;
   }
@@ -244,8 +244,8 @@ public class Pet {
   
   @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
-  @XmlElement(name = "status")
   @JacksonXmlProperty(localName = "status")
+  @XmlElement(name = "status")
   @Deprecated
   public StatusEnum getStatus() {
     return status;

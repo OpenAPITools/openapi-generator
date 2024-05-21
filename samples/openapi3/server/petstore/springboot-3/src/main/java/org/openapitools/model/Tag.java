@@ -58,8 +58,8 @@ public class Tag {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
-  @XmlElement(name = "id")
   @JacksonXmlProperty(localName = "id")
+  @XmlElement(name = "id")
   public Long getId() {
     return id;
   }
@@ -80,8 +80,8 @@ public class Tag {
   
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
-  @XmlElement(name = "name")
   @JacksonXmlProperty(localName = "name")
+  @XmlElement(name = "name")
   public String getName() {
     return name;
   }
