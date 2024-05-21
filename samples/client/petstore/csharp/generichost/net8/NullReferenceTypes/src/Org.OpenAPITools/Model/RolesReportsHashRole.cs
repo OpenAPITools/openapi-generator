@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, rolesReportsHashRole, jsonSerializerOptions);
+            WriteProperties(writer, rolesReportsHashRole, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="rolesReportsHashRole"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, RolesReportsHashRole rolesReportsHashRole, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, RolesReportsHashRole rolesReportsHashRole, JsonSerializerOptions jsonSerializerOptions)
         {
             if (rolesReportsHashRole.NameOption.IsSet && rolesReportsHashRole.Name == null)
                 throw new ArgumentNullException(nameof(rolesReportsHashRole.Name), "Property is required for class RolesReportsHashRole.");
