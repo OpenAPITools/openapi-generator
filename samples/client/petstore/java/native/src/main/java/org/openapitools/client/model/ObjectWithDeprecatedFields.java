@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   private String uuid;
@@ -276,5 +276,74 @@ public class ObjectWithDeprecatedFields {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private ObjectWithDeprecatedFields instance;
+
+    public Builder() {
+      this(new ObjectWithDeprecatedFields());
+    }
+
+    protected Builder(ObjectWithDeprecatedFields instance) {
+      this.instance = instance;
+    }
+
+    public ObjectWithDeprecatedFields.Builder uuid(String uuid) {
+      this.instance.uuid = uuid;
+      return this;
+    }
+    public ObjectWithDeprecatedFields.Builder id(BigDecimal id) {
+      this.instance.id = id;
+      return this;
+    }
+    public ObjectWithDeprecatedFields.Builder deprecatedRef(DeprecatedObject deprecatedRef) {
+      this.instance.deprecatedRef = deprecatedRef;
+      return this;
+    }
+    public ObjectWithDeprecatedFields.Builder bars(List<String> bars) {
+      this.instance.bars = bars;
+      return this;
+    }
+
+
+    /**
+    * returns a built ObjectWithDeprecatedFields instance.
+    *
+    * The builder is not reusable.
+    */
+    public ObjectWithDeprecatedFields build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ObjectWithDeprecatedFields.Builder builder() {
+    return new ObjectWithDeprecatedFields.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ObjectWithDeprecatedFields.Builder toBuilder() {
+    return new ObjectWithDeprecatedFields.Builder()
+      .uuid(getUuid())
+      .id(getId())
+      .deprecatedRef(getDeprecatedRef())
+      .bars(getBars());
+  }
+
 }
 

@@ -629,6 +629,13 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(model_a.to_json(), '{"_name": "nameA", "second_circular_all_of_ref": {"name": "nameB"}}')
         self.assertEqual(model_b.to_json(), '{"_name": "nameB", "circular_all_of_ref": {"name": "nameA"}}')
 
+    def test_allof_discriminator_mapping(self):
+        # for issue 18498
+        user_info_json = '{"_typeName": "Info", "val": {"_typeName": "string", "_value": "some string"}}'
+        user_info = petstore_api.models.Info.from_json(user_info_json)
+        # shouldn't throw ValueError("BaseDiscriminator failed to lookup discriminator value...")
+        assert user_info is not None
+        self.assertEqual(user_info.to_json(), user_info_json)
 
 class TestdditionalPropertiesAnyType(unittest.TestCase):
     def test_additional_properties(self):

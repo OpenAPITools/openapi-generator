@@ -705,7 +705,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, formatTest, jsonSerializerOptions);
+            WriteProperties(writer, formatTest, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -716,7 +716,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="formatTest"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, FormatTest formatTest, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, FormatTest formatTest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (formatTest.Byte == null)
                 throw new ArgumentNullException(nameof(formatTest.Byte), "Property is required for class FormatTest.");

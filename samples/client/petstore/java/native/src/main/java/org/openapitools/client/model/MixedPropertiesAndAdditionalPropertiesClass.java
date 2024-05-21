@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
   private UUID uuid;
@@ -236,5 +236,69 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private MixedPropertiesAndAdditionalPropertiesClass instance;
+
+    public Builder() {
+      this(new MixedPropertiesAndAdditionalPropertiesClass());
+    }
+
+    protected Builder(MixedPropertiesAndAdditionalPropertiesClass instance) {
+      this.instance = instance;
+    }
+
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder uuid(UUID uuid) {
+      this.instance.uuid = uuid;
+      return this;
+    }
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder dateTime(OffsetDateTime dateTime) {
+      this.instance.dateTime = dateTime;
+      return this;
+    }
+    public MixedPropertiesAndAdditionalPropertiesClass.Builder map(Map<String, Animal> map) {
+      this.instance.map = map;
+      return this;
+    }
+
+
+    /**
+    * returns a built MixedPropertiesAndAdditionalPropertiesClass instance.
+    *
+    * The builder is not reusable.
+    */
+    public MixedPropertiesAndAdditionalPropertiesClass build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static MixedPropertiesAndAdditionalPropertiesClass.Builder builder() {
+    return new MixedPropertiesAndAdditionalPropertiesClass.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public MixedPropertiesAndAdditionalPropertiesClass.Builder toBuilder() {
+    return new MixedPropertiesAndAdditionalPropertiesClass.Builder()
+      .uuid(getUuid())
+      .dateTime(getDateTime())
+      .map(getMap());
+  }
+
 }
 

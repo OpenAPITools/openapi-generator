@@ -48,6 +48,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean generateInterfaces = false;
     protected boolean withGoMod = false;
     protected boolean generateMarshalJSON = true;
+    protected boolean generateUnmarshalJSON = true;
+
 
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
@@ -775,7 +777,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             if (generateMarshalJSON) {
-                model.vendorExtensions.put("x-go-generate-marshal-json", true);
+                model.vendorExtensions.putIfAbsent("x-go-generate-marshal-json", true);
+            }
+
+            if (generateUnmarshalJSON) {
+                model.vendorExtensions.putIfAbsent("x-go-generate-unmarshal-json", true);
             }
         }
 
@@ -932,6 +938,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         this.generateMarshalJSON = generateMarshalJSON;
     }
 
+    public void setGenerateUnmarshalJSON(boolean generateUnmarshalJSON) {
+        this.generateUnmarshalJSON = generateUnmarshalJSON;
+    }
+
     @Override
     public String toDefaultValue(Schema schema) {
         schema = unaliasSchema(schema);
@@ -956,7 +966,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // only process the following type (or we can simply rely on the file extension to check if it's a Go file)
         Set<String> supportedFileType = new HashSet<>(
                 Arrays.asList(
-                        "supporting-mustache",
+                        "supporting-file",
                         "model-test",
                         "model",
                         "api-test",

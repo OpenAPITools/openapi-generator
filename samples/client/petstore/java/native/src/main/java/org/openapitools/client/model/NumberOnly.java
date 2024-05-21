@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
   private BigDecimal justNumber;
@@ -147,5 +147,59 @@ public class NumberOnly {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private NumberOnly instance;
+
+    public Builder() {
+      this(new NumberOnly());
+    }
+
+    protected Builder(NumberOnly instance) {
+      this.instance = instance;
+    }
+
+    public NumberOnly.Builder justNumber(BigDecimal justNumber) {
+      this.instance.justNumber = justNumber;
+      return this;
+    }
+
+
+    /**
+    * returns a built NumberOnly instance.
+    *
+    * The builder is not reusable.
+    */
+    public NumberOnly build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static NumberOnly.Builder builder() {
+    return new NumberOnly.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NumberOnly.Builder toBuilder() {
+    return new NumberOnly.Builder()
+      .justNumber(getJustNumber());
+  }
+
 }
 

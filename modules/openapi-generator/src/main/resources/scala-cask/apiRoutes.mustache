@@ -46,16 +46,12 @@ class {{classname}}Routes(service : {{classname}}Service) extends cask.Routes {
 
         result match {
           case Left(error) => cask.Response(error, 500)
-        {{#vendorExtensions.x-has-response-types}}
-            {{#responses}}
-                {{#dataType}}
-                    case Right(value : {{dataType}}) => cask.Response(data = write(value), {{code}}, headers = Seq("Content-Type" -> "application/json"))
-                {{/dataType}}
-            {{/responses}}
-        {{/vendorExtensions.x-has-response-types}}
-        {{^vendorExtensions.x-has-response-types}}
-            case Right(_) => cask.Response("", 200)
-        {{/vendorExtensions.x-has-response-types}}
+        {{#responses}}
+            {{#dataType}}
+          case Right(value : {{dataType}}) => cask.Response(data = write(value), {{code}}, headers = Seq("Content-Type" -> "application/json"))
+            {{/dataType}}
+        {{/responses}}
+          case Right(other) => cask.Response(s"$other", 200)
         }
       }
     {{/operation}}

@@ -1,5 +1,5 @@
-//> using scala "3.3.1"
-//> using lib "cask.groupId::scala-cask-petstore:0.0.1-SNAPSHOT"
+//> using scala "3.4.1"
+//> using lib "cask.groupId::scala-cask-petstore:0.0.1"
 //> using repositories https://maven.pkg.github.com/GIT_USER_ID/GIT_REPO_ID
 
 

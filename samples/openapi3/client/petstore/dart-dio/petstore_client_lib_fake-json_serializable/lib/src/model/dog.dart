@@ -64,17 +64,19 @@ class Dog {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Dog &&
-     other.className == className &&
-     other.color == color &&
-     other.breed == breed;
 
-  @override
-  int get hashCode =>
-    className.hashCode +
-    color.hashCode +
-    breed.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Dog &&
+      other.className == className &&
+      other.color == color &&
+      other.breed == breed;
+
+    @override
+    int get hashCode =>
+        className.hashCode +
+        color.hashCode +
+        breed.hashCode;
 
   factory Dog.fromJson(Map<String, dynamic> json) => _$DogFromJson(json);
 

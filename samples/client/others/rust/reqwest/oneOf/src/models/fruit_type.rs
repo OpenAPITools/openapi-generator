@@ -9,6 +9,7 @@
  */
 
 use crate::models;
+use serde::{Deserialize, Serialize};
 
 /// 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
@@ -20,11 +21,11 @@ pub enum FruitType {
 
 }
 
-impl ToString for FruitType {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for FruitType {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
-            Self::Apple => String::from("APPLE"),
-            Self::Banana => String::from("BANANA"),
+            Self::Apple => write!(f, "APPLE"),
+            Self::Banana => write!(f, "BANANA"),
         }
     }
 }

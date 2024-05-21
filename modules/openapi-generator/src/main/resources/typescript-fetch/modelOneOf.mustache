@@ -44,7 +44,11 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
 {{/discriminator}}
 {{^discriminator}}
-    return {{#oneOf}}{{#transformArrayTypeName}}{{{.}}}{{/transformArrayTypeName}}FromJSONTyped(json, true){{^-last}} || {{/-last}}{{/oneOf}};
+    {{#oneOf}}
+    if (instanceOf{{#transformArrayTypeName}}{{{.}}}{{/transformArrayTypeName}}(json)) {
+        return {{#transformArrayTypeName}}{{{.}}}{{/transformArrayTypeName}}FromJSONTyped(json, true);
+    }
+    {{/oneOf}}
 {{/discriminator}}
 }
 

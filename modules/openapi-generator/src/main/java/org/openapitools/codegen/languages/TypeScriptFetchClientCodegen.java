@@ -27,7 +27,6 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import java.util.stream.Collectors;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -39,6 +38,10 @@ import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
     public static final String NPM_REPOSITORY = "npmRepository";
@@ -50,6 +53,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
     public static final String IMPORT_FILE_EXTENSION_SWITCH_DESC = "File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html).";
+    public static final String FILE_NAMING = "fileNaming";
+    public static final String KEBAB_CASE = "kebab-case";
+    public static final String CAMEL_CASE = "camelCase";
+    public static final String PASCAL_CASE = "PascalCase";
 
     protected String npmRepository = null;
     protected String importFileExtension = "";
@@ -59,6 +66,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean addedModelIndex = false;
     protected boolean withoutRuntimeChecks = false;
     protected boolean stringEnums = false;
+    protected String fileNaming = PASCAL_CASE;
 
     // "Saga and Record" mode.
     public static final String SAGAS_AND_RECORDS = "sagasAndRecords";
@@ -106,6 +114,33 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_SWITCH_DESC).defaultValue(""));
+        this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'PascalCase', 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
+    }
+
+    @Override
+    public String toApiFilename(String name) {
+        return convertUsingFileNamingConvention(super.toApiFilename(name));
+    }
+
+    @Override
+    public String toModelFilename(String name) {
+        return convertUsingFileNamingConvention(super.toModelFilename(name));
+    }
+
+    /**
+     * Converts the original name according to the current <code>fileNaming</code> strategy.
+     *
+     * @param originalName the original name to transform
+     * @return the transformed name
+     */
+    private String convertUsingFileNamingConvention(String originalName) {
+        String name = originalName;
+        if (KEBAB_CASE.equals(fileNaming)) {
+            name = dashize(underscore(name));
+        } else if (CAMEL_CASE.equals(fileNaming)) {
+            name = camelize(name, LOWERCASE_FIRST_LETTER);
+        }
+        return name;
     }
 
     @Override
@@ -147,6 +182,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
     public void setStringEnums(Boolean stringEnums) {
         this.stringEnums = stringEnums;
+    }
+
+    /**
+     * Set the file naming type.
+     *
+     * @param fileNaming the file naming to use
+     */
+    public void setFileNaming(String fileNaming) {
+        if (PASCAL_CASE.equals(fileNaming) || CAMEL_CASE.equals(fileNaming) || KEBAB_CASE.equals(fileNaming)) {
+            this.fileNaming = fileNaming;
+        } else {
+            throw new IllegalArgumentException("Invalid file naming '" +
+                    fileNaming + "'. Must be 'PascalCase', 'camelCase' or 'kebab-case'");
+        }
     }
 
     public Boolean getSagasAndRecords() {
@@ -251,6 +300,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.setStringEnums(convertPropertyToBoolean(STRING_ENUMS));
         }
 
+        if (additionalProperties.containsKey(FILE_NAMING)) {
+            this.setFileNaming(additionalProperties.get(FILE_NAMING).toString());
+        }
+
         if (!withoutRuntimeChecks) {
             this.modelTemplateFiles.put("models.mustache", ".ts");
             typeMapping.put("date", "Date");
@@ -341,6 +394,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.processCodeGenModel(cm);
         }
 
+        // Add supporting file only if we plan to generate files in /models
+        if (!objs.isEmpty() && !addedModelIndex) {
+            addedModelIndex = true;
+            supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
+        }
+
         return objs;
     }
 
@@ -362,7 +421,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             for (ModelMap model : entry.getModels()) {
                 ExtendedCodegenModel codegenModel = (ExtendedCodegenModel) model.getModel();
                 model.put("hasImports", codegenModel.imports.size() > 0);
-
+                model.put("tsImports", toTsImports(codegenModel, parseImports(codegenModel)));
                 allModels.add(codegenModel);
                 if (codegenModel.isEntity) {
                     entityModelClassnames.add(codegenModel.classname);
@@ -394,6 +453,38 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
         return result;
+    }
+
+    /**
+     * Parse imports
+     */
+    private Set<String> parseImports(CodegenModel cm) {
+        Set<String> newImports = new HashSet<>();
+        if (cm.imports.size() > 0) {
+            for (String name : cm.imports) {
+                if (name.indexOf(" | ") >= 0) {
+                    String[] parts = name.split(" \\| ");
+                    Collections.addAll(newImports, parts);
+                } else {
+                    newImports.add(name);
+                }
+            }
+        }
+        return newImports;
+    }
+
+    private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
+        List<Map<String, String>> tsImports = new ArrayList<>();
+        for (String im : imports) {
+            if (!im.equals(cm.classname)) {
+                HashMap<String, String> tsImport = new HashMap<>();
+                // TVG: This is used as class name in the import statements of the model file
+                tsImport.put("classname", im);
+                tsImport.put("filename", toModelFilename(im));
+                tsImports.add(tsImport);
+            }
+        }
+        return tsImports;
     }
 
     private void autoSetDefaultValueForProperty(ExtendedCodegenProperty var) {

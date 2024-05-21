@@ -10,7 +10,7 @@
 
 
 use reqwest;
-
+use serde::{Deserialize, Serialize};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
@@ -140,7 +140,7 @@ pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api
         let local_var_new_headers = match local_var_aws_v4_key.sign(
 	    &local_var_uri_str,
 	    "DELETE",
-	    &"",
+	    "",
 	    ) {
 	      Ok(new_headers) => new_headers,
 	      Err(err) => return Err(Error::AWSV4SignatureError(err)),
@@ -191,7 +191,7 @@ pub fn find_pets_by_status(configuration: &configuration::Configuration, status:
         let local_var_new_headers = match local_var_aws_v4_key.sign(
 	    &local_var_uri_str,
 	    "GET",
-	    &"",
+	    "",
 	    ) {
 	      Ok(new_headers) => new_headers,
 	      Err(err) => return Err(Error::AWSV4SignatureError(err)),
@@ -239,7 +239,7 @@ pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec
         let local_var_new_headers = match local_var_aws_v4_key.sign(
 	    &local_var_uri_str,
 	    "GET",
-	    &"",
+	    "",
 	    ) {
 	      Ok(new_headers) => new_headers,
 	      Err(err) => return Err(Error::AWSV4SignatureError(err)),
@@ -283,7 +283,7 @@ pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) 
         let local_var_new_headers = match local_var_aws_v4_key.sign(
 	    &local_var_uri_str,
 	    "GET",
-	    &"",
+	    "",
 	    ) {
 	      Ok(new_headers) => new_headers,
 	      Err(err) => return Err(Error::AWSV4SignatureError(err)),
@@ -377,7 +377,7 @@ pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id
         let local_var_new_headers = match local_var_aws_v4_key.sign(
 	    &local_var_uri_str,
 	    "POST",
-	    &"",
+	    "",
 	    ) {
 	      Ok(new_headers) => new_headers,
 	      Err(err) => return Err(Error::AWSV4SignatureError(err)),
@@ -429,7 +429,7 @@ pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, ad
         let local_var_new_headers = match local_var_aws_v4_key.sign(
 	    &local_var_uri_str,
 	    "POST",
-	    &"",
+	    "",
 	    ) {
 	      Ok(new_headers) => new_headers,
 	      Err(err) => return Err(Error::AWSV4SignatureError(err)),

@@ -106,23 +106,25 @@ class Pet {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Pet &&
-     other.id == id &&
-     other.category == category &&
-     other.name == name &&
-     other.photoUrls == photoUrls &&
-     other.tags == tags &&
-     other.status == status;
 
-  @override
-  int get hashCode =>
-    id.hashCode +
-    category.hashCode +
-    name.hashCode +
-    photoUrls.hashCode +
-    tags.hashCode +
-    status.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Pet &&
+      other.id == id &&
+      other.category == category &&
+      other.name == name &&
+      other.photoUrls == photoUrls &&
+      other.tags == tags &&
+      other.status == status;
+
+    @override
+    int get hashCode =>
+        id.hashCode +
+        category.hashCode +
+        name.hashCode +
+        photoUrls.hashCode +
+        tags.hashCode +
+        status.hashCode;
 
   factory Pet.fromJson(Map<String, dynamic> json) => _$PetFromJson(json);
 

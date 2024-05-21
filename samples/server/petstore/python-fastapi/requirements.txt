@@ -5,7 +5,7 @@ async-generator==1.10
 certifi==2023.7.22
 chardet==4.0.0
 click==7.1.2
-dnspython==2.1.0
+dnspython==2.6.1
 email-validator==2.0.0
 fastapi==0.109.2
 graphene==2.1.8
@@ -14,9 +14,9 @@ graphql-relay==2.0.1
 h11==0.12.0
 httptools==0.1.2
 httpx==0.24.1
-idna==2.10
+idna==3.7
 itsdangerous==1.1.0
-Jinja2==2.11.3
+Jinja2==3.1.4
 MarkupSafe==2.0.1
 orjson==3.9.15
 promise==2.3

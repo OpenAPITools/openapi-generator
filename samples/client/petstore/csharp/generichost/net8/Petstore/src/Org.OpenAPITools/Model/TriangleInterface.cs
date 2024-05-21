@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, triangleInterface, jsonSerializerOptions);
+            WriteProperties(writer, triangleInterface, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="triangleInterface"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, TriangleInterface triangleInterface, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, TriangleInterface triangleInterface, JsonSerializerOptions jsonSerializerOptions)
         {
             if (triangleInterface.TriangleType == null)
                 throw new ArgumentNullException(nameof(triangleInterface.TriangleType), "Property is required for class TriangleInterface.");

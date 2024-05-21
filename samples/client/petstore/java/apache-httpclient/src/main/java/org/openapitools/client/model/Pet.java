@@ -45,7 +45,7 @@ import java.util.StringJoiner;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -130,7 +130,6 @@ public class Pet {
     this.id = id;
   }
 
-
   public Pet category(Category category) {
     
     this.category = category;
@@ -156,7 +155,6 @@ public class Pet {
     this.category = category;
   }
 
-
   public Pet name(String name) {
     
     this.name = name;
@@ -181,7 +179,6 @@ public class Pet {
   public void setName(String name) {
     this.name = name;
   }
-
 
   public Pet photoUrls(Set<String> photoUrls) {
     
@@ -217,7 +214,6 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-
   public Pet tags(List<Tag> tags) {
     
     this.tags = tags;
@@ -250,7 +246,6 @@ public class Pet {
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
-
 
   public Pet status(StatusEnum status) {
     

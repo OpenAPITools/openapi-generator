@@ -71,7 +71,7 @@ type PetAPIServicer interface {
 	AddPet(context.Context, Pet) (ImplResponse, error)
 	DeletePet(context.Context, int64, string) (ImplResponse, error)
 	FilterPetsByCategory(context.Context, Gender, Species, []Species) (ImplResponse, error)
-	FindPetsByStatus(context.Context, []string, string, string) (ImplResponse, error)
+	FindPetsByStatus(context.Context, []string, string, string, int32, float32, string) (ImplResponse, error)
 	// Deprecated
 	FindPetsByTags(context.Context, []string, time.Time, time.Time, Colour) (ImplResponse, error)
 	GetPetById(context.Context, int64) (ImplResponse, error)

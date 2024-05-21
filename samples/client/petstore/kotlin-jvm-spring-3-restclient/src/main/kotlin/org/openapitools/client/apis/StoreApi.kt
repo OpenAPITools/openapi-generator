@@ -39,7 +39,7 @@ class StoreApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun deleteOrder(orderId: kotlin.String): Unit {
-        val result = deleteOrderWithHttpInfo(orderId = orderId)
+        deleteOrderWithHttpInfo(orderId = orderId)
     }
 
     @Throws(RestClientResponseException::class)

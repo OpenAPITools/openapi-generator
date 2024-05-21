@@ -1247,6 +1247,10 @@ components:
       type: array
     RolesReportsHash:
       description: Role report Hash
+      example:
+        role:
+          name: name
+        role_uuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
         role_uuid:
           format: uuid
@@ -1272,7 +1276,7 @@ components:
         id: 0
         shipDate: 2020-02-02T20:20:20.000222Z
         complete: false
-        status: null
+        status: placed
       properties:
         id:
           format: int64
@@ -1396,7 +1400,7 @@ components:
           id: 1
         - name: name
           id: 1
-        status: null
+        status: available
       properties:
         id:
           format: int64
@@ -2714,6 +2718,8 @@ components:
         - country
         type: object
     RolesReportsHash_role:
+      example:
+        name: name
       properties:
         name:
           type: string

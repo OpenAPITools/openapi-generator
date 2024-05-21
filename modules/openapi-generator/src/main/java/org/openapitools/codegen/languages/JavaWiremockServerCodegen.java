@@ -23,7 +23,7 @@ public class JavaWiremockServerCodegen extends AbstractJavaCodegen implements Co
     }
 
     public String getHelp() {
-        return "Generates Java Wiremock stubs, requests and responses samples.";
+        return "Generates Java WireMock stubs, requests and responses samples.";
     }
 
     public JavaWiremockServerCodegen() {

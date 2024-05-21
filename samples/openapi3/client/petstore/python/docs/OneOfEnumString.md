@@ -22,7 +22,7 @@ print(OneOfEnumString.to_json())
 # convert the object into a dict
 one_of_enum_string_dict = one_of_enum_string_instance.to_dict()
 # create an instance of OneOfEnumString from a dict
-one_of_enum_string_form_dict = one_of_enum_string.from_dict(one_of_enum_string_dict)
+one_of_enum_string_from_dict = OneOfEnumString.from_dict(one_of_enum_string_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

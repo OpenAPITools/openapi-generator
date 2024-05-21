@@ -408,8 +408,14 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         }
                         if (operation.getParameters() != null) {
                             for (Parameter parameter : operation.getParameters()) {
+                                if (StringUtils.isNotEmpty(parameter.get$ref())) {
+                                    parameter = ModelUtils.getReferencedParameter(openAPI, parameter);
+                                }
                                 String swaggerParameterName = parameter.getName();
                                 String pythonParameterName = this.toParamName(swaggerParameterName);
+                                if (swaggerParameterName == null) {
+                                    throw new RuntimeException("Please report the issue as the parameter name cannot be null: " + parameter);
+                                }
                                 if (!swaggerParameterName.equals(pythonParameterName)) {
                                     LOGGER.warn(
                                             "Parameter name '{}' is not consistent with Python variable names. It will be replaced by '{}'",

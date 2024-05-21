@@ -30,7 +30,7 @@ export interface ModelFile {
 /**
  * Check if a given object implements the ModelFile interface.
  */
-export function instanceOfModelFile(value: object): boolean {
+export function instanceOfModelFile(value: object): value is ModelFile {
     return true;
 }
 

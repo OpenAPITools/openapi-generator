@@ -49,8 +49,8 @@ export interface GetBehaviorTypeResponse {
 /**
  * Check if a given object implements the GetBehaviorTypeResponse interface.
  */
-export function instanceOfGetBehaviorTypeResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfGetBehaviorTypeResponse(value: object): value is GetBehaviorTypeResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 

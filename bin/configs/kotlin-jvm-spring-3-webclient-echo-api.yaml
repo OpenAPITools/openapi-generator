@@ -1,6 +1,6 @@
 generatorName: kotlin
 outputDir: samples/client/echo_api/kotlin-jvm-spring-3-webclient
-library: jvm-spring-restclient
+library: jvm-spring-webclient
 inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/echo_api.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-client
 additionalProperties:

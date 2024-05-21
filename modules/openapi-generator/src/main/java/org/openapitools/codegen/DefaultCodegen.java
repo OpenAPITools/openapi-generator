@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
@@ -26,7 +25,6 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
-import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -65,7 +63,6 @@ import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
-import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
@@ -592,10 +589,21 @@ public class DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
+    /**
+     * A property is new if it is in a derived class and the derived property is different.
+     * This usually occurs when the data type is different.
+     * We can also consider discriminators as new because the derived class discriminator will have to be defined again
+     * to contain a new value. Doing so prevents having to include the discriminator in the constructor.
+     * @param model
+     * @param property
+     * @return
+     */
     private boolean codegenPropertyIsNew(CodegenModel model, CodegenProperty property) {
         return model.parentModel == null
                 ? false
-                : model.parentModel.allVars.stream().anyMatch(p -> p.name.equals(property.name) && (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false));
+                : model.parentModel.allVars.stream().anyMatch(p -> 
+                    p.name.equals(property.name) &&
+                    (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false || p.isDiscriminator));
     }
 
     /**
@@ -707,7 +715,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Removes importToRemove from the imports of objs, if present.
      * This is useful to remove imports that are already present in operations-related template files, to avoid importing the same thing twice.
      *
-     * @param objs imports will be removed from this objs' imports collection
+     * @param objs           imports will be removed from this objs' imports collection
      * @param importToRemove the import statement to be removed
      */
     protected void removeImport(OperationsMap objs, String importToRemove) {
@@ -2302,7 +2310,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Any non-null value will cause {{#defaultValue} check to pass.
      *
      * @param codegenProperty Codegen Property
-     * @param schema Parameter schema
+     * @param schema          Parameter schema
      * @return string presentation of the default value of the parameter
      */
     public String toDefaultParameterValue(CodegenProperty codegenProperty, Schema<?> schema) {
@@ -2329,7 +2337,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Return null if you do NOT want a default value.
      * Any non-null value will cause {{#defaultValue} check to pass.
      *
-     * @param schema Property schema
+     * @param schema          Property schema
      * @param codegenProperty Codegen property
      * @return string presentation of the default value of the property
      */
@@ -2370,7 +2378,6 @@ public class DefaultCodegen implements CodegenConfig {
         return getSingleSchemaType(schema);
 
     }
-
 
 
     protected Schema<?> getSchemaAdditionalProperties(Schema schema) {
@@ -2493,10 +2500,10 @@ public class DefaultCodegen implements CodegenConfig {
     private String getPrimitiveType(Schema schema) {
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
-        } else if (typeMapping.containsKey(schema.getType() + "+" + schema.getFormat())) {
+        } else if (typeMapping.containsKey(ModelUtils.getType(schema) + "+" + schema.getFormat())) {
             // allows custom type_format mapping.
             // use {type}+{format}
-            return typeMapping.get(schema.getType() + "+" + schema.getFormat());
+            return typeMapping.get(ModelUtils.getType(schema) + "+" + schema.getFormat());
         } else if (ModelUtils.isNullType(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
@@ -2537,7 +2544,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isShortSchema(schema)) {// int32
                 return "integer";
             } else {
-                return schema.getType(); // integer
+                return ModelUtils.getType(schema); // integer
             }
         } else if (ModelUtils.isMapSchema(schema)) {
             return "map";
@@ -2568,11 +2575,11 @@ public class DefaultCodegen implements CodegenConfig {
             return "object";
         } else if (ModelUtils.isAnyType(schema)) {
             return "AnyType";
-        } else if (StringUtils.isNotEmpty(schema.getType())) {
-            if (!schemaMapping.containsKey(schema.getType())) {
-                LOGGER.warn("Unknown type found in the schema: {}. To map it, please use the schema mapping option (e.g. --schema-mappings in CLI)", schema.getType());
+        } else if (StringUtils.isNotEmpty(ModelUtils.getType(schema))) {
+            if (!schemaMapping.containsKey(ModelUtils.getType(schema))) {
+                LOGGER.warn("Unknown type found in the schema: {}. To map it, please use the schema mapping option (e.g. --schema-mappings in CLI)", ModelUtils.getType(schema));
             }
-            return schema.getType();
+            return ModelUtils.getType(schema);
         }
         // The 'type' attribute has not been set in the OAS schema, which means the value
         // can be an arbitrary type, e.g. integer, string, object, array, number...
@@ -2946,11 +2953,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (null != existingProperties && null != newProperties) {
             Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
-            newProperties.forEach((key, value) ->
-                    existingProperties.put(
-                            key,
-                            ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI))
-                    ));
+            newProperties.forEach((key, value) -> existingProperties.put(key, ModelUtils.cloneSchema(value)));
             if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
                 for (Object e : newType.getEnum()) {
                     // ensure all interface enum types are added to schema
@@ -3009,6 +3012,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * A method that allows generators to pre-process test example payloads
      * This can be useful if one needs to change how values like null in string are represented
+     *
      * @param data the test data payload
      * @return the updated test data payload
      */
@@ -3019,6 +3023,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Processes any test cases if they exist in the components.x-test-examples vendor extensions
      * If they exist then cast them to java class instances and return them back in a map
+     *
      * @param refToTestCases the component schema name that the test cases are for
      */
     private HashMap<String, SchemaTestCase> extractSchemaTestCases(String refToTestCases) {
@@ -3055,7 +3060,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Sets the booleans that define the model's type
      *
-     * @param model the model to update
+     * @param model  the model to update
      * @param schema the model's schema
      */
     protected void updateModelForString(CodegenModel model, Schema schema) {
@@ -3313,7 +3318,6 @@ public class DefaultCodegen implements CodegenConfig {
      * @param sc                 The Schema that may contain the discriminator
      * @param discPropName       The String that is the discriminator propertyName in the schema
      * @param visitedSchemas     A set of visited schema names
-     *
      */
     private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, Set<String> visitedSchemas) {
         if (visitedSchemas.contains(composedSchemaName)) { // recursive schema definition found
@@ -3400,7 +3404,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Recursively look in Schema sc for the discriminator and return it
      *
-     * @param sc The Schema that may contain the discriminator
+     * @param sc             The Schema that may contain the discriminator
      * @param visitedSchemas An array list of visited schemas
      */
     private Discriminator recursiveGetDiscriminator(Schema sc, ArrayList<Schema> visitedSchemas) {
@@ -3620,9 +3624,9 @@ public class DefaultCodegen implements CodegenConfig {
             Map<String, Object> vendorExtensions = cs.getExtensions();
             String mappingName =
                     Optional.ofNullable(vendorExtensions)
-                        .map(ve -> ve.get("x-discriminator-value"))
-                        .map(discriminatorValue -> (String) discriminatorValue)
-                        .orElse(currentSchemaName);
+                            .map(ve -> ve.get("x-discriminator-value"))
+                            .map(discriminatorValue -> (String) discriminatorValue)
+                            .orElse(currentSchemaName);
             MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), !mappingName.equals(currentSchemaName));
             descendentSchemas.add(mm);
         }
@@ -3649,11 +3653,11 @@ public class DefaultCodegen implements CodegenConfig {
         //  the future..
         String propertyType =
                 Optional.ofNullable(schema.getProperties())
-                    .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
-                    .map(Schema::get$ref)
-                    .map(ModelUtils::getSimpleRef)
-                    .map(this::toModelName)
-                    .orElseGet(() -> typeMapping.get("string"));
+                        .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
+                        .map(Schema::get$ref)
+                        .map(ModelUtils::getSimpleRef)
+                        .map(this::toModelName)
+                        .orElseGet(() -> typeMapping.get("string"));
         discriminator.setPropertyType(propertyType);
 
         // check to see if the discriminator property is an enum string
@@ -3944,8 +3948,8 @@ public class DefaultCodegen implements CodegenConfig {
      * This method was kept when required was added to the fromProperty signature
      * to ensure that the change was non-breaking
      *
-     * @param name     name of the property
-     * @param p        OAS property schema
+     * @param name name of the property
+     * @param p    OAS property schema
      * @return Codegen Property object
      */
     public CodegenProperty fromProperty(String name, Schema p) {
@@ -3961,9 +3965,9 @@ public class DefaultCodegen implements CodegenConfig {
      * Any subsequent processing of the CodegenModel return value must be idempotent
      * for a given (String name, Schema schema).
      *
-     * @param name     name of the property
-     * @param p        OAS property schema
-     * @param required true if the property is required in the next higher object schema, false otherwise
+     * @param name                             name of the property
+     * @param p                                OAS property schema
+     * @param required                         true if the property is required in the next higher object schema, false otherwise
      * @param schemaIsFromAdditionalProperties true if the property is a required property defined by additional properties schema
      *                                         If this is the actual additionalProperties schema not defining a required property, then
      *                                         the value should be false
@@ -4019,10 +4023,10 @@ public class DefaultCodegen implements CodegenConfig {
 
         property.name = toVarName(name);
         property.baseName = name;
-        if (p.getType() == null) {
+        if (ModelUtils.getType(p) == null) {
             property.openApiType = getSchemaType(p);
         } else {
-            property.openApiType = p.getType();
+            property.openApiType = ModelUtils.getType(p);
         }
         property.nameInPascalCase = camelize(property.name);
         property.nameInCamelCase = camelize(property.name, LOWERCASE_FIRST_LETTER);
@@ -4742,8 +4746,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (contentType != null) {
                 contentType = contentType.toLowerCase(Locale.ROOT);
             }
-            if (!(this instanceof RustAxumServerCodegen) && contentType != null &&
-                    (contentType.startsWith("application/x-www-form-urlencoded") ||
+            if (contentType != null &&
+                    ((!(this instanceof RustAxumServerCodegen) && contentType.startsWith("application/x-www-form-urlencoded")) ||
                             contentType.startsWith("multipart"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
@@ -5909,10 +5913,10 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Add the model name of the child schema in a composed schema to the set of imports
      *
-     * @param composed composed schema
+     * @param composed    composed schema
      * @param childSchema composed schema
-     * @param model codegen model
-     * @param modelName model name
+     * @param model       codegen model
+     * @param modelName   model name
      */
     protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName) {
         if (composed == null || childSchema == null) {
@@ -6795,12 +6799,12 @@ public class DefaultCodegen implements CodegenConfig {
             String enumValue = isDataTypeString(dataType)
                     ? enumUnknownDefaultCaseName
                     : // This is a dummy value that attempts to avoid collisions with previously specified cases.
-                      // Int.max / 192
-                      // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
-                      // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
-                      // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
-                      // https://github.com/OpenAPITools/openapi-generator/pull/11013
-                      String.valueOf(11184809);
+                    // Int.max / 192
+                    // The number 192 that is used to calculate this random value, is the Swift Evolution proposal for frozen/non-frozen enums.
+                    // [SE-0192](https://github.com/apple/swift-evolution/blob/master/proposals/0192-non-exhaustive-enums.md)
+                    // Since this functionality was born in the Swift 5 generator and latter on broth to all generators
+                    // https://github.com/OpenAPITools/openapi-generator/pull/11013
+                    String.valueOf(11184809);
 
             enumVar.put("name", toEnumVarName(enumName, dataType));
             enumVar.put("value", toEnumValue(enumValue, dataType));
@@ -7128,7 +7132,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
         if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
-                schema.getType() == null && schema.getTypes() == null) {
+                ModelUtils.getType(schema) == null) {
             if (schema.getAllOf().get(0) instanceof Schema) {
                 original = schema;
                 schema = (Schema) schema.getAllOf().get(0);
@@ -7781,7 +7785,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
         if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
-                schema.getType() == null && schema.getTypes() == null) {
+                ModelUtils.getType(schema) == null) {
             if (schema.getAllOf().get(0) instanceof Schema) {
                 original = schema;
                 schema = (Schema) schema.getAllOf().get(0);
@@ -7984,6 +7988,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String getAdditionalPropertiesName() {
         return "additional_properties";
     }
+
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {
         if (codegenParameter.jsonSchema == null)
             codegenParameter.jsonSchema = Json.pretty(body);
@@ -8138,7 +8143,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Post-process the auto-generated file, e.g. using go-fmt to format the Go code. The file type can be "model-test",
-     * "model-doc", "model", "api", "api-test", "api-doc", "supporting-mustache", "supporting-common",
+     * "model-doc", "model", "api", "api-test", "api-doc", "supporting-file",
      * "openapi-generator-ignore", "openapi-generator-version"
      * <p>
      * TODO: store these values in enum instead
@@ -8250,8 +8255,8 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Add a given ComposedSchema as an interface model to be generated, assuming it has `oneOf` defined
      *
-     * @param cs      ComposedSchema object to create as interface model
-     * @param type    name to use for the generated interface model
+     * @param cs   ComposedSchema object to create as interface model
+     * @param type name to use for the generated interface model
      */
     public void addOneOfInterfaceModel(Schema cs, String type) {
         if (cs.getOneOf() == null) {
@@ -8441,7 +8446,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // in other sub-schemas of allOf/anyOf/oneOf
                 cp.vendorExtensions.putIfAbsent("x-duplicated-data-type", true);
             } else {
-                if(isTypeErasedGenerics()) {
+                if (isTypeErasedGenerics()) {
                     dataTypeSet.add(cp.baseType);
                 } else {
                     dataTypeSet.add(cp.dataType);
@@ -8472,10 +8477,14 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public boolean getUseInlineModelResolver() { return true; }
+    public boolean getUseInlineModelResolver() {
+        return true;
+    }
 
     @Override
-    public boolean getUseOpenapiNormalizer() { return true; }
+    public boolean getUseOpenapiNormalizer() {
+        return true;
+    }
 
     @Override
     public Set<String> getOpenapiGeneratorIgnoreList() {
@@ -8492,7 +8501,9 @@ public class DefaultCodegen implements CodegenConfig {
         And convert special characters like newline, tab, carriage return
         Into strings that can be rendered in the language that the generator will output to
         */
-    protected String handleSpecialCharacters(String name) { return name; }
+    protected String handleSpecialCharacters(String name) {
+        return name;
+    }
 
     /**
      * Used to ensure that null or Schema is returned given an input Boolean/Schema/null
@@ -8545,7 +8556,7 @@ public class DefaultCodegen implements CodegenConfig {
         // Also, adds back non constant params to allParams.
         for (CodegenParameter p : copy) {
             if (p.isEnum && p.required && p._enum != null && p._enum.size() == 1) {
-                // Add to constantParams for use in the code generation templates. 
+                // Add to constantParams for use in the code generation templates.
                 operation.constantParams.add(p);
                 if (p.isQueryParam) {
                     operation.queryParams.removeIf(param -> param.baseName.equals(p.baseName));

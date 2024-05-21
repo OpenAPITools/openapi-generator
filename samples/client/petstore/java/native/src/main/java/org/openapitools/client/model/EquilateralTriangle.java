@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EquilateralTriangle.JSON_PROPERTY_SHAPE_TYPE,
   EquilateralTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class EquilateralTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;
@@ -182,5 +182,64 @@ public class EquilateralTriangle {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private EquilateralTriangle instance;
+
+    public Builder() {
+      this(new EquilateralTriangle());
+    }
+
+    protected Builder(EquilateralTriangle instance) {
+      this.instance = instance;
+    }
+
+    public EquilateralTriangle.Builder shapeType(String shapeType) {
+      this.instance.shapeType = shapeType;
+      return this;
+    }
+    public EquilateralTriangle.Builder triangleType(String triangleType) {
+      this.instance.triangleType = triangleType;
+      return this;
+    }
+
+
+    /**
+    * returns a built EquilateralTriangle instance.
+    *
+    * The builder is not reusable.
+    */
+    public EquilateralTriangle build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static EquilateralTriangle.Builder builder() {
+    return new EquilateralTriangle.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public EquilateralTriangle.Builder toBuilder() {
+    return new EquilateralTriangle.Builder()
+      .shapeType(getShapeType())
+      .triangleType(getTriangleType());
+  }
+
 }
 

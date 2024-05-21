@@ -49,7 +49,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   User.JSON_PROPERTY_ANY_TYPE_PROP,
   User.JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -581,5 +581,126 @@ public class User {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private User instance;
+
+    public Builder() {
+      this(new User());
+    }
+
+    protected Builder(User instance) {
+      this.instance = instance;
+    }
+
+    public User.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+    public User.Builder username(String username) {
+      this.instance.username = username;
+      return this;
+    }
+    public User.Builder firstName(String firstName) {
+      this.instance.firstName = firstName;
+      return this;
+    }
+    public User.Builder lastName(String lastName) {
+      this.instance.lastName = lastName;
+      return this;
+    }
+    public User.Builder email(String email) {
+      this.instance.email = email;
+      return this;
+    }
+    public User.Builder password(String password) {
+      this.instance.password = password;
+      return this;
+    }
+    public User.Builder phone(String phone) {
+      this.instance.phone = phone;
+      return this;
+    }
+    public User.Builder userStatus(Integer userStatus) {
+      this.instance.userStatus = userStatus;
+      return this;
+    }
+    public User.Builder objectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
+      this.instance.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
+      return this;
+    }
+    public User.Builder objectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
+      this.instance.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
+      return this;
+    }
+    public User.Builder objectWithNoDeclaredPropsNullable(JsonNullable<Object> objectWithNoDeclaredPropsNullable) {
+      this.instance.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
+      return this;
+    }
+    public User.Builder anyTypeProp(Object anyTypeProp) {
+      this.instance.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
+      return this;
+    }
+    public User.Builder anyTypeProp(JsonNullable<Object> anyTypeProp) {
+      this.instance.anyTypeProp = anyTypeProp;
+      return this;
+    }
+    public User.Builder anyTypePropNullable(Object anyTypePropNullable) {
+      this.instance.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
+      return this;
+    }
+    public User.Builder anyTypePropNullable(JsonNullable<Object> anyTypePropNullable) {
+      this.instance.anyTypePropNullable = anyTypePropNullable;
+      return this;
+    }
+
+
+    /**
+    * returns a built User instance.
+    *
+    * The builder is not reusable.
+    */
+    public User build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static User.Builder builder() {
+    return new User.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public User.Builder toBuilder() {
+    return new User.Builder()
+      .id(getId())
+      .username(getUsername())
+      .firstName(getFirstName())
+      .lastName(getLastName())
+      .email(getEmail())
+      .password(getPassword())
+      .phone(getPhone())
+      .userStatus(getUserStatus())
+      .objectWithNoDeclaredProps(getObjectWithNoDeclaredProps())
+      .objectWithNoDeclaredPropsNullable(getObjectWithNoDeclaredPropsNullable())
+      .anyTypeProp(getAnyTypeProp())
+      .anyTypePropNullable(getAnyTypePropNullable());
+  }
+
 }
 

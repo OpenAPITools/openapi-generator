@@ -97,7 +97,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "7.2.0"
+  id "org.openapi.generator" version "7.5.0"
 }
 ----
 
@@ -545,9 +545,7 @@ openApiGenerate {
     apiPackage.set("org.openapi.example.api")
     invokerPackage.set("org.openapi.example.invoker")
     modelPackage.set("org.openapi.example.model")
-    configOptions.set([
-        dateLibrary: "java8"
-    ])
+    configOptions.put("dateLibrary", "java8")
 }
 ----
 

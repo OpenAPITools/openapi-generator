@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AppleReq.JSON_PROPERTY_CULTIVAR,
   AppleReq.JSON_PROPERTY_MEALY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AppleReq {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
   private String cultivar;
@@ -182,5 +182,64 @@ public class AppleReq {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private AppleReq instance;
+
+    public Builder() {
+      this(new AppleReq());
+    }
+
+    protected Builder(AppleReq instance) {
+      this.instance = instance;
+    }
+
+    public AppleReq.Builder cultivar(String cultivar) {
+      this.instance.cultivar = cultivar;
+      return this;
+    }
+    public AppleReq.Builder mealy(Boolean mealy) {
+      this.instance.mealy = mealy;
+      return this;
+    }
+
+
+    /**
+    * returns a built AppleReq instance.
+    *
+    * The builder is not reusable.
+    */
+    public AppleReq build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AppleReq.Builder builder() {
+    return new AppleReq.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AppleReq.Builder toBuilder() {
+    return new AppleReq.Builder()
+      .cultivar(getCultivar())
+      .mealy(getMealy());
+  }
+
 }
 

@@ -770,9 +770,8 @@ public class InlineModelResolver {
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             String key = propertiesEntry.getKey();
             Schema property = propertiesEntry.getValue();
-            if (property instanceof ObjectSchema && ((ObjectSchema) property).getProperties() != null
-                    && ((ObjectSchema) property).getProperties().size() > 0) {
-                ObjectSchema op = (ObjectSchema) property;
+            if (ModelUtils.isObjectSchema(property)) {
+                Schema op = property;
                 String modelName = resolveModelName(op.getTitle(), path + "_" + key);
                 Schema model = modelFromProperty(openAPI, op, modelName);
                 String existing = matchGenerated(model);
@@ -789,8 +788,8 @@ public class InlineModelResolver {
                 }
             } else if (ModelUtils.isArraySchema(property)) {
                 Schema inner = ModelUtils.getSchemaItems(property);
-                if (inner instanceof ObjectSchema) {
-                    ObjectSchema op = (ObjectSchema) inner;
+                if (ModelUtils.isObjectSchema(inner)) {
+                    Schema op = inner;
                     if (op.getProperties() != null && op.getProperties().size() > 0) {
                         flattenProperties(openAPI, op.getProperties(), path);
                         String modelName = resolveModelName(op.getTitle(), path + "_" + key);
@@ -819,8 +818,8 @@ public class InlineModelResolver {
                 }
             } else if (ModelUtils.isMapSchema(property)) {
                 Schema inner = ModelUtils.getAdditionalProperties(property);
-                if (inner instanceof ObjectSchema) {
-                    ObjectSchema op = (ObjectSchema) inner;
+                if (ModelUtils.isObjectSchema(inner)) {
+                    Schema op = inner;
                     if (op.getProperties() != null && op.getProperties().size() > 0) {
                         flattenProperties(openAPI, op.getProperties(), path);
                         String modelName = resolveModelName(op.getTitle(), path + "_" + key);

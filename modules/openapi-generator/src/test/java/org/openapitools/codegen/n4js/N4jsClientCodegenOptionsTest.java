@@ -1,7 +1,7 @@
 package org.openapitools.codegen.n4js;
 
 import static java.lang.Boolean.parseBoolean;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.openapitools.codegen.CodegenConstants.API_NAME_PREFIX;
 import static org.openapitools.codegen.CodegenConstants.API_PACKAGE;

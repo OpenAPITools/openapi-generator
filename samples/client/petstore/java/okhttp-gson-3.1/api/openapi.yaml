@@ -1063,6 +1063,17 @@ components:
       - Code 2
       - Code 3
       type: string
+    SimpleModelWithArrayProperty:
+      properties:
+        arrayOfStrings:
+          items:
+            type: string
+          type: array
+      required:
+      - arrayOfStrings
+    AllOfSimpleModel:
+      allOf:
+      - $ref: '#/components/schemas/SimpleModelWithArrayProperty'
     updatePetWithForm_request:
       properties:
         name:

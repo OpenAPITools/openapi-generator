@@ -17,24 +17,28 @@ package org.openapitools.client.apis
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-import org.springframework.web.client.RestClient
-import org.springframework.web.client.RestClientResponseException
-
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
+import org.springframework.http.codec.json.Jackson2JsonDecoder
+import org.springframework.http.codec.json.Jackson2JsonEncoder
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
-
+import reactor.core.publisher.Mono
+import org.springframework.util.LinkedMultiValueMap
 
 import org.openapitools.client.models.Pet
 import org.openapitools.client.models.StringEnumRef
 import org.openapitools.client.models.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 import org.openapitools.client.infrastructure.*
 
-class QueryApi(client: RestClient) : ApiClient(client) {
+class QueryApi(client: WebClient) : ApiClient(client) {
 
-    constructor(baseUrl: String) : this(RestClient.builder()
+    constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
-        .messageConverters { it.add(MappingJackson2HttpMessageConverter()) }
+        .codecs {
+            it.defaultCodecs().jackson2JsonEncoder(Jackson2JsonEncoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+            it.defaultCodecs().jackson2JsonDecoder(Jackson2JsonDecoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+        }
         .build()
     )
 
@@ -48,14 +52,14 @@ class QueryApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testEnumRefString(enumNonrefStringQuery: EnumNonrefStringQueryTestEnumRefString? = null, enumRefStringQuery: StringEnumRef? = null): kotlin.String {
-        val result = testEnumRefStringWithHttpInfo(enumNonrefStringQuery = enumNonrefStringQuery, enumRefStringQuery = enumRefStringQuery)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testEnumRefString(enumNonrefStringQuery: EnumNonrefStringQueryTestEnumRefString? = null, enumRefStringQuery: StringEnumRef? = null): Mono<kotlin.String> {
+        return testEnumRefStringWithHttpInfo(enumNonrefStringQuery = enumNonrefStringQuery, enumRefStringQuery = enumRefStringQuery)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testEnumRefStringWithHttpInfo(enumNonrefStringQuery: EnumNonrefStringQueryTestEnumRefString? = null, enumRefStringQuery: StringEnumRef? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testEnumRefStringWithHttpInfo(enumNonrefStringQuery: EnumNonrefStringQueryTestEnumRefString? = null, enumRefStringQuery: StringEnumRef? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testEnumRefStringRequestConfig(enumNonrefStringQuery = enumNonrefStringQuery, enumRefStringQuery = enumRefStringQuery)
         return request<Unit, kotlin.String>(
             localVariableConfig
@@ -91,14 +95,14 @@ class QueryApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testQueryDatetimeDateString(datetimeQuery: java.time.OffsetDateTime? = null, dateQuery: java.time.LocalDate? = null, stringQuery: kotlin.String? = null): kotlin.String {
-        val result = testQueryDatetimeDateStringWithHttpInfo(datetimeQuery = datetimeQuery, dateQuery = dateQuery, stringQuery = stringQuery)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testQueryDatetimeDateString(datetimeQuery: java.time.OffsetDateTime? = null, dateQuery: java.time.LocalDate? = null, stringQuery: kotlin.String? = null): Mono<kotlin.String> {
+        return testQueryDatetimeDateStringWithHttpInfo(datetimeQuery = datetimeQuery, dateQuery = dateQuery, stringQuery = stringQuery)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testQueryDatetimeDateStringWithHttpInfo(datetimeQuery: java.time.OffsetDateTime? = null, dateQuery: java.time.LocalDate? = null, stringQuery: kotlin.String? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testQueryDatetimeDateStringWithHttpInfo(datetimeQuery: java.time.OffsetDateTime? = null, dateQuery: java.time.LocalDate? = null, stringQuery: kotlin.String? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testQueryDatetimeDateStringRequestConfig(datetimeQuery = datetimeQuery, dateQuery = dateQuery, stringQuery = stringQuery)
         return request<Unit, kotlin.String>(
             localVariableConfig
@@ -137,14 +141,14 @@ class QueryApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testQueryIntegerBooleanString(integerQuery: kotlin.Int? = null, booleanQuery: kotlin.Boolean? = null, stringQuery: kotlin.String? = null): kotlin.String {
-        val result = testQueryIntegerBooleanStringWithHttpInfo(integerQuery = integerQuery, booleanQuery = booleanQuery, stringQuery = stringQuery)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testQueryIntegerBooleanString(integerQuery: kotlin.Int? = null, booleanQuery: kotlin.Boolean? = null, stringQuery: kotlin.String? = null): Mono<kotlin.String> {
+        return testQueryIntegerBooleanStringWithHttpInfo(integerQuery = integerQuery, booleanQuery = booleanQuery, stringQuery = stringQuery)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testQueryIntegerBooleanStringWithHttpInfo(integerQuery: kotlin.Int? = null, booleanQuery: kotlin.Boolean? = null, stringQuery: kotlin.String? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testQueryIntegerBooleanStringWithHttpInfo(integerQuery: kotlin.Int? = null, booleanQuery: kotlin.Boolean? = null, stringQuery: kotlin.String? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testQueryIntegerBooleanStringRequestConfig(integerQuery = integerQuery, booleanQuery = booleanQuery, stringQuery = stringQuery)
         return request<Unit, kotlin.String>(
             localVariableConfig
@@ -183,14 +187,14 @@ class QueryApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testQueryStyleDeepObjectExplodeTrueObject(queryObject: Pet? = null): kotlin.String {
-        val result = testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject = queryObject)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testQueryStyleDeepObjectExplodeTrueObject(queryObject: Pet? = null): Mono<kotlin.String> {
+        return testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject = queryObject)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject: Pet? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject: Pet? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testQueryStyleDeepObjectExplodeTrueObjectRequestConfig(queryObject = queryObject)
         return request<Unit, kotlin.String>(
             localVariableConfig
@@ -223,14 +227,14 @@ class QueryApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testQueryStyleFormExplodeTrueArrayString(queryObject: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? = null): kotlin.String {
-        val result = testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject = queryObject)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testQueryStyleFormExplodeTrueArrayString(queryObject: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? = null): Mono<kotlin.String> {
+        return testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject = queryObject)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testQueryStyleFormExplodeTrueArrayStringRequestConfig(queryObject = queryObject)
         return request<Unit, kotlin.String>(
             localVariableConfig
@@ -263,14 +267,14 @@ class QueryApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testQueryStyleFormExplodeTrueObject(queryObject: Pet? = null): kotlin.String {
-        val result = testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject = queryObject)
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testQueryStyleFormExplodeTrueObject(queryObject: Pet? = null): Mono<kotlin.String> {
+        return testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject = queryObject)
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject: Pet? = null): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject: Pet? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testQueryStyleFormExplodeTrueObjectRequestConfig(queryObject = queryObject)
         return request<Unit, kotlin.String>(
             localVariableConfig

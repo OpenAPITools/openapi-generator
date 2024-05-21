@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   private List<BigDecimal> arrayNumber = new ArrayList<>();
@@ -163,5 +163,59 @@ public class ArrayOfNumberOnly {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private ArrayOfNumberOnly instance;
+
+    public Builder() {
+      this(new ArrayOfNumberOnly());
+    }
+
+    protected Builder(ArrayOfNumberOnly instance) {
+      this.instance = instance;
+    }
+
+    public ArrayOfNumberOnly.Builder arrayNumber(List<BigDecimal> arrayNumber) {
+      this.instance.arrayNumber = arrayNumber;
+      return this;
+    }
+
+
+    /**
+    * returns a built ArrayOfNumberOnly instance.
+    *
+    * The builder is not reusable.
+    */
+    public ArrayOfNumberOnly build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ArrayOfNumberOnly.Builder builder() {
+    return new ArrayOfNumberOnly.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ArrayOfNumberOnly.Builder toBuilder() {
+    return new ArrayOfNumberOnly.Builder()
+      .arrayNumber(getArrayNumber());
+  }
+
 }
 

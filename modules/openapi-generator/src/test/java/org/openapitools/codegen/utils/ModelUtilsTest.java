@@ -26,6 +26,7 @@ import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class ModelUtilsTest {
@@ -384,5 +385,65 @@ public class ModelUtilsTest {
         Assert.assertFalse(anyof2.getAnyOf().isEmpty());
         Assert.assertTrue(ModelUtils.hasAnyOf(anyof2));
         Assert.assertTrue(ModelUtils.isAnyOf(anyof2));
+
+        Schema objectSchema = ModelUtils.getSchema(openAPI, "ObjectSchema");
+        Assert.assertTrue(ModelUtils.isMapSchema(objectSchema));
+
+        Schema complexComposedSchema = ModelUtils.getSchema(openAPI, "ComplexComposedSchema");
+        Assert.assertTrue(ModelUtils.isComplexComposedSchema(complexComposedSchema));
+    }
+
+    @Test
+    public void testCloneNumberSchema() {
+        Schema schema = new NumberSchema()
+                .name("test-schema")
+                .minimum(new BigDecimal(100));
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema);
+
+        Assert.assertEquals(schema, deepCopy);
+    }
+
+    @Test
+    public void testCloneCustomSchema() {
+        Schema schema = new Schema().type("money");
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema);
+
+        Assert.assertEquals(schema, deepCopy);
+    }
+
+    @Test
+    public void testCloneComposedSchema() {
+        Schema base1 = new Schema()
+                .name("Base1")
+                .addProperty("foo", new StringSchema());
+        Schema base2 = new Schema()
+                .name("Base2")
+                .addProperty("bar", new StringSchema());
+        Schema composedSchema = new ComposedSchema()
+                .name("Composed")
+                .allOf(List.of(base1, base2))
+                .addProperty("baz", new StringSchema());
+
+        var deepCopy = ModelUtils.cloneSchema(composedSchema);
+
+        Assert.assertEquals(composedSchema, deepCopy);
+    }
+
+    @Test
+    public void testCloneArrayOfEnumsSchema() {
+        Schema arraySchema = new Schema()
+                .name("ArrayType")
+                .type("array")
+                .items(new Schema()
+                        .type("string")
+                        ._enum(List.of("SUCCESS", "FAILURE", "SKIPPED"))
+                )
+                ._default(List.of("SUCCESS", "FAILURE"));
+
+        var deepCopy = ModelUtils.cloneSchema(arraySchema);
+
+        Assert.assertEquals(arraySchema, deepCopy);
     }
 }
