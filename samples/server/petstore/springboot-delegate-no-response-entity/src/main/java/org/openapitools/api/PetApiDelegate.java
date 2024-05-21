@@ -216,7 +216,7 @@ public interface PetApiDelegate {
      */
     default ModelApiResponse uploadFile(Long petId,
         String additionalMetadata,
-        MultipartFile file) {
+        org.springframework.core.io.Resource file) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
