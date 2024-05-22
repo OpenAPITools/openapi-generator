@@ -196,9 +196,8 @@ public class Pet  {
   **/
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  // xmlName=photoUrl
   @JacksonXmlProperty(localName = "photoUrl")
-  @JacksonXmlElementWrapper(useWrapping = true, localName = "photoUrl")
+  @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -208,9 +207,8 @@ public class Pet  {
   **/
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  // xmlName=photoUrl
   @JacksonXmlProperty(localName = "photoUrl")
-  @JacksonXmlElementWrapper(useWrapping = true, localName = "photoUrl")
+  @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -234,9 +232,8 @@ public class Pet  {
   **/
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=tag
-  @JacksonXmlProperty(localName = "tag")
-  @JacksonXmlElementWrapper(useWrapping = true, localName = "tag")
+  @JacksonXmlProperty(localName = "Tag")
+  @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
   public List<Tag> getTags() {
     return tags;
   }
@@ -246,9 +243,8 @@ public class Pet  {
   **/
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=tag
-  @JacksonXmlProperty(localName = "tag")
-  @JacksonXmlElementWrapper(useWrapping = true, localName = "tag")
+  @JacksonXmlProperty(localName = "Tag")
+  @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }

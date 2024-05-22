@@ -357,7 +357,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"TagList\""))
             .toProperty().toType()
             .assertMethod("getTags").assertMethodAnnotations()
-//            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Tag\""))    // ← this fails, wrongly uses xml.name "TagList" ! (should use items.xml.name)
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Tag\""))
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"TagList\"", "useWrapping", "true"))
             .toMethod().toFileAssert()
 
@@ -368,7 +368,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"friend-pet\""))
             .toProperty().toType()
             .assertMethod("getFriends").assertMethodAnnotations()
-//            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"friend-pet\"")) // ← this fails, uses baseName "friends" (should be using items.xml.name)
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"friend-pet\""))
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("useWrapping", "false"))
             .toMethod().toFileAssert()
 
@@ -435,7 +435,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"colors\""))
             .toProperty().toType()
             .assertMethod("getColors").assertMethodAnnotations()
-//            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"color\""))   // fails, uses xml.name (should be using items.xml.name)
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"color\""))
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"colors\""))
             .toMethod().toFileAssert()
 
@@ -446,7 +446,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Category\""))
             .toProperty().toType()
             .assertMethod("getCategories").assertMethodAnnotations()
-//            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Category\""))   // ← this fails, uses xml.name "NotUsedAsNotWrapped" !!! (should use items.xml.name)
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Category\""))
             // ↓ specific regression test for #2417: (useWrapping=false) needs to be present
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("useWrapping", "false"))
             .toMethod().toFileAssert()
@@ -459,7 +459,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"activities-array\""))
             .toProperty().toType()
             .assertMethod("getActivities").assertMethodAnnotations()
-//            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"item\"")) // ← this fails, wrongly uses xml.name "activities-array" ! (should use items.xml.name)
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"item\""))
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"activities-array\""));
     }
 }
