@@ -56,15 +56,15 @@ import org.openapitools.client.JSON;
 public class ArrayOfSameRef {
   public static final String SERIALIZED_NAME_ARRAY_FOO_ONE = "arrayFooOne";
   @SerializedName(SERIALIZED_NAME_ARRAY_FOO_ONE)
-  private List<Tag> arrayFooOne = new ArrayList<>();
+  private List<Tag> arrayFooOne;
 
   public static final String SERIALIZED_NAME_ARRAY_FOO_TWO = "arrayFooTwo";
   @SerializedName(SERIALIZED_NAME_ARRAY_FOO_TWO)
-  private List<Tag> arrayFooTwo = new ArrayList<>();
+  private List<Tag> arrayFooTwo;
 
   public static final String SERIALIZED_NAME_ARRAY_FOO_THREE = "arrayFooThree";
   @SerializedName(SERIALIZED_NAME_ARRAY_FOO_THREE)
-  private List<Tag> arrayFooThree = new ArrayList<>();
+  private List<Tag> arrayFooThree;
 
   public ArrayOfSameRef() {
   }

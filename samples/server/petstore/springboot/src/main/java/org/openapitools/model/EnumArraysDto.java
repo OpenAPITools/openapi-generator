@@ -101,7 +101,7 @@ public class EnumArraysDto {
   }
 
   @Valid
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<ArrayEnumEnum> arrayEnum;
 
   public EnumArraysDto justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;

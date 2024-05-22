@@ -54,7 +54,7 @@ public class ObjectWithDeprecatedFields {
 
   public static final String JSON_PROPERTY_BARS = "bars";
   @Deprecated
-  private List<String> bars = new ArrayList<>();
+  private List<String> bars;
 
   public ObjectWithDeprecatedFields() { 
   }

@@ -59,7 +59,7 @@ public class ArrayDefault {
 
   public static final String SERIALIZED_NAME_WITHOUT_DEFAULT = "WithoutDefault";
   @SerializedName(SERIALIZED_NAME_WITHOUT_DEFAULT)
-  private List<String> withoutDefault = new ArrayList<>();
+  private List<String> withoutDefault;
 
   public ArrayDefault() {
   }

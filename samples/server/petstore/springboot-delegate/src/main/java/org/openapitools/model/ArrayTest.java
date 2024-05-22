@@ -27,13 +27,13 @@ import javax.annotation.Generated;
 public class ArrayTest {
 
   @Valid
-  private List<String> arrayOfString = new ArrayList<>();
+  private List<String> arrayOfString;
 
   @Valid
-  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  private List<List<Long>> arrayArrayOfInteger;
 
   @Valid
-  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest() {
     super();

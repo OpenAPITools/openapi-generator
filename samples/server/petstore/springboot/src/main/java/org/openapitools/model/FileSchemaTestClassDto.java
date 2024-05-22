@@ -31,7 +31,7 @@ public class FileSchemaTestClassDto {
   private FileDto file;
 
   @Valid
-  private List<@Valid FileDto> files = new ArrayList<>();
+  private List<@Valid FileDto> files;
 
   public FileSchemaTestClassDto file(FileDto file) {
     this.file = file;

@@ -55,9 +55,9 @@ public class AbstractJavaCodegenTest {
         "3_0/mapSchemas", TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml"),
         "3_0/spring/date-time-parameter-types-for-testing", TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml")
     );
-    
+
     private AbstractJavaCodegen codegen;
-    
+
     /**
      * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
      * using @BeforeMethod to have a fresh codegen mock for each test
@@ -65,7 +65,7 @@ public class AbstractJavaCodegenTest {
     @BeforeMethod void mockAbstractCodegen() {
         codegen = Mockito.mock(
             AbstractJavaCodegen.class, Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
-        );        
+        );
     }
 
     @Test
@@ -124,7 +124,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void testPreprocessOpenAPINumVersion() {
         final OpenAPI openAPIOtherNumVersion = TestUtils.parseFlattenSpec("src/test/resources/2_0/duplicateOperationIds.yaml");
-        
+
         codegen.preprocessOpenAPI(openAPIOtherNumVersion);
 
         Assert.assertEquals(codegen.getArtifactVersion(), openAPIOtherNumVersion.getInfo().getVersion());
@@ -156,7 +156,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.toVarName("$name"), "$Name");
         Assert.assertEquals(codegen.toVarName("1AAaa"), "_1AAaa");
     }
-    
+
     @Test
     public void convertModelName() {
         Assert.assertEquals(codegen.toModelName("name"), "Name");
@@ -399,7 +399,7 @@ public class AbstractJavaCodegenTest {
         codegen.setArtifactVersion(null);
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
@@ -412,7 +412,7 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put("snapshotVersion", "true");
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
@@ -425,7 +425,7 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion("2.0");
-        
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
@@ -484,7 +484,7 @@ public class AbstractJavaCodegenTest {
 
         codegen.processOpts();
         codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
-        
+
         Assert.assertEquals(codegen.getArtifactVersion(), "4.1.2-SNAPSHOT");
     }
 
@@ -537,11 +537,11 @@ public class AbstractJavaCodegenTest {
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
-        Assert.assertEquals(defaultValue, "new ArrayList<>()");
+        Assert.assertNull(defaultValue);
 
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
-        Assert.assertEquals(defaultValue, "new ArrayList<>()");
+        Assert.assertNull(defaultValue);
 
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema<>().$ref("#/components/schemas/NestedArray"));
@@ -623,7 +623,7 @@ public class AbstractJavaCodegenTest {
         codegen.schemaMapping().put("MyStringType", "com.example.foo");
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
         Schema<?> schema = new ArraySchema().items(new Schema<>().$ref("#/components/schemas/MyStringType"));
-        
+
         String defaultValue = codegen.getTypeDeclaration(schema);
 
         Assert.assertEquals(defaultValue, "List<com.example.foo>");
@@ -678,16 +678,16 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanTrueFromString() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
-        
+
         codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
-        
+
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
     @Test
     public void processOptsBooleanTrueFromBoolean() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, true);
-        
+
         codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
 
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -696,7 +696,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromString() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "false");
-        
+
         codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
 
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -705,16 +705,16 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromBoolean() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, false);
-        
+
         codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
-        
+
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
     @Test
     public void processOptsBooleanFalseFromGarbage() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "blibb");
-        
+
         codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
 
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));

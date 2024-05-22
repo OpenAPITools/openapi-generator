@@ -40,7 +40,7 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String JSON_PROPERTY_VALUES = "values";
-  private List<String> values = new ArrayList<>();
+  private List<String> values;
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() { 
   }

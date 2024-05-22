@@ -96,7 +96,7 @@ public class EnumArrays {
   }
 
   
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<ArrayEnumEnum> arrayEnum;
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;

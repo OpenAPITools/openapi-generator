@@ -213,7 +213,7 @@ public class CustomTest {
 
       Assertions.assertNull( d.getArrayStringNullable() );
       Assertions.assertNull( d.getArrayStringExtensionNullable() );
-      Assertions.assertEquals( d.getArrayString(), List.of() );
+      Assertions.assertNull( d.getArrayString() );
 
       // test addItem
       d.addArrayStringEnumDefaultItem( DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED );
@@ -256,10 +256,10 @@ public class CustomTest {
 
       Assertions.assertNull( d.getArrayStringNullable() );
       Assertions.assertNull( d.getArrayStringExtensionNullable() );
-      Assertions.assertEquals( d.getArrayString(), List.of() );
+      Assertions.assertNull( d.getArrayString() );
 
       Assertions.assertEquals( apiClient.getObjectMapper().writeValueAsString( d ),
-            "{\"array_string_enum_ref_default\":[\"success\",\"failure\"],\"array_string_enum_default\":[\"success\",\"failure\"],\"array_string_default\":[\"failure\",\"skipped\"],\"array_integer_default\":[1,3],\"array_string\":[]}" );
+            "{\"array_string_enum_ref_default\":[\"success\",\"failure\"],\"array_string_enum_default\":[\"success\",\"failure\"],\"array_string_default\":[\"failure\",\"skipped\"],\"array_integer_default\":[1,3]}" );
    }
 
    @Test
@@ -286,10 +286,10 @@ public class CustomTest {
 
       Assertions.assertNull( d.getArrayStringNullable() );
       Assertions.assertNull( d.getArrayStringExtensionNullable() );
-      Assertions.assertEquals( d.getArrayString(), List.of() );
+      Assertions.assertNull( d.getArrayString() );
 
       Assertions.assertEquals( apiClient.getObjectMapper().writeValueAsString( d ),
-            "{\"array_string_enum_ref_default\":[\"unclassified\"],\"array_string_enum_default\":[\"unclassified\"],\"array_string_default\":[\"failure\"],\"array_integer_default\":[1,3],\"array_string\":[]}" );
+            "{\"array_string_enum_ref_default\":[\"unclassified\"],\"array_string_enum_default\":[\"unclassified\"],\"array_string_default\":[\"failure\"],\"array_integer_default\":[1,3]}" );
    }
 
    @Test

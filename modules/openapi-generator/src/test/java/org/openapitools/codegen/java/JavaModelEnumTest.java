@@ -75,7 +75,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.dataType, "List<String>");
         Assert.assertEquals(enumVar.datatypeWithEnum, "List<NameEnum>");
         Assert.assertEquals(enumVar.name, "name");
-        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<>()");
+        Assert.assertEquals(enumVar.defaultValue, null);
         Assert.assertEquals(enumVar.baseType, "List");
         Assert.assertTrue(enumVar.isEnum);
 
@@ -108,7 +108,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.dataType, "List<List<String>>");
         Assert.assertEquals(enumVar.datatypeWithEnum, "List<List<NameEnum>>");
         Assert.assertEquals(enumVar.name, "name");
-        Assert.assertEquals(enumVar.defaultValue, "new ArrayList<>()");
+        Assert.assertEquals(enumVar.defaultValue, null);
         Assert.assertEquals(enumVar.baseType, "List");
         Assert.assertTrue(enumVar.isEnum);
 

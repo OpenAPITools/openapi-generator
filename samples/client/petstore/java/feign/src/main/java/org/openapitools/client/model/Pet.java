@@ -57,7 +57,7 @@ public class Pet {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  private List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags;
 
   /**
    * pet status in the store

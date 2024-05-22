@@ -44,7 +44,7 @@ import io.github.threetenjaxb.core.*;
 public class ArrayOfArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @XmlElement(name = "ArrayArrayNumber")
-  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
+  private List<List<BigDecimal>> arrayArrayNumber;
 
   public ArrayOfArrayOfNumberOnly() {
   }

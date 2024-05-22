@@ -71,7 +71,7 @@ public class Pet {
   public static final String JSON_PROPERTY_TAGS = "tags";
   @XmlElement(name = "Tag")
   @XmlElementWrapper(name = "tag")
-  private List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags;
 
   /**
    * pet status in the store

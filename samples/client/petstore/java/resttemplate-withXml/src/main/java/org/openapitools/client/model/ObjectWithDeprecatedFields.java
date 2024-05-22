@@ -60,7 +60,7 @@ public class ObjectWithDeprecatedFields {
 
   public static final String JSON_PROPERTY_BARS = "bars";
   @XmlElement(name = "bars")
-  private List<String> bars = new ArrayList<>();
+  private List<String> bars;
 
   public ObjectWithDeprecatedFields() {
   }

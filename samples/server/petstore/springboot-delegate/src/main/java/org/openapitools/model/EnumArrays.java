@@ -99,7 +99,7 @@ public class EnumArrays {
   }
 
   @Valid
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<ArrayEnumEnum> arrayEnum;
 
   public EnumArrays() {
     super();

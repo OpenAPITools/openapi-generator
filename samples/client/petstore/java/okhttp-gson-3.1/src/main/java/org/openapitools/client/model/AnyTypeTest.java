@@ -60,11 +60,11 @@ public class AnyTypeTest {
 
   public static final String SERIALIZED_NAME_ARRAY_PROP = "array_prop";
   @SerializedName(SERIALIZED_NAME_ARRAY_PROP)
-  private List<String> arrayProp = new ArrayList<>();
+  private List<String> arrayProp;
 
   public static final String SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS = "ref_array_prefix_items";
   @SerializedName(SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS)
-  private List<String> refArrayPrefixItems = new ArrayList<>();
+  private List<String> refArrayPrefixItems;
 
   public AnyTypeTest() {
   }
