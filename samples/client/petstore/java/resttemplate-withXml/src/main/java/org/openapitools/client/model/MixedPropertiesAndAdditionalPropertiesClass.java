@@ -56,9 +56,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   public static final String JSON_PROPERTY_MAP = "map";
   // Is a container wrapped=false
-  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
-  // items.example= items.type=Animal
-  @XmlElement(name = "inner")
+  @XmlElement(name = "map")
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass() {

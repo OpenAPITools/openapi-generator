@@ -49,8 +49,6 @@ public class FileSchemaTestClass {
 
   public static final String JSON_PROPERTY_FILES = "files";
   // Is a container wrapped=false
-  // items.name=files items.baseName=files items.xmlName= items.xmlNamespace=
-  // items.example= items.type=ModelFile
   @XmlElement(name = "files")
   private List<ModelFile> files = new ArrayList<>();
 

@@ -65,10 +65,10 @@ public class Pet {
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
   // Is a container wrapped=true
-  // items.name=photoUrls items.baseName=photoUrls items.xmlName= items.xmlNamespace=
+  // items.name=photoUrls items.baseName=photoUrls items.xmlName=photoUrl items.xmlNamespace=
   // items.example= items.type=String
-  @XmlElement(name = "photoUrls")
-  @XmlElementWrapper(name = "photoUrl")
+  @XmlElement(name = "photoUrl")
+  @XmlElementWrapper(name = "photoUrls")
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
@@ -231,7 +231,7 @@ public class Pet {
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "photoUrl")
-  @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
+  @JacksonXmlElementWrapper(localName = "photoUrls", useWrapping = true)
 
   public Set<String> getPhotoUrls() {
     return photoUrls;
@@ -242,7 +242,7 @@ public class Pet {
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "photoUrl")
-  @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
+  @JacksonXmlElementWrapper(localName = "photoUrls", useWrapping = true)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }

@@ -63,7 +63,7 @@ public class Pet  {
   private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  @XmlElement(name = "photoUrls")
+  @XmlElement(name = "photoUrl")
   @XmlElementWrapper(name = "photoUrl")
   private List<String> photoUrls = new ArrayList<>();
 

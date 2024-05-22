@@ -420,7 +420,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
             // ↓ external xml-array element name only (last example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
             .hasProperty("foods").assertPropertyAnnotations()
             .doesNotContainsWithName("XmlAttribute")
-//            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"yummy-yummy\"")) // ← this fails, uses baseName "foods" (should be using xml.name)
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"yummy-yummy\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"yummy-yummy\""))
             .toProperty().toType()
             .assertMethod("getFoods").assertMethodAnnotations()

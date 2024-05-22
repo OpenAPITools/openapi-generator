@@ -44,9 +44,7 @@ import io.github.threetenjaxb.core.*;
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   // Is a container wrapped=false
-  // items.name=arrayNumber items.baseName=arrayNumber items.xmlName= items.xmlNamespace=
-  // items.example= items.type=BigDecimal
-  @XmlElement(name = "arrayNumber")
+  @XmlElement(name = "ArrayNumber")
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly() {

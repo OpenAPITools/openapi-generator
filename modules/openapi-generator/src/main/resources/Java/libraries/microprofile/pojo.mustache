@@ -42,9 +42,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
           {{/isContainer}}
           {{#isContainer}}
-              {{#items}}
+              {{#items.xmlName}}
+  @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{items.xmlName}}{{^items.xmlName}}{{baseName}}{{/items.xmlName}}")
+              {{/items.xmlName}}
+              {{^items.xmlName}}
   @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-              {{/items}}
+              {{/items.xmlName}}
               {{#isXmlWrapped}}
   @XmlElementWrapper({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
               {{/isXmlWrapped}}

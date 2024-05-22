@@ -43,16 +43,12 @@ import io.github.threetenjaxb.core.*;
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   // Is a container wrapped=false
-  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
-  // items.example= items.type=String
-  @XmlElement(name = "inner")
+  @XmlElement(name = "map_property")
   private Map<String, String> mapProperty = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
   // Is a container wrapped=false
-  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
-  // items.example= items.type=Map&lt;String, String&gt;
-  @XmlElement(name = "inner")
+  @XmlElement(name = "map_of_map_property")
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public AdditionalPropertiesClass() {

@@ -88,44 +88,32 @@ public class NullableClass extends HashMap<String, Object> {
 
   public static final String JSON_PROPERTY_ARRAY_NULLABLE_PROP = "array_nullable_prop";
   // Is a container wrapped=false
-  // items.name=arrayNullableProp items.baseName=arrayNullableProp items.xmlName= items.xmlNamespace=
-  // items.example= items.type=Object
-  @XmlElement(name = "arrayNullableProp")
+  @XmlElement(name = "array_nullable_prop")
   private JsonNullable<List<Object>> arrayNullableProp = JsonNullable.<List<Object>>undefined();
 
   public static final String JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
   // Is a container wrapped=false
-  // items.name=arrayAndItemsNullableProp items.baseName=arrayAndItemsNullableProp items.xmlName= items.xmlNamespace=
-  // items.example= items.type=Object
-  @XmlElement(name = "arrayAndItemsNullableProp")
+  @XmlElement(name = "array_and_items_nullable_prop")
   private JsonNullable<List<Object>> arrayAndItemsNullableProp = JsonNullable.<List<Object>>undefined();
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   // Is a container wrapped=false
-  // items.name=arrayItemsNullable items.baseName=arrayItemsNullable items.xmlName= items.xmlNamespace=
-  // items.example= items.type=Object
-  @XmlElement(name = "arrayItemsNullable")
+  @XmlElement(name = "array_items_nullable")
   private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   // Is a container wrapped=false
-  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
-  // items.example= items.type=Object
-  @XmlElement(name = "inner")
+  @XmlElement(name = "object_nullable_prop")
   private JsonNullable<Map<String, Object>> objectNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
   public static final String JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
   // Is a container wrapped=false
-  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
-  // items.example= items.type=Object
-  @XmlElement(name = "inner")
+  @XmlElement(name = "object_and_items_nullable_prop")
   private JsonNullable<Map<String, Object>> objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>undefined();
 
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   // Is a container wrapped=false
-  // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
-  // items.example= items.type=Object
-  @XmlElement(name = "inner")
+  @XmlElement(name = "object_items_nullable")
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public NullableClass() {
