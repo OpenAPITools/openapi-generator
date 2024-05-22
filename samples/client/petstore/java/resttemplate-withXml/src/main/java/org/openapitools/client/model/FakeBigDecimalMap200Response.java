@@ -48,7 +48,6 @@ public class FakeBigDecimalMap200Response {
   private BigDecimal someId;
 
   public static final String JSON_PROPERTY_SOME_MAP = "someMap";
-  // Is a container wrapped=false
   @XmlElement(name = "someMap")
   private Map<String, BigDecimal> someMap = new HashMap<>();
 

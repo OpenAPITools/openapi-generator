@@ -44,7 +44,6 @@ import io.github.threetenjaxb.core.*;
 @JacksonXmlRootElement(localName = "MapTest")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
-  // Is a container wrapped=false
   @XmlElement(name = "map_map_of_string")
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
@@ -88,17 +87,14 @@ public class MapTest {
   }
 
   public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
-  // Is a container wrapped=false
   @XmlElement(name = "map_of_enum_string")
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
-  // Is a container wrapped=false
   @XmlElement(name = "direct_map")
   private Map<String, Boolean> directMap = new HashMap<>();
 
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
-  // Is a container wrapped=false
   @XmlElement(name = "indirect_map")
   private Map<String, Boolean> indirectMap = new HashMap<>();
 

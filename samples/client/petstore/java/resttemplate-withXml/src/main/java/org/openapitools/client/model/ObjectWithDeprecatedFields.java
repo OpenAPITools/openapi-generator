@@ -59,7 +59,6 @@ public class ObjectWithDeprecatedFields {
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
-  // Is a container wrapped=false
   @XmlElement(name = "bars")
   private List<String> bars = new ArrayList<>();
 

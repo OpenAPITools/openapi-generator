@@ -64,17 +64,11 @@ public class Pet {
   private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  // Is a container wrapped=true
-  // items.name=photoUrls items.baseName=photoUrls items.xmlName=photoUrl items.xmlNamespace=
-  // items.example= items.type=String
   @XmlElement(name = "photoUrl")
   @XmlElementWrapper(name = "photoUrls")
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  // Is a container wrapped=true
-  // items.name=tags items.baseName=tags items.xmlName=Tag items.xmlNamespace=
-  // items.example= items.type=Tag
   @XmlElement(name = "Tag")
   @XmlElementWrapper(name = "tag")
   private List<Tag> tags = new ArrayList<>();

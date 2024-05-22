@@ -45,17 +45,14 @@ import io.github.threetenjaxb.core.*;
 @JacksonXmlRootElement(localName = "ArrayTest")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
-  // Is a container wrapped=false
   @XmlElement(name = "array_of_string")
   private List<String> arrayOfString = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
-  // Is a container wrapped=false
   @XmlElement(name = "array_array_of_integer")
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
-  // Is a container wrapped=false
   @XmlElement(name = "array_array_of_model")
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 

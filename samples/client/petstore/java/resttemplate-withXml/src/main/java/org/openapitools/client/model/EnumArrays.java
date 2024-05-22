@@ -125,7 +125,6 @@ public class EnumArrays {
   }
 
   public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
-  // Is a container wrapped=false
   @XmlElement(name = "array_enum")
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 

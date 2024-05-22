@@ -43,7 +43,6 @@ import io.github.threetenjaxb.core.*;
 @JacksonXmlRootElement(localName = "ArrayOfNumberOnly")
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
-  // Is a container wrapped=false
   @XmlElement(name = "ArrayNumber")
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 

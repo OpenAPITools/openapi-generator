@@ -56,9 +56,6 @@ Declare the class with extends and implements
     @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
                 {{/isContainer}}
                 {{#isContainer}}
-    // Is a container wrapped={{isXmlWrapped}}
-    // items.name={{items.name}} items.baseName={{items.baseName}} items.xmlName={{items.xmlName}} items.xmlNamespace={{items.xmlNamespace}}
-    // items.example={{items.example}} items.type={{items.dataType}}
     @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}")
                     {{#isXmlWrapped}}
     @XmlElementWrapper({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")

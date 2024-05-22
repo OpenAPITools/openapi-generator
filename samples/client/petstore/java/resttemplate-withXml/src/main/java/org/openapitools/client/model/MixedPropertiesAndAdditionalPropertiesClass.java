@@ -55,7 +55,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_MAP = "map";
-  // Is a container wrapped=false
   @XmlElement(name = "map")
   private Map<String, Animal> map = new HashMap<>();
 

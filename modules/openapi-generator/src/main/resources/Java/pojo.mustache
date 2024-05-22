@@ -60,10 +60,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
     {{/isContainer}}
     {{#isContainer}}
-  // Is a container wrapped={{isXmlWrapped}}
       {{#items.xmlName}}
-  // items.name={{items.name}} items.baseName={{items.baseName}} items.xmlName={{items.xmlName}} items.xmlNamespace={{items.xmlNamespace}}
-  // items.example={{items.example}} items.type={{items.dataType}}
   @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{items.xmlName}}{{^items.xmlName}}{{baseName}}{{/items.xmlName}}")
       {{/items.xmlName}}
       {{^items.xmlName}}
