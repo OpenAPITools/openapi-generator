@@ -4870,7 +4870,7 @@ public class SpringCodegenTest {
      */
     @Test void shouldGenerateCorrectXmlAnnotations() throws IOException {
         // Arrange
-        final String TEST_SPEC = "src/test/resources/3_0/spring/xml-annotations-test.yaml";
+        final String TEST_SPEC = "src/test/resources/3_0/java/xml-annotations-test.yaml"; 
         final Path output = Files.createTempDirectory("test-xml-annotations_");
         output.toFile().deleteOnExit();
 
