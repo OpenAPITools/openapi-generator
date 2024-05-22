@@ -198,8 +198,8 @@ public class Pet {
   @NotNull 
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
-  @XmlElement(name = "photoUrls")
-  @JacksonXmlProperty(localName = "photoUrls")
+  @XmlElement(name = "photoUrl")
+  @JacksonXmlProperty(localName = "photoUrl")
   @XmlElementWrapper(name = "photoUrl")
   @JacksonXmlElementWrapper(localName = "photoUrl")
   public List<String> getPhotoUrls() {

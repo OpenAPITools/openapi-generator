@@ -4955,9 +4955,9 @@ public class SpringCodegenTest {
             // ↓ external xml-array element name only (last example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
             .assertMethod("getFoods").assertMethodAnnotations()
             .doesNotContainsWithName("XmlAttribute")
-//            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"yummy-yummy\"")) // ← this fails, should be using xml.name but uses baseName "foods"
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"yummy-yummy\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"yummy-yummy\""))
-//            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"yummy-yummy\""))  // ← this fails, should be using xml.name but uses baseName "foods"
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"yummy-yummy\""))
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"yummy-yummy\""))
             .toMethod().toFileAssert()
             
