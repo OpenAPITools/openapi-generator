@@ -44,8 +44,8 @@ public class AdditionalPropertiesClass {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public AdditionalPropertiesClass(@JsonProperty(JSON_PROPERTY_MAP_PROPERTY) Map<String, String> mapProperty, @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY) Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapProperty = mapProperty;
     this.mapOfMapProperty = mapOfMapProperty;
@@ -65,10 +65,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapProperty
    * @return mapProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -98,10 +98,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfMapProperty
    * @return mapOfMapProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

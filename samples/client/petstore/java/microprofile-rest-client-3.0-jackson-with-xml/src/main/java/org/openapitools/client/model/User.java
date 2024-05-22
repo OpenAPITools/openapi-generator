@@ -43,7 +43,7 @@ import jakarta.xml.bind.annotation.adapters.*;
 })
 /**
   * A User who is purchasing from the pet store
- **/
+  */
 
 public class User  {
   
@@ -78,14 +78,14 @@ public class User  {
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   @XmlElement(name = "userStatus")
  /**
-   * User Status
-  **/
+  * User Status
+  */
   private Integer userStatus;
 
- /**
+  /**
    * Get id
    * @return id
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
@@ -94,8 +94,8 @@ public class User  {
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
@@ -108,10 +108,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get username
    * @return username
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "username")
@@ -120,8 +120,8 @@ public class User  {
   }
 
   /**
-    * Set username
-  **/
+   * Set username
+   */
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "username")
@@ -134,10 +134,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get firstName
    * @return firstName
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "firstName")
@@ -146,8 +146,8 @@ public class User  {
   }
 
   /**
-    * Set firstName
-  **/
+   * Set firstName
+   */
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "firstName")
@@ -160,10 +160,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get lastName
    * @return lastName
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "lastName")
@@ -172,8 +172,8 @@ public class User  {
   }
 
   /**
-    * Set lastName
-  **/
+   * Set lastName
+   */
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "lastName")
@@ -186,10 +186,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get email
    * @return email
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "email")
@@ -198,8 +198,8 @@ public class User  {
   }
 
   /**
-    * Set email
-  **/
+   * Set email
+   */
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "email")
@@ -212,10 +212,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get password
    * @return password
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "password")
@@ -224,8 +224,8 @@ public class User  {
   }
 
   /**
-    * Set password
-  **/
+   * Set password
+   */
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "password")
@@ -238,10 +238,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * Get phone
    * @return phone
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "phone")
@@ -250,8 +250,8 @@ public class User  {
   }
 
   /**
-    * Set phone
-  **/
+   * Set phone
+   */
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "phone")
@@ -264,10 +264,10 @@ public class User  {
     return this;
   }
 
- /**
+  /**
    * User Status
    * @return userStatus
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "userStatus")
@@ -276,8 +276,8 @@ public class User  {
   }
 
   /**
-    * Set userStatus
-  **/
+   * Set userStatus
+   */
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "userStatus")
@@ -292,8 +292,8 @@ public class User  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

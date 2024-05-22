@@ -40,10 +40,10 @@ public class Client {
     return this;
   }
 
-   /**
+  /**
    * Get client
    * @return client
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getClient() {

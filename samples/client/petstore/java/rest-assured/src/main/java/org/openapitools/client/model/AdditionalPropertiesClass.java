@@ -95,10 +95,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapString
    * @return mapString
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -125,10 +125,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapNumber
    * @return mapNumber
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -156,10 +156,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapInteger
    * @return mapInteger
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -186,10 +186,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapBoolean
    * @return mapBoolean
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -216,10 +216,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapArrayInteger
    * @return mapArrayInteger
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -247,10 +247,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapArrayAnytype
    * @return mapArrayAnytype
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -278,10 +278,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapString
    * @return mapMapString
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -309,10 +309,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapAnytype
    * @return mapMapAnytype
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -332,10 +332,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get anytype1
    * @return anytype1
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -354,10 +354,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get anytype2
    * @return anytype2
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -376,10 +376,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get anytype3
    * @return anytype3
-  **/
+   */
   @javax.annotation.Nullable
 
 

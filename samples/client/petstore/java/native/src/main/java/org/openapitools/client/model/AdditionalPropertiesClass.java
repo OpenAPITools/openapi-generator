@@ -90,10 +90,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapProperty
    * @return mapProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -122,10 +122,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfMapProperty
    * @return mapOfMapProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_OF_MAP_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -146,10 +146,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get anytype1
    * @return anytype1
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
   public Object getAnytype1() {
@@ -178,10 +178,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapWithUndeclaredPropertiesAnytype1
    * @return mapWithUndeclaredPropertiesAnytype1
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -202,10 +202,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapWithUndeclaredPropertiesAnytype2
    * @return mapWithUndeclaredPropertiesAnytype2
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE2)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -234,10 +234,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapWithUndeclaredPropertiesAnytype3
    * @return mapWithUndeclaredPropertiesAnytype3
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE3)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
@@ -258,10 +258,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.
    * @return emptyMap
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EMPTY_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -290,10 +290,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapWithUndeclaredPropertiesString
    * @return mapWithUndeclaredPropertiesString
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

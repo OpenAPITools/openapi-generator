@@ -55,8 +55,8 @@ public class ObjectWithDeprecatedFields {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ObjectWithDeprecatedFields(@JsonProperty(JSON_PROPERTY_UUID) String uuid, @JsonProperty(JSON_PROPERTY_ID) BigDecimal id, @JsonProperty(JSON_PROPERTY_DEPRECATED_REF) DeprecatedObject deprecatedRef, @JsonProperty(JSON_PROPERTY_BARS) List<String> bars) {
     this.uuid = uuid;
     this.id = id;
@@ -70,10 +70,10 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -95,11 +95,11 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
@@ -122,11 +122,11 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get deprecatedRef
    * @return deprecatedRef
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
@@ -157,11 +157,11 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get bars
    * @return bars
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BARS)

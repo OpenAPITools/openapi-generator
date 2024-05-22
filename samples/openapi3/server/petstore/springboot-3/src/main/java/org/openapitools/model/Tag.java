@@ -38,8 +38,8 @@ public class Tag {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Tag(Long id, String name) {
       this.id = id;
       this.name = name;
@@ -53,7 +53,7 @@ public class Tag {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
@@ -75,7 +75,7 @@ public class Tag {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")

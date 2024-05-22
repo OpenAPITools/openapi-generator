@@ -96,10 +96,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -120,10 +120,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get username
    * @return username
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -144,10 +144,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get firstName
    * @return firstName
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -168,10 +168,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get lastName
    * @return lastName
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -192,10 +192,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get email
    * @return email
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -216,10 +216,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -240,10 +240,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * Get phone
    * @return phone
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -264,10 +264,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * User Status
    * @return userStatus
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -288,10 +288,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.
    * @return objectWithNoDeclaredProps
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -312,10 +312,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
    * @return objectWithNoDeclaredPropsNullable
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
   public Object getObjectWithNoDeclaredPropsNullable() {
@@ -344,10 +344,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
    * @return anyTypeProp
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
   public Object getAnyTypeProp() {
@@ -376,10 +376,10 @@ public class User {
     return this;
   }
 
-   /**
+  /**
    * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
    * @return anyTypePropNullable
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
   public Object getAnyTypePropNullable() {

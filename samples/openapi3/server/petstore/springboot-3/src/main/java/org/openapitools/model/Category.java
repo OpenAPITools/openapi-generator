@@ -38,8 +38,8 @@ public class Category {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Category(Long id, String name) {
       this.id = id;
       this.name = name;
@@ -53,7 +53,7 @@ public class Category {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
@@ -75,7 +75,7 @@ public class Category {
   /**
    * Get name
    * @return name
-  */
+   */
   @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")

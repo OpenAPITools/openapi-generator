@@ -73,10 +73,10 @@ public class AllOfSimpleModel {
     return this;
   }
 
-   /**
+  /**
    * Get arrayOfStrings
    * @return arrayOfStrings
-  **/
+   */
   @javax.annotation.Nonnull
   public List<String> getArrayOfStrings() {
     return arrayOfStrings;
@@ -185,12 +185,12 @@ public class AllOfSimpleModel {
     openapiRequiredFields.add("arrayOfStrings");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AllOfSimpleModel
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AllOfSimpleModel
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AllOfSimpleModel.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -285,22 +285,22 @@ public class AllOfSimpleModel {
     }
   }
 
- /**
-  * Create an instance of AllOfSimpleModel given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AllOfSimpleModel
-  * @throws IOException if the JSON string is invalid with respect to AllOfSimpleModel
-  */
+  /**
+   * Create an instance of AllOfSimpleModel given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AllOfSimpleModel
+   * @throws IOException if the JSON string is invalid with respect to AllOfSimpleModel
+   */
   public static AllOfSimpleModel fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AllOfSimpleModel.class);
   }
 
- /**
-  * Convert an instance of AllOfSimpleModel to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AllOfSimpleModel to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

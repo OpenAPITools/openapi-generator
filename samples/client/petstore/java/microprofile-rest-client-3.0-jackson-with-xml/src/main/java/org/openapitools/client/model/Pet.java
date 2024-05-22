@@ -46,7 +46,7 @@ import jakarta.xml.bind.annotation.adapters.*;
 })
 /**
   * A pet for sale in the pet store
- **/
+  */
 
 public class Pet  {
   
@@ -108,14 +108,14 @@ public class Pet  {
   public static final String JSON_PROPERTY_STATUS = "status";
   @XmlElement(name = "status")
  /**
-   * pet status in the store
-  **/
+  * pet status in the store
+  */
   private StatusEnum status;
 
- /**
+  /**
    * Get id
    * @return id
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
@@ -124,8 +124,8 @@ public class Pet  {
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
@@ -138,10 +138,10 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * Get category
    * @return category
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Category")
@@ -150,8 +150,8 @@ public class Pet  {
   }
 
   /**
-    * Set category
-  **/
+   * Set category
+   */
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Category")
@@ -164,10 +164,10 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * Get name
    * @return name
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "name")
@@ -176,8 +176,8 @@ public class Pet  {
   }
 
   /**
-    * Set name
-  **/
+   * Set name
+   */
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "name")
@@ -190,10 +190,10 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "photoUrl")
@@ -203,8 +203,8 @@ public class Pet  {
   }
 
   /**
-    * Set photoUrls
-  **/
+   * Set photoUrls
+   */
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "photoUrl")
@@ -226,10 +226,10 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * Get tags
    * @return tags
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Tag")
@@ -239,8 +239,8 @@ public class Pet  {
   }
 
   /**
-    * Set tags
-  **/
+   * Set tags
+   */
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "Tag")
@@ -262,11 +262,11 @@ public class Pet  {
     return this;
   }
 
- /**
+  /**
    * pet status in the store
    * @return status
    * @deprecated
-  **/
+   **/
   @Deprecated
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -279,8 +279,8 @@ public class Pet  {
   }
 
   /**
-    * Set status
-  **/
+   * Set status
+   */
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "status")
@@ -295,8 +295,8 @@ public class Pet  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

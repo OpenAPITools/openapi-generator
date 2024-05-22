@@ -67,7 +67,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableArray
    * @return nullableArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array")
@@ -95,7 +95,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableRequiredArray
    * @return nullableRequiredArray
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("nullable_required_array")
@@ -123,7 +123,7 @@ public class ContainerDefaultValue {
   /**
    * Get requiredArray
    * @return requiredArray
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("required_array")
@@ -151,7 +151,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableArrayWithDefault
    * @return nullableArrayWithDefault
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array_with_default")

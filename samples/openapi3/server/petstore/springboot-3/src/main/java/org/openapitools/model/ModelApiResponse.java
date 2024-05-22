@@ -42,8 +42,8 @@ public class ModelApiResponse {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ModelApiResponse(Integer code, String type, String message) {
       this.code = code;
       this.type = type;
@@ -58,7 +58,7 @@ public class ModelApiResponse {
   /**
    * Get code
    * @return code
-  */
+   */
   
   @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("code")
@@ -80,7 +80,7 @@ public class ModelApiResponse {
   /**
    * Get type
    * @return type
-  */
+   */
   
   @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("type")
@@ -102,7 +102,7 @@ public class ModelApiResponse {
   /**
    * Get message
    * @return message
-  */
+   */
   
   @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("message")

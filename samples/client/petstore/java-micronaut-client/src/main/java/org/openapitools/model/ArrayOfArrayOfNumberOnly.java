@@ -56,7 +56,7 @@ public class ArrayOfArrayOfNumberOnly {
     /**
      * Get arrayArrayNumber
      * @return arrayArrayNumber
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

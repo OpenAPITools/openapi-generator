@@ -20,7 +20,7 @@
 {{#description}}
 /**
   * {{{.}}}
- **/
+  */
 {{/description}}
 {{>additionalModelTypeAnnotations}}
 {{#vendorExtensions.x-class-extra-annotation}}
@@ -56,8 +56,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{/withXml}}
 {{#description}}
  /**
-   * {{{.}}}
-  **/
+  * {{{.}}}
+  */
 {{/description}}
   {{^withXml}}
   {{#jsonb}}@JsonbProperty("{{baseName}}"){{/jsonb}}
@@ -88,7 +88,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   }
   {{/withXml}}{{/vendorExtensions.x-has-readonly-properties}}
   {{#vars}}
- /**
+  /**
   {{#description}}
    * {{.}}
   {{/description}}
@@ -105,7 +105,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{#deprecated}}
    * @deprecated
   {{/deprecated}}
-  **/
+   **/
 {{#deprecated}}
   @Deprecated
 {{/deprecated}}
@@ -129,8 +129,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 
   {{^isReadOnly}}
   /**
-    * Set {{name}}
-  **/
+   * Set {{name}}
+   */
 {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
 {{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
@@ -165,8 +165,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{/vars}}
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

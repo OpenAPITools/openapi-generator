@@ -52,10 +52,10 @@ public class HealthCheckResult {
     return this;
   }
 
-   /**
+  /**
    * Get nullableMessage
    * @return nullableMessage
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
   public String getNullableMessage() {

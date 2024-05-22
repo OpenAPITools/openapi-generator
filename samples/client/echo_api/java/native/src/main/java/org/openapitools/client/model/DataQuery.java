@@ -60,10 +60,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * test suffix
    * @return suffix
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SUFFIX)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -84,10 +84,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * Some text containing white spaces
    * @return text
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TEXT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -108,10 +108,10 @@ public class DataQuery extends Query {
     return this;
   }
 
-   /**
+  /**
    * A date
    * @return date
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

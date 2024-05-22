@@ -47,10 +47,10 @@ public class DanishPig {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

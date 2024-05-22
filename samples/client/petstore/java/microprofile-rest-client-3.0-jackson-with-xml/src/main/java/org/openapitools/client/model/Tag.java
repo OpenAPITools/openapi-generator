@@ -37,7 +37,7 @@ import jakarta.xml.bind.annotation.adapters.*;
 })
 /**
   * A tag for a pet
- **/
+  */
 
 public class Tag  {
   
@@ -49,10 +49,10 @@ public class Tag  {
   @XmlElement(name = "name")
   private String name;
 
- /**
+  /**
    * Get id
    * @return id
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
@@ -61,8 +61,8 @@ public class Tag  {
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
@@ -75,10 +75,10 @@ public class Tag  {
     return this;
   }
 
- /**
+  /**
    * Get name
    * @return name
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "name")
@@ -87,8 +87,8 @@ public class Tag  {
   }
 
   /**
-    * Set name
-  **/
+   * Set name
+   */
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "name")
@@ -103,8 +103,8 @@ public class Tag  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

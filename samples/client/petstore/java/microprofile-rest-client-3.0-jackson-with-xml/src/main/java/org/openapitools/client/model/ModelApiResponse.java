@@ -39,7 +39,7 @@ import jakarta.xml.bind.annotation.adapters.*;
 @JsonTypeName("ApiResponse")
 /**
   * Describes the result of uploading an image resource
- **/
+  */
 
 public class ModelApiResponse  {
   
@@ -55,10 +55,10 @@ public class ModelApiResponse  {
   @XmlElement(name = "message")
   private String message;
 
- /**
+  /**
    * Get code
    * @return code
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "code")
@@ -67,8 +67,8 @@ public class ModelApiResponse  {
   }
 
   /**
-    * Set code
-  **/
+   * Set code
+   */
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "code")
@@ -81,10 +81,10 @@ public class ModelApiResponse  {
     return this;
   }
 
- /**
+  /**
    * Get type
    * @return type
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "type")
@@ -93,8 +93,8 @@ public class ModelApiResponse  {
   }
 
   /**
-    * Set type
-  **/
+   * Set type
+   */
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "type")
@@ -107,10 +107,10 @@ public class ModelApiResponse  {
     return this;
   }
 
- /**
+  /**
    * Get message
    * @return message
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "message")
@@ -119,8 +119,8 @@ public class ModelApiResponse  {
   }
 
   /**
-    * Set message
-  **/
+   * Set message
+   */
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "message")
@@ -135,8 +135,8 @@ public class ModelApiResponse  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

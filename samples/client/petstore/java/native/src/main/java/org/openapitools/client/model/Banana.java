@@ -49,10 +49,10 @@ public class Banana {
     return this;
   }
 
-   /**
+  /**
    * Get lengthCm
    * @return lengthCm
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

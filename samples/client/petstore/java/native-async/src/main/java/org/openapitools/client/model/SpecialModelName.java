@@ -52,10 +52,10 @@ public class SpecialModelName {
     return this;
   }
 
-   /**
+  /**
    * Get $specialPropertyName
    * @return $specialPropertyName
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -76,10 +76,10 @@ public class SpecialModelName {
     return this;
   }
 
-   /**
+  /**
    * Get specialModelName
    * @return specialModelName
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

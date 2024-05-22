@@ -46,10 +46,10 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
 
 

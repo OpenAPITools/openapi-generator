@@ -64,10 +64,10 @@ public class CircularReference3 {
     return this;
   }
 
-   /**
+  /**
    * Get prop1
    * @return prop1
-  **/
+   */
   @javax.annotation.Nullable
   public CircularReference1 getProp1() {
     return prop1;
@@ -175,12 +175,12 @@ public class CircularReference3 {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to CircularReference3
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to CircularReference3
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!CircularReference3.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -266,22 +266,22 @@ public class CircularReference3 {
     }
   }
 
- /**
-  * Create an instance of CircularReference3 given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of CircularReference3
-  * @throws IOException if the JSON string is invalid with respect to CircularReference3
-  */
+  /**
+   * Create an instance of CircularReference3 given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of CircularReference3
+   * @throws IOException if the JSON string is invalid with respect to CircularReference3
+   */
   public static CircularReference3 fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, CircularReference3.class);
   }
 
- /**
-  * Convert an instance of CircularReference3 to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of CircularReference3 to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }
