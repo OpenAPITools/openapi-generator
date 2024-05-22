@@ -40,7 +40,7 @@ public class FakeClassnameTags123Api  {
          String implClass = servletContext.getInitParameter("FakeClassnameTags123Api.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (FakeClassnameTags123ApiService) Class.forName(implClass).newInstance();
+               delegate = (FakeClassnameTags123ApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }

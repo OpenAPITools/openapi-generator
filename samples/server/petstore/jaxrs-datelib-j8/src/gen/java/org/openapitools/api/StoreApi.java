@@ -41,7 +41,7 @@ public class StoreApi  {
          String implClass = servletContext.getInitParameter("StoreApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (StoreApiService) Class.forName(implClass).newInstance();
+               delegate = (StoreApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }

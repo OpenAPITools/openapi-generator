@@ -43,7 +43,7 @@ public class PetApi  {
          String implClass = servletContext.getInitParameter("PetApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (PetApiService) Class.forName(implClass).newInstance();
+               delegate = (PetApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
