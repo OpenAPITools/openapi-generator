@@ -33,27 +33,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 {{#jackson}}
   public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
 {{/jackson}}
-  {{#withXml}}
-      {{#isXmlAttribute}}
-  @XmlAttribute(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-      {{/isXmlAttribute}}
-      {{^isXmlAttribute}}
-          {{^isContainer}}
-  @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-          {{/isContainer}}
-          {{#isContainer}}
-              {{#items.xmlName}}
-  @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{items.xmlName}}{{^items.xmlName}}{{baseName}}{{/items.xmlName}}")
-              {{/items.xmlName}}
-              {{^items.xmlName}}
-  @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-              {{/items.xmlName}}
-              {{#isXmlWrapped}}
-  @XmlElementWrapper({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-              {{/isXmlWrapped}}
-          {{/isContainer}}
-      {{/isXmlAttribute}}
-  {{/withXml}}
+{{#withXml}}
+  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+  {{#isXmlWrapped}}
+  @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+  {{/isXmlWrapped}}
+{{/withXml}}
 {{#description}}
  /**
   * {{{.}}}
