@@ -5,7 +5,7 @@ extension {{classname}}DiscriminatorExt on {{classname}} {
             return r'{{mappingName}}';
         }
         {{/mappedModels}}
-        return null;
+        return {{#discriminator.vendorExtensions.x-discriminator-self-mapped-model}}r'{{mappingName}}'{{/discriminator.vendorExtensions.x-discriminator-self-mapped-model}}{{^discriminator.vendorExtensions.x-discriminator-self-mapped-model}}null{{/discriminator.vendorExtensions.x-discriminator-self-mapped-model}};
     }
 }
 extension {{classname}}BuilderDiscriminatorExt on {{classname}}Builder {
@@ -15,6 +15,6 @@ extension {{classname}}BuilderDiscriminatorExt on {{classname}}Builder {
             return r'{{mappingName}}';
         }
         {{/mappedModels}}
-        return null;
+        return {{#discriminator.vendorExtensions.x-discriminator-self-mapped-model}}r'{{mappingName}}'{{/discriminator.vendorExtensions.x-discriminator-self-mapped-model}}{{^discriminator.vendorExtensions.x-discriminator-self-mapped-model}}null{{/discriminator.vendorExtensions.x-discriminator-self-mapped-model}};
     }
 }

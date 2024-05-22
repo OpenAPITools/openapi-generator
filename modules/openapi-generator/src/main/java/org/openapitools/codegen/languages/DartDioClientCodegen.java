@@ -19,9 +19,11 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -88,12 +90,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                         ClientModificationFeature.Authorizations,
                         ClientModificationFeature.UserAgent
                 ).includeSchemaSupportFeatures(
-                    SchemaSupportFeature.Polymorphism,
-                    SchemaSupportFeature.Union,
-                    SchemaSupportFeature.Composite,
-                    SchemaSupportFeature.allOf,
-                    SchemaSupportFeature.oneOf,
-                    SchemaSupportFeature.anyOf
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union,
+                        SchemaSupportFeature.Composite,
+                        SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.anyOf
                 )
         );
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
@@ -204,8 +206,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         if (!additionalProperties.containsKey(FINAL_PROPERTIES)) {
             additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(FINAL_PROPERTIES_DEFAULT_VALUE));
             LOGGER.debug("finalProperties not set, using default {}", FINAL_PROPERTIES_DEFAULT_VALUE);
-        }
-        else {
+        } else {
             additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(additionalProperties.get(FINAL_PROPERTIES).toString()));
         }
 
@@ -409,6 +410,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             syncRootTypesWithInnerVars(allModels, model);
         }
     }
+
     private void syncRootTypesWithInnerVars(Map<String, CodegenModel> objs, CodegenModel model) {
         List<CodegenProperty> allVars = new ArrayList<>();
         allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kSelfAndAncestorOnlyProps)));
@@ -428,6 +430,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             }
         }
     }
+
     private final String kIsChild = "x-is-child";
     private final String kIsParent = "x-is-parent";
     private final String kIsPure = "x-is-pure";
@@ -438,6 +441,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private final String kSelfAndAncestorOnlyProps = "x-self-and-ancestor-only-props";
     private final String kHasSelfAndAncestorOnlyProps = "x-has-self-and-ancestor-only-props";
     private final String kParentDiscriminator = "x-parent-discriminator";
+    private final String kDiscriminatorSelfMappedModel = "x-discriminator-self-mapped-model";
 
     // adapts codegen models and property to dart rules of inheritance
     private void adaptToDartInheritance(Map<String, ModelsMap> objs) {
@@ -467,7 +471,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
 
 
-
         Set<String> allPureClasses = new HashSet<>();
         // set isChild,isParent,isPure
         for (java.util.Map.Entry<String, CodegenModel> cmEntry : allModels.entrySet()) {
@@ -489,9 +492,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             cm.vendorExtensions.put(kIsPure, isPure);
             if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty())) {
                 //discriminator has no meaning here
-                if (cm.discriminator!=null) {
+                if (cm.discriminator != null) {
                     cm.vendorExtensions.put(kParentDiscriminator, cm.discriminator);
-                    cm.discriminator=null;
+                    cm.discriminator = null;
                 }
 
             }
@@ -594,8 +597,8 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
         CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema);
         Discriminator originalDiscriminator = schema.getDiscriminator();
-        if (originalDiscriminator!=null) {
-            Map<String,String> originalMapping = originalDiscriminator.getMapping();
+        if (originalDiscriminator != null) {
+            Map<String, String> originalMapping = originalDiscriminator.getMapping();
             if (originalMapping != null && !originalMapping.isEmpty()) {
                 //we already have a discriminator mapping, remove everything else
                 for (MappedModel currentMappings : new HashSet<>(sub.getMappedModels())) {
@@ -609,6 +612,120 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             }
         }
         return sub;
+    }
+
+    private boolean isParentRecursive(CodegenModel codegenModel, CodegenModel parentModel, boolean allowParentIsModel) {
+        final String classname = parentModel.getClassname();
+        final String childClassName = codegenModel.getClassname();
+
+        if ((allowParentIsModel && classname == childClassName)
+                || (codegenModel.parent == classname)
+                || (codegenModel.getAllParents() != null && codegenModel.getAllParents().contains(classname))
+                || (codegenModel.interfaces != null && codegenModel.interfaces.contains(classname))
+                || parentModel.anyOf.contains(childClassName)
+                || parentModel.oneOf.contains(childClassName)
+                || (codegenModel.parentModel != null && isParentRecursive(codegenModel.parentModel, parentModel, true))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /// sort the models by first putting the childModels and then the parent models
+    private Set<MappedModel> sortFilteredModels(Set<MappedModel> unSortedModels) {
+        final Set<MappedModel> sortedModels = new HashSet<MappedModel>();
+        final Set<MappedModel> notSortedModels = new HashSet<MappedModel>();
+        for (MappedModel mappedModel : unSortedModels) {
+            final CodegenModel mappedCodegenModel = mappedModel.getModel();
+            if (unSortedModels.stream().anyMatch(m -> m != mappedModel && isParentRecursive(mappedCodegenModel, m.getModel(), true))) {
+                notSortedModels.add(mappedModel);
+            } else {
+                sortedModels.add(mappedModel);
+            }
+        }
+
+        final Set<MappedModel> finishedSortedModels = new LinkedHashSet<MappedModel>();
+        if (!notSortedModels.isEmpty()) {
+            final Set<MappedModel> sortedUnsortedModels = sortFilteredModels(notSortedModels);
+            finishedSortedModels.addAll(sortedUnsortedModels);
+        }
+        finishedSortedModels.addAll(sortedModels);
+        return finishedSortedModels;
+    }
+
+    //  filter out all the models, which are not submodels of this model
+    private void filterMappedModels(CodegenModel cm) {
+
+        if (cm.discriminator != null && cm.discriminator.getMappedModels() != null) {
+            final CodegenDiscriminator discriminator = cm.getDiscriminator();
+            final String classname = cm.getClassname();
+            final Set<MappedModel> filteredModels = new HashSet<MappedModel>();
+            final Set<MappedModel> removedModels = new HashSet<MappedModel>();
+            for (MappedModel mappedModel : discriminator.getMappedModels()) {
+                final CodegenModel mappedCodegenModel = mappedModel.getModel();
+                //  filter out all the models, which are not submodels of this model
+                if (isParentRecursive(mappedCodegenModel, cm, false)) {
+                    filteredModels.add(mappedModel);
+                } else {
+//                    set the default for the model, which is the same as the model itself
+                    final String mappedCodegenModelClassname = mappedCodegenModel.getClassname();
+                    if(classname == mappedCodegenModelClassname) {
+                        LOGGER.info("Removing model {} from discriminator of model {} because it is the model itself", mappedCodegenModel.getClassname(), classname);
+                        discriminator.getVendorExtensions().put(kDiscriminatorSelfMappedModel, mappedModel);
+                    } else {
+                        LOGGER.info("Removing model {} from discriminator of model {} because it is not a submodel", mappedCodegenModel.getClassname(), classname);
+                    }
+                    removedModels.add(mappedModel);
+                }
+            }
+
+            // sort the models by first putting the childModels and then the parent models
+            final Set<MappedModel> sortedModels = sortFilteredModels(filteredModels);
+
+            cm.discriminator.setMappedModels(sortedModels);
+
+            Set<String> filteredImports = new HashSet<>();
+            for (String mImport : cm.getImports()) {
+                boolean found = false;
+                if (cm.parent != null) {
+                    String parentString = rewriteImport(cm.getParent(), true);
+                    found = parentString.equals(mImport);
+                }
+                if (!found) {
+                    for (MappedModel mappedModel : filteredModels) {
+                        String mappedModelImport = rewriteImport(mappedModel.getModelName(), true);
+                        if (mappedModelImport.equals(mImport)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!found) {
+                    for (CodegenProperty codegenProperty : cm.getAllVars()) {
+                        String codeGenImport = rewriteImport(codegenProperty.getDataType(), true);
+                        if (codeGenImport.equals(mImport)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!found) {
+                    boolean removeIt = false;
+                    for (MappedModel removedModel : removedModels) {
+                        String removedImport = rewriteImport(removedModel.getModelName(), true);
+                        if (removedImport.equals(mImport)) {
+                            removeIt = true;
+                            break;
+                        }
+                    }
+                    found = !removeIt;
+                }
+                if (found) {
+                    filteredImports.add(mImport);
+                }
+            }
+            cm.setImports(filteredImports);
+        }
     }
 
     @Override
@@ -625,6 +742,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 CodegenModel cm = mo.getModel();
                 cm.imports = rewriteImports(cm.imports, true);
                 cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
+
+                //  filter out all the models, which are not submodels of this model
+                filterMappedModels(cm);
             }
         }
 
@@ -691,7 +811,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             // longer in use.
             if (op.allParams.stream().noneMatch(param -> param.dataType.equals("Uint8List"))
                     && op.responses.stream().filter(response -> response.dataType != null)
-                            .noneMatch(response -> response.dataType.equals("Uint8List"))) {
+                    .noneMatch(response -> response.dataType.equals("Uint8List"))) {
                 // Remove unused imports after processing
                 op.imports.remove("Uint8List");
             }
@@ -745,6 +865,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     /**
      * Adds the serializer to the global list of custom built_value serializers.
+     *
      * @param serializer
      */
     private void addBuiltValueSerializer(BuiltValueSerializer serializer) {
@@ -758,32 +879,39 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private Set<String> rewriteImports(Set<String> originalImports, boolean isModel) {
         Set<String> resultImports = Sets.newHashSet();
         for (String modelImport : originalImports) {
-            if (modelImport.startsWith("BuiltList", 0)) {
-                modelImport = "BuiltList";
-            } else if (modelImport.startsWith("BuiltSet", 0)) {
-                modelImport = "BuiltSet";
-            } else if (modelImport.startsWith("BuiltMap", 0)) {
-                modelImport = "BuiltMap";
-            }
-
-            if (imports.containsKey(modelImport)) {
-                String i = imports.get(modelImport);
-                if (Objects.equals(i, DIO_IMPORT) && !isModel) {
-                    // Don't add imports to operations that are already imported
-                    continue;
-                }
-                resultImports.add(i);
-            } else if (importMapping().containsKey(modelImport)) {
-                resultImports.add(importMapping().get(modelImport));
-            } else if (modelImport.startsWith("dart:")) { // import dart:* directly
-                resultImports.add(modelImport);
-            } else if (modelImport.startsWith("package:")) { // e.g. package:openapi/src/model/child.dart
-                resultImports.add(modelImport);
-            } else {
-                resultImports.add("package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/" + underscore(modelImport) + ".dart");
+            final String rewriteString = rewriteImport(modelImport, isModel);
+            if (rewriteString != null) {
+                resultImports.add(rewriteString);
             }
         }
         return resultImports;
+    }
+
+    private String rewriteImport(String modelImport, boolean isModel) {
+        if (modelImport.startsWith("BuiltList", 0)) {
+            modelImport = "BuiltList";
+        } else if (modelImport.startsWith("BuiltSet", 0)) {
+            modelImport = "BuiltSet";
+        } else if (modelImport.startsWith("BuiltMap", 0)) {
+            modelImport = "BuiltMap";
+        }
+
+        if (imports.containsKey(modelImport)) {
+            String i = imports.get(modelImport);
+            if (Objects.equals(i, DIO_IMPORT) && !isModel) {
+                // Don't add imports to operations that are already imported
+                return null;
+            }
+            return i;
+        } else if (importMapping().containsKey(modelImport)) {
+            return importMapping().get(modelImport);
+        } else if (modelImport.startsWith("dart:")) { // import dart:* directly
+            return modelImport;
+        } else if (modelImport.startsWith("package:")) { // e.g. package:openapi/src/model/child.dart
+            return modelImport;
+        } else {
+            return "package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/" + underscore(modelImport) + ".dart";
+        }
     }
 
     static class BuiltValueSerializer {

@@ -24,7 +24,8 @@
     {{#mappedModels}}
     r'{{mappingName}}': {{modelName}},
     {{/mappedModels}}
-  };{{/hasDiscriminatorWithNonEmptyMapping}}
+{{#vendorExtensions.x-discriminator-self-mapped-model}}    r'{{mappingName}}': {{modelName}},
+{{/vendorExtensions.x-discriminator-self-mapped-model}}  };{{/hasDiscriminatorWithNonEmptyMapping}}
 
 {{/discriminator}}{{^vendorExtensions.x-is-parent}}  {{classname}}._();
 
