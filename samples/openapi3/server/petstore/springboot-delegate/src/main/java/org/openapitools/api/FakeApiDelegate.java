@@ -212,7 +212,7 @@ public interface FakeApiDelegate {
         Long int64,
         Float _float,
         String string,
-        org.springframework.core.io.Resource binary,
+        MultipartFile binary,
         LocalDate date,
         OffsetDateTime dateTime,
         String password,
@@ -364,7 +364,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#uploadFileWithRequiredFile
      */
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
-        org.springframework.core.io.Resource requiredFile,
+        MultipartFile requiredFile,
         String additionalMetadata) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
