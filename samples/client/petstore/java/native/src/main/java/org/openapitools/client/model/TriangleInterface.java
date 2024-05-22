@@ -55,7 +55,6 @@ public class TriangleInterface {
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getTriangleType() {
     return triangleType;
   }

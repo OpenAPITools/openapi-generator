@@ -56,7 +56,6 @@ public class FooGetDefaultResponse {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Foo getString() {
     return string;
   }

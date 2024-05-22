@@ -62,7 +62,6 @@ public class FileSchemaTestClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public ModelFile getFile() {
     return _file;
   }
@@ -95,7 +94,6 @@ public class FileSchemaTestClass {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<ModelFile> getFiles() {
     return files;
   }

@@ -55,7 +55,6 @@ public class ClassModel {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getPropertyClass() {
     return propertyClass;
   }

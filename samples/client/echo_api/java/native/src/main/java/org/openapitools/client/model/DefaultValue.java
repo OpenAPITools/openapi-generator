@@ -135,7 +135,6 @@ public class DefaultValue {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<StringEnumRef> getArrayStringEnumRefDefault() {
     return arrayStringEnumRefDefault;
   }
@@ -168,7 +167,6 @@ public class DefaultValue {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<ArrayStringEnumDefaultEnum> getArrayStringEnumDefault() {
     return arrayStringEnumDefault;
   }
@@ -201,7 +199,6 @@ public class DefaultValue {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<String> getArrayStringDefault() {
     return arrayStringDefault;
   }
@@ -234,7 +231,6 @@ public class DefaultValue {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_INTEGER_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<Integer> getArrayIntegerDefault() {
     return arrayIntegerDefault;
   }
@@ -267,7 +263,6 @@ public class DefaultValue {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<String> getArrayString() {
     return arrayString;
   }
@@ -303,7 +298,6 @@ public class DefaultValue {
   **/
   @javax.annotation.Nullable
   @JsonIgnore
-
   public List<String> getArrayStringNullable() {
         return arrayStringNullable.orElse(null);
   }
@@ -348,7 +342,6 @@ public class DefaultValue {
   **/
   @javax.annotation.Nullable
   @JsonIgnore
-
   public List<String> getArrayStringExtensionNullable() {
         return arrayStringExtensionNullable.orElse(null);
   }
@@ -381,7 +374,6 @@ public class DefaultValue {
   **/
   @javax.annotation.Nullable
   @JsonIgnore
-
   public String getStringNullable() {
         return stringNullable.orElse(null);
   }

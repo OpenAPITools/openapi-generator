@@ -122,7 +122,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Integer getInteger() {
     return integer;
   }
@@ -149,7 +148,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Integer getInt32() {
     return int32;
   }
@@ -174,7 +172,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Long getInt64() {
     return int64;
   }
@@ -201,7 +198,6 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public BigDecimal getNumber() {
     return number;
   }
@@ -228,7 +224,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Float getFloat() {
     return _float;
   }
@@ -255,7 +250,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Double getDouble() {
     return _double;
   }
@@ -280,7 +274,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DECIMAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public BigDecimal getDecimal() {
     return decimal;
   }
@@ -305,7 +298,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getString() {
     return string;
   }
@@ -330,7 +322,6 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public byte[] getByte() {
     return _byte;
   }
@@ -355,7 +346,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BINARY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public File getBinary() {
     return binary;
   }
@@ -380,7 +370,6 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public LocalDate getDate() {
     return date;
   }
@@ -405,7 +394,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -430,7 +418,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public UUID getUuid() {
     return uuid;
   }
@@ -455,7 +442,6 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getPassword() {
     return password;
   }
@@ -480,7 +466,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getPatternWithDigits() {
     return patternWithDigits;
   }
@@ -505,7 +490,6 @@ public class FormatTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;
   }

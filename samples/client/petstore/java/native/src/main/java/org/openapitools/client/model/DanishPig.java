@@ -55,7 +55,6 @@ public class DanishPig {
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getClassName() {
     return className;
   }

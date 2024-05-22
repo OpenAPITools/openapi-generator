@@ -66,7 +66,6 @@ public class ArrayOfNumberOnly {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }

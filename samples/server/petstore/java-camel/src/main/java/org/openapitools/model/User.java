@@ -27,7 +27,6 @@ import javax.annotation.Generated;
 @JacksonXmlRootElement(localName = "User")
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
-
 @Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class User {
 

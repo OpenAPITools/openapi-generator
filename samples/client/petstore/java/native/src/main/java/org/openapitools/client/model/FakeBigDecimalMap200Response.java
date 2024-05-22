@@ -62,7 +62,6 @@ public class FakeBigDecimalMap200Response {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOME_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public BigDecimal getSomeId() {
     return someId;
   }
@@ -95,7 +94,6 @@ public class FakeBigDecimalMap200Response {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOME_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Map<String, BigDecimal> getSomeMap() {
     return someMap;
   }

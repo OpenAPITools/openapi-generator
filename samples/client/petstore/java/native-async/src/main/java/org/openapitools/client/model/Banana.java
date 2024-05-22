@@ -56,7 +56,6 @@ public class Banana {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public BigDecimal getLengthCm() {
     return lengthCm;
   }

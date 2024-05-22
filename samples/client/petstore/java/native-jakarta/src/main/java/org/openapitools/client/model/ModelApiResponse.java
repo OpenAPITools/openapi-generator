@@ -63,7 +63,6 @@ public class ModelApiResponse {
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Integer getCode() {
     return code;
   }
@@ -88,7 +87,6 @@ public class ModelApiResponse {
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getType() {
     return type;
   }
@@ -113,7 +111,6 @@ public class ModelApiResponse {
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getMessage() {
     return message;
   }

@@ -71,7 +71,6 @@ public class ObjectWithDeprecatedFields {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getUuid() {
     return uuid;
   }
@@ -98,7 +97,6 @@ public class ObjectWithDeprecatedFields {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public BigDecimal getId() {
     return id;
   }
@@ -125,7 +123,6 @@ public class ObjectWithDeprecatedFields {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
   }
@@ -160,7 +157,6 @@ public class ObjectWithDeprecatedFields {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<String> getBars() {
     return bars;
   }

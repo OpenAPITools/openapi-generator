@@ -64,7 +64,6 @@ public class NumberPropertiesOnly {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public BigDecimal getNumber() {
     return number;
   }
@@ -89,7 +88,6 @@ public class NumberPropertiesOnly {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Float getFloat() {
     return _float;
   }
@@ -116,7 +114,6 @@ public class NumberPropertiesOnly {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Double getDouble() {
     return _double;
   }

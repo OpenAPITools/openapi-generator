@@ -72,7 +72,6 @@ public class ChildCat extends ParentPet {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getName() {
     return name;
   }
@@ -105,7 +104,6 @@ public class ChildCat extends ParentPet {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getPetType() {
     return petType;
   }

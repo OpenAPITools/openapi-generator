@@ -113,7 +113,6 @@ public class Order {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Long getId() {
     return id;
   }
@@ -138,7 +137,6 @@ public class Order {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Long getPetId() {
     return petId;
   }
@@ -163,7 +161,6 @@ public class Order {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Integer getQuantity() {
     return quantity;
   }
@@ -188,7 +185,6 @@ public class Order {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -213,7 +209,6 @@ public class Order {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public StatusEnum getStatus() {
     return status;
   }
@@ -238,7 +233,6 @@ public class Order {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Boolean getComplete() {
     return complete;
   }

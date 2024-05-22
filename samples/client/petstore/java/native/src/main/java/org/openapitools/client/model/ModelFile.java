@@ -55,7 +55,6 @@ public class ModelFile {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getSourceURI() {
     return sourceURI;
   }

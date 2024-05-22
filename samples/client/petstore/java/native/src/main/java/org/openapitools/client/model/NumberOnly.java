@@ -56,7 +56,6 @@ public class NumberOnly {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public BigDecimal getJustNumber() {
     return justNumber;
   }

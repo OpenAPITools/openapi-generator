@@ -59,7 +59,6 @@ public class ScaleneTriangle {
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getShapeType() {
     return shapeType;
   }
@@ -84,7 +83,6 @@ public class ScaleneTriangle {
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getTriangleType() {
     return triangleType;
   }

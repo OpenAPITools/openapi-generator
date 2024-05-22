@@ -73,7 +73,6 @@ public class Animal {
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CLASS_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getClassName() {
     return className;
   }
@@ -98,7 +97,6 @@ public class Animal {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_COLOR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getColor() {
     return color;
   }

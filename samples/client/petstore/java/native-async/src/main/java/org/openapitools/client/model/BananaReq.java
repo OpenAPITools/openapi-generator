@@ -60,7 +60,6 @@ public class BananaReq {
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public BigDecimal getLengthCm() {
     return lengthCm;
   }
@@ -85,7 +84,6 @@ public class BananaReq {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SWEET)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Boolean getSweet() {
     return sweet;
   }

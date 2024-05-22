@@ -58,7 +58,6 @@ public class HealthCheckResult {
   **/
   @javax.annotation.Nullable
   @JsonIgnore
-
   public String getNullableMessage() {
         return nullableMessage.orElse(null);
   }

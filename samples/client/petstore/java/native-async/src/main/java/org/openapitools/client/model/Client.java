@@ -55,7 +55,6 @@ public class Client {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CLIENT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getClient() {
     return client;
   }
