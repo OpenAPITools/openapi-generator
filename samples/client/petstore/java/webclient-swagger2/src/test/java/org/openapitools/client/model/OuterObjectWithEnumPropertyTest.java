@@ -18,23 +18,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.client.model.OuterEnumInteger;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for OuterObjectWithEnumProperty
  */
-public class OuterObjectWithEnumPropertyTest {
+class OuterObjectWithEnumPropertyTest {
     private final OuterObjectWithEnumProperty model = new OuterObjectWithEnumProperty();
 
     /**
      * Model tests for OuterObjectWithEnumProperty
      */
     @Test
-    public void testOuterObjectWithEnumProperty() {
+    void testOuterObjectWithEnumProperty() {
         // TODO: test OuterObjectWithEnumProperty
     }
 
@@ -42,7 +42,7 @@ public class OuterObjectWithEnumPropertyTest {
      * Test the property 'value'
      */
     @Test
-    public void valueTest() {
+    void valueTest() {
         // TODO: test value
     }
 
