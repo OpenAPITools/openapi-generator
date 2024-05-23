@@ -546,7 +546,7 @@ public class AbstractJavaCodegenTest {
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
 
         // Create an array schema with item type set to the array alias
-        schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
+        schema = new ArraySchema().items(new Schema<>().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
@@ -557,7 +557,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(defaultValue, "new ArrayList<>()");
 
         // Create a map schema with additionalProperties type set to array alias
-        schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
+        schema = new MapSchema().additionalProperties(new Schema<>().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
@@ -635,7 +635,7 @@ public class AbstractJavaCodegenTest {
     public void getTypeDeclarationGivenSchemaMappingTest() {
         codegen.schemaMapping().put("MyStringType", "com.example.foo");
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
-        Schema<?> schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/MyStringType"));
+        Schema<?> schema = new ArraySchema().items(new Schema<>().$ref("#/components/schemas/MyStringType"));
         
         String defaultValue = codegen.getTypeDeclaration(schema);
 
@@ -654,7 +654,7 @@ public class AbstractJavaCodegenTest {
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
 
         // Create an array schema with item type set to the array alias
-        schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
+        schema = new ArraySchema().items(new Schema<>().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.getTypeDeclaration(schema);
@@ -665,7 +665,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(defaultValue, "List<NestedArray>");
 
         // Create an array schema with item type set to the array alias
-        schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
+        schema = new ArraySchema().items(new Schema<>().$ref("#/components/schemas/NestedArray"));
         schema.setUniqueItems(true);
 
         ModelUtils.setGenerateAliasAsModel(false);
@@ -677,7 +677,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(defaultValue, "Set<NestedArray>");
 
         // Create a map schema with additionalProperties type set to array alias
-        schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
+        schema = new MapSchema().additionalProperties(new Schema<>().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.getTypeDeclaration(schema);
@@ -746,7 +746,7 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
         codegen.setOpenAPI(openAPI);
 
-        Schema schema = openAPI.getComponents().getSchemas().get("ModelWithAdditionalProperties");
+        Schema<?> schema = openAPI.getComponents().getSchemas().get("ModelWithAdditionalProperties");
         CodegenModel cm = codegen.fromModel("ModelWithAdditionalProperties", schema);
         Assert.assertEquals(cm.vars.size(), 1, "Expected single declared var");
         Assert.assertEquals(cm.vars.get(0).name, "id");
@@ -762,7 +762,7 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
         codegen.setOpenAPI(openAPI);
 
-        Schema schema = openAPI.getComponents().getSchemas().get("ModelWithStringToStringMapping");
+        Schema<?> schema = openAPI.getComponents().getSchemas().get("ModelWithStringToStringMapping");
         CodegenModel cm = codegen.fromModel("ModelWithAdditionalProperties", schema);
         Assert.assertEquals(cm.vars.size(), 0, "Expected no declared vars");
         Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
@@ -777,7 +777,7 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
         codegen.setOpenAPI(openAPI);
 
-        Schema schema = openAPI.getComponents().getSchemas().get("ModelWithStringToModelMapping");
+        Schema<?> schema = openAPI.getComponents().getSchemas().get("ModelWithStringToModelMapping");
         CodegenModel cm = codegen.fromModel("ModelWithStringToModelMapping", schema);
         Assert.assertEquals(cm.vars.size(), 0, "Expected no declared vars");
         Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
@@ -823,7 +823,7 @@ public class AbstractJavaCodegenTest {
                 .getOpenAPI();
         codegen.setOpenAPI(openAPI);
 
-        Map<String, Schema> schemas = openAPI.getPaths().get("/test").getGet().getParameters().stream()
+        Map<String, Schema<?>> schemas = openAPI.getPaths().get("/test").getGet().getParameters().stream()
                 .collect(Collectors.toMap(
                         Parameter::getName,
                         p -> ModelUtils.getReferencedSchema(openAPI, p.getSchema())));
