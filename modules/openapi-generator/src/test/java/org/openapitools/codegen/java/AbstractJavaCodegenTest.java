@@ -49,6 +49,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AbstractJavaCodegenTest {
 
+    static final Map<String, OpenAPI> FLATTENED_SPEC = Map.of(
+        "3_0/petstore", TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"),
+        "3_0/mapSchemas", TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml"),
+        "3_0/spring/date-time-parameter-types-for-testing", TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml")
+    );
+    
     private AbstractJavaCodegen codegen;
     
     /**
@@ -104,7 +110,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void testPreprocessOpenApiIncludeAllMediaTypesInAcceptHeader() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = FLATTENED_SPEC.get("3_0/petstore");
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.getArtifactVersion(), openAPI.getInfo().getVersion());
@@ -591,7 +597,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void dateDefaultValueIsIsoDate() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml");
+        final OpenAPI openAPI = FLATTENED_SPEC.get("3_0/spring/date-time-parameter-types-for-testing");
         codegen.setOpenAPI(openAPI);
 
         Set<String> imports = new HashSet<>();
@@ -609,7 +615,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void dateDefaultValueIsIsoDateTime() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml");
+        final OpenAPI openAPI = FLATTENED_SPEC.get("3_0/spring/date-time-parameter-types-for-testing");
         codegen.setOpenAPI(openAPI);
 
         Set<String> imports = new HashSet<>();
@@ -686,7 +692,7 @@ public class AbstractJavaCodegenTest {
     public void processOptsBooleanTrueFromString() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
         
-        codegen.preprocessOpenAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"));
+        codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
         
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
@@ -695,7 +701,7 @@ public class AbstractJavaCodegenTest {
     public void processOptsBooleanTrueFromBoolean() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, true);
         
-        codegen.preprocessOpenAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"));
+        codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
 
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
@@ -704,7 +710,7 @@ public class AbstractJavaCodegenTest {
     public void processOptsBooleanFalseFromString() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "false");
         
-        codegen.preprocessOpenAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"));
+        codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
 
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
@@ -713,7 +719,7 @@ public class AbstractJavaCodegenTest {
     public void processOptsBooleanFalseFromBoolean() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, false);
         
-        codegen.preprocessOpenAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"));
+        codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
         
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
@@ -722,7 +728,7 @@ public class AbstractJavaCodegenTest {
     public void processOptsBooleanFalseFromGarbage() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "blibb");
         
-        codegen.preprocessOpenAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"));
+        codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
 
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
@@ -730,13 +736,13 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromNumeric() {
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, 42L);
-        codegen.preprocessOpenAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"));
+        codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
     @Test
     public void nullDefaultValueForModelWithDynamicProperties() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml");
+        final OpenAPI openAPI = FLATTENED_SPEC.get("3_0/mapSchemas");
         codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
         codegen.setOpenAPI(openAPI);
 
@@ -752,7 +758,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void maplikeDefaultValueForModelWithStringToStringMapping() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml");
+        final OpenAPI openAPI = FLATTENED_SPEC.get("3_0/mapSchemas");
         codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
         codegen.setOpenAPI(openAPI);
 
@@ -767,7 +773,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void maplikeDefaultValueForModelWithStringToModelMapping() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml");
+        final OpenAPI openAPI = FLATTENED_SPEC.get("3_0/mapSchemas");
         codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
         codegen.setOpenAPI(openAPI);
 
