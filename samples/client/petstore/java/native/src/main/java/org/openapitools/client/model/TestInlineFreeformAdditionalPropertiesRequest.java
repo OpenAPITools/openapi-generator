@@ -34,6 +34,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * TestInlineFreeformAdditionalPropertiesRequest
  */
@@ -194,7 +195,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
 
     // add `someProperty` to the URL query string
     if (getSomeProperty() != null) {
-      joiner.add(String.format("%ssomeProperty%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSomeProperty()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssomeProperty%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSomeProperty()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

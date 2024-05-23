@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * BasquePig
  */
@@ -141,7 +142,7 @@ public class BasquePig {
 
     // add `className` to the URL query string
     if (getClassName() != null) {
-      joiner.add(String.format("%sclassName%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getClassName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sclassName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getClassName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

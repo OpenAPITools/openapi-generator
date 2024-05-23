@@ -30,6 +30,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
  */
@@ -154,7 +155,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
       for (int i = 0; i < getValues().size(); i++) {
         joiner.add(String.format("%svalues%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(getValues().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            URLEncoder.encode(ApiClient.valueToString(getValues().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 

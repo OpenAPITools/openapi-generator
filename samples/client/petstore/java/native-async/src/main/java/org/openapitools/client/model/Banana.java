@@ -29,6 +29,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Banana
  */
@@ -142,7 +143,7 @@ public class Banana {
 
     // add `lengthCm` to the URL query string
     if (getLengthCm() != null) {
-      joiner.add(String.format("%slengthCm%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getLengthCm()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%slengthCm%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLengthCm()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
