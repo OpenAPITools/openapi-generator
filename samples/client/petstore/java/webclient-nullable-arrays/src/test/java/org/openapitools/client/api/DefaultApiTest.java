@@ -14,8 +14,9 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.ByteArrayObject;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for DefaultApi
  */
-@Ignore
+@Disabled
 public class DefaultApiTest {
 
     private final DefaultApi api = new DefaultApi();
