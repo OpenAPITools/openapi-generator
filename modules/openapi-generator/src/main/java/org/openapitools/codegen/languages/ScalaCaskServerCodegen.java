@@ -116,6 +116,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
 
+        typeMapping.put("object", "Value");
+
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
@@ -129,8 +131,25 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "]() ";
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            // We're opinionated in this template to use ujson
+            return "ujson.Null";
         }
         return super.toDefaultValue(p);
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        // pants ... this is also used in the imports, so
+        // we're getting stuff like this:
+        //
+        // import docstore.model.ujson.Value
+        //
+        if (ModelUtils.isFreeFormObject(p)) {
+            // We're opinionated in this template to use ujson
+            return "Value";
+        }
+        return super.getSchemaType(p);
     }
 
     @Override
@@ -222,6 +241,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalTime", "java.time.LocalTime");
+        importMapping.put("Value", "ujson.Value");
     }
 
     static boolean consumesMimetype(CodegenOperation op, String mimetype) {
@@ -785,6 +805,37 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             return "\"\"";
         }
         return p.defaultValue;
+    }
+
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema schema) {
+        CodegenProperty property = super.fromProperty(name, schema);
+
+        // Customize type for freeform objects
+        if (ModelUtils.isFreeFormObject(schema)) {
+            property.dataType = "Value";
+            property.baseType = "Value";
+        }
+
+        return property;
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema schema) {
+        if (ModelUtils.isFreeFormObject(schema)) {
+            return "Value";
+        }
+        return super.getTypeDeclaration(schema);
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        final String result = super.toModelImport(name);
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+        return result;
     }
 
     private static String queryArgs(final CodegenOperation op) {
