@@ -40,7 +40,8 @@ public class ResourceApiTest {
      */
     @Test
     public void resourceInResponseTest()  {
-        org.springframework.core.io.Resource response = api.resourceInResponse().block();
+        // uncomment below to test the function
+        //org.springframework.core.io.Resource response = api.resourceInResponse().block();
 
         // TODO: test validations
     }

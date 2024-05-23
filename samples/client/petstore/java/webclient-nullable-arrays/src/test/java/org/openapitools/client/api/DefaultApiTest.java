@@ -40,7 +40,8 @@ public class DefaultApiTest {
      */
     @Test
     public void nullableArrayTestGetTest()  {
-        List<ByteArrayObject> response = api.nullableArrayTestGet().collectList().block();
+        // uncomment below to test the function
+        //List<ByteArrayObject> response = api.nullableArrayTestGet().collectList().block();
 
         // TODO: test validations
     }

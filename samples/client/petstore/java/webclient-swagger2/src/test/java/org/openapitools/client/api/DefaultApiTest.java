@@ -40,7 +40,8 @@ public class DefaultApiTest {
      */
     @Test
     public void fooGetTest()  {
-        FooGetDefaultResponse response = api.fooGet().block();
+        // uncomment below to test the function
+        //FooGetDefaultResponse response = api.fooGet().block();
 
         // TODO: test validations
     }

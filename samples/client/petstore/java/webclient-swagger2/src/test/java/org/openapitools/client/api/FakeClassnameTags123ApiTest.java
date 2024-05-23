@@ -40,8 +40,9 @@ public class FakeClassnameTags123ApiTest {
      */
     @Test
     public void testClassnameTest()  {
-        Client client = null;
-        Client response = api.testClassname(client).block();
+        // uncomment below to test the function
+        //Client client = null;
+        //Client response = api.testClassname(client).block();
 
         // TODO: test validations
     }

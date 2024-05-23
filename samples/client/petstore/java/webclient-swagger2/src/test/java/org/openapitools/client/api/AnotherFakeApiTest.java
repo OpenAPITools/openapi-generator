@@ -40,8 +40,9 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void call123testSpecialTagsTest()  {
-        Client client = null;
-        Client response = api.call123testSpecialTags(client).block();
+        // uncomment below to test the function
+        //Client client = null;
+        //Client response = api.call123testSpecialTags(client).block();
 
         // TODO: test validations
     }

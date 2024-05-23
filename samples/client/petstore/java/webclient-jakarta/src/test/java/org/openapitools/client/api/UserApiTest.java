@@ -41,8 +41,9 @@ public class UserApiTest {
      */
     @Test
     public void createUserTest()  {
-        User user = null;
-        api.createUser(user).block();
+        // uncomment below to test the function
+        //User user = null;
+        //api.createUser(user).block();
 
         // TODO: test validations
     }
@@ -54,8 +55,9 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithArrayInputTest()  {
-        List<User> user = null;
-        api.createUsersWithArrayInput(user).block();
+        // uncomment below to test the function
+        //List<User> user = null;
+        //api.createUsersWithArrayInput(user).block();
 
         // TODO: test validations
     }
@@ -67,8 +69,9 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithListInputTest()  {
-        List<User> user = null;
-        api.createUsersWithListInput(user).block();
+        // uncomment below to test the function
+        //List<User> user = null;
+        //api.createUsersWithListInput(user).block();
 
         // TODO: test validations
     }
@@ -80,8 +83,9 @@ public class UserApiTest {
      */
     @Test
     public void deleteUserTest()  {
-        String username = null;
-        api.deleteUser(username).block();
+        // uncomment below to test the function
+        //String username = null;
+        //api.deleteUser(username).block();
 
         // TODO: test validations
     }
@@ -93,8 +97,9 @@ public class UserApiTest {
      */
     @Test
     public void getUserByNameTest()  {
-        String username = null;
-        User response = api.getUserByName(username).block();
+        // uncomment below to test the function
+        //String username = null;
+        //User response = api.getUserByName(username).block();
 
         // TODO: test validations
     }
@@ -106,9 +111,10 @@ public class UserApiTest {
      */
     @Test
     public void loginUserTest()  {
-        String username = null;
-        String password = null;
-        String response = api.loginUser(username, password).block();
+        // uncomment below to test the function
+        //String username = null;
+        //String password = null;
+        //String response = api.loginUser(username, password).block();
 
         // TODO: test validations
     }
@@ -120,7 +126,8 @@ public class UserApiTest {
      */
     @Test
     public void logoutUserTest()  {
-        api.logoutUser().block();
+        // uncomment below to test the function
+        //api.logoutUser().block();
 
         // TODO: test validations
     }
@@ -132,9 +139,10 @@ public class UserApiTest {
      */
     @Test
     public void updateUserTest()  {
-        String username = null;
-        User user = null;
-        api.updateUser(username, user).block();
+        // uncomment below to test the function
+        //String username = null;
+        //User user = null;
+        //api.updateUser(username, user).block();
 
         // TODO: test validations
     }
