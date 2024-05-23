@@ -47,19 +47,19 @@ import jakarta.xml.bind.annotation.adapters.*;
 public class Order  {
   
   public static final String JSON_PROPERTY_ID = "id";
-  @XmlElement(name="id")
+  @XmlElement(name = "id")
   private Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
-  @XmlElement(name="petId")
+  @XmlElement(name = "petId")
   private Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
-  @XmlElement(name="quantity")
+  @XmlElement(name = "quantity")
   private Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
-  @XmlElement(name="shipDate")
+  @XmlElement(name = "shipDate")
   private Date shipDate;
 
 @XmlType(name="StatusEnum")
@@ -96,14 +96,14 @@ public class Order  {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
-  @XmlElement(name="status")
+  @XmlElement(name = "status")
  /**
    * Order Status
   **/
   private StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
-  @XmlElement(name="complete")
+  @XmlElement(name = "complete")
   private Boolean complete = false;
 
  /**

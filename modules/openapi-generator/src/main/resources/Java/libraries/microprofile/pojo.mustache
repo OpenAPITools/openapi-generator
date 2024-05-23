@@ -33,9 +33,24 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 {{#jackson}}
   public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
 {{/jackson}}
-{{#withXml}}
-  @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
-{{/withXml}}
+  {{#withXml}}
+      {{#isXmlAttribute}}
+  @XmlAttribute(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+      {{/isXmlAttribute}}
+      {{^isXmlAttribute}}
+          {{^isContainer}}
+  @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+          {{/isContainer}}
+          {{#isContainer}}
+              {{#items}}
+  @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+              {{/items}}
+              {{#isXmlWrapped}}
+  @XmlElementWrapper({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+              {{/isXmlWrapped}}
+          {{/isContainer}}
+      {{/isXmlAttribute}}
+  {{/withXml}}
 {{#description}}
  /**
    * {{{.}}}

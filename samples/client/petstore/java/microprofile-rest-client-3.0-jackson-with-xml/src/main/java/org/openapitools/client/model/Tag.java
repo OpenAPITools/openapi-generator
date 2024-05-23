@@ -42,11 +42,11 @@ import jakarta.xml.bind.annotation.adapters.*;
 public class Tag  {
   
   public static final String JSON_PROPERTY_ID = "id";
-  @XmlElement(name="id")
+  @XmlElement(name = "id")
   private Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @XmlElement(name="name")
+  @XmlElement(name = "name")
   private String name;
 
  /**

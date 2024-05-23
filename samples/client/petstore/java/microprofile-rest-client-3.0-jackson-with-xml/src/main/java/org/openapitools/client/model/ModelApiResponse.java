@@ -44,15 +44,15 @@ import jakarta.xml.bind.annotation.adapters.*;
 public class ModelApiResponse  {
   
   public static final String JSON_PROPERTY_CODE = "code";
-  @XmlElement(name="code")
+  @XmlElement(name = "code")
   private Integer code;
 
   public static final String JSON_PROPERTY_TYPE = "type";
-  @XmlElement(name="type")
+  @XmlElement(name = "type")
   private String type;
 
   public static final String JSON_PROPERTY_MESSAGE = "message";
-  @XmlElement(name="message")
+  @XmlElement(name = "message")
   private String message;
 
  /**

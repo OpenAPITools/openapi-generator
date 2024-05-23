@@ -48,35 +48,35 @@ import jakarta.xml.bind.annotation.adapters.*;
 public class User  {
   
   public static final String JSON_PROPERTY_ID = "id";
-  @XmlElement(name="id")
+  @XmlElement(name = "id")
   private Long id;
 
   public static final String JSON_PROPERTY_USERNAME = "username";
-  @XmlElement(name="username")
+  @XmlElement(name = "username")
   private String username;
 
   public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
-  @XmlElement(name="firstName")
+  @XmlElement(name = "firstName")
   private String firstName;
 
   public static final String JSON_PROPERTY_LAST_NAME = "lastName";
-  @XmlElement(name="lastName")
+  @XmlElement(name = "lastName")
   private String lastName;
 
   public static final String JSON_PROPERTY_EMAIL = "email";
-  @XmlElement(name="email")
+  @XmlElement(name = "email")
   private String email;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
-  @XmlElement(name="password")
+  @XmlElement(name = "password")
   private String password;
 
   public static final String JSON_PROPERTY_PHONE = "phone";
-  @XmlElement(name="phone")
+  @XmlElement(name = "phone")
   private String phone;
 
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
-  @XmlElement(name="userStatus")
+  @XmlElement(name = "userStatus")
  /**
    * User Status
   **/

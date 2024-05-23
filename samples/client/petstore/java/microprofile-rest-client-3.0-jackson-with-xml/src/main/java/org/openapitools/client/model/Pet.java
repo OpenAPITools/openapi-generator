@@ -51,23 +51,25 @@ import jakarta.xml.bind.annotation.adapters.*;
 public class Pet  {
   
   public static final String JSON_PROPERTY_ID = "id";
-  @XmlElement(name="id")
+  @XmlElement(name = "id")
   private Long id;
 
   public static final String JSON_PROPERTY_CATEGORY = "category";
-  @XmlElement(name="category")
+  @XmlElement(name = "Category")
   private Category category;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @XmlElement(name="name", required = true)
+  @XmlElement(name = "name")
   private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  @XmlElement(name="photoUrls", required = true)
+  @XmlElement(name = "photoUrls")
+  @XmlElementWrapper(name = "photoUrl")
   private List<String> photoUrls = new ArrayList<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  @XmlElement(name="tags")
+  @XmlElement(name = "Tag")
+  @XmlElementWrapper(name = "tag")
   private List<Tag> tags = null;
 
 @XmlType(name="StatusEnum")
@@ -104,7 +106,7 @@ public class Pet  {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
-  @XmlElement(name="status")
+  @XmlElement(name = "status")
  /**
    * pet status in the store
   **/
