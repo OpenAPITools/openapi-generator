@@ -112,8 +112,8 @@
 
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
@@ -127,6 +127,6 @@
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <reactor-version>3.5.12</reactor-version>
         <reactor-netty-version>1.1.13</reactor-netty-version>
-        <junit-version>4.13.2</junit-version>
+        <junit-version>5.10.2</junit-version>
     </properties>
 </project>
