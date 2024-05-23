@@ -46,7 +46,7 @@ public class AbstractJavaCodegenTest {
     private final AbstractJavaCodegen fakeJavaCodegen = new P_AbstractJavaCodegen();
 
     @Test
-    public void toEnumVarNameShouldNotShortenUnderScore() throws Exception {
+    public void toEnumVarNameShouldNotShortenUnderScore() {
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_", "String"), "UNDERSCORE");
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName("__", "String"), "__");
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_,.", "String"), "__");
@@ -56,7 +56,7 @@ public class AbstractJavaCodegenTest {
      * As of Java 9, '_' is a keyword, and may not be used as an identifier.
      */
     @Test
-    public void toEnumVarNameShouldNotResultInSingleUnderscore() throws Exception {
+    public void toEnumVarNameShouldNotResultInSingleUnderscore() {
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName(" ", "String"), "SPACE");
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName("==", "String"), "u");
     }
@@ -69,25 +69,25 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void toVarNameShouldAvoidOverloadingGetClassMethod() throws Exception {
+    public void toVarNameShouldAvoidOverloadingGetClassMethod() {
         Assert.assertEquals(fakeJavaCodegen.toVarName("class"), "propertyClass");
         Assert.assertEquals(fakeJavaCodegen.toVarName("_class"), "propertyClass");
         Assert.assertEquals(fakeJavaCodegen.toVarName("__class"), "propertyClass");
     }
 
     @Test
-    public void toModelNameShouldNotUseProvidedMapping() throws Exception {
+    public void toModelNameShouldNotUseProvidedMapping() {
         fakeJavaCodegen.importMapping().put("json_myclass", "com.test.MyClass");
         Assert.assertEquals(fakeJavaCodegen.toModelName("json_myclass"), "JsonMyclass");
     }
 
     @Test
-    public void toModelNameUsesPascalCase() throws Exception {
+    public void toModelNameUsesPascalCase() {
         Assert.assertEquals(fakeJavaCodegen.toModelName("json_anotherclass"), "JsonAnotherclass");
     }
 
     @Test
-    public void testPreprocessOpenApiIncludeAllMediaTypesInAcceptHeader() throws Exception {
+    public void testPreprocessOpenApiIncludeAllMediaTypesInAcceptHeader() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.preprocessOpenAPI(openAPI);
@@ -100,7 +100,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void testPreprocessOpenAPINumVersion() throws Exception {
+    public void testPreprocessOpenAPINumVersion() {
         final OpenAPI openAPIOtherNumVersion = TestUtils.parseFlattenSpec("src/test/resources/2_0/duplicateOperationIds.yaml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
@@ -231,7 +231,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void testAdditionalModelTypeAnnotationsSemiColon() throws Exception {
+    public void testAdditionalModelTypeAnnotationsSemiColon() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -253,7 +253,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void testAdditionalModelTypeAnnotationsNewLineLinux() throws Exception {
+    public void testAdditionalModelTypeAnnotationsNewLineLinux() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -275,7 +275,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void testAdditionalModelTypeAnnotationsNewLineWindows() throws Exception {
+    public void testAdditionalModelTypeAnnotationsNewLineWindows() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -297,7 +297,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void testAdditionalModelTypeAnnotationsMixed() throws Exception {
+    public void testAdditionalModelTypeAnnotationsMixed() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -320,7 +320,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void testAdditionalModelTypeAnnotationsNoDuplicate() throws Exception {
+    public void testAdditionalModelTypeAnnotationsNoDuplicate() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
 
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -876,7 +876,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void testOneOfModelImports() throws Exception {
+    public void testOneOfModelImports() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_nonPrimitive.yaml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.setOpenAPI(openAPI);
@@ -891,7 +891,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void arrayParameterDefaultValueDoesNotNeedBraces() throws Exception {
+    public void arrayParameterDefaultValueDoesNotNeedBraces() {
         ParseOptions parseOptions = new ParseOptions();
         parseOptions.setResolve(true);
         final OpenAPI openAPI = new OpenAPIParser()
