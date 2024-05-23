@@ -245,7 +245,7 @@ public class AbstractJavaCodegenTest {
         additionalModelTypeAnnotations.add("@Bar");
 
         final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
-        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(additionalModelTypeAnnotations);
 
         Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
         Collections.sort(sortedAdditionalModelTypeAnnotations);
@@ -267,7 +267,7 @@ public class AbstractJavaCodegenTest {
         additionalModelTypeAnnotations.add("@Bar");
 
         final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
-        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(additionalModelTypeAnnotations);
 
         Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
         Collections.sort(sortedAdditionalModelTypeAnnotations);
@@ -289,7 +289,7 @@ public class AbstractJavaCodegenTest {
         additionalModelTypeAnnotations.add("@Bar");
 
         final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
-        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(additionalModelTypeAnnotations);
 
         Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
         Collections.sort(sortedAdditionalModelTypeAnnotations);
@@ -312,7 +312,7 @@ public class AbstractJavaCodegenTest {
         additionalModelTypeAnnotations.add("@Foobar");
 
         final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
-        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(additionalModelTypeAnnotations);
 
         Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
         Collections.sort(sortedAdditionalModelTypeAnnotations);
@@ -334,7 +334,7 @@ public class AbstractJavaCodegenTest {
         additionalModelTypeAnnotations.add("@Bar");
 
         final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
-        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
+        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(additionalModelTypeAnnotations);
 
         Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
         Collections.sort(sortedAdditionalModelTypeAnnotations);
