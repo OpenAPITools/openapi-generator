@@ -84,8 +84,8 @@ export class {{classname}} {
      {{#useSingleRequestParameter}}
      {{#allParams.0}}
      * @param {{=<% %>=}}{<%& classname %><%& operationIdCamelCase %>Request}<%={{ }}=%> requestParameters Request parameters.
-     */
      {{/allParams.0}}
+     */
      {{/useSingleRequestParameter}}
      {{^useSingleRequestParameter}}
      {{#allParams}}* @param {{paramName}} {{description}}
@@ -101,15 +101,16 @@ export class {{classname}} {
     public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
     public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<any> {
     {{/useSingleRequestParameter}}
+{{#allParams.0}}
 {{#useSingleRequestParameter}}
-const {
-{{#allParams}}
-    {{paramName}},
-{{/allParams}}
-} = requestParameters;
+        const {
+        {{#allParams}}
+            {{paramName}},
+        {{/allParams}}
+        } = requestParameters;
 
 {{/useSingleRequestParameter}}
-
+{{/allParams.0}}
 {{#allParams}}
 {{#required}}
         {{#isConstEnumParam}}
