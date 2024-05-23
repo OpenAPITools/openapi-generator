@@ -31,6 +31,7 @@ import java.time.ZonedDateTime;
 import java.util.*;
 
 import java.util.stream.Collectors;
+
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -40,6 +41,8 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AbstractJavaCodegenTest {
 
@@ -204,8 +207,6 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        OpenAPI openAPI = TestUtils.createOpenAPI();
-
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.model.oooooo");
@@ -213,9 +214,9 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.invoker.oooooo");
         codegen.additionalProperties().put(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "getBoolean");
         codegen.additionalProperties().put(CodegenConstants.ARTIFACT_VERSION, "0.8.0-SNAPSHOT");
-        codegen.processOpts();
-        codegen.preprocessOpenAPI(openAPI);
 
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertFalse(codegen.isHideGenerationTimestamp());
@@ -232,113 +233,62 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void testAdditionalModelTypeAnnotationsSemiColon() {
-        OpenAPI openAPI = TestUtils.createOpenAPI();
-
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo;@Bar");
 
         codegen.processOpts();
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
-        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
-        additionalModelTypeAnnotations.add("@Foo");
-        additionalModelTypeAnnotations.add("@Bar");
-
-        final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
-        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(additionalModelTypeAnnotations);
-
-        Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
-        Collections.sort(sortedAdditionalModelTypeAnnotations);
-        Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
+        assertThat(codegen.getAdditionalModelTypeAnnotations())
+            .containsExactlyInAnyOrder("@Bar", "@Foo");
     }
 
     @Test
     public void testAdditionalModelTypeAnnotationsNewLineLinux() {
-        OpenAPI openAPI = TestUtils.createOpenAPI();
-
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo\n@Bar");
 
         codegen.processOpts();
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
-        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
-        additionalModelTypeAnnotations.add("@Foo");
-        additionalModelTypeAnnotations.add("@Bar");
-
-        final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
-        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(additionalModelTypeAnnotations);
-
-        Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
-        Collections.sort(sortedAdditionalModelTypeAnnotations);
-        Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
+        assertThat(codegen.getAdditionalModelTypeAnnotations())
+            .containsExactlyInAnyOrder("@Bar", "@Foo");
     }
 
     @Test
     public void testAdditionalModelTypeAnnotationsNewLineWindows() {
-        OpenAPI openAPI = TestUtils.createOpenAPI();
-
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo\r\n@Bar");
 
         codegen.processOpts();
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
-        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
-        additionalModelTypeAnnotations.add("@Foo");
-        additionalModelTypeAnnotations.add("@Bar");
-
-        final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
-        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(additionalModelTypeAnnotations);
-
-        Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
-        Collections.sort(sortedAdditionalModelTypeAnnotations);
-        Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
+        assertThat(codegen.getAdditionalModelTypeAnnotations())
+            .containsExactlyInAnyOrder("@Bar", "@Foo");
     }
 
     @Test
     public void testAdditionalModelTypeAnnotationsMixed() {
-        OpenAPI openAPI = TestUtils.createOpenAPI();
-
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, " \t @Foo;\r\n@Bar  ;\n @Foobar  ");
 
         codegen.processOpts();
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
-        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
-        additionalModelTypeAnnotations.add("@Foo");
-        additionalModelTypeAnnotations.add("@Bar");
-        additionalModelTypeAnnotations.add("@Foobar");
-
-        final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
-        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(additionalModelTypeAnnotations);
-
-        Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
-        Collections.sort(sortedAdditionalModelTypeAnnotations);
-        Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
+        assertThat(codegen.getAdditionalModelTypeAnnotations())
+            .containsExactlyInAnyOrder("@Bar", "@Foo", "@Foobar");
     }
 
     @Test
     public void testAdditionalModelTypeAnnotationsNoDuplicate() {
-        OpenAPI openAPI = TestUtils.createOpenAPI();
-
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.additionalProperties().put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@Foo;@Bar;@Foo");
 
         codegen.processOpts();
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
-        final List<String> additionalModelTypeAnnotations = new ArrayList<String>();
-        additionalModelTypeAnnotations.add("@Foo");
-        additionalModelTypeAnnotations.add("@Bar");
-
-        final List<String> sortedCodegenAdditionalModelTypeAnnotations = new ArrayList<>(codegen.getAdditionalModelTypeAnnotations());
-        final List<String> sortedAdditionalModelTypeAnnotations = new ArrayList<>(additionalModelTypeAnnotations);
-
-        Collections.sort(sortedCodegenAdditionalModelTypeAnnotations);
-        Collections.sort(sortedAdditionalModelTypeAnnotations);
-        Assert.assertEquals(sortedCodegenAdditionalModelTypeAnnotations, sortedAdditionalModelTypeAnnotations);
+        assertThat(codegen.getAdditionalModelTypeAnnotations())
+            .containsExactlyInAnyOrder("@Bar", "@Foo", "@Foo");
     }
 
     @Test
@@ -416,9 +366,8 @@ public class AbstractJavaCodegenTest {
     public void openApiVersionTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
-        OpenAPI api = TestUtils.createOpenAPI();
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.0.7");
     }
@@ -429,9 +378,8 @@ public class AbstractJavaCodegenTest {
 
         codegen.additionalProperties().put("snapshotVersion", "true");
 
-        OpenAPI api = TestUtils.createOpenAPI();
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.0.7-SNAPSHOT");
     }
@@ -442,9 +390,8 @@ public class AbstractJavaCodegenTest {
 
         codegen.additionalProperties().put("artifactVersion", "1.1.1");
 
-        OpenAPI api = TestUtils.createOpenAPI();
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.1.1");
     }
@@ -456,9 +403,8 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put("artifactVersion", "1.1.1");
         codegen.additionalProperties().put("snapshotVersion", "true");
 
-        OpenAPI api = TestUtils.createOpenAPI();
         codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
+        codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.1.1-SNAPSHOT");
     }
@@ -467,9 +413,9 @@ public class AbstractJavaCodegenTest {
     public void defaultVersionTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.setArtifactVersion(null);
-
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
+        
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
@@ -481,9 +427,9 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         codegen.additionalProperties().put("snapshotVersion", "true");
-
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
+        
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
@@ -495,9 +441,9 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
-
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion("2.0");
+        
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
@@ -509,9 +455,9 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final String version = "9.8.7-rc1";
         codegen.setArtifactVersion(version);
-
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
@@ -524,9 +470,9 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final String version = "9.8.7-rc1";
         codegen.setArtifactVersion(version);
-
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion("1.2.3-SNAPSHOT");
+
         codegen.processOpts();
         codegen.preprocessOpenAPI(api);
 
@@ -538,7 +484,6 @@ public class AbstractJavaCodegenTest {
     public void usesDefaultVersionWhenAdditionalPropertiesVersionIsNull() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         final String version = "1.0.0";
-
         OpenAPI api = TestUtils.createOpenAPI();
         api.getInfo().setVersion(null);
         codegen.setArtifactVersion(null);
@@ -557,12 +502,11 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
-
-        OpenAPI api = TestUtils.createOpenAPI();
         codegen.setArtifactVersion("4.1.2-SNAPSHOT");
-        codegen.processOpts();
-        codegen.preprocessOpenAPI(api);
 
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
+        
         Assert.assertEquals(codegen.getArtifactVersion(), "4.1.2-SNAPSHOT");
     }
 
@@ -604,8 +548,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.setDateLibrary("java8");
 
-
-        Schema<?> schema = createObjectSchemaWithMinItems();
+        Schema<?> schema = new ObjectSchema().addProperty("id", new IntegerSchema().format("int32")).minItems(1);
         String defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "null");
 
@@ -641,14 +584,14 @@ public class AbstractJavaCodegenTest {
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), dateSchema);
-        Assert.assertEquals(defaultValue, "LocalDate.parse(\"" + defaultLocalDate.toString() + "\")");
+        Assert.assertEquals(defaultValue, "LocalDate.parse(\"" + defaultLocalDate + "\")");
 
         DateTimeSchema dateTimeSchema = new DateTimeSchema();
         OffsetDateTime defaultDateTime = OffsetDateTime.parse("1984-12-19T03:39:57-08:00");
         ZonedDateTime expectedDateTime = defaultDateTime.atZoneSameInstant(ZoneId.systemDefault());
         dateTimeSchema.setDefault(defaultDateTime);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), dateTimeSchema);
-        Assert.assertTrue(defaultValue.startsWith("OffsetDateTime.parse(\"" + expectedDateTime.toString()));
+        Assert.assertTrue(defaultValue.startsWith("OffsetDateTime.parse(\"" + expectedDateTime));
 
         // Test default value for number without format
         NumberSchema numberSchema = new NumberSchema();
@@ -673,7 +616,7 @@ public class AbstractJavaCodegenTest {
         CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/thingy/{date}").getGet().getParameters().get(2), imports);
 
         Assert.assertEquals(parameter.dataType, "Date");
-        Assert.assertEquals(parameter.isDate, true);
+        Assert.assertTrue(parameter.isDate);
         Assert.assertEquals(parameter.defaultValue, "1974-01-01");
         Assert.assertEquals(imports.size(), 1);
         Assert.assertEquals(imports.iterator().next(), "Date");
@@ -692,7 +635,7 @@ public class AbstractJavaCodegenTest {
         CodegenParameter parameter = codegen.fromParameter(openAPI.getPaths().get("/thingy/{date}").getGet().getParameters().get(1), imports);
 
         Assert.assertEquals(parameter.dataType, "Date");
-        Assert.assertEquals(parameter.isDateTime, true);
+        Assert.assertTrue(parameter.isDateTime);
         Assert.assertEquals(parameter.defaultValue, "1973-12-19T03:39:57-08:00");
         Assert.assertEquals(imports.size(), 1);
         Assert.assertEquals(imports.iterator().next(), "Date");
@@ -707,7 +650,9 @@ public class AbstractJavaCodegenTest {
         codegen.schemaMapping().put("MyStringType", "com.example.foo");
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
         Schema<?> schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/MyStringType"));
+        
         String defaultValue = codegen.getTypeDeclaration(schema);
+
         Assert.assertEquals(defaultValue, "List<com.example.foo>");
     }
 
@@ -715,7 +660,7 @@ public class AbstractJavaCodegenTest {
     public void getTypeDeclarationTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
-        Schema<?> schema = createObjectSchemaWithMinItems();
+        Schema<?> schema = new ObjectSchema().addProperty("id", new IntegerSchema().format("int32")).minItems(1);
         String defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "Object");
 
@@ -761,54 +706,58 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanTrueFromString() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
-        codegen.preprocessOpenAPI(openAPI);
+        
+        codegen.preprocessOpenAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"));
+        
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
     @Test
     public void processOptsBooleanTrueFromBoolean() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, true);
-        codegen.preprocessOpenAPI(openAPI);
+        
+        codegen.preprocessOpenAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"));
+
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
     @Test
     public void processOptsBooleanFalseFromString() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "false");
-        codegen.preprocessOpenAPI(openAPI);
+        
+        codegen.preprocessOpenAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"));
+
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
     @Test
     public void processOptsBooleanFalseFromBoolean() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, false);
-        codegen.preprocessOpenAPI(openAPI);
+        
+        codegen.preprocessOpenAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"));
+        
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
     @Test
     public void processOptsBooleanFalseFromGarbage() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "blibb");
-        codegen.preprocessOpenAPI(openAPI);
+        
+        codegen.preprocessOpenAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"));
+
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
     @Test
     public void processOptsBooleanFalseFromNumeric() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, 42L);
-        codegen.preprocessOpenAPI(openAPI);
+        codegen.preprocessOpenAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"));
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
     }
 
@@ -1047,12 +996,6 @@ public class AbstractJavaCodegenTest {
         schema = new ArraySchema().items(new Schema<>().type("integer").maximum(BigDecimal.TEN));
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Max(10)Integer>");
-    }
-
-    private static Schema<?> createObjectSchemaWithMinItems() {
-        return new ObjectSchema()
-                .addProperties("id", new IntegerSchema().format("int32"))
-                .minItems(1);
     }
 
     private static class P_AbstractJavaCodegen extends AbstractJavaCodegen {
