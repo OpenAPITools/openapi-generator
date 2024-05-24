@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.testng.Assert.*;
 
 
-public class MicronautClientCodegenTest extends AbstractMicronautCodegenTest {
+public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest {
     @Test
     public void clientOptsUnicity() {
         JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();

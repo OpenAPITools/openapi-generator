@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import static java.util.stream.Collectors.groupingBy;
 import static org.testng.Assert.assertEquals;
 
-public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
+public class JavaMicronautServerCodegenTest extends AbstractMicronautCodegenTest {
     protected static String ROLES_EXTENSION_TEST_PATH = "src/test/resources/3_0/micronaut/roles-extension-test.yaml";
     protected static String MULTI_TAGS_TEST_PATH = "src/test/resources/3_0/micronaut/multi-tags-test.yaml";
 
