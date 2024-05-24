@@ -21,8 +21,13 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     {{/isContainer}}
     {{/isEnum}}
   {{#jackson}}
-  @JsonProperty("{{baseName}}"){{#withXml}}
-  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"){{/withXml}}
+  @JsonProperty("{{baseName}}")
+  {{#withXml}}
+  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  {{#isContainer}}
+  @JacksonXmlElementWrapper(useWrapping = {{isXmlWrapped}}{{#xmlNamespace}}, namespace="{{.}}"{{/xmlNamespace}}{{#isXmlWrapped}}, localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{/isXmlWrapped}})
+  {{/isContainer}}
+  {{/withXml}}
   {{/jackson}}
   {{#gson}}
   @SerializedName("{{baseName}}")
