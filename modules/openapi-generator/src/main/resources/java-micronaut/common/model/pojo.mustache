@@ -49,7 +49,7 @@ Declare the class with extends and implements
     public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
         {{#withXml}}
             {{#isXmlAttribute}}
-    @XmlAttribute(name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"
+    @XmlAttribute(name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
             {{/isXmlAttribute}}
             {{^isXmlAttribute}}
                 {{^isContainer}}
