@@ -225,10 +225,29 @@ public class BodyApiTest {
    */
   @Test
   public void testEchoBodyPetResponseStringTest() {
-    Pet pet = null;
+    // given
+    // The content length must be set to disable the Transfer-Encoding: chunked which would lead to
+    // unparsable response because the echo server is replying them as body.
+    api.getApiClient().addDefaultHeader("Content-Length", "192");
+
+    Pet pet =
+        new Pet()
+            .id(42L)
+            .name("Corgi")
+            .category(new Category().id(1L).name("Dogs"))
+            .status(StatusEnum.SOLD)
+            .addPhotoUrlsItem(
+                "https://cdn.pixabay.com/photo/2021/10/13/09/01/corgi-6705821_1280.jpg")
+            .addTagsItem(new Tag().id(1L).name("cute"));
+
+    // when
     String response = api.testEchoBodyPetResponseString(pet);
 
-    // TODO: test validations
+    // then
+    assertThat(
+        response,
+        is(
+            "{\"id\":42,\"name\":\"Corgi\",\"category\":{\"id\":1,\"name\":\"Dogs\"},\"photoUrls\":[\"https://cdn.pixabay.com/photo/2021/10/13/09/01/corgi-6705821_1280.jpg\"],\"tags\":[{\"id\":1,\"name\":\"cute\"}],\"status\":\"sold\"}"));
   }
 
   /**
