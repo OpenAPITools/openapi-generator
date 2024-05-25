@@ -20,7 +20,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.junit.Test;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.GifHttpMessageConverter;
@@ -169,10 +171,22 @@ public class BodyApiTest {
    */
   @Test
   public void testEchoBodyFreeFormObjectResponseStringTest() {
-    Object body = null;
-    String response = api.testEchoBodyFreeFormObjectResponseString(body);
+    // given
+    // The content length must be set to disable the Transfer-Encoding: chunked which would lead to
+    // unparsable response because the echo server is replying them as body.
+    api.getApiClient().addDefaultHeader("Content-Length", "51");
 
-    // TODO: test validations
+    Object mapAsObject =
+        new HashMap<>(
+            Map.of(
+                "firstKey", "firstValue",
+                "secondKey", "secondValue"));
+
+    // when
+    String response = api.testEchoBodyFreeFormObjectResponseString(mapAsObject);
+
+    // then
+    assertThat(response, is("{\"firstKey\":\"firstValue\",\"secondKey\":\"secondValue\"}"));
   }
 
   /**
