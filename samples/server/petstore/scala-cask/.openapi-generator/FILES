@@ -13,13 +13,10 @@ jvm/src/main/scala/sample/cask/ExampleApp.scala
 jvm/src/main/scala/sample/cask/api/OpenApiRoutes.scala
 jvm/src/main/scala/sample/cask/api/PetRoutes.scala
 jvm/src/main/scala/sample/cask/api/PetRoutes.scala
-jvm/src/main/scala/sample/cask/api/PetService.scala
 jvm/src/main/scala/sample/cask/api/StoreRoutes.scala
 jvm/src/main/scala/sample/cask/api/StoreRoutes.scala
-jvm/src/main/scala/sample/cask/api/StoreService.scala
 jvm/src/main/scala/sample/cask/api/UserRoutes.scala
 jvm/src/main/scala/sample/cask/api/UserRoutes.scala
-jvm/src/main/scala/sample/cask/api/UserService.scala
 jvm/src/main/scala/sample/cask/api/package.scala
 jvm/src/main/scala/sample/cask/package.scala
 project/build.properties
@@ -32,8 +29,11 @@ shared/src/main/scala/sample/cask/model/Order.scala
 shared/src/main/scala/sample/cask/model/OrderData.scala
 shared/src/main/scala/sample/cask/model/Pet.scala
 shared/src/main/scala/sample/cask/model/PetData.scala
+shared/src/main/scala/sample/cask/model/PetService.scala
+shared/src/main/scala/sample/cask/model/StoreService.scala
 shared/src/main/scala/sample/cask/model/Tag.scala
 shared/src/main/scala/sample/cask/model/TagData.scala
 shared/src/main/scala/sample/cask/model/User.scala
 shared/src/main/scala/sample/cask/model/UserData.scala
+shared/src/main/scala/sample/cask/model/UserService.scala
 shared/src/main/scala/sample/cask/model/package.scala
