@@ -290,7 +290,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         String suffix = apiTemplateFiles().get(templateName);
         String fn = toApiFilename(tag);
         if (templateName.equals(ApiServiceTemplate)) {
-            return apiFileFolder() + '/' + fn + suffix;
+            return modelFileFolder() + '/' + fn + suffix;
         } else {
             return apiFileFolder() + '/' + fn + "Routes" + suffix;
         }
