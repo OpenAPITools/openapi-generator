@@ -257,10 +257,14 @@ public class BodyApiTest {
    */
   @Test
   public void testEchoBodyStringEnumTest() {
-    String body = null;
+    // given
+    String body = "\"failure\"";
+
+    // when
     StringEnumRef response = api.testEchoBodyStringEnum(body);
 
-    // TODO: test validations
+    // then
+    assertThat(response, is(StringEnumRef.FAILURE));
   }
 
   /**
