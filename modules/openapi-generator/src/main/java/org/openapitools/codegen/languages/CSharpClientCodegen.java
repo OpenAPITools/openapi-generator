@@ -38,9 +38,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -456,7 +453,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         // avoid breaking changes
-        if (GENERICHOST.equals(getLibrary())) {
+        if (GENERICHOST.equals(getLibrary()) && codegenModel != null) {
 
             Collections.sort(codegenModel.vars, propertyComparatorByName);
             Collections.sort(codegenModel.allVars, propertyComparatorByName);
@@ -485,17 +482,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
     };
 
-    public static Comparator<CodegenProperty> propertyComparatorByNotNullableRequiredNoDefault = new Comparator<CodegenProperty>() {
-        @Override
-        public int compare(CodegenProperty one, CodegenProperty another) {
-            if (one.isNullable == another.isNullable && one.required == another.required && (one.defaultValue == null) == (another.defaultValue == null))
-                return 0;
-            else if (!one.isNullable && one.required && one.defaultValue == null)
-                return -1;
-            else
-                return 1;
-        }
-    };
+    public static Comparator<CodegenProperty> propertyComparatorByNotNullableRequiredNoDefault =
+            Comparator.comparing(p -> p.isNullable || !p.required || p.defaultValue != null);
 
     public static Comparator<CodegenParameter> parameterComparatorByDataType = new Comparator<CodegenParameter>() {
         @Override

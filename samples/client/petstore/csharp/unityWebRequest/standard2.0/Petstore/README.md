@@ -185,6 +185,7 @@ Class | Method | HTTP request | Description
  - [Model.LiteralStringClass](LiteralStringClass.md)
  - [Model.Mammal](Mammal.md)
  - [Model.MapTest](MapTest.md)
+ - [Model.MixLog](MixLog.md)
  - [Model.MixedPropertiesAndAdditionalPropertiesClass](MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model.Model200Response](Model200Response.md)
  - [Model.ModelClient](ModelClient.md)

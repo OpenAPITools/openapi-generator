@@ -15,17 +15,6 @@ Name | Type | Description | Notes
 **RequiredNotnullableStringProp** | **string** |  | 
 **RequiredNotnullableUuid** | **Guid** |  | 
 **RequiredNotnullableintegerProp** | **int** |  | 
-**RequiredNullableArrayOfString** | **List&lt;string&gt;** |  | 
-**RequiredNullableBooleanProp** | **bool** |  | 
-**RequiredNullableDateProp** | **DateOnly** |  | 
-**RequiredNullableDatetimeProp** | **DateTime** |  | 
-**RequiredNullableEnumInteger** | **int** |  | 
-**RequiredNullableEnumIntegerOnly** | **int** |  | 
-**RequiredNullableEnumString** | **string** |  | 
-**RequiredNullableIntegerProp** | **int** |  | 
-**RequiredNullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | 
-**RequiredNullableStringProp** | **string** |  | 
-**RequiredNullableUuid** | **Guid** |  | 
 **NotRequiredNotnullableDateProp** | **DateOnly** |  | [optional] 
 **NotRequiredNotnullableintegerProp** | **int** |  | [optional] 
 **NotRequiredNullableDateProp** | **DateOnly** |  | [optional] 
@@ -48,6 +37,17 @@ Name | Type | Description | Notes
 **NotrequiredNullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
 **NotrequiredNullableStringProp** | **string** |  | [optional] 
 **NotrequiredNullableUuid** | **Guid** |  | [optional] 
+**RequiredNullableArrayOfString** | **List&lt;string&gt;** |  | 
+**RequiredNullableBooleanProp** | **bool** |  | 
+**RequiredNullableDateProp** | **DateOnly** |  | 
+**RequiredNullableDatetimeProp** | **DateTime** |  | 
+**RequiredNullableEnumInteger** | **int** |  | 
+**RequiredNullableEnumIntegerOnly** | **int** |  | 
+**RequiredNullableEnumString** | **string** |  | 
+**RequiredNullableIntegerProp** | **int** |  | 
+**RequiredNullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | 
+**RequiredNullableStringProp** | **string** |  | 
+**RequiredNullableUuid** | **Guid** |  | 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 
