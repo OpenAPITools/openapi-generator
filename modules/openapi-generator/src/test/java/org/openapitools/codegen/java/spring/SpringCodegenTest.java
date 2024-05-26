@@ -1251,26 +1251,26 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void useBeanValidationTruePerformBeanValidationFalseJava8TrueForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, false, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+    public void useBeanValidationTruePerformBeanValidationFalseForFormatEmail() throws IOException {
+        beanValidationForFormatEmail(true, false, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     @Test
-    public void useBeanValidationTruePerformBeanValidationTrueJava8FalseForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, true, false, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+    public void useBeanValidationTruePerformBeanValidationTrueForFormatEmail() throws IOException {
+        beanValidationForFormatEmail(true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     @Test
-    public void useBeanValidationTruePerformBeanValidationFalseJava8TrueJakartaeeTrueForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, false, true, true,"@jakarta.validation.constraints.Email", "@javax.validation.constraints.Email");
+    public void useBeanValidationTruePerformBeanValidationFalseJakartaeeTrueForFormatEmail() throws IOException {
+        beanValidationForFormatEmail(true, false, true,"@jakarta.validation.constraints.Email", "@javax.validation.constraints.Email");
     }
 
     // note: java8 option/mustache tag has been removed and default to true
-    private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean java8, String contains, String notContains) throws IOException {
-        this.beanValidationForFormatEmail(useBeanValidation, performBeanValidation, java8, false, contains, notContains);
+    private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, String contains, String notContains) throws IOException {
+        this.beanValidationForFormatEmail(useBeanValidation, performBeanValidation, false, contains, notContains);
     }
 
-    private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean java8, boolean useJakarta, String contains, String notContains) throws IOException {
+    private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean useJakarta, String contains, String notContains) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -1302,11 +1302,6 @@ public class SpringCodegenTest {
         if (performBeanValidation) javaFileAssert.hasImports("org.hibernate.validator.constraints");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java"), contains);
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java"), notContains);
-    }
-
-    @Test
-    public void useBeanValidationTruePerformBeanValidationTrueJava8TrueForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     @Test
@@ -2437,7 +2432,6 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
 
-        DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         //Assert that NotNull annotation exists alone with no other BeanValidation annotations
@@ -2468,7 +2462,6 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
 
-        DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         //Assert that NotNull annotation exists alone with no other BeanValidation annotations
@@ -2615,7 +2608,6 @@ public class SpringCodegenTest {
                 .assertMethod("equals")
                 .bodyContainsLines("return Arrays.equals(this.picture, testObject.picture);");
     }
-
 
     @Test
     public void useBeanValidationGenerateAnnotationsForRequestBody_issue13932() throws IOException {
@@ -3253,7 +3245,6 @@ public class SpringCodegenTest {
                 .bodyContainsLines("if (b.value.equals(value)) {");
     }
 
-
     @Test
     public void testHasOperationExtraAnnotation_issue15822() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -3419,8 +3410,6 @@ public class SpringCodegenTest {
             // No overridden setter on child object
             .assertNoMethod("setAlias");
     }
-
-
 
     @Test
     public void testModelsWithNoneOptionalAndJsonNullable() throws IOException {
@@ -4662,17 +4651,16 @@ public class SpringCodegenTest {
 
     @Test
     public void allOfDuplicatedProperties() throws IOException {
-        final Map<String, Object> additionalProperties = new HashMap<>();
-
         Map<String, File> output = generateFromContract(
             "src/test/resources/3_0/allOfDuplicatedProperties.yaml", 
             SPRING_BOOT, 
             Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true, INTERFACE_ONLY, "true")
         );
+
         JavaFileAssert.assertThat(output.get("ModelC.java"))
                 .assertConstructor("String", "Integer", "Integer", "String", "String");
-
     }
+
     @Test
     public void testLombokAnnotations() throws IOException {
         final Map<String, Object> additionalProperties = new HashMap<>();
