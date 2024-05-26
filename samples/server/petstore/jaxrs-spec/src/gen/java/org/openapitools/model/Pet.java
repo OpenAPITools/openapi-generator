@@ -294,7 +294,7 @@ public class Pet  implements Serializable {
     return new PetBuilderImpl();
   }
 
-  private static final class PetBuilderImpl extends PetBuilder<Pet, PetBuilderImpl> {
+  private static class PetBuilderImpl extends PetBuilder<Pet, PetBuilderImpl> {
 
     @Override
     protected PetBuilderImpl self() {
