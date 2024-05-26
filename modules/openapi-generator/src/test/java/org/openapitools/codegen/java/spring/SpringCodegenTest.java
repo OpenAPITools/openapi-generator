@@ -1639,8 +1639,6 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"))
             .fileContains( "status", "@NotNull");
-        Files.readAllLines(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java")).forEach(System.out::println);
-
     }
 
     @Test
@@ -1669,7 +1667,6 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"))
             .fileContains( "status")
             .fileDoesNotContains("@NotNull");
-        Files.readAllLines(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java")).forEach(System.out::println);
     }
 
     @Test
