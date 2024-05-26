@@ -40,7 +40,7 @@ public class FooApi  {
          String implClass = servletContext.getInitParameter("FooApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (FooApiService) Class.forName(implClass).newInstance();
+               delegate = (FooApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }
