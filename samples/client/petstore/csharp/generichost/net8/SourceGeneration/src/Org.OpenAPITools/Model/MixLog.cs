@@ -856,7 +856,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, mixLog, jsonSerializerOptions);
+            WriteProperties(writer, mixLog, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -867,7 +867,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mixLog"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, MixLog mixLog, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, MixLog mixLog, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mixLog.Description == null)
                 throw new ArgumentNullException(nameof(mixLog.Description), "Property is required for class MixLog.");
