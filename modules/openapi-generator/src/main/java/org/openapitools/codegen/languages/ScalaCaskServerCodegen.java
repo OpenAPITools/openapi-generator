@@ -140,11 +140,6 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String getSchemaType(Schema p) {
-        // pants ... this is also used in the imports, so
-        // we're getting stuff like this:
-        //
-        // import docstore.model.ujson.Value
-        //
         if (ModelUtils.isFreeFormObject(p)) {
             // We're opinionated in this template to use ujson
             return "Value";
@@ -287,23 +282,40 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String apiFilename(String templateName, String tag) {
-        String suffix = apiTemplateFiles().get(templateName);
-        String fn = toApiFilename(tag);
+
+        final String suffix = apiTemplateFiles().get(templateName);
+        final String fn = toApiFilename(tag);
         if (templateName.equals(ApiServiceTemplate)) {
-            return apiFileFolder() + '/' + fn + suffix;
+            return apiInterfaceFileFolder() + '/' + fn + suffix;
+        }
+        return apiFileFolder() + '/' + fn + "Routes" + suffix;
+    }
+    @Override
+    public String modelFilename(String templateName, String modelName) {
+        final String defaultFilename = super.modelFilename(templateName, modelName);
+        if (templateName.equals(ApiServiceTemplate)) {
+            final String suffix = apiTemplateFiles().get(templateName);
+            final String fn = toApiFilename(modelName);
+            final String path = modelFileFolder() + '/' + fn + suffix;
+            return path;
         } else {
-            return apiFileFolder() + '/' + fn + "Routes" + suffix;
+            return defaultFilename;
         }
     }
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/jvm/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        final String folder = outputFolder + "/jvm/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);;
+        return folder;
     }
 
     @Override
     public String modelFileFolder() {
         return outputFolder + "/shared/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+    }
+
+    public String apiInterfaceFileFolder() {
+        return outputFolder + "/shared/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
     static String capitalise(String p) {
