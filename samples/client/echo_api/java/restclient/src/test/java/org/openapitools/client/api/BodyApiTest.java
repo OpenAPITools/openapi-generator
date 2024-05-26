@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.File;
@@ -274,9 +275,13 @@ public class BodyApiTest {
    */
   @Test
   public void testEchoBodyTagResponseStringTest() {
+    // given
     Tag tag = null;
+
+    // when
     String response = api.testEchoBodyTagResponseString(tag);
 
-    // TODO: test validations
+    // then
+    assertThat(response, nullValue());
   }
 }
