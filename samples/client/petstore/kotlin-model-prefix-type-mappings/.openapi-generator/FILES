@@ -1,6 +1,8 @@
 README.md
 build.gradle
 docs/Annotation.md
+docs/AnyOfUserOrPet.md
+docs/AnyOfUserOrPetOrArrayString.md
 docs/ApiResponse.md
 docs/Category.md
 docs/FakeApi.md
@@ -35,6 +37,8 @@ src/main/kotlin/org/openapitools/client/infrastructure/OffsetDateTimeAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/ResponseExt.kt
 src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt
 src/main/kotlin/org/openapitools/client/models/ApiAnnotation.kt
+src/main/kotlin/org/openapitools/client/models/ApiAnyOfUserOrPet.kt
+src/main/kotlin/org/openapitools/client/models/ApiAnyOfUserOrPetOrArrayString.kt
 src/main/kotlin/org/openapitools/client/models/ApiApiResponse.kt
 src/main/kotlin/org/openapitools/client/models/ApiCategory.kt
 src/main/kotlin/org/openapitools/client/models/ApiOrder.kt

@@ -11,6 +11,6 @@ additionalProperties:
   library: jvm-retrofit2
   enumPropertyNaming: UPPERCASE
   serializationLibrary: gson
-  enableOneOfWrapper: true
+  generateOneOfAnyOfWrappers: true
 openapiNormalizer:
   SIMPLIFY_ONEOF_ANYOF: false

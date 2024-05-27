@@ -6,11 +6,11 @@ package {{modelPackage}}
 
 {{#models}}
 {{#model}}
-{{^enableOneOfWrapper}}
+{{^generateOneOfAnyOfWrappers}}
 {{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{>data_class}}{{/isAlias}}{{/isEnum}}
-{{/enableOneOfWrapper}}
-{{#enableOneOfWrapper}}
-{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{#oneOf}}{{#-first}}{{>oneof_class}}{{/-first}}{{/oneOf}}{{^oneOf}}{{>data_class}}{{/oneOf}}{{/isAlias}}{{/isEnum}}
-{{/enableOneOfWrapper}}
+{{/generateOneOfAnyOfWrappers}}
+{{#generateOneOfAnyOfWrappers}}
+{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{#oneOf}}{{#-first}}{{>oneof_class}}{{/-first}}{{/oneOf}}{{#anyOf}}{{#-first}}{{>anyof_class}}{{/-first}}{{/anyOf}}{{^oneOf}}{{^anyOf}}{{>data_class}}{{/anyOf}}{{/oneOf}}{{/isAlias}}{{/isEnum}}
+{{/generateOneOfAnyOfWrappers}}
 {{/model}}
 {{/models}}

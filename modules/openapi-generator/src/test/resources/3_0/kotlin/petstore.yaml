@@ -773,3 +773,14 @@ components:
         - type: array
           items:
             type: string
+    AnyOfUserOrPet:
+      anyOf:
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/Pet"
+    AnyOfUserOrPetOrArrayString:
+      anyOf:
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/Pet"
+        - type: array
+          items:
+            type: string

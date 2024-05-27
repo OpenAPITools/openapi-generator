@@ -80,7 +80,7 @@ import java.io.IOException
             }
             val elementAdapter = gson.getAdapter(JsonElement::class.java)
             {{#composedSchemas}}
-            {{#oneOf}}
+            {{#anyOf}}
             {{^isArray}}
             {{^vendorExtensions.x-duplicated-data-type}}
             val adapter{{{dataType}}} = gson.getDelegateAdapter(this, TypeToken.get({{{dataType}}}::class.java))
@@ -90,7 +90,7 @@ import java.io.IOException
             @Suppress("UNCHECKED_CAST")
             val adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}} = gson.getDelegateAdapter(this, TypeToken.get(object : TypeToken<{{{dataType}}}>() {}.type)) as TypeAdapter<{{{dataType}}}>
             {{/isArray}}
-            {{/oneOf}}
+            {{/anyOf}}
             {{/composedSchemas}}
 
             @Suppress("UNCHECKED_CAST")
@@ -103,7 +103,7 @@ import java.io.IOException
                     }
 
                     {{#composedSchemas}}
-                    {{#oneOf}}
+                    {{#anyOf}}
                     {{^vendorExtensions.x-duplicated-data-type}}
                     // check if the actual instance is of the type `{{{dataType}}}`
                     if (value.actualInstance is {{#isArray}}List<*>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
@@ -131,20 +131,20 @@ import java.io.IOException
                     {{/isArray}}
                     }
                     {{/vendorExtensions.x-duplicated-data-type}}
-                    {{/oneOf}}
+                    {{/anyOf}}
                     {{/composedSchemas}}
-                    throw IOException("Failed to serialize as the type doesn't match oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}")
+                    throw IOException("Failed to serialize as the type doesn't match anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}")
                 }
 
                 @Throws(IOException::class)
                 override fun read(jsonReader: JsonReader): {{classname}} {
                     val jsonElement = elementAdapter.read(jsonReader)
-                    var match = 0
                     val errorMessages = ArrayList<String>()
-                    var actualAdapter: TypeAdapter<*> = elementAdapter
+                    var actualAdapter: TypeAdapter<*>
+                    val ret = {{classname}}()
 
                     {{#composedSchemas}}
-                    {{#oneOf}}
+                    {{#anyOf}}
                     {{^vendorExtensions.x-duplicated-data-type}}
                     {{^hasVars}}
                     // deserialize {{{dataType}}}
@@ -156,6 +156,8 @@ import java.io.IOException
                             String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString())
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}
+                        ret.actualInstance = actualAdapter.fromJsonTree(jsonElement)
+                        return ret
                     {{/isNumber}}
                     {{^isNumber}}
                     {{#isPrimitiveType}}
@@ -163,12 +165,16 @@ import java.io.IOException
                             String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString())
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}
+                        ret.actualInstance = actualAdapter.fromJsonTree(jsonElement)
+                        return ret
                     {{/isPrimitiveType}}
                     {{/isNumber}}
                     {{^isNumber}}
                     {{^isPrimitiveType}}
                         {{{dataType}}}.validateJsonElement(jsonElement)
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}
+                        ret.actualInstance = actualAdapter.fromJsonTree(jsonElement)
+                        return ret
                     {{/isPrimitiveType}}
                     {{/isNumber}}
                     {{/isArray}}
@@ -200,8 +206,9 @@ import java.io.IOException
                         {{/items}}
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}
+                        ret.actualInstance = actualAdapter.fromJsonTree(jsonElement)
+                        return ret
                     {{/isArray}}
-                        match++
                         //log.log(Level.FINER, "Input data matches schema '{{{dataType}}}'")
                     } catch (e: Exception) {
                         // deserialization failed, continue
@@ -214,9 +221,10 @@ import java.io.IOException
                     try {
                         // validate the JSON object to see if any exception is thrown
                         {{.}}.validateJsonElement(jsonElement)
+                        log.log(Level.FINER, "Input data matches schema '{{{.}}}'")
                         actualAdapter = adapter{{.}}
-                        match++
-                        //log.log(Level.FINER, "Input data matches schema '{{{.}}}'")
+                        ret.actualInstance = actualAdapter.fromJsonTree(jsonElement)
+                        return ret
                     } catch (e: Exception) {
                         // deserialization failed, continue
                         errorMessages.add(String.format("Deserialization for {{{.}}} failed with `%s`.", e.message))
@@ -224,16 +232,10 @@ import java.io.IOException
                     }
                     {{/hasVars}}
                     {{/vendorExtensions.x-duplicated-data-type}}
-                    {{/oneOf}}
+                    {{/anyOf}}
                     {{/composedSchemas}}
 
-                    if (match == 1) {
-                        val ret = {{classname}}()
-                        ret.actualInstance = actualAdapter.fromJsonTree(jsonElement)
-                        return ret
-                    }
-
-                    throw IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()))
+                    throw IOException(String.format("Failed deserialization for {{classname}}: no schema match result. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()))
                 }
             }.nullSafe() as TypeAdapter<T>
         }

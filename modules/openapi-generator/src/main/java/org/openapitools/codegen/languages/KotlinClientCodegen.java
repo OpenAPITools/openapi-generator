@@ -90,6 +90,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW = "supportAndroidApiLevel25AndBelow";
 
+    public static final String GENERATE_ONEOF_ANYOF_WRAPPERS = "generateOneOfAnyOfWrappers";
+
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
@@ -103,11 +105,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected boolean generateRoomModels = false;
     protected String roomModelPackage = "";
     protected boolean omitGradleWrapper = false;
+    protected boolean generateOneOfAnyOfWrappers = true;
 
     protected String authFolder;
 
     protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
     public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson' or 'jackson' or 'kotlinx_serialization'";
+
     public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson, kotlinx_serialization}
 
     public enum DateLibrary {
@@ -260,6 +264,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
 
+        cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers."));
+
         CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
     }
@@ -282,6 +288,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public boolean getOmitGradleWrapper() {
         return omitGradleWrapper;
+    }
+
+    public boolean getGenerateOneOfAnyOfWrappers() {
+        return generateOneOfAnyOfWrappers;
     }
 
     public void setGenerateRoomModels(Boolean generateRoomModels) {
@@ -331,6 +341,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setOmitGradleWrapper(boolean omitGradleWrapper) {
         this.omitGradleWrapper = omitGradleWrapper;
+    }
+
+    public void setGenerateOneOfAnyOfWrappers(boolean generateOneOfAnyOfWrappers) {
+        this.generateOneOfAnyOfWrappers = generateOneOfAnyOfWrappers;
     }
 
     public SERIALIZATION_LIBRARY_TYPE getSerializationLibrary() {
@@ -444,6 +458,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(this.serializationLibrary.name(), true);
         }
 
+        if (additionalProperties.containsKey(GENERATE_ONEOF_ANYOF_WRAPPERS)) {
+            setGenerateOneOfAnyOfWrappers(Boolean.parseBoolean(additionalProperties.get(GENERATE_ONEOF_ANYOF_WRAPPERS).toString()));
+        }
+
         commonSupportingFiles();
 
         switch (getLibrary()) {
@@ -517,7 +535,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         additionalProperties.put("sanitizeGeneric", (Mustache.Lambda) (fragment, writer) -> {
             String content = fragment.execute();
-            for (final String s: List.of("<", ">", ",", " ", ".")) {
+            for (final String s : List.of("<", ">", ",", " ", ".")) {
                 content = content.replace(s, "");
             }
             writer.write(content);
@@ -878,10 +896,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         for (ModelMap mo : objects.getModels()) {
             CodegenModel cm = mo.getModel();
-            if (getGenerateRoomModels() || Boolean.parseBoolean(String.valueOf(additionalProperties.get("enableOneOfWrapper")))) {
+            if (getGenerateRoomModels() || getGenerateOneOfAnyOfWrappers()) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
             }
-
 
             // escape the variable base name for use as a string literal
             List<CodegenProperty> vars = Stream.of(

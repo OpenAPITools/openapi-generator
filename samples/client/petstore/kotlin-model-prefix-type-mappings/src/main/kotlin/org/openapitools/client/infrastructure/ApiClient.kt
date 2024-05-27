@@ -85,6 +85,8 @@ class ApiClient(
             }
         }
         serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnnotation.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnyOfUserOrPet.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnyOfUserOrPetOrArrayString.CustomTypeAdapterFactory())
         serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiApiResponse.CustomTypeAdapterFactory())
         serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiCategory.CustomTypeAdapterFactory())
         serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiOrder.CustomTypeAdapterFactory())
@@ -111,6 +113,8 @@ class ApiClient(
             ?.setUsername(username)
             ?.setPassword(password)
         serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnnotation.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnyOfUserOrPet.CustomTypeAdapterFactory())
+        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnyOfUserOrPetOrArrayString.CustomTypeAdapterFactory())
         serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiApiResponse.CustomTypeAdapterFactory())
         serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiCategory.CustomTypeAdapterFactory())
         serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiOrder.CustomTypeAdapterFactory())
