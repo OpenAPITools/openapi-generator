@@ -116,7 +116,7 @@ Endpoints do not require authorization.
 
 ## Build
 - SDK version: 1.0.0
-- Generator version: unset
+- Generator version: 7.7.0-SNAPSHOT
 - Build package: org.openapitools.codegen.languages.CSharpClientCodegen
 
 ## Api Information
