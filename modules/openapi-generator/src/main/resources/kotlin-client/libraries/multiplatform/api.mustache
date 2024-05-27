@@ -99,13 +99,13 @@ import kotlinx.serialization.encoding.*
             {{/hasBodyParam}}
 
         val localVariableQuery = mutableMapOf<String, List<String>>(){{#queryParams}}
-        {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{{paramName}}}"){{/isContainer}} }{{/queryParams}}
+        {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{^isEnum}}"${{{paramName}}}"{{/isEnum}}{{#isEnum}}"${ {{paramName}}.value }"{{/isEnum}}){{/isContainer}} }{{/queryParams}}
         val localVariableHeaders = mutableMapOf<String, String>(){{#headerParams}}
         {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }{{/headerParams}}
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.{{httpMethod}},
-            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}"${{{paramName}}}"{{/isContainer}}){{/pathParams}},
+            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{^isEnum}}"${{{paramName}}}"{{/isEnum}}{{#isEnum}}"${ {{paramName}}.value }"{{/isEnum}}{{/isContainer}}){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},

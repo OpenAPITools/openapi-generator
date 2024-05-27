@@ -97,7 +97,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "7.2.0"
+  id "org.openapi.generator" version "7.5.0"
 }
 ----
 
@@ -389,11 +389,6 @@ apply plugin: 'org.openapi.generator'
 |true
 |Defines whether or not api-related _documentation_ files should be generated.
 
-|withXml
-|Boolean
-|false
-|A special-case setting which configures some generators with XML support. In some cases, this forces json OR xml, so the default here is false.
-
 |configOptions
 |Map(String,String)
 |None
@@ -545,9 +540,7 @@ openApiGenerate {
     apiPackage.set("org.openapi.example.api")
     invokerPackage.set("org.openapi.example.invoker")
     modelPackage.set("org.openapi.example.model")
-    configOptions.set([
-        dateLibrary: "java8"
-    ])
+    configOptions.put("dateLibrary", "java8")
 }
 ----
 

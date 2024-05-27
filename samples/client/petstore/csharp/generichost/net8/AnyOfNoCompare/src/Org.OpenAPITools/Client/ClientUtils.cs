@@ -252,6 +252,43 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
+        /// Get the discriminator
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="discriminator"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public static string? GetDiscriminator(Utf8JsonReader utf8JsonReader, string discriminator)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string? localVarJsonPropertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    if (localVarJsonPropertyName != null && localVarJsonPropertyName.Equals(discriminator))
+                        return utf8JsonReader.GetString();
+                }
+            }
+
+            throw new JsonException("The specified discriminator was not found.");
+        }
+
+        /// <summary>
         /// The base path of the API
         /// </summary>
         public const string BASE_ADDRESS = "http://localhost";

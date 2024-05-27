@@ -212,7 +212,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, readOnlyFirst, jsonSerializerOptions);
+            WriteProperties(writer, readOnlyFirst, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -223,7 +223,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="readOnlyFirst"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
         {
             if (readOnlyFirst.BarOption.IsSet && readOnlyFirst.Bar == null)
                 throw new ArgumentNullException(nameof(readOnlyFirst.Bar), "Property is required for class ReadOnlyFirst.");

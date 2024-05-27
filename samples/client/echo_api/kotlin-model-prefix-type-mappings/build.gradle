@@ -2,15 +2,22 @@ group 'org.openapitools'
 version '1.0.0'
 
 wrapper {
+<<<<<<< HEAD
     gradleVersion = '7.6.4'
+=======
+    gradleVersion = '8.7'
+>>>>>>> origin/master
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
+<<<<<<< HEAD
     ext.kotlin_version = '1.9.10'
+=======
+    ext.kotlin_version = '1.9.23'
+>>>>>>> origin/master
     ext.retrofitVersion = '2.10.0'
-    // 6.13.0 is the latest stable release that supports JDK8
-    ext.spotless_version = "6.13.0"
+    ext.spotless_version = "6.25.0"
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }

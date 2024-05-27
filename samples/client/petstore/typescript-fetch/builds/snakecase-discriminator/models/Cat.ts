@@ -37,7 +37,7 @@ export interface Cat extends Animal {
 /**
  * Check if a given object implements the Cat interface.
  */
-export function instanceOfCat(value: object): boolean {
+export function instanceOfCat(value: object): value is Cat {
     return true;
 }
 

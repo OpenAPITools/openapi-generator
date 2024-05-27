@@ -9,6 +9,7 @@
  */
 
 use crate::models;
+use serde::{Deserialize, Serialize};
 
 /// Addressable : Base schema for addressable entities
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]

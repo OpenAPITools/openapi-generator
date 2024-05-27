@@ -30,7 +30,7 @@ export interface NumberOnly {
 /**
  * Check if a given object implements the NumberOnly interface.
  */
-export function instanceOfNumberOnly(value: object): boolean {
+export function instanceOfNumberOnly(value: object): value is NumberOnly {
     return true;
 }
 

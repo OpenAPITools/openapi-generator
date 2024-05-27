@@ -27,7 +27,7 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Pet {
 
   private Long id;
@@ -81,6 +81,10 @@ public class Pet {
 
   @Deprecated
   private StatusEnum status;
+
+  public Pet() {
+    super();
+  }
 
   public Pet id(Long id) {
     this.id = id;

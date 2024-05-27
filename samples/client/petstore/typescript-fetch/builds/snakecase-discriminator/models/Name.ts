@@ -48,8 +48,8 @@ export interface Name {
 /**
  * Check if a given object implements the Name interface.
  */
-export function instanceOfName(value: object): boolean {
-    if (!('name' in value)) return false;
+export function instanceOfName(value: object): value is Name {
+    if (!('name' in value) || value['name'] === undefined) return false;
     return true;
 }
 

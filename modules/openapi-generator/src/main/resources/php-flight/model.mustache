@@ -1,0 +1,31 @@
+<?php
+{{#models}}
+{{#model}}
+/**
+ * {{classname}}
+ *
+ * PHP version 8.1.1
+ *
+ * @category Class
+ * @package  {{modelPackage}}
+ * @author   OpenAPI Generator team
+ * @link     https://github.com/openapitools/openapi-generator
+ */
+
+{{>partial_header}}
+
+namespace {{modelPackage}};
+
+/**
+ * Class representing the {{classname}} model.
+ *
+{{#description}}
+ * {{.}}
+ *
+{{/description}}
+ * @package {{modelPackage}}
+ * @author  OpenAPI Generator team
+ */
+{{#isEnum}}{{>model_enum}}{{/isEnum}}
+{{^isEnum}}{{>model_generic}}{{/isEnum}}
+{{/model}}{{/models}}

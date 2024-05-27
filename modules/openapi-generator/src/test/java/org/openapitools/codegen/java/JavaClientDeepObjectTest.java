@@ -59,6 +59,6 @@ public class JavaClientDeepObjectTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
                 "options.toUrlQueryString(\"options\")",
-                "inputOptions.toUrlQueryString(\"inputOptions\"))");
+                "inputOptions.toUrlQueryString(\"inputOptions\")");
     }
 }

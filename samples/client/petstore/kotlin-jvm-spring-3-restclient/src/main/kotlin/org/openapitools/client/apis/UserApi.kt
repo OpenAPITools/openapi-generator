@@ -39,7 +39,7 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun createUser(user: User): Unit {
-        val result = createUserWithHttpInfo(user = user)
+        createUserWithHttpInfo(user = user)
     }
 
     @Throws(RestClientResponseException::class)
@@ -73,7 +73,7 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun createUsersWithArrayInput(user: kotlin.collections.List<User>): Unit {
-        val result = createUsersWithArrayInputWithHttpInfo(user = user)
+        createUsersWithArrayInputWithHttpInfo(user = user)
     }
 
     @Throws(RestClientResponseException::class)
@@ -107,7 +107,7 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun createUsersWithListInput(user: kotlin.collections.List<User>): Unit {
-        val result = createUsersWithListInputWithHttpInfo(user = user)
+        createUsersWithListInputWithHttpInfo(user = user)
     }
 
     @Throws(RestClientResponseException::class)
@@ -141,7 +141,7 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun deleteUser(username: kotlin.String): Unit {
-        val result = deleteUserWithHttpInfo(username = username)
+        deleteUserWithHttpInfo(username = username)
     }
 
     @Throws(RestClientResponseException::class)
@@ -250,7 +250,7 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun logoutUser(): Unit {
-        val result = logoutUserWithHttpInfo()
+        logoutUserWithHttpInfo()
     }
 
     @Throws(RestClientResponseException::class)
@@ -283,7 +283,7 @@ class UserApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun updateUser(username: kotlin.String, user: User): Unit {
-        val result = updateUserWithHttpInfo(username = username, user = user)
+        updateUserWithHttpInfo(username = username, user = user)
     }
 
     @Throws(RestClientResponseException::class)

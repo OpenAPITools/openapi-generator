@@ -494,6 +494,11 @@
   infoLink: "https://www.robocorp.com"
   pinned: false
 -
+  caption: "SearchApi"
+  image: "img/companies/searchapi.png"
+  infoLink: "https://www.searchapi.io/"
+  pinned: false
+-
   caption: "Shotstack"
   image: "img/companies/shotstack.svg"
   infoLink: "https://shotstack.io"

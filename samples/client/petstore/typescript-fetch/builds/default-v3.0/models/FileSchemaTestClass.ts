@@ -36,7 +36,7 @@ export interface FileSchemaTestClass {
 /**
  * Check if a given object implements the FileSchemaTestClass interface.
  */
-export function instanceOfFileSchemaTestClass(value: object): boolean {
+export function instanceOfFileSchemaTestClass(value: object): value is FileSchemaTestClass {
     return true;
 }
 

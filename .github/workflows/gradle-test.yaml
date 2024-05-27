@@ -10,7 +10,7 @@ on:
       - 'samples/client/petstore/java/**'
       - 'samples/openapi3/client/petstore/java/**'
 env:
-  GRADLE_VERSION: 7.2
+  GRADLE_VERSION: 8.7
 
 jobs:
   build:

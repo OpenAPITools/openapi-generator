@@ -51,6 +51,7 @@ docs/List.md
 docs/LiteralStringClass.md
 docs/Mammal.md
 docs/MapTest.md
+docs/MixLog.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
 docs/ModelClient.md
@@ -171,6 +172,7 @@ src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
+src/Org.OpenAPITools/Model/MixLog.cs
 src/Org.OpenAPITools/Model/MixedPropertiesAndAdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Model200Response.cs
 src/Org.OpenAPITools/Model/ModelClient.cs

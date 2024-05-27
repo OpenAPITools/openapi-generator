@@ -61,7 +61,7 @@ export interface EnumPatternObject {
 /**
  * Check if a given object implements the EnumPatternObject interface.
  */
-export function instanceOfEnumPatternObject(value: object): boolean {
+export function instanceOfEnumPatternObject(value: object): value is EnumPatternObject {
     return true;
 }
 

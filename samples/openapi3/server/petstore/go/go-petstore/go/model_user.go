@@ -64,5 +64,13 @@ func AssertUserRequired(obj User) error {
 
 // AssertUserConstraints checks if the values respects the defined constraints
 func AssertUserConstraints(obj User) error {
+    if obj.DeepSliceModel != nil {
+     	if err := AssertRecurseInterfaceRequired(*obj.DeepSliceModel, AssertTagConstraints); err != nil {
+     		return err
+     	}
+    }
+	if err := AssertRecurseInterfaceRequired(obj.DeepSliceMap, AssertAnObjectConstraints); err != nil {
+		return err
+	}
 	return nil
 }

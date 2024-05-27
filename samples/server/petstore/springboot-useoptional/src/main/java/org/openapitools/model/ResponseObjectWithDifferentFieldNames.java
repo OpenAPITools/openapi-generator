@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * ResponseObjectWithDifferentFieldNames
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNames {
 
   private Optional<String> normalPropertyName = Optional.empty();
@@ -152,5 +152,81 @@ public class ResponseObjectWithDifferentFieldNames {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ResponseObjectWithDifferentFieldNames instance;
+
+    public Builder() {
+      this(new ResponseObjectWithDifferentFieldNames());
+    }
+
+    protected Builder(ResponseObjectWithDifferentFieldNames instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(ResponseObjectWithDifferentFieldNames value) { 
+      this.instance.setNormalPropertyName(value.normalPropertyName);
+      this.instance.setUPPERCASEPROPERTYSNAKE(value.UPPER_CASE_PROPERTY_SNAKE);
+      this.instance.setLowerCasePropertyDashes(value.lowerCasePropertyDashes);
+      this.instance.setPropertyNameWithSpaces(value.propertyNameWithSpaces);
+      return this;
+    }
+
+    public ResponseObjectWithDifferentFieldNames.Builder normalPropertyName(String normalPropertyName) {
+      this.instance.normalPropertyName(normalPropertyName);
+      return this;
+    }
+    
+    public ResponseObjectWithDifferentFieldNames.Builder UPPER_CASE_PROPERTY_SNAKE(String UPPER_CASE_PROPERTY_SNAKE) {
+      this.instance.UPPER_CASE_PROPERTY_SNAKE(UPPER_CASE_PROPERTY_SNAKE);
+      return this;
+    }
+    
+    public ResponseObjectWithDifferentFieldNames.Builder lowerCasePropertyDashes(String lowerCasePropertyDashes) {
+      this.instance.lowerCasePropertyDashes(lowerCasePropertyDashes);
+      return this;
+    }
+    
+    public ResponseObjectWithDifferentFieldNames.Builder propertyNameWithSpaces(String propertyNameWithSpaces) {
+      this.instance.propertyNameWithSpaces(propertyNameWithSpaces);
+      return this;
+    }
+    
+    /**
+    * returns a built ResponseObjectWithDifferentFieldNames instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ResponseObjectWithDifferentFieldNames build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static ResponseObjectWithDifferentFieldNames.Builder builder() {
+    return new ResponseObjectWithDifferentFieldNames.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ResponseObjectWithDifferentFieldNames.Builder toBuilder() {
+    ResponseObjectWithDifferentFieldNames.Builder builder = new ResponseObjectWithDifferentFieldNames.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

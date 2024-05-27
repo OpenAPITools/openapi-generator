@@ -9,6 +9,7 @@
  */
 
 use crate::models;
+use serde::{Deserialize, Serialize};
 
 /// PropertyTest : A model to test various formats, e.g. UUID
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]

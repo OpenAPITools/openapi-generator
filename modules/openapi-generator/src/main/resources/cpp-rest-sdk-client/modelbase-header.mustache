@@ -17,6 +17,7 @@
 #include <cpprest/json.h>
 
 #include <map>
+#include <set>
 #include <vector>
 
 {{#modelNamespaceDeclarations}}
@@ -52,6 +53,8 @@ public:
     static utility::string_t toString( const std::shared_ptr<T>& val );
     template <typename T>
     static utility::string_t toString( const std::vector<T> & val );
+    template <typename T>
+    static utility::string_t toString( const std::set<T> & val );
 
     static web::json::value toJson( bool val );
     static web::json::value toJson( float val );
@@ -67,6 +70,8 @@ public:
     static web::json::value toJson( const std::shared_ptr<utility::datetime>& val );
     template<typename T>
     static web::json::value toJson( const std::vector<T>& val );
+    template<typename T>
+    static web::json::value toJson( const std::set<T>& val );
     template<typename T>
     static web::json::value toJson( const std::map<utility::string_t, T>& val );
 
@@ -85,6 +90,8 @@ public:
     template<typename T>
     static bool fromString( const utility::string_t& val, std::vector<T> & );
     template<typename T>
+    static bool fromString( const utility::string_t& val, std::set<T> & );
+    template<typename T>
     static bool fromString( const utility::string_t& val, std::map<utility::string_t, T> & );
 
     static bool fromJson( const web::json::value& val, bool & );
@@ -101,6 +108,8 @@ public:
     static bool fromJson( const web::json::value& val, std::shared_ptr<utility::datetime> &outVal );
     template<typename T>
     static bool fromJson( const web::json::value& val, std::vector<T> & );
+    template<typename T>
+    static bool fromJson( const web::json::value& val, std::set<T> & );
     template<typename T>
     static bool fromJson( const web::json::value& val, std::map<utility::string_t, T> & );
 
@@ -120,6 +129,8 @@ public:
     template <typename T>
     static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const std::vector<T>& value, const utility::string_t& contentType = utility::conversions::to_string_t("") );
     template <typename T>
+    static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const std::set<T>& value, const utility::string_t& contentType = utility::conversions::to_string_t("") );
+    template <typename T>
     static std::shared_ptr<HttpContent> toHttpContent( const utility::string_t& name, const std::map<utility::string_t, T>& value, const utility::string_t& contentType = utility::conversions::to_string_t("") );
 
     static bool fromHttpContent( std::shared_ptr<HttpContent> val, bool & );
@@ -135,6 +146,8 @@ public:
     static bool fromHttpContent( std::shared_ptr<HttpContent> val, std::shared_ptr<T>& );
     template <typename T>
     static bool fromHttpContent( std::shared_ptr<HttpContent> val, std::vector<T> & );
+    template <typename T>
+    static bool fromHttpContent( std::shared_ptr<HttpContent> val, std::set<T> & );
     template <typename T>
     static bool fromHttpContent( std::shared_ptr<HttpContent> val, std::map<utility::string_t, T> & );
 
@@ -155,6 +168,8 @@ utility::string_t ModelBase::toString( const std::shared_ptr<T>& val )
     }
     return  utility::string_t(ss.str());
 }
+
+// std::vector to string
 template<typename T>
 utility::string_t ModelBase::toString( const std::vector<T> & val )
 {
@@ -169,6 +184,24 @@ utility::string_t ModelBase::toString( const std::vector<T> & val )
     }
     return strArray;
 }
+
+// std::set to string
+template<typename T>
+utility::string_t ModelBase::toString( const std::set<T> & val )
+{
+    utility::string_t strArray;
+    for ( const auto &item : val )
+    {
+        strArray.append( toString(item) + "," );
+    }
+    if (val.count() > 0)
+    {
+        strArray.pop_back();
+    }
+    return strArray;
+}
+
+
 template<typename T>
 web::json::value ModelBase::toJson( const std::shared_ptr<T>& val )
 {
@@ -179,6 +212,8 @@ web::json::value ModelBase::toJson( const std::shared_ptr<T>& val )
     }
     return retVal;
 }
+
+// std::vector to json
 template<typename T>
 web::json::value ModelBase::toJson( const std::vector<T>& value )
 {
@@ -189,6 +224,21 @@ web::json::value ModelBase::toJson( const std::vector<T>& value )
     }
     return web::json::value::array(ret);
 }
+
+// std::set to json
+template<typename T>
+web::json::value ModelBase::toJson( const std::set<T>& value )
+{
+    // There's no protoype web::json::value::array(...) taking a std::set parameter. Converting to std::vector to get an array.
+    std::vector<web::json::value> ret;
+    for ( const auto& x : value )
+    {
+        ret.push_back( toJson(x) );
+    }
+    return web::json::value::array(ret);
+}
+
+
 template<typename T>
 web::json::value ModelBase::toJson( const std::map<utility::string_t, T>& val )
 {
@@ -279,6 +329,7 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent(const utility::string_t& n
     }
     return content;
 }
+
 template <typename T>
 std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& name, const std::vector<T>& value, const utility::string_t& contentType )
 {
@@ -290,6 +341,7 @@ std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& 
     content->setData( std::shared_ptr<std::istream>( new std::stringstream( utility::conversions::to_utf8string(json_array.serialize()) ) ) );
     return content;
 }
+
 template <typename T>
 std::shared_ptr<HttpContent> ModelBase::toHttpContent( const utility::string_t& name, const std::map<utility::string_t, T>& value, const utility::string_t& contentType )
 {

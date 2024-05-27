@@ -938,6 +938,38 @@ paths:
               $ref: '#/components/schemas/FreeFormObject'
         description: request body
         required: true
+  /fake/oneOfWIthSameErasure:
+    get:
+      description: Test route, this shouldn't cause a compiler error
+      responses:
+        200:
+          description: successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: string
+                  - type: array
+                    items:
+                      type: integer
+  /fake/anyOfWIthSameErasure:
+    get:
+      description: Test route, this shouldn't cause a compiler error
+      responses:
+        200:
+          description: successful response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - type: array
+                    items:
+                      type: string
+                  - type: array
+                    items:
+                      type: integer
   /fake/stringMap-reference:
     post:
       tags:
@@ -1048,6 +1080,18 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
+  /fake/get-free-form-object:
+    get:
+      tags:
+        - fake
+      description: Get a free form object or Json string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreeFormObjectTestClass'
   /fake/test-query-parameters:
     put:
       tags:
@@ -2035,6 +2079,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/File'
+    FreeFormObjectTestClass:
+      type: object
+      properties:
+        name:
+          type: string
+        properties:
+          oneOf:
+            - type: string
+            - type: object
+              additionalProperties: true
     File:
       type: object
       description: Must be named `File` for test.

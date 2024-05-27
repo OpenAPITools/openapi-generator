@@ -507,14 +507,6 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
-     * A special-case setting which configures some generators with XML support. In some cases,
-     * this forces json OR xml, so the default here is false.
-     */
-    @Optional
-    @Input
-    val withXml = project.objects.property<Boolean>()
-
-    /**
      * To write all log messages (not just errors) to STDOUT
      */
     @Optional
@@ -678,10 +670,6 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
 
             if (generateApiTests.isPresent) {
                 GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
-            }
-
-            if (withXml.isPresent) {
-                GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
             }
 
             if (inputSpec.isPresent && remoteInputSpec.isPresent) {

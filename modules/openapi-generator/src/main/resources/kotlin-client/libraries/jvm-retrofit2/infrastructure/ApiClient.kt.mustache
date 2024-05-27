@@ -55,7 +55,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 {{/jackson}}
 
 {{#kotlinx_serialization}}
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import {{packageName}}.infrastructure.Serializer.kotlinxSerializationJson
 import okhttp3.MediaType.Companion.toMediaType
 {{/kotlinx_serialization}}

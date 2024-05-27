@@ -36,9 +36,9 @@ export interface Part {
 /**
  * Check if a given object implements the Part interface.
  */
-export function instanceOfPart(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
+export function instanceOfPart(value: object): value is Part {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
     return true;
 }
 
