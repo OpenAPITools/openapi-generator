@@ -19,6 +19,8 @@ package org.openapitools.client.models
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
+import java.io.IOException
+
 
 /**
  * An order for a pets from the pet store
@@ -60,5 +62,6 @@ data class Order (
         @SerialName(value = "approved") approved("approved"),
         @SerialName(value = "delivered") delivered("delivered");
     }
+
 }
 

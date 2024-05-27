@@ -19,6 +19,8 @@ package org.openapitools.client.models
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
+import java.io.IOException
+
 
 /**
  * A User who is purchasing from the pet store
@@ -61,5 +63,8 @@ data class User (
     @SerialName(value = "userStatus")
     val userStatus: kotlin.Int? = null
 
-)
+) {
+
+
+}
 

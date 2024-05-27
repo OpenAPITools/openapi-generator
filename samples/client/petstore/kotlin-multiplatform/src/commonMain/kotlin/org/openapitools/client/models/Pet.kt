@@ -21,6 +21,8 @@ import org.openapitools.client.models.Tag
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
+import java.io.IOException
+
 
 /**
  * A pet for sale in the pet store
@@ -62,5 +64,6 @@ data class Pet (
         @SerialName(value = "pending") pending("pending"),
         @SerialName(value = "sold") sold("sold");
     }
+
 }
 

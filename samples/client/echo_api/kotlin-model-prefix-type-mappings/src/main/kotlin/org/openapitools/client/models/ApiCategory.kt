@@ -17,6 +17,8 @@ package org.openapitools.client.models
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.IOException
+
 
 /**
  * 
@@ -34,5 +36,8 @@ data class ApiCategory (
     @SerializedName("name")
     val name: kotlin.String? = null
 
-)
+) {
+
+
+}
 

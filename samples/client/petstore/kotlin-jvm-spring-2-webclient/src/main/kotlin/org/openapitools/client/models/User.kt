@@ -18,6 +18,8 @@ package org.openapitools.client.models
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.IOException
+
 
 /**
  * A User who is purchasing from the pet store
@@ -60,5 +62,8 @@ data class User (
     @field:JsonProperty("userStatus")
     val userStatus: kotlin.Int? = null
 
-)
+) {
+
+
+}
 

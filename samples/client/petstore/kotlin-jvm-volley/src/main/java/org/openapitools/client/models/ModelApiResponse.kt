@@ -19,6 +19,8 @@ package org.openapitools.client.models
 import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.ModelApiResponseRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
+import java.io.IOException
+
 
 /**
  * Describes the result of uploading an image resource
@@ -48,6 +50,7 @@ data class ModelApiResponse (
 type = this.type,
 message = this.message,
         )
+
 
 }
 

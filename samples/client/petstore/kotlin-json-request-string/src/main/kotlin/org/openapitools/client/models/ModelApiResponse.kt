@@ -26,6 +26,8 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import java.io.IOException
+
 
 /**
  * Describes the result of uploading an image resource
@@ -48,5 +50,8 @@ data class ModelApiResponse (
     @SerialName(value = "message")
     val message: kotlin.String? = null
 
-) : Parcelable
+) : Parcelable {
+
+
+}
 

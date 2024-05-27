@@ -19,6 +19,8 @@ package org.openapitools.client.models
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
+import java.io.IOException
+
 
 /**
  * A tag for a pet
@@ -36,5 +38,8 @@ data class Tag (
     @SerialName(value = "name")
     val name: kotlin.String? = null
 
-)
+) {
+
+
+}
 

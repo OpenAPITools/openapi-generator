@@ -18,6 +18,8 @@ package org.openapitools.client.models
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.IOException
+
 
 /**
  * 
@@ -39,5 +41,8 @@ data class NumberPropertiesOnly (
     @field:JsonProperty("double")
     val double: kotlin.Double? = null
 
-)
+) {
+
+
+}
 

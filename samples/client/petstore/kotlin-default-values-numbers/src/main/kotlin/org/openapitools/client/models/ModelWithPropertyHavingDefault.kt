@@ -17,6 +17,8 @@ package org.openapitools.client.models
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.IOException
+
 
 /**
  * 
@@ -58,5 +60,8 @@ data class ModelWithPropertyHavingDefault (
     @SerializedName("propertyDouble3")
     val propertyDouble3: kotlin.Double? = 0.01
 
-)
+) {
+
+
+}
 

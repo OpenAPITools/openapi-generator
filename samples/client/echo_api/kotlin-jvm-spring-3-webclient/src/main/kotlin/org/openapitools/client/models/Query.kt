@@ -18,6 +18,8 @@ package org.openapitools.client.models
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.IOException
+
 
 /**
  * 
@@ -49,5 +51,6 @@ data class Query (
         @JsonProperty(value = "SKIPPED") SKIPPED("SKIPPED"),
         @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue unknown_default_open_api("unknown_default_open_api");
     }
+
 }
 

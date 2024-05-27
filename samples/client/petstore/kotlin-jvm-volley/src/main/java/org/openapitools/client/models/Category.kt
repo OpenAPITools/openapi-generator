@@ -19,6 +19,8 @@ package org.openapitools.client.models
 import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.CategoryRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
+import java.io.IOException
+
 
 /**
  * A category for a pet
@@ -43,6 +45,7 @@ data class Category (
         id = this.id,
 name = this.name,
         )
+
 
 }
 

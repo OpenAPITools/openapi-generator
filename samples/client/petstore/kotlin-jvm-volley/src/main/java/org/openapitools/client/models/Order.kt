@@ -19,6 +19,8 @@ package org.openapitools.client.models
 import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.OrderRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
+import java.io.IOException
+
 
 /**
  * An order for a pets from the pet store
@@ -75,5 +77,6 @@ complete = this.complete,
         @SerializedName(value = "approved") approved("approved"),
         @SerializedName(value = "delivered") delivered("delivered");
     }
+
 }
 

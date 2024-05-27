@@ -17,6 +17,8 @@ package org.openapitools.client.models
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.IOException
+
 
 /**
  * A User who is purchasing from the pet store
@@ -59,5 +61,8 @@ data class User (
     @SerializedName("userStatus")
     val userStatus: kotlin.Int? = null
 
-)
+) {
+
+
+}
 

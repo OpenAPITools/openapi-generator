@@ -19,6 +19,8 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.google.gson.annotations.SerializedName
+import java.io.IOException
+
 
 /**
  * A pet for sale in the pet store
@@ -66,5 +68,6 @@ data class Pet (
         @SerializedName(value = "pending") pending("pending"),
         @SerializedName(value = "sold") sold("sold");
     }
+
 }
 

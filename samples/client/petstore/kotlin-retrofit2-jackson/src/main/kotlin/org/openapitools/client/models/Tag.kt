@@ -18,6 +18,8 @@ package org.openapitools.client.models
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
+import java.io.IOException
+
 
 /**
  * A tag for a pet
@@ -39,6 +41,7 @@ data class Tag (
     companion object {
         private const val serialVersionUID: Long = 123
     }
+
 
 }
 

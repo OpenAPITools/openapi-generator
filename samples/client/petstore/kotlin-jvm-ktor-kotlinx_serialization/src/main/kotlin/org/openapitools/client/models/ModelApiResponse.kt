@@ -19,6 +19,8 @@ package org.openapitools.client.models
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
+import java.io.IOException
+
 
 /**
  * Describes the result of uploading an image resource
@@ -40,5 +42,8 @@ data class ModelApiResponse (
     @SerialName(value = "message")
     val message: kotlin.String? = null
 
-)
+) {
+
+
+}
 

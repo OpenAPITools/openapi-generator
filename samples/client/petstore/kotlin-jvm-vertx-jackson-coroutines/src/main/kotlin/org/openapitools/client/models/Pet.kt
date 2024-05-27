@@ -19,6 +19,8 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.IOException
+
 
 /**
  * A pet for sale in the pet store
@@ -66,5 +68,6 @@ data class Pet (
         @JsonProperty(value = "pending") pending("pending"),
         @JsonProperty(value = "sold") sold("sold");
     }
+
 }
 

@@ -20,6 +20,8 @@ import kotlinx.serialization.Serializable as KSerializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
 import java.io.Serializable
+import java.io.IOException
+
 
 /**
  * A tag for a pet
@@ -41,6 +43,7 @@ data class Tag (
     companion object {
         private const val serialVersionUID: Long = 123
     }
+
 
 }
 

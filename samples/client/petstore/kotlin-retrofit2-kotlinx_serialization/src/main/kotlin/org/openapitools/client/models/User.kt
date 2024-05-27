@@ -20,6 +20,8 @@ import kotlinx.serialization.Serializable as KSerializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
 import java.io.Serializable
+import java.io.IOException
+
 
 /**
  * A User who is purchasing from the pet store
@@ -66,6 +68,7 @@ data class User (
     companion object {
         private const val serialVersionUID: Long = 123
     }
+
 
 }
 

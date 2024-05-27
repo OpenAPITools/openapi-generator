@@ -17,6 +17,8 @@ package org.openapitools.client.models
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.IOException
+
 
 /**
  * 
@@ -47,5 +49,6 @@ data class ApiQuery (
         @SerializedName(value = "FAILURE") FAILURE("FAILURE"),
         @SerializedName(value = "SKIPPED") SKIPPED("SKIPPED");
     }
+
 }
 

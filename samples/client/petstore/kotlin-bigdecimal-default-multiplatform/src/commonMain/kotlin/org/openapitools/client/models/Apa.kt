@@ -19,6 +19,8 @@ package org.openapitools.client.models
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
+import java.io.IOException
+
 
 /**
  * 
@@ -47,5 +49,8 @@ data class Apa (
 
     @SerialName(value = "gepa") val gepa: kotlin.Double? = null
 
-)
+) {
+
+
+}
 

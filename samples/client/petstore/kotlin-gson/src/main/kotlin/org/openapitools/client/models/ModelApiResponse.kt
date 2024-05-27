@@ -17,6 +17,8 @@ package org.openapitools.client.models
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.IOException
+
 
 /**
  * Describes the result of uploading an image resource
@@ -38,5 +40,8 @@ data class ModelApiResponse (
     @SerializedName("message")
     val message: kotlin.String? = null
 
-)
+) {
+
+
+}
 

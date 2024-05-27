@@ -43,9 +43,9 @@ This runs all tests and packages the library.
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
-Class | Method | HTTP request | Description
------------- | ------------- | ------------- | -------------
-*EnumApi* | [**getEnum**](docs/EnumApi.md#getenum) | **GET** /enum | Get enums
+| Class | Method | HTTP request | Description |
+| ------------ | ------------- | ------------- | ------------- |
+| *EnumApi* | [**getEnum**](docs/EnumApi.md#getenum) | **GET** /enum | Get enums |
 
 
 <a id="documentation-for-models"></a>

@@ -17,6 +17,8 @@ package org.openapitools.client.models
 
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.IOException
+
 
 /**
  * A tag for a pet
@@ -34,5 +36,8 @@ data class Tag (
     @field:JsonProperty("name")
     val name: kotlin.String? = null
 
-)
+) {
+
+
+}
 

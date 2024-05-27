@@ -19,6 +19,8 @@ package org.openapitools.client.models
 import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.ApaRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
+import java.io.IOException
+
 
 /**
  * 
@@ -53,6 +55,7 @@ n0 = this.n0,
 i1 = this.i1,
 n1 = this.n1,
         )
+
 
 }
 

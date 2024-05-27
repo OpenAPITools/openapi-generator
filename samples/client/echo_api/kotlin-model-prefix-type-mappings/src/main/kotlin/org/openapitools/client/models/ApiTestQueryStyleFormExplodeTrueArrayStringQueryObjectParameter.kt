@@ -17,6 +17,8 @@ package org.openapitools.client.models
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.IOException
+
 
 /**
  * 
@@ -30,5 +32,8 @@ data class ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter (
     @SerializedName("values")
     val propertyValues: kotlin.collections.List<kotlin.String>? = null
 
-)
+) {
+
+
+}
 

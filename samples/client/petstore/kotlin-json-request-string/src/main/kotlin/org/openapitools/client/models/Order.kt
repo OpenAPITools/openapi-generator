@@ -26,6 +26,8 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import java.io.IOException
+
 
 /**
  * An order for a pets from the pet store
@@ -90,5 +92,6 @@ data class Order (
             encoder.encodeSerializableValue(kotlin.String.serializer(), value.value)
         }
     }
+
 }
 

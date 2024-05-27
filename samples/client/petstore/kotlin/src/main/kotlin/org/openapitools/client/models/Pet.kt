@@ -21,6 +21,8 @@ import org.openapitools.client.models.Tag
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.io.Serializable
+import java.io.IOException
+
 
 /**
  * A pet for sale in the pet store
@@ -71,5 +73,6 @@ data class Pet (
         @Json(name = "pending") pending("pending"),
         @Json(name = "sold") sold("sold");
     }
+
 }
 

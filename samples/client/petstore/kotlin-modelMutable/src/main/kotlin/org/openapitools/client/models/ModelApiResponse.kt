@@ -18,6 +18,8 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.io.IOException
+
 
 /**
  * Describes the result of uploading an image resource
@@ -39,5 +41,8 @@ data class ModelApiResponse (
     @Json(name = "message")
     var message: kotlin.String? = null
 
-)
+) {
+
+
+}
 

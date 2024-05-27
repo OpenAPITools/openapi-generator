@@ -19,6 +19,8 @@ package org.openapitools.client.models
 import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.UserRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
+import java.io.IOException
+
 
 /**
  * A User who is purchasing from the pet store
@@ -74,6 +76,7 @@ password = this.password,
 phone = this.phone,
 userStatus = this.userStatus,
         )
+
 
 }
 

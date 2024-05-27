@@ -18,6 +18,8 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.io.IOException
+
 
 /**
  * A User who is purchasing from the pet store
@@ -60,5 +62,8 @@ data class User (
     @Json(name = "userStatus")
     var userStatus: kotlin.Int? = null
 
-)
+) {
+
+
+}
 

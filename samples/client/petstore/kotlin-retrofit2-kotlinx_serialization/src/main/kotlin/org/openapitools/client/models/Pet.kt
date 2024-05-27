@@ -22,6 +22,8 @@ import kotlinx.serialization.Serializable as KSerializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
 import java.io.Serializable
+import java.io.IOException
+
 
 /**
  * A pet for sale in the pet store
@@ -72,5 +74,6 @@ data class Pet (
         @SerialName(value = "pending") PENDING("pending"),
         @SerialName(value = "sold") SOLD("sold");
     }
+
 }
 

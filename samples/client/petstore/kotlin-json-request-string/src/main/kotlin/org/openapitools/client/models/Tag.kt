@@ -26,6 +26,8 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import java.io.IOException
+
 
 /**
  * A tag for a pet
@@ -44,5 +46,8 @@ data class Tag (
     @SerialName(value = "name")
     val name: kotlin.String? = null
 
-) : Parcelable
+) : Parcelable {
+
+
+}
 

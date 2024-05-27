@@ -20,6 +20,8 @@ import kotlinx.serialization.Serializable as KSerializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
 import java.io.Serializable
+import java.io.IOException
+
 
 /**
  * Describes the result of uploading an image resource
@@ -45,6 +47,7 @@ data class ModelApiResponse (
     companion object {
         private const val serialVersionUID: Long = 123
     }
+
 
 }
 

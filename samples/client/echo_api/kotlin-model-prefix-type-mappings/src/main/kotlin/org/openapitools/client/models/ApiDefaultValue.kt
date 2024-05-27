@@ -18,6 +18,8 @@ package org.openapitools.client.models
 import org.openapitools.client.models.ApiStringEnumRef
 
 import com.google.gson.annotations.SerializedName
+import java.io.IOException
+
 
 /**
  * to test the default value of properties
@@ -71,5 +73,6 @@ data class ApiDefaultValue (
         @SerializedName(value = "failure") FAILURE("failure"),
         @SerializedName(value = "unclassified") UNCLASSIFIED("unclassified");
     }
+
 }
 

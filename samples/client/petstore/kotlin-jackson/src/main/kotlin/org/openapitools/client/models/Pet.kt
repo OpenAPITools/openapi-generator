@@ -20,6 +20,8 @@ import org.openapitools.client.models.Tag
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.IOException
+
 
 /**
  * A pet for sale in the pet store
@@ -67,5 +69,6 @@ data class Pet (
         @JsonProperty(value = "sold") SOLD("sold"),
         @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue UNKNOWN_DEFAULT_OPEN_API("unknown_default_open_api");
     }
+
 }
 

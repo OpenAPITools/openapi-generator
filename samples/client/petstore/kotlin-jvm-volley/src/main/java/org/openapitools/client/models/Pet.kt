@@ -21,6 +21,8 @@ import org.openapitools.client.models.Tag
 import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.PetRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
+import java.io.IOException
+
 
 /**
  * A pet for sale in the pet store
@@ -77,5 +79,6 @@ status = this.status,
         @SerializedName(value = "pending") pending("pending"),
         @SerializedName(value = "sold") sold("sold");
     }
+
 }
 

@@ -18,6 +18,8 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.io.IOException
+
 
 /**
  * A category for a pet
@@ -35,5 +37,8 @@ data class Category (
     @Json(name = "name")
     var name: kotlin.String? = null
 
-)
+) {
+
+
+}
 

@@ -19,6 +19,8 @@ package org.openapitools.client.models
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.io.Serializable
+import java.io.IOException
+
 
 /**
  * A User who is purchasing from the pet store
@@ -65,6 +67,7 @@ data class User (
     companion object {
         private const val serialVersionUID: Long = 123
     }
+
 
 }
 

@@ -18,6 +18,8 @@ package org.openapitools.client.models
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.IOException
+
 
 /**
  * 
@@ -31,5 +33,8 @@ data class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter (
     @field:JsonProperty("values")
     val propertyValues: kotlin.collections.List<kotlin.String>? = null
 
-)
+) {
+
+
+}
 

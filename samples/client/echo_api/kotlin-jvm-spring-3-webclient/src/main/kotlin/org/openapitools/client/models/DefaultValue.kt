@@ -19,6 +19,8 @@ import org.openapitools.client.models.StringEnumRef
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.IOException
+
 
 /**
  * to test the default value of properties
@@ -73,5 +75,6 @@ data class DefaultValue (
         @JsonProperty(value = "unclassified") unclassified("unclassified"),
         @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue unknown_default_open_api("unknown_default_open_api");
     }
+
 }
 

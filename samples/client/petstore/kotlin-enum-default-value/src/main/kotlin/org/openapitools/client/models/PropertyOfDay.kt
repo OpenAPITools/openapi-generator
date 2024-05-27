@@ -19,6 +19,8 @@ package org.openapitools.client.models
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.io.Serializable
+import java.io.IOException
+
 
 /**
  * The DayType describe during which the assignment applies
@@ -131,5 +133,6 @@ data class PropertyOfDay (
         @Json(name = "BOXING_DAY") BOXING_DAY("BOXING_DAY"),
         @Json(name = "11184809") unknown_default_open_api("11184809");
     }
+
 }
 

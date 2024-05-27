@@ -18,6 +18,8 @@ package org.openapitools.client.models
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
+import java.io.IOException
+
 
 /**
  * An order for a pets from the pet store
@@ -67,5 +69,6 @@ data class Order (
         @JsonProperty(value = "approved") APPROVED("approved"),
         @JsonProperty(value = "delivered") DELIVERED("delivered");
     }
+
 }
 
