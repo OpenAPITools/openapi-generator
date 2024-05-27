@@ -31,6 +31,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * ArrayOfArrayOfNumberOnly
  */
@@ -156,7 +157,7 @@ public class ArrayOfArrayOfNumberOnly {
         if (getArrayArrayNumber().get(i) != null) {
           joiner.add(String.format("%sArrayArrayNumber%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(String.valueOf(getArrayArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+              URLEncoder.encode(ApiClient.valueToString(getArrayArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
       }
     }

@@ -30,6 +30,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * EnumArrays
  */
@@ -252,7 +253,7 @@ public class EnumArrays {
 
     // add `just_symbol` to the URL query string
     if (getJustSymbol() != null) {
-      joiner.add(String.format("%sjust_symbol%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getJustSymbol()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sjust_symbol%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJustSymbol()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `array_enum` to the URL query string
@@ -260,7 +261,7 @@ public class EnumArrays {
       for (int i = 0; i < getArrayEnum().size(); i++) {
         joiner.add(String.format("%sarray_enum%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(getArrayEnum().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            URLEncoder.encode(ApiClient.valueToString(getArrayEnum().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 

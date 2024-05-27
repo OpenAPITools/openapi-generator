@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * SimpleQuadrilateral
  */
@@ -172,12 +173,12 @@ public class SimpleQuadrilateral {
 
     // add `shapeType` to the URL query string
     if (getShapeType() != null) {
-      joiner.add(String.format("%sshapeType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getShapeType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sshapeType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getShapeType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `quadrilateralType` to the URL query string
     if (getQuadrilateralType() != null) {
-      joiner.add(String.format("%squadrilateralType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getQuadrilateralType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%squadrilateralType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuadrilateralType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

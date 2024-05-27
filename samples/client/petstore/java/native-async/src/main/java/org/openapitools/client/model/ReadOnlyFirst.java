@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * ReadOnlyFirst
  */
@@ -170,12 +171,12 @@ public class ReadOnlyFirst {
 
     // add `bar` to the URL query string
     if (getBar() != null) {
-      joiner.add(String.format("%sbar%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbar%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `baz` to the URL query string
     if (getBaz() != null) {
-      joiner.add(String.format("%sbaz%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBaz()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaz%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaz()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
