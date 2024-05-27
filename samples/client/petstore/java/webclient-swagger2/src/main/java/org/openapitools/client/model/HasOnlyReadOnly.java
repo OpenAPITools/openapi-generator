@@ -42,7 +42,9 @@ public class HasOnlyReadOnly {
 
   public HasOnlyReadOnly() {
   }
-
+  /**
+  * Constructor with only readonly parameters
+  */
   @JsonCreator
   public HasOnlyReadOnly(
     @JsonProperty(JSON_PROPERTY_BAR) String bar, 
@@ -65,7 +67,6 @@ public class HasOnlyReadOnly {
   public String getBar() {
     return bar;
   }
-
 
 
 

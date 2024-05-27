@@ -30,6 +30,10 @@ public class Name {
 
   private Integer _123number;
 
+  public Name() {
+    super();
+  }
+
   public Name name(Integer name) {
     this.name = name;
     return this;

@@ -179,7 +179,6 @@ Authentication schemes defined for the API:
 - modelDocs: true
 - apiTests: true
 - modelTests: true
-- withXml: 
 
 ## [OpenApi Generator Parameters](https://openapi-generator.tech/docs/generators/csharp-netcore)
 - allowUnicodeIdentifiers: 

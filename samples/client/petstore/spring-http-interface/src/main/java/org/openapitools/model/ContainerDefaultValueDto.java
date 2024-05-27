@@ -38,6 +38,10 @@ public class ContainerDefaultValueDto {
   
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
+  public ContainerDefaultValueDto() {
+    super();
+  }
+
   public ContainerDefaultValueDto nullableArray(List<String> nullableArray) {
     this.nullableArray = JsonNullable.of(nullableArray);
     return this;

@@ -78,7 +78,7 @@ public class ArrayTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("array_array_of_integer")
-  @Valid public List<List<Long>> getArrayArrayOfInteger() {
+  public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
@@ -186,7 +186,7 @@ public class ArrayTest  implements Serializable {
     return new ArrayTestBuilderImpl();
   }
 
-  private static final class ArrayTestBuilderImpl extends ArrayTestBuilder<ArrayTest, ArrayTestBuilderImpl> {
+  private static class ArrayTestBuilderImpl extends ArrayTestBuilder<ArrayTest, ArrayTestBuilderImpl> {
 
     @Override
     protected ArrayTestBuilderImpl self() {

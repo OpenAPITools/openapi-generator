@@ -39,7 +39,7 @@ export interface ChildWithNullable extends ParentWithNullable {
 /**
  * Check if a given object implements the ChildWithNullable interface.
  */
-export function instanceOfChildWithNullable(value: object): boolean {
+export function instanceOfChildWithNullable(value: object): value is ChildWithNullable {
     return true;
 }
 

@@ -151,12 +151,7 @@ public class Fruit extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Fruit(Apple o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Fruit(Banana o) {
+    public Fruit(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

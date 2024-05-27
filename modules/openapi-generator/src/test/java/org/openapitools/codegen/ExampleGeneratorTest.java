@@ -153,6 +153,35 @@ public class ExampleGeneratorTest {
     }
 
     @Test
+    public void generateFromResponseSchemaWithArraySchema() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/example_generator_test.yaml");
+
+        new InlineModelResolver().flatten(openAPI);
+
+        ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+        Set<String> mediaTypeKeys = new TreeSet<>();
+        mediaTypeKeys.add("application/json");
+        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+                "200",
+                openAPI
+                        .getPaths()
+                        .get("/generate_from_response_schema_array_reference")
+                        .getGet()
+                        .getResponses()
+                        .get("200")
+                        .getContent()
+                        .get("application/json")
+                        .getSchema(),
+                mediaTypeKeys
+        );
+
+        assertEquals(1, examples.size());
+        assertEquals("application/json", examples.get(0).get("contentType"));
+        assertEquals(String.format(Locale.ROOT, "[ {%n  \"example_schema_property\" : \"example schema property value\"%n}, {%n  \"example_schema_property\" : \"example schema property value\"%n} ]"), examples.get(0).get("example"));
+        assertEquals("200", examples.get(0).get("statusCode"));
+    }
+
+    @Test
     public void generateFromResponseSchemaWithModel() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/example_generator_test.yaml");
 
@@ -207,6 +236,35 @@ public class ExampleGeneratorTest {
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
         assertEquals(String.format(Locale.ROOT, "{%n  \"example_schema_property_composed\" : \"example schema property value composed\",%n  \"example_schema_property\" : \"example schema property value\"%n}"), examples.get(0).get("example"));
+        assertEquals("200", examples.get(0).get("statusCode"));
+    }
+
+    @Test
+    public void generateFromResponseSchemaWithAllOfChildComposedModel() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/example_generator_test.yaml");
+
+        new InlineModelResolver().flatten(openAPI);
+
+        ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+        Set<String> mediaTypeKeys = new TreeSet<>();
+        mediaTypeKeys.add("application/json");
+        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+                "200",
+                openAPI
+                        .getPaths()
+                        .get("/generate_from_response_schema_with_allOf_child_composed_model")
+                        .getGet()
+                        .getResponses()
+                        .get("200")
+                        .getContent()
+                        .get("application/json")
+                        .getSchema(),
+                mediaTypeKeys
+        );
+
+        assertEquals(1, examples.size());
+        assertEquals("application/json", examples.get(0).get("contentType"));
+        assertEquals(String.format(Locale.ROOT, "{%n  \"example_schema_property_composed\" : \"example schema property value composed\",%n  \"example_schema_property_composed_parent\" : \"example schema property value composed parent\",%n  \"example_schema_property\" : \"example schema property value\"%n}"), examples.get(0).get("example"));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 

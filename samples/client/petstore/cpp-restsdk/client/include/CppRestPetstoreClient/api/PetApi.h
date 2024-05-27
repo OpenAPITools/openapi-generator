@@ -52,9 +52,9 @@ public:
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="body">Pet object that needs to be added to the store</param>
-    pplx::task<void> addPet(
-        std::shared_ptr<Pet> body
+    /// <param name="pet">Pet object that needs to be added to the store</param>
+    pplx::task<std::shared_ptr<Pet>> addPet(
+        std::shared_ptr<Pet> pet
     ) const;
     /// <summary>
     /// Deletes a pet
@@ -104,9 +104,9 @@ public:
     /// <remarks>
     /// 
     /// </remarks>
-    /// <param name="body">Pet object that needs to be added to the store</param>
-    pplx::task<void> updatePet(
-        std::shared_ptr<Pet> body
+    /// <param name="pet">Pet object that needs to be added to the store</param>
+    pplx::task<std::shared_ptr<Pet>> updatePet(
+        std::shared_ptr<Pet> pet
     ) const;
     /// <summary>
     /// Updates a pet in the store with form data

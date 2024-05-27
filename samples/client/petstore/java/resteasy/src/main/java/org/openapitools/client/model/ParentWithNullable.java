@@ -52,7 +52,7 @@ public class ParentWithNullable {
    * Gets or Sets type
    */
   public enum TypeEnum {
-    CHILDWITHNULLABLE("ChildWithNullable");
+    CHILD_WITH_NULLABLE("ChildWithNullable");
 
     private String value;
 
@@ -85,7 +85,7 @@ public class ParentWithNullable {
   protected TypeEnum type;
 
   public static final String JSON_PROPERTY_NULLABLE_PROPERTY = "nullableProperty";
-  private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
+  protected JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
   public ParentWithNullable() {
   }
@@ -114,7 +114,6 @@ public class ParentWithNullable {
   public void setType(TypeEnum type) {
     this.type = type;
   }
-
 
   public ParentWithNullable nullableProperty(String nullableProperty) {
     this.nullableProperty = JsonNullable.<String>of(nullableProperty);

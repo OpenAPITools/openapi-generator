@@ -101,7 +101,7 @@ public class MapTest   {
    **/
   @JsonProperty(value = "map_map_of_string")
   @Schema(description = "")
-  @Valid 
+  
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }

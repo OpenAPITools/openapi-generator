@@ -277,7 +277,7 @@ public class EnumTest  implements Serializable {
    **/
   @JsonProperty(value = "outerEnum")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

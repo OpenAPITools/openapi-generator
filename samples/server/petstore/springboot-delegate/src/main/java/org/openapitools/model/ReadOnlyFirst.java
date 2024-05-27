@@ -26,6 +26,18 @@ public class ReadOnlyFirst {
 
   private String baz;
 
+  public ReadOnlyFirst() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ReadOnlyFirst(String bar, String baz) {
+      this.bar = bar;
+      this.baz = baz;
+  }
+
   public ReadOnlyFirst bar(String bar) {
     this.bar = bar;
     return this;

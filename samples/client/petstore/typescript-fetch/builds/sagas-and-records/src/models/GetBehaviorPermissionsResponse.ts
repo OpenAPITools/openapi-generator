@@ -43,8 +43,8 @@ export interface GetBehaviorPermissionsResponse {
 /**
  * Check if a given object implements the GetBehaviorPermissionsResponse interface.
  */
-export function instanceOfGetBehaviorPermissionsResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfGetBehaviorPermissionsResponse(value: object): value is GetBehaviorPermissionsResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 

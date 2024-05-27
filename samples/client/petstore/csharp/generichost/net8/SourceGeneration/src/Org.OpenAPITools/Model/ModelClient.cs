@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, modelClient, jsonSerializerOptions);
+            WriteProperties(writer, modelClient, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="modelClient"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, ModelClient modelClient, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, ModelClient modelClient, JsonSerializerOptions jsonSerializerOptions)
         {
             if (modelClient.VarClientOption.IsSet && modelClient.VarClient == null)
                 throw new ArgumentNullException(nameof(modelClient.VarClient), "Property is required for class ModelClient.");

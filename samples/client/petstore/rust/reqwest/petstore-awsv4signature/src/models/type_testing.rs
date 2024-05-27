@@ -9,8 +9,12 @@
  */
 
 use crate::models;
+use serde::{Deserialize, Serialize};
+
+use serde_with::serde_as;
 
 /// TypeTesting : Test handling of different field data types
+#[serde_as]
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TypeTesting {
     #[serde(rename = "int32")]
@@ -27,11 +31,14 @@ pub struct TypeTesting {
     pub boolean: bool,
     #[serde(rename = "uuid")]
     pub uuid: uuid::Uuid,
+    #[serde_as(as = "serde_with::base64::Base64")]
+    #[serde(rename = "bytes")]
+    pub bytes: Vec<u8>,
 }
 
 impl TypeTesting {
     /// Test handling of different field data types
-    pub fn new(int32: i32, int64: i64, float: f32, double: f64, string: String, boolean: bool, uuid: uuid::Uuid) -> TypeTesting {
+    pub fn new(int32: i32, int64: i64, float: f32, double: f64, string: String, boolean: bool, uuid: uuid::Uuid, bytes: Vec<u8>) -> TypeTesting {
         TypeTesting {
             int32,
             int64,
@@ -40,6 +47,7 @@ impl TypeTesting {
             string,
             boolean,
             uuid,
+            bytes,
         }
     }
 }

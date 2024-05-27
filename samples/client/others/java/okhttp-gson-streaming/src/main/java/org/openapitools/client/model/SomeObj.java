@@ -59,7 +59,7 @@ public class SomeObj implements Serializable {
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
-    SOMEOBJIDENTIFIER("SomeObjIdentifier");
+    SOME_OBJ_IDENTIFIER("SomeObjIdentifier");
 
     private String value;
 
@@ -106,7 +106,7 @@ public class SomeObj implements Serializable {
 
   public static final String SERIALIZED_NAME_$_TYPE = "$_type";
   @SerializedName(SERIALIZED_NAME_$_TYPE)
-  private TypeEnum $type = TypeEnum.SOMEOBJIDENTIFIER;
+  private TypeEnum $type = TypeEnum.SOME_OBJ_IDENTIFIER;
 
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)

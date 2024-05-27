@@ -1,0 +1,53 @@
+<?php
+
+{{>licenseInfo}}
+
+{{#apiInfo}}
+namespace {{testPackage}};
+
+use function {{invokerPackage}}\parseParam;
+
+class RegisterRoutesTest extends \PHPUnit\Framework\TestCase {
+{{#apis}}
+    public function testRegisterRoutes{{classname}}(): void
+    {
+        $handler = new class extends \{{apiPackage}}\{{classname}} {
+        {{#operations}}
+        {{#operation}}
+        {{#-first}}
+            public function {{operationId}}({{#vendorExtensions.x-nonFormParams}}{{^isFormParam}}{{vendorExtensions.x-parameter-type}} ${{paramName}}{{^-last}}, {{/-last}}{{/isFormParam}}{{/vendorExtensions.x-nonFormParams}}): {{vendorExtensions.x-return-type}}
+            {
+                {{^vendorExtensions.x-return-type-is-void}}
+                return null;
+                {{/vendorExtensions.x-return-type-is-void}}
+            }
+        {{/-first}}
+        {{/operation}}
+        {{/operations}}
+        };
+        \{{invokerPackage}}\RegisterRoutes::registerRoutes($handler);
+        $this->assertTrue(true);
+    }
+{{/apis}}
+{{#models}}
+{{#model}}
+{{#isEnum}}
+    public function testParseParamsEnum{{classname}}(): void
+    {
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{#-first}}
+        $value = {{{value}}};
+        {{/-first}}
+        {{/enumVars}}
+        {{/allowableValues}}
+        $this->assertEquals(
+            parseParam($value, '\\{{escapedModelPackage}}\\{{classname}}'),
+            \{{modelPackage}}\{{classname}}::{{#allowableValues}}{{#enumVars}}{{#-first}}{{{name}}}{{/-first}}{{/enumVars}}{{/allowableValues}}
+        );
+    }
+{{/isEnum}}
+{{/model}}
+{{/models}}
+}
+{{/apiInfo}}

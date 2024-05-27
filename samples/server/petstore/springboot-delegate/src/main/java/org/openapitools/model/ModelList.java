@@ -26,6 +26,17 @@ public class ModelList {
 
   private String _123list;
 
+  public ModelList() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ModelList(String _123list) {
+      this._123list = _123list;
+  }
+
   public ModelList _123list(String _123list) {
     this._123list = _123list;
     return this;

@@ -40,7 +40,9 @@ public class ReadOnlyFirst {
 
   public ReadOnlyFirst() {
   }
-
+  /**
+  * Constructor with only readonly parameters
+  */
   @JsonCreator
   public ReadOnlyFirst(
     @JsonProperty(JSON_PROPERTY_BAR) String bar
@@ -60,7 +62,6 @@ public class ReadOnlyFirst {
   public String getBar() {
     return bar;
   }
-
 
 
 

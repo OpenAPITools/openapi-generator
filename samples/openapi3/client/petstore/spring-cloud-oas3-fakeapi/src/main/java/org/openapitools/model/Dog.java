@@ -28,6 +28,10 @@ public class Dog extends Animal {
 
   private String breed;
 
+  public Dog() {
+    super();
+  }
+
   public Dog breed(String breed) {
     this.breed = breed;
     return this;

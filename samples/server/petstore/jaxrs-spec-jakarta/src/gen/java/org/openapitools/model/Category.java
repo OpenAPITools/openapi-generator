@@ -113,7 +113,7 @@ public class Category  implements Serializable {
     return new CategoryBuilderImpl();
   }
 
-  private static final class CategoryBuilderImpl extends CategoryBuilder<Category, CategoryBuilderImpl> {
+  private static class CategoryBuilderImpl extends CategoryBuilder<Category, CategoryBuilderImpl> {
 
     @Override
     protected CategoryBuilderImpl self() {

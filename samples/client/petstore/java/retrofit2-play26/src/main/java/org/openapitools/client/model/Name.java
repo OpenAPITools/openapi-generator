@@ -50,7 +50,9 @@ public class Name {
 
   public Name() {
   }
-
+  /**
+  * Constructor with only readonly parameters
+  */
   @JsonCreator
   public Name(
     @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
@@ -88,7 +90,6 @@ public class Name {
     this.name = name;
   }
 
-
    /**
    * Get snakeCase
    * @return snakeCase
@@ -101,7 +102,6 @@ public class Name {
   public Integer getSnakeCase() {
     return snakeCase;
   }
-
 
 
 
@@ -130,7 +130,6 @@ public class Name {
   public void setProperty(String property) {
     this.property = property;
   }
-
 
    /**
    * Get _123number

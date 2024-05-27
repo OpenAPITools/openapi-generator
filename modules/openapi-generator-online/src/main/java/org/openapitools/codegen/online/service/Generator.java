@@ -118,14 +118,9 @@ public class Generator {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The OpenAPI specification supplied was not valid");
         }
 
-        String destPath = null;
-
-        if (opts.getOptions() != null) {
-            destPath = opts.getOptions().get("outputFolder");
-        }
-        if (destPath == null) {
-            destPath = language + "-" + type.getTypeName();
-        }
+        // do not use opts.getOptions().get("outputFolder") as the input can contain ../../
+        // to access other folders in the server
+        String destPath = language + "-" + type.getTypeName();
 
         ClientOptInput clientOptInput = new ClientOptInput();
         String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + destPath;

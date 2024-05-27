@@ -99,8 +99,8 @@ export type ResponseMetaCodeEnum = typeof ResponseMetaCodeEnum[keyof typeof Resp
 /**
  * Check if a given object implements the ResponseMeta interface.
  */
-export function instanceOfResponseMeta(value: object): boolean {
-    if (!('code' in value)) return false;
+export function instanceOfResponseMeta(value: object): value is ResponseMeta {
+    if (!('code' in value) || value['code'] === undefined) return false;
     return true;
 }
 

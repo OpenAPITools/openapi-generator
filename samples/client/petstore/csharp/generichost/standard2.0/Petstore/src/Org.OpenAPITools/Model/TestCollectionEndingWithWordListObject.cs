@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, testCollectionEndingWithWordListObject, jsonSerializerOptions);
+            WriteProperties(writer, testCollectionEndingWithWordListObject, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="testCollectionEndingWithWordListObject"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, TestCollectionEndingWithWordListObject testCollectionEndingWithWordListObject, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, TestCollectionEndingWithWordListObject testCollectionEndingWithWordListObject, JsonSerializerOptions jsonSerializerOptions)
         {
             if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordListOption.IsSet && testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList == null)
                 throw new ArgumentNullException(nameof(testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList), "Property is required for class TestCollectionEndingWithWordListObject.");

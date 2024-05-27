@@ -43,7 +43,7 @@ export interface AllOfWithSingleRef {
 /**
  * Check if a given object implements the AllOfWithSingleRef interface.
  */
-export function instanceOfAllOfWithSingleRef(value: object): boolean {
+export function instanceOfAllOfWithSingleRef(value: object): value is AllOfWithSingleRef {
     return true;
 }
 

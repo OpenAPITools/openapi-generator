@@ -13,18 +13,18 @@
  */
 
 import { mapValues } from '../runtime';
-import type { MatchingParts } from './MatchingParts';
-import {
-    MatchingPartsFromJSON,
-    MatchingPartsFromJSONTyped,
-    MatchingPartsToJSON,
-} from './MatchingParts';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
 } from './ResponseMeta';
+import type { MatchingParts } from './MatchingParts';
+import {
+    MatchingPartsFromJSON,
+    MatchingPartsFromJSONTyped,
+    MatchingPartsToJSON,
+} from './MatchingParts';
 
 /**
  * 
@@ -49,8 +49,8 @@ export interface GetMatchingPartsResponse {
 /**
  * Check if a given object implements the GetMatchingPartsResponse interface.
  */
-export function instanceOfGetMatchingPartsResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfGetMatchingPartsResponse(value: object): value is GetMatchingPartsResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 

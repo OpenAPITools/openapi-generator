@@ -37,7 +37,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
-  @Valid public UUID getUuid() {
+  public UUID getUuid() {
     return uuid;
   }
 
@@ -56,7 +56,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
-  @Valid public Date getDateTime() {
+  public Date getDateTime() {
     return dateTime;
   }
 
@@ -93,9 +93,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     return this;
   }
 
-  public MixedPropertiesAndAdditionalPropertiesClass removeMapItem(Animal mapItem) {
-    if (mapItem != null && this.map != null) {
-      this.map.remove(mapItem);
+  public MixedPropertiesAndAdditionalPropertiesClass removeMapItem(String key) {
+    if (this.map != null) {
+      this.map.remove(key);
     }
 
     return this;

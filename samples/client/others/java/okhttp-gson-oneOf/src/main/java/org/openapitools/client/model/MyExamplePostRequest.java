@@ -124,7 +124,7 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public MyExamplePostRequest(String o) {
+    public MyExamplePostRequest(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

@@ -41,7 +41,7 @@ public class UserApi  {
          String implClass = servletContext.getInitParameter("UserApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (UserApiService) Class.forName(implClass).newInstance();
+               delegate = (UserApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }

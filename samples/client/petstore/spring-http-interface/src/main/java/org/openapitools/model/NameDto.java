@@ -29,6 +29,10 @@ public class NameDto {
 
   private Integer _123number;
 
+  public NameDto() {
+    super();
+  }
+
   public NameDto name(Integer name) {
     this.name = name;
     return this;

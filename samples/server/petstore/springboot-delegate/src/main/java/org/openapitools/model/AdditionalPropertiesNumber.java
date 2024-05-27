@@ -29,6 +29,17 @@ public class AdditionalPropertiesNumber {
 
   private String name;
 
+  public AdditionalPropertiesNumber() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesNumber(String name) {
+      this.name = name;
+  }
+
   public AdditionalPropertiesNumber name(String name) {
     this.name = name;
     return this;

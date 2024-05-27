@@ -21,6 +21,8 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
 import static org.openapitools.codegen.languages.SpringCodegen.ASYNC;
 import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
 import static org.openapitools.codegen.languages.SpringCodegen.DocumentationProvider;
@@ -127,7 +129,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
@@ -205,7 +207,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
@@ -277,11 +279,10 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
 
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java"))
@@ -321,11 +322,10 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
 
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
 
         generator.opts(input).generate();
 
@@ -358,11 +358,10 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
 
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
 
         generator.opts(input).generate();
 
@@ -387,11 +386,10 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ElephantsApi.java"))
@@ -416,7 +414,7 @@ public class SpringCodegenTest {
         codegen.processOpts();
 
         // jdk8 tag has been removed
-        Assert.assertEquals(codegen.additionalProperties().get("jdk8"), null);
+        Assert.assertNull(codegen.additionalProperties().get("jdk8"));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -446,11 +444,10 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
 
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
 
         generator.opts(input).generate();
 
@@ -484,11 +481,10 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
 
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
 
         generator.opts(input).generate();
 
@@ -517,6 +513,8 @@ public class SpringCodegenTest {
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -548,7 +546,6 @@ public class SpringCodegenTest {
         additionalProperties.put(CodegenConstants.MODEL_TESTS, "false");
         additionalProperties.put(CodegenConstants.MODEL_DOCS, "false");
         additionalProperties.put(CodegenConstants.APIS, "true");
-        additionalProperties.put(CodegenConstants.SUPPORTING_FILES, "false");
 
         Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
 
@@ -584,7 +581,7 @@ public class SpringCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
         Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
@@ -658,22 +655,19 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
 
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
 
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"))
+                .fileContains("@RequestBody(required = false")
                 .assertMethod("exampleApiPost", "ExampleApiPostRequest")
                 .hasParameter("exampleApiPostRequest")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestBody", ImmutableMap.of("required", "false"));
-
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ExampleApi.java"),
-                "@RequestBody(required = false");
     }
 
     @Test
@@ -687,7 +681,7 @@ public class SpringCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
         Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
@@ -812,6 +806,7 @@ public class SpringCodegenTest {
             .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -836,6 +831,7 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_CLOUD_LIBRARY);
         codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_NAME_SUFFIX, "Controller");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
@@ -847,6 +843,7 @@ public class SpringCodegenTest {
               .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
         Map<String, File> files = generator.opts(input).generate().stream()
               .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -855,8 +852,8 @@ public class SpringCodegenTest {
 
         File notExisting = files.get("PetApi.java");
         assertThat(notExisting).isNull();
-
     }
+
     @Test
     public void shouldUseTagsForClassname() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -867,6 +864,7 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_CLOUD_LIBRARY);
         codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(USE_TAGS, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
@@ -878,6 +876,8 @@ public class SpringCodegenTest {
               .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        
         Map<String, File> files = generator.opts(input).generate().stream()
               .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -886,7 +886,6 @@ public class SpringCodegenTest {
 
         File notExisting = files.get("PetApi.java");
         assertThat(notExisting).isNull();
-
     }
 
     @Test
@@ -899,11 +898,11 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_CLOUD_LIBRARY);
         codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(USE_TAGS, "false");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
         codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
-
 
 
         ClientOptInput input = new ClientOptInput()
@@ -911,6 +910,7 @@ public class SpringCodegenTest {
               .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
         Map<String, File> files = generator.opts(input).generate().stream()
               .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -941,6 +941,8 @@ public class SpringCodegenTest {
               .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         Map<String, File> files = generator.opts(input).generate().stream()
               .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -999,6 +1001,8 @@ public class SpringCodegenTest {
                 .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -1085,6 +1089,7 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         final DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
         List<File> files = generator.opts(input).generate();
 
         return files.stream().collect(Collectors.toMap(e -> e.getName().replace(outputPath, ""), i -> i));
@@ -1176,7 +1181,7 @@ public class SpringCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
         Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
@@ -1187,7 +1192,7 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.BASE_PACKAGE), "xx.yyyyyyyy.base");
         Assert.assertEquals(codegen.getConfigPackage(), "xx.yyyyyyyy.config");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xx.yyyyyyyy.config");
-        Assert.assertEquals(codegen.isUnhandledException(), true);
+        Assert.assertTrue(codegen.isUnhandledException());
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), true);
     }
 
@@ -1215,11 +1220,10 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
 
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+        generator.setGenerateMetadata(false); // skip metadata generation
 
         generator.opts(input).generate();
 
@@ -1245,26 +1249,26 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void useBeanValidationTruePerformBeanValidationFalseJava8TrueForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, false, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+    public void useBeanValidationTruePerformBeanValidationFalseForFormatEmail() throws IOException {
+        beanValidationForFormatEmail(true, false, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     @Test
-    public void useBeanValidationTruePerformBeanValidationTrueJava8FalseForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, true, false, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+    public void useBeanValidationTruePerformBeanValidationTrueForFormatEmail() throws IOException {
+        beanValidationForFormatEmail(true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     @Test
-    public void useBeanValidationTruePerformBeanValidationFalseJava8TrueJakartaeeTrueForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, false, true, true,"@jakarta.validation.constraints.Email", "@javax.validation.constraints.Email");
+    public void useBeanValidationTruePerformBeanValidationFalseJakartaeeTrueForFormatEmail() throws IOException {
+        beanValidationForFormatEmail(true, false, true,"@jakarta.validation.constraints.Email", "@javax.validation.constraints.Email");
     }
 
     // note: java8 option/mustache tag has been removed and default to true
-    private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean java8, String contains, String notContains) throws IOException {
-        this.beanValidationForFormatEmail(useBeanValidation, performBeanValidation, java8, false, contains, notContains);
+    private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, String contains, String notContains) throws IOException {
+        this.beanValidationForFormatEmail(useBeanValidation, performBeanValidation, false, contains, notContains);
     }
 
-    private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean java8, boolean useJakarta, String contains, String notContains) throws IOException {
+    private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean useJakarta, String contains, String notContains) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -1283,12 +1287,10 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -1296,13 +1298,9 @@ public class SpringCodegenTest {
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("PersonWithEmail.java"));
         if (useBeanValidation) javaFileAssert.hasImports((useJakarta? "jakarta" : "javax") + ".validation.constraints");
         if (performBeanValidation) javaFileAssert.hasImports("org.hibernate.validator.constraints");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java"), contains);
-        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java"), notContains);
-    }
-
-    @Test
-    public void useBeanValidationTruePerformBeanValidationTrueJava8TrueForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java"))
+            .fileContains(contains)
+            .fileDoesNotContains(notContains);
     }
 
     @Test
@@ -1324,19 +1322,19 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate API files
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"), "Mono<Map<String, DummyRequest>>");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<Map<String, DummyRequest>>");
-        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"), "Mono<DummyRequest>");
-        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<DummyRequest>");
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"))
+            .fileContains("Mono<Map<String, DummyRequest>>")
+            .fileDoesNotContains("Mono<DummyRequest>");
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"))
+            .fileContains("Mono<Map<String, DummyRequest>>")
+            .fileDoesNotContains("Mono<DummyRequest>");
     }
 
     @Test
@@ -1346,10 +1344,7 @@ public class SpringCodegenTest {
         additionalProperties.put(SpringCodegen.REACTIVE, "true");
         additionalProperties.put(SpringCodegen.USE_RESPONSE_ENTITY, "false");
         additionalProperties.put(SpringCodegen.USE_SPRING_BOOT3, "true");
-        additionalProperties.put(CodegenConstants.MODEL_TESTS, "false");
-        additionalProperties.put(CodegenConstants.MODEL_DOCS, "false");
         additionalProperties.put(CodegenConstants.APIS, "true");
-        additionalProperties.put(CodegenConstants.SUPPORTING_FILES, "false");
         Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert
@@ -1406,6 +1401,7 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata
 
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -1437,6 +1433,7 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
 
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -1469,6 +1466,7 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
 
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -1511,23 +1509,21 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate API
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"), "allowableValues = \"0, 1\"");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"), "@PathVariable");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/BearsApi.java"), "allowableValues = \"sleeping, awake\"");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/BearsApi.java"), "@PathVariable");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java"), "allowableValues = \"sleeping, awake\"");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java"), "@PathVariable");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GiraffesApi.java"), "allowableValues = \"0, 1\"");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GiraffesApi.java"), "@PathVariable");
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
+            .fileContains( "allowableValues = \"0, 1\"", "@PathVariable");
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/BearsApi.java"))
+            .fileContains( "allowableValues = \"sleeping, awake\"", "@PathVariable");
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/CamelsApi.java"))
+            .fileContains( "allowableValues = \"sleeping, awake\"", "@PathVariable");
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GiraffesApi.java"))
+            .fileContains( "allowableValues = \"0, 1\"", "@PathVariable");
     }
 
     @Test
@@ -1549,12 +1545,10 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate API
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
         generator.opts(input).generate();
 
@@ -1636,19 +1630,15 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"), "status");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"), "@NotNull");
-        Files.readAllLines(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java")).forEach(System.out::println);
-
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"))
+            .fileContains( "status", "@NotNull");
     }
 
     @Test
@@ -1667,19 +1657,16 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"), "status");
-        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"), "@NotNull");
-        Files.readAllLines(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java")).forEach(System.out::println);
-
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"))
+            .fileContains( "status")
+            .fileDoesNotContains("@NotNull");
     }
 
     @Test
@@ -1701,17 +1688,14 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         codegen.setHateoas(true);
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        //generator.setGeneratorPropertyDefault(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
-
-        codegen.setUseOneOfInterfaces(true);
-        codegen.setLegacyDiscriminatorBehavior(false);
-
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+        
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
 
         generator.opts(input).generate();
 
@@ -1739,17 +1723,14 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         codegen.setHateoas(true);
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        //generator.setGeneratorPropertyDefault(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
 
         codegen.setUseOneOfInterfaces(true);
         codegen.setLegacyDiscriminatorBehavior(false);
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
         generator.opts(input).generate();
 
@@ -1757,8 +1738,8 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRef.java"), "public class FooRef extends EntityRef implements FooRefOrValue");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRefOrValue.java"), "public interface FooRefOrValue");
         // previous bugs
-        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"), "atTypesuper.hashCode");
-        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"), "private String atBaseType");
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"))
+            .fileDoesNotContains( "atTypesuper.hashCode", "private String atBaseType");
         // imports for inherited properties
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PizzaSpeziale.java"), "import java.math.BigDecimal");
     }
@@ -1782,6 +1763,9 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         codegen.setHateoas(true);
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
 
@@ -1790,11 +1774,6 @@ public class SpringCodegenTest {
         codegen.setLegacyDiscriminatorBehavior(false);
         codegen.setUseSpringBoot3(true);
         codegen.setModelNameSuffix("DTO");
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
         generator.opts(input).generate();
 
@@ -1821,7 +1800,10 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         codegen.setHateoas(true);
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
 
 
@@ -1829,11 +1811,6 @@ public class SpringCodegenTest {
         codegen.setLegacyDiscriminatorBehavior(false);
         codegen.setUseSpringBoot3(true);
         codegen.setModelNameSuffix("DTO");
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
         generator.opts(input).generate();
 
@@ -1861,17 +1838,14 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         codegen.setHateoas(true);
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        //generator.setGeneratorPropertyDefault(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
 
         codegen.setUseOneOfInterfaces(true);
         codegen.setLegacyDiscriminatorBehavior(false);
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
         generator.opts(input).generate();
 
@@ -1925,12 +1899,10 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate API
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
         generator.opts(input).generate();
 
@@ -1986,12 +1958,10 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.opts(input).generate();
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Address.java"),
@@ -2016,12 +1986,10 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.opts(input).generate();
 
         File[] generatedModels = new File(outputPath + "/src/main/java/org/openapitools/model").listFiles();
@@ -2054,11 +2022,10 @@ public class SpringCodegenTest {
             .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate API
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -2154,12 +2121,10 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.opts(input).generate();
 
         TestUtils.assertExtraAnnotationFiles(outputPath + "/src/main/java/org/openapitools/model");
@@ -2413,6 +2378,7 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
         codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
 
@@ -2421,6 +2387,9 @@ public class SpringCodegenTest {
                 .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGenerateMetadata(false);
+
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -2461,7 +2430,6 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
 
-        DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         //Assert that NotNull annotation exists alone with no other BeanValidation annotations
@@ -2492,7 +2460,6 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
 
-        DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         //Assert that NotNull annotation exists alone with no other BeanValidation annotations
@@ -2595,6 +2562,11 @@ public class SpringCodegenTest {
                 .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -2625,6 +2597,8 @@ public class SpringCodegenTest {
                 .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -2632,7 +2606,6 @@ public class SpringCodegenTest {
                 .assertMethod("equals")
                 .bodyContainsLines("return Arrays.equals(this.picture, testObject.picture);");
     }
-
 
     @Test
     public void useBeanValidationGenerateAnnotationsForRequestBody_issue13932() throws IOException {
@@ -2654,6 +2627,7 @@ public class SpringCodegenTest {
                 .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -2687,6 +2661,8 @@ public class SpringCodegenTest {
             .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -2732,6 +2708,8 @@ public class SpringCodegenTest {
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -2741,7 +2719,9 @@ public class SpringCodegenTest {
 
     @Test
     public void shouldUseTheSameTagNameForTheInterfaceAndTheMethod_issue11570() throws IOException {
-        final Map<String, File> output = generateFromContract("src/test/resources/bugs/issue_11570.yml", SPRING_BOOT);
+        final Map<String, File> output = generateFromContract(
+            "src/test/resources/bugs/issue_11570.yml", SPRING_BOOT, Map.of(INTERFACE_ONLY, "true")
+        );
 
         final String expectedTagName = "\"personTagWithExclamation!\"";
         final String expectedTagDescription = "\"the personTagWithExclamation! API\"";
@@ -2753,7 +2733,11 @@ public class SpringCodegenTest {
 
     @Test
     public void shouldGenerateConstructorWithOnlyRequiredParameters() throws IOException {
-        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_9789.yml", SPRING_BOOT);
+        final Map<String, File> output = generateFromContract(
+            "src/test/resources/3_0/spring/issue_9789.yml", 
+            SPRING_BOOT,
+            Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "false")
+        );
 
         JavaFileAssert.assertThat(output.get("ObjectWithNoRequiredParameter.java")).assertNoConstructor("String");
 
@@ -2773,25 +2757,36 @@ public class SpringCodegenTest {
     private Map<String, File> generateFromContract(String url, String library) throws IOException {
         return generateFromContract(url, library, new HashMap<>());
     }
+
     private Map<String, File> generateFromContract(String url, String library, Map<String, Object> additionalProperties) throws IOException {
+        return generateFromContract(url, library, additionalProperties, codegen -> {});
+    }
+
+    /**
+     * Generate the contract with additional configuration.
+     *
+     * use CodegenConfigurator instead of CodegenConfig for easier configuration like in JavaClientCodeGenTest
+     */
+    private Map<String, File> generateFromContract(String url, String library, Map<String, Object> additionalProperties,
+                                                   Consumer<CodegenConfigurator> consumer) throws IOException {
+
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation(url, null, new ParseOptions()).getOpenAPI();
-
-        SpringCodegen codegen = new SpringCodegen();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setAdditionalProperties(additionalProperties)
+                .setValidateSpec(false)
+                .setInputSpec(url)
+                .setOutputDir(output.getAbsolutePath());
         if (null != library) {
-            codegen.setLibrary(library);
+            configurator.setLibrary(library);
         }
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().putAll(additionalProperties);
+        consumer.accept(configurator);
 
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
-
+        ClientOptInput input = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
 
         return generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -2809,23 +2804,20 @@ public class SpringCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
         codegen.setUseOneOfInterfaces(true);
+        codegen.setHateoas(true);
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-        codegen.setHateoas(true);
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
-
-        codegen.setUseOneOfInterfaces(true);
-        codegen.setLegacyDiscriminatorBehavior(false);
-
+        generator.setGenerateMetadata(false);
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
 
         generator.opts(input).generate();
 
@@ -2852,6 +2844,8 @@ public class SpringCodegenTest {
             .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -2917,6 +2911,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -2960,6 +2956,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -3005,6 +3003,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -3042,6 +3042,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -3079,6 +3081,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -3115,6 +3119,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -3149,6 +3155,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -3190,6 +3198,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -3221,6 +3231,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -3230,7 +3242,6 @@ public class SpringCodegenTest {
                 .assertMethod("fromValue")
                 .bodyContainsLines("if (b.value.equals(value)) {");
     }
-
 
     @Test
     public void testHasOperationExtraAnnotation_issue15822() throws IOException {
@@ -3254,6 +3265,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -3287,6 +3300,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -3322,6 +3337,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -3355,11 +3372,10 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
 
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGenerateMetadata(false); // skip metadata generation
         generator.opts(input).generate();
 
 
@@ -3393,8 +3409,6 @@ public class SpringCodegenTest {
             .assertNoMethod("setAlias");
     }
 
-
-
     @Test
     public void testModelsWithNoneOptionalAndJsonNullable() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -3419,8 +3433,6 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
 
@@ -3633,12 +3645,10 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
+        generator.setGenerateMetadata(false);
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
 
@@ -3851,12 +3861,10 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
+        generator.setGenerateMetadata(false);
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
 
@@ -4088,12 +4096,10 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGenerateMetadata(false);
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.opts(input).generate();
 
 
@@ -4376,6 +4382,7 @@ public class SpringCodegenTest {
     public void multiLineOperationDescription() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGDOC.name());
 
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
@@ -4389,6 +4396,7 @@ public class SpringCodegenTest {
     public void multiLineTagDescription() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGDOC.name());
 
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
@@ -4418,6 +4426,8 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGenerateMetadata(false);
 
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
@@ -4468,7 +4478,7 @@ public class SpringCodegenTest {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setOpenAPI(openAPI);
         codegen.setOutputDir(output.getAbsolutePath());
-
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
 
         ClientOptInput input = new ClientOptInput();
@@ -4476,12 +4486,10 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGenerateMetadata(false);
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
         generator.opts(input).generate();
 
@@ -4497,6 +4505,7 @@ public class SpringCodegenTest {
 
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/petstore-with-tags.yaml");
         final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.setOpenAPI(openAPI);
         codegen.setOutputDir(output.getAbsolutePath());
 
@@ -4505,12 +4514,10 @@ public class SpringCodegenTest {
         input.config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGenerateMetadata(false);
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
         generator.opts(input).generate();
 
@@ -4519,8 +4526,39 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testAllArgsConstructor_16797() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT,
+                Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE, INTERFACE_ONLY, "true"),
+                codegen -> codegen.addOpenapiNormalizer("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "false"));
+        JavaFileAssert.assertThat(output.get("Object4.java"))
+                .assertConstructor("String", "Type1", "String", "String", "Boolean")
+                .hasParameter("responseType").toConstructor()
+                .hasParameter("requestId").toConstructor()
+                .hasParameter("success").toConstructor()
+                .hasParameter("pageInfo")
+        ;
+
+    }
+
+    @Test
+    public void testAllArgsConstructor_16797_REFACTOR_ALLOF_WITH_PROPERTIES_ONLY() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT,
+                Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE, INTERFACE_ONLY, "true"),
+                codegen -> codegen.addOpenapiNormalizer("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", "true"));
+        JavaFileAssert.assertThat(output.get("Object4.java"))
+                .assertConstructor("String", "Type1", "String", "String", "Boolean")
+                .hasParameter("responseType").toConstructor()
+                .hasParameter("requestId").toConstructor()
+                .hasParameter("success").toConstructor()
+                .hasParameter("pageInfo")
+        ;
+    }
+
+    @Test
     public void testMultiInheritanceParentRequiredParams_issue16797() throws IOException {
-        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT);
+        final Map<String, File> output = generateFromContract(
+            "src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT, Map.of(INTERFACE_ONLY, "true")
+        );
         // constructor should as
         //       public Object4(Type1 pageInfo, String responseType, String requestId, Boolean success) {
         //            super(responseType, requestId, success, pageInfo);
@@ -4536,7 +4574,9 @@ public class SpringCodegenTest {
 
     @Test
     public void testMultiInheritanceParentRequiredParams_issue15796() throws IOException {
-        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_15796.yaml", SPRING_BOOT);
+        final Map<String, File> output = generateFromContract(
+            "src/test/resources/3_0/spring/issue_15796.yaml", SPRING_BOOT, Map.of(INTERFACE_ONLY, "true")
+        );
         // constructor should as this
         //public Poodle(String race, String type) {
         //    super(race, type);
@@ -4549,9 +4589,81 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testAllArgsConstructor_defaultOrder_15796() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_15796.yaml", SPRING_BOOT,
+                Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE, INTERFACE_ONLY, "true"),
+                config -> config.addOpenapiNormalizer("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", " true"));
+        // constructors should as this
+        //public Poodle(String race, String type) {
+        //    super(race, type);
+        //}
+        // and
+        //public Poodle(String hairType, Integer tails, String race, String name, String type) {
+        //  super(tails, race, name, type);
+        //  this.hairType = hairType;
+        //}
+        JavaFileAssert.assertThat(output.get("Poodle.java"))
+                .assertConstructor("String", "String")
+                .hasParameter("type").toConstructor()
+                .hasParameter("race").toConstructor()
+                .toFileAssert()
+                .assertConstructor("String", "Integer", "String", "String", "String")
+                .hasParameter("tails").toConstructor()
+                .hasParameter("race").toConstructor()
+                .hasParameter("name").toConstructor()
+                .hasParameter("type").toConstructor()
+                .hasParameter("hairType").toConstructor()
+        ;
+    }
+
+    @Test
+    public void generateAllArgsConstructor() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/all_args_constructor.yaml", null,
+                Map.of(AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE, INTERFACE_ONLY, "true"),
+                codegenConfig -> codegenConfig.addOpenapiNormalizer("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", " true"));
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .assertConstructor("String")
+                .hasParameter("type").toConstructor()
+                .toFileAssert()
+                .assertConstructor("LocalDate", "String", "String")
+                .hasParameter("dateOfBirth").toConstructor()
+                .hasParameter("name").toConstructor()
+                .hasParameter("type").toConstructor();
+        JavaFileAssert.assertThat(files.get("Cat.java"))
+                .assertConstructor("Integer", "String", "LocalDate", "String", "String");
+
+        // test required constructor
+        JavaFileAssert.assertThat(files.get("Page.java"))
+                .assertConstructor("Integer")
+                .toFileAssert()
+                .fileContains("Constructor with only required parameters and all parameters");
+
+        JavaFileAssert.assertThat(files.get("PageOfPets.java"))
+                .assertConstructor("Integer", "List<Pet>")
+                .hasParameter("count").toConstructor()
+                .hasParameter("_list").toConstructor()
+                .toFileAssert()
+                .assertConstructor("Integer")
+                .hasParameter("count").toConstructor();
+    }
+
+    @Test
+    public void allOfDuplicatedProperties() throws IOException {
+        Map<String, File> output = generateFromContract(
+            "src/test/resources/3_0/allOfDuplicatedProperties.yaml", 
+            SPRING_BOOT, 
+            Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true, INTERFACE_ONLY, "true")
+        );
+
+        JavaFileAssert.assertThat(output.get("ModelC.java"))
+                .assertConstructor("String", "Integer", "Integer", "String", "String");
+    }
+
+    @Test
     public void testLombokAnnotations() throws IOException {
         final Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor");
+        additionalProperties.put(INTERFACE_ONLY, "true");
         Map<String, File> output = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
         JavaFileAssert.assertThat(output.get("Pet.java"))
                 .assertNoConstructor()
@@ -4593,6 +4705,64 @@ public class SpringCodegenTest {
     }
 
     @Test
+    void testBuilderJavaSpring_noOptional() throws IOException {
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/java/builder.yaml", 
+            SPRING_BOOT,
+            Map.of(
+                GENERATE_BUILDERS, true, 
+                SpringCodegen.OPENAPI_NULLABLE, false, 
+                SpringCodegen.USE_OPTIONAL, false,
+                INTERFACE_ONLY, "true"
+            )
+        );
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder {");
+        JavaFileAssert.assertThat(files.get("Snake.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder extends Reptile.Builder {",
+                        "return builder.copyOf(this);");
+        JavaFileAssert.assertThat(files.get("SimpleObject.java"))
+                .fileContains("public SimpleObject.Builder additionalProperties(Map<String, Integer> additionalProperties) {",
+                        "SimpleObject.Builder nullableObject(String nullableObject) {",
+                        "SimpleObject.Builder nb(BigDecimal nb) {")
+                .fileDoesNotContains("SimpleObject.Builder nullableObject(JsonNullable<String> nullableObject) {");
+    }
+
+    @Test
+    void testBuilderJavaSpring_useOptional() throws IOException {
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/java/builder.yaml", 
+            SPRING_BOOT,
+            Map.of(
+                GENERATE_BUILDERS, true,
+                SpringCodegen.OPENAPI_NULLABLE, true,
+                SpringCodegen.USE_OPTIONAL, true,
+                INTERFACE_ONLY, "true"
+            )
+        );
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder {");
+        JavaFileAssert.assertThat(files.get("Snake.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder extends Reptile.Builder {",
+                        "return builder.copyOf(this);");
+        JavaFileAssert.assertThat(files.get("SimpleObject.java"))
+                .fileContains("public SimpleObject.Builder additionalProperties(Map<String, Integer> additionalProperties) {",
+                        "SimpleObject.Builder nullableObject(String nullableObject) {",
+                        "SimpleObject.Builder nullableObject(JsonNullable<String> nullableObject) {",
+                        "SimpleObject.Builder nb(BigDecimal nb) {");
+    }
+
+    @Test
     public void optionalListShouldBeEmpty() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -4602,6 +4772,7 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_CLOUD_LIBRARY);
         codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_NAME_SUFFIX, "Controller");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
@@ -4613,6 +4784,9 @@ public class SpringCodegenTest {
                 .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -4644,6 +4818,9 @@ public class SpringCodegenTest {
                 .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 

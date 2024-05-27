@@ -94,7 +94,7 @@ public class ArrayTest   {
    **/
   @JsonProperty(value = "array_array_of_integer")
   @Schema(description = "")
-  @Valid 
+  
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }

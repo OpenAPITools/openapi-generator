@@ -69,7 +69,6 @@ public class Bird {
     this.size = size;
   }
 
-
   public Bird color(String color) {
     
     this.color = color;

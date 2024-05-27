@@ -25,6 +25,17 @@ public class ClassModel {
 
   private String propertyClass;
 
+  public ClassModel() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ClassModel(String propertyClass) {
+      this.propertyClass = propertyClass;
+  }
+
   public ClassModel propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
     return this;

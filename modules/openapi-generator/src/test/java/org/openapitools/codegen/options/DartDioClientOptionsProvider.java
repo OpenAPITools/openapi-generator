@@ -64,6 +64,7 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_DEFAULT)
                 .put(DartDioClientCodegen.DATE_LIBRARY, DartDioClientCodegen.DATE_LIBRARY_DEFAULT)
                 .put(DartDioClientCodegen.FINAL_PROPERTIES, DartDioClientCodegen.FINAL_PROPERTIES_DEFAULT_VALUE)
+                .put(DartDioClientCodegen.EQUALITY_CHECK_METHOD, DartDioClientCodegen.EQUALITY_CHECK_METHOD_DEFAULT)
                 .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
                 .put(DartDioClientCodegen.USE_ENUM_EXTENSION, USE_ENUM_EXTENSION)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)

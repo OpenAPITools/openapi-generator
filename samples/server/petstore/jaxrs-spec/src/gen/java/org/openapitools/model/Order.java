@@ -152,7 +152,7 @@ public class Order  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
-  @Valid public Date getShipDate() {
+  public Date getShipDate() {
     return shipDate;
   }
 
@@ -254,7 +254,7 @@ public class Order  implements Serializable {
     return new OrderBuilderImpl();
   }
 
-  private static final class OrderBuilderImpl extends OrderBuilder<Order, OrderBuilderImpl> {
+  private static class OrderBuilderImpl extends OrderBuilder<Order, OrderBuilderImpl> {
 
     @Override
     protected OrderBuilderImpl self() {

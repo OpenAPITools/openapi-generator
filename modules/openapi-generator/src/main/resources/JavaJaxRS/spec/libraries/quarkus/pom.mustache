@@ -44,6 +44,9 @@
 {{#useSwaggerAnnotations}}
     <io.swagger.annotations.version>1.6.10</io.swagger.annotations.version>
 {{/useSwaggerAnnotations}}
+{{#useMutiny}}
+    <smallrye.rest.client.version>1.2.1</smallrye.rest.client.version>
+{{/useMutiny}}
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -109,6 +112,14 @@
         <scope>provided</scope>
      </dependency>
 {{/useSwaggerAnnotations}}
+{{#useMutiny}}
+    <dependency>
+      <groupId>io.smallrye</groupId>
+      <artifactId>smallrye-rest-client</artifactId>
+      <version>${smallrye.rest.client.version}</version>
+      <scope>test</scope>
+    </dependency>
+{{/useMutiny}}
   </dependencies>
   <build>
     <plugins>

@@ -25,6 +25,17 @@ public class File {
 
   private String sourceURI;
 
+  public File() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public File(String sourceURI) {
+      this.sourceURI = sourceURI;
+  }
+
   public File sourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
     return this;

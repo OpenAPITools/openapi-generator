@@ -196,17 +196,7 @@ public class Triangle extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Triangle(EquilateralTriangle o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Triangle(IsoscelesTriangle o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Triangle(ScaleneTriangle o) {
+    public Triangle(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

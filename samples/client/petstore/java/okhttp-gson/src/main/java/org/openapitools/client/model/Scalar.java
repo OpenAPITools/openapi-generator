@@ -167,17 +167,7 @@ public class Scalar extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Scalar(BigDecimal o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Scalar(Boolean o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Scalar(String o) {
+    public Scalar(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

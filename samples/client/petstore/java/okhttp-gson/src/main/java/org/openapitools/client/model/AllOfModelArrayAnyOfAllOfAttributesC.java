@@ -155,12 +155,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
         super("oneOf", Boolean.FALSE);
     }
 
-    public AllOfModelArrayAnyOfAllOfAttributesC(Order o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public AllOfModelArrayAnyOfAllOfAttributesC(Pet o) {
+    public AllOfModelArrayAnyOfAllOfAttributesC(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

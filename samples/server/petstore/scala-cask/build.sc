@@ -8,7 +8,7 @@ import mill._, scalalib._, scalafmt._, publish._
 // mill _.publishLocal
 // mill _.test.test
 object scala-cask-petstore extends SbtModule with ScalafmtModule with PublishModule {
-  def scalaVersion = "3.3.1"
+  def scalaVersion = "3.4.1"
 
   def pomSettings = PomSettings(
     description = "scala-cask-petstore",
@@ -21,15 +21,15 @@ object scala-cask-petstore extends SbtModule with ScalafmtModule with PublishMod
     )
   )
 
-  def publishVersion: mill.T[String] = T("0.0.1-SNAPSHOT")
+  def publishVersion: mill.T[String] = T("0.0.1")
 
   def ivyDeps = Agg(
     ivy"com.lihaoyi::cask:0.9.2" ,
     ivy"com.lihaoyi::upickle:3.2.0"
   )
 
-  override def sources = T.sources(millSourcePath / os.up / "src" / "main" / "scala")
-  override def resources = T.sources(millSourcePath / os.up / "src" / "main" / "resources")
+  override def sources = T.sources(millSourcePath / os.up / "shared" / "src" / "main" / "scala")
+  override def resources = T.sources(millSourcePath / os.up / "shared" / "src" / "main" / "resources")
 
   object test extends SbtModuleTests {
     def ivyDeps = Agg(

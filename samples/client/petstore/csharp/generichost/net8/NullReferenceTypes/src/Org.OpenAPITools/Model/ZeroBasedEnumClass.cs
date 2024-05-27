@@ -221,7 +221,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, zeroBasedEnumClass, jsonSerializerOptions);
+            WriteProperties(writer, zeroBasedEnumClass, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -232,7 +232,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="zeroBasedEnumClass"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, ZeroBasedEnumClass zeroBasedEnumClass, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, ZeroBasedEnumClass zeroBasedEnumClass, JsonSerializerOptions jsonSerializerOptions)
         {
             var zeroBasedEnumRawValue = ZeroBasedEnumClass.ZeroBasedEnumEnumToJsonValue(zeroBasedEnumClass.ZeroBasedEnumOption.Value!.Value);
             writer.WriteString("ZeroBasedEnum", zeroBasedEnumRawValue);

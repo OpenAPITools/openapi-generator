@@ -37,8 +37,8 @@ export interface DefaultMetaOnlyResponse {
 /**
  * Check if a given object implements the DefaultMetaOnlyResponse interface.
  */
-export function instanceOfDefaultMetaOnlyResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfDefaultMetaOnlyResponse(value: object): value is DefaultMetaOnlyResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 

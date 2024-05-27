@@ -18,7 +18,6 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -32,7 +31,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -118,8 +116,11 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
 
+        typeMapping.put("object", "Value");
+
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GIT_USER_ID, CodegenConstants.GIT_USER_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, CodegenConstants.PACKAGE_DESCRIPTION));
@@ -130,13 +131,25 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "]() ";
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            // We're opinionated in this template to use ujson
+            return "ujson.Null";
         }
         return super.toDefaultValue(p);
     }
 
     @Override
+    public String getSchemaType(Schema p) {
+        if (ModelUtils.isFreeFormObject(p)) {
+            // We're opinionated in this template to use ujson
+            return "Value";
+        }
+        return super.getSchemaType(p);
+    }
+
+    @Override
     public String testPackage() {
-        return "src/test/scala";
+        return "jvm/src/test/scala";
     }
 
     public String toModelTestFilename(String name) {
@@ -152,6 +165,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             return defaultValue;
         }
     }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -159,6 +173,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         final String groupId = ensureProp(CodegenConstants.GROUP_ID, "org.openapitools");
         ensureProp(CodegenConstants.ARTIFACT_ID, "caskgen");
         artifactVersion = ensureProp(CodegenConstants.ARTIFACT_VERSION, "0.0.1");
+
         gitRepoId = ensureProp(CodegenConstants.GIT_REPO_ID, "<your git repo -- set 'gitRepoId'>");
         gitUserId = ensureProp(CodegenConstants.GIT_USER_ID, "<your git user -- set 'gitUserId'>");
 
@@ -167,8 +182,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         modelPackage = ensureProp(CodegenConstants.MODEL_PACKAGE, basePackage + ".model");
 
 
-        final String apiPath = "src/main/scala/" + apiPackage.replace('.', '/');
-        final String modelPath = "src/main/scala/" + modelPackage.replace('.', '/');
+        final String apiPath = "jvm/src/main/scala/" + apiPackage.replace('.', '/');
+        final String modelPath = "shared/src/main/scala/" + modelPackage.replace('.', '/');
 
         final List<String> appFullPath = Arrays.stream(apiPath.split("/")).collect(Collectors.toList());
         final String appFolder = String.join("/", appFullPath.subList(0, appFullPath.size() - 1));
@@ -187,7 +202,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "example", "Dockerfile"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-        supportingFiles.add(new SupportingFile("bulidAndPublish.yml.mustache", "", ".github/workflows/bulidAndPublish.yml"));
+        supportingFiles.add(new SupportingFile("buildAndPublish.yml.mustache", "", ".github/workflows/buildAndPublish.yml"));
         supportingFiles.add(new SupportingFile("build.sc.mustache", "", "build.sc"));
         supportingFiles.add(new SupportingFile(".scalafmt.conf.mustache", "", ".scalafmt.conf"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
@@ -221,6 +236,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalTime", "java.time.LocalTime");
+        importMapping.put("Value", "ujson.Value");
     }
 
     static boolean consumesMimetype(CodegenOperation op, String mimetype) {
@@ -266,13 +282,40 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String apiFilename(String templateName, String tag) {
-        String suffix = apiTemplateFiles().get(templateName);
-        String fn = toApiFilename(tag);
+
+        final String suffix = apiTemplateFiles().get(templateName);
+        final String fn = toApiFilename(tag);
         if (templateName.equals(ApiServiceTemplate)) {
-            return apiFileFolder() + '/' + fn + suffix;
-        } else {
-            return apiFileFolder() + '/' + fn + "Routes" + suffix;
+            return apiInterfaceFileFolder() + '/' + fn + suffix;
         }
+        return apiFileFolder() + '/' + fn + "Routes" + suffix;
+    }
+    @Override
+    public String modelFilename(String templateName, String modelName) {
+        final String defaultFilename = super.modelFilename(templateName, modelName);
+        if (templateName.equals(ApiServiceTemplate)) {
+            final String suffix = apiTemplateFiles().get(templateName);
+            final String fn = toApiFilename(modelName);
+            final String path = modelFileFolder() + '/' + fn + suffix;
+            return path;
+        } else {
+            return defaultFilename;
+        }
+    }
+
+    @Override
+    public String apiFileFolder() {
+        final String folder = outputFolder + "/jvm/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);;
+        return folder;
+    }
+
+    @Override
+    public String modelFileFolder() {
+        return outputFolder + "/shared/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+    }
+
+    public String apiInterfaceFileFolder() {
+        return outputFolder + "/shared/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
     static String capitalise(String p) {
@@ -324,7 +367,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         String jsonOpenAPI = SerializerUtils.toJsonString(openAPI);
 
         try {
-            String outputFile = getOutputDir() + "/" + getResourceFolder() + "/openapi.json";
+            String outputFile = getOutputDir() + "/jvm/" + getResourceFolder() + "/openapi.json";
             FileUtils.writeStringToFile(new File(outputFile), jsonOpenAPI, StandardCharsets.UTF_8);
             LOGGER.info("wrote file to {}", outputFile);
         } catch (Exception e) {
@@ -521,13 +564,14 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         List<ScalaCaskServerCodegen.OperationGroup> groups = group(operationList);
         operationList.forEach((op) -> {
-            for (final ScalaCaskServerCodegen.OperationGroup group : groups) {
-                // for the usage/call site
-                final String scalaPath = pathWithBracketPlaceholdersRemovedAndXPathIndexAdded(op);
-                op.vendorExtensions.put("x-cask-path", scalaPath);
+            // for the usage/call site
+            final String scalaPath = pathWithBracketPlaceholdersRemovedAndXPathIndexAdded(op);
+            op.vendorExtensions.put("x-cask-path", scalaPath);
 
-                final String annotation = "@cask." + op.httpMethod.toLowerCase(Locale.ROOT);
-                op.vendorExtensions.put("x-annotation", annotation);
+            final String annotation = "@cask." + op.httpMethod.toLowerCase(Locale.ROOT);
+            op.vendorExtensions.put("x-annotation", annotation);
+
+            for (final ScalaCaskServerCodegen.OperationGroup group : groups) {
                 if (!group.contains(op)) {
                     if (op.path.startsWith(group.pathPrefix) && op.httpMethod.equalsIgnoreCase(group.httpMethod)) {
                         group.add(op);
@@ -773,6 +817,37 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             return "\"\"";
         }
         return p.defaultValue;
+    }
+
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema schema) {
+        CodegenProperty property = super.fromProperty(name, schema);
+
+        // Customize type for freeform objects
+        if (ModelUtils.isFreeFormObject(schema)) {
+            property.dataType = "Value";
+            property.baseType = "Value";
+        }
+
+        return property;
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema schema) {
+        if (ModelUtils.isFreeFormObject(schema)) {
+            return "Value";
+        }
+        return super.getTypeDeclaration(schema);
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        final String result = super.toModelImport(name);
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+        return result;
     }
 
     private static String queryArgs(final CodegenOperation op) {

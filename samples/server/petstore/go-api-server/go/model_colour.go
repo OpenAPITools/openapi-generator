@@ -49,9 +49,9 @@ func NewColourFromValue(v string) (Colour, error) {
 	ev := Colour(v)
 	if ev.IsValid() {
 		return ev, nil
-	} else {
-		return "", fmt.Errorf("invalid value '%v' for Colour: valid values are %v", v, AllowedColourEnumValues)
 	}
+
+	return "", fmt.Errorf("invalid value '%v' for Colour: valid values are %v", v, AllowedColourEnumValues)
 }
 
 

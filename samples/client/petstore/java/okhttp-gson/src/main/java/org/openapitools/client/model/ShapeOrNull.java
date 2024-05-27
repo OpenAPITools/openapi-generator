@@ -172,12 +172,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
         super("oneOf", Boolean.TRUE);
     }
 
-    public ShapeOrNull(Quadrilateral o) {
-        super("oneOf", Boolean.TRUE);
-        setActualInstance(o);
-    }
-
-    public ShapeOrNull(Triangle o) {
+    public ShapeOrNull(Object o) {
         super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }

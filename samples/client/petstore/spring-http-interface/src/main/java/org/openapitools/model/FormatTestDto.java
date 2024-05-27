@@ -57,6 +57,10 @@ public class FormatTestDto {
 
   private BigDecimal bigDecimal;
 
+  public FormatTestDto() {
+    super();
+  }
+
   public FormatTestDto integer(Integer integer) {
     this.integer = integer;
     return this;

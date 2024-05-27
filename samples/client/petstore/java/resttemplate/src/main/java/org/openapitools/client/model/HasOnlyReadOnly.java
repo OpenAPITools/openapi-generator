@@ -41,7 +41,9 @@ public class HasOnlyReadOnly {
 
   public HasOnlyReadOnly() {
   }
-
+  /**
+  * Constructor with only readonly parameters and all parameters
+  */
   @JsonCreator
   public HasOnlyReadOnly(
     @JsonProperty(JSON_PROPERTY_BAR) String bar, 
@@ -63,7 +65,6 @@ public class HasOnlyReadOnly {
   public String getBar() {
     return bar;
   }
-
 
 
 
@@ -119,6 +120,65 @@ public class HasOnlyReadOnly {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private HasOnlyReadOnly instance;
+
+    public Builder() {
+      this(new HasOnlyReadOnly());
+    }
+
+    protected Builder(HasOnlyReadOnly instance) {
+      this.instance = instance;
+    }
+
+    public HasOnlyReadOnly.Builder bar(String bar) {
+      this.instance.bar = bar;
+      return this;
+    }
+    public HasOnlyReadOnly.Builder foo(String foo) {
+      this.instance.foo = foo;
+      return this;
+    }
+
+
+    /**
+    * returns a built HasOnlyReadOnly instance.
+    *
+    * The builder is not reusable.
+    */
+    public HasOnlyReadOnly build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static HasOnlyReadOnly.Builder builder() {
+    return new HasOnlyReadOnly.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public HasOnlyReadOnly.Builder toBuilder() {
+    return new HasOnlyReadOnly.Builder()
+      .bar(getBar())
+      .foo(getFoo());
+  }
+
 
 }
 

@@ -28,7 +28,6 @@
 namespace OpenAPI\Client\Api;
 
 use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Query;
 use Http\Client\Common\Plugin\ErrorPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
 use Http\Client\Common\PluginClient;
@@ -357,7 +356,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -564,7 +563,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -771,7 +770,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -980,7 +979,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -1234,7 +1233,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -1513,7 +1512,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -1703,7 +1702,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -1929,7 +1928,7 @@ class UserApi
 
             } else {
                 // for HTTP post (form)
-                $httpBody = Query::build($formParams);
+                $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
 
@@ -2009,7 +2008,7 @@ class UserApi
             ->withHost($host)
             ->withScheme($scheme)
             ->withPort($port)
-            ->withQuery(Query::build($queryParams));
+            ->withQuery(ObjectSerializer::buildQuery($queryParams));
 
         if ($user) {
             $uri = $uri->withUserInfo($user, $password);

@@ -82,6 +82,10 @@ public class PetDto {
   @Deprecated
   private StatusEnum status;
 
+  public PetDto() {
+    super();
+  }
+
   public PetDto id(Long id) {
     this.id = id;
     return this;

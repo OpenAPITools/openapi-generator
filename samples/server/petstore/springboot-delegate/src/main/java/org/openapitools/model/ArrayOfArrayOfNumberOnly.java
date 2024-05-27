@@ -29,6 +29,17 @@ public class ArrayOfArrayOfNumberOnly {
   @Valid
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
+  public ArrayOfArrayOfNumberOnly() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ArrayOfArrayOfNumberOnly(List<List<BigDecimal>> arrayArrayNumber) {
+      this.arrayArrayNumber = arrayArrayNumber;
+  }
+
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;

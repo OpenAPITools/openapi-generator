@@ -35,6 +35,10 @@ public class CatDto extends AnimalDto {
 
   private Boolean declawed;
 
+  public CatDto() {
+    super();
+  }
+
   public CatDto declawed(Boolean declawed) {
     this.declawed = declawed;
     return this;

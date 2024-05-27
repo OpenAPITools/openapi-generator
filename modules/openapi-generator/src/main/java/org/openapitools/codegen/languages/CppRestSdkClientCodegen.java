@@ -20,7 +20,6 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
@@ -111,6 +110,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
+                .includeDataTypeFeatures(
+                        DataTypeFeature.AnyType)
         );
 
         apiPackage = "org.openapitools.client.api";
@@ -159,6 +160,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("long", "int64_t");
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "std::vector");
+        typeMapping.put("set", "std::set");
         typeMapping.put("map", "std::map");
         typeMapping.put("file", "HttpContent");
         typeMapping.put("object", "Object");
@@ -171,9 +173,11 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         super.importMapping = new HashMap<>();
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
+        importMapping.put("std::set", "#include <set>");
         importMapping.put("std::string", "#include <string>");
         importMapping.put("HttpContent", "#include \"HttpContent.h\"");
         importMapping.put("Object", "#include \"Object.h\"");
+        importMapping.put("AnyType", "#include \"AnyType.h\"");
         importMapping.put("utility::string_t", "#include <cpprest/details/basic_types.h>");
         importMapping.put("utility::datetime", "#include <cpprest/details/basic_types.h>");
     }
@@ -214,11 +218,14 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
         importMapping.put("HttpContent", "#include \"" + packageName + "/" + "HttpContent.h\"");
         importMapping.put("Object", "#include \"" + packageName + "/" + "Object.h\"");
+        importMapping.put("AnyType", "#include \"" + packageName + "/" + "AnyType.h\"");
 
         supportingFiles.add(new SupportingFile("modelbase-header.mustache", getHeaderFolder(), "ModelBase.h"));
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", getSourceFolder(), "ModelBase.cpp"));
         supportingFiles.add(new SupportingFile("object-header.mustache", getHeaderFolder(), "Object.h"));
         supportingFiles.add(new SupportingFile("object-source.mustache", getSourceFolder(), "Object.cpp"));
+        supportingFiles.add(new SupportingFile("anytype-header.mustache", getHeaderFolder(), "AnyType.h"));
+        supportingFiles.add(new SupportingFile("anytype-source.mustache", getSourceFolder(), "AnyType.cpp"));
         supportingFiles.add(new SupportingFile("apiclient-header.mustache", getHeaderFolder(), "ApiClient.h"));
         supportingFiles.add(new SupportingFile("apiclient-source.mustache", getSourceFolder(), "ApiClient.cpp"));
         supportingFiles.add(new SupportingFile("apiconfiguration-header.mustache", getHeaderFolder(), "ApiConfiguration.h"));

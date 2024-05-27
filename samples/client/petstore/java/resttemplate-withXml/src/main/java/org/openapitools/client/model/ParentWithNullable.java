@@ -62,7 +62,7 @@ public class ParentWithNullable {
   @XmlEnum(String.class)
   public enum TypeEnum {
     @XmlEnumValue("ChildWithNullable")
-    CHILDWITHNULLABLE("ChildWithNullable");
+    CHILD_WITH_NULLABLE("ChildWithNullable");
 
     private String value;
 
@@ -97,7 +97,7 @@ public class ParentWithNullable {
 
   public static final String JSON_PROPERTY_NULLABLE_PROPERTY = "nullableProperty";
   @XmlElement(name = "nullableProperty")
-  private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
+  protected JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
   public ParentWithNullable() {
   }
@@ -128,7 +128,6 @@ public class ParentWithNullable {
   public void setType(TypeEnum type) {
     this.type = type;
   }
-
 
   public ParentWithNullable nullableProperty(String nullableProperty) {
     this.nullableProperty = JsonNullable.<String>of(nullableProperty);

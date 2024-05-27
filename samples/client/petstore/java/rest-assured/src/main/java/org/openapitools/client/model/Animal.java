@@ -36,7 +36,7 @@ public class Animal {
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
-  private String color = "red";
+  protected String color = "red";
 
   public Animal() {
   }
@@ -63,7 +63,6 @@ public class Animal {
   public void setClassName(String className) {
     this.className = className;
   }
-
 
   public Animal color(String color) {
     

@@ -155,7 +155,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, banana, jsonSerializerOptions);
+            WriteProperties(writer, banana, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="banana"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
             if (banana.LengthCmOption.IsSet)
                 writer.WriteNumber("lengthCm", banana.LengthCmOption.Value!.Value);

@@ -211,6 +211,7 @@ Class | Method | HTTP request | Description
  - [Model.LiteralStringClass](docs/LiteralStringClass.md)
  - [Model.Mammal](docs/Mammal.md)
  - [Model.MapTest](docs/MapTest.md)
+ - [Model.MixLog](docs/MixLog.md)
  - [Model.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model.Model200Response](docs/Model200Response.md)
  - [Model.ModelClient](docs/ModelClient.md)

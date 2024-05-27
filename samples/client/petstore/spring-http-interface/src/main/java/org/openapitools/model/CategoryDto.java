@@ -25,6 +25,10 @@ public class CategoryDto {
 
   private String name = "default-name";
 
+  public CategoryDto() {
+    super();
+  }
+
   public CategoryDto id(Long id) {
     this.id = id;
     return this;

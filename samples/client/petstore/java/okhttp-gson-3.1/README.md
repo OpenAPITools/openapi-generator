@@ -144,6 +144,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [AllOfSimpleModel](docs/AllOfSimpleModel.md)
  - [Animal](docs/Animal.md)
  - [AnyTypeTest](docs/AnyTypeTest.md)
  - [ArrayOfSameRef](docs/ArrayOfSameRef.md)
@@ -158,6 +159,7 @@ Class | Method | HTTP request | Description
  - [OneOfStringOrInt](docs/OneOfStringOrInt.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
+ - [SimpleModelWithArrayProperty](docs/SimpleModelWithArrayProperty.md)
  - [StringOrInt](docs/StringOrInt.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
