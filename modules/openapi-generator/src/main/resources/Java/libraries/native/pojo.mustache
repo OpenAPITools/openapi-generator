@@ -1,7 +1,9 @@
 {{#discriminator}}
 import {{invokerPackage}}.JSON;
 {{/discriminator}}
+{{#supportUrlQuery}}
 import {{invokerPackage}}.ApiClient;
+{{/supportUrlQuery}}
 /**
  * {{description}}{{^description}}{{classname}}{{/description}}{{#isDeprecated}}
  * @deprecated{{/isDeprecated}}
