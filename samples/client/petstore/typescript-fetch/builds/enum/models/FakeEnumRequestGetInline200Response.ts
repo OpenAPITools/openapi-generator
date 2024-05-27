@@ -90,7 +90,7 @@ export type FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum = typeof F
 /**
  * Check if a given object implements the FakeEnumRequestGetInline200Response interface.
  */
-export function instanceOfFakeEnumRequestGetInline200Response(value: object): boolean {
+export function instanceOfFakeEnumRequestGetInline200Response(value: object): value is FakeEnumRequestGetInline200Response {
     return true;
 }
 

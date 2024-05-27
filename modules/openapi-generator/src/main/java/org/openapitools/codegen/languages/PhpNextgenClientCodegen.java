@@ -27,6 +27,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -198,7 +199,10 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
 
     @Override
     public String toDefaultValue(CodegenProperty codegenProperty, Schema schema) {
+
         if (codegenProperty.isArray) {
+            schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+
             if (schema.getDefault() != null) { // array schema has default value
                 return "[" + schema.getDefault().toString() + "]";
             } else if (schema.getItems().getDefault() != null) { // array item schema has default value

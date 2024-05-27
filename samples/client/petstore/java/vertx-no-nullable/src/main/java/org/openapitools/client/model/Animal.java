@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Animal.JSON_PROPERTY_CLASS_NAME,
   Animal.JSON_PROPERTY_COLOR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
         @JsonSubTypes({
       @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
@@ -41,13 +41,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
       @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
         })
 
-
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   protected String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
-  private String color = "red";
+  protected String color = "red";
 
   public Animal() {
   }
@@ -76,7 +75,6 @@ public class Animal {
   public void setClassName(String className) {
     this.className = className;
   }
-
 
   public Animal color(String color) {
     

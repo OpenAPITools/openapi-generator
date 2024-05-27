@@ -37,13 +37,12 @@ import io.github.threetenjaxb.core.*;
   Animal.JSON_PROPERTY_CLASS_NAME,
   Animal.JSON_PROPERTY_COLOR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
         @JsonSubTypes({
       @JsonSubTypes.Type(value = Cat.class, name = "CAT"),
       @JsonSubTypes.Type(value = Dog.class, name = "DOG"),
         })
-
 
 @XmlRootElement(name = "Animal")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -55,7 +54,7 @@ public class Animal {
 
   public static final String JSON_PROPERTY_COLOR = "color";
   @XmlElement(name = "color")
-  private String color = "red";
+  protected String color = "red";
 
   public Animal() {
   }
@@ -86,7 +85,6 @@ public class Animal {
   public void setClassName(String className) {
     this.className = className;
   }
-
 
   public Animal color(String color) {
     

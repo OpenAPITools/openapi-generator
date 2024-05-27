@@ -50,7 +50,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class MyExamplePostRequest extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(MyExamplePostRequest.class.getName());
 
@@ -124,7 +124,7 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public MyExamplePostRequest(String o) {
+    public MyExamplePostRequest(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

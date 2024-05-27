@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * ArrayTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ArrayTest {
 
   @Valid
@@ -159,5 +159,75 @@ public class ArrayTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ArrayTest instance;
+
+    public Builder() {
+      this(new ArrayTest());
+    }
+
+    protected Builder(ArrayTest instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(ArrayTest value) { 
+      this.instance.setArrayOfString(value.arrayOfString);
+      this.instance.setArrayArrayOfInteger(value.arrayArrayOfInteger);
+      this.instance.setArrayArrayOfModel(value.arrayArrayOfModel);
+      return this;
+    }
+
+    public ArrayTest.Builder arrayOfString(List<String> arrayOfString) {
+      this.instance.arrayOfString(arrayOfString);
+      return this;
+    }
+    
+    public ArrayTest.Builder arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+      this.instance.arrayArrayOfInteger(arrayArrayOfInteger);
+      return this;
+    }
+    
+    public ArrayTest.Builder arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+      this.instance.arrayArrayOfModel(arrayArrayOfModel);
+      return this;
+    }
+    
+    /**
+    * returns a built ArrayTest instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ArrayTest build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static ArrayTest.Builder builder() {
+    return new ArrayTest.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ArrayTest.Builder toBuilder() {
+    ArrayTest.Builder builder = new ArrayTest.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

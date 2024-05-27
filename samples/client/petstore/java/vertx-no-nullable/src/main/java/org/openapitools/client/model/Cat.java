@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
         @JsonSubTypes({
       @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
@@ -42,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
-  private Boolean declawed;
+  protected Boolean declawed;
 
   public Cat() {
 

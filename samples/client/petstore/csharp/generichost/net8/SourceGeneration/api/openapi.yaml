@@ -1278,6 +1278,10 @@ components:
       type: array
     RolesReportsHash:
       description: Role report Hash
+      example:
+        role:
+          name: name
+        role_uuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
         role_uuid:
           format: uuid
@@ -2702,6 +2706,108 @@ components:
       - a_objVariableobject
       - pkiNotificationtestID
       type: object
+    MixLog:
+      properties:
+        id:
+          format: uuid
+          type: string
+        description:
+          type: string
+        mixDate:
+          format: date-time
+          type: string
+        shopId:
+          format: uuid
+          type: string
+        totalPrice:
+          format: float
+          nullable: true
+          type: number
+        totalRecalculations:
+          format: int32
+          type: integer
+        totalOverPoors:
+          format: int32
+          type: integer
+        totalSkips:
+          format: int32
+          type: integer
+        totalUnderPours:
+          format: int32
+          type: integer
+        formulaVersionDate:
+          format: date-time
+          type: string
+        someCode:
+          description: SomeCode is only required for color mixes
+          nullable: true
+          type: string
+        batchNumber:
+          type: string
+        brandCode:
+          description: BrandCode is only required for non-color mixes
+          type: string
+        brandId:
+          description: BrandId is only required for color mixes
+          type: string
+        brandName:
+          description: BrandName is only required for color mixes
+          type: string
+        categoryCode:
+          description: CategoryCode is not used anymore
+          type: string
+        color:
+          description: Color is only required for color mixes
+          type: string
+        colorDescription:
+          type: string
+        comment:
+          type: string
+        commercialProductCode:
+          type: string
+        productLineCode:
+          description: ProductLineCode is only required for color mixes
+          type: string
+        country:
+          type: string
+        createdBy:
+          type: string
+        createdByFirstName:
+          type: string
+        createdByLastName:
+          type: string
+        deltaECalculationRepaired:
+          type: string
+        deltaECalculationSprayout:
+          type: string
+        ownColorVariantNumber:
+          format: int32
+          nullable: true
+          type: integer
+        primerProductId:
+          type: string
+        productId:
+          description: ProductId is only required for color mixes
+          type: string
+        productName:
+          description: ProductName is only required for color mixes
+          type: string
+        selectedVersionIndex:
+          format: int32
+          type: integer
+      required:
+      - description
+      - formulaVersionDate
+      - id
+      - mixDate
+      - totalOverPoors
+      - totalRecalculations
+      - totalSkips
+      - totalUnderPours
+      type: object
+    uuid:
+      format: uuid
+      type: string
     _foo_get_default_response:
       example:
         string:
@@ -2862,6 +2968,8 @@ components:
         - country
         type: object
     RolesReportsHash_role:
+      example:
+        name: name
       properties:
         name:
           type: string

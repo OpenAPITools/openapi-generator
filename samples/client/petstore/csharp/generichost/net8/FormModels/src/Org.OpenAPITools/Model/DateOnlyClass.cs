@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, dateOnlyClass, jsonSerializerOptions);
+            WriteProperties(writer, dateOnlyClass, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="dateOnlyClass"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (dateOnlyClass.DateOnlyPropertyOption.IsSet)
                 writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyPropertyOption.Value.Value.ToString(DateOnlyPropertyFormat));

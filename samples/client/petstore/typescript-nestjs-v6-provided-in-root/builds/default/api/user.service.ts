@@ -11,7 +11,7 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
+import { HttpService, Injectable, Optional } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { Observable, from, of, switchMap } from 'rxjs';
 import { User } from '../model/user';
@@ -49,7 +49,6 @@ export class UserService {
      */
     public createUser(user: User, ): Observable<AxiosResponse<any>>;
     public createUser(user: User, ): Observable<any> {
-
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUser.');
         }
@@ -104,7 +103,6 @@ export class UserService {
      */
     public createUsersWithArrayInput(user: Array<User>, ): Observable<AxiosResponse<any>>;
     public createUsersWithArrayInput(user: Array<User>, ): Observable<any> {
-
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
         }
@@ -159,7 +157,6 @@ export class UserService {
      */
     public createUsersWithListInput(user: Array<User>, ): Observable<AxiosResponse<any>>;
     public createUsersWithListInput(user: Array<User>, ): Observable<any> {
-
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUsersWithListInput.');
         }
@@ -214,7 +211,6 @@ export class UserService {
      */
     public deleteUser(username: string, ): Observable<AxiosResponse<any>>;
     public deleteUser(username: string, ): Observable<any> {
-
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
@@ -263,7 +259,6 @@ export class UserService {
      */
     public getUserByName(username: string, ): Observable<AxiosResponse<User>>;
     public getUserByName(username: string, ): Observable<any> {
-
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
@@ -310,7 +305,6 @@ export class UserService {
      */
     public loginUser(username: string, password: string, ): Observable<AxiosResponse<string>>;
     public loginUser(username: string, password: string, ): Observable<any> {
-
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling loginUser.');
         }
@@ -368,7 +362,6 @@ export class UserService {
      */
     public logoutUser(): Observable<AxiosResponse<any>>;
     public logoutUser(): Observable<any> {
-
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -414,7 +407,6 @@ export class UserService {
      */
     public updateUser(username: string, user: User, ): Observable<AxiosResponse<any>>;
     public updateUser(username: string, user: User, ): Observable<any> {
-
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }

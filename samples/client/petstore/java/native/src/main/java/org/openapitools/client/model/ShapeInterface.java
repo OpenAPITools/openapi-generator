@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   ShapeInterface.JSON_PROPERTY_SHAPE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ShapeInterface {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;
@@ -146,5 +146,59 @@ public class ShapeInterface {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private ShapeInterface instance;
+
+    public Builder() {
+      this(new ShapeInterface());
+    }
+
+    protected Builder(ShapeInterface instance) {
+      this.instance = instance;
+    }
+
+    public ShapeInterface.Builder shapeType(String shapeType) {
+      this.instance.shapeType = shapeType;
+      return this;
+    }
+
+
+    /**
+    * returns a built ShapeInterface instance.
+    *
+    * The builder is not reusable.
+    */
+    public ShapeInterface build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ShapeInterface.Builder builder() {
+    return new ShapeInterface.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ShapeInterface.Builder toBuilder() {
+    return new ShapeInterface.Builder()
+      .shapeType(getShapeType());
+  }
+
 }
 

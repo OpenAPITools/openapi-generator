@@ -1,0 +1,35 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: '1.0'
+paths:
+  /pets:
+    get:
+      summary: Get all pets
+      operationId: getAllPets
+      responses:
+        default:
+          description: ok
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        petType:
+          type: string
+      discriminator:
+        propertyName: petType
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+      type: object
+      properties:
+        name:
+          type: string
+    Cat2:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            name:
+              type: string

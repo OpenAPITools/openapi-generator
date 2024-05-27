@@ -50,7 +50,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class OneOfStringOrInt extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(OneOfStringOrInt.class.getName());
 
@@ -145,12 +145,7 @@ public class OneOfStringOrInt extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public OneOfStringOrInt(Integer o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public OneOfStringOrInt(String o) {
+    public OneOfStringOrInt(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

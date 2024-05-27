@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * ArrayTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ArrayTest {
 
   @Valid
@@ -34,6 +34,19 @@ public class ArrayTest {
 
   @Valid
   private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+
+  public ArrayTest() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ArrayTest(List<String> arrayOfString, List<List<Long>> arrayArrayOfInteger, List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+      this.arrayOfString = arrayOfString;
+      this.arrayArrayOfInteger = arrayArrayOfInteger;
+      this.arrayArrayOfModel = arrayArrayOfModel;
+  }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;

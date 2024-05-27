@@ -51,7 +51,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ArrayOneOf extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(ArrayOneOf.class.getName());
 
@@ -65,8 +65,8 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final TypeAdapter<Integer> adapterInteger = gson.getDelegateAdapter(this, TypeToken.get(Integer.class));
 
-            final Type typeInstance = new TypeToken<List<String>>(){}.getType();
-            final TypeAdapter<List<String>> adapterListString = (TypeAdapter<List<String>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final Type typeInstanceListString = new TypeToken<List<String>>(){}.getType();
+            final TypeAdapter<List<String>> adapterListString = (TypeAdapter<List<String>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListString));
 
             return (TypeAdapter<T>) new TypeAdapter<ArrayOneOf>() {
                 @Override
@@ -156,12 +156,7 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public ArrayOneOf(Integer o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public ArrayOneOf(List<String> o) {
+    public ArrayOneOf(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

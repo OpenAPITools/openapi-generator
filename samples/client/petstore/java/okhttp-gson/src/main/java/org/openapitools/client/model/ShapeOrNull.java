@@ -59,7 +59,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ShapeOrNull extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(ShapeOrNull.class.getName());
 
@@ -172,12 +172,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
         super("oneOf", Boolean.TRUE);
     }
 
-    public ShapeOrNull(Quadrilateral o) {
-        super("oneOf", Boolean.TRUE);
-        setActualInstance(o);
-    }
-
-    public ShapeOrNull(Triangle o) {
+    public ShapeOrNull(Object o) {
         super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }

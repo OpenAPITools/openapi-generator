@@ -38,7 +38,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   GrandparentAnimal.JSON_PROPERTY_PET_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "pet_type", visible = true)
         @JsonSubTypes({
       @JsonSubTypes.Type(value = ChildCat.class, name = "ChildCat"),
@@ -165,5 +165,59 @@ static {
   mappings.put("GrandparentAnimal", GrandparentAnimal.class);
   JSON.registerDiscriminator(GrandparentAnimal.class, "pet_type", mappings);
 }
+
+    public static class Builder {
+
+    private GrandparentAnimal instance;
+
+    public Builder() {
+      this(new GrandparentAnimal());
+    }
+
+    protected Builder(GrandparentAnimal instance) {
+      this.instance = instance;
+    }
+
+    public GrandparentAnimal.Builder petType(String petType) {
+      this.instance.petType = petType;
+      return this;
+    }
+
+
+    /**
+    * returns a built GrandparentAnimal instance.
+    *
+    * The builder is not reusable.
+    */
+    public GrandparentAnimal build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static GrandparentAnimal.Builder builder() {
+    return new GrandparentAnimal.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public GrandparentAnimal.Builder toBuilder() {
+    return new GrandparentAnimal.Builder()
+      .petType(getPetType());
+  }
+
 }
 

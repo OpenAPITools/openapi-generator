@@ -60,7 +60,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NullableClass extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
@@ -783,5 +783,154 @@ public class NullableClass extends HashMap<String, Object> {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private NullableClass instance;
+
+    public Builder() {
+      this(new NullableClass());
+    }
+
+    protected Builder(NullableClass instance) {
+      this.instance = instance;
+    }
+
+    public NullableClass.Builder integerProp(Integer integerProp) {
+      this.instance.integerProp = JsonNullable.<Integer>of(integerProp);
+      return this;
+    }
+    public NullableClass.Builder integerProp(JsonNullable<Integer> integerProp) {
+      this.instance.integerProp = integerProp;
+      return this;
+    }
+    public NullableClass.Builder numberProp(BigDecimal numberProp) {
+      this.instance.numberProp = JsonNullable.<BigDecimal>of(numberProp);
+      return this;
+    }
+    public NullableClass.Builder numberProp(JsonNullable<BigDecimal> numberProp) {
+      this.instance.numberProp = numberProp;
+      return this;
+    }
+    public NullableClass.Builder booleanProp(Boolean booleanProp) {
+      this.instance.booleanProp = JsonNullable.<Boolean>of(booleanProp);
+      return this;
+    }
+    public NullableClass.Builder booleanProp(JsonNullable<Boolean> booleanProp) {
+      this.instance.booleanProp = booleanProp;
+      return this;
+    }
+    public NullableClass.Builder stringProp(String stringProp) {
+      this.instance.stringProp = JsonNullable.<String>of(stringProp);
+      return this;
+    }
+    public NullableClass.Builder stringProp(JsonNullable<String> stringProp) {
+      this.instance.stringProp = stringProp;
+      return this;
+    }
+    public NullableClass.Builder dateProp(LocalDate dateProp) {
+      this.instance.dateProp = JsonNullable.<LocalDate>of(dateProp);
+      return this;
+    }
+    public NullableClass.Builder dateProp(JsonNullable<LocalDate> dateProp) {
+      this.instance.dateProp = dateProp;
+      return this;
+    }
+    public NullableClass.Builder datetimeProp(OffsetDateTime datetimeProp) {
+      this.instance.datetimeProp = JsonNullable.<OffsetDateTime>of(datetimeProp);
+      return this;
+    }
+    public NullableClass.Builder datetimeProp(JsonNullable<OffsetDateTime> datetimeProp) {
+      this.instance.datetimeProp = datetimeProp;
+      return this;
+    }
+    public NullableClass.Builder arrayNullableProp(List<Object> arrayNullableProp) {
+      this.instance.arrayNullableProp = JsonNullable.<List<Object>>of(arrayNullableProp);
+      return this;
+    }
+    public NullableClass.Builder arrayNullableProp(JsonNullable<List<Object>> arrayNullableProp) {
+      this.instance.arrayNullableProp = arrayNullableProp;
+      return this;
+    }
+    public NullableClass.Builder arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+      this.instance.arrayAndItemsNullableProp = JsonNullable.<List<Object>>of(arrayAndItemsNullableProp);
+      return this;
+    }
+    public NullableClass.Builder arrayAndItemsNullableProp(JsonNullable<List<Object>> arrayAndItemsNullableProp) {
+      this.instance.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
+      return this;
+    }
+    public NullableClass.Builder arrayItemsNullable(List<Object> arrayItemsNullable) {
+      this.instance.arrayItemsNullable = arrayItemsNullable;
+      return this;
+    }
+    public NullableClass.Builder objectNullableProp(Map<String, Object> objectNullableProp) {
+      this.instance.objectNullableProp = JsonNullable.<Map<String, Object>>of(objectNullableProp);
+      return this;
+    }
+    public NullableClass.Builder objectNullableProp(JsonNullable<Map<String, Object>> objectNullableProp) {
+      this.instance.objectNullableProp = objectNullableProp;
+      return this;
+    }
+    public NullableClass.Builder objectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
+      this.instance.objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>of(objectAndItemsNullableProp);
+      return this;
+    }
+    public NullableClass.Builder objectAndItemsNullableProp(JsonNullable<Map<String, Object>> objectAndItemsNullableProp) {
+      this.instance.objectAndItemsNullableProp = objectAndItemsNullableProp;
+      return this;
+    }
+    public NullableClass.Builder objectItemsNullable(Map<String, Object> objectItemsNullable) {
+      this.instance.objectItemsNullable = objectItemsNullable;
+      return this;
+    }
+
+
+    /**
+    * returns a built NullableClass instance.
+    *
+    * The builder is not reusable.
+    */
+    public NullableClass build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static NullableClass.Builder builder() {
+    return new NullableClass.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NullableClass.Builder toBuilder() {
+    return new NullableClass.Builder()
+      .integerProp(getIntegerProp())
+      .numberProp(getNumberProp())
+      .booleanProp(getBooleanProp())
+      .stringProp(getStringProp())
+      .dateProp(getDateProp())
+      .datetimeProp(getDatetimeProp())
+      .arrayNullableProp(getArrayNullableProp())
+      .arrayAndItemsNullableProp(getArrayAndItemsNullableProp())
+      .arrayItemsNullable(getArrayItemsNullable())
+      .objectNullableProp(getObjectNullableProp())
+      .objectAndItemsNullableProp(getObjectAndItemsNullableProp())
+      .objectItemsNullable(getObjectItemsNullable());
+  }
+
 }
 

@@ -42,7 +42,7 @@ export interface ModelApiResponse {
 /**
  * Check if a given object implements the ModelApiResponse interface.
  */
-export function instanceOfModelApiResponse(value: object): boolean {
+export function instanceOfModelApiResponse(value: object): value is ModelApiResponse {
     return true;
 }
 

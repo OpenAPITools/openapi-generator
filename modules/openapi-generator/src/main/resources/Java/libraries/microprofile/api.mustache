@@ -38,7 +38,9 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  */
 {{/appName}}
 
-@RegisterRestClient{{#configKey}}(configKey="{{configKey}}"){{/configKey}}
+{{^microprofileServer}}
+@RegisterRestClient{{#configKey}}(configKey="{{configKey}}"){{/configKey}}{{#configKeyFromClassName}}{{#operations}}(configKey="{{configKey}}"){{/operations}}{{/configKeyFromClassName}}
+{{/microprofileServer}}
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("{{#useAnnotatedBasePath}}{{contextPath}}{{/useAnnotatedBasePath}}{{commonPath}}")
 public interface {{classname}}  {
@@ -70,7 +72,7 @@ public interface {{classname}}  {
     @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} })
 {{/hasProduces}}
 {{^useSingleRequestParameter}}
-    {{^vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<{{{returnType}}}>{{/microprofileMutiny}}{{^microprofileMutiny}}{{{returnType}}}{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}}{{#vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<Void>{{/microprofileMutiny}}{{^microprofileMutiny}}void{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
+    {{^vendorExtensions.x-java-is-response-void}}{{#microprofileServer}}{{> server_operation}}{{/microprofileServer}}{{^microprofileServer}}{{> client_operation}}{{/microprofileServer}}{{/vendorExtensions.x-java-is-response-void}}{{#vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<Void>{{/microprofileMutiny}}{{^microprofileMutiny}}void{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
 {{/useSingleRequestParameter}}
 {{#useSingleRequestParameter}}
     {{^vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<{{{returnType}}}>{{/microprofileMutiny}}{{^microprofileMutiny}}{{{returnType}}}{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}}{{#vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<Void>{{/microprofileMutiny}}{{^microprofileMutiny}}void{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}} {{nickname}}({{#hasNonBodyParams}}@BeanParam {{operationIdCamelCase}}Request request{{/hasNonBodyParams}}{{#bodyParams}}{{#hasNonBodyParams}}, {{/hasNonBodyParams}}{{>bodyParams}}{{/bodyParams}}) throws ApiException, ProcessingException;

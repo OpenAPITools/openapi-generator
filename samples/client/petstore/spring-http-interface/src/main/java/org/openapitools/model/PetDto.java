@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class PetDto {
 
   private Long id;
@@ -81,6 +81,10 @@ public class PetDto {
 
   @Deprecated
   private StatusEnum status;
+
+  public PetDto() {
+    super();
+  }
 
   public PetDto id(Long id) {
     this.id = id;

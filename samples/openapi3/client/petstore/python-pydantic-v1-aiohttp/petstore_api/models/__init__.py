@@ -28,6 +28,7 @@ from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
 from petstore_api.models.array_test import ArrayTest
+from petstore_api.models.base_discriminator import BaseDiscriminator
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.bathing import Bathing
 from petstore_api.models.capitalization import Capitalization
@@ -61,6 +62,7 @@ from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.health_check_result import HealthCheckResult
+from petstore_api.models.info import Info
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 from petstore_api.models.input_all_of import InputAllOf
 from petstore_api.models.int_or_string import IntOrString
@@ -89,6 +91,7 @@ from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict
 from petstore_api.models.pet import Pet
 from petstore_api.models.pig import Pig
 from petstore_api.models.poop_cleaning import PoopCleaning
+from petstore_api.models.primitive_string import PrimitiveString
 from petstore_api.models.property_map import PropertyMap
 from petstore_api.models.property_name_collision import PropertyNameCollision
 from petstore_api.models.read_only_first import ReadOnlyFirst

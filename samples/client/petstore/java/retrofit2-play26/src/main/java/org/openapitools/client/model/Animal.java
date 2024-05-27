@@ -35,7 +35,7 @@ import jakarta.validation.Valid;
   Animal.JSON_PROPERTY_CLASS_NAME,
   Animal.JSON_PROPERTY_COLOR
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
         @JsonSubTypes({
       @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
@@ -43,13 +43,12 @@ import jakarta.validation.Valid;
       @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
         })
 
-
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   protected String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
-  private String color = "red";
+  protected String color = "red";
 
   public Animal() {
   }
@@ -80,7 +79,6 @@ public class Animal {
   public void setClassName(String className) {
     this.className = className;
   }
-
 
   public Animal color(String color) {
     

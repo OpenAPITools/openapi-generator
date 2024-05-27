@@ -1,7 +1,14 @@
 {{>modelEnumInterfaces}}
 
 export function instanceOf{{classname}}(value: any): boolean {
-    return Object.values({{classname}}).includes(value);
+    for (const key in {{classname}}) {
+        if (Object.prototype.hasOwnProperty.call({{classname}}, key)) {
+            if ({{classname}}[key] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 export function {{classname}}FromJSON(json: any): {{classname}} {

@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   Dog.JSON_PROPERTY_BREED
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 
 
@@ -43,6 +43,14 @@ public class Dog extends Animal {
 
   public Dog() {
 
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Dog(@JsonProperty(JSON_PROPERTY_BREED) String breed, @JsonProperty(JSON_PROPERTY_CLASS_NAME) String className, @JsonProperty(JSON_PROPERTY_COLOR) String color) {
+    super(className, color);
+    this.breed = breed;
   }
 
   public Dog breed(String breed) {
@@ -120,6 +128,74 @@ public class Dog extends Animal {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder extends Animal.Builder {
+
+    private Dog instance;
+
+    public Builder() {
+      this(new Dog());
+    }
+
+    protected Builder(Dog instance) {
+      super(instance);
+      this.instance = instance;
+    }
+
+    public Dog.Builder breed(String breed) {
+      this.instance.breed = breed;
+      return this;
+    }
+
+    public Dog.Builder className(String className) { // inherited: true
+      super.className(className);
+      return this;
+   }
+
+    public Dog.Builder color(String color) { // inherited: true
+      super.color(color);
+      return this;
+   }
+
+
+    /**
+    * returns a built Dog instance.
+    *
+    * The builder is not reusable.
+    */
+    public Dog build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Dog.Builder builder() {
+    return new Dog.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Dog.Builder toBuilder() {
+    return new Dog.Builder()
+      .className(getClassName())
+      .color(getColor())
+      .breed(getBreed());
+  }
+
 
 }
 

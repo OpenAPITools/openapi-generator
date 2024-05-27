@@ -51,7 +51,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
     private static final Logger log = Logger.getLogger(SimpleOneOf.class.getName());
 
@@ -146,12 +146,7 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
         super("oneOf", Boolean.FALSE);
     }
 
-    public SimpleOneOf(Integer o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public SimpleOneOf(String o) {
+    public SimpleOneOf(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

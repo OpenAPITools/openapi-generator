@@ -10,18 +10,13 @@ use validator::{Validate, ValidationErrors};
 use crate::{header, types::*};
 
 #[allow(unused_imports)]
-use crate::models;
-
-use crate::{
-    Api, MultipartRelatedRequestPostResponse, MultipartRequestPostResponse,
-    MultipleIdenticalMimeTypesPostResponse,
-};
+use crate::{apis, models};
 
 /// Setup API Server.
 pub fn new<I, A>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: Api + 'static,
+    A: apis::default::Default + 'static,
 {
     // build our application with a route
     Router::new()
@@ -52,7 +47,7 @@ async fn multipart_related_request_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation =
@@ -76,7 +71,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            MultipartRelatedRequestPostResponse::Status201_OK => {
+            apis::default::MultipartRelatedRequestPostResponse::Status201_OK => {
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
@@ -109,7 +104,7 @@ async fn multipart_request_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || multipart_request_post_validation())
@@ -132,7 +127,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            MultipartRequestPostResponse::Status201_OK => {
+            apis::default::MultipartRequestPostResponse::Status201_OK => {
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
@@ -165,7 +160,7 @@ async fn multiple_identical_mime_types_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     #[allow(clippy::redundant_closure)]
     let validation =
@@ -189,7 +184,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            MultipleIdenticalMimeTypesPostResponse::Status200_OK => {
+            apis::default::MultipleIdenticalMimeTypesPostResponse::Status200_OK => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
