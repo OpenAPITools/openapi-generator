@@ -101,14 +101,6 @@ class ApiClient(
         bearerToken: String
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
         setBearerToken(bearerToken)
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiBird.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiCategory.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiDefaultValue.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiNumberPropertiesOnly.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiPet.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiQuery.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiTag.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.CustomTypeAdapterFactory())
     }
 
     fun setCredentials(username: String, password: String): ApiClient {

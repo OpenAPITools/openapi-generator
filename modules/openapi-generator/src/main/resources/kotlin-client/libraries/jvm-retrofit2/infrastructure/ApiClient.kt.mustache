@@ -204,6 +204,7 @@ import okhttp3.MediaType.Companion.toMediaType
         bearerToken: String
     ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
         setBearerToken(bearerToken)
+	{{#generateOneOfAnyOfWrappers}}
         {{^kotlinx_serialization}}
         {{#gson}}
         {{#models}}
@@ -217,6 +218,7 @@ import okhttp3.MediaType.Companion.toMediaType
         {{/models}}
         {{/gson}}
         {{/kotlinx_serialization}}
+	{{/generateOneOfAnyOfWrappers}}
     }
 
     {{/isBasicBearer}}
@@ -238,6 +240,7 @@ import okhttp3.MediaType.Companion.toMediaType
             ?.setClientSecret(secret)
             ?.setUsername(username)
             ?.setPassword(password)
+	{{#generateOneOfAnyOfWrappers}}
         {{^kotlinx_serialization}}
         {{#gson}}
         {{#models}}
@@ -251,6 +254,7 @@ import okhttp3.MediaType.Companion.toMediaType
         {{/models}}
         {{/gson}}
         {{/kotlinx_serialization}}
+	{{/generateOneOfAnyOfWrappers}}
     }
 
     {{/hasOAuthMethods}}
