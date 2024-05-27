@@ -497,12 +497,6 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean generateApiDocumentation = true;
 
     /**
-     * Generate the api documentation
-     */
-    @Parameter(name = "withXml", property = "openapi.generator.maven.plugin.withXml")
-    private Boolean withXml = false;
-
-    /**
      * Skip the execution.
      */
     @Parameter(name = "skip", property = "codegen.skip", defaultValue = "false")
@@ -811,7 +805,6 @@ public class CodeGenMojo extends AbstractMojo {
             GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
             GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
             GlobalSettings.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
-            GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.toString());
             GlobalSettings.setProperty(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, generateRecursiveDependentModels.toString());
 
             if (configOptions != null) {
