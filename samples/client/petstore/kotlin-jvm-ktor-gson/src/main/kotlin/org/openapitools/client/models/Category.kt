@@ -18,7 +18,6 @@ package org.openapitools.client.models
 
 import com.google.gson.annotations.SerializedName
 
-
 /**
  * A category for a pet
  *

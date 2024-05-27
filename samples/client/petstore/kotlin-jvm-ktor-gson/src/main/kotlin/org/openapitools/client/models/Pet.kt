@@ -20,7 +20,6 @@ import org.openapitools.client.models.Tag
 
 import com.google.gson.annotations.SerializedName
 
-
 /**
  * A pet for sale in the pet store
  *

@@ -27,7 +27,6 @@ import kotlinx.serialization.encoding.Encoder
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-
 /**
  * A category for a pet
  *

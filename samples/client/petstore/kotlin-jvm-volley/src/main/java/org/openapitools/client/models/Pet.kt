@@ -22,7 +22,6 @@ import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.PetRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
 
-
 /**
  * A pet for sale in the pet store
  *

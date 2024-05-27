@@ -20,7 +20,6 @@ import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
-
 /**
  * A User who is purchasing from the pet store
  *

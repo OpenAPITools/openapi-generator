@@ -20,7 +20,6 @@ import org.openapitools.client.models.ApiTag
 
 import com.google.gson.annotations.SerializedName
 
-
 /**
  * 
  *

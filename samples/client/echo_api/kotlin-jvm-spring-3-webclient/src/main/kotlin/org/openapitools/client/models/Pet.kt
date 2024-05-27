@@ -21,7 +21,6 @@ import org.openapitools.client.models.Tag
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
-
 /**
  * 
  *

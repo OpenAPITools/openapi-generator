@@ -21,7 +21,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
 import java.io.Serializable
 
-
 /**
  * A User who is purchasing from the pet store
  *

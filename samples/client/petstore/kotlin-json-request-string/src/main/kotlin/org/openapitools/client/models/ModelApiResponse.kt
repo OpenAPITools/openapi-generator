@@ -27,7 +27,6 @@ import kotlinx.serialization.encoding.Encoder
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-
 /**
  * Describes the result of uploading an image resource
  *

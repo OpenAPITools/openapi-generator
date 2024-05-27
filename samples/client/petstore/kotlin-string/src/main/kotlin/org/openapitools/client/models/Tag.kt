@@ -20,7 +20,6 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.io.Serializable
 
-
 /**
  * A tag for a pet
  *

@@ -20,7 +20,6 @@ import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.TagRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
 
-
 /**
  * A tag for a pet
  *

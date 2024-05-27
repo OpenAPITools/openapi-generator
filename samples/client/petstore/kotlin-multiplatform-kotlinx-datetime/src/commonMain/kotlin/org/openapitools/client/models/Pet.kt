@@ -22,7 +22,6 @@ import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
-
 /**
  * A pet for sale in the pet store
  *

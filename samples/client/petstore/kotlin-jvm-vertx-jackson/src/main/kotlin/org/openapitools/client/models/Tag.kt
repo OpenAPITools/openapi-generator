@@ -18,7 +18,6 @@ package org.openapitools.client.models
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-
 /**
  * A tag for a pet
  *

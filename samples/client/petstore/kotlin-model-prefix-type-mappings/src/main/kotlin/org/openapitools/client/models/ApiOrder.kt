@@ -27,7 +27,6 @@ import com.google.gson.annotations.JsonAdapter
 import java.io.IOException
 import com.google.gson.annotations.SerializedName
 
-
 /**
  * An order for a pets from the pet store
  *

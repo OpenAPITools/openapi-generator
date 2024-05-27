@@ -20,7 +20,6 @@ import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.OrderRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
 
-
 /**
  * An order for a pets from the pet store
  *

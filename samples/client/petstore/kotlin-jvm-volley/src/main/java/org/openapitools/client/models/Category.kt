@@ -20,7 +20,6 @@ import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.CategoryRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
 
-
 /**
  * A category for a pet
  *

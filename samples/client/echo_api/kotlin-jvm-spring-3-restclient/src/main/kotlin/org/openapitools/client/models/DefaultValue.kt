@@ -20,7 +20,6 @@ import org.openapitools.client.models.StringEnumRef
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
-
 /**
  * to test the default value of properties
  *

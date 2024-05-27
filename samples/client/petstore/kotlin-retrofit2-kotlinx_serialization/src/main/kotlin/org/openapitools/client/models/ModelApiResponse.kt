@@ -21,7 +21,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
 import java.io.Serializable
 
-
 /**
  * Describes the result of uploading an image resource
  *

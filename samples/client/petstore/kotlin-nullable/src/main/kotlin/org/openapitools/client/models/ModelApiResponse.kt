@@ -20,7 +20,6 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.io.Serializable
 
-
 /**
  * Describes the result of uploading an image resource
  *

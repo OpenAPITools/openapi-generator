@@ -20,7 +20,6 @@ import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
-
 /**
  * Describes the result of uploading an image resource
  *

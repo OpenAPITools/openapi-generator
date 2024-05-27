@@ -29,7 +29,6 @@ import kotlinx.serialization.encoding.Encoder
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-
 /**
  * A pet for sale in the pet store
  *

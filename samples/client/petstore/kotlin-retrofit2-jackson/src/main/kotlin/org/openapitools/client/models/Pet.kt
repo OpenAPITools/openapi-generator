@@ -21,7 +21,6 @@ import org.openapitools.client.models.Tag
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
 
-
 /**
  * A pet for sale in the pet store
  *

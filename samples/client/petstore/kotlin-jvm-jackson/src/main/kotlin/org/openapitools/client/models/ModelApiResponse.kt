@@ -19,7 +19,6 @@ package org.openapitools.client.models
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
-
 /**
  * Describes the result of uploading an image resource
  *

@@ -20,7 +20,6 @@ import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.ModelApiResponseRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
 
-
 /**
  * Describes the result of uploading an image resource
  *

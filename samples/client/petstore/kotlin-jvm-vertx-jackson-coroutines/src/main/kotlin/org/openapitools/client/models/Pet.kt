@@ -20,7 +20,6 @@ import org.openapitools.client.models.Tag
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-
 /**
  * A pet for sale in the pet store
  *

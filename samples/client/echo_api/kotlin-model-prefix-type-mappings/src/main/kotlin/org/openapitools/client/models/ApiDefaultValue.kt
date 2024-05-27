@@ -19,7 +19,6 @@ import org.openapitools.client.models.ApiStringEnumRef
 
 import com.google.gson.annotations.SerializedName
 
-
 /**
  * to test the default value of properties
  *

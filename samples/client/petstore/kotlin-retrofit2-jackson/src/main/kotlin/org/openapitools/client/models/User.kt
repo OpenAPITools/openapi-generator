@@ -19,7 +19,6 @@ package org.openapitools.client.models
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
 
-
 /**
  * A User who is purchasing from the pet store
  *
