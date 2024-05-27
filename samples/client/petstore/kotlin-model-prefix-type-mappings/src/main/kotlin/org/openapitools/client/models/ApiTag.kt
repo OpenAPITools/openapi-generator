@@ -24,8 +24,8 @@ import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import com.google.gson.annotations.JsonAdapter
-import com.google.gson.annotations.SerializedName
 import java.io.IOException
+import com.google.gson.annotations.SerializedName
 
 
 /**

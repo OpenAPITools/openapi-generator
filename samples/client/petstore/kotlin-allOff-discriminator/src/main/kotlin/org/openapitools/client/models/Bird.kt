@@ -19,7 +19,6 @@ import org.openapitools.client.models.Animal
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import java.io.IOException
 
 
 /**

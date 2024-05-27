@@ -18,7 +18,6 @@ package org.openapitools.client.models
 import org.openapitools.client.models.ApiStringEnumRef
 
 import com.google.gson.annotations.SerializedName
-import java.io.IOException
 
 
 /**

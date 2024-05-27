@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import com.google.gson.annotations.JsonAdapter
+import java.io.IOException
 {{/generateOneOfAnyOfWrappers}}
 import com.google.gson.annotations.SerializedName
 {{/gson}}
@@ -57,7 +58,6 @@ import java.io.Serializable
 import {{roomModelPackage}}.{{classname}}RoomModel
 import {{packageName}}.infrastructure.ITransformForStorage
 {{/generateRoomModels}}
-import java.io.IOException
 
 
 /**

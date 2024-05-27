@@ -21,7 +21,6 @@ import org.openapitools.client.models.Tag
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.io.Serializable
-import java.io.IOException
 
 
 /**

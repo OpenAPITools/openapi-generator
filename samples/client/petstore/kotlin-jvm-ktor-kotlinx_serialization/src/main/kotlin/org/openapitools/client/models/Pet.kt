@@ -21,7 +21,6 @@ import org.openapitools.client.models.Tag
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
-import java.io.IOException
 
 
 /**

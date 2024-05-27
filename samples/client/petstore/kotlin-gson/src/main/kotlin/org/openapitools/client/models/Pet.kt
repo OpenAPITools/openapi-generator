@@ -19,7 +19,6 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.google.gson.annotations.SerializedName
-import java.io.IOException
 
 
 /**

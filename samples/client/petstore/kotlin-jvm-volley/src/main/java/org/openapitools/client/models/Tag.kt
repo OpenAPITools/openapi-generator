@@ -19,7 +19,6 @@ package org.openapitools.client.models
 import com.google.gson.annotations.SerializedName
 import org.openapitools.client.models.room.TagRoomModel
 import org.openapitools.client.infrastructure.ITransformForStorage
-import java.io.IOException
 
 
 /**

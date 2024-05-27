@@ -19,7 +19,6 @@ import org.openapitools.client.models.StringEnumRef
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.io.IOException
 
 
 /**
