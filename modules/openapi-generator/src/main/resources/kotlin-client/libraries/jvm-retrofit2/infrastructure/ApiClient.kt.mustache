@@ -148,6 +148,7 @@ import okhttp3.MediaType.Companion.toMediaType
                 addAuthorization(authName, auth)
             }
         }
+	{{#generateOneOfAnyOfWrappers}}
         {{^kotlinx_serialization}}
         {{#gson}}
         {{#models}}
@@ -161,6 +162,7 @@ import okhttp3.MediaType.Companion.toMediaType
         {{/models}}
         {{/gson}}
         {{/kotlinx_serialization}}
+	{{/generateOneOfAnyOfWrappers}}
     }
 
     {{#authMethods}}
@@ -175,6 +177,7 @@ import okhttp3.MediaType.Companion.toMediaType
         password: String
     ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
         setCredentials(username, password)
+	{{#generateOneOfAnyOfWrappers}}
         {{^kotlinx_serialization}}
         {{#gson}}
         {{#models}}
@@ -188,6 +191,7 @@ import okhttp3.MediaType.Companion.toMediaType
         {{/models}}
         {{/gson}}
         {{/kotlinx_serialization}}
+	{{/generateOneOfAnyOfWrappers}}
     }
 
     {{/isBasicBasic}}
