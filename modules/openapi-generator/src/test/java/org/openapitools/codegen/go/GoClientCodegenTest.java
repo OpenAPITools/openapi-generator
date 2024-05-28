@@ -130,7 +130,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path modelFile = Paths.get(output + "/model_example.go");
@@ -170,7 +169,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path docFile = Paths.get(output + "/docs/PetAPI.md");
@@ -366,7 +364,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path goModFile = Paths.get(output + "/go.mod");
@@ -388,7 +385,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path goModFile = Paths.get(output + "/go.mod");

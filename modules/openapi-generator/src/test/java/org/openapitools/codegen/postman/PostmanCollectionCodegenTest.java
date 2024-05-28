@@ -98,7 +98,6 @@ public class PostmanCollectionCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path path = Paths.get(output + "/postman.json");
@@ -185,7 +184,6 @@ public class PostmanCollectionCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path path = Paths.get(output + "/postman.json");
@@ -223,7 +221,6 @@ public class PostmanCollectionCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path path = Paths.get(output + "/postman.json");
@@ -250,7 +247,6 @@ public class PostmanCollectionCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
 
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         assertFileExists(Paths.get(output + "/postman.json"));
@@ -277,7 +273,6 @@ public class PostmanCollectionCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path path = Paths.get(output + "/postman.json");
@@ -303,7 +298,6 @@ public class PostmanCollectionCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path path = Paths.get(output + "/postman.json");
@@ -330,7 +324,6 @@ public class PostmanCollectionCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
 
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path path = Paths.get(output + "/postman.json");
@@ -355,7 +348,6 @@ public class PostmanCollectionCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path path = Paths.get(output + "/postman.json");
@@ -395,7 +387,6 @@ public class PostmanCollectionCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path path = Paths.get(output + "/postman.json");
@@ -419,7 +410,6 @@ public class PostmanCollectionCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path path = Paths.get(output + "/postman.json");
@@ -447,7 +437,6 @@ public class PostmanCollectionCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path path = Paths.get(output + "/postman.json");
