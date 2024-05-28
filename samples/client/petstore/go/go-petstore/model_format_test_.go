@@ -14,8 +14,8 @@ import (
 	"encoding/json"
 	"os"
 	"time"
-	"bytes"
 	"fmt"
+	"bytes"
 )
 
 // checks if the FormatTest type satisfies the MappedNullable interface at compile time

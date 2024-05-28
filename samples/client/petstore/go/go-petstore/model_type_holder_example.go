@@ -12,8 +12,8 @@ package petstore
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
+	"bytes"
 )
 
 // checks if the TypeHolderExample type satisfies the MappedNullable interface at compile time

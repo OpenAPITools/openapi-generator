@@ -477,8 +477,15 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
-            if (model.isEnum) {
+
+            if (model.isEnum 
+                || model.hasRequired
+                || (model.oneOf != null && !model.oneOf.isEmpty())
+                || (model.anyOf != null && !model.anyOf.isEmpty())) {
                 imports.add(createMapping("import", "fmt"));
+            }
+            
+            if (model.isEnum) {
                 continue;
             }
 
@@ -500,31 +507,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 }
             }
 
-            // additional import for different cases
-            boolean addedFmtImport = false;
-
-            // oneOf
-            if (model.oneOf != null && !model.oneOf.isEmpty()) {
-                imports.add(createMapping("import", "fmt"));
-                addedFmtImport = true;
-            }
-
-            // anyOf
-            if (model.anyOf != null && !model.anyOf.isEmpty()) {
-                imports.add(createMapping("import", "fmt"));
-                addedFmtImport = true;
-            }
-
-            if (model.hasRequired) {
-                if (!model.isAdditionalPropertiesTrue &&
-                    (model.oneOf == null || model.oneOf.isEmpty()) &&
-                    (model.anyOf == null || model.anyOf.isEmpty())) {
-                    imports.add(createMapping("import", "bytes"));
-                }
-
-                if (!addedFmtImport) {
-                    imports.add(createMapping("import", "fmt"));
-                }
+            if (model.hasRequired
+                && !model.isAdditionalPropertiesTrue
+                && (model.oneOf == null || model.oneOf.isEmpty())
+                && (model.anyOf == null || model.anyOf.isEmpty())) {
+                imports.add(createMapping("import", "bytes"));
             }
 
             // additionalProperties: true and parent

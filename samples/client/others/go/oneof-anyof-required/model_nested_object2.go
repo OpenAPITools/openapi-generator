@@ -12,8 +12,8 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
+	"bytes"
 )
 
 // checks if the NestedObject2 type satisfies the MappedNullable interface at compile time
