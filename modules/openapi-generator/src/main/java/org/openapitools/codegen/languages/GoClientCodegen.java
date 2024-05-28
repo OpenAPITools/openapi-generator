@@ -478,6 +478,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
             if (model.isEnum) {
+                imports.add(createMapping("import", "fmt"));
                 continue;
             }
 

@@ -760,9 +760,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     addedOSImport = true;
                 }
             }
-            if (this instanceof GoClientCodegen && model.isEnum) {
-                imports.add(createMapping("import", "fmt"));
-            }
 
             // if oneOf contains "null" type
             if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("nil")) {

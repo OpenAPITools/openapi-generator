@@ -996,6 +996,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+
+        // hard-coded Arrays import in Java client as it has been removed from the templates
+        final List<String> libsRequiringArrayImport = List.of("jersey2", "jersey3", "native", "okhttp-gson");
+        if (libsRequiringArrayImport.contains(library)) {
+            model.imports.add("Arrays");
+        }
+
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             //final String lib = getLibrary();
             //Needed imports for Jackson based libraries

@@ -1790,15 +1790,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        // hard-coded Arrays import in Java client as it has been removed from the templates
-        if (this instanceof JavaClientCodegen &&
-                ("jersey2".equals(library) ||
-                        "jersey3".equals(library) ||
-                        "native".equals(library) ||
-                        "okhttp-gson".equals(library))) {
-            model.imports.add("Arrays");
-        }
-
         if ("array".equals(property.containerType)) {
             model.imports.add("ArrayList");
             model.imports.add("Arrays");
