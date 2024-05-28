@@ -39,10 +39,8 @@ import org.apache.maven.project.ProjectBuilder;
 import org.apache.maven.project.ProjectBuildingRequest;
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
 import org.eclipse.aether.DefaultRepositorySystemSession;
-import org.eclipse.aether.impl.DefaultServiceLocator;
 import org.eclipse.aether.internal.impl.SimpleLocalRepositoryManagerFactory;
 import org.eclipse.aether.repository.LocalRepository;
-import org.eclipse.aether.RepositorySystem;
 
 public class CodeGenMojoTest extends BaseTestCase {
     @Override

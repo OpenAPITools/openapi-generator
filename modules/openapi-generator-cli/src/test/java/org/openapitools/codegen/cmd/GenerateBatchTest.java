@@ -6,7 +6,6 @@ import org.openapitools.codegen.config.Context;
 import org.openapitools.codegen.config.GeneratorSettings;
 import org.openapitools.codegen.config.WorkflowSettings;
 import org.testng.ITestContext;
-import org.testng.TestRunner;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

@@ -22,7 +22,6 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.mockito.Answers;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;

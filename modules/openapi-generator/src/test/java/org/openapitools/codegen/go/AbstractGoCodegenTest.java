@@ -26,7 +26,6 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.mockito.Answers;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractGoCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;

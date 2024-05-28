@@ -33,7 +33,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;

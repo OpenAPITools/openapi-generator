@@ -22,7 +22,6 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import java.io.File;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;

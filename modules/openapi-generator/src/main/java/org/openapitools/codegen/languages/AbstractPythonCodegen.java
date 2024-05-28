@@ -46,7 +46,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenDiscriminator;
 import org.openapitools.codegen.CodegenMediaType;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -67,7 +66,6 @@ import org.slf4j.LoggerFactory;
 import com.github.curiousoddman.rgxgen.RgxGen;
 
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 

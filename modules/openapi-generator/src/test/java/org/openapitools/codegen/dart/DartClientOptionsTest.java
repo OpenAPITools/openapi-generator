@@ -20,7 +20,6 @@ package org.openapitools.codegen.dart;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.DartClientCodegen;
-import org.openapitools.codegen.languages.DartDioClientCodegen;
 import org.openapitools.codegen.options.DartClientOptionsProvider;
 
 import static org.mockito.Mockito.mock;

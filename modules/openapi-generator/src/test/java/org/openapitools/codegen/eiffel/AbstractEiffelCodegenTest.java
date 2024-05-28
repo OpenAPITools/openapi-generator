@@ -19,9 +19,7 @@ package org.openapitools.codegen.eiffel;
 
 import org.mockito.Answers;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractEiffelCodegen;
-import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

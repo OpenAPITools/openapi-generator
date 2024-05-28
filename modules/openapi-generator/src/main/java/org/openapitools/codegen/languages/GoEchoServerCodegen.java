@@ -28,7 +28,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 
 public class GoEchoServerCodegen extends AbstractGoCodegen {
     protected String apiVersion = "1.0.0";
