@@ -27,7 +27,7 @@ export type SingleRefType = typeof SingleRefType[keyof typeof SingleRefType];
 export function instanceOfSingleRefType(value: any): boolean {
     for (const key in SingleRefType) {
         if (Object.prototype.hasOwnProperty.call(SingleRefType, key)) {
-            if (SingleRefType[key] === value) {
+            if ((SingleRefType as Record<string, SingleRefType>)[key] === value) {
                 return true;
             }
         }
