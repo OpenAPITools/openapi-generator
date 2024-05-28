@@ -17,7 +17,7 @@
 
 package org.openapitools.codegen.java;
 
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
@@ -49,16 +49,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -3474,4 +3465,39 @@ public class JavaClientCodegenTest {
                         "hasLegs(getHasLegs())");
     }
 
+    @DataProvider(name = "Libraries which add Arrays import independent of datatype")
+    public String[] libsRequiringArraysImport() {
+        return new String[] {"jersey2", "jersey3", "native", "okhttp-gson"};
+    }
+    
+    @DataProvider(name = "Libraries which do not add Arrays import independent of datatype")
+    public String[] libsNotRequiringArraysImport() {
+        var supportedLibraries = new JavaClientCodegen().supportedLibraries().keySet();
+        List.of(libsRequiringArraysImport()).forEach(supportedLibraries::remove);
+        return supportedLibraries.toArray(new String[0]);
+    }
+    
+    @Test(dataProvider = "Libraries which add Arrays import independent of datatype")
+    void importFmtAddedTo_libsRequiringArraysImport(String library) {
+        var model = new CodegenModel();
+        model.setImports(new TreeSet<>());
+        var codegen = new JavaClientCodegen();
+        codegen.setLibrary(library);
+        
+        codegen.postProcessModelProperty(model, new CodegenProperty());
+        
+        assertThat(model.getImports()).contains("Arrays");
+    }
+    
+    @Test(dataProvider = "Libraries which do not add Arrays import independent of datatype")
+    void importFmtNotAddedTo_libsNotRequiringArraysImport(String library) {
+        var model = new CodegenModel();
+        model.setImports(new TreeSet<>());
+        var codegen = new JavaClientCodegen();
+        codegen.setLibrary(library);
+        
+        codegen.postProcessModelProperty(model, new CodegenProperty());
+        
+        assertThat(model.getImports()).doesNotContain("Arrays");
+    }
 }
