@@ -717,6 +717,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String toModelName(String name) {
+
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // FIXME parameter should not be assigned. Also declare it as "final"
         name = sanitizeName(name);
 
