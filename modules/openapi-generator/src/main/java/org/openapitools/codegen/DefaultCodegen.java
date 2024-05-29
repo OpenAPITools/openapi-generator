@@ -4746,9 +4746,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (contentType != null) {
                 contentType = contentType.toLowerCase(Locale.ROOT);
             }
-            if (contentType != null &&
-                    ((!(this instanceof RustAxumServerCodegen) && contentType.startsWith("application/x-www-form-urlencoded")) ||
-                            contentType.startsWith("multipart"))) {
+            if (isFormMimeType(contentType)) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
                 op.isMultipart = contentType.startsWith("multipart");
@@ -7007,9 +7005,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         for (String consume : consumesInfo) {
-            if (consume != null &&
-                    (consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                            consume.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
+            if (isFormMimeType(consume)) {
                 return true;
             }
         }
@@ -8339,6 +8335,16 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected boolean isFormMimeType(String mime) {
+        if (mime == null) {
+            return false;
+        }
+        
+        mime = mime.toLowerCase(Locale.ROOT);
+        return mime.startsWith("application/x-www-form-urlencoded") 
+            || mime.startsWith("multipart");    // ← maybe multipart/form-data would be more accurate?
+    }
+    
     /**
      * Check if the given MIME is a JSON MIME.
      * JSON MIME examples:
