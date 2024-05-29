@@ -120,18 +120,25 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
         /**
          * Reserved words. Override this with reserved words specific to your language
-         * Ref: https://github.com/itsgreggreg/elixir_quick_reference#reserved-words
+         * Ref: https://hexdocs.pm/elixir/1.13/syntax-reference.html#reserved-words
          */
         reservedWords = new HashSet<>(
                 Arrays.asList(
-                        "nil",
                         "true",
                         "false",
-                        "__MODULE__",
-                        "__FILE__",
-                        "__DIR__",
-                        "__ENV__",
-                        "__CALLER__"));
+                        "nil",
+                        "when",
+                        "and",
+                        "or",
+                        "not",
+                        "in",
+                        "fn",
+                        "do",
+                        "end",
+                        "catch",
+                        "rescue",
+                        "after",
+                        "else"));
 
         /**
          * Additional Properties. These values can be passed to the templates and
