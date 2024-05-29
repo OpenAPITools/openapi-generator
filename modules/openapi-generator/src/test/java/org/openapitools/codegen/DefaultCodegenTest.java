@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -4943,7 +4942,13 @@ public class DefaultCodegenTest {
         DefaultCodegen codegen = new DefaultCodegen();
 
         @BeforeTest void setOpenAPI() {
-            codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("SampleRequestInput", new ObjectSchema().addProperty("FormProp1", new StringSchema()))));
+            codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas(
+                "SampleRequestInput",
+                new ObjectSchema().addProperty(
+                    "FormProp1",
+                    new StringSchema()
+                )
+            )));
         }
 
         @Test public void resolvesReferencedSchema() {
@@ -4958,11 +4963,58 @@ public class DefaultCodegenTest {
                 .returns("Object", CodegenProperty::getDataType)
                 .returns(null, CodegenProperty::getRef)
                 .returns(true, CodegenProperty::getHasVars)
-                
+
                 .extracting(CodegenProperty::getVars).asList().hasSize(1)
                 .first(type(CodegenProperty.class))
                 .returns("FormProp1", CodegenProperty::getName)
                 .returns("String", CodegenProperty::getDataType);
+        }
+    }
+
+    @SuppressWarnings("NewClassNamingConvention")
+    public static class fromOperation {
+
+        DefaultCodegen codegen = new DefaultCodegen();
+        
+        @BeforeTest void setOpenAPI() {
+            codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("SampleRequestInput", new ObjectSchema().addProperty("FormProp1", new StringSchema()))));
+        }
+        
+        
+        @Test public void addsFormParametersFromRequestProperties_forFormContentType() {
+            var operation = new Operation()
+                .parameters(List.of())
+                .operationId("foobar")
+                .requestBody(new RequestBody().content(new Content().addMediaType(
+                    "application/x-www-form-urlencoded", 
+                    new MediaType().schema(new Schema<>().$ref("SampleRequestInput"))
+                )));
+
+            CodegenOperation result = codegen.fromOperation("/", "GET", operation, List.of());
+
+            assertThat(result.bodyParams).isEmpty();
+            assertThat(result.formParams).hasSize(1).first()
+                .hasFieldOrPropertyWithValue("baseName", "FormProp1")
+                .hasFieldOrPropertyWithValue("dataType", "String")
+                .hasFieldOrPropertyWithValue("paramName", "formProp1");
+        }
+        
+        @Test public void doesNotAddFormParametersFromRequestProperties_forJsonContentType() {
+            var operation = new Operation()
+                .parameters(List.of())
+                .operationId("foobar")
+                .requestBody(new RequestBody().content(new Content().addMediaType(
+                    "application/json",
+                    new MediaType().schema(new Schema<>().$ref("SampleRequestInput"))
+                )));
+
+            CodegenOperation result = codegen.fromOperation("", "GET", operation, List.of());
+
+            assertThat(result.formParams).isEmpty();
+            assertThat(result.bodyParams).hasSize(1).first()
+                .hasFieldOrPropertyWithValue("baseName", "SampleRequestInput")
+                .hasFieldOrPropertyWithValue("dataType", "SampleRequestInput")
+                .hasFieldOrPropertyWithValue("paramName", "sampleRequestInput");
         }
     }
 }
