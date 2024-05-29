@@ -5276,11 +5276,7 @@ public class DefaultCodegen implements CodegenConfig {
             parameterSchema = unaliasSchema(parameter.getSchema());
             parameterModelName = getParameterDataType(parameter, parameterSchema);
             CodegenProperty prop;
-            if (this instanceof RustServerCodegen) {
-                // for rust server, we need to do somethings special as it uses
-                // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
-                prop = fromProperty(parameter.getName(), parameterSchema, false);
-            } else if (getUseInlineModelResolver()) {
+            if (getUseInlineModelResolver()) {
                 prop = fromProperty(parameter.getName(), getReferencedSchemaWhenNotEnum(parameterSchema), false);
             } else {
                 prop = fromProperty(parameter.getName(), parameterSchema, false);
@@ -5327,7 +5323,7 @@ public class DefaultCodegen implements CodegenConfig {
             return codegenParameter;
         }
 
-        if (getUseInlineModelResolver() && !(this instanceof RustServerCodegen)) {
+        if (getUseInlineModelResolver()) {
             // for rust server, we cannot run the following as it uses
             // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
             parameterSchema = getReferencedSchemaWhenNotEnum(parameterSchema);
