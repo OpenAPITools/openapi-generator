@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnumInteger">outerEnumInteger</param>
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue</param>
         [JsonConstructor]
-        public EnumTest(EnumStringRequiredEnum enumStringRequired, Option<EnumIntegerEnum?> enumInteger = default, Option<EnumIntegerOnlyEnum?> enumIntegerOnly = default, Option<EnumNumberEnum?> enumNumber = default, Option<EnumStringEnum?> enumString = default, Option<OuterEnum?> outerEnum = default, Option<OuterEnumDefaultValue?> outerEnumDefaultValue = default, Option<OuterEnumInteger?> outerEnumInteger = default, Option<OuterEnumIntegerDefaultValue?> outerEnumIntegerDefaultValue = default)
+        internal EnumTest(EnumStringRequiredEnum enumStringRequired, Option<EnumIntegerEnum?> enumInteger = default, Option<EnumIntegerOnlyEnum?> enumIntegerOnly = default, Option<EnumNumberEnum?> enumNumber = default, Option<EnumStringEnum?> enumString = default, Option<OuterEnum?> outerEnum = default, Option<OuterEnumDefaultValue?> outerEnumDefaultValue = default, Option<OuterEnumInteger?> outerEnumInteger = default, Option<OuterEnumIntegerDefaultValue?> outerEnumIntegerDefaultValue = default)
         {
             EnumStringRequired = enumStringRequired;
             EnumIntegerOption = enumInteger;

@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayEnum">arrayEnum</param>
         /// <param name="justSymbol">justSymbol</param>
         [JsonConstructor]
-        public EnumArrays(Option<List<EnumArraysArrayEnumInner>> arrayEnum = default, Option<EnumArraysJustSymbol?> justSymbol = default)
+        internal EnumArrays(Option<List<EnumArraysArrayEnumInner>> arrayEnum = default, Option<EnumArraysJustSymbol?> justSymbol = default)
         {
             ArrayEnumOption = arrayEnum;
             JustSymbolOption = justSymbol;

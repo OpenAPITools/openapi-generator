@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="file">file</param>
         /// <param name="files">files</param>
         [JsonConstructor]
-        public FileSchemaTestClass(Option<File?> file = default, Option<List<File>?> files = default)
+        internal FileSchemaTestClass(Option<File?> file = default, Option<List<File>?> files = default)
         {
             FileOption = file;
             FilesOption = files;

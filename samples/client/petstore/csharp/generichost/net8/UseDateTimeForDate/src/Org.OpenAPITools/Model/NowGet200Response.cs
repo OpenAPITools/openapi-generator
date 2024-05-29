@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="now">now</param>
         /// <param name="today">today</param>
         [JsonConstructor]
-        public NowGet200Response(Option<DateTime?> now = default, Option<DateTime?> today = default)
+        internal NowGet200Response(Option<DateTime?> now = default, Option<DateTime?> today = default)
         {
             NowOption = now;
             TodayOption = today;

@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="hasBaleen">hasBaleen</param>
         /// <param name="hasTeeth">hasTeeth</param>
         [JsonConstructor]
-        public Whale(string className, Option<bool?> hasBaleen = default, Option<bool?> hasTeeth = default)
+        internal Whale(string className, Option<bool?> hasBaleen = default, Option<bool?> hasTeeth = default)
         {
             ClassName = className;
             HasBaleenOption = hasBaleen;

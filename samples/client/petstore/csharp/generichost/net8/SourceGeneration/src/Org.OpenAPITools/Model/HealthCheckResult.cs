@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="nullableMessage">nullableMessage</param>
         [JsonConstructor]
-        public HealthCheckResult(Option<string?> nullableMessage = default)
+        internal HealthCheckResult(Option<string?> nullableMessage = default)
         {
             NullableMessageOption = nullableMessage;
             OnCreated();

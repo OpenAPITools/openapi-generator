@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="quadrilateralType">quadrilateralType</param>
         /// <param name="shapeType">shapeType</param>
         [JsonConstructor]
-        public ComplexQuadrilateral(string quadrilateralType, string shapeType)
+        internal ComplexQuadrilateral(string quadrilateralType, string shapeType)
         {
             QuadrilateralType = quadrilateralType;
             ShapeType = shapeType;

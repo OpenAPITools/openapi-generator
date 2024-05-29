@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="class">class</param>
         [JsonConstructor]
-        public ClassModel(Option<string?> @class = default)
+        internal ClassModel(Option<string?> @class = default)
         {
             ClassOption = @class;
             OnCreated();

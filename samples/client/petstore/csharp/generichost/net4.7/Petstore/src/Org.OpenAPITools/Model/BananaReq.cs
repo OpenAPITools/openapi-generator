@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="lengthCm">lengthCm</param>
         /// <param name="sweet">sweet</param>
         [JsonConstructor]
-        public BananaReq(decimal lengthCm, Option<bool?> sweet = default)
+        internal BananaReq(decimal lengthCm, Option<bool?> sweet = default)
         {
             LengthCm = lengthCm;
             SweetOption = sweet;

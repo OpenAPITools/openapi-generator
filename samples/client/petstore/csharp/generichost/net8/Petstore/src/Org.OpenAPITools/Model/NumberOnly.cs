@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="justNumber">justNumber</param>
         [JsonConstructor]
-        public NumberOnly(Option<decimal?> justNumber = default)
+        internal NumberOnly(Option<decimal?> justNumber = default)
         {
             JustNumberOption = justNumber;
             OnCreated();

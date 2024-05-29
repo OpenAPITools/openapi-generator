@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public RolesReportsHashRole(Option<string> name = default)
+        internal RolesReportsHashRole(Option<string> name = default)
         {
             NameOption = name;
             OnCreated();

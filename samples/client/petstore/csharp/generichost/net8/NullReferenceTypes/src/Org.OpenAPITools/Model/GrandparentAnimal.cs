@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
         /// </summary>
         [JsonConstructor]
-        public GrandparentAnimal()
+        internal GrandparentAnimal()
         {
             OnCreated();
         }

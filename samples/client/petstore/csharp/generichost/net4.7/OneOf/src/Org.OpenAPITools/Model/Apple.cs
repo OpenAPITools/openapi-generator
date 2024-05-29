@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="kind">kind</param>
         [JsonConstructor]
-        public Apple(Option<string> kind = default)
+        internal Apple(Option<string> kind = default)
         {
             KindOption = kind;
             OnCreated();

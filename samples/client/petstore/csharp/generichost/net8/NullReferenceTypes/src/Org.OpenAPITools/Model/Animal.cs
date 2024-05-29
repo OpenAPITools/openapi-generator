@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Animal(Option<string?> color = default)
+        internal Animal(Option<string?> color = default)
         {
             ColorOption = color;
             OnCreated();

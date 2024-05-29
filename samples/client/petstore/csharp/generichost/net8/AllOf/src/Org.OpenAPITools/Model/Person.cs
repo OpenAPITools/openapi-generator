@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
         [JsonConstructor]
-        public Person(Option<string?> firstName = default, Option<string?> lastName = default)
+        internal Person(Option<string?> firstName = default, Option<string?> lastName = default)
         {
             FirstNameOption = firstName;
             LastNameOption = lastName;

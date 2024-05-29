@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="bar">bar</param>
         /// <param name="baz">baz</param>
         [JsonConstructor]
-        public ReadOnlyFirst(Option<string> bar = default, Option<string> baz = default)
+        internal ReadOnlyFirst(Option<string> bar = default, Option<string> baz = default)
         {
             BarOption = bar;
             BazOption = baz;

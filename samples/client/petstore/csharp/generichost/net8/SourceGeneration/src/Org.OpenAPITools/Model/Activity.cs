@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="activityOutputs">activityOutputs</param>
         [JsonConstructor]
-        public Activity(Option<Dictionary<string, List<ActivityOutputElementRepresentation>>?> activityOutputs = default)
+        internal Activity(Option<Dictionary<string, List<ActivityOutputElementRepresentation>>?> activityOutputs = default)
         {
             ActivityOutputsOption = activityOutputs;
             OnCreated();

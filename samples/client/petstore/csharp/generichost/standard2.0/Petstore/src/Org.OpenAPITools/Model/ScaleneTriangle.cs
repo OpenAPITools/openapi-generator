@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public ScaleneTriangle(string shapeType, string triangleType)
+        internal ScaleneTriangle(string shapeType, string triangleType)
         {
             ShapeType = shapeType;
             TriangleType = triangleType;

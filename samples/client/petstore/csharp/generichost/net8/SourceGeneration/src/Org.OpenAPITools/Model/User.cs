@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="userStatus">User Status</param>
         /// <param name="username">username</param>
         [JsonConstructor]
-        public User(Option<Object?> anyTypeProp = default, Option<Object?> anyTypePropNullable = default, Option<string?> email = default, Option<string?> firstName = default, Option<long?> id = default, Option<string?> lastName = default, Option<Object?> objectWithNoDeclaredProps = default, Option<Object?> objectWithNoDeclaredPropsNullable = default, Option<string?> password = default, Option<string?> phone = default, Option<int?> userStatus = default, Option<string?> username = default)
+        internal User(Option<Object?> anyTypeProp = default, Option<Object?> anyTypePropNullable = default, Option<string?> email = default, Option<string?> firstName = default, Option<long?> id = default, Option<string?> lastName = default, Option<Object?> objectWithNoDeclaredProps = default, Option<Object?> objectWithNoDeclaredPropsNullable = default, Option<string?> password = default, Option<string?> phone = default, Option<int?> userStatus = default, Option<string?> username = default)
         {
             AnyTypePropOption = anyTypeProp;
             AnyTypePropNullableOption = anyTypePropNullable;

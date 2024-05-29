@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className</param>
         [JsonConstructor]
-        public BasquePig(string className)
+        internal BasquePig(string className)
         {
             ClassName = className;
             OnCreated();

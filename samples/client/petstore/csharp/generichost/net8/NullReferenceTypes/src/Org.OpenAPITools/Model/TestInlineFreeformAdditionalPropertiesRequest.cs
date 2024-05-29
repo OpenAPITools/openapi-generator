@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="someProperty">someProperty</param>
         [JsonConstructor]
-        public TestInlineFreeformAdditionalPropertiesRequest(Option<string?> someProperty = default)
+        internal TestInlineFreeformAdditionalPropertiesRequest(Option<string?> someProperty = default)
         {
             SomePropertyOption = someProperty;
             OnCreated();

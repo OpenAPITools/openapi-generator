@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="string">string</param>
         [JsonConstructor]
-        public FooGetDefaultResponse(Option<Foo?> @string = default)
+        internal FooGetDefaultResponse(Option<Foo?> @string = default)
         {
             StringOption = @string;
             OnCreated();

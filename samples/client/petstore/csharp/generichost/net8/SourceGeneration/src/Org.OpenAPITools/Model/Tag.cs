@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Tag(Option<long?> id = default, Option<string?> name = default)
+        internal Tag(Option<long?> id = default, Option<string?> name = default)
         {
             IdOption = id;
             NameOption = name;

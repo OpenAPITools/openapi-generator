@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color (default to &quot;red&quot;)</param>
         /// <param name="declawed">declawed</param>
         [JsonConstructor]
-        public Cat(Option<string?> color = default, Option<bool?> declawed = default) : base(color)
+        internal Cat(Option<string?> color = default, Option<bool?> declawed = default) : base(color)
         {
             DeclawedOption = declawed;
             OnCreated();

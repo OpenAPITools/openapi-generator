@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="zeroBasedEnum">zeroBasedEnum</param>
         [JsonConstructor]
-        public ZeroBasedEnumClass(Option<ZeroBasedEnumEnum?> zeroBasedEnum = default)
+        internal ZeroBasedEnumClass(Option<ZeroBasedEnumEnum?> zeroBasedEnum = default)
         {
             ZeroBasedEnumOption = zeroBasedEnum;
             OnCreated();

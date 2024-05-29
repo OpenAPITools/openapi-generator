@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeOrNull">shapeOrNull</param>
         /// <param name="shapes">shapes</param>
         [JsonConstructor]
-        public Drawing(Option<Shape?> mainShape = default, Option<NullableShape?> nullableShape = default, Option<ShapeOrNull?> shapeOrNull = default, Option<List<Shape>?> shapes = default)
+        internal Drawing(Option<Shape?> mainShape = default, Option<NullableShape?> nullableShape = default, Option<ShapeOrNull?> shapeOrNull = default, Option<List<Shape>?> shapes = default)
         {
             MainShapeOption = mainShape;
             NullableShapeOption = nullableShape;

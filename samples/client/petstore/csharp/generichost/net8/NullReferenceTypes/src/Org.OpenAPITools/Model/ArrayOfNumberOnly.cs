@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="arrayNumber">arrayNumber</param>
         [JsonConstructor]
-        public ArrayOfNumberOnly(Option<List<decimal>?> arrayNumber = default)
+        internal ArrayOfNumberOnly(Option<List<decimal>?> arrayNumber = default)
         {
             ArrayNumberOption = arrayNumber;
             OnCreated();

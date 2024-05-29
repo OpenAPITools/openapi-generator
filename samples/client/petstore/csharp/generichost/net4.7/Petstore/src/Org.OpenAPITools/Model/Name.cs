@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="snakeCase">snakeCase</param>
         /// <param name="var123Number">var123Number</param>
         [JsonConstructor]
-        public Name(int varName, Option<string> property = default, Option<int?> snakeCase = default, Option<int?> var123Number = default)
+        internal Name(int varName, Option<string> property = default, Option<int?> snakeCase = default, Option<int?> var123Number = default)
         {
             VarName = varName;
             PropertyOption = property;

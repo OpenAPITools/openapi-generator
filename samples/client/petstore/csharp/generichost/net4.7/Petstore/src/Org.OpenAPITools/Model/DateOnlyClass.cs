@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty</param>
         [JsonConstructor]
-        public DateOnlyClass(Option<DateTime?> dateOnlyProperty = default)
+        internal DateOnlyClass(Option<DateTime?> dateOnlyProperty = default)
         {
             DateOnlyPropertyOption = dateOnlyProperty;
             OnCreated();

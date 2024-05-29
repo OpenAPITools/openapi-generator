@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public ChildCat(Option<string?> name = default) : base()
+        internal ChildCat(Option<string?> name = default) : base()
         {
             NameOption = name;
             OnCreated();

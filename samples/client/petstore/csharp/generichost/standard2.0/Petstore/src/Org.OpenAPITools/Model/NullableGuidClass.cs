@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public NullableGuidClass(Option<Guid?> uuid = default)
+        internal NullableGuidClass(Option<Guid?> uuid = default)
         {
             UuidOption = uuid;
             OnCreated();

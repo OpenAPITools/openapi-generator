@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="message">message</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public ApiResponse(Option<int?> code = default, Option<string?> message = default, Option<string?> type = default)
+        internal ApiResponse(Option<int?> code = default, Option<string?> message = default, Option<string?> type = default)
         {
             CodeOption = code;
             MessageOption = message;

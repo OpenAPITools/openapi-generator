@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm</param>
         [JsonConstructor]
-        public Banana(Option<decimal?> lengthCm = default)
+        internal Banana(Option<decimal?> lengthCm = default)
         {
             LengthCmOption = lengthCm;
             OnCreated();

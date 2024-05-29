@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="testCollectionEndingWithWordList">testCollectionEndingWithWordList</param>
         [JsonConstructor]
-        public TestCollectionEndingWithWordListObject(Option<List<TestCollectionEndingWithWordList>?> testCollectionEndingWithWordList = default)
+        internal TestCollectionEndingWithWordListObject(Option<List<TestCollectionEndingWithWordList>?> testCollectionEndingWithWordList = default)
         {
             TestCollectionEndingWithWordListOption = testCollectionEndingWithWordList;
             OnCreated();
