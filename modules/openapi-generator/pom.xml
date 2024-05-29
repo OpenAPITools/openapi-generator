@@ -433,7 +433,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava-testlib</artifactId>
-            <version>31.1-jre</version>
+            <version>${guava.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>junit</groupId>
