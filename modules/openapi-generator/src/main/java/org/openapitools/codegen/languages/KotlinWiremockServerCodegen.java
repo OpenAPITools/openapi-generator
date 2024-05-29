@@ -41,6 +41,8 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
     public KotlinWiremockServerCodegen() {
         super();
 
+        embeddedTemplateDir = templateDir = "kotlin-wiremock";
+
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
                 .build();
