@@ -154,14 +154,6 @@ jobs:
 
           rm -rf samples/client/petstore/csharp/generichost/standard2.0/Petstore
 
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/AllOf
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/AnyOf
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/AnyOfNoCompare
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/FormModels
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/OneOf
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/Petstore
-          rm -rf samples/client/petstore/csharp/generichost/net4.7/UseDateTimeForDate
-
           rm -rf samples/client/petstore/csharp/generichost/net4.8/AllOf
           rm -rf samples/client/petstore/csharp/generichost/net4.8/AnyOf
           rm -rf samples/client/petstore/csharp/generichost/net4.8/AnyOfNoCompare
@@ -169,6 +161,14 @@ jobs:
           rm -rf samples/client/petstore/csharp/generichost/net4.8/OneOf
           rm -rf samples/client/petstore/csharp/generichost/net4.8/Petstore
           rm -rf samples/client/petstore/csharp/generichost/net4.8/UseDateTimeForDate
+
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/AllOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/AnyOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/AnyOfNoCompare
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/FormModels
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/OneOf
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/Petstore
+          rm -rf samples/client/petstore/csharp/generichost/net4.7/UseDateTimeForDate
       - name: Generate samples
         run: |
           bash bin/generate-samples.sh
