@@ -823,22 +823,11 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 if (exResponse.baseType == null) {
                     returnEntry.append("nil");
                 } else if (exResponse.containerType == null) { // not container (array, map, set)
-                    if (!exResponse.primitiveType) {
-                        returnEntry.append(moduleName);
-                        returnEntry.append(".Model.");
-                    }
-
-                    translateBaseType(returnEntry, exResponse.baseType);
+                    returnEntry.append(normalizeTypeName(exResponse.baseType, exResponse.primitiveType));
                 } else {
-                    if (exResponse.containerType.equals("array") ||
-                            exResponse.containerType.equals("set")) {
+                    if (exResponse.containerType.equals("array") || exResponse.containerType.equals("set")) {
                         returnEntry.append("list(");
-                        if (!exResponse.primitiveType) {
-                            returnEntry.append(moduleName);
-                            returnEntry.append(".Model.");
-                        }
-
-                        translateBaseType(returnEntry, exResponse.baseType);
+                        returnEntry.append(normalizeTypeName(exResponse.baseType, exResponse.primitiveType));
                         returnEntry.append(")");
                     } else if (exResponse.containerType.equals("map")) {
                         returnEntry.append("map()");
@@ -855,6 +844,22 @@ public class ElixirClientCodegen extends DefaultCodegen {
             return sb.toString();
         }
 
+        private String normalizeTypeName(String baseType, boolean isPrimitive) {
+            if (baseType == null) {
+                return "nil";
+            }
+            if (isPrimitive || "String.t".equals(baseType)) {
+                return baseType;
+            }
+            if (!baseType.startsWith(moduleName + ".Model.")) {
+                baseType = moduleName + ".Model." + baseType;
+            }
+            if (!baseType.endsWith(".t")) {
+                baseType += ".t";
+            }
+            return baseType;
+        }
+
         private void buildTypespec(CodegenParameter param, StringBuilder sb) {
             if (param.dataType == null) {
                 sb.append("nil");
@@ -868,20 +873,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 sb.append("%{optional(String.t) => ");
                 buildTypespec(param.items, sb);
                 sb.append("}");
-            } else if (param.isPrimitiveType) {
-                // like `integer()`, `String.t`
-                sb.append(param.dataType);
-            } else if (param.isFile || param.isBinary) {
-                sb.append("String.t");
-            } else if ("String.t".equals(param.dataType)) {
-                // uuid, password, etc
-                sb.append(param.dataType);
             } else {
-                // <module>.Model.<type>.t
-                sb.append(moduleName);
-                sb.append(".Model.");
-                sb.append(param.dataType);
-                sb.append(".t");
+                sb.append(normalizeTypeName(param.dataType, param.isPrimitiveType || param.isFile || param.isBinary));
             }
         }
 
@@ -897,14 +890,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 sb.append("%{optional(String.t) => ");
                 buildTypespec(property.items, sb);
                 sb.append("}");
-            } else if (property.isPrimitiveType) {
-                sb.append(property.baseType);
-                sb.append(".t");
             } else {
-                sb.append(moduleName);
-                sb.append(".Model.");
-                sb.append(property.baseType);
-                sb.append(".t");
+                sb.append(normalizeTypeName(property.baseType, property.isPrimitiveType));
             }
         }
 
