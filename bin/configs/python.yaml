@@ -7,6 +7,7 @@ additionalProperties:
   useOneOfDiscriminatorLookup: "true"
   disallowAdditionalPropertiesIfNotPresent: false
   mapNumberTo: StrictFloat
+  ensureAscii: False
 nameMappings:
   _type: underscore_type
   type_: type_with_underscore
