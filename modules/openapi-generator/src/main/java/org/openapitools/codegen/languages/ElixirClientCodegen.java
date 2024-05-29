@@ -432,7 +432,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
      */
     @Override
     public String escapeReservedWord(String name) {
-        return "_" + name; // add an underscore to the name
+        return name + "_var"; // add a generic suffix to the name
     }
 
     private String sourceFolder() {
