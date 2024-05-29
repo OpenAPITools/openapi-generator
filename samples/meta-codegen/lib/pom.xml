@@ -41,6 +41,7 @@
                     </systemPropertyVariables>
                     <argLine>-Xms512m -Xmx1500m</argLine>
                     <parallel>methods</parallel>
+		    <forkMode>pertest</forkMode>
                 </configuration>
             </plugin>
 
@@ -113,8 +114,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
@@ -123,6 +124,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <openapi-generator-version>7.7.0-SNAPSHOT</openapi-generator-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <junit-version>5.10.2</junit-version>
+        <junit-version>4.13.2</junit-version>
     </properties>
 </project>
