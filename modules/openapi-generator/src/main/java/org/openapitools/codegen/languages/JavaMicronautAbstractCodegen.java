@@ -89,13 +89,9 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         visitable = false;
         buildTool = OPT_BUILD_ALL;
         testTool = OPT_TEST_JUNIT;
-        outputFolder = this instanceof JavaMicronautClientCodegen ?
-                "generated-code/java-micronaut-client" : "generated-code/java-micronaut";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
         invokerPackage = "org.openapitools";
-        artifactId = this instanceof JavaMicronautClientCodegen ?
-                "openapi-micronaut-client" : "openapi-micronaut";
         embeddedTemplateDir = templateDir = "java-micronaut";
         apiDocPath = "docs/apis";
         modelDocPath = "docs/models";
@@ -104,9 +100,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         reactive = true;
         wrapInHttpResponse = false;
         appName = artifactId;
-        generateSwaggerAnnotations = this instanceof JavaMicronautClientCodegen ?
-                OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE : OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2;
-        generateOperationOnlyForFirstTag = this instanceof JavaMicronautServerCodegen;
 
         // Set implemented features for user information
         modifyFeatureSet(features -> features

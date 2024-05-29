@@ -46,6 +46,10 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
         title = "OpenAPI Micronaut Server";
         apiPackage = "org.openapitools.api";
         apiDocPath = "docs/controllers";
+        artifactId = "openapi-micronaut";
+        generateOperationOnlyForFirstTag = true;
+        generateSwaggerAnnotations = OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2;
+        outputFolder = "generated-code/java-micronaut";
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
