@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;)</param>
         [JsonConstructor]
-        internal Foo(Option<string?> bar = default)
+        public Foo(Option<string?> bar = default)
         {
             BarOption = bar;
             OnCreated();

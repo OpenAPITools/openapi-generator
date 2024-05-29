@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid</param>
         /// <param name="uuidWithPattern">uuidWithPattern</param>
         [JsonConstructor]
-        internal MixedPropertiesAndAdditionalPropertiesClass(Option<DateTime?> dateTime = default, Option<Dictionary<string, Animal>?> map = default, Option<Guid?> uuid = default, Option<Guid?> uuidWithPattern = default)
+        public MixedPropertiesAndAdditionalPropertiesClass(Option<DateTime?> dateTime = default, Option<Dictionary<string, Animal>?> map = default, Option<Guid?> uuid = default, Option<Guid?> uuidWithPattern = default)
         {
             DateTimeOption = dateTime;
             MapOption = map;

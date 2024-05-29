@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="sourceURI">Test capitalization</param>
         [JsonConstructor]
-        internal File(Option<string?> sourceURI = default)
+        public File(Option<string?> sourceURI = default)
         {
             SourceURIOption = sourceURI;
             OnCreated();

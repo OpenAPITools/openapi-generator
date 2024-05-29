@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="escapedLiteralString">escapedLiteralString (default to &quot;C:\\Users\\username&quot;)</param>
         /// <param name="unescapedLiteralString">unescapedLiteralString (default to &quot;C:\Users\username&quot;)</param>
         [JsonConstructor]
-        internal LiteralStringClass(Option<string?> escapedLiteralString = default, Option<string?> unescapedLiteralString = default)
+        public LiteralStringClass(Option<string?> escapedLiteralString = default, Option<string?> unescapedLiteralString = default)
         {
             EscapedLiteralStringOption = escapedLiteralString;
             UnescapedLiteralStringOption = unescapedLiteralString;

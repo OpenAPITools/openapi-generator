@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateralType">quadrilateralType</param>
         [JsonConstructor]
-        internal QuadrilateralInterface(string quadrilateralType)
+        public QuadrilateralInterface(string quadrilateralType)
         {
             QuadrilateralType = quadrilateralType;
             OnCreated();

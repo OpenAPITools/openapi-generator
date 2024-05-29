@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty</param>
         [JsonConstructor]
-        internal DateOnlyClass(Option<DateOnly?> dateOnlyProperty = default)
+        public DateOnlyClass(Option<DateOnly?> dateOnlyProperty = default)
         {
             DateOnlyPropertyOption = dateOnlyProperty;
             OnCreated();
@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
-        /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
+        /// <example>Thu Jul 20 20:00:00 EDT 2017</example>
         [JsonPropertyName("dateOnlyProperty")]
         public DateOnly? DateOnlyProperty { get { return this.DateOnlyPropertyOption; } set { this.DateOnlyPropertyOption = new(value); } }
 

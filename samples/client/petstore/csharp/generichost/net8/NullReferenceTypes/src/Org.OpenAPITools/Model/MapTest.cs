@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapMapOfString">mapMapOfString</param>
         /// <param name="mapOfEnumString">mapOfEnumString</param>
         [JsonConstructor]
-        internal MapTest(Option<Dictionary<string, bool>?> directMap = default, Option<Dictionary<string, bool>?> indirectMap = default, Option<Dictionary<string, Dictionary<string, string>>?> mapMapOfString = default, Option<Dictionary<string, MapTest.InnerEnum>?> mapOfEnumString = default)
+        public MapTest(Option<Dictionary<string, bool>?> directMap = default, Option<Dictionary<string, bool>?> indirectMap = default, Option<Dictionary<string, Dictionary<string, string>>?> mapMapOfString = default, Option<Dictionary<string, MapTest.InnerEnum>?> mapOfEnumString = default)
         {
             DirectMapOption = directMap;
             IndirectMapOption = indirectMap;

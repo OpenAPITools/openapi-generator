@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="prop1">prop1</param>
         /// <param name="prop2">prop2</param>
         [JsonConstructor]
-        internal ActivityOutputElementRepresentation(Option<string?> prop1 = default, Option<Object?> prop2 = default)
+        public ActivityOutputElementRepresentation(Option<string?> prop1 = default, Option<Object?> prop2 = default)
         {
             Prop1Option = prop1;
             Prop2Option = prop2;

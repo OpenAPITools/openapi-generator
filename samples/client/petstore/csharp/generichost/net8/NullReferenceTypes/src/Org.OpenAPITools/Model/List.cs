@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="var123List">var123List</param>
         [JsonConstructor]
-        internal List(Option<string?> var123List = default)
+        public List(Option<string?> var123List = default)
         {
             Var123ListOption = var123List;
             OnCreated();
