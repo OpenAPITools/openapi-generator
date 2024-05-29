@@ -67,7 +67,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import junit.framework.AssertionFailedError;
 import lombok.SneakyThrows;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
@@ -851,7 +850,7 @@ public class JavaClientCodegenTest {
             File apiClient = files.stream()
                     .filter(f -> f.getName().equals("ApiClient.java"))
                     .findFirst()
-                    .orElseThrow(() -> new AssertionFailedError(
+                    .orElseThrow(() -> new AssertionError(
                             "ApiClient.java not found"));
 
             Stream<String> contents = Arrays.stream(Files.readString(apiClient.toPath(),

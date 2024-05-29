@@ -1,12 +1,12 @@
 package org.openapitools.codegen.kotlin.spring;
 
-import com.google.common.collect.testing.Helpers;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.io.FileUtils;
+import org.assertj.core.api.Assertions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -225,7 +225,7 @@ public class KotlinSpringServerCodegenTest {
             )
             .generate();
 
-        Helpers.assertContainsAllOf(files,
+        Assertions.assertThat(files).contains(
             new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
             new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
             new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiController.kt"),
@@ -250,7 +250,7 @@ public class KotlinSpringServerCodegenTest {
             )
             .generate();
 
-        Helpers.assertContainsAllOf(files,
+        Assertions.assertThat(files).contains(
             new File(output, "src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
             new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
             new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
