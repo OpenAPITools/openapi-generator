@@ -3,9 +3,12 @@ package org.openapitools.codegen.java.micronaut;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
+import org.assertj.core.api.Assertions;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.JavaMicronautAbstractCodegen;
+import org.openapitools.codegen.languages.JavaMicronautClientCodegen;
 import org.openapitools.codegen.languages.JavaMicronautServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -340,5 +343,35 @@ public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
                 "bookCreateEntryPost", "bookSearchGet", "bookSendReviewPost", "getBook", "isBookAvailable", "getAuthorBooks");
         assertFileContains(controllerPath + "SearchController.java",
                 "authorSearchGet", "bookSearchGet");
+    }
+
+    @Test
+    public void generateOperationOnlyForFirstTag_isTrue() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+
+        Assertions.assertThat(codegen).hasFieldOrPropertyWithValue("generateOperationOnlyForFirstTag", true);
+    }
+
+    @Test
+    public void generateSwaggerAnnotations_isSwagger2() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+
+        Assertions.assertThat(codegen).hasFieldOrPropertyWithValue(
+            "generateSwaggerAnnotations", JavaMicronautAbstractCodegen.OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2
+        );
+    }
+    
+    @Test
+    public void outputFolder_endsWithMicronaut() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+
+        Assertions.assertThat(codegen.outputFolder()).endsWith("java-micronaut");
+    }
+    
+    @Test
+    public void artifactId_isOpenapiMicronaut() {
+        JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
+
+        Assertions.assertThat(codegen.getArtifactId()).isEqualTo("openapi-micronaut");
     }
 }
