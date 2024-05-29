@@ -30,7 +30,7 @@ public class AllGeneratorsTest {
     @Test
     public void testEachWithPetstore() throws IOException {
         for (final CodegenConfig codegenConfig : CodegenConfigLoader.getAll()) {
-            File output = Files.createTempDirectory("test").toFile();
+            final File output = Files.createTempDirectory("test").toFile();
             output.deleteOnExit();
 
             final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -39,13 +39,17 @@ public class AllGeneratorsTest {
                     .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
             final ClientOptInput clientOptInput = configurator.toClientOptInput();
-            DefaultGenerator generator = new DefaultGenerator();
-            List<File> files = generator.opts(clientOptInput).generate();
-
+            List<File> files = List.of();
+            try {
+                DefaultGenerator generator = new DefaultGenerator();
+                files = generator.opts(clientOptInput).generate();
+            } catch (Exception e) {
+                Assert.fail("Generator " + codegenConfig.getName() + " threw an exception (generating " + codegenConfig.getInputSpec() + "): " + e.getMessage(), e);
+            }
+            
             // Main intention of this test is to check that nothing crashes. Besides, we check here that
             // at least 1 file is generated, besides the common ".openapi-generator-ignore", "FILES" and "VERSION" files.
             Assert.assertTrue(files.size() >= 4);
         }
     }
-
 }
