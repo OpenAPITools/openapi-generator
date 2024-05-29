@@ -16,7 +16,7 @@
 
 package org.openapitools.codegen.csharpnetcore;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 
 import io.swagger.v3.oas.models.OpenAPI;

@@ -1186,8 +1186,8 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
@@ -1234,7 +1234,7 @@
         <jackson.version>2.16.2</jackson.version>
         <jacoco.version>0.8.10</jacoco.version>
         <jmustache.version>1.15</jmustache.version>
-        <junit.version>4.13.2</junit.version>
+        <junit.version>5.10.2</junit.version>
         <kotlin.version>1.6.21</kotlin.version>
         <kotlin-compiler-embeddable.version>1.6.21</kotlin-compiler-embeddable.version>
         <lombok.version>1.18.30</lombok.version>

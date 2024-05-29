@@ -16,7 +16,7 @@
 
 package org.openapitools.codegen.plugin;
 
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
 import java.nio.file.Files;
