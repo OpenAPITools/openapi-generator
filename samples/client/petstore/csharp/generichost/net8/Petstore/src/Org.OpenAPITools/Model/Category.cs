@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id</param>
         /// <param name="name">name (default to &quot;default-name&quot;)</param>
         [JsonConstructor]
-        internal Category(Option<long?> id = default, string name = @"default-name")
+        public Category(Option<long?> id = default, string name = @"default-name")
         {
             IdOption = id;
             Name = name;

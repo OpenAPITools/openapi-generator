@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="class">class</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        internal Model200Response(Option<string?> @class = default, Option<int?> name = default)
+        public Model200Response(Option<string?> @class = default, Option<int?> name = default)
         {
             ClassOption = @class;
             NameOption = name;

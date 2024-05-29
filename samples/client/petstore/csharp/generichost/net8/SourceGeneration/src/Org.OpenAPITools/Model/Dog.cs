@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="breed">breed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        internal Dog(Option<string?> breed = default, Option<string?> color = default) : base(color)
+        public Dog(Option<string?> breed = default, Option<string?> color = default) : base(color)
         {
             BreedOption = breed;
             OnCreated();

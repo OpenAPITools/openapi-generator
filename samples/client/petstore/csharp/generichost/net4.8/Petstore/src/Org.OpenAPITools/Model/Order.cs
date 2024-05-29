@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate</param>
         /// <param name="status">Order Status</param>
         [JsonConstructor]
-        internal Order(Option<bool?> complete = default, Option<long?> id = default, Option<long?> petId = default, Option<int?> quantity = default, Option<DateTime?> shipDate = default, Option<StatusEnum?> status = default)
+        public Order(Option<bool?> complete = default, Option<long?> id = default, Option<long?> petId = default, Option<int?> quantity = default, Option<DateTime?> shipDate = default, Option<StatusEnum?> status = default)
         {
             CompleteOption = complete;
             IdOption = id;

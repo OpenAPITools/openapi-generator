@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
         [JsonConstructor]
-        internal Adult(Option<List<Child>?> children = default, Option<string?> firstName = default, Option<string?> lastName = default) : base(firstName, lastName)
+        public Adult(Option<List<Child>?> children = default, Option<string?> firstName = default, Option<string?> lastName = default) : base(firstName, lastName)
         {
             ChildrenOption = children;
             OnCreated();

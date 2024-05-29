@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="cultivar">cultivar</param>
         /// <param name="origin">origin</param>
         [JsonConstructor]
-        internal Apple(Option<string?> colorCode = default, Option<string?> cultivar = default, Option<string?> origin = default)
+        public Apple(Option<string?> colorCode = default, Option<string?> cultivar = default, Option<string?> origin = default)
         {
             ColorCodeOption = colorCode;
             CultivarOption = cultivar;

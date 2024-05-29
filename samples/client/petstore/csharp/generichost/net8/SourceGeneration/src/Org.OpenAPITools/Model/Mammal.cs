@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="whale"></param>
-        internal Mammal(Whale whale)
+        public Mammal(Whale whale)
         {
             Whale = whale;
             OnCreated();
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="zebra"></param>
-        internal Mammal(Zebra zebra)
+        public Mammal(Zebra zebra)
         {
             Zebra = zebra;
             OnCreated();
@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="pig"></param>
-        internal Mammal(Pig pig)
+        public Mammal(Pig pig)
         {
             Pig = pig;
             OnCreated();

@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="varSpecialModelName">varSpecialModelName</param>
         /// <param name="specialPropertyName">specialPropertyName</param>
         [JsonConstructor]
-        internal SpecialModelName(Option<string> varSpecialModelName = default, Option<long?> specialPropertyName = default)
+        public SpecialModelName(Option<string> varSpecialModelName = default, Option<long?> specialPropertyName = default)
         {
             VarSpecialModelNameOption = varSpecialModelName;
             SpecialPropertyNameOption = specialPropertyName;

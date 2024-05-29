@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ParentPet" /> class.
         /// </summary>
         [JsonConstructor]
-        internal ParentPet() : base()
+        public ParentPet() : base()
         {
             OnCreated();
         }

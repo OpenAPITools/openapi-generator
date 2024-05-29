@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name</param>
         [JsonConstructor]
-        internal DeprecatedObject(Option<string?> name = default)
+        public DeprecatedObject(Option<string?> name = default)
         {
             NameOption = name;
             OnCreated();

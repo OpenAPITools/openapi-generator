@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectNullableProp">objectNullableProp</param>
         /// <param name="stringProp">stringProp</param>
         [JsonConstructor]
-        internal NullableClass(Option<List<Object>?> arrayAndItemsNullableProp = default, Option<List<Object>?> arrayItemsNullable = default, Option<List<Object>?> arrayNullableProp = default, Option<bool?> booleanProp = default, Option<DateOnly?> dateProp = default, Option<DateTime?> datetimeProp = default, Option<int?> integerProp = default, Option<decimal?> numberProp = default, Option<Dictionary<string, Object>?> objectAndItemsNullableProp = default, Option<Dictionary<string, Object>?> objectItemsNullable = default, Option<Dictionary<string, Object>?> objectNullableProp = default, Option<string?> stringProp = default)
+        public NullableClass(Option<List<Object>?> arrayAndItemsNullableProp = default, Option<List<Object>?> arrayItemsNullable = default, Option<List<Object>?> arrayNullableProp = default, Option<bool?> booleanProp = default, Option<DateOnly?> dateProp = default, Option<DateTime?> datetimeProp = default, Option<int?> integerProp = default, Option<decimal?> numberProp = default, Option<Dictionary<string, Object>?> objectAndItemsNullableProp = default, Option<Dictionary<string, Object>?> objectItemsNullable = default, Option<Dictionary<string, Object>?> objectNullableProp = default, Option<string?> stringProp = default)
         {
             ArrayAndItemsNullablePropOption = arrayAndItemsNullableProp;
             ArrayItemsNullableOption = arrayItemsNullable;

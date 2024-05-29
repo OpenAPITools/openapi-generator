@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="smallCamel">smallCamel</param>
         /// <param name="smallSnake">smallSnake</param>
         [JsonConstructor]
-        internal Capitalization(Option<string?> aTTNAME = default, Option<string?> capitalCamel = default, Option<string?> capitalSnake = default, Option<string?> sCAETHFlowPoints = default, Option<string?> smallCamel = default, Option<string?> smallSnake = default)
+        public Capitalization(Option<string?> aTTNAME = default, Option<string?> capitalCamel = default, Option<string?> capitalSnake = default, Option<string?> sCAETHFlowPoints = default, Option<string?> smallCamel = default, Option<string?> smallSnake = default)
         {
             ATT_NAMEOption = aTTNAME;
             CapitalCamelOption = capitalCamel;

@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="varReturn">varReturn</param>
         /// <param name="unsafe">unsafe</param>
         [JsonConstructor]
-        internal Return(string @lock, string? @abstract = default, Option<int?> varReturn = default, Option<string?> @unsafe = default)
+        public Return(string @lock, string? @abstract = default, Option<int?> varReturn = default, Option<string?> @unsafe = default)
         {
             Lock = @lock;
             Abstract = @abstract;

@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="aObjVariableobject">aObjVariableobject</param>
         /// <param name="pkiNotificationtestID">pkiNotificationtestID</param>
         [JsonConstructor]
-        internal NotificationtestGetElementsV1ResponseMPayload(List<Dictionary<string, Object>> aObjVariableobject, int pkiNotificationtestID)
+        public NotificationtestGetElementsV1ResponseMPayload(List<Dictionary<string, Object>> aObjVariableobject, int pkiNotificationtestID)
         {
             AObjVariableobject = aObjVariableobject;
             PkiNotificationtestID = pkiNotificationtestID;

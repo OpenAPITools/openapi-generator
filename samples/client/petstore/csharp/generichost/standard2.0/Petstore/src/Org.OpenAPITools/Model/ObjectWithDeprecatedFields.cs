@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        internal ObjectWithDeprecatedFields(Option<List<string>> bars = default, Option<DeprecatedObject> deprecatedRef = default, Option<decimal?> id = default, Option<string> uuid = default)
+        public ObjectWithDeprecatedFields(Option<List<string>> bars = default, Option<DeprecatedObject> deprecatedRef = default, Option<decimal?> id = default, Option<string> uuid = default)
         {
             BarsOption = bars;
             DeprecatedRefOption = deprecatedRef;

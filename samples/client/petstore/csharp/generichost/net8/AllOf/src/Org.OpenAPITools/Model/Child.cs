@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="lastName">lastName</param>
         /// <param name="boosterSeat">boosterSeat</param>
         [JsonConstructor]
-        internal Child(Option<int?> age = default, Option<string?> firstName = default, Option<string?> lastName = default, Option<bool?> boosterSeat = default) : base(firstName, lastName)
+        public Child(Option<int?> age = default, Option<string?> firstName = default, Option<string?> lastName = default, Option<bool?> boosterSeat = default) : base(firstName, lastName)
         {
             AgeOption = age;
             BoosterSeatOption = boosterSeat;

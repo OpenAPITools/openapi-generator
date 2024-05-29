@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        internal TriangleInterface(string triangleType)
+        public TriangleInterface(string triangleType)
         {
             TriangleType = triangleType;
             OnCreated();

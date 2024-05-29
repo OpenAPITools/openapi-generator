@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="count">count</param>
         [JsonConstructor]
-        internal Banana(Option<decimal?> count = default)
+        public Banana(Option<decimal?> count = default)
         {
             CountOption = count;
             OnCreated();

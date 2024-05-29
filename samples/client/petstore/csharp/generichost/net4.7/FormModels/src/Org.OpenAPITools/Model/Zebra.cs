@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        internal Zebra(string className, Option<ZebraType?> type = default)
+        public Zebra(string className, Option<ZebraType?> type = default)
         {
             ClassName = className;
             TypeOption = type;

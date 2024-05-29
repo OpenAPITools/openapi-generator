@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        internal FormatTest(byte[] @byte, DateOnly date, decimal number, string password, Option<System.IO.Stream?> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<float?> @float = default, Option<int?> int32 = default, Option<long?> int64 = default, Option<int?> integer = default, Option<string?> patternWithBackslash = default, Option<string?> patternWithDigits = default, Option<string?> patternWithDigitsAndDelimiter = default, Option<string?> @string = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
+        public FormatTest(byte[] @byte, DateOnly date, decimal number, string password, Option<System.IO.Stream?> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<float?> @float = default, Option<int?> int32 = default, Option<long?> int64 = default, Option<int?> integer = default, Option<string?> patternWithBackslash = default, Option<string?> patternWithDigits = default, Option<string?> patternWithDigitsAndDelimiter = default, Option<string?> @string = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
         {
             Byte = @byte;
             Date = date;

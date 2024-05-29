@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesAnytype3">mapWithUndeclaredPropertiesAnytype3</param>
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString</param>
         [JsonConstructor]
-        internal AdditionalPropertiesClass(Option<Object?> anytype1 = default, Option<Object?> emptyMap = default, Option<Dictionary<string, Dictionary<string, string>>?> mapOfMapProperty = default, Option<Dictionary<string, string>?> mapProperty = default, Option<Object?> mapWithUndeclaredPropertiesAnytype1 = default, Option<Object?> mapWithUndeclaredPropertiesAnytype2 = default, Option<Dictionary<string, Object>?> mapWithUndeclaredPropertiesAnytype3 = default, Option<Dictionary<string, string>?> mapWithUndeclaredPropertiesString = default)
+        public AdditionalPropertiesClass(Option<Object?> anytype1 = default, Option<Object?> emptyMap = default, Option<Dictionary<string, Dictionary<string, string>>?> mapOfMapProperty = default, Option<Dictionary<string, string>?> mapProperty = default, Option<Object?> mapWithUndeclaredPropertiesAnytype1 = default, Option<Object?> mapWithUndeclaredPropertiesAnytype2 = default, Option<Dictionary<string, Object>?> mapWithUndeclaredPropertiesAnytype3 = default, Option<Dictionary<string, string>?> mapWithUndeclaredPropertiesString = default)
         {
             Anytype1Option = anytype1;
             EmptyMapOption = emptyMap;

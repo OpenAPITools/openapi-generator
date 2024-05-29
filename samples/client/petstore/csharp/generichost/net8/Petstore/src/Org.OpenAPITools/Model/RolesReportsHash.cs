@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="role">role</param>
         /// <param name="roleUuid">roleUuid</param>
         [JsonConstructor]
-        internal RolesReportsHash(Option<RolesReportsHashRole> role = default, Option<Guid?> roleUuid = default)
+        public RolesReportsHash(Option<RolesReportsHashRole> role = default, Option<Guid?> roleUuid = default)
         {
             RoleOption = role;
             RoleUuidOption = roleUuid;

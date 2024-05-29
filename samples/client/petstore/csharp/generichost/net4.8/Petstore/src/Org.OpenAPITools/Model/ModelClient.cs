@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varClient">varClient</param>
         [JsonConstructor]
-        internal ModelClient(Option<string> varClient = default)
+        public ModelClient(Option<string> varClient = default)
         {
             VarClientOption = varClient;
             OnCreated();
