@@ -175,8 +175,8 @@ class EnumTest(BaseModel):
             "enum_string_vendor_ext": obj.get("enum_string_vendor_ext"),
             "outerEnum": obj.get("outerEnum"),
             "outerEnumInteger": obj.get("outerEnumInteger"),
-            "outerEnumDefaultValue": obj.get("outerEnumDefaultValue"),
-            "outerEnumIntegerDefaultValue": obj.get("outerEnumIntegerDefaultValue")
+            "outerEnumDefaultValue": obj.get("outerEnumDefaultValue") if obj.get("outerEnumDefaultValue") is not None else OuterEnumDefaultValue.PLACED,
+            "outerEnumIntegerDefaultValue": obj.get("outerEnumIntegerDefaultValue") if obj.get("outerEnumIntegerDefaultValue") is not None else OuterEnumIntegerDefaultValue.NUMBER_0
         })
         return _obj
 
