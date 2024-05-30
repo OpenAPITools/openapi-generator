@@ -236,6 +236,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             } else {
                 return null;
             }
+        } else if (ModelUtils.isEnumSchema(p)) {
+            if (p.getDefault() != null) {
+                String defaultValue = String.valueOf(p.getDefault());
+                if (defaultValue != null) {
+                    return p.getDataType().toString() + "." + defaultValue;
+                }
+            }
         }
 
         return null;
