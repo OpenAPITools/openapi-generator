@@ -1427,12 +1427,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return value;
     }
 
-    @Override
-    public String toEnumDefaultValue(String value, String datatype) {
-        // Remove the string encapsulating the value and prefix with the datatype.
-        return datatype + "." + toEnumVariableName(value, datatype);
-    }
-
     /**
      * checks if the data should be classified as "string" in enum
      * e.g. double in C# needs to be double-quoted (e.g. "2.8") by treating it as a string
