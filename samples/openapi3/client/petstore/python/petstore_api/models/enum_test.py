@@ -39,8 +39,8 @@ class EnumTest(BaseModel):
     enum_string_vendor_ext: Optional[StrictStr] = None
     outer_enum: Optional[OuterEnum] = Field(default=None, alias="outerEnum")
     outer_enum_integer: Optional[OuterEnumInteger] = Field(default=None, alias="outerEnumInteger")
-    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=None, alias="outerEnumDefaultValue")
-    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=None, alias="outerEnumIntegerDefaultValue")
+    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=OuterEnumDefaultValue.PLACED, alias="outerEnumDefaultValue")
+    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=OuterEnumIntegerDefaultValue.NUMBER_0, alias="outerEnumIntegerDefaultValue")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "enum_number_vendor_ext", "enum_string_vendor_ext", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
 
