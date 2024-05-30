@@ -100,7 +100,7 @@ public class TestUtils {
         return openAPI;
     }
 
-    public static OpenAPI createOpenAPIWithOneSchema(String name, Schema schema) {
+    public static OpenAPI createOpenAPIWithOneSchema(String name, Schema<?> schema) {
         OpenAPI openAPI = createOpenAPI();
         openAPI.setComponents(new Components());
         openAPI.getComponents().addSchemas(name, schema);
