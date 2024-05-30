@@ -175,7 +175,7 @@ public class TestUtils {
     public static void validateJavaSourceFiles(Map<String, String> fileMap) {
         fileMap.forEach( (fileName, fileContents) -> {
                 if (fileName.endsWith(".java")) {
-                    assertValidJavaSourceCode(fileContents, fileName);
+                    assertValidJavaSourceCode(fileContents);
                 }
             }
         );
@@ -183,21 +183,20 @@ public class TestUtils {
 
     public static void validateJavaSourceFiles(List<File> files) {
         files.forEach( f -> {
-                    String fileName = f.getName();
-                    if (fileName.endsWith(".java")) {
+                    if (f.getName().endsWith(".java")) {
                         String fileContents = "";
                         try {
                             fileContents = new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8);
                         } catch (IOException ignored) {
 
                         }
-                        assertValidJavaSourceCode(fileContents, fileName);
+                        assertValidJavaSourceCode(fileContents);
                     }
                 }
         );
     }
 
-    public static void assertValidJavaSourceCode(String javaSourceCode, String filename) {
+    public static void assertValidJavaSourceCode(String javaSourceCode) {
         ParserConfiguration config = new ParserConfiguration();
         config.setLanguageLevel(ParserConfiguration.LanguageLevel.JAVA_11);
         JavaParser parser = new JavaParser(config);
