@@ -1,14 +1,12 @@
 package org.openapitools.codegen;
 
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertFalse;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.github.javaparser.JavaParser;
-import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.ParseResult;
+import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.ast.CompilationUnit;
+import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -17,30 +15,20 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
-import org.apache.commons.io.IOUtils;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openrewrite.maven.internal.RawPom;
 import org.testng.Assert;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
-import com.google.common.collect.ImmutableMap;
+import static org.testng.Assert.*;
 
 public class TestUtils {
 
@@ -136,32 +124,29 @@ public class TestUtils {
     }
 
     public static void validatePomXmlFiles(final List<File> files) {
-        files.forEach( f -> {
-                    String fileName = f.getName();
-                    if ("pom.xml".equals(fileName)) {
-                        try {
-                            String fileContents = Files.readString(f.toPath());
-                            assertValidPomXml(fileContents);
-                        } catch (IOException exception) {
-                            throw new RuntimeException(exception);
-                        }
-                    }
-                }
-        );
+        if (files == null 
+            || files.isEmpty() 
+            || files.stream().noneMatch(f -> f.getName().equals("pom.xml"))) return;
+        
+        final XmlMapper mapper = new XmlMapper();
+        for (File file : files) {
+            if (!"pom.xml".equals(file.getName())) continue;
+
+            try {
+                JsonNode pomContents = mapper.readTree(file);
+                assertValidPomXml(pomContents);
+            } catch (IOException exception) {
+                throw new RuntimeException(exception);
+            }
+        };
     }
 
-    private static void assertValidPomXml(final String fileContents) {
-        final InputStream input = new ByteArrayInputStream(fileContents.getBytes(StandardCharsets.UTF_8));
-        try {
-            RawPom pom = RawPom.parse(input, null);
-            assertTrue(pom.getDependencies().getDependencies().size() > 0);
-            assertNotNull(pom.getName());
-            assertNotNull(pom.getArtifactId());
-            assertNotNull(pom.getGroupId());
-            assertNotNull(pom.getVersion());
-        } finally {
-            IOUtils.closeQuietly(input);
-        }
+    private static void assertValidPomXml(final JsonNode pom) {
+        assertFalse(pom.path("dependencies").isEmpty());
+        assertNotNull(pom.get("name"));
+        assertNotNull(pom.get("artifactId"));
+        assertNotNull(pom.get("groupId"));
+        assertNotNull(pom.get("version"));
     }
 
     public static void validateJavaSourceFiles(Map<String, String> fileMap) {

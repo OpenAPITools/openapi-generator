@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -38,18 +37,18 @@ public class TestUtilsTest {
                 .isExactlyInstanceOf(RuntimeException.class);
         }
         
-        @Test void throwsUncheckedIoException_ifXmlIsJson() {
+        @Test void throwsRuntimeException_ifXmlIsJson() {
             Path testFile = newPomXmlFile("{\"not_xml\": 12345}");
 
             assertThatThrownBy(() -> TestUtils.validatePomXmlFiles(List.of(testFile.toFile())))
-                .isExactlyInstanceOf(UncheckedIOException.class);
+                .isExactlyInstanceOf(RuntimeException.class);
         }
 
-        @Test void throwsUncheckedIoException_ifXmlIsInvalid() {
+        @Test void throwsRuntimeException_ifXmlIsInvalid() {
             final Path testFile = newPomXmlFile("<IAmNotClosed>");
 
             assertThatThrownBy(() -> TestUtils.validatePomXmlFiles(List.of(testFile.toFile())))
-                .isExactlyInstanceOf(UncheckedIOException.class);
+                .isExactlyInstanceOf(RuntimeException.class);
         }
         
         @Test void throwsAssertionError_ifNameTagIsMissing() {
