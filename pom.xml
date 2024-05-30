@@ -1197,12 +1197,6 @@
                 <version>${testng.version}</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>org.openrewrite</groupId>
-                <artifactId>rewrite-maven</artifactId>
-                <version>${openrewrite.version}</version>
-                <scope>test</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
     <repositories>
@@ -1247,7 +1241,6 @@
         <maven-site-plugin.version>4.0.0-M8</maven-site-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <mockito.version>4.10.0</mockito.version>
-        <openrewrite.version>8.8.3</openrewrite.version>
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
         <resolver-util-version>1.9.18</resolver-util-version>
         <rxgen.version>1.4</rxgen.version>
