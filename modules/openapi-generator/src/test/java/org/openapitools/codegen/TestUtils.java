@@ -140,7 +140,7 @@ public class TestUtils {
                     String fileName = f.getName();
                     if ("pom.xml".equals(fileName)) {
                         try {
-                            String fileContents = new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8);
+                            String fileContents = Files.readString(f.toPath());
                             assertValidPomXml(fileContents);
                         } catch (IOException exception) {
                             throw new RuntimeException(exception);
@@ -178,7 +178,7 @@ public class TestUtils {
                     if (f.getName().endsWith(".java")) {
                         String fileContents = "";
                         try {
-                            fileContents = new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8);
+                            fileContents = Files.readString(f.toPath());
                         } catch (IOException ignored) {
 
                         }
@@ -198,7 +198,7 @@ public class TestUtils {
 
     public static void assertFileContains(Path path, String... lines) {
         try {
-            String generatedFile = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            String generatedFile = Files.readString(path);
             String file = linearize(generatedFile);
             assertNotNull(file);
             for (String line : lines)
@@ -215,7 +215,7 @@ public class TestUtils {
     public static void assertFileNotContains(Path path, String... lines) {
         String generatedFile = null;
         try {
-            generatedFile = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            generatedFile = Files.readString(path);
         } catch (IOException e) {
             fail("Unable to evaluate file " + path);
         }
@@ -227,7 +227,7 @@ public class TestUtils {
 
     public static void assertFileNotExists(Path path) {
         try {
-            new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            Files.readString(path);
             fail("File exists when it should not: " + path);
         } catch (IOException e) {
             // File exists, pass.
@@ -237,7 +237,7 @@ public class TestUtils {
 
     public static void assertFileExists(Path path) {
         try {
-            new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            Files.readString(path);
             // File exists, pass.
             assertTrue(true);
         } catch (IOException e) {
