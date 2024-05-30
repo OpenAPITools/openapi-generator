@@ -135,14 +135,6 @@ public class TestUtils {
         assertFalse(generatedFiles.contains(path.toFile()), "File '" + path.toAbsolutePath() + "' was found in the list of generated files");
     }
 
-    public static void validatePomXmlFiles(final Map<String, String> fileMap) {
-        fileMap.forEach( (fileName, fileContents) -> {
-            if ("pom.xml".equals(fileName)) {
-                assertValidPomXml(fileContents);
-            }
-        });
-    }
-
     public static void validatePomXmlFiles(final List<File> files) {
         files.forEach( f -> {
                     String fileName = f.getName();
