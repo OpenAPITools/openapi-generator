@@ -799,11 +799,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         if (HTTPCLIENT.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
-            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath);
             additionalProperties.put("modelDocPath", modelDocPath);
         } else if (GENERICHOST.equals(getLibrary())) {
-            addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+            addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName);
             additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
             additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
         } else if (UNITY_WEB_REQUEST.equals(getLibrary())) {
@@ -816,12 +816,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put("supportsFileParameters", false);
             setSupportsFileParameters(false);
 
-            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
 
             supportingFiles.add(new SupportingFile("ConnectionException.mustache", clientPackageDir, "ConnectionException.cs"));
             supportingFiles.add(new SupportingFile("UnexpectedResponseException.mustache", clientPackageDir, "UnexpectedResponseException.cs"));
         } else { //restsharp
-            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath);
             additionalProperties.put("modelDocPath", modelDocPath);
 
@@ -890,7 +890,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     public void addSupportingFiles(final String clientPackageDir, final String packageFolder,
-                                   final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir, final String authPackageDir) {
+                                   final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir) {
         supportingFiles.add(new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
@@ -950,7 +950,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     public void addGenericHostSupportingFiles(final String clientPackageDir, final String packageDir,
-                                              final AtomicReference<Boolean> excludeTests, final String testPackageDir, final String testPackageName, final String modelPackageDir) {
+                                              final AtomicReference<Boolean> excludeTests, final String testPackageDir, final String testPackageName) {
         supportingFiles.add(new SupportingFile("README.test.mustache", testPackageDir, "README.md"));
 
         supportingFiles.add(new SupportingFile("README.solution.mustache", "", "README.md"));

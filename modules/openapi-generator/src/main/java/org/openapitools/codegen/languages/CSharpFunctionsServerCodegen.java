@@ -370,7 +370,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
 
         // determine the ASP.NET core version setting
         setAzureFunctionsVersion();
-        setNetCoreVersion(packageFolder);
+        setNetCoreVersion();
         setUseNewtonsoft();
 
         // Check for class modifier if not present set the default value.
@@ -575,7 +575,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         }
     }
 
-    private void setNetCoreVersion(String packageFolder) {
+    private void setNetCoreVersion() {
         setCliOption(netCoreVersion);
 
         LOGGER.info("ASP.NET core version: {}", netCoreVersion.getOptValue());

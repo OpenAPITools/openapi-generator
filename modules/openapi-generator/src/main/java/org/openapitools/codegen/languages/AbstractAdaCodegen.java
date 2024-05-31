@@ -662,7 +662,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation op : operationList) {
-            postProcessOperationWithModels(op, allModels);
+            postProcessOperationWithModels(op);
         }
 
         // Build the adaImports variable to create a list of Ada specific packages that must be imported.
@@ -679,7 +679,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         return objs;
     }
 
-    private void postProcessOperationWithModels(CodegenOperation op, List<ModelMap> allModels) {
+    private void postProcessOperationWithModels(CodegenOperation op) {
 
         if (op.consumes != null) {
             List<String> mediaList = new ArrayList<>();

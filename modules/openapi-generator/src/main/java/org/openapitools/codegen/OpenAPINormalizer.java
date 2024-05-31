@@ -527,7 +527,7 @@ public class OpenAPINormalizer {
             return normalizeAllOf(schema, visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) { // composed schema
             if (ModelUtils.isComplexComposedSchema(schema)) {
-                schema = normalizeComplexComposedSchema(schema, visitedSchemas);
+                schema = normalizeComplexComposedSchema(schema);
             }
 
             if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
@@ -543,7 +543,7 @@ public class OpenAPINormalizer {
             }
 
             if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-                normalizeProperties(schema.getProperties(), visitedSchemas);
+                normalizeProperties(schema.getProperties());
             }
 
             if (schema.getAdditionalProperties() != null) {
@@ -552,11 +552,11 @@ public class OpenAPINormalizer {
 
             return schema;
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            normalizeProperties(schema.getProperties(), visitedSchemas);
+            normalizeProperties(schema.getProperties());
         } else if (schema instanceof BooleanSchema) {
-            normalizeBooleanSchema(schema, visitedSchemas);
+            normalizeBooleanSchema(schema);
         } else if (schema instanceof IntegerSchema) {
-            normalizeIntegerSchema(schema, visitedSchemas);
+            normalizeIntegerSchema(schema);
         } else if (schema instanceof Schema) {
             return normalizeSimpleSchema(schema, visitedSchemas);
         } else {
@@ -580,17 +580,17 @@ public class OpenAPINormalizer {
         return processSetPrimitiveTypesToNullable(result);
     }
 
-    private void normalizeBooleanSchema(Schema schema, Set<Schema> visitedSchemas) {
+    private void normalizeBooleanSchema(Schema schema) {
         processSimplifyBooleanEnum(schema);
         processSetPrimitiveTypesToNullable(schema);
     }
 
-    private void normalizeIntegerSchema(Schema schema, Set<Schema> visitedSchemas) {
+    private void normalizeIntegerSchema(Schema schema) {
         processAddUnsignedToIntegerWithInvalidMaxValue(schema);
         processSetPrimitiveTypesToNullable(schema);
     }
 
-    private void normalizeProperties(Map<String, Schema> properties, Set<Schema> visitedSchemas) {
+    private void normalizeProperties(Map<String, Schema> properties) {
         if (properties == null) {
             return;
         }
@@ -666,10 +666,10 @@ public class OpenAPINormalizer {
         return processSimplifyAnyOfStringAndEnumString(schema);
     }
 
-    private Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
+    private Schema normalizeComplexComposedSchema(Schema schema) {
         // loop through properties, if any
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            normalizeProperties(schema.getProperties(), visitedSchemas);
+            normalizeProperties(schema.getProperties());
         }
 
         processRemoveAnyOfOneOfAndKeepPropertiesOnly(schema);

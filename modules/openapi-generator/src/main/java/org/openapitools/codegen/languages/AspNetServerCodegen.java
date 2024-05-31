@@ -405,7 +405,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         String packageFolder = sourceFolder + File.separator + packageName;
 
         // determine the ASP.NET core version setting
-        setAspnetCoreVersion(packageFolder);
+        setAspnetCoreVersion();
         setSwashbuckleVersion();
         setIsFramework();
         setUseNewtonsoft();
@@ -678,7 +678,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         additionalProperties.put(IS_LIBRARY, isLibrary);
     }
 
-    private void setAspnetCoreVersion(String packageFolder) {
+    private void setAspnetCoreVersion() {
         setCliOption(aspnetCoreVersion);
 
         if (aspnetCoreVersion.getOptValue().startsWith("3.") || aspnetCoreVersion.getOptValue().startsWith("5.0") || aspnetCoreVersion.getOptValue().startsWith("6.")) {

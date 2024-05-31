@@ -172,8 +172,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         additionalProperties.put(HELIDON_VERSION, helidonVersion);
 
         setEEPackageAndDependencies(helidonVersion);
-        setMpTestDependency(helidonVersion);
-        setJandexPluginDependency(helidonVersion);
+        setMpTestDependency();
+        setJandexPluginDependency();
     }
 
     @Override
@@ -257,13 +257,13 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     }
 
 
-    private void setMpTestDependency(String version) {
+    private void setMpTestDependency() {
         // The Helidon MP test dependency changed from io.helidon.microprofile.tests:helidon-microprofile-tests-junit5 in 3.x
         // to io.helidon.microprofile.testing:helidon-microprofile-testing-junit5  in 4.x.
         additionalProperties.put(X_USE_MP_TESTING, helidonMajorVersion >= 4);
     }
 
-    private void setJandexPluginDependency(String version) {
+    private void setJandexPluginDependency() {
         // The Jandex plug-in GAV changed from org.jboss.jandex:jandex-maven-plugin in 3.x to
         // io.smallrye:jandex-maven-plugin in 4.x.
         additionalProperties.put(X_USE_SMALLRYE_JANDEX_PLUGIN, helidonMajorVersion >= 4);

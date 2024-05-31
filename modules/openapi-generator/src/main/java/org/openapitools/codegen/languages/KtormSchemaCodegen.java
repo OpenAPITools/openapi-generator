@@ -375,7 +375,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String description = property.getDescription();
         String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
-        String actualType = toColumnType(dataType, dataFormat);
+        String actualType = toColumnType(dataType);
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_SCHEMA)) {
             // user already specified schema values
@@ -441,7 +441,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
-        String actualType = toColumnType(dataType, dataFormat);
+        String actualType = toColumnType(dataType);
 
         String minimum = property.getMinimum();
         String maximum = property.getMaximum();
@@ -471,7 +471,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         columnDefinition.put("colMaximum", actualMax);
         columnDefinition.put("colIsUuid", isUuid);
 
-        processTypeArgs(dataType, dataFormat, actualMin, actualMax, columnDefinition);
+        processTypeArgs(dataType, columnDefinition);
         processNullAndDefault(model, property, description, columnDefinition);
     }
 
@@ -489,7 +489,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
-        String actualType = toColumnType(dataType, dataFormat);
+        String actualType = toColumnType(dataType);
 
         String minimum = property.getMinimum();
         String maximum = property.getMaximum();
@@ -512,7 +512,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         columnDefinition.put("colMinimum", actualMin);
         columnDefinition.put("colMaximum", actualMax);
 
-        processTypeArgs(dataType, dataFormat, actualMin, actualMax, columnDefinition);
+        processTypeArgs(dataType, columnDefinition);
         processNullAndDefault(model, property, description, columnDefinition);
     }
 
@@ -530,14 +530,14 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
-        String actualType = toColumnType(dataType, dataFormat);
+        String actualType = toColumnType(dataType);
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
         columnDefinition.put("colType", actualType);
         columnDefinition.put("colKotlinType", dataType);
 
-        processTypeArgs(dataType, dataFormat, 0, 1, columnDefinition);
+        processTypeArgs(dataType, columnDefinition);
         processNullAndDefault(model, property, description, columnDefinition);
     }
 
@@ -555,7 +555,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
-        String actualType = toColumnType(dataType, dataFormat);
+        String actualType = toColumnType(dataType);
 
         Integer minLength = property.getMinLength();
         Integer maxLength = property.getMaxLength();
@@ -576,7 +576,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             columnDefinition.put("colMaximum", actualMax);
         }
 
-        processTypeArgs(dataType, dataFormat, actualMin, actualMax, columnDefinition);
+        processTypeArgs(dataType, columnDefinition);
         processNullAndDefault(model, property, description, columnDefinition);
     }
 
@@ -594,14 +594,14 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
-        String actualType = toColumnType(dataType, dataFormat);
+        String actualType = toColumnType(dataType);
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
         columnDefinition.put("colType", actualType);
         columnDefinition.put("colKotlinType", dataType);
 
-        processTypeArgs(dataType, dataFormat, null, null, columnDefinition);
+        processTypeArgs(dataType, columnDefinition);
         processNullAndDefault(model, property, description, columnDefinition);
     }
 
@@ -619,14 +619,14 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
-        String actualType = toColumnType(dataType, dataFormat);
+        String actualType = toColumnType(dataType);
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
         columnDefinition.put("colType", actualType);
         columnDefinition.put("colKotlinType", dataType);
 
-        processTypeArgs(dataType, dataFormat, null, null, columnDefinition);
+        processTypeArgs(dataType, columnDefinition);
         processNullAndDefault(model, property, description, columnDefinition);
     }
 
@@ -646,14 +646,14 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
-        String actualType = toColumnType(dataType, dataFormat);
+        String actualType = toColumnType(dataType);
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
         columnDefinition.put("colType", actualType);
         columnDefinition.put("colKotlinType", dataType);
 
-        processTypeArgs(dataType, dataFormat, null, null, columnDefinition);
+        processTypeArgs(dataType, columnDefinition);
         processNullAndDefault(model, property, description, columnDefinition);
     }
 
@@ -666,10 +666,10 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param max              the maximum value, if specified, in the target type
      * @param columnDefinition resulting column definition dictionary
      */
-    public void processTypeArgs(String dataType, String dataFormat, Object min, Object max, Map<String, Object> columnDefinition) {
+    public void processTypeArgs(String dataType, Map<String, Object> columnDefinition) {
         HashMap<String, Object> a = new HashMap<String, Object>();
         SqlTypeArgs args = new SqlTypeArgs();
-        toColumnTypeArgs(dataType, dataFormat, min, max, args);
+        toColumnTypeArgs(dataType, args);
         a.put("isPrimitive", args.isPrimitive);
         a.put("isNumeric", args.isNumeric);
         a.put("isBoolean", args.isBoolean);
@@ -706,7 +706,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         } else {
             columnDefinition.put("colNotNull", false);
             try {
-                columnDefinition.put("colDefault", toColumnTypeDefault(defaultValue, dataType, dataFormat));
+                columnDefinition.put("colDefault", toColumnTypeDefault(defaultValue, dataType));
             } catch (RuntimeException exception) {
                 LOGGER.warn("Property '{}' of model '{}' mapped to data type which doesn't support default value",
                         baseName, model.getName());
@@ -746,15 +746,15 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         final IntegerSchema pkSchema = new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);
         String pkDataType = getSchemaType(pkSchema);
         String pkDataFormat = pkSchema.getFormat();
-        String pkColType = toColumnType(pkDataType, pkDataFormat);
+        String pkColType = toColumnType(pkDataType);
         String fkDataType = isPrimitive ? tryDataType : pkDataType;
         String fkDataFormat = isPrimitive ? tryDataFormat : pkDataFormat;
-        String fkColType = toColumnType(fkDataType, fkDataFormat);
+        String fkColType = toColumnType(fkDataType);
 
         SqlTypeArgs pkArgs = new SqlTypeArgs();
-        toColumnTypeArgs(pkDataType, pkDataFormat, null, null, pkArgs);
+        toColumnTypeArgs(pkDataType, pkArgs);
         SqlTypeArgs fkArgs = new SqlTypeArgs();
-        toColumnTypeArgs(fkDataType, fkDataFormat, null, null, fkArgs);
+        toColumnTypeArgs(fkDataType, fkArgs);
 
         relationDefinition.put("pkName", pkName);
         relationDefinition.put("pkColName", pkColName);
@@ -854,7 +854,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param dataFormat type format
      * @return generated codegen type
      */
-    private String toColumnType(String dataType, String dataFormat) {
+    private String toColumnType(String dataType) {
         String sqlType = sqlTypeMapping.getOrDefault(dataType, "").toLowerCase(Locale.ROOT);
         switch (sqlType) {
             case SqlType.Boolean:
@@ -883,8 +883,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param dataFormat type format
      * @return generated codegen type
      */
-    private void toColumnTypeArgs(String dataType, String dataFormat, Object min, Object max, SqlTypeArgs args) {
-        String sqlType = toColumnType(dataType, dataFormat);
+    private void toColumnTypeArgs(String dataType, SqlTypeArgs args) {
+        String sqlType = toColumnType(dataType);
         switch (sqlType) {
             case SqlType.Boolean:
             case SqlType.Int:
@@ -965,8 +965,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param dataFormat   type format
      * @return generated codegen default
      */
-    private Map<String, Object> toColumnTypeDefault(String defaultValue, String dataType, String dataFormat) {
-        String sqlType = toColumnType(dataType, dataFormat);
+    private Map<String, Object> toColumnTypeDefault(String defaultValue, String dataType) {
+        String sqlType = toColumnType(dataType);
         String sqlDefault = "";
         if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
             sqlType = "null";
@@ -991,7 +991,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 sqlDefault = "NULL";
         }
         Map<String, Object> args = new HashMap<String, Object>();
-        processTypeArgs(sqlType, null, null, null, args);
+        processTypeArgs(sqlType, args);
         args.put("defaultValue", sqlDefault);
         return args;
     }

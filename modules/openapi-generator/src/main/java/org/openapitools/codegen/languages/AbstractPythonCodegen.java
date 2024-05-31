@@ -1941,7 +1941,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
         }
 
-        private PythonType boolType(IJsonSchemaValidationProperties cp) {
+        private PythonType boolType() {
             moduleImports.add("pydantic", "StrictBool");
             return new PythonType("StrictBool");
         }
@@ -1975,7 +1975,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return pt;
         }
 
-        private PythonType anyType(IJsonSchemaValidationProperties cp) {
+        private PythonType anyType() {
             moduleImports.add("typing", "Any");
             return new PythonType("Any");
         }
@@ -2028,11 +2028,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             } else if (cp.getIsBinary() || cp.getIsByteArray()) {
                 return binaryType(cp);
             } else if (cp.getIsBoolean()) {
-                return boolType(cp);
+                return boolType();
             } else if (cp.getIsDecimal()) {
                 return decimalType(cp);
             } else if (cp.getIsAnyType()) {
-                return anyType(cp);
+                return anyType();
             } else if (cp.getIsDate() || cp.getIsDateTime()) {
                 return dateType(cp);
             } else if (cp.getIsUuid()) {

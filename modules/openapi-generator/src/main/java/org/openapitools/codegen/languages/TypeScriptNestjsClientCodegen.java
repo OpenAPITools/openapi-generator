@@ -149,7 +149,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
-            addNpmPackageGeneration(nestVersion);
+            addNpmPackageGeneration();
         }
 
         if (additionalProperties.containsKey(STRING_ENUMS)) {
@@ -198,7 +198,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         }
     }
 
-    private void addNpmPackageGeneration(SemVer nestVersion) {
+    private void addNpmPackageGeneration() {
 
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());

@@ -214,7 +214,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
 
         configureSerializationLibrary(srcFolder);
-        configureEqualityCheckMethod(srcFolder);
+        configureEqualityCheckMethod();
         configureDateLibrary(srcFolder);
     }
 
@@ -288,7 +288,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         imports.put("MultipartFile", DIO_IMPORT);
     }
 
-    private void configureEqualityCheckMethod(String srcFolder) {
+    private void configureEqualityCheckMethod() {
         switch (equalityCheckMethod) {
             case EQUALITY_CHECK_METHOD_EQUATABLE:
                 additionalProperties.put("useEquatable", "true");
