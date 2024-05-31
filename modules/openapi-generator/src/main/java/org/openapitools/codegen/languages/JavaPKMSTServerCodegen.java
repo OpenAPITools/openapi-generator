@@ -123,53 +123,63 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             this.additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
             this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
-        if (this.additionalProperties.containsKey("groupId")) {
-            this.setGroupId((String) this.additionalProperties.get("groupId"));
-        } else {
-            // not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
-        }
-        if (this.additionalProperties.containsKey("artifactId")) {
-            this.setArtifactId((String) this.additionalProperties.get("artifactId"));
-        } else {
-            // not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        }
-        if (this.additionalProperties.containsKey("artifactVersion")) {
-            this.setArtifactVersion((String) this.additionalProperties.get("artifactVersion"));
-        } else {
-            // not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-        }
-        if (this.additionalProperties.containsKey("serviceName")) {
-            this.setServiceName((String) this.additionalProperties.get("serviceName"));
-        } else {
-            // not set, use to be passed to template
-            additionalProperties.put("serviceName", serviceName);
-        }
+        convertPropertyToStringAndWriteBack("groupId", this::setGroupId);
+//        if (this.additionalProperties.containsKey("groupId")) {
+//            this.setGroupId((String) this.additionalProperties.get("groupId"));
+//        } else {
+//            // not set, use to be passed to template
+//            additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
+//        }
+        convertPropertyToStringAndWriteBack("artifactId", this::setArtifactId);
+//        if (this.additionalProperties.containsKey("artifactId")) {
+//            this.setArtifactId((String) this.additionalProperties.get("artifactId"));
+//        } else {
+//            // not set, use to be passed to template
+//            additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
+//        }
+        convertPropertyToStringAndWriteBack("artifactVersion", this::setArtifactVersion);
+//        if (this.additionalProperties.containsKey("artifactVersion")) {
+//            this.setArtifactVersion((String) this.additionalProperties.get("artifactVersion"));
+//        } else {
+//            // not set, use to be passed to template
+//            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+//        }
+        convertPropertyToStringAndWriteBack("serviceName", this::setServiceName);
+//        if (this.additionalProperties.containsKey("serviceName")) {
+//            this.setServiceName((String) this.additionalProperties.get("serviceName"));
+//        } else {
+//            // not set, use to be passed to template
+//            additionalProperties.put("serviceName", serviceName);
+//        }
 
-        if (this.additionalProperties.containsKey(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING)) {
-            this.setSerializeBigDecimalAsString(Boolean.parseBoolean(
-                    this.additionalProperties.get(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING).toString()));
-        }
-        if (this.additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
-            this.setSerializableModel(
-                    Boolean.valueOf(this.additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
-        }
-        if (this.additionalProperties.containsKey(TITLE)) {
-            this.setTitle((String) this.additionalProperties.get(TITLE));
-        }
+//        if (this.additionalProperties.containsKey(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING)) {
+//            this.setSerializeBigDecimalAsString(Boolean.parseBoolean(
+//                    this.additionalProperties.get(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING).toString()));
+//        }
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, this::setSerializeBigDecimalAsString);
+//        if (this.additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
+//            this.setSerializableModel(
+//                    Boolean.valueOf(this.additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
+//        }
+//        convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL, this::setSerializableModel);
+//        if (this.additionalProperties.containsKey(TITLE)) {
+//            this.setTitle((String) this.additionalProperties.get(TITLE));
+//        }
+        convertPropertyToStringAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL, this::setTitle);
         this.additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
 
-        if (this.additionalProperties.containsKey(EUREKA_URI)) {
-            this.setEurekaUri((String) this.additionalProperties.get(EUREKA_URI));
-        }
-        if (this.additionalProperties.containsKey(ZIPKIN_URI)) {
-            this.setZipkinUri((String) this.additionalProperties.get(ZIPKIN_URI));
-        }
-        if (this.additionalProperties.containsKey(SPRINGADMIN_URI)) {
-            this.setSpringBootAdminUri((String) this.additionalProperties.get(SPRINGADMIN_URI));
-        }
+//        if (this.additionalProperties.containsKey(EUREKA_URI)) {
+//            this.setEurekaUri((String) this.additionalProperties.get(EUREKA_URI));
+//        }
+        convertPropertyToStringAndWriteBack(EUREKA_URI, this::setEurekaUri);
+//        if (this.additionalProperties.containsKey(ZIPKIN_URI)) {
+//            this.setZipkinUri((String) this.additionalProperties.get(ZIPKIN_URI));
+//        }
+        convertPropertyToStringAndWriteBack(ZIPKIN_URI, this::setZipkinUri);
+//        if (this.additionalProperties.containsKey(SPRINGADMIN_URI)) {
+//            this.setSpringBootAdminUri((String) this.additionalProperties.get(SPRINGADMIN_URI));
+//        }
+        convertPropertyToStringAndWriteBack(SPRINGADMIN_URI, this::setSpringBootAdminUri);
         this.additionalProperties.put("java8", true);
 
         if (this.additionalProperties.containsKey(WITH_XML)) {

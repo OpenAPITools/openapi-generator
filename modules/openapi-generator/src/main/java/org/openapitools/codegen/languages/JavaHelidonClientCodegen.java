@@ -66,7 +66,6 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     public static final String CONFIG_KEY = "configKey";
 
     protected String configKey = null;
-    protected boolean useBeanValidation = false;
     protected boolean performBeanValidation = false;
     protected boolean useGzipFeature = false;
     protected boolean caseInsensitiveResponseHeaders = false;
@@ -172,13 +171,16 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY)) {
-            setSerializationLibrary(additionalProperties.get(SERIALIZATION_LIBRARY).toString());
-        }
+        convertPropertyToStringAndWriteBack(SERIALIZATION_LIBRARY, this::setSerializationLibrary);
+//
+//        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY)) {
+//            setSerializationLibrary(additionalProperties.get(SERIALIZATION_LIBRARY).toString());
+//        }
 
-        if (additionalProperties.containsKey(CONFIG_KEY)) {
-            setConfigKey(additionalProperties.get(CONFIG_KEY).toString());
-        }
+        convertPropertyToStringAndWriteBack(CONFIG_KEY, this::setConfigKey);
+//        if (additionalProperties.containsKey(CONFIG_KEY)) {
+//            setConfigKey(additionalProperties.get(CONFIG_KEY).toString());
+//        }
 
         String invokerPath = invokerPackage.replace('.', File.separatorChar);
         invokerFolder = Paths.get(sourceFolder, invokerPath);
@@ -462,10 +464,6 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
     public void setConfigKey(String configKey) {
         this.configKey = configKey;
-    }
-
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
     }
 
     public void setPerformBeanValidation(boolean performBeanValidation) {

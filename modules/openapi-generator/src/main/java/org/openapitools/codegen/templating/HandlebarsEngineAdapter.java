@@ -30,6 +30,7 @@ import com.github.jknack.handlebars.io.AbstractTemplateLoader;
 import com.github.jknack.handlebars.io.StringTemplateSource;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.github.jknack.handlebars.io.TemplateSource;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.api.AbstractTemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingExecutor;
 import org.slf4j.Logger;
@@ -94,8 +95,9 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
             }
         };
 
+        Object config = bundle.get(CodegenConstants.CONFIG);
         Context context = Context
-                .newBuilder(bundle)
+                .newBuilder(Context.newContext(bundle), config)
                 .resolver(
                         MapValueResolver.INSTANCE,
                         JavaBeanValueResolver.INSTANCE,

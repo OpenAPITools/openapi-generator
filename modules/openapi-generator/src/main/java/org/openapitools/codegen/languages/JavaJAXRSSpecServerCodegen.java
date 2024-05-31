@@ -124,54 +124,62 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     @Override
     public void processOpts() {
-        if (additionalProperties.containsKey(GENERATE_POM)) {
-            generatePom = Boolean.parseBoolean(additionalProperties.get(GENERATE_POM).toString());
-        }
-        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
-            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString());
-            if (!interfaceOnly) {
-                additionalProperties.remove(INTERFACE_ONLY);
-            }
-        }
-        if (additionalProperties.containsKey(RETURN_RESPONSE)) {
-            returnResponse = Boolean.parseBoolean(additionalProperties.get(RETURN_RESPONSE).toString());
-            if (!returnResponse) {
-                additionalProperties.remove(RETURN_RESPONSE);
-            }
-        }
-        if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
-            supportAsync = Boolean.parseBoolean(additionalProperties.get(SUPPORT_ASYNC).toString());
-            if (!supportAsync) {
-                additionalProperties.remove(SUPPORT_ASYNC);
-            } else {
-                // java8 tag has been deprecated
-                //setJava8ModeAndAdditionalProperties(true);
-            }
-        }
+//        if (additionalProperties.containsKey(GENERATE_POM)) {
+//            generatePom = Boolean.parseBoolean(additionalProperties.get(GENERATE_POM).toString());
+//        }
+        convertPropertyToBooleanAndWriteBack(GENERATE_POM, value -> generatePom = value);
+
+        convertPropertyToBooleanAndWriteBack(INTERFACE_ONLY, value -> interfaceOnly = value);
+//        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
+//            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString());
+//            if (!interfaceOnly) {
+//                additionalProperties.remove(INTERFACE_ONLY);
+//            }
+//        }
+        convertPropertyToBooleanAndWriteBack(RETURN_RESPONSE, value -> returnResponse = value);
+//        if (additionalProperties.containsKey(RETURN_RESPONSE)) {
+//            returnResponse = Boolean.parseBoolean(additionalProperties.get(RETURN_RESPONSE).toString());
+//            if (!returnResponse) {
+//                additionalProperties.remove(RETURN_RESPONSE);
+//            }
+//        }
+        convertPropertyToBooleanAndWriteBack(SUPPORT_ASYNC, this::setSupportAsync);
+//        if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
+//            supportAsync = Boolean.parseBoolean(additionalProperties.get(SUPPORT_ASYNC).toString());
+//            if (!supportAsync) {
+//                additionalProperties.remove(SUPPORT_ASYNC);
+//            } else {
+//                // java8 tag has been deprecated
+//                //setJava8ModeAndAdditionalProperties(true);
+//            }
+//        }
         if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
             useSwaggerAnnotations = false;
         } else {
-            if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
-                useSwaggerAnnotations = Boolean.parseBoolean(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
-            }
+            convertPropertyToBooleanAndWriteBack(USE_SWAGGER_ANNOTATIONS, value -> useSwaggerAnnotations = value);
+//            if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
+//                useSwaggerAnnotations = Boolean.parseBoolean(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
+//            }
         }
         if (KUMULUZEE_LIBRARY.equals(library)){
             super.setSourceFolder("src/main/java");
         }
-        writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
+//        writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
 
         if (QUARKUS_LIBRARY.equals(library)) {
-            if (additionalProperties.containsKey(USE_MICROPROFILE_OPENAPI_ANNOTATIONS)) {
-                useMicroProfileOpenAPIAnnotations = Boolean.parseBoolean(additionalProperties.get(USE_MICROPROFILE_OPENAPI_ANNOTATIONS).toString());
-            }
-            writePropertyBack(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, useMicroProfileOpenAPIAnnotations);
+            convertPropertyToBooleanAndWriteBack(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, value -> useMicroProfileOpenAPIAnnotations = value);
+//            if (additionalProperties.containsKey(USE_MICROPROFILE_OPENAPI_ANNOTATIONS)) {
+//                useMicroProfileOpenAPIAnnotations = Boolean.parseBoolean(additionalProperties.get(USE_MICROPROFILE_OPENAPI_ANNOTATIONS).toString());
+//            }
+//            writePropertyBack(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, useMicroProfileOpenAPIAnnotations);
         }
 
         if (QUARKUS_LIBRARY.equals(library)) {
-            if (additionalProperties.containsKey(USE_MUTINY)) {
-                useMutiny = Boolean.parseBoolean(additionalProperties.get(USE_MUTINY).toString());
-            }
-            writePropertyBack(USE_MUTINY, useMutiny);
+            convertPropertyToBooleanAndWriteBack(USE_MUTINY, value -> useMutiny = value);
+//            if (additionalProperties.containsKey(USE_MUTINY)) {
+//                useMutiny = Boolean.parseBoolean(additionalProperties.get(USE_MUTINY).toString());
+//            }
+//            writePropertyBack(USE_MUTINY, useMutiny);
         }
 
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
@@ -256,10 +264,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         if (additionalProperties.containsKey(USE_GZIP_FEATURE)) {
-            useGzipFeature = Boolean.parseBoolean(additionalProperties.get(USE_GZIP_FEATURE).toString());
-            if (!useGzipFeature) {
-                additionalProperties.remove(USE_GZIP_FEATURE);
-            }
+            convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE, value -> useGzipFeature = value);
+//            useGzipFeature = Boolean.parseBoolean(additionalProperties.get(USE_GZIP_FEATURE).toString());
+//            if (!useGzipFeature) {
+//                additionalProperties.remove(USE_GZIP_FEATURE);
+//            }
         }
     }
 

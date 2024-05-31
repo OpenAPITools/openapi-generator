@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Map;
 
 
@@ -61,8 +62,11 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
                 .withLoader(name -> findTemplate(executor, name))
                 .defaultValue("")
                 .compile(executor.getFullTemplateContents(templateFile));
+        StringWriter out = new StringWriter();
 
-        return tmpl.execute(bundle);
+        Object parent = bundle.get("CONFIG");
+        tmpl.execute(bundle,parent, out);
+        return out.toString();
     }
 
     @SuppressWarnings("java:S108") // catch-all is expected, and is later thrown

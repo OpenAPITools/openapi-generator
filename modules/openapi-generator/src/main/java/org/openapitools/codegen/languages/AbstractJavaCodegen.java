@@ -146,6 +146,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean containerDefaultToNull = false;
     protected boolean generateConstructorWithAllArgs = false;
     protected boolean generateBuilder = false;
+
+    /**
+     * useBeanValidation has been moved from child generators to AbstractJavaCodegen.
+     * The reason is that getBeanValidation needs it
+     */
+    protected boolean useBeanValidation = false;
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
@@ -360,226 +366,79 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE);
         }
 
-        if (additionalProperties.containsKey(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS)) {
-            this.setGenerateConstructorWithAllArgs(convertPropertyToBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS));
-        }
-        writePropertyBack(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, generateConstructorWithAllArgs);
-
-        if (additionalProperties.containsKey(GENERATE_BUILDERS)) {
-            this.setGenerateBuilder(convertPropertyToBoolean(GENERATE_BUILDERS));
-        }
-        writePropertyBack(GENERATE_BUILDERS, generateBuilder);
+        convertPropertyToBooleanAndWriteBack(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, this::setGenerateConstructorWithAllArgs);
+        convertPropertyToBooleanAndWriteBack(GENERATE_BUILDERS, this::setGenerateBuilder);
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
-        if (additionalProperties.containsKey(DISABLE_HTML_ESCAPING)) {
-            this.setDisableHtmlEscaping(Boolean.parseBoolean(additionalProperties.get(DISABLE_HTML_ESCAPING).toString()));
-        }
-        additionalProperties.put(DISABLE_HTML_ESCAPING, disableHtmlEscaping);
-
-        if (additionalProperties.containsKey(BOOLEAN_GETTER_PREFIX)) {
-            this.setBooleanGetterPrefix(additionalProperties.get(BOOLEAN_GETTER_PREFIX).toString());
-        }
-        additionalProperties.put(BOOLEAN_GETTER_PREFIX, booleanGetterPrefix);
-
-        if (additionalProperties.containsKey(IGNORE_ANYOF_IN_ENUM)) {
-            this.setIgnoreAnyOfInEnum(Boolean.parseBoolean(additionalProperties.get(IGNORE_ANYOF_IN_ENUM).toString()));
-        }
-        additionalProperties.put(IGNORE_ANYOF_IN_ENUM, ignoreAnyOfInEnum);
-
-        if (additionalProperties.containsKey(ADDITIONAL_MODEL_TYPE_ANNOTATIONS)) {
-            String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_MODEL_TYPE_ANNOTATIONS).toString();
-            this.setAdditionalModelTypeAnnotations(Arrays.asList(additionalAnnotationsList.trim().split("\\s*(;|\\r?\\n)\\s*")));
-        }
-
-        if (additionalProperties.containsKey(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS)) {
-            String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS).toString();
-            this.setAdditionalOneOfTypeAnnotations(Arrays.asList(additionalAnnotationsList.trim().split("\\s*(;|\\r?\\n)\\s*")));
-        }
-
-        if (additionalProperties.containsKey(ADDITIONAL_ENUM_TYPE_ANNOTATIONS)) {
-            String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_ENUM_TYPE_ANNOTATIONS).toString();
-
-            this.setAdditionalEnumTypeAnnotations(Arrays.asList(additionalAnnotationsList.split(";")));
-        }
+        convertPropertyToBooleanAndWriteBack(BeanValidationFeatures.USE_BEANVALIDATION, this::setUseBeanValidation);
+        convertPropertyToBooleanAndWriteBack(DISABLE_HTML_ESCAPING, this::setDisableHtmlEscaping);
+        convertPropertyToStringAndWriteBack(BOOLEAN_GETTER_PREFIX, this::setBooleanGetterPrefix);
+        convertPropertyToBooleanAndWriteBack(IGNORE_ANYOF_IN_ENUM, this::setIgnoreAnyOfInEnum);
+        convertPropertyToTypeAndWriteBack(ADDITIONAL_MODEL_TYPE_ANNOTATIONS,
+                annotations-> Arrays.asList(annotations.trim().split("\\s*(;|\\r?\\n)\\s*")),
+                this::setAdditionalModelTypeAnnotations);
+        convertPropertyToTypeAndWriteBack(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS,
+                annotations-> Arrays.asList(annotations.trim().split("\\s*(;|\\r?\\n)\\s*")),
+                this::setAdditionalOneOfTypeAnnotations);
+        convertPropertyToTypeAndWriteBack(ADDITIONAL_ENUM_TYPE_ANNOTATIONS,
+                annotations -> Arrays.asList(annotations.split(";")),
+                this::setAdditionalEnumTypeAnnotations);
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         } else if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             // guess from api package
             String derivedInvokerPackage = deriveInvokerPackageName((String) additionalProperties.get(CodegenConstants.API_PACKAGE));
-            this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, derivedInvokerPackage);
-            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+            this.setInvokerPackage(derivedInvokerPackage);
             LOGGER.info("Invoker Package Name, originally not set, is now derived from api package name: {}", derivedInvokerPackage);
         } else if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
             // guess from model package
             String derivedInvokerPackage = deriveInvokerPackageName((String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE));
-            this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, derivedInvokerPackage);
-            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+            this.setInvokerPackage(derivedInvokerPackage);
             LOGGER.info("Invoker Package Name, originally not set, is now derived from model package name: {}",
                     derivedInvokerPackage);
         } else {
             //not set, use default to be passed to template
-            additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
 
-        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        }
-
-        if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
-            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.GROUP_ID)) {
-            this.setGroupId((String) additionalProperties.get(CodegenConstants.GROUP_ID));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
-            this.setArtifactId((String) additionalProperties.get(CodegenConstants.ARTIFACT_ID));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_URL)) {
-            this.setArtifactUrl((String) additionalProperties.get(CodegenConstants.ARTIFACT_URL));
-        } else {
-            additionalProperties.put(CodegenConstants.ARTIFACT_URL, artifactUrl);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_DESCRIPTION)) {
-            this.setArtifactDescription((String) additionalProperties.get(CodegenConstants.ARTIFACT_DESCRIPTION));
-        } else {
-            additionalProperties.put(CodegenConstants.ARTIFACT_DESCRIPTION, artifactDescription);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SCM_CONNECTION)) {
-            this.setScmConnection((String) additionalProperties.get(CodegenConstants.SCM_CONNECTION));
-        } else {
-            additionalProperties.put(CodegenConstants.SCM_CONNECTION, scmConnection);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SCM_DEVELOPER_CONNECTION)) {
-            this.setScmDeveloperConnection((String) additionalProperties.get(CodegenConstants.SCM_DEVELOPER_CONNECTION));
-        } else {
-            additionalProperties.put(CodegenConstants.SCM_DEVELOPER_CONNECTION, scmDeveloperConnection);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SCM_URL)) {
-            this.setScmUrl((String) additionalProperties.get(CodegenConstants.SCM_URL));
-        } else {
-            additionalProperties.put(CodegenConstants.SCM_URL, scmUrl);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.DEVELOPER_NAME)) {
-            this.setDeveloperName((String) additionalProperties.get(CodegenConstants.DEVELOPER_NAME));
-        } else {
-            additionalProperties.put(CodegenConstants.DEVELOPER_NAME, developerName);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.DEVELOPER_EMAIL)) {
-            this.setDeveloperEmail((String) additionalProperties.get(CodegenConstants.DEVELOPER_EMAIL));
-        } else {
-            additionalProperties.put(CodegenConstants.DEVELOPER_EMAIL, developerEmail);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.DEVELOPER_ORGANIZATION)) {
-            this.setDeveloperOrganization((String) additionalProperties.get(CodegenConstants.DEVELOPER_ORGANIZATION));
-        } else {
-            additionalProperties.put(CodegenConstants.DEVELOPER_ORGANIZATION, developerOrganization);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.DEVELOPER_ORGANIZATION_URL)) {
-            this.setDeveloperOrganizationUrl((String) additionalProperties.get(CodegenConstants.DEVELOPER_ORGANIZATION_URL));
-        } else {
-            additionalProperties.put(CodegenConstants.DEVELOPER_ORGANIZATION_URL, developerOrganizationUrl);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
-            this.setLicenseName((String) additionalProperties.get(CodegenConstants.LICENSE_NAME));
-        } else {
-            additionalProperties.put(CodegenConstants.LICENSE_NAME, licenseName);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.LICENSE_URL)) {
-            this.setLicenseUrl((String) additionalProperties.get(CodegenConstants.LICENSE_URL));
-        } else {
-            additionalProperties.put(CodegenConstants.LICENSE_URL, licenseUrl);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
-            this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
-        }
-        additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
-
-        if (additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
-            this.setSerializableModel(Boolean.valueOf(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
-            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING)) {
-            this.setSerializeBigDecimalAsString(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING).toString()));
-        }
-
+        convertPropertyToStringAndWriteBack(CodegenConstants.MODEL_PACKAGE, this::setModelPackage);
+        convertPropertyToStringAndWriteBack(CodegenConstants.API_PACKAGE, this::setApiPackage);
+        convertPropertyToStringAndWriteBack(CodegenConstants.GROUP_ID, this::setGroupId);
+        convertPropertyToStringAndWriteBack(CodegenConstants.ARTIFACT_ID, this::setArtifactId);
+        convertPropertyToStringAndWriteBack(CodegenConstants.ARTIFACT_URL, this::setArtifactUrl);
+        convertPropertyToStringAndWriteBack(CodegenConstants.ARTIFACT_DESCRIPTION, this::setArtifactDescription);
+        convertPropertyToStringAndWriteBack(CodegenConstants.SCM_CONNECTION, this::setScmConnection);
+        convertPropertyToStringAndWriteBack(CodegenConstants.SCM_DEVELOPER_CONNECTION, this::setScmDeveloperConnection);
+        convertPropertyToStringAndWriteBack(CodegenConstants.SCM_URL, this::setScmUrl);
+        convertPropertyToStringAndWriteBack(CodegenConstants.DEVELOPER_NAME, this::setDeveloperName);
+        convertPropertyToStringAndWriteBack(CodegenConstants.DEVELOPER_EMAIL, this::setDeveloperEmail);
+        convertPropertyToStringAndWriteBack(CodegenConstants.DEVELOPER_ORGANIZATION, this::setDeveloperOrganization);
+        convertPropertyToStringAndWriteBack(CodegenConstants.DEVELOPER_ORGANIZATION_URL, this::setDeveloperOrganizationUrl);
+        convertPropertyToStringAndWriteBack(CodegenConstants.LICENSE_NAME, this::setLicenseName);
+        convertPropertyToStringAndWriteBack(CodegenConstants.LICENSE_URL, this::setLicenseUrl);
+        convertPropertyToStringAndWriteBack(CodegenConstants.SOURCE_FOLDER, this::setSourceFolder);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL, this::setSerializableModel);
+        convertPropertyToStringAndWriteBack(CodegenConstants.LIBRARY, this::setLibrary);
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, this::setSerializeBigDecimalAsString );
         // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
-        additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+//        additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
 
-        if (additionalProperties.containsKey(DISCRIMINATOR_CASE_SENSITIVE)) {
-            this.setDiscriminatorCaseSensitive(Boolean.parseBoolean(additionalProperties.get(DISCRIMINATOR_CASE_SENSITIVE).toString()));
-        } else {
             // By default, the discriminator lookup should be case sensitive. There is nothing in the OpenAPI specification
             // that indicates the lookup should be case insensitive. However, some implementations perform
             // a case-insensitive lookup.
-            this.setDiscriminatorCaseSensitive(Boolean.TRUE);
-        }
-        additionalProperties.put(DISCRIMINATOR_CASE_SENSITIVE, this.discriminatorCaseSensitive);
-
-        if (additionalProperties.containsKey(WITH_XML)) {
-            this.setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
-        }
-        additionalProperties.put(WITH_XML, withXml);
-
-        if (additionalProperties.containsKey(OPENAPI_NULLABLE)) {
-            this.setOpenApiNullable(Boolean.parseBoolean(additionalProperties.get(OPENAPI_NULLABLE).toString()));
-        }
-        additionalProperties.put(OPENAPI_NULLABLE, openApiNullable);
-
-        if (additionalProperties.containsKey(CodegenConstants.PARENT_GROUP_ID)) {
-            this.setParentGroupId((String) additionalProperties.get(CodegenConstants.PARENT_GROUP_ID));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.PARENT_ARTIFACT_ID)) {
-            this.setParentArtifactId((String) additionalProperties.get(CodegenConstants.PARENT_ARTIFACT_ID));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.PARENT_VERSION)) {
-            this.setParentVersion((String) additionalProperties.get(CodegenConstants.PARENT_VERSION));
-        }
-
-        if (additionalProperties.containsKey(IMPLICIT_HEADERS)) {
-            this.setImplicitHeaders(Boolean.parseBoolean(additionalProperties.get(IMPLICIT_HEADERS).toString()));
-        }
-
-        if (additionalProperties.containsKey(IMPLICIT_HEADERS_REGEX)) {
-            this.setImplicitHeadersRegex(additionalProperties.get(IMPLICIT_HEADERS_REGEX).toString());
-        }
-
-        if (additionalProperties.containsKey(CAMEL_CASE_DOLLAR_SIGN)) {
-            this.setCamelCaseDollarSign(Boolean.parseBoolean(additionalProperties.get(CAMEL_CASE_DOLLAR_SIGN).toString()));
-        }
-
-        if (additionalProperties.containsKey(USE_ONE_OF_INTERFACES)) {
-            this.setUseOneOfInterfaces(Boolean.parseBoolean(additionalProperties.get(USE_ONE_OF_INTERFACES).toString()));
-        }
+        convertPropertyToBooleanAndWriteBack(DISCRIMINATOR_CASE_SENSITIVE, this::setDiscriminatorCaseSensitive);
+        convertPropertyToBooleanAndWriteBack(WITH_XML, this::setWithXml);
+        convertPropertyToBooleanAndWriteBack(OPENAPI_NULLABLE, this::setOpenApiNullable);
+        convertPropertyToStringAndWriteBack(CodegenConstants.PARENT_GROUP_ID, this::setParentGroupId);
+        convertPropertyToStringAndWriteBack(CodegenConstants.PARENT_ARTIFACT_ID, this::setParentArtifactId);
+        convertPropertyToStringAndWriteBack(CodegenConstants.PARENT_VERSION, this::setParentVersion);
+        convertPropertyToBooleanAndWriteBack(IMPLICIT_HEADERS, this::setImplicitHeaders);
+        convertPropertyToStringAndWriteBack(IMPLICIT_HEADERS_REGEX, this::setImplicitHeadersRegex);
+        convertPropertyToBooleanAndWriteBack(CAMEL_CASE_DOLLAR_SIGN, this::setCamelCaseDollarSign);
+        convertPropertyToBooleanAndWriteBack(USE_ONE_OF_INTERFACES, this::setUseOneOfInterfaces);
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
@@ -629,16 +488,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
-        if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
-            setSupportAsync(Boolean.parseBoolean(additionalProperties.get(SUPPORT_ASYNC).toString()));
-            if (supportAsync) {
-                additionalProperties.put(SUPPORT_ASYNC, "true");
-            }
-        }
-
-        if (additionalProperties.containsKey(DATE_LIBRARY)) {
-            setDateLibrary(additionalProperties.get("dateLibrary").toString());
-        }
+        convertPropertyToBooleanAndWriteBack(SUPPORT_ASYNC, this::setSupportAsync);
+        convertPropertyToStringAndWriteBack(DATE_LIBRARY, this::setDateLibrary);
 
         if ("joda".equals(dateLibrary)) {
             additionalProperties.put("joda", "true");
@@ -663,25 +514,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put("legacyDates", "true");
         }
 
-        if (additionalProperties.containsKey(TEST_OUTPUT)) {
-            setOutputTestFolder(additionalProperties.get(TEST_OUTPUT).toString());
-        }
-
-        if (additionalProperties.containsKey(USE_JAKARTA_EE)) {
-            this.setUseJakartaEe(Boolean.parseBoolean(additionalProperties.get(USE_JAKARTA_EE).toString()));
-        }
-        additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
-
+        convertPropertyToStringAndWriteBack(TEST_OUTPUT, this::setOutputTestFolder);
+        convertPropertyToBooleanAndWriteBack(USE_JAKARTA_EE, this::setUseJakartaEe);
         if (useJakartaEe) {
             applyJakartaPackage();
         } else {
             applyJavaxPackage();
         }
 
-        if (additionalProperties.containsKey(CONTAINER_DEFAULT_TO_NULL)) {
-            this.setContainerDefaultToNull(Boolean.parseBoolean(additionalProperties.get(CONTAINER_DEFAULT_TO_NULL).toString()));
-        }
-        additionalProperties.put(CONTAINER_DEFAULT_TO_NULL, containerDefaultToNull);
+        convertPropertyToBooleanAndWriteBack(CONTAINER_DEFAULT_TO_NULL, this::setContainerDefaultToNull);
+//        if (additionalProperties.containsKey(CONTAINER_DEFAULT_TO_NULL)) {
+//            this.setContainerDefaultToNull(Boolean.parseBoolean(additionalProperties.get(CONTAINER_DEFAULT_TO_NULL).toString()));
+//        }
+//        additionalProperties.put(CONTAINER_DEFAULT_TO_NULL, containerDefaultToNull);
 
         additionalProperties.put("sanitizeGeneric", (Mustache.Lambda) (fragment, writer) -> {
             String content = fragment.execute();
@@ -841,19 +686,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // the whole additionalProperties object is injected into the main object passed to the mustache layer
 
         this.setApiPackage(sanitizePackageName(apiPackage));
-        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
-            this.additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-        }
-
+        additionalProperties.remove(CodegenConstants.API_PACKAGE);
         this.setModelPackage(sanitizePackageName(modelPackage));
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            this.additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        }
-
+        additionalProperties.remove(CodegenConstants.MODEL_PACKAGE);
         this.setInvokerPackage(sanitizePackageName(invokerPackage));
-        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-        }
+        additionalProperties.remove(CodegenConstants.INVOKER_PACKAGE);
     }
 
     protected void applyJavaxPackage() {
@@ -1100,7 +937,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @return BeanValidation for declared type in container(array, set)
      */
     private String getBeanValidation(Schema<?> items) {
-        if (Boolean.FALSE.equals(additionalProperties.getOrDefault(BeanValidationFeatures.USE_BEANVALIDATION, Boolean.FALSE))) {
+//        if (Boolean.FALSE.equals(additionalProperties.getOrDefault(BeanValidationFeatures.USE_BEANVALIDATION, Boolean.FALSE))) {
+//            return "";
+//        }
+        if (!isUseBeanValidation()) {
             return "";
         }
 
@@ -1138,6 +978,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         return "";
+    }
+
+    public boolean isUseBeanValidation() {
+        return useBeanValidation;
+    }
+
+    public void setUseBeanValidation(boolean useBeanValidation) {
+        this.useBeanValidation = useBeanValidation;
     }
 
     private String getIntegerBeanValidation(Schema<?> items) {

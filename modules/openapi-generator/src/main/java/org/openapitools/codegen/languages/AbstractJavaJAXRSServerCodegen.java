@@ -65,14 +65,13 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     protected String title = "OpenAPI Server";
     protected String serverPort = "8080";
 
-    protected boolean useBeanValidation = true;
     protected boolean useTags = false;
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
 
     public AbstractJavaJAXRSServerCodegen() {
         super();
-
+        this.useBeanValidation = true;
         sourceFolder = "src/gen/java";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-server";
@@ -113,19 +112,23 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
-            implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
-        }
+        convertPropertyToStringAndWriteBack(CodegenConstants.IMPL_FOLDER, value -> implFolder = value);
+//        if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
+//            implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
+//        }
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
+//        convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION, this::setUseBeanValidation);
+//
+//        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
+//            setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+//        }
 
-        if (additionalProperties.containsKey(USE_TAGS)) {
-            setUseTags(convertPropertyToBoolean(USE_TAGS));
-        }
-
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        convertPropertyToBooleanAndWriteBack(USE_TAGS, this::setUseTags);
+//        if (additionalProperties.containsKey(USE_TAGS)) {
+//            setUseTags(convertPropertyToBoolean(USE_TAGS));
+//        }
+//
+//        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
     }
 
     @Override
@@ -350,13 +353,9 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         return outputFolder + "/" + output + "/" + apiPackage().replace('.', '/');
     }
 
-    @Override
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
     @VisibleForTesting
     public void setUseTags(boolean useTags) {
         this.useTags = useTags;
     }
+
 }

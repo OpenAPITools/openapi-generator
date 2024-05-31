@@ -58,7 +58,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautAbstractCodegen.class);
 
     protected String title;
-    protected boolean useBeanValidation;
     protected boolean useOptional;
     protected boolean visitable;
     protected String buildTool;
@@ -225,10 +224,10 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         }
 
         // Get boolean properties
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+//        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
+//            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+//        }
+//        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
@@ -427,11 +426,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     @Override
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
-    @Override
     public void setUseOptional(boolean useOptional) {
         this.useOptional = useOptional;
     }
@@ -447,10 +441,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             apiVarName = escapeReservedWord(apiVarName);
         }
         return apiVarName;
-    }
-
-    public boolean isUseBeanValidation() {
-        return useBeanValidation;
     }
 
     public boolean isUseOptional() {

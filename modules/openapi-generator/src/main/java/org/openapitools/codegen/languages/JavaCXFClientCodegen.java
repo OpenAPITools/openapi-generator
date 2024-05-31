@@ -45,8 +45,6 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
 
-    protected boolean useBeanValidation = false;
-
     protected boolean useGenericResponse = false;
 
     protected boolean useGzipFeatureForTests = false;
@@ -100,30 +98,12 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION));
-        }
-
-        if (additionalProperties.containsKey(USE_GENERIC_RESPONSE)) {
-            this.setUseGenericResponse(convertPropertyToBooleanAndWriteBack(USE_GENERIC_RESPONSE));
-        }
-
-        if (additionalProperties.containsKey(USE_GZIP_FEATURE_FOR_TESTS)) {
-            this.setUseGzipFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE_FOR_TESTS));
-        }
-
-        if (additionalProperties.containsKey(USE_LOGGING_FEATURE_FOR_TESTS)) {
-            this.setUseLoggingFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS));
-        }
-
-        if (additionalProperties.containsKey(JACKSON)) {
-            useJackson = convertPropertyToBooleanAndWriteBack(JACKSON);
-        }
-
-        if (additionalProperties.containsKey(USE_ABSTRACTION_FOR_FILES)) {
-            this.setUseAbstractionForFiles(convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES));
-        }
+//        convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION, this::setUseBeanValidation);
+        convertPropertyToBooleanAndWriteBack(USE_GENERIC_RESPONSE, this::setUseGenericResponse);
+        convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE_FOR_TESTS, this::setUseGzipFeatureForTests);
+        convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS, this::setUseLoggingFeatureForTests);
+        convertPropertyToBooleanAndWriteBack(JACKSON, value -> useJackson = value);
+        convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES, this::setUseAbstractionForFiles);
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
@@ -188,14 +168,6 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         return "Generates a Java JAXRS Client based on Apache CXF framework.";
     }
 
-    @Override
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
-    public boolean isUseBeanValidation() {
-        return useBeanValidation;
-    }
 
     @Override
     public void setUseGzipFeatureForTests(boolean useGzipFeatureForTests) {
