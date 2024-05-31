@@ -317,10 +317,7 @@ class ApiClient:
                     match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
                 encoding = match.group(1) if match else "utf-8"
                 response_text = response_data.data.decode(encoding)
-                if response_type in ["bytearray", "str"]:
-                    return_data = self.__deserialize_primitive(response_text, response_type)
-                else:
-                    return_data = self.deserialize(response_text, response_type)
+                return_data = self.deserialize(response_text, response_type, content_type)
         finally:
             if not 200 <= response_data.status <= 299:
                 raise ApiException.from_response(
@@ -388,21 +385,32 @@ class ApiClient:
             for key, val in obj_dict.items()
         }
 
-    def deserialize(self, response_text, response_type):
+    def deserialize(self, response_text: str, response_type: str, content_type: str) -> ApiResponseT:
         """Deserializes response into an object.
 
         :param response: RESTResponse object to be deserialized.
         :param response_type: class literal for
             deserialized object, or string of class name.
+        :param content_type: content type of response.
 
         :return: deserialized object.
         """
 
         # fetch data from response object
-        try:
+        if content_type is None:
+            try:
+                data = json.loads(response_text)
+            except ValueError:
+                data = response_text
+        elif content_type.startswith('application/json'):
             data = json.loads(response_text)
-        except ValueError:
+        elif content_type.startswith('text/plain'):
             data = response_text
+        else:
+            raise ApiException(
+                status=0,
+                reason="Unsupported content type: {0}".format(content_type)
+            )
 
         return self.__deserialize(data, response_type)
 
