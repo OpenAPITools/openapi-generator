@@ -659,23 +659,25 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @param columnDefinition resulting column definition dictionary
      */
     public void processTypeArgs(String dataType, Map<String, Object> columnDefinition) {
-        HashMap<String, Object> a = new HashMap<String, Object>();
         SqlTypeArgs args = new SqlTypeArgs();
         toColumnTypeArgs(dataType, args);
-        a.put("isPrimitive", args.isPrimitive);
-        a.put("isNumeric", args.isNumeric);
-        a.put("isBoolean", args.isBoolean);
-        a.put("isInteger", args.isInteger);
-        a.put("isFloat", args.isFloat);
-        a.put("isDecimal", args.isDecimal);
-        a.put("isString", args.isString);
-        a.put("isDate", args.isDate);
-        a.put("isDateTime", args.isDateTime);
-        a.put("isBlob", args.isBlob);
-        a.put("isJson", args.isJson);
-        a.put("isNull", args.isNull);
-        //as we are using sqlite, it is not implemented for now
-        //columnDefinition.put("colTypeArgs", a);
+        
+//        as we are using sqlite, it is not implemented for now:
+        
+//        columnDefinition.put("colTypeArgs", Map.ofEntries(
+//            Map.entry("isPrimitive", args.isPrimitive),
+//            Map.entry("isNumeric", args.isNumeric),
+//            Map.entry("isBoolean", args.isBoolean),
+//            Map.entry("isInteger", args.isInteger),
+//            Map.entry("isFloat", args.isFloat),
+//            Map.entry("isDecimal", args.isDecimal),
+//            Map.entry("isString", args.isString),
+//            Map.entry("isDate", args.isDate),
+//            Map.entry("isDateTime", args.isDateTime),
+//            Map.entry("isBlob", args.isBlob),
+//            Map.entry("isJson", args.isJson),
+//            Map.entry("isNull", args.isNull)
+//        );
         columnDefinition.put("colPrimaryKey", isPrimaryKey(columnDefinition));
     }
 
