@@ -465,7 +465,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (example == null) {
                 example = "";
             }
-            int len = 0;
+            int len;
             if (null != schema.getMinLength()) {
                 len = schema.getMinLength().intValue();
                 if (len < 1) {
@@ -897,7 +897,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            List<CodegenProperty> codegenProperties = null;
+            List<CodegenProperty> codegenProperties;
             if (!model.oneOf.isEmpty()) { // oneOfValidationError
                 codegenProperties = model.getComposedSchemas().getOneOf();
                 moduleImports.add("typing", "Any");
@@ -1135,7 +1135,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return;
         }
 
-        List<CodegenProperty> codegenProperties = null;
+        List<CodegenProperty> codegenProperties;
         if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOf
             codegenProperties = cm.getComposedSchemas().getOneOf();
         } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
@@ -1186,7 +1186,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return;
         }
 
-        List<CodegenProperty> codegenProperties = null;
+        List<CodegenProperty> codegenProperties;
         if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOfValidationError
             codegenProperties = cm.getComposedSchemas().getOneOf();
         } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
@@ -1630,7 +1630,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             String defaultValue = this.defaultValue;
 
             if (this.annotations.size() > 0) {
-                String typeValue = "";
+                String typeValue;
 
                 List<String> ants = new ArrayList<>();
 

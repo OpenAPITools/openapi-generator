@@ -356,7 +356,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     @Override
     public String getSchemaType(Schema schema) {
         String openAPIType = super.getSchemaType(schema);
-        String type = null;
+        String type;
 
         if (openAPIType == null) {
             LOGGER.error("OpenAPI Type for {} is null. Default to Object instead.", schema.getName());

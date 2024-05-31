@@ -81,7 +81,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     @Getter @Setter
     protected boolean supportNullable = Boolean.TRUE;
 
-    protected Set<String> nullableType = new HashSet<>();
+    protected Set<String> nullableType;
 
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractFSharpCodegen.class);

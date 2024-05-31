@@ -51,7 +51,7 @@ public class KotlinTestUtils {
         CompilerConfiguration configuration = new CompilerConfiguration();
         configuration.put(CommonConfigurationKeys.MODULE_NAME, moduleName);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = null;
+        PrintStream ps;
         try {
             ps = new PrintStream(baos, true, "UTF-8");
         } catch (UnsupportedEncodingException e) {

@@ -50,7 +50,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public static final String HELPERS_PACKAGE_NAME = "helpersPackage";
     public static final String HELPERS_PACKAGE_NAME_DESC = "Specify the package name to be used for the helpers (e.g. org.openapitools.server.helpers).";
     protected final String PREFIX = "";
-    protected String helpersPackage = "";
+    protected String helpersPackage;
 
     /** OpenApi types that shouldn't have a namespace added with getTypeDeclaration() at generation time (for nlohmann::json) */
     private final Set<String> openAPITypesWithoutModelNamespace = new HashSet<>();
@@ -573,7 +573,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))

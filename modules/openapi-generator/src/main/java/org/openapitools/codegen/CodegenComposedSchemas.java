@@ -26,7 +26,7 @@ public class CodegenComposedSchemas {
     private List<CodegenProperty> allOf;
     private List<CodegenProperty> oneOf;
     private List<CodegenProperty> anyOf;
-    private CodegenProperty not = null;
+    private CodegenProperty not;
 
     public CodegenComposedSchemas(List<CodegenProperty> allOf, List<CodegenProperty> oneOf, List<CodegenProperty> anyOf, CodegenProperty not) {
         this.allOf = allOf;

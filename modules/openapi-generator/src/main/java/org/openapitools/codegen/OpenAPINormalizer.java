@@ -833,7 +833,7 @@ public class OpenAPINormalizer {
             return schema;
         }
 
-        Schema result = null, s0 = null, s1 = null;
+        Schema result, s0, s1;
         if (schema.getAnyOf().size() == 2) {
             s0 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(0));
             s1 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(1));

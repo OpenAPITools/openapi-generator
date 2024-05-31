@@ -392,7 +392,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
         LOGGER.debug("debugging OpenAPI type: {}, {} => {}", p.getType(), p.getFormat(), schemaType);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
             return type;

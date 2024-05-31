@@ -957,7 +957,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      */
     private Map<String, Object> toColumnTypeDefault(String defaultValue, String dataType) {
         String sqlType = toColumnType(dataType);
-        String sqlDefault = "";
+        String sqlDefault;
         if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
             sqlType = "null";
         }

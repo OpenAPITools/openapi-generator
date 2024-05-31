@@ -101,7 +101,7 @@ public abstract class Rule {
         try {
             List<Part> result = IgnoreLineParser.parse(definition);
 
-            Boolean directoryOnly = null;
+            Boolean directoryOnly;
             if (result.size() == 0) {
                 return rule;
             } else if (result.size() == 1) {

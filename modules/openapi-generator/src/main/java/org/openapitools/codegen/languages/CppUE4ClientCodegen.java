@@ -48,7 +48,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     protected String privateFolder = "Private";
     protected String publicFolder = "Public";
     protected String apiVersion = "1.0.0";
-    protected Map<String, String> namespaces = new HashMap<>();
+    protected Map<String, String> namespaces;
     // Will be included using the <> syntax, not used in Unreal's coding convention
     protected Set<String> systemIncludes = new HashSet<>();
     protected String cppNamespace = unrealModuleName;
@@ -488,7 +488,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {

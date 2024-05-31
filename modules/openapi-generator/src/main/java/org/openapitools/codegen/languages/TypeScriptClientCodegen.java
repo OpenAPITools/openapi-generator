@@ -485,9 +485,9 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     }
 
     public String typescriptDate(Object dateValue) {
-        String strValue = null;
+        String strValue;
         if (dateValue instanceof OffsetDateTime) {
-            OffsetDateTime date = null;
+            OffsetDateTime date;
             try {
                 date = (OffsetDateTime) dateValue;
             } catch (ClassCastException e) {
@@ -502,9 +502,9 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     }
 
     public String typescriptDateTime(Object dateTimeValue) {
-        String strValue = null;
+        String strValue;
         if (dateTimeValue instanceof OffsetDateTime) {
-            OffsetDateTime dateTime = null;
+            OffsetDateTime dateTime;
             try {
                 dateTime = (OffsetDateTime) dateTimeValue;
             } catch (ClassCastException e) {
@@ -635,7 +635,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, Set<Schema> seenSchemas) {
         final String indentionConst = "  ";
         String currentIndentation = "";
-        String closingIndentation = "";
+        String closingIndentation;
         for (int i = 0; i < indentationLevel; i++) currentIndentation += indentionConst;
         if (exampleLine.equals(0)) {
             closingIndentation = currentIndentation;
@@ -861,8 +861,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 }
             }
             propName = toVarName(propName);
-            String propModelName = null;
-            Object propExample = null;
+            String propModelName;
+            Object propExample;
             if (discProp != null && propName.equals(discProp.name)) {
                 propModelName = null;
                 propExample = discProp.example;
@@ -982,7 +982,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             return;
         }
 
-        Object example = null;
+        Object example;
         if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
             example = codegenParameter.vendorExtensions.get("x-example");
         } else if (parameter.getExample() != null) {
@@ -1023,7 +1023,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             return;
         }
 
-        Object example = null;
+        Object example;
         if (mediaType.getExample() != null) {
             example = mediaType.getExample();
         } else if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty() && mediaType.getExamples().values().iterator().next().getValue() != null) {

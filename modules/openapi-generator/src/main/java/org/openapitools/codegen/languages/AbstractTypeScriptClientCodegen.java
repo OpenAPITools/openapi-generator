@@ -778,7 +778,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (ModelUtils.isComposedSchema(p)) {
             return openAPIType;
         } else if (typeMapping.containsKey(openAPIType)) {

@@ -276,7 +276,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
         Set<String> imports = type.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet());
         Set<String> mappedImports = new HashSet<>();
         for (String imp : imports) {
-            String mappedImp = imp;
+            String mappedImp;
             if (typeMapping.containsKey(imp)) {
                 mappedImp = typeMapping.get(imp);
             } else {

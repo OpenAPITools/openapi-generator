@@ -787,7 +787,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (!needToImport(type)) {

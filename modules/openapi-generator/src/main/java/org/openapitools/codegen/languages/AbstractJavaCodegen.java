@@ -1294,7 +1294,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     _values = java.util.Collections.singletonList(String.valueOf(schema.getDefault()));
                 }
 
-                String defaultValue = "";
+                String defaultValue;
 
                 if (cp.items.getIsEnumOrRef()) { // inline or ref enum
                     List<String> defaultValues = new ArrayList<>();

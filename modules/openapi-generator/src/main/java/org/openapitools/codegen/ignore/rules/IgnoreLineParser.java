@@ -48,8 +48,8 @@ public class IgnoreLineParser {
     static List<Part> parse(String text) throws ParserException {
         List<Part> parts = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-        String current = null;
-        String next = null;
+        String current;
+        String next;
 
         char[] characters = text.toCharArray();
         for (int i = 0, totalLength = characters.length; i < totalLength; i++) {

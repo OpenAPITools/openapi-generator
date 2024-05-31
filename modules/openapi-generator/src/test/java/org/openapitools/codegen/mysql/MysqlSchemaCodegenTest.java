@@ -112,7 +112,7 @@ public class MysqlSchemaCodegenTest {
     @Test
     public void testToCodegenMysqlDataTypeDefault() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        HashMap<String, Object> defaultMap = null;
+        HashMap<String, Object> defaultMap;
         ArrayList<String> intFixture = new ArrayList<String>(Arrays.asList(
             "TINYINT", "SmallInt", "Mediumint", "INT", "bigint"
         ));
@@ -160,7 +160,7 @@ public class MysqlSchemaCodegenTest {
     @Test(expectedExceptions = RuntimeException.class)
     public void testToCodegenMysqlDataTypeDefaultWithExceptionalColumnType() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        HashMap<String, Object> defaultMap = null;
+        HashMap<String, Object> defaultMap;
         ArrayList<String> specialFixture = new ArrayList<String>(Arrays.asList(
             "TINYBLOB", "Blob", "MEDIUMBLOB", "LONGBLOB", "TINYTEXT", "TEXT", "MEDIUMTEXT", "LONGTEXT", "GEOMETRY", "JSON"
         ));

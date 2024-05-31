@@ -23,7 +23,7 @@ import java.util.List;
 
 public class FileRule extends Rule {
 
-    private PathMatcher matcher = null;
+    private PathMatcher matcher;
 
     FileRule(List<Part> syntax, String definition) {
         super(syntax, definition);
