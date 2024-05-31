@@ -290,7 +290,6 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
             opsByPathList.add(opsByPathEntry);
             opsByPathEntry.put("path", entry.getKey());
             opsByPathEntry.put("operation", entry.getValue());
-            List<CodegenOperation> operationsForThisPath = Lists.newArrayList(entry.getValue());
         }
 
         return opsByPathList;
@@ -325,7 +324,6 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         String host = URLPathUtils.getProtocolAndHost(url);
         String port = URLPathUtils.getPort(url, defaultServerPort);
-        String basePath = url.getPath();
 
         if (additionalProperties.containsKey(SERVER_HOST)) {
             host = additionalProperties.get(SERVER_HOST).toString();

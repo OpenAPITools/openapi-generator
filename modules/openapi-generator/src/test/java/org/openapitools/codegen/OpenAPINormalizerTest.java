@@ -84,7 +84,6 @@ public class OpenAPINormalizerTest {
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        Schema schema3 = openAPI.getComponents().getSchemas().get("Person");
         assertNull(schema.getAnyOf());
     }
 
@@ -211,7 +210,6 @@ public class OpenAPINormalizerTest {
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        Schema schema3 = openAPI.getComponents().getSchemas().get("BooleanEnumTest");
         assertEquals(schema.getProperties().size(), 3);
         assertTrue(schema.getProperties().get("boolean_enum") instanceof BooleanSchema);
         BooleanSchema bs2 = (BooleanSchema) schema.getProperties().get("boolean_enum");
@@ -234,7 +232,6 @@ public class OpenAPINormalizerTest {
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        Schema schema3 = openAPI.getComponents().getSchemas().get("ComposedSchemaBooleanEnumTest");
         assertEquals(schema.getProperties().size(), 3);
         assertTrue(schema.getProperties().get("boolean_enum") instanceof BooleanSchema);
         BooleanSchema bs2 = (BooleanSchema) schema.getProperties().get("boolean_enum");

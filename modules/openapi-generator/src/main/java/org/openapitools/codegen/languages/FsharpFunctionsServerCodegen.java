@@ -127,8 +127,6 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
         apiTemplateFiles.put("ServiceImpl.mustache", "Service.fs");
         modelTemplateFiles.put("Model.mustache", ".fs");
 
-        String implFolder = sourceFolder + File.separator + "impl";
-
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("build.sh.mustache", projectFolder, "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", projectFolder, "build.bat"));

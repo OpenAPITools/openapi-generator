@@ -525,7 +525,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
         if (openAPI.getPaths() != null) {
             for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
-                String pathname = openAPIGetPathsEntry.getKey();
                 PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() != null) {
                     for (Operation operation : path.readOperations()) {

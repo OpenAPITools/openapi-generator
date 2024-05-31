@@ -617,7 +617,6 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     public void generateDeepObjectArrayWithPattern() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         OpenAPI openAPI = new OpenAPIParser()
                 .readLocation("src/test/resources/3_0/deepobject-array-with-pattern.yaml", null, new ParseOptions()).getOpenAPI();

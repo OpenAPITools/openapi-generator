@@ -850,7 +850,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         // TODO: collection type here should be fully qualified namespace to avoid model conflicts
         // This supports arrays of arrays.
         String arrayType = typeMapping.get("array");
-        StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema items = ModelUtils.getSchemaItems(arr);
         String nestedType = getTypeDeclaration(items);
         // TODO: We may want to differentiate here between generics and primitive arrays.

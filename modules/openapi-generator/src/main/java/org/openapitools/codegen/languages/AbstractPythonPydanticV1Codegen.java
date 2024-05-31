@@ -1805,8 +1805,10 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
             // update typing import for operation return type
             if (!StringUtils.isEmpty(operation.returnType)) {
-                String typing = getPydanticType(operation.returnProperty, typingImports,
-                        new TreeSet<>() /* skip pydantic import for return type */, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, null);
+                getPydanticType(
+                    operation.returnProperty, typingImports, new TreeSet<>() /* skip pydantic import for return type */, 
+                    datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, null
+                );
             }
 
             // add import for code samples

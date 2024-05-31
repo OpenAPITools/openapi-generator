@@ -1334,6 +1334,9 @@ public class DefaultCodegenTest {
 
     @Test
     public void testComposedSchemaOneOfDiscriminatorsInvalid() {
+        /*
+        // comment out below as we're now showing warnings instead of throwing exceptions
+
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOfDiscriminator.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setLegacyDiscriminatorBehavior(false);
@@ -1355,20 +1358,20 @@ public class DefaultCodegenTest {
 
             Schema sc = openAPI.getComponents().getSchemas().get(modelName);
 
-            /*
-            // comment out below as we're now showing warnings instead of throwing exceptions
             try {
                 codegen.fromModel(modelName, sc);
                 Assertions.assertTrue(false, "A RuntimeException should have been thrown when processing "+modelName+ " but it was not");
             } catch (RuntimeException re) {
                 Assertions.assertEquals(re.getMessage(), errorMessageExpected);
             }
-            */
         }
+        */
     }
 
     @Test
     public void testComposedSchemaAnyOfDiscriminatorsInvalid() {
+        /*
+        // comment out below as we're now showing warnings instead of throwing exceptions
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/anyOfDiscriminator.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setLegacyDiscriminatorBehavior(false);
@@ -1384,22 +1387,22 @@ public class DefaultCodegenTest {
         hm.put("ComposedDiscTypeInconsistent", "'ComposedDiscTypeInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscTypeIncorrect' is incorrect. invalid type for fruitType, set it to string");
         hm.put("ComposedDiscRequiredInconsistent", "'ComposedDiscRequiredInconsistent' defines discriminator 'fruitType', but the referenced schema 'DiscOptionalTypeCorrect' is incorrect. invalid optional definition of fruitType, include it in required");
 
+        
         for (Map.Entry<String, String> entry : hm.entrySet()) {
+            
             String modelName = entry.getKey();
             String errorMessageExpected = entry.getValue();
 
             Schema sc = openAPI.getComponents().getSchemas().get(modelName);
-
-            /*
-            // comment out below as we're now showing warnings instead of throwing exceptions
+            
             try {
                 codegen.fromModel(modelName, sc);
                 Assertions.assertTrue(false, "A RuntimeException should have been thrown when processing "+modelName+ " but it was not");
             } catch (RuntimeException re) {
                 Assertions.assertEquals(re.getMessage(), errorMessageExpected);
             }
-            */
         }
+        */
     }
 
     @Test
@@ -1427,10 +1430,11 @@ public class DefaultCodegenTest {
         Assertions.assertEquals(cm.discriminator.getMappedModels(), hs);
 
         // inline anyOf with inline anyOf model doesn't work because we have null $refs and we throw an exception
+        /* comment out below as we're now showing warnings instead of throwing exceptions
         final String fmodelName = "FruitInlineInlineDisc";
         final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
-        // comment out below as we're now showing warnings instead of throwing exceptions
-        //Assertions.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
+        Assertions.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
+        */
 
         // ref anyOf models with discriminator in properties in those models
         modelName = "FruitReqDisc";
@@ -1513,9 +1517,9 @@ public class DefaultCodegenTest {
         Assertions.assertEquals(cm.discriminator.getMappedModels(), hs);
 
         // inline oneOf with inline oneOf model doesn't work because we have null $refs and we throw an exception
-        final String fmodelName = "FruitInlineInlineDisc";
-        final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
         // comment out below as we're now showing warnings instead of throwing exceptions
+        //final String fmodelName = "FruitInlineInlineDisc";
+        //final Schema fsc = openAPI.getComponents().getSchemas().get(fmodelName);
         //Assertions.assertThrows(() -> codegen.fromModel(fmodelName, fsc));
 
         // ref oneOf models with discriminator in properties in those models
@@ -1689,7 +1693,6 @@ public class DefaultCodegenTest {
 
         String modelName;
         CodegenDiscriminator discriminator;
-        Schema sc;
         CodegenModel cm;
 
         Boolean dryRun = Boolean.TRUE;
@@ -3375,7 +3378,6 @@ public class DefaultCodegenTest {
         assertTrue(cm.getHasVars());
 
         modelName = "ObjectWithObjectWithPropsInAdditionalProperties";
-        MapSchema ms = (MapSchema) openAPI.getComponents().getSchemas().get(modelName);
         assertEquals("#/components/schemas/ArrayWithObjectWithPropsInItems_inner", as.getItems().get$ref());
         sc = openAPI.getComponents().getSchemas().get("ArrayWithObjectWithPropsInItems_inner");
         cm = codegen.fromModel(modelName, sc);
@@ -3823,12 +3825,12 @@ public class DefaultCodegenTest {
         DefaultCodegen codegen = new DefaultCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10330.yaml");
         codegen.setOpenAPI(openAPI);
-        String modelName;
 
-        modelName = "ObjectWithComposedProperties";
-        CodegenModel m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
         /* TODO inline allOf schema are created as separate models and the following assumptions that
-           the properties are non-model are no longer valid and need to be revised
+                the properties are non-model are no longer valid and need to be revised
+           
+        String modelName = "ObjectWithComposedProperties";
+        CodegenModel m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
         assertTrue(m.vars.get(0).getIsMap());
         assertTrue(m.vars.get(1).getIsNumber());
         assertTrue(m.vars.get(2).getIsUnboundedInteger());
@@ -4066,7 +4068,6 @@ public class DefaultCodegenTest {
         String path;
         Operation operation;
         CodegenOperation co;
-        CodegenParameter cpa;
         CodegenResponse cr;
 
         path = "/pet/{petId}";
@@ -4356,9 +4357,8 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        String modelName = "ArrayWithIneffectiveValidations";
-        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
-        CodegenModel cm = codegen.fromModel(modelName, sc);
+        final String modelName = "ArrayWithIneffectiveValidations";
+        codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
 
         listAppender.stop();
         testLogger.detachAppender(listAppender);
@@ -4403,10 +4403,9 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
-
-        String modelName = "ObjectWithIneffectiveValidations";
-        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
-        CodegenModel cm = codegen.fromModel(modelName, sc);
+        
+        final String modelName = "ObjectWithIneffectiveValidations";
+        codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
 
         listAppender.stop();
         testLogger.detachAppender(listAppender);
@@ -4453,10 +4452,9 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        String modelName = "StringWithIneffectiveValidations";
-        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
-        CodegenModel cm = codegen.fromModel(modelName, sc);
-
+        final String modelName = "StringWithIneffectiveValidations";
+        codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));        
+        
         listAppender.stop();
         testLogger.detachAppender(listAppender);
 
@@ -4500,9 +4498,8 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        String modelName = "IntegerWithIneffectiveValidations";
-        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
-        CodegenModel cm = codegen.fromModel(modelName, sc);
+        final String modelName = "IntegerWithIneffectiveValidations";
+        codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
 
         listAppender.stop();
         testLogger.detachAppender(listAppender);
@@ -4547,10 +4544,9 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        String modelName = "AnyTypeWithIneffectiveValidations";
-        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
-        CodegenModel cm = codegen.fromModel(modelName, sc);
-
+        final String modelName = "AnyTypeWithIneffectiveValidations";
+        codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+        
         listAppender.stop();
         testLogger.detachAppender(listAppender);
 
@@ -4574,10 +4570,8 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
-
-        String modelName = "BooleanWithIneffectiveValidations";
-        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
-        CodegenModel cm = codegen.fromModel(modelName, sc);
+        final String modelName = "BooleanWithIneffectiveValidations";
+        codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
 
         listAppender.stop();
         testLogger.detachAppender(listAppender);
@@ -4629,8 +4623,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         String modelName = "NullWithIneffectiveValidations";
-        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
-        CodegenModel cm = codegen.fromModel(modelName, sc);
+        codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
 
         listAppender.stop();
         testLogger.detachAppender(listAppender);

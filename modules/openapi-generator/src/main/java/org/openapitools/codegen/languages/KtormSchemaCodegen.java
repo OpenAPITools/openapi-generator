@@ -374,7 +374,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String colName = toColumnName(baseName);
         String description = property.getDescription();
         String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String actualType = toColumnType(dataType);
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_SCHEMA)) {
@@ -440,7 +439,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String actualType = toColumnType(dataType);
 
         String minimum = property.getMinimum();
@@ -488,7 +486,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String actualType = toColumnType(dataType);
 
         String minimum = property.getMinimum();
@@ -529,7 +526,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String actualType = toColumnType(dataType);
 
         ktormSchema.put("columnDefinition", columnDefinition);
@@ -554,7 +550,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String actualType = toColumnType(dataType);
 
         Integer minLength = property.getMinLength();
@@ -593,7 +588,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String actualType = toColumnType(dataType);
 
         ktormSchema.put("columnDefinition", columnDefinition);
@@ -618,7 +612,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String actualType = toColumnType(dataType);
 
         ktormSchema.put("columnDefinition", columnDefinition);
@@ -645,7 +638,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String actualType = toColumnType(dataType);
 
         ktormSchema.put("columnDefinition", columnDefinition);
@@ -699,7 +691,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String baseName = property.getBaseName();
         Boolean required = property.getRequired();
         String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String defaultValue = property.getDefaultValue();
         if (Boolean.TRUE.equals(required)) {
             columnDefinition.put("colNotNull", true);
@@ -732,7 +723,6 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         String modelName = model.getName();
         String tryDataType = property.isArray ? property.items.dataType : property.dataType;
-        String tryDataFormat = property.isArray ? property.items.dataFormat : property.dataFormat;
         Boolean isPrimitive = (tryDataType.startsWith("kotlin.") || tryDataType.startsWith("java."));
         String propName = isPrimitive ? property.getName() : tryDataType;
 
@@ -745,10 +735,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         final IntegerSchema pkSchema = new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);
         String pkDataType = getSchemaType(pkSchema);
-        String pkDataFormat = pkSchema.getFormat();
         String pkColType = toColumnType(pkDataType);
         String fkDataType = isPrimitive ? tryDataType : pkDataType;
-        String fkDataFormat = isPrimitive ? tryDataFormat : pkDataFormat;
         String fkColType = toColumnType(fkDataType);
 
         SqlTypeArgs pkArgs = new SqlTypeArgs();

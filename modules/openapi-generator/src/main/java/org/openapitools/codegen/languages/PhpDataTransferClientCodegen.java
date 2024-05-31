@@ -454,7 +454,6 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
         Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {
             for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
-                String pathname = pathsEntry.getKey();
                 PathItem path = pathsEntry.getValue();
                 List<Operation> operations = path.readOperations();
                 if (operations != null) {

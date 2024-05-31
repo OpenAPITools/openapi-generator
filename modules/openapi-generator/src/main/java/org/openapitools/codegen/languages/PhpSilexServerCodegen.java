@@ -64,7 +64,6 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         );
 
         invokerPackage = camelize("OpenAPIServer");
-        String packageName = "OpenAPIServer";
         modelPackage = "lib" + File.separator + "models";
         apiPackage = "lib";
         outputFolder = "generated-code" + File.separator + "php-silex";
@@ -266,8 +265,6 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         for (CodegenOperation op : operationList) {
             String path = op.path;
             String[] items = path.split("/", -1);
-            String opsPath = "";
-            int pathParamIndex = 0;
 
             for (int i = 0; i < items.length; ++i) {
                 if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}

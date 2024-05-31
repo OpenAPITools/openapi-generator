@@ -15,7 +15,7 @@ public class KotlinTestUtilsTest {
         Constructor<?>[] constructors = clazz.getConstructors();
         Assert.assertEquals(1, constructors.length);
         Constructor<?> constr = constructors[0];
-        Object testObj = constr.newInstance("test");
+        constr.newInstance("test");
     }
 
     @Test(expectedExceptions = Exception.class)

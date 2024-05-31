@@ -183,7 +183,6 @@ public class RubyClientCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore_oas3_test.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
-        final String path = "/pet";
 
         final Schema schema = openAPI.getComponents().getSchemas().get("NullablePet");
         codegen.setOpenAPI(openAPI);
@@ -212,7 +211,6 @@ public class RubyClientCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore_oas3_test.yaml");
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
-        final String path = "/pet";
 
         final Schema schema = openAPI.getComponents().getSchemas().get("Pet");
         codegen.setOpenAPI(openAPI);

@@ -926,12 +926,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 boolean isModel = false;
                 CodegenProperty item = p;
                 String dataType = null;
-                String arrayDataType = null;
                 if (p.vendorExtensions.containsKey(X_ADA_TYPE_NAME)) {
                     dataType = (String) p.vendorExtensions.get(X_ADA_TYPE_NAME);
                     LOGGER.info("Data type {} mapped to {}", p.dataType, dataType);
                 }
-                arrayDataType = (String) p.vendorExtensions.get(X_ADA_VECTOR_TYPE_NAME);
                 if (p.isContainer) {
                     item = p.items;
                 }

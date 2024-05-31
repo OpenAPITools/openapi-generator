@@ -991,7 +991,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @return true if should be hidden, false otherwise
      */
     private boolean shouldHideOperationResponse(ApiResponse resp) {
-        boolean hideOperationResponse = false;
 
         if (Objects.nonNull(resp.getExtensions()) && !resp.getExtensions().isEmpty()
                 && resp.getExtensions().containsKey(X_OPERATION_RESPONSE)) {

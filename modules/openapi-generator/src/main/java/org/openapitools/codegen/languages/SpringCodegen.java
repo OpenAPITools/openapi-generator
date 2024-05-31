@@ -821,7 +821,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (openAPI.getPaths() != null) {
             for (final Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
-                final String pathname = openAPIGetPathsEntry.getKey();
                 final PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() != null) {
                     for (final Operation operation : path.readOperations()) {

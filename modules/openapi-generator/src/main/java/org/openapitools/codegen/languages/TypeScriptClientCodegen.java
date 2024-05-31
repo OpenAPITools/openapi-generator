@@ -814,16 +814,12 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             closeChars = "}";
             CodegenDiscriminator disc = createDiscriminator(modelName, schema);
             if (disc != null) {
-                MappedModel mm = getDiscriminatorMappedModel(disc);
-                if (mm != null) {
-                    String discPropNameValue = mm.getMappingName();
-                    String chosenModelName = mm.getModelName();
-                    // TODO handle this case in the future, this is when the discriminated
-                    // schema allOf includes this schema, like Cat allOf includes Pet
-                    // so this is the composed schema use case
-                } else {
+                if (getDiscriminatorMappedModel(disc) == null) {
                     return fullPrefix + closeChars;
                 }
+                // TODO handle `else` case in the future, this is when the discriminated
+                // schema allOf includes this schema, like Cat allOf includes Pet
+                // so this is the composed schema use case
             }
 
             Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);

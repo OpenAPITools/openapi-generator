@@ -59,8 +59,7 @@ public class GoGinServerCodegenTest {
                 .setInputSpec("src/test/resources/3_1/webhooks.yaml");
 
         DefaultGenerator generator = new DefaultGenerator();
-        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        //files.forEach(File::deleteOnExit);
+        generator.opts(configurator.toClientOptInput()).generate();
 
         TestUtils.assertFileContains(Paths.get(output + "/go/routers.go"),
                 "NewPetPost");

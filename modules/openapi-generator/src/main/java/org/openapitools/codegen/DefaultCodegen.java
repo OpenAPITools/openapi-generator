@@ -682,7 +682,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         // Let parent know about all its children
         for (Map.Entry<String, CodegenModel> allModelsEntry : allModels.entrySet()) {
-            String name = allModelsEntry.getKey();
             CodegenModel cm = allModelsEntry.getValue();
             CodegenModel parent = allModels.get(cm.getParent());
             // if a discriminator exists on the parent, don't add this child to the inheritance hierarchy
@@ -2761,7 +2760,6 @@ public class DefaultCodegen implements CodegenConfig {
                     refSchema = allDefinitions.get(ref);
                 }
                 final String modelName = toModelName(ref);
-                CodegenProperty interfaceProperty = fromProperty(modelName, interfaceSchema, false);
                 m.interfaces.add(modelName);
                 addImport(composed, refSchema, m, modelName);
 
@@ -7022,12 +7020,10 @@ public class DefaultCodegen implements CodegenConfig {
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
-        Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
         if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
                 ModelUtils.getType(schema) == null) {
             if (schema.getAllOf().get(0) instanceof Schema) {
-                original = schema;
                 schema = (Schema) schema.getAllOf().get(0);
             } else {
                 LOGGER.error("Unknown type in allOf schema. Please report the issue via openapi-generator's Github issue tracker.");
