@@ -50,16 +50,12 @@ public class InlineModelResolver {
 
     // structure mapper sorts properties alphabetically on write to ensure models are
     // serialized consistently for lookup of existing models
-    private static ObjectMapper structureMapper;
+    private static final ObjectMapper structureMapper = Json.mapper().copy()
+        .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
+        .setDefaultPrettyPrinter(new DefaultPrettyPrinter());
 
     // a set to keep track of names generated for inline schemas
     private Set<String> uniqueNames = new HashSet<>();
-
-    static {
-        structureMapper = Json.mapper().copy();
-        structureMapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
-        structureMapper.writer(new DefaultPrettyPrinter());
-    }
 
     final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 

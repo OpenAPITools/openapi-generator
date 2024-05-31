@@ -89,70 +89,54 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
-    public static FeatureSet DefaultFeatureSet;
+    public static FeatureSet DefaultFeatureSet = FeatureSet.newBuilder()
+        .includeDataTypeFeatures(
+            DataTypeFeature.Int32, DataTypeFeature.Int64, DataTypeFeature.Float, DataTypeFeature.Double,
+            DataTypeFeature.Decimal, DataTypeFeature.String, DataTypeFeature.Byte, DataTypeFeature.Binary,
+            DataTypeFeature.Boolean, DataTypeFeature.Date, DataTypeFeature.DateTime, DataTypeFeature.Password,
+            DataTypeFeature.File, DataTypeFeature.Array, DataTypeFeature.Object, DataTypeFeature.Maps, DataTypeFeature.CollectionFormat,
+            DataTypeFeature.CollectionFormatMulti, DataTypeFeature.Enum, DataTypeFeature.ArrayOfEnum, DataTypeFeature.ArrayOfModel,
+            DataTypeFeature.ArrayOfCollectionOfPrimitives, DataTypeFeature.ArrayOfCollectionOfModel, DataTypeFeature.ArrayOfCollectionOfEnum,
+            DataTypeFeature.MapOfEnum, DataTypeFeature.MapOfModel, DataTypeFeature.MapOfCollectionOfPrimitives,
+            DataTypeFeature.MapOfCollectionOfModel, DataTypeFeature.MapOfCollectionOfEnum
+            // Custom types are template specific
+        ).includeDocumentationFeatures(
+            DocumentationFeature.Api, DocumentationFeature.Model
+            // README is template specific
+        ).includeGlobalFeatures(
+            GlobalFeature.Host, GlobalFeature.BasePath, GlobalFeature.Info, GlobalFeature.PartialSchemes,
+            GlobalFeature.Consumes, GlobalFeature.Produces, GlobalFeature.ExternalDocumentation, GlobalFeature.Examples,
+            GlobalFeature.Callbacks
+            // TODO: xml structures, styles, link objects, parameterized servers, full schemes for OAS 2.0
+        ).includeSchemaSupportFeatures(
+            SchemaSupportFeature.Simple, SchemaSupportFeature.Composite,
+            SchemaSupportFeature.Polymorphism
+            // Union (OneOf) not 100% yet.
+        ).includeParameterFeatures(
+            ParameterFeature.Path, ParameterFeature.Query, ParameterFeature.Header, ParameterFeature.Body,
+            ParameterFeature.FormUnencoded, ParameterFeature.FormMultipart, ParameterFeature.Cookie
+        ).includeSecurityFeatures(
+            SecurityFeature.BasicAuth, SecurityFeature.ApiKey, SecurityFeature.BearerToken,
+            SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
+            SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
+            // OpenIdConnect and SignatureAuth and AW4Signature are not yet 100% supported
+        ).includeWireFormatFeatures(
+            WireFormatFeature.JSON, WireFormatFeature.XML
+            // PROTOBUF and Custom are generator specific
+        ).build();
 
     // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
-    private static final Cache<SanitizeNameOptions, String> sanitizedNameCache;
+    private static final Cache<SanitizeNameOptions, String> sanitizedNameCache = Caffeine.newBuilder()
+        .maximumSize(Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "500")))
+        .expireAfterAccess(Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_EXPIRY_PROPERTY, "10")), TimeUnit.SECONDS)
+        .ticker(Ticker.systemTicker())
+        .build();
+
     private static final String xSchemaTestExamplesKey = "x-schema-test-examples";
     private static final String xSchemaTestExamplesRefPrefix = "#/components/x-schema-test-examples/";
-    protected static Schema falseSchema;
+    protected static Schema falseSchema = new Schema().not(new Schema());
     protected static Schema trueSchema = new Schema();
-
-    static {
-        DefaultFeatureSet = FeatureSet.newBuilder()
-                .includeDataTypeFeatures(
-                        DataTypeFeature.Int32, DataTypeFeature.Int64, DataTypeFeature.Float, DataTypeFeature.Double,
-                        DataTypeFeature.Decimal, DataTypeFeature.String, DataTypeFeature.Byte, DataTypeFeature.Binary,
-                        DataTypeFeature.Boolean, DataTypeFeature.Date, DataTypeFeature.DateTime, DataTypeFeature.Password,
-                        DataTypeFeature.File, DataTypeFeature.Array, DataTypeFeature.Object, DataTypeFeature.Maps, DataTypeFeature.CollectionFormat,
-                        DataTypeFeature.CollectionFormatMulti, DataTypeFeature.Enum, DataTypeFeature.ArrayOfEnum, DataTypeFeature.ArrayOfModel,
-                        DataTypeFeature.ArrayOfCollectionOfPrimitives, DataTypeFeature.ArrayOfCollectionOfModel, DataTypeFeature.ArrayOfCollectionOfEnum,
-                        DataTypeFeature.MapOfEnum, DataTypeFeature.MapOfModel, DataTypeFeature.MapOfCollectionOfPrimitives,
-                        DataTypeFeature.MapOfCollectionOfModel, DataTypeFeature.MapOfCollectionOfEnum
-                        // Custom types are template specific
-                )
-                .includeDocumentationFeatures(
-                        DocumentationFeature.Api, DocumentationFeature.Model
-                        // README is template specific
-                )
-                .includeGlobalFeatures(
-                        GlobalFeature.Host, GlobalFeature.BasePath, GlobalFeature.Info, GlobalFeature.PartialSchemes,
-                        GlobalFeature.Consumes, GlobalFeature.Produces, GlobalFeature.ExternalDocumentation, GlobalFeature.Examples,
-                        GlobalFeature.Callbacks
-                        // TODO: xml structures, styles, link objects, parameterized servers, full schemes for OAS 2.0
-                )
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Simple, SchemaSupportFeature.Composite,
-                        SchemaSupportFeature.Polymorphism
-                        // Union (OneOf) not 100% yet.
-                )
-                .includeParameterFeatures(
-                        ParameterFeature.Path, ParameterFeature.Query, ParameterFeature.Header, ParameterFeature.Body,
-                        ParameterFeature.FormUnencoded, ParameterFeature.FormMultipart, ParameterFeature.Cookie
-                )
-                .includeSecurityFeatures(
-                        SecurityFeature.BasicAuth, SecurityFeature.ApiKey, SecurityFeature.BearerToken,
-                        SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
-                        // OpenIdConnect and SignatureAuth and AW4Signature are not yet 100% supported
-                )
-                .includeWireFormatFeatures(
-                        WireFormatFeature.JSON, WireFormatFeature.XML
-                        // PROTOBUF and Custom are generator specific
-                )
-                .build();
-
-        int cacheSize = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "500"));
-        int cacheExpiry = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_EXPIRY_PROPERTY, "10"));
-        sanitizedNameCache = Caffeine.newBuilder()
-                .maximumSize(cacheSize)
-                .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
-                .ticker(Ticker.systemTicker())
-                .build();
-        falseSchema = new Schema();
-        falseSchema.setNot(new Schema());
-    }
 
     protected GeneratorMetadata generatorMetadata;
     protected String inputSpec;
