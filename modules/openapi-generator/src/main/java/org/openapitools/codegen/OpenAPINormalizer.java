@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
 
 public class OpenAPINormalizer {
     private OpenAPI openAPI;
-    private Map<String, String> inputRules = new HashMap<>();
     private Map<String, Boolean> rules = new HashMap<>();
 
     private TreeSet<String> anyTypeTreeSet = new TreeSet<>();
@@ -132,7 +131,6 @@ public class OpenAPINormalizer {
      */
     public OpenAPINormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
         this.openAPI = openAPI;
-        this.inputRules = inputRules;
 
         if (Boolean.parseBoolean(inputRules.get(DISABLE_ALL))) {
             this.disableAll = true;

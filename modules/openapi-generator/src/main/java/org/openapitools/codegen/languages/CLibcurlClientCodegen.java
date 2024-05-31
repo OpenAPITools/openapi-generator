@@ -46,8 +46,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     protected String moduleName;
     protected String projectName;
     protected static final String defaultProjectName = "openapi_client";
-    protected String specFolder = "spec";
-    protected String libFolder = "lib";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected boolean useJsonUnformatted = false;

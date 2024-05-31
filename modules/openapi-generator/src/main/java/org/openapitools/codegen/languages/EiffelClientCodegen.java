@@ -23,8 +23,6 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.EnumSet;
@@ -32,7 +30,6 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class EiffelClientCodegen extends AbstractEiffelCodegen {
-    private final Logger LOGGER = LoggerFactory.getLogger(EiffelClientCodegen.class);
 
     protected String libraryTarget = "openapi_eiffel_client";
     @Setter protected String packageName = "Eiffel";

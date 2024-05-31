@@ -16,19 +16,18 @@
 
 package org.openapitools.codegen.cpppistache;
 
-import java.io.*;
-import java.util.*;
-
-import org.slf4j.*;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Generate from an input spec containing various abstract objects and sets
  */
 public class ObjectAnyTypeSetTest extends AbstractGeneratorsTest {
-    /** Logger. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ObjectAnyTypeSetTest.class);
 
     /** A Petstore inputspec with abstract properties added in the Pet */
     private static final String INPUT_SPEC = "src/test/resources/3_0/issues-anytype-object-set-petstore-everything.yaml";

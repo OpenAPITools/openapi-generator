@@ -33,8 +33,6 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,8 +58,6 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     // An object mapper that is used to convert an example string to
     // a "python-compliant" example string (keys in snake case, boolean as 1/0).
     final ObjectMapper MAPPER = new ObjectMapper();
-
-    final Logger LOGGER = LoggerFactory.getLogger(PythonFastAPIServerCodegen.class);
 
     protected String sourceFolder;
 

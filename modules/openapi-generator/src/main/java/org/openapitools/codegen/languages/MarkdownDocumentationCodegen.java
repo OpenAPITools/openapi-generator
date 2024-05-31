@@ -3,8 +3,6 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
@@ -12,8 +10,6 @@ import static org.openapitools.codegen.utils.StringUtils.escape;
 
 public class MarkdownDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
-
-    private final Logger LOGGER = LoggerFactory.getLogger(MarkdownDocumentationCodegen.class);
 
     @Override
     public CodegenType getTag() {

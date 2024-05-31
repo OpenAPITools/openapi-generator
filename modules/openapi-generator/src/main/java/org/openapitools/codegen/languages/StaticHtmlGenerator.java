@@ -169,8 +169,6 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
 
     private Markdown markdownConverter = new Markdown();
 
-    private static final boolean CONVERT_TO_MARKDOWN_VIA_ESCAPE_TEXT = false;
-
     /**
      * Convert Markdown text to HTML
      *

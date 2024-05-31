@@ -36,7 +36,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -45,8 +44,6 @@ import static org.openapitools.codegen.utils.StringUtils.dashize;
 public class HaskellYesodServerCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
     public static final String API_MODULE_NAME = "apiModuleName";
-
-    private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_+");
 
     private final Logger LOGGER = LoggerFactory.getLogger(HaskellYesodServerCodegen.class);
 

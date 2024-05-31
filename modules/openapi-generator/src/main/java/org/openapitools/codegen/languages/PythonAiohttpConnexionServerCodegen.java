@@ -17,13 +17,10 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
 
 public class PythonAiohttpConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
-    private final Logger LOGGER = LoggerFactory.getLogger(PythonAiohttpConnexionServerCodegen.class);
 
     public PythonAiohttpConnexionServerCodegen() {
         super("python-aiohttp", true);

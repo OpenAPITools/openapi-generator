@@ -73,8 +73,6 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     private boolean useSwashbuckle = true;
     private boolean pocoModels = false;
     private boolean useSeparateModelProject = false;
-    protected int serverPort = 8080;
-    protected String serverHost = "0.0.0.0";
     protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbuckle version: 3.0.0 (deprecated), 4.0.0 (deprecated), 5.0.0 (deprecated), 6.4.0");
     protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)");
     private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier for controller classes: Empty string or abstract.");

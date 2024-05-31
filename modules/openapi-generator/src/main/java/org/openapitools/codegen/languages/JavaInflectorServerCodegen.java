@@ -27,8 +27,6 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
@@ -37,8 +35,6 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
 
     protected String title = "OpenAPI Inflector";
     protected String implFolder = "src/main/java";

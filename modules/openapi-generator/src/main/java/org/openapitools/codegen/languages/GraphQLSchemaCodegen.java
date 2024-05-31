@@ -17,15 +17,14 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 
 import java.util.EnumSet;
 
 public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(GraphQLSchemaCodegen.class);
 
     @Override
     public CodegenType getTag() {

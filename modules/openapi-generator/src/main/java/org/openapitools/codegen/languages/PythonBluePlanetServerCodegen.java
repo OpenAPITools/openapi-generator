@@ -15,22 +15,14 @@
  */
 package org.openapitools.codegen.languages;
 
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*;
+
 import java.io.File;
 import java.util.EnumSet;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.GlobalFeature;
-import org.openapitools.codegen.meta.features.ParameterFeature;
-import org.openapitools.codegen.meta.features.SchemaSupportFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
-import org.openapitools.codegen.meta.features.WireFormatFeature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServerCodegen {
-    private final Logger LOGGER = LoggerFactory.getLogger(PythonBluePlanetServerCodegen.class);
 
     protected String modelDocPath = "";
     protected String modelTestPath = "";

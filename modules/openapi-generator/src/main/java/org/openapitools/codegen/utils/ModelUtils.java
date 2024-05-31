@@ -2209,18 +2209,7 @@ public class ModelUtils {
                 .withExclusiveMaximum()
                 .build();
 
-        public static Set<String> ALL_VALIDATIONS;
-
-        static {
-            ALL_VALIDATIONS = new HashSet<>(ARRAY_VALIDATIONS);
-            ALL_VALIDATIONS.addAll(OBJECT_VALIDATIONS);
-            ALL_VALIDATIONS.addAll(STRING_VALIDATIONS);
-            ALL_VALIDATIONS.addAll(NUMERIC_VALIDATIONS);
-        }
-
-        SchemaValidations() {
-        }
-
+        SchemaValidations() {}
 
         public static class ValidationSetBuilder {
             LinkedHashSet<String> validationSet;

@@ -85,11 +85,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public static final String PROP_STRICT_FIELDS = "strictFields";
     public static final String PROP_USE_KATIP = "useKatip";
 
-    // protected String MODEL_IMPORTS = "modelImports";
-    // protected String MODEL_EXTENSIONS = "modelExtensions";
-
-    private static final Pattern LEADING_UNDERSCORE = Pattern.compile("^_+");
-
     static final String MEDIA_TYPE = "mediaType";
     static final String MIME_NO_CONTENT = "MimeNoContent";
     static final String MIME_ANY = "MimeAny";

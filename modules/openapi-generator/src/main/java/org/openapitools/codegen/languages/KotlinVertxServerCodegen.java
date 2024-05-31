@@ -22,8 +22,6 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.EnumSet;
@@ -36,8 +34,6 @@ public class KotlinVertxServerCodegen extends AbstractKotlinCodegen {
     public static final String ROOT_PACKAGE = "rootPackage";
 
     public static final String PROJECT_NAME = "projectName";
-
-    final Logger LOGGER = LoggerFactory.getLogger(KotlinVertxServerCodegen.class);
 
     @Override
     public CodegenType getTag() {

@@ -17,13 +17,10 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.SupportingFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
-    private final Logger LOGGER = LoggerFactory.getLogger(PythonFlaskConnexionServerCodegen.class);
 
     public PythonFlaskConnexionServerCodegen() {
         super("python-flask", false);

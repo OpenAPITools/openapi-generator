@@ -61,8 +61,6 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(AspNetServerCodegen.class);
 
-    protected int serverPort = 8080;
-    protected String serverHost = "0.0.0.0";
     protected CliOption netCoreVersion = new CliOption(NET_CORE_VERSION, ".NET Core version: 6.0, 5.0, 3.1, 3.0");
     protected CliOption azureFunctionsVersion = new CliOption(AZURE_FUNCTIONS_VERSION, "Azure functions version: v4, v3");
     private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier for function classes: Empty string or abstract.");
@@ -70,11 +68,9 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     private CliOption modelClassModifier = new CliOption(MODEL_CLASS_MODIFIER, "Model Class Modifier can be nothing or partial");
     private boolean generateBody = true;
     private CliOption buildTarget = new CliOption("buildTarget", "Target to build an application or library");
-    private String projectSdk = "Microsoft.NET.Sdk";
     private boolean operationIsAsync = false;
     private boolean operationResultTask = false;
     private boolean isLibrary = false;
-    private boolean useFrameworkReference = false;
     private boolean useNewtonsoft = true;
     private String newtonsoftVersion = "3.0.0";
 

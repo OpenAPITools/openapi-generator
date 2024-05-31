@@ -22,15 +22,14 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 
 
 public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String USER_INFO_PATH = "userInfoPath";
-    private final Logger LOGGER = LoggerFactory.getLogger(Apache2ConfigCodegen.class);
 
     protected String userInfoPath = "/var/www/html/";
 

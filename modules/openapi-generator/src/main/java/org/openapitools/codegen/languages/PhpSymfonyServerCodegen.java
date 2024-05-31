@@ -28,8 +28,6 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
@@ -38,30 +36,12 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
-    private final Logger LOGGER = LoggerFactory.getLogger(PhpSymfonyServerCodegen.class);
 
     public static final String BUNDLE_NAME = "bundleName";
     public static final String BUNDLE_ALIAS = "bundleAlias";
     public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
     public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
     public static final String PHP_LEGACY_SUPPORT = "phpLegacySupport";
-    public static final Map<String, String> SYMFONY_EXCEPTIONS = Map.ofEntries(
-        Map.entry("400", "Symfony\\Component\\HttpKernel\\Exception\\BadRequestHttpException"),
-        Map.entry("401", "Symfony\\Component\\HttpKernel\\Exception\\UnauthorizedHttpException"),
-        Map.entry("403", "Symfony\\Component\\HttpKernel\\Exception\\AccessDeniedHttpException"),
-        Map.entry("404", "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException"),
-        Map.entry("405", "Symfony\\Component\\HttpKernel\\Exception\\MethodNotAllowedHttpException"),
-        Map.entry("406", "Symfony\\Component\\HttpKernel\\Exception\\NotAcceptableHttpException"),
-        Map.entry("409", "Symfony\\Component\\HttpKernel\\Exception\\ConflictHttpException"),
-        Map.entry("410", "Symfony\\Component\\HttpKernel\\Exception\\GoneHttpException"),
-        Map.entry("411", "Symfony\\Component\\HttpKernel\\Exception\\LengthRequiredHttpException"),
-        Map.entry("412", "Symfony\\Component\\HttpKernel\\Exception\\PreconditionFailedHttpException"),
-        Map.entry("415", "Symfony\\Component\\HttpKernel\\Exception\\UnsupportedMediaTypeHttpException"),
-        Map.entry("422", "Symfony\\Component\\HttpKernel\\Exception\\UnprocessableEntityHttpException"),
-        Map.entry("428", "Symfony\\Component\\HttpKernel\\Exception\\PreconditionRequiredHttpException"),
-        Map.entry("429", "Symfony\\Component\\HttpKernel\\Exception\\TooManyRequestsHttpException"),
-        Map.entry("503", "Symfony\\Component\\HttpKernel\\Exception\\ServiceUnavailableHttpException")
-    );
 
     protected String testsPackage;
     protected String apiTestsPackage;

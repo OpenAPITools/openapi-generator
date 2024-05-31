@@ -625,7 +625,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         return packageName;
     }
 
-
     private String sanitizePath(String p) {
         //prefer replace a ", instead of a fuLL URL encode for readability
         return p.replaceAll("\"", "%22");

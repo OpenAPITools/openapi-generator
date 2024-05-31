@@ -16,20 +16,18 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import java.io.File;
-import java.util.*;
-
 import org.openapitools.codegen.meta.features.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.EnumSet;
 
 public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
     public static final String PROJECT_NAME = "projectName";
-
-     final Logger LOGGER = LoggerFactory.getLogger(FsharpFunctionsServerCodegen.class);
 
     @Override
     public CodegenType getTag() {
