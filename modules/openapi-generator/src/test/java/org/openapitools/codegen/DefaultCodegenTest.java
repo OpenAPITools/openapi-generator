@@ -4347,293 +4347,233 @@ public class DefaultCodegenTest {
     @Test
     public void testArraySchemaWithIneffectiveConstraints() {
 
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-
-        // add the appender to the logger
-        testLogger.addAppender(listAppender);
-
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final String modelName = "ArrayWithIneffectiveValidations";
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
+        
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        testLogger.addAppender(listAppender);
 
-        final String modelName = "ArrayWithIneffectiveValidations";
         codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
 
         listAppender.stop();
         testLogger.detachAppender(listAppender);
-
         List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
+        assertThat(logsList)
+            .hasSize(16)
+            .extracting(ILoggingEvent::getMessage).containsSequence(
+                "Validation 'minProperties' has no effect on schema 'array'. Ignoring!", 
+                "Validation 'maxProperties' has no effect on schema 'array'. Ignoring!", 
+                "Validation 'minLength' has no effect on schema 'array'. Ignoring!", 
+                "Validation 'maxLength' has no effect on schema 'array'. Ignoring!", 
+                "Validation 'pattern' has no effect on schema 'array'. Ignoring!", 
+                "Validation 'multipleOf' has no effect on schema 'array'. Ignoring!", 
+                "Validation 'minimum' has no effect on schema 'array'. Ignoring!", 
+                "Validation 'maximum' has no effect on schema 'array'. Ignoring!"
+            );
 
-        // JUnit assertions
-        assertEquals(16, logsList.size());
-        assertEquals("Validation 'minProperties' has no effect on schema 'array'. Ignoring!", logsList.get(0)
-                .getMessage());
-        assertEquals("Validation 'maxProperties' has no effect on schema 'array'. Ignoring!", logsList.get(1)
-                .getMessage());
-        assertEquals("Validation 'minLength' has no effect on schema 'array'. Ignoring!", logsList.get(2)
-                .getMessage());
-        assertEquals("Validation 'maxLength' has no effect on schema 'array'. Ignoring!", logsList.get(3)
-                .getMessage());
-        assertEquals("Validation 'pattern' has no effect on schema 'array'. Ignoring!", logsList.get(4)
-                .getMessage());
-        assertEquals("Validation 'multipleOf' has no effect on schema 'array'. Ignoring!", logsList.get(5)
-                .getMessage());
-        assertEquals("Validation 'minimum' has no effect on schema 'array'. Ignoring!", logsList.get(6)
-                .getMessage());
-        assertEquals("Validation 'maximum' has no effect on schema 'array'. Ignoring!", logsList.get(7)
-                .getMessage());
-
-        // Assert all logged messages are WARN messages
-        logsList.stream().limit(8).forEach(log -> assertEquals(Level.WARN, log.getLevel()));
+        assertThat(logsList).extracting(ILoggingEvent::getLevel).containsOnly(Level.WARN);
     }
 
     @Test
     public void testObjectSchemaWithIneffectiveConstraints() {
 
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-
-        // add the appender to the logger
-        testLogger.addAppender(listAppender);
-
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final String modelName = "ObjectWithIneffectiveValidations";
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
         
-        final String modelName = "ObjectWithIneffectiveValidations";
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        testLogger.addAppender(listAppender);
+
         codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
 
         listAppender.stop();
         testLogger.detachAppender(listAppender);
-
         List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
-        // JUnit assertions
-        assertEquals(9, logsList.size(), "Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()));
-        assertEquals("Validation 'minItems' has no effect on schema 'object'. Ignoring!", logsList.get(0)
-                .getMessage());
-        assertEquals("Validation 'maxItems' has no effect on schema 'object'. Ignoring!", logsList.get(1)
-                .getMessage());
-        assertEquals("Validation 'uniqueItems' has no effect on schema 'object'. Ignoring!", logsList.get(2)
-                .getMessage());
-        assertEquals("Validation 'minLength' has no effect on schema 'object'. Ignoring!", logsList.get(3)
-                .getMessage());
-        assertEquals("Validation 'maxLength' has no effect on schema 'object'. Ignoring!", logsList.get(4)
-                .getMessage());
-        assertEquals("Validation 'pattern' has no effect on schema 'object'. Ignoring!", logsList.get(5)
-                .getMessage());
-        assertEquals("Validation 'multipleOf' has no effect on schema 'object'. Ignoring!", logsList.get(6)
-                .getMessage());
-        assertEquals("Validation 'minimum' has no effect on schema 'object'. Ignoring!", logsList.get(7)
-                .getMessage());
-        assertEquals("Validation 'maximum' has no effect on schema 'object'. Ignoring!", logsList.get(8)
-                .getMessage());
+        assertThat(logsList)
+            .hasSize(9)
+            .extracting(ILoggingEvent::getMessage).containsExactly(
+                "Validation 'minItems' has no effect on schema 'object'. Ignoring!", 
+                "Validation 'maxItems' has no effect on schema 'object'. Ignoring!", 
+                "Validation 'uniqueItems' has no effect on schema 'object'. Ignoring!", 
+                "Validation 'minLength' has no effect on schema 'object'. Ignoring!", 
+                "Validation 'maxLength' has no effect on schema 'object'. Ignoring!", 
+                "Validation 'pattern' has no effect on schema 'object'. Ignoring!", 
+                "Validation 'multipleOf' has no effect on schema 'object'. Ignoring!", 
+                "Validation 'minimum' has no effect on schema 'object'. Ignoring!", 
+                "Validation 'maximum' has no effect on schema 'object'. Ignoring!"
+            );
 
-        // Assert all logged messages are WARN messages
-        logsList.stream().forEach(log -> assertEquals(Level.WARN, log.getLevel()));
+        assertThat(logsList).extracting(ILoggingEvent::getLevel).containsOnly(Level.WARN);
     }
 
     @Test
     public void testStringSchemaWithIneffectiveConstraints() {
 
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-
-        // add the appender to the logger
-        testLogger.addAppender(listAppender);
-
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final String modelName = "StringWithIneffectiveValidations";
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        final String modelName = "StringWithIneffectiveValidations";
-        codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));        
-        
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        testLogger.addAppender(listAppender);
+
+        codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
+
         listAppender.stop();
         testLogger.detachAppender(listAppender);
-
         List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
-        // JUnit assertions
-        assertEquals(8, logsList.size(), "Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()));
-        assertEquals("Validation 'minItems' has no effect on schema 'string'. Ignoring!", logsList.get(0)
-                .getMessage());
-        assertEquals("Validation 'maxItems' has no effect on schema 'string'. Ignoring!", logsList.get(1)
-                .getMessage());
-        assertEquals("Validation 'uniqueItems' has no effect on schema 'string'. Ignoring!", logsList.get(2)
-                .getMessage());
-        assertEquals("Validation 'minProperties' has no effect on schema 'string'. Ignoring!", logsList.get(3)
-                .getMessage());
-        assertEquals("Validation 'maxProperties' has no effect on schema 'string'. Ignoring!", logsList.get(4)
-                .getMessage());
-        assertEquals("Validation 'multipleOf' has no effect on schema 'string'. Ignoring!", logsList.get(5)
-                .getMessage());
-        assertEquals("Validation 'minimum' has no effect on schema 'string'. Ignoring!", logsList.get(6)
-                .getMessage());
-        assertEquals("Validation 'maximum' has no effect on schema 'string'. Ignoring!", logsList.get(7)
-                .getMessage());
+        assertThat(logsList)
+            .hasSize(8)
+            .extracting(ILoggingEvent::getMessage).containsExactly(
+                "Validation 'minItems' has no effect on schema 'string'. Ignoring!",
+                "Validation 'maxItems' has no effect on schema 'string'. Ignoring!", 
+                "Validation 'uniqueItems' has no effect on schema 'string'. Ignoring!",
+                "Validation 'minProperties' has no effect on schema 'string'. Ignoring!",
+                "Validation 'maxProperties' has no effect on schema 'string'. Ignoring!",
+                "Validation 'multipleOf' has no effect on schema 'string'. Ignoring!",
+                "Validation 'minimum' has no effect on schema 'string'. Ignoring!",
+                "Validation 'maximum' has no effect on schema 'string'. Ignoring!"
+            );
 
         // Assert all logged messages are WARN messages
-        logsList.stream().forEach(log -> assertEquals(Level.WARN, log.getLevel()));
+        assertThat(logsList).extracting(ILoggingEvent::getLevel).containsOnly(Level.WARN);
     }
 
     @Test
     public void testIntegerSchemaWithIneffectiveConstraints() {
 
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-
-        // add the appender to the logger
-        testLogger.addAppender(listAppender);
-
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final String modelName = "IntegerWithIneffectiveValidations";
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
+        
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        testLogger.addAppender(listAppender);
 
-        final String modelName = "IntegerWithIneffectiveValidations";
         codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
 
         listAppender.stop();
         testLogger.detachAppender(listAppender);
-
         List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
-        // JUnit assertions
-        assertEquals(8, logsList.size(), "Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()));
-        assertEquals("Validation 'minItems' has no effect on schema 'integer'. Ignoring!", logsList.get(0)
-                .getMessage());
-        assertEquals("Validation 'maxItems' has no effect on schema 'integer'. Ignoring!", logsList.get(1)
-                .getMessage());
-        assertEquals("Validation 'uniqueItems' has no effect on schema 'integer'. Ignoring!", logsList.get(2)
-                .getMessage());
-        assertEquals("Validation 'minProperties' has no effect on schema 'integer'. Ignoring!", logsList.get(3)
-                .getMessage());
-        assertEquals("Validation 'maxProperties' has no effect on schema 'integer'. Ignoring!", logsList.get(4)
-                .getMessage());
-        assertEquals("Validation 'minLength' has no effect on schema 'integer'. Ignoring!", logsList.get(5)
-                .getMessage());
-        assertEquals("Validation 'maxLength' has no effect on schema 'integer'. Ignoring!", logsList.get(6)
-                .getMessage());
-        assertEquals("Validation 'pattern' has no effect on schema 'integer'. Ignoring!", logsList.get(7)
-                .getMessage());
+        assertThat(logsList)
+            .hasSize(8)
+            .extracting(ILoggingEvent::getMessage).containsExactly(
+                "Validation 'minItems' has no effect on schema 'integer'. Ignoring!", 
+                "Validation 'maxItems' has no effect on schema 'integer'. Ignoring!",
+                "Validation 'uniqueItems' has no effect on schema 'integer'. Ignoring!", 
+                "Validation 'minProperties' has no effect on schema 'integer'. Ignoring!", 
+                "Validation 'maxProperties' has no effect on schema 'integer'. Ignoring!", 
+                "Validation 'minLength' has no effect on schema 'integer'. Ignoring!", 
+                "Validation 'maxLength' has no effect on schema 'integer'. Ignoring!", 
+                "Validation 'pattern' has no effect on schema 'integer'. Ignoring!"
+            );
 
         // Assert all logged messages are WARN messages
-        logsList.stream().forEach(log -> assertEquals(Level.WARN, log.getLevel()));
+        assertThat(logsList).extracting(ILoggingEvent::getLevel).containsOnly(Level.WARN);
     }
 
     @Test
     public void testAnySchemaWithIneffectiveConstraints() {
 
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-
-        // add the appender to the logger
-        testLogger.addAppender(listAppender);
-
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final String modelName = "AnyTypeWithIneffectiveValidations";
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
+        
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        testLogger.addAppender(listAppender);
 
-        final String modelName = "AnyTypeWithIneffectiveValidations";
         codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
         
         listAppender.stop();
         testLogger.detachAppender(listAppender);
-
         List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
-        // JUnit assertions
-        assertEquals(0, logsList.size(), "Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()));
+        assertThat(logsList).isEmpty();
     }
 
     @Test
     public void testBooleanSchemaWithIneffectiveConstraints() {
 
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-
-        // add the appender to the logger
-        testLogger.addAppender(listAppender);
-
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final String modelName = "BooleanWithIneffectiveValidations";
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
-        final String modelName = "BooleanWithIneffectiveValidations";
+        
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        testLogger.addAppender(listAppender);
+
         codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
 
         listAppender.stop();
         testLogger.detachAppender(listAppender);
-
         List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
-        // JUnit assertions
-        assertEquals(11, logsList.size(), "Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()));
-        assertEquals("Validation 'minItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(0)
-                .getMessage());
-        assertEquals("Validation 'maxItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(1)
-                .getMessage());
-        assertEquals("Validation 'uniqueItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(2)
-                .getMessage());
-        assertEquals("Validation 'minProperties' has no effect on schema 'boolean'. Ignoring!", logsList.get(3)
-                .getMessage());
-        assertEquals("Validation 'maxProperties' has no effect on schema 'boolean'. Ignoring!", logsList.get(4)
-                .getMessage());
-        assertEquals("Validation 'minLength' has no effect on schema 'boolean'. Ignoring!", logsList.get(5)
-                .getMessage());
-        assertEquals("Validation 'maxLength' has no effect on schema 'boolean'. Ignoring!", logsList.get(6)
-                .getMessage());
-        assertEquals("Validation 'pattern' has no effect on schema 'boolean'. Ignoring!", logsList.get(7)
-                .getMessage());
-        assertEquals("Validation 'multipleOf' has no effect on schema 'boolean'. Ignoring!", logsList.get(8)
-                .getMessage());
-        assertEquals("Validation 'minimum' has no effect on schema 'boolean'. Ignoring!", logsList.get(9)
-                .getMessage());
-        assertEquals("Validation 'maximum' has no effect on schema 'boolean'. Ignoring!", logsList.get(10)
-                .getMessage());
+        assertThat(logsList)
+            .hasSize(11)
+            .extracting(ILoggingEvent::getMessage).containsExactly(
+            "Validation 'minItems' has no effect on schema 'boolean'. Ignoring!", 
+            "Validation 'maxItems' has no effect on schema 'boolean'. Ignoring!", 
+            "Validation 'uniqueItems' has no effect on schema 'boolean'. Ignoring!", 
+            "Validation 'minProperties' has no effect on schema 'boolean'. Ignoring!", 
+            "Validation 'maxProperties' has no effect on schema 'boolean'. Ignoring!", 
+            "Validation 'minLength' has no effect on schema 'boolean'. Ignoring!", 
+            "Validation 'maxLength' has no effect on schema 'boolean'. Ignoring!", 
+            "Validation 'pattern' has no effect on schema 'boolean'. Ignoring!", 
+            "Validation 'multipleOf' has no effect on schema 'boolean'. Ignoring!", 
+            "Validation 'minimum' has no effect on schema 'boolean'. Ignoring!", 
+            "Validation 'maximum' has no effect on schema 'boolean'. Ignoring!" 
+        );
 
-        // Assert all logged messages are WARN messages
-        logsList.stream().forEach(log -> assertEquals(Level.WARN, log.getLevel()));
+        assertThat(logsList).extracting(ILoggingEvent::getLevel).containsOnly(Level.WARN);
     }
 
     @Test
     public void testNullSchemaWithIneffectiveConstraints() {
 
-        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
-        listAppender.start();
-
-        // add the appender to the logger
-        testLogger.addAppender(listAppender);
-
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final String modelName = "NullWithIneffectiveValidations";
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        String modelName = "NullWithIneffectiveValidations";
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+        testLogger.addAppender(listAppender);
+
         codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
 
         listAppender.stop();
         testLogger.detachAppender(listAppender);
-
         List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
                 .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
                 .collect(Collectors.toList());
 
-        // JUnit assertions
-        assertEquals(0, logsList.size(), "Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()));
+        assertThat(logsList).isEmpty();
     }
 
     public static class FromParameter {
