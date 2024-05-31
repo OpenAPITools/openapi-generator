@@ -39,7 +39,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the fake API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FakeApi  {
    private final FakeApiService delegate;
 
@@ -50,7 +50,7 @@ public class FakeApi  {
          String implClass = servletContext.getInitParameter("FakeApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (FakeApiService) Class.forName(implClass).newInstance();
+               delegate = (FakeApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }

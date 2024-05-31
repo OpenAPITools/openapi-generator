@@ -3,6 +3,8 @@ use crate::{Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
      {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 };
 
+mod server_auth;
+
 {{#hasCallbacks}}
 pub mod callbacks;
 

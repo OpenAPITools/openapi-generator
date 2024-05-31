@@ -178,7 +178,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, fileSchemaTestClass, jsonSerializerOptions);
+            WriteProperties(writer, fileSchemaTestClass, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -189,7 +189,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (fileSchemaTestClass.FileOption.IsSet && fileSchemaTestClass.File == null)
                 throw new ArgumentNullException(nameof(fileSchemaTestClass.File), "Property is required for class FileSchemaTestClass.");

@@ -63,5 +63,6 @@ data class Order (
         @JsonProperty(value = "approved") approved("approved"),
         @JsonProperty(value = "delivered") delivered("delivered");
     }
+
 }
 

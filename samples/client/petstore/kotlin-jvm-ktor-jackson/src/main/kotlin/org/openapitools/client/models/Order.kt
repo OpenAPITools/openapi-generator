@@ -65,5 +65,6 @@ data class Order (
         @JsonProperty(value = "delivered") delivered("delivered"),
         @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue unknown_default_open_api("unknown_default_open_api");
     }
+
 }
 

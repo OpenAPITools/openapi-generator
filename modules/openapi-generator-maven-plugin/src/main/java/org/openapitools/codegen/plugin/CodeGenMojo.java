@@ -32,6 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
@@ -39,6 +40,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -50,14 +52,17 @@ import com.google.common.io.CharSource;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.ClasspathHelper;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
 import org.apache.maven.project.MavenProjectHelper;
@@ -82,7 +87,7 @@ import com.google.common.io.Files;
  * Goal which generates client/server code from a OpenAPI json/yaml definition.
  */
 @SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
-@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
+@Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, requiresDependencyResolution = ResolutionScope.COMPILE, threadSafe = true)
 public class CodeGenMojo extends AbstractMojo {
 
     private final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
@@ -492,12 +497,6 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean generateApiDocumentation = true;
 
     /**
-     * Generate the api documentation
-     */
-    @Parameter(name = "withXml", property = "openapi.generator.maven.plugin.withXml")
-    private Boolean withXml = false;
-
-    /**
      * Skip the execution.
      */
     @Parameter(name = "skip", property = "codegen.skip", defaultValue = "false")
@@ -662,7 +661,13 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             if (isNotEmpty(inputSpec)) {
-                configurator.setInputSpec(inputSpec);
+                URL url = inputSpecRemoteUrl();
+
+                if ((! inputSpecFile.exists()) && url != null) {
+                    configurator.setInputSpec(url.toString());
+                } else {
+                    configurator.setInputSpec(inputSpec);
+                }
             }
 
             if (isNotEmpty(gitHost)) {
@@ -800,7 +805,6 @@ public class CodeGenMojo extends AbstractMojo {
             GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
             GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
             GlobalSettings.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
-            GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.toString());
             GlobalSettings.setProperty(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, generateRecursiveDependentModels.toString());
 
             if (configOptions != null) {
@@ -1075,15 +1079,35 @@ public class CodeGenMojo extends AbstractMojo {
     }
 
     /**
-     * Try to parse inputSpec setting string into URL
+     * Try to parse inputSpec setting string into URL (truly remote or resource)
      * @return A valid URL or null if inputSpec is not a valid URL
      */
-    private URL inputSpecRemoteUrl(){
-        try {
-            return new URI(inputSpec).toURL();
-        } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
-            return null;
+    private URL inputSpecRemoteUrl() {
+        URL url = dependencyClassLoader().getResource(inputSpec);
+
+        if (url == null) {
+            try {
+                url = new URI(FilenameUtils.separatorsToUnix(inputSpec)).toURL();
+            } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
+            }
         }
+
+        return url;
+    }
+
+    private ClassLoader dependencyClassLoader() {
+        List<URL> list = new ArrayList<>();
+
+        for (Artifact artifact : project.getArtifacts()) {
+            try {
+                if (artifact.isResolved() && artifact.getType().equals("jar")) {
+                    list.add(new URL("jar:" + artifact.getFile().toURI() + "!/"));
+                }
+            } catch (Exception e) {
+            }
+        }
+
+        return new URLClassLoader(list.toArray(new URL[] { }), getClass().getClassLoader());
     }
 
     /**
@@ -1096,7 +1120,7 @@ public class CodeGenMojo extends AbstractMojo {
         String name = inputSpecFile.getName();
 
         URL url = inputSpecRemoteUrl();
-        if (url != null) {
+        if (inputSpecFile.exists() && url != null) {
             String[] segments = url.getPath().split("/");
             name = Files.getNameWithoutExtension(segments[segments.length - 1]);
         }

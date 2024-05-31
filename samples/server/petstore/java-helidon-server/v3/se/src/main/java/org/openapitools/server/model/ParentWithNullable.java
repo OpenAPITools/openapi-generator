@@ -18,7 +18,7 @@ public class ParentWithNullable   {
     * Gets or Sets type
     */
     public enum TypeEnum {
-        CHILDWITHNULLABLE("ChildWithNullable");
+        CHILD_WITH_NULLABLE("ChildWithNullable");
 
         private String value;
 

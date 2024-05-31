@@ -210,7 +210,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, varReturn, jsonSerializerOptions);
+            WriteProperties(writer, varReturn, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -221,7 +221,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="varReturn"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
             if (varReturn.Lock == null)
                 throw new ArgumentNullException(nameof(varReturn.Lock), "Property is required for class Return.");

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("OuterComposite")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class OuterComposite  implements Serializable {
   private BigDecimal myNumber;
   private String myString;
@@ -137,7 +137,7 @@ public class OuterComposite  implements Serializable {
     return new OuterCompositeBuilderImpl();
   }
 
-  private static final class OuterCompositeBuilderImpl extends OuterCompositeBuilder<OuterComposite, OuterCompositeBuilderImpl> {
+  private static class OuterCompositeBuilderImpl extends OuterCompositeBuilder<OuterComposite, OuterCompositeBuilderImpl> {
 
     @Override
     protected OuterCompositeBuilderImpl self() {

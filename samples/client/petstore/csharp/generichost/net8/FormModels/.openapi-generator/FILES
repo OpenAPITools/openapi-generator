@@ -62,6 +62,7 @@ docs/models/LiteralStringClass.md
 docs/models/Mammal.md
 docs/models/MapTest.md
 docs/models/MapTestMapOfEnumStringValue.md
+docs/models/MixLog.md
 docs/models/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/models/Model200Response.md
 docs/models/ModelClient.md
@@ -215,6 +216,7 @@ src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
 src/Org.OpenAPITools/Model/MapTestMapOfEnumStringValue.cs
+src/Org.OpenAPITools/Model/MixLog.cs
 src/Org.OpenAPITools/Model/MixedPropertiesAndAdditionalPropertiesClass.cs
 src/Org.OpenAPITools/Model/Model200Response.cs
 src/Org.OpenAPITools/Model/ModelClient.cs

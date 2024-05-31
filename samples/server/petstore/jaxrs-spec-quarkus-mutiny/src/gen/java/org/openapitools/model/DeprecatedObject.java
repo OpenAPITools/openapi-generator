@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("DeprecatedObject")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class DeprecatedObject  implements Serializable {
   private String name;
 
@@ -88,7 +88,7 @@ public class DeprecatedObject  implements Serializable {
     return new DeprecatedObjectBuilderImpl();
   }
 
-  private static final class DeprecatedObjectBuilderImpl extends DeprecatedObjectBuilder<DeprecatedObject, DeprecatedObjectBuilderImpl> {
+  private static class DeprecatedObjectBuilderImpl extends DeprecatedObjectBuilder<DeprecatedObject, DeprecatedObjectBuilderImpl> {
 
     @Override
     protected DeprecatedObjectBuilderImpl self() {

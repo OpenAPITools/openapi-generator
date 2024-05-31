@@ -64,5 +64,6 @@ data class Order (
         @SerializedName(value = "delivered") delivered("delivered"),
         @SerializedName(value = "unknown_default_open_api") unknown_default_open_api("unknown_default_open_api");
     }
+
 }
 
