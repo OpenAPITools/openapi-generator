@@ -390,7 +390,7 @@ class ApiClient:
             for key, val in obj_dict.items()
         }
 
-    def deserialize(self, response_text: str, response_type: str, content_type: str) -> ApiResponseT:
+    def deserialize(self, response_text: str, response_type: str, content_type: str):
         """Deserializes response into an object.
 
         :param response: RESTResponse object to be deserialized.
