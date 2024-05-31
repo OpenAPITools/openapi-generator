@@ -383,7 +383,7 @@ class ApiClient:
             for key, val in obj_dict.items()
         }
 
-    def deserialize(self, response_text: str, response_type: str, content_type: str):
+    def deserialize(self, response_text: str, response_type: str, content_type: Optional[str]):
         """Deserializes response into an object.
 
         :param response: RESTResponse object to be deserialized.
@@ -400,9 +400,9 @@ class ApiClient:
                 data = json.loads(response_text)
             except ValueError:
                 data = response_text
-        elif content_type.startswith('application/json'):
+        elif content_type.startswith("application/json"):
             data = json.loads(response_text)
-        elif content_type.startswith('text/plain'):
+        elif content_type.startswith("text/plain"):
             data = response_text
         else:
             raise ApiException(
