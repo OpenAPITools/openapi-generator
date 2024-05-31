@@ -48,17 +48,14 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     protected static final String X_MICROPROFILE_OPEN_API_RETURN_UNIQUE_ITEMS = "x-microprofile-open-api-return-unique-items";
     protected static final String X_MICROPROFILE_OPEN_API_SCHEMA_TYPE = "x-microprofile-open-api-schema-type";
     protected static final String SCHEMA_TYPE_ARRAY = "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY";
-    protected static final Map<String,String> ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES;
-    static {
-        final Map<String, String> schemaTypes = new HashMap<>();
-        schemaTypes.put("integer", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.INTEGER");
-        schemaTypes.put("number", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.NUMBER");
-        schemaTypes.put("boolean", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.BOOLEAN");
-        schemaTypes.put("string", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.STRING");
-        schemaTypes.put("object", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.OBJECT");
-        schemaTypes.put("array", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY");
-        ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES = Collections.unmodifiableMap(schemaTypes);
-    }
+    protected static final Map<String,String> ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES = Map.of(
+        "integer", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.INTEGER",
+        "number", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.NUMBER",
+        "boolean", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.BOOLEAN",
+        "string", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.STRING",
+        "object", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.OBJECT",
+        "array", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY"
+    );
 
     protected String implFolder = "src/main/java";
     protected String testResourcesFolder = "src/test/resources";

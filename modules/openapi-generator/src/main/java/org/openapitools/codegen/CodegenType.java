@@ -27,7 +27,14 @@ import java.util.Map;
 public enum CodegenType {
     CLIENT, SERVER, DOCUMENTATION, SCHEMA, CONFIG, OTHER;
 
-    private static Map<String, CodegenType> names = new HashMap<String, CodegenType>();
+    private static final Map<String, CodegenType> names = Map.of(
+        "client", CLIENT,
+        "server", SERVER,
+        "documentation", DOCUMENTATION,
+        "schema", SCHEMA,
+        "config", CONFIG,
+        "other", OTHER
+    );
 
     @JsonCreator
     public static CodegenType forValue(String value) {
@@ -43,14 +50,5 @@ public enum CodegenType {
         }
 
         return null; // or fail
-    }
-
-    static {
-        names.put("client", CLIENT);
-        names.put("server", SERVER);
-        names.put("documentation", DOCUMENTATION);
-        names.put("schema", SCHEMA);
-        names.put("config", CONFIG);
-        names.put("other", OTHER);
     }
 }

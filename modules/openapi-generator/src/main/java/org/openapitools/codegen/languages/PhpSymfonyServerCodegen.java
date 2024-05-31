@@ -45,7 +45,24 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
     public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
     public static final String PHP_LEGACY_SUPPORT = "phpLegacySupport";
-    public static final Map<String, String> SYMFONY_EXCEPTIONS;
+    public static final Map<String, String> SYMFONY_EXCEPTIONS = Map.ofEntries(
+        Map.entry("400", "Symfony\\Component\\HttpKernel\\Exception\\BadRequestHttpException"),
+        Map.entry("401", "Symfony\\Component\\HttpKernel\\Exception\\UnauthorizedHttpException"),
+        Map.entry("403", "Symfony\\Component\\HttpKernel\\Exception\\AccessDeniedHttpException"),
+        Map.entry("404", "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException"),
+        Map.entry("405", "Symfony\\Component\\HttpKernel\\Exception\\MethodNotAllowedHttpException"),
+        Map.entry("406", "Symfony\\Component\\HttpKernel\\Exception\\NotAcceptableHttpException"),
+        Map.entry("409", "Symfony\\Component\\HttpKernel\\Exception\\ConflictHttpException"),
+        Map.entry("410", "Symfony\\Component\\HttpKernel\\Exception\\GoneHttpException"),
+        Map.entry("411", "Symfony\\Component\\HttpKernel\\Exception\\LengthRequiredHttpException"),
+        Map.entry("412", "Symfony\\Component\\HttpKernel\\Exception\\PreconditionFailedHttpException"),
+        Map.entry("415", "Symfony\\Component\\HttpKernel\\Exception\\UnsupportedMediaTypeHttpException"),
+        Map.entry("422", "Symfony\\Component\\HttpKernel\\Exception\\UnprocessableEntityHttpException"),
+        Map.entry("428", "Symfony\\Component\\HttpKernel\\Exception\\PreconditionRequiredHttpException"),
+        Map.entry("429", "Symfony\\Component\\HttpKernel\\Exception\\TooManyRequestsHttpException"),
+        Map.entry("503", "Symfony\\Component\\HttpKernel\\Exception\\ServiceUnavailableHttpException")
+    );
+
     protected String testsPackage;
     protected String apiTestsPackage;
     protected String modelTestsPackage;
@@ -64,25 +81,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     @Setter protected Boolean phpLegacySupport = Boolean.TRUE;
 
     protected HashSet<String> typeHintable;
-
-    static {
-        SYMFONY_EXCEPTIONS = new HashMap<>();
-        SYMFONY_EXCEPTIONS.put("400", "Symfony\\Component\\HttpKernel\\Exception\\BadRequestHttpException");
-        SYMFONY_EXCEPTIONS.put("401", "Symfony\\Component\\HttpKernel\\Exception\\UnauthorizedHttpException");
-        SYMFONY_EXCEPTIONS.put("403", "Symfony\\Component\\HttpKernel\\Exception\\AccessDeniedHttpException");
-        SYMFONY_EXCEPTIONS.put("404", "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException");
-        SYMFONY_EXCEPTIONS.put("405", "Symfony\\Component\\HttpKernel\\Exception\\MethodNotAllowedHttpException");
-        SYMFONY_EXCEPTIONS.put("406", "Symfony\\Component\\HttpKernel\\Exception\\NotAcceptableHttpException");
-        SYMFONY_EXCEPTIONS.put("409", "Symfony\\Component\\HttpKernel\\Exception\\ConflictHttpException");
-        SYMFONY_EXCEPTIONS.put("410", "Symfony\\Component\\HttpKernel\\Exception\\GoneHttpException");
-        SYMFONY_EXCEPTIONS.put("411", "Symfony\\Component\\HttpKernel\\Exception\\LengthRequiredHttpException");
-        SYMFONY_EXCEPTIONS.put("412", "Symfony\\Component\\HttpKernel\\Exception\\PreconditionFailedHttpException");
-        SYMFONY_EXCEPTIONS.put("415", "Symfony\\Component\\HttpKernel\\Exception\\UnsupportedMediaTypeHttpException");
-        SYMFONY_EXCEPTIONS.put("422", "Symfony\\Component\\HttpKernel\\Exception\\UnprocessableEntityHttpException");
-        SYMFONY_EXCEPTIONS.put("428", "Symfony\\Component\\HttpKernel\\Exception\\PreconditionRequiredHttpException");
-        SYMFONY_EXCEPTIONS.put("429", "Symfony\\Component\\HttpKernel\\Exception\\TooManyRequestsHttpException");
-        SYMFONY_EXCEPTIONS.put("503", "Symfony\\Component\\HttpKernel\\Exception\\ServiceUnavailableHttpException");
-    }
 
     public PhpSymfonyServerCodegen() {
         super();
