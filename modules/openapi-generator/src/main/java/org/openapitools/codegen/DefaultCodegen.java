@@ -3880,7 +3880,6 @@ public class DefaultCodegen implements CodegenConfig {
         // if it's ref to schema's properties, get the actual schema defined in the properties
         Schema refToPropertiesSchema = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, p.get$ref());
         if (refToPropertiesSchema != null) {
-            p = refToPropertiesSchema;
             return fromProperty(name, refToPropertiesSchema, required, schemaIsFromAdditionalProperties);
         }
 
@@ -7154,7 +7153,6 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.isMap = true;
                 codegenParameter.additionalProperties = codegenProperty.additionalProperties;
                 codegenParameter.setAdditionalPropertiesIsAnyType(codegenProperty.getAdditionalPropertiesIsAnyType());
-                codegenParameter.items = codegenProperty.items;
                 codegenParameter.isPrimitiveType = false;
                 codegenParameter.items = codegenProperty.items;
                 codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
