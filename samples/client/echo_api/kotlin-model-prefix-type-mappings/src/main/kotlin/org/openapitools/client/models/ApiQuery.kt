@@ -47,5 +47,6 @@ data class ApiQuery (
         @SerializedName(value = "FAILURE") FAILURE("FAILURE"),
         @SerializedName(value = "SKIPPED") SKIPPED("SKIPPED");
     }
+
 }
 

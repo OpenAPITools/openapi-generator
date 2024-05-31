@@ -2,16 +2,16 @@
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store |
+| [**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet |
+| [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status |
+| [**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags |
+| [**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID |
+| [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet |
+| [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data |
+| [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image |
 
 
 <a id="addPet"></a>
@@ -43,10 +43,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -92,11 +91,10 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| Pet id to delete |
- **apiKey** | **kotlin.String**|  | [optional]
+| **petId** | **kotlin.Long**| Pet id to delete | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **apiKey** | **kotlin.String**|  | [optional] |
 
 ### Return type
 
@@ -142,10 +140,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **status** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **status** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold] |
 
 ### Return type
 
@@ -191,10 +188,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tags** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **tags** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by | |
 
 ### Return type
 
@@ -240,10 +236,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet to return |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **petId** | **kotlin.Long**| ID of pet to return | |
 
 ### Return type
 
@@ -290,10 +285,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -340,12 +334,11 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet that needs to be updated |
- **name** | **kotlin.String**| Updated name of the pet | [optional]
- **status** | **kotlin.String**| Updated status of the pet | [optional]
+| **petId** | **kotlin.Long**| ID of pet that needs to be updated | |
+| **name** | **kotlin.String**| Updated name of the pet | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **status** | **kotlin.String**| Updated status of the pet | [optional] |
 
 ### Return type
 
@@ -393,12 +386,11 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet to update |
- **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional]
- **file** | **java.io.File**| file to upload | [optional]
+| **petId** | **kotlin.Long**| ID of pet to update | |
+| **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **file** | **java.io.File**| file to upload | [optional] |
 
 ### Return type
 

@@ -75,5 +75,6 @@ complete = this.complete,
         @SerializedName(value = "approved") approved("approved"),
         @SerializedName(value = "delivered") delivered("delivered");
     }
+
 }
 
