@@ -155,7 +155,7 @@ class TestFakeApi(unittest.TestCase):
         mock_resp.data = b'{"value": "0"}'
         mock_resp.getheaders.return_value = {}
         mock_resp.getheader = (
-            lambda name: "text/plain" if name == "content-type" else Mock()
+            lambda name: "application/json" if name == "content-type" else Mock()
         )
         with patch(
                 "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
