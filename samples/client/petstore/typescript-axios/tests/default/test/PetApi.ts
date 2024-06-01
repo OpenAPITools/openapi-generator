@@ -24,6 +24,13 @@ describe("PetApi", () => {
           });
       });
 
+      it("should not lose the context of `this`", () => {
+        return wrapper(api.getPetById, fixture.id, requestOptions)
+          .then((result: AxiosResponse<Pet>) => {
+            return expect(result.data).to.deep.equal(fixture);
+          });
+      })
+
       it("should update Pet by ID", () => {
         return api
           .getPetById(fixture.id, requestOptions)
@@ -90,4 +97,11 @@ function createTestFixture(ts = Date.now()) {
   };
 
   return pet;
+}
+
+/**
+ * Wrapper function to make sure that the `this` scope is not lost
+ */
+function wrapper <T extends unknown[], U> (fn: (...args: T) => U, ...args: T) {
+   return fn(...args);
 }
