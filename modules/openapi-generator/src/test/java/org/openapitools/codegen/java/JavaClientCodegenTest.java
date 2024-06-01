@@ -184,23 +184,14 @@ public class JavaClientCodegenTest {
     public void testInitialConfigValues() throws Exception {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.processOpts();
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.FALSE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "org.openapitools.client.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "org.openapitools.client.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "org.openapitools.client");
+        Assert.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_GSON);
+        configAssert.assertValue(JavaClientCodegen.SERIALIZATION_LIBRARY_GSON, "true");
 
-        Assertions.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assertions.assertFalse(codegen.isHideGenerationTimestamp());
-
-        Assertions.assertEquals(codegen.modelPackage(), "org.openapitools.client.model");
-        Assertions.assertEquals(
-                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
-                "org.openapitools.client.model");
-        Assertions.assertEquals(codegen.apiPackage(), "org.openapitools.client.api");
-        Assertions.assertEquals(
-                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
-                "org.openapitools.client.api");
-        Assertions.assertEquals(codegen.getInvokerPackage(), "org.openapitools.client");
-        Assertions.assertEquals(
-                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
-                "org.openapitools.client");
-        Assertions.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_GSON);
     }
 
     @Test
