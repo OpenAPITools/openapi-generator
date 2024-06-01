@@ -18,15 +18,24 @@ package org.openapitools.codegen;
 
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AllGeneratorsTest {
 
+    @DataProvider(name = "generators") Iterator<CodegenConfig> generators() {
+        return CodegenConfigLoader.getAll().iterator();
+    }
+    
     @Test
     public void testEachWithPetstore() throws IOException {
         for (final CodegenConfig codegenConfig : CodegenConfigLoader.getAll()) {
@@ -52,4 +61,22 @@ public class AllGeneratorsTest {
             Assert.assertTrue(files.size() >= 4);
         }
     }
+
+    /**
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/18810">#18810</a>
+     * <br>
+     * Nice: currently fails for PythonFastAPIServerCodegen 
+     */
+    @Test(dataProvider = "generators") void noDuplicateCliOptions(CodegenConfig codegenConfig) {
+        final List<String> cliOptionKeys = codegenConfig.cliOptions()
+            .stream().map(CliOption::getOpt).collect(Collectors.toList()); 
+        
+        assertThat(cliOptionKeys).allSatisfy(
+            opt -> assertThat(cliOptionKeys)
+                .as("Generator '%s' defines CliOption '%s' more than once!", codegenConfig.getName(), opt)
+                .containsOnlyOnce(opt)
+        );
+    }
+    
+    // TODO while we're at it – additional tests for supportedLibraries, additionalProperties, supportingFiles, …younameit…
 }
