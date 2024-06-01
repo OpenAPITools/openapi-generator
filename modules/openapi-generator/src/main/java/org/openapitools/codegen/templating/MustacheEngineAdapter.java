@@ -18,6 +18,7 @@ package org.openapitools.codegen.templating;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingExecutor;
 import org.slf4j.Logger;
@@ -64,8 +65,13 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
                 .compile(executor.getFullTemplateContents(templateFile));
         StringWriter out = new StringWriter();
 
-        Object parent = bundle.get("CONFIG");
-        tmpl.execute(bundle,parent, out);
+        Object parent = bundle.get(CodegenConstants.CONFIG);
+        if (parent == null) {
+            LOGGER.warn("{} not found. super.processOpts needs to be called in processOpts()", CodegenConstants.CONFIG);
+            // avoid NPE
+            parent = new Object();
+        }
+        tmpl.execute(bundle, parent, out);
         return out.toString();
     }
 

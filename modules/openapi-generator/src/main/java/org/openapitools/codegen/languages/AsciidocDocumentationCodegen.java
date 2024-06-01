@@ -53,6 +53,8 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     public static final String SKIP_EXAMPLES_FLAG = "skipExamples";
     public static final String USE_METHOD_AND_PATH_FLAG = "useMethodAndPath";
     public static final String USE_TABLE_TITLES_FLAG = "useTableTitles";
+    private String specDir;
+    private String snippetDir;
 
     /**
      * Lambda emitting an asciidoc "include::filename.adoc[]" if file is found in
@@ -193,11 +195,11 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     }
 
     public String getSpecDir() {
-        return additionalProperties.get("specDir").toString();
+        return specDir;
     }
 
     public String getSnippetDir() {
-        return additionalProperties.get("snippetDir").toString();
+        return snippetDir;
     }
 
     public AsciidocDocumentationCodegen() {
@@ -325,7 +327,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     public void processOpts() {
         super.processOpts();
 
-        String specDir = String.valueOf(this.additionalProperties.get(SPEC_DIR));
+        this.specDir = String.valueOf(this.additionalProperties.get(SPEC_DIR));
         if (!Files.isDirectory(Paths.get(specDir))) {
             LOGGER.warn("base part for include markup lambda not found: {} as {}", specDir, Paths.get(specDir).toAbsolutePath());
         }
@@ -333,7 +335,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         this.includeSpecMarkupLambda = new IncludeMarkupLambda(SPEC_DIR,specDir);
         additionalProperties.put("specinclude", this.includeSpecMarkupLambda);
 
-        String snippetDir = String.valueOf(this.additionalProperties.get(SNIPPET_DIR));
+        this.snippetDir = String.valueOf(this.additionalProperties.get(SNIPPET_DIR));
         if (!Files.isDirectory(Paths.get(snippetDir))) {
             LOGGER.warn("base part for include markup lambda not found: {} as {}", snippetDir, Paths.get(snippetDir).toAbsolutePath());
         }
