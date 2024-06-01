@@ -1,12 +1,14 @@
-name: Samples C# .Net 4.7 Clients
+name: Samples C# .Net Framework Clients
 
 on:
   push:
     paths:
       - samples/client/petstore/csharp/generichost/net4.7/**
+      - samples/client/petstore/csharp/generichost/net4.8/**
   pull_request:
     paths:
       - samples/client/petstore/csharp/generichost/net4.7/**
+      - samples/client/petstore/csharp/generichost/net4.8/**
 jobs:
   build:
     name: Build .Net projects
