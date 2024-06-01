@@ -39,6 +39,9 @@ elif [ "$NODE_INDEX" = "2" ]; then
   export PATH="/usr/local/go1.18/go/bin:$PATH"
   go version
 
+  # install cpprestsdk
+  sudo apt-get install libcpprest-dev
+
   # run go integration tests
   (cd samples/client/petstore/go && mvn integration-test)
   (cd samples/openapi3/client/petstore/go && mvn integration-test)
