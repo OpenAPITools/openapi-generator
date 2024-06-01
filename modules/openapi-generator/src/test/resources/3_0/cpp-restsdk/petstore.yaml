@@ -569,6 +569,27 @@ paths:
           description: User not found
       security:
         - api_key: []
+  /user_or_pet:
+    post:
+      tags:
+        - user_or_pet
+      summary: Create user or pet
+      description: This can only be done by the logged in user or pet.
+      operationId: createUserOrPet
+      responses:
+        default:
+          description: successful operation
+      security:
+        - api_key: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/User'
+                - $ref: '#/components/schemas/Pet'
+        description: Created user or pet object
+        required: true
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

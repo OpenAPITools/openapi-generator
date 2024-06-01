@@ -16,8 +16,10 @@ include/CppRestPetstoreClient/Object.h
 include/CppRestPetstoreClient/api/PetApi.h
 include/CppRestPetstoreClient/api/StoreApi.h
 include/CppRestPetstoreClient/api/UserApi.h
+include/CppRestPetstoreClient/api/UserOrPetApi.h
 include/CppRestPetstoreClient/model/ApiResponse.h
 include/CppRestPetstoreClient/model/Category.h
+include/CppRestPetstoreClient/model/CreateUserOrPet_request.h
 include/CppRestPetstoreClient/model/Order.h
 include/CppRestPetstoreClient/model/Pet.h
 include/CppRestPetstoreClient/model/SchemaWithSet.h
@@ -37,8 +39,10 @@ src/Object.cpp
 src/api/PetApi.cpp
 src/api/StoreApi.cpp
 src/api/UserApi.cpp
+src/api/UserOrPetApi.cpp
 src/model/ApiResponse.cpp
 src/model/Category.cpp
+src/model/CreateUserOrPet_request.cpp
 src/model/Order.cpp
 src/model/Pet.cpp
 src/model/SchemaWithSet.cpp
