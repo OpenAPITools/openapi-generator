@@ -1,7 +1,8 @@
 package org.openapitools.codegen.testutils;
 
 import com.samskivert.mustache.MustacheEvaluator;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -26,13 +27,13 @@ public class ConfigAssert {
 
     public void assertValue(String name, Object expectedValue) {
         Object actual = getValue(name);
-        Assert.assertEquals("valueNotFound in  mustache context", expectedValue, actual);
+        Assertions.assertEquals(expectedValue, actual, "valueNotFound in  mustache context");
     }
 
     public void assertValue(String name, Supplier<Object> getter, Object expectedValue) {
         Object actual = getValue(name);
         Object codeGenExpectedValue = getter.get();
-        Assert.assertEquals("valueNotFound in codegen", codeGenExpectedValue, actual);
-        Assert.assertEquals("valueNotFound in mustache context", expectedValue, actual);
+        Assertions.assertEquals(codeGenExpectedValue, actual, "valueNotFound in codegen");
+        Assertions.assertEquals(expectedValue, actual, "valueNotFound in mustache context");
     }
 }
