@@ -17,15 +17,14 @@
 package org.openapitools.codegen;
 
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,10 +35,10 @@ public class AllGeneratorsTest {
         return CodegenConfigLoader.getAll().iterator();
     }
     
-    @Test
-    public void testEachWithPetstore() throws IOException {
-        for (final CodegenConfig codegenConfig : CodegenConfigLoader.getAll()) {
-            final File output = Files.createTempDirectory("test").toFile();
+    @Test(dataProvider = "generators")
+    public void testEachWithPetstore(CodegenConfig codegenConfig) {
+        try {
+            File output = Files.createTempDirectory("test").toFile();
             output.deleteOnExit();
 
             final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -47,18 +46,19 @@ public class AllGeneratorsTest {
                     .setInputSpec("src/test/resources/3_0/petstore.yaml")
                     .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
-            final ClientOptInput clientOptInput = configurator.toClientOptInput();
-            List<File> files = List.of();
-            try {
-                DefaultGenerator generator = new DefaultGenerator();
-                files = generator.opts(clientOptInput).generate();
-            } catch (Exception e) {
-                Assert.fail("Generator " + codegenConfig.getName() + " threw an exception (generating " + codegenConfig.getInputSpec() + "): " + e.getMessage(), e);
-            }
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
             
             // Main intention of this test is to check that nothing crashes. Besides, we check here that
             // at least 1 file is generated, besides the common ".openapi-generator-ignore", "FILES" and "VERSION" files.
-            Assert.assertTrue(files.size() >= 4);
+            assertThat(files).hasSizeGreaterThanOrEqualTo(4);
+        } catch (Exception e) {
+            throw new RuntimeException(
+                String.format(
+                    Locale.ROOT,
+                    "Generator %s threw an exception (generating %s): %s",
+                    codegenConfig.getName(), codegenConfig.getInputSpec(), e.getMessage()
+                ), e
+            );
         }
     }
 
