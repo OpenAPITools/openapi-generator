@@ -50,8 +50,6 @@
                         <configuration>
                             <executable>cmake</executable>
                             <arguments>
-                                <argument>--build</argument>
-                                <argument>${project.build.directory}</argument>
                                 <argument>--config=Debug</argument>
                                 <argument>--parallel</argument>
                             </arguments>
