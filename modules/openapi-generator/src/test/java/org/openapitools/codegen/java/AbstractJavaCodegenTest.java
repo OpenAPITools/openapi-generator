@@ -872,7 +872,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void AnnotationsContainerTest() {
-        codegen.additionalProperties().put("useBeanValidation", true);
+        codegen.setUseBeanValidation(true);
 
         // 1. string type
         Schema<?> schema = new ArraySchema().items(new Schema<>().type("string").pattern("^[a-z]$").minLength(0).maxLength(36));
