@@ -58,8 +58,6 @@ data class ModelWithPropertyHavingDefault (
     @SerializedName("propertyDouble3")
     val propertyDouble3: kotlin.Double? = 0.01
 
-) {
+)
 
-
-}
 

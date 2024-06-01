@@ -34,8 +34,6 @@ data class ApiTag (
     @SerializedName("name")
     val name: kotlin.String? = null
 
-) {
+)
 
-
-}
 

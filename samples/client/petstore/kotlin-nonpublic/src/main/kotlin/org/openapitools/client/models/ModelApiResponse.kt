@@ -39,8 +39,6 @@ internal data class ModelApiResponse (
     @Json(name = "message")
     val message: kotlin.String? = null
 
-) {
+)
 
-
-}
 

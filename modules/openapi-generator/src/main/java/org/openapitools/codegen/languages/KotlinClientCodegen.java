@@ -105,7 +105,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected boolean generateRoomModels = false;
     protected String roomModelPackage = "";
     protected boolean omitGradleWrapper = false;
-    protected boolean generateOneOfAnyOfWrappers = true;
+    protected boolean generateOneOfAnyOfWrappers = false;
 
     protected String authFolder;
 
@@ -398,8 +398,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             } else {
                 setSourceFolder(super.sourceFolder);
             }
-            additionalProperties.put(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
+//            additionalProperties.put(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
         }
+        writePropertyBack(CodegenConstants.SOURCE_FOLDER, this.sourceFolder);
 
         super.processOpts();
 
@@ -418,9 +419,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (hasConflict) {
             LOGGER.warn("You specified RxJava versions 1 and 2 and 3 or Coroutines together, please choose one of them.");
         } else if (hasRx3) {
-            this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
+            convertPropertyToBooleanAndWriteBack(USE_RX_JAVA3, this::setUseRxJava3);
+//            this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
         } else if (hasCoroutines) {
-            this.setUseCoroutines(Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString()));
+            convertPropertyToBooleanAndWriteBack(USE_COROUTINES, this::setUseCoroutines);
+//            this.setUseCoroutines(Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString()));
         }
 
         if (!hasRx3 && !hasCoroutines) {
@@ -439,28 +442,31 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         final String authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
 
         // additional properties
-        if (additionalProperties.containsKey(DATE_LIBRARY)) {
-            setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
-        }
+        convertPropertyToStringAndWriteBack(DATE_LIBRARY, this::setDateLibrary);
+//        if (additionalProperties.containsKey(DATE_LIBRARY)) {
+//            setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
+//        }
 
-        if (additionalProperties.containsKey(REQUEST_DATE_CONVERTER)) {
-            setRequestDateConverter(additionalProperties.get(REQUEST_DATE_CONVERTER).toString());
-        }
+        convertPropertyToStringAndWriteBack(REQUEST_DATE_CONVERTER, this::setRequestDateConverter);
+//        if (additionalProperties.containsKey(REQUEST_DATE_CONVERTER)) {
+//            setRequestDateConverter(additionalProperties.get(REQUEST_DATE_CONVERTER).toString());
+//        }
 
-        if (additionalProperties.containsKey(OMIT_GRADLE_WRAPPER)) {
-            setOmitGradleWrapper(Boolean.parseBoolean(additionalProperties.get(OMIT_GRADLE_WRAPPER).toString()));
-        }
+        convertPropertyToBooleanAndWriteBack(OMIT_GRADLE_WRAPPER, this::setOmitGradleWrapper);
+//        if (additionalProperties.containsKey(OMIT_GRADLE_WRAPPER)) {
+//            setOmitGradleWrapper(Boolean.parseBoolean(additionalProperties.get(OMIT_GRADLE_WRAPPER).toString()));
+//        }
 
-        if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
-            setSerializationLibrary((String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
-            additionalProperties.put(this.serializationLibrary.name(), true);
-        } else {
-            additionalProperties.put(this.serializationLibrary.name(), true);
-        }
+        convertPropertyToStringAndWriteBack(CodegenConstants.SERIALIZATION_LIBRARY, this::setSerializationLibrary);
+//        if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
+//            setSerializationLibrary((String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
+//        }
+        additionalProperties.put(this.serializationLibrary.name(), true);
 
-        if (additionalProperties.containsKey(GENERATE_ONEOF_ANYOF_WRAPPERS)) {
-            setGenerateOneOfAnyOfWrappers(Boolean.parseBoolean(additionalProperties.get(GENERATE_ONEOF_ANYOF_WRAPPERS).toString()));
-        }
+        convertPropertyToBooleanAndWriteBack(GENERATE_ONEOF_ANYOF_WRAPPERS, this::setGenerateOneOfAnyOfWrappers);
+//        if (additionalProperties.containsKey(GENERATE_ONEOF_ANYOF_WRAPPERS)) {
+//            setGenerateOneOfAnyOfWrappers(Boolean.parseBoolean(additionalProperties.get(GENERATE_ONEOF_ANYOF_WRAPPERS).toString()));
+//        }
 
         commonSupportingFiles();
 
@@ -496,9 +502,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         processDateLibrary();
         processRequestDateConverter();
 
-        if (additionalProperties.containsKey(COLLECTION_TYPE)) {
-            setCollectionType(additionalProperties.get(COLLECTION_TYPE).toString());
-        }
+        convertPropertyToStringAndWriteBack(COLLECTION_TYPE, this::setCollectionType);
+//        if (additionalProperties.containsKey(COLLECTION_TYPE)) {
+//            setCollectionType(additionalProperties.get(COLLECTION_TYPE).toString());
+//        }
 
         if (CollectionType.LIST.value.equals(collectionType)) {
             if (isModelMutable()) {
@@ -629,17 +636,23 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_VOLLEY, true);
 
-        if (additionalProperties.containsKey(GENERATE_ROOM_MODELS)) {
-            this.setGenerateRoomModels(convertPropertyToBooleanAndWriteBack(GENERATE_ROOM_MODELS));
-            // Hide this option behind a property getter and setter in case we need to check it elsewhere
-            if (getGenerateRoomModels()) {
-                modelTemplateFiles.put("model_room.mustache", "RoomModel.kt");
-                supportingFiles.add(new SupportingFile("infrastructure/ITransformForStorage.mustache", infrastructureFolder, "ITransformForStorage.kt"));
+        convertPropertyToBooleanAndWriteBack(GENERATE_ROOM_MODELS, this::setGenerateRoomModels);
+        if (generateRoomModels) {
+            modelTemplateFiles.put("model_room.mustache", "RoomModel.kt");
+            supportingFiles.add(new SupportingFile("infrastructure/ITransformForStorage.mustache", infrastructureFolder, "ITransformForStorage.kt"));
 
-            }
-        } else {
-            additionalProperties.put(GENERATE_ROOM_MODELS, generateRoomModels);
         }
+//        if (additionalProperties.containsKey(GENERATE_ROOM_MODELS)) {
+//            this.setGenerateRoomModels(convertPropertyToBooleanAndWriteBack(GENERATE_ROOM_MODELS));
+//            // Hide this option behind a property getter and setter in case we need to check it elsewhere
+//            if (getGenerateRoomModels()) {
+//                modelTemplateFiles.put("model_room.mustache", "RoomModel.kt");
+//                supportingFiles.add(new SupportingFile("infrastructure/ITransformForStorage.mustache", infrastructureFolder, "ITransformForStorage.kt"));
+//
+//            }
+//        } else {
+//            additionalProperties.put(GENERATE_ROOM_MODELS, generateRoomModels);
+//        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             if (!additionalProperties.containsKey(ROOM_MODEL_PACKAGE))

@@ -38,8 +38,6 @@ data class ModelApiResponse (
     @SerializedName("message")
     val message: kotlin.String? = null
 
-) {
+)
 
-
-}
 

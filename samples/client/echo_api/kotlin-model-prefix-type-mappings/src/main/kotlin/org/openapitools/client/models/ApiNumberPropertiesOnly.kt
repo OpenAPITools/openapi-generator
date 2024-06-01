@@ -38,8 +38,6 @@ data class ApiNumberPropertiesOnly (
     @SerializedName("double")
     val double: kotlin.Double? = null
 
-) {
+)
 
-
-}
 

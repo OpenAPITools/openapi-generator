@@ -34,8 +34,6 @@ data class ApiCategory (
     @SerializedName("name")
     val name: kotlin.String? = null
 
-) {
+)
 
-
-}
 

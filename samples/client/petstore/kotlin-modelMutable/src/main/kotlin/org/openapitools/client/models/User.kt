@@ -60,8 +60,6 @@ data class User (
     @Json(name = "userStatus")
     var userStatus: kotlin.Int? = null
 
-) {
+)
 
-
-}
 

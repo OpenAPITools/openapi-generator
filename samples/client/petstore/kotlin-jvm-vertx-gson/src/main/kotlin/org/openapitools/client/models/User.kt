@@ -59,8 +59,6 @@ data class User (
     @SerializedName("userStatus")
     val userStatus: kotlin.Int? = null
 
-) {
+)
 
-
-}
 

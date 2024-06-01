@@ -34,8 +34,6 @@ data class Category (
     @SerializedName("name")
     val name: kotlin.String? = null
 
-) {
+)
 
-
-}
 

@@ -35,8 +35,6 @@ data class Category (
     @field:JsonProperty("name")
     val name: kotlin.String? = null
 
-) {
+)
 
-
-}
 

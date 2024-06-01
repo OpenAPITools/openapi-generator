@@ -43,8 +43,6 @@ data class PropertyNameMapping (
     @Json(name = "type_")
     val typeWithUnderscore: kotlin.String? = null
 
-) {
+)
 
-
-}
 

@@ -35,8 +35,6 @@ data class Bird (
     @field:JsonProperty("color")
     val color: kotlin.String? = null
 
-) {
+)
 
-
-}
 

@@ -39,8 +39,6 @@ data class ModelApiResponse (
     @Json(name = "message")
     var message: kotlin.String? = null
 
-) {
+)
 
-
-}
 
