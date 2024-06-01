@@ -183,7 +183,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteOrder(orderId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteOrder(this:void, orderId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOrder(orderId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['StoreApi.deleteOrder']?.[localVarOperationServerIndex]?.url;
@@ -195,7 +195,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getInventory(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
+        async getInventory(this:void, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getInventory(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['StoreApi.getInventory']?.[localVarOperationServerIndex]?.url;
@@ -208,7 +208,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getOrderById(orderId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
+        async getOrderById(this:void, orderId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderById(orderId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['StoreApi.getOrderById']?.[localVarOperationServerIndex]?.url;
@@ -221,7 +221,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async placeOrder(body: Order, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
+        async placeOrder(this:void, body: Order, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.placeOrder(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['StoreApi.placeOrder']?.[localVarOperationServerIndex]?.url;
@@ -244,7 +244,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOrder(orderId: string, options?: any): AxiosPromise<void> {
+        deleteOrder(this:void, orderId: string, options?: any): AxiosPromise<void> {
             return localVarFp.deleteOrder(orderId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -253,7 +253,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInventory(options?: any): AxiosPromise<{ [key: string]: number; }> {
+        getInventory(this:void, options?: any): AxiosPromise<{ [key: string]: number; }> {
             return localVarFp.getInventory(options).then((request) => request(axios, basePath));
         },
         /**
@@ -263,7 +263,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderById(orderId: number, options?: any): AxiosPromise<Order> {
+        getOrderById(this:void, orderId: number, options?: any): AxiosPromise<Order> {
             return localVarFp.getOrderById(orderId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -273,7 +273,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body: Order, options?: any): AxiosPromise<Order> {
+        placeOrder(this:void, body: Order, options?: any): AxiosPromise<Order> {
             return localVarFp.placeOrder(body, options).then((request) => request(axios, basePath));
         },
     };
@@ -286,6 +286,15 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
  * @extends {BaseAPI}
  */
 export class StoreApi extends BaseAPI {
+    constructor(configuration: Configuration, basePath?: string, axios?: AxiosInstance) {
+        super(configuration, basePath, axios);
+        // bind function to keep `this` context
+        this.deleteOrder = this.deleteOrder.bind(this);
+        this.getInventory = this.getInventory.bind(this);
+        this.getOrderById = this.getOrderById.bind(this);
+        this.placeOrder = this.placeOrder.bind(this);
+    }
+
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @summary Delete purchase order by ID
@@ -294,7 +303,7 @@ export class StoreApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public deleteOrder(orderId: string, options?: RawAxiosRequestConfig) {
+    public deleteOrder(this: StoreApi, orderId: string, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -305,7 +314,7 @@ export class StoreApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public getInventory(options?: RawAxiosRequestConfig) {
+    public getInventory(this: StoreApi, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).getInventory(options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -317,7 +326,7 @@ export class StoreApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public getOrderById(orderId: number, options?: RawAxiosRequestConfig) {
+    public getOrderById(this: StoreApi, orderId: number, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -329,7 +338,7 @@ export class StoreApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public placeOrder(body: Order, options?: RawAxiosRequestConfig) {
+    public placeOrder(this: StoreApi, body: Order, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

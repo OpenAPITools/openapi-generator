@@ -336,7 +336,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUser(body: User, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async createUser(this:void, body: User, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.createUser']?.[localVarOperationServerIndex]?.url;
@@ -349,7 +349,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUsersWithArrayInput(body: Array<User>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async createUsersWithArrayInput(this:void, body: Array<User>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUsersWithArrayInput(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.createUsersWithArrayInput']?.[localVarOperationServerIndex]?.url;
@@ -362,7 +362,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUsersWithListInput(body: Array<User>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async createUsersWithListInput(this:void, body: Array<User>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUsersWithListInput(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.createUsersWithListInput']?.[localVarOperationServerIndex]?.url;
@@ -375,7 +375,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteUser(username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteUser(this:void, username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUser(username, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.deleteUser']?.[localVarOperationServerIndex]?.url;
@@ -388,7 +388,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserByName(username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+        async getUserByName(this:void, username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUserByName(username, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.getUserByName']?.[localVarOperationServerIndex]?.url;
@@ -402,7 +402,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async loginUser(username: string, password: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+        async loginUser(this:void, username: string, password: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.loginUser(username, password, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.loginUser']?.[localVarOperationServerIndex]?.url;
@@ -414,7 +414,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async logoutUser(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async logoutUser(this:void, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.logoutUser(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.logoutUser']?.[localVarOperationServerIndex]?.url;
@@ -428,7 +428,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUser(username: string, body: User, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async updateUser(this:void, username: string, body: User, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(username, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.updateUser']?.[localVarOperationServerIndex]?.url;
@@ -451,7 +451,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(body: User, options?: any): AxiosPromise<void> {
+        createUser(this:void, body: User, options?: any): AxiosPromise<void> {
             return localVarFp.createUser(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -461,7 +461,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithArrayInput(body: Array<User>, options?: any): AxiosPromise<void> {
+        createUsersWithArrayInput(this:void, body: Array<User>, options?: any): AxiosPromise<void> {
             return localVarFp.createUsersWithArrayInput(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -471,7 +471,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithListInput(body: Array<User>, options?: any): AxiosPromise<void> {
+        createUsersWithListInput(this:void, body: Array<User>, options?: any): AxiosPromise<void> {
             return localVarFp.createUsersWithListInput(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -481,7 +481,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUser(username: string, options?: any): AxiosPromise<void> {
+        deleteUser(this:void, username: string, options?: any): AxiosPromise<void> {
             return localVarFp.deleteUser(username, options).then((request) => request(axios, basePath));
         },
         /**
@@ -491,7 +491,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserByName(username: string, options?: any): AxiosPromise<User> {
+        getUserByName(this:void, username: string, options?: any): AxiosPromise<User> {
             return localVarFp.getUserByName(username, options).then((request) => request(axios, basePath));
         },
         /**
@@ -502,7 +502,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        loginUser(username: string, password: string, options?: any): AxiosPromise<string> {
+        loginUser(this:void, username: string, password: string, options?: any): AxiosPromise<string> {
             return localVarFp.loginUser(username, password, options).then((request) => request(axios, basePath));
         },
         /**
@@ -511,7 +511,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        logoutUser(options?: any): AxiosPromise<void> {
+        logoutUser(this:void, options?: any): AxiosPromise<void> {
             return localVarFp.logoutUser(options).then((request) => request(axios, basePath));
         },
         /**
@@ -522,7 +522,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(username: string, body: User, options?: any): AxiosPromise<void> {
+        updateUser(this:void, username: string, body: User, options?: any): AxiosPromise<void> {
             return localVarFp.updateUser(username, body, options).then((request) => request(axios, basePath));
         },
     };
@@ -535,6 +535,19 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
  * @extends {BaseAPI}
  */
 export class UserApi extends BaseAPI {
+    constructor(configuration: Configuration, basePath?: string, axios?: AxiosInstance) {
+        super(configuration, basePath, axios);
+        // bind function to keep `this` context
+        this.createUser = this.createUser.bind(this);
+        this.createUsersWithArrayInput = this.createUsersWithArrayInput.bind(this);
+        this.createUsersWithListInput = this.createUsersWithListInput.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
+        this.getUserByName = this.getUserByName.bind(this);
+        this.loginUser = this.loginUser.bind(this);
+        this.logoutUser = this.logoutUser.bind(this);
+        this.updateUser = this.updateUser.bind(this);
+    }
+
     /**
      * This can only be done by the logged in user.
      * @summary Create user
@@ -543,7 +556,7 @@ export class UserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUser(body: User, options?: RawAxiosRequestConfig) {
+    public createUser(this: UserApi, body: User, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUser(body, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -555,7 +568,7 @@ export class UserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUsersWithArrayInput(body: Array<User>, options?: RawAxiosRequestConfig) {
+    public createUsersWithArrayInput(this: UserApi, body: Array<User>, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUsersWithArrayInput(body, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -567,7 +580,7 @@ export class UserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUsersWithListInput(body: Array<User>, options?: RawAxiosRequestConfig) {
+    public createUsersWithListInput(this: UserApi, body: Array<User>, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUsersWithListInput(body, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -579,7 +592,7 @@ export class UserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public deleteUser(username: string, options?: RawAxiosRequestConfig) {
+    public deleteUser(this: UserApi, username: string, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).deleteUser(username, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -591,7 +604,7 @@ export class UserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public getUserByName(username: string, options?: RawAxiosRequestConfig) {
+    public getUserByName(this: UserApi, username: string, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).getUserByName(username, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -604,7 +617,7 @@ export class UserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public loginUser(username: string, password: string, options?: RawAxiosRequestConfig) {
+    public loginUser(this: UserApi, username: string, password: string, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).loginUser(username, password, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -615,7 +628,7 @@ export class UserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public logoutUser(options?: RawAxiosRequestConfig) {
+    public logoutUser(this: UserApi, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).logoutUser(options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -628,7 +641,7 @@ export class UserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public updateUser(username: string, body: User, options?: RawAxiosRequestConfig) {
+    public updateUser(this: UserApi, username: string, body: User, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).updateUser(username, body, options).then((request) => request(this.axios, this.basePath));
     }
 }
