@@ -35,11 +35,8 @@
                         <configuration>
                             <executable>cmake</executable>
                             <arguments>
-                                <argument>-S=${project.basedir}</argument>
-                                <argument>-B=${project.build.directory}</argument>
                                 <argument>-DCMAKE_CXX_FLAGS="-I/usr/local/opt/openssl/include"</argument>
                                 <argument>-DCMAKE_MODULE_LINKER_FLAGS="-L/usr/local/opt/openssl/lib"</argument>
-                                <argument>-DCMAKE_BUILD_TYPE=Debug</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -50,13 +47,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>cmake</executable>
-                            <arguments>
-                                <argument>--build</argument>
-                                <argument>${project.build.directory}</argument>
-                                <argument>--config=Debug</argument>
-                                <argument>--parallel</argument>
-                            </arguments>
+                            <executable>make</executable>
                         </configuration>
                     </execution>
                 </executions>

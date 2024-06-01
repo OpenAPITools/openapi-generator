@@ -29,7 +29,6 @@ namespace client {
 namespace model {
 
 
-
 /// <summary>
 /// Describes the result of uploading an image resource
 /// </summary>

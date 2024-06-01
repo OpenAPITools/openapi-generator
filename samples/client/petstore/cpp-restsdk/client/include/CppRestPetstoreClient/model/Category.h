@@ -29,7 +29,6 @@ namespace client {
 namespace model {
 
 
-
 /// <summary>
 /// A category for a pet
 /// </summary>
