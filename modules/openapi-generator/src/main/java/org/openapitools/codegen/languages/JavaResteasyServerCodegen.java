@@ -74,13 +74,6 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         super.processOpts();
 
         convertPropertyToBooleanAndWriteBack(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, this::setGenerateJbossDeploymentDescriptor);
-//
-//        if (additionalProperties.containsKey(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR)) {
-//            boolean generateJbossDeploymentDescriptorProp = convertPropertyToBooleanAndWriteBack(
-//                    GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
-//            this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
-//        }
-
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("gradle.mustache", "", "build.gradle")

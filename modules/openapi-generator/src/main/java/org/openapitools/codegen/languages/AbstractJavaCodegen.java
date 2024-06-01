@@ -523,10 +523,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         convertPropertyToBooleanAndWriteBack(CONTAINER_DEFAULT_TO_NULL, this::setContainerDefaultToNull);
-//        if (additionalProperties.containsKey(CONTAINER_DEFAULT_TO_NULL)) {
-//            this.setContainerDefaultToNull(Boolean.parseBoolean(additionalProperties.get(CONTAINER_DEFAULT_TO_NULL).toString()));
-//        }
-//        additionalProperties.put(CONTAINER_DEFAULT_TO_NULL, containerDefaultToNull);
 
         additionalProperties.put("sanitizeGeneric", (Mustache.Lambda) (fragment, writer) -> {
             String content = fragment.execute();
@@ -937,9 +933,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @return BeanValidation for declared type in container(array, set)
      */
     private String getBeanValidation(Schema<?> items) {
-//        if (Boolean.FALSE.equals(additionalProperties.getOrDefault(BeanValidationFeatures.USE_BEANVALIDATION, Boolean.FALSE))) {
-//            return "";
-//        }
         if (!isUseBeanValidation()) {
             return "";
         }

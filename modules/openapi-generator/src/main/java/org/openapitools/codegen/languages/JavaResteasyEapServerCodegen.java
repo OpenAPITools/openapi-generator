@@ -81,24 +81,8 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         super.processOpts();
 
         convertPropertyToBooleanAndWriteBack(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, this::setGenerateJbossDeploymentDescriptor);
-//        if (additionalProperties.containsKey(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR)) {
-//            boolean generateJbossDeploymentDescriptorProp = convertPropertyToBooleanAndWriteBack(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
-//            this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
-//        }
-
-//        convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION, this::setUseBeanValidation);
-//        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-//            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-//        }
-
-//        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
         convertPropertyToBooleanAndWriteBack(USE_SWAGGER_FEATURE, this::setUseSwaggerFeature);
-//        if (additionalProperties.containsKey(USE_SWAGGER_FEATURE)) {
-//            this.setUseSwaggerFeature(convertPropertyToBoolean(USE_SWAGGER_FEATURE));
-//        }
-
-//        writePropertyBack(USE_SWAGGER_FEATURE, useSwaggerFeature);
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
                 .doNotOverwrite());

@@ -116,10 +116,6 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
         
         convertPropertyToStringAndWriteBack(CodegenConstants.IMPL_FOLDER, value -> implFolder = value);
-//        if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
-//            implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
-//        }
-
         if ("joda".equals(dateLibrary)) {
             supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
             supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));

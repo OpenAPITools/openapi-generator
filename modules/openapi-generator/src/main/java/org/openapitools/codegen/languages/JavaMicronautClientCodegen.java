@@ -68,11 +68,6 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-
-//        if (additionalProperties.containsKey(OPT_CONFIGURE_AUTH)) {
-//            this.configureAuthorization = convertPropertyToBoolean(OPT_CONFIGURE_AUTH);
-//        }
-//        writePropertyBack(OPT_CONFIGURE_AUTH, configureAuthorization);
         convertPropertyToBooleanAndWriteBack(OPT_CONFIGURE_AUTH, value -> this.configureAuthorization = value);
 
         // Write property that is present in server
@@ -80,11 +75,6 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
 
         writePropertyBack(OPT_CONFIGURE_AUTH_FILTER_PATTERN, false);
         writePropertyBack(OPT_CONFIGURE_CLIENT_ID, false);
-
-//        if (additionalProperties.containsKey(BASE_PATH_SEPARATOR)) {
-//            basePathSeparator = additionalProperties.get(BASE_PATH_SEPARATOR).toString();
-//        }
-//        writePropertyBack(BASE_PATH_SEPARATOR, basePathSeparator);
         convertPropertyToStringAndWriteBack(BASE_PATH_SEPARATOR, this::setBasePathSeparator);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");

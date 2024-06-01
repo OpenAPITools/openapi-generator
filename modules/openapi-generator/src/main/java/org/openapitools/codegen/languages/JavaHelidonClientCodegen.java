@@ -172,15 +172,8 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
         super.processOpts();
 
         convertPropertyToStringAndWriteBack(SERIALIZATION_LIBRARY, this::setSerializationLibrary);
-//
-//        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY)) {
-//            setSerializationLibrary(additionalProperties.get(SERIALIZATION_LIBRARY).toString());
-//        }
 
         convertPropertyToStringAndWriteBack(CONFIG_KEY, this::setConfigKey);
-//        if (additionalProperties.containsKey(CONFIG_KEY)) {
-//            setConfigKey(additionalProperties.get(CONFIG_KEY).toString());
-//        }
 
         String invokerPath = invokerPackage.replace('.', File.separatorChar);
         invokerFolder = Paths.get(sourceFolder, invokerPath);

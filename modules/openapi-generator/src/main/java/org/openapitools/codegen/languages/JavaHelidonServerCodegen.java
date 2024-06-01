@@ -149,40 +149,18 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         List<SupportingFile> unmodifiable = new ArrayList<>();
         unmodifiable.add(openApiFile);
 
-//        convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION, this::setUseBeanValidation);
-//        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-//            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-//        }
-//        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-
         importMapping.put("ObjectMapper", "com.fasterxml.jackson.databind.ObjectMapper");
         importMapping.put("Jsonb", rootJavaEEPackage() + ".json.bind.Jsonb");
         importMapping.put("JsonbBuilder", rootJavaEEPackage() + ".json.bind.JsonbBuilder");
 
         convertPropertyToBooleanAndWriteBack(USE_ABSTRACT_CLASS, value -> useAbstractClass = value);
-//        if (additionalProperties.containsKey(USE_ABSTRACT_CLASS)) {
-//            useAbstractClass = Boolean.parseBoolean(additionalProperties.get(USE_ABSTRACT_CLASS).toString());
-//        }
-//        if (!useAbstractClass) {
-//            additionalProperties.remove(USE_ABSTRACT_CLASS);
-//        }
-
         convertPropertyToBooleanAndWriteBack(GRADLE_PROJECT, value -> gradleProject = value);
-//        if (additionalProperties.containsKey(GRADLE_PROJECT)) {
-//            gradleProject = Boolean.parseBoolean(additionalProperties.get(GRADLE_PROJECT).toString());
-//        }
-//        if (!gradleProject) {
-//            additionalProperties.remove(GRADLE_PROJECT);
-//        } else {
         if (gradleProject) {
             modifiable.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
             modifiable.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
             modifiable.remove(pomFile);
         }
 
-//        if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
-//            setSerializationLibrary(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString());
-//        }
         convertPropertyToStringAndWriteBack(CodegenConstants.SERIALIZATION_LIBRARY, this::setSerializationLibrary);
 
         String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");

@@ -113,22 +113,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         super.processOpts();
 
         convertPropertyToStringAndWriteBack(CodegenConstants.IMPL_FOLDER, value -> implFolder = value);
-//        if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
-//            implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
-//        }
-
-//        convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION, this::setUseBeanValidation);
-//
-//        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-//            setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-//        }
-
         convertPropertyToBooleanAndWriteBack(USE_TAGS, this::setUseTags);
-//        if (additionalProperties.containsKey(USE_TAGS)) {
-//            setUseTags(convertPropertyToBoolean(USE_TAGS));
-//        }
-//
-//        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
     }
 
     @Override

@@ -224,10 +224,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         }
 
         // Get boolean properties
-//        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-//            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-//        }
-//        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
