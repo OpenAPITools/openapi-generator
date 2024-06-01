@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("List")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ModelList  implements Serializable {
   private String _123list;
 
@@ -91,7 +91,7 @@ public class ModelList  implements Serializable {
     return new ModelListBuilderImpl();
   }
 
-  private static final class ModelListBuilderImpl extends ModelListBuilder<ModelList, ModelListBuilderImpl> {
+  private static class ModelListBuilderImpl extends ModelListBuilder<ModelList, ModelListBuilderImpl> {
 
     @Override
     protected ModelListBuilderImpl self() {

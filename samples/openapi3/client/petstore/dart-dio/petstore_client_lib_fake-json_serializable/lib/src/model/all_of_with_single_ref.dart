@@ -48,15 +48,17 @@ class AllOfWithSingleRef {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is AllOfWithSingleRef &&
-     other.username == username &&
-     other.singleRefType == singleRefType;
 
-  @override
-  int get hashCode =>
-    username.hashCode +
-    singleRefType.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is AllOfWithSingleRef &&
+      other.username == username &&
+      other.singleRefType == singleRefType;
+
+    @override
+    int get hashCode =>
+        username.hashCode +
+        singleRefType.hashCode;
 
   factory AllOfWithSingleRef.fromJson(Map<String, dynamic> json) => _$AllOfWithSingleRefFromJson(json);
 

@@ -64,17 +64,19 @@ class ChildWithNullable {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ChildWithNullable &&
-     other.type == type &&
-     other.nullableProperty == nullableProperty &&
-     other.otherProperty == otherProperty;
 
-  @override
-  int get hashCode =>
-    type.hashCode +
-    (nullableProperty == null ? 0 : nullableProperty.hashCode) +
-    otherProperty.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ChildWithNullable &&
+      other.type == type &&
+      other.nullableProperty == nullableProperty &&
+      other.otherProperty == otherProperty;
+
+    @override
+    int get hashCode =>
+        type.hashCode +
+        (nullableProperty == null ? 0 : nullableProperty.hashCode) +
+        otherProperty.hashCode;
 
   factory ChildWithNullable.fromJson(Map<String, dynamic> json) => _$ChildWithNullableFromJson(json);
 

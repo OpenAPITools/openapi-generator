@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ReadonlyAndRequiredProperties")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ReadonlyAndRequiredProperties  implements Serializable {
   private String requiredYesReadonlyYes;
   private String requiredYesReadonlyNo;
@@ -159,7 +159,7 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
     return new ReadonlyAndRequiredPropertiesBuilderImpl();
   }
 
-  private static final class ReadonlyAndRequiredPropertiesBuilderImpl extends ReadonlyAndRequiredPropertiesBuilder<ReadonlyAndRequiredProperties, ReadonlyAndRequiredPropertiesBuilderImpl> {
+  private static class ReadonlyAndRequiredPropertiesBuilderImpl extends ReadonlyAndRequiredPropertiesBuilder<ReadonlyAndRequiredProperties, ReadonlyAndRequiredPropertiesBuilderImpl> {
 
     @Override
     protected ReadonlyAndRequiredPropertiesBuilderImpl self() {

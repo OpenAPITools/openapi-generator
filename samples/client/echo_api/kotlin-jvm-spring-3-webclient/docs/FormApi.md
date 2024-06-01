@@ -2,10 +2,10 @@
 
 All URIs are relative to *http://localhost:3000*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**testFormIntegerBooleanString**](FormApi.md#testFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
-[**testFormOneof**](FormApi.md#testFormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**testFormIntegerBooleanString**](FormApi.md#testFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s) |
+| [**testFormOneof**](FormApi.md#testFormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema |
 
 
 <a id="testFormIntegerBooleanString"></a>
@@ -39,12 +39,11 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **integerForm** | **kotlin.Int**|  | [optional]
- **booleanForm** | **kotlin.Boolean**|  | [optional]
- **stringForm** | **kotlin.String**|  | [optional]
+| **integerForm** | **kotlin.Int**|  | [optional] |
+| **booleanForm** | **kotlin.Boolean**|  | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **stringForm** | **kotlin.String**|  | [optional] |
 
 ### Return type
 
@@ -93,15 +92,14 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **form1** | **kotlin.String**|  | [optional]
- **form2** | **kotlin.Int**|  | [optional]
- **form3** | **kotlin.String**|  | [optional]
- **form4** | **kotlin.Boolean**|  | [optional]
- **id** | **kotlin.Long**|  | [optional]
- **name** | **kotlin.String**|  | [optional]
+| **form1** | **kotlin.String**|  | [optional] |
+| **form2** | **kotlin.Int**|  | [optional] |
+| **form3** | **kotlin.String**|  | [optional] |
+| **form4** | **kotlin.Boolean**|  | [optional] |
+| **id** | **kotlin.Long**|  | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **name** | **kotlin.String**|  | [optional] |
 
 ### Return type
 

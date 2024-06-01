@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("NumberOnly")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NumberOnly  implements Serializable {
   private BigDecimal justNumber;
 
@@ -91,7 +91,7 @@ public class NumberOnly  implements Serializable {
     return new NumberOnlyBuilderImpl();
   }
 
-  private static final class NumberOnlyBuilderImpl extends NumberOnlyBuilder<NumberOnly, NumberOnlyBuilderImpl> {
+  private static class NumberOnlyBuilderImpl extends NumberOnlyBuilder<NumberOnly, NumberOnlyBuilderImpl> {
 
     @Override
     protected NumberOnlyBuilderImpl self() {

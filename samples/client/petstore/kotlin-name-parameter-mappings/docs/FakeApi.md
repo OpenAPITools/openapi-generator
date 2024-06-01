@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://localhost*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**getParameterNameMapping**](FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**getParameterNameMapping**](FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test |
 
 
 <a id="getParameterNameMapping"></a>
@@ -37,13 +37,12 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **underscoreType** | **kotlin.Long**| _type |
- **type** | **kotlin.String**| type |
- **typeWithUnderscore** | **kotlin.String**| type_ |
- **httpDebugOption** | **kotlin.String**| http debug option (to test parameter naming option) |
+| **underscoreType** | **kotlin.Long**| _type | |
+| **type** | **kotlin.String**| type | |
+| **typeWithUnderscore** | **kotlin.String**| type_ | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **httpDebugOption** | **kotlin.String**| http debug option (to test parameter naming option) | |
 
 ### Return type
 

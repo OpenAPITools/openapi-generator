@@ -49,7 +49,7 @@ export interface MixedPropertiesAndAdditionalPropertiesClass {
 /**
  * Check if a given object implements the MixedPropertiesAndAdditionalPropertiesClass interface.
  */
-export function instanceOfMixedPropertiesAndAdditionalPropertiesClass(value: object): boolean {
+export function instanceOfMixedPropertiesAndAdditionalPropertiesClass(value: object): value is MixedPropertiesAndAdditionalPropertiesClass {
     return true;
 }
 

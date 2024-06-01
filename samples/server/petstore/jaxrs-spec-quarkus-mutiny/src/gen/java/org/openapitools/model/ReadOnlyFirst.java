@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("ReadOnlyFirst")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ReadOnlyFirst  implements Serializable {
   private String bar;
   private String baz;
@@ -111,7 +111,7 @@ public class ReadOnlyFirst  implements Serializable {
     return new ReadOnlyFirstBuilderImpl();
   }
 
-  private static final class ReadOnlyFirstBuilderImpl extends ReadOnlyFirstBuilder<ReadOnlyFirst, ReadOnlyFirstBuilderImpl> {
+  private static class ReadOnlyFirstBuilderImpl extends ReadOnlyFirstBuilder<ReadOnlyFirst, ReadOnlyFirstBuilderImpl> {
 
     @Override
     protected ReadOnlyFirstBuilderImpl self() {

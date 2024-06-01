@@ -26,8 +26,8 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import java.io.IOException;
 
 {{#useBeanValidation}}
-import {{javaxPackage}}.validation.constraints.*;
-import {{javaxPackage}}.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 {{/useBeanValidation}}
 {{#performBeanValidation}}
 import {{javaxPackage}}.validation.ConstraintViolation;

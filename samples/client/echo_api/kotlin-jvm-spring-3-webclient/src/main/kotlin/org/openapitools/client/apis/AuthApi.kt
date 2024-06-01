@@ -17,33 +17,37 @@ package org.openapitools.client.apis
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-import org.springframework.web.client.RestClient
-import org.springframework.web.client.RestClientResponseException
-
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
+import org.springframework.http.codec.json.Jackson2JsonDecoder
+import org.springframework.http.codec.json.Jackson2JsonEncoder
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
-
+import reactor.core.publisher.Mono
+import org.springframework.util.LinkedMultiValueMap
 
 import org.openapitools.client.infrastructure.*
 
-class AuthApi(client: RestClient) : ApiClient(client) {
+class AuthApi(client: WebClient) : ApiClient(client) {
 
-    constructor(baseUrl: String) : this(RestClient.builder()
+    constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
-        .messageConverters { it.add(MappingJackson2HttpMessageConverter()) }
+        .codecs {
+            it.defaultCodecs().jackson2JsonEncoder(Jackson2JsonEncoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+            it.defaultCodecs().jackson2JsonDecoder(Jackson2JsonDecoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+        }
         .build()
     )
 
 
-    @Throws(RestClientResponseException::class)
-    fun testAuthHttpBasic(): kotlin.String {
-        val result = testAuthHttpBasicWithHttpInfo()
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testAuthHttpBasic(): Mono<kotlin.String> {
+        return testAuthHttpBasicWithHttpInfo()
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testAuthHttpBasicWithHttpInfo(): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testAuthHttpBasicWithHttpInfo(): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testAuthHttpBasicRequestConfig()
         return request<Unit, kotlin.String>(
             localVariableConfig
@@ -71,14 +75,14 @@ class AuthApi(client: RestClient) : ApiClient(client) {
     }
 
 
-    @Throws(RestClientResponseException::class)
-    fun testAuthHttpBearer(): kotlin.String {
-        val result = testAuthHttpBearerWithHttpInfo()
-        return result.body!!
+    @Throws(WebClientResponseException::class)
+    fun testAuthHttpBearer(): Mono<kotlin.String> {
+        return testAuthHttpBearerWithHttpInfo()
+            .map { it.body }
     }
 
-    @Throws(RestClientResponseException::class)
-    fun testAuthHttpBearerWithHttpInfo(): ResponseEntity<kotlin.String> {
+    @Throws(WebClientResponseException::class)
+    fun testAuthHttpBearerWithHttpInfo(): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testAuthHttpBearerRequestConfig()
         return request<Unit, kotlin.String>(
             localVariableConfig

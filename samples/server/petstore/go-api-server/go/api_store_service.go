@@ -23,7 +23,7 @@ type StoreAPIService struct {
 }
 
 // NewStoreAPIService creates a default api service
-func NewStoreAPIService() StoreAPIServicer {
+func NewStoreAPIService() *StoreAPIService {
 	return &StoreAPIService{}
 }
 

@@ -134,7 +134,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         case .options, .post, .put, .patch, .delete, .trace, .connect:
             let contentType = headers["Content-Type"] ?? "application/json"
 
-            if contentType.hasPrefix("application/json") {
+            if contentType.hasPrefix("application/") && contentType.contains("json") {
                 encoding = JSONDataEncoding()
             } else if contentType.hasPrefix("multipart/form-data") {
                 encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))

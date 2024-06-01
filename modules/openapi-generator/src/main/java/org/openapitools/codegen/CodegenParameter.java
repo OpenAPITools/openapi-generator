@@ -48,6 +48,8 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary,
             isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject, isAnyType, isShort, isUnboundedInteger;
     public boolean isArray, isMap;
+    /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
+    public boolean isOptional;
     public boolean isFile;
     public boolean isEnum;
     public boolean isEnumRef; // true if the enum is a ref (model) but not defined inline
@@ -76,48 +78,48 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
      */
     public boolean required;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor17.
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-maximum">JSON Schema Validation Spec, Section 6.2.2</a>
      */
     public String maximum;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor17
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-exclusivemaximum">JSON Schema Validation Spec, Section 6.2.3</a>
      */
     public boolean exclusiveMaximum;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor21
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-minimum">JSON Schema Validation Spec, Section 6.2.4</a>
      */
     public String minimum;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor21
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-exclusiveminimum">JSON Schema Validation Spec, Section 6.2.5</a>
      */
     public boolean exclusiveMinimum;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor26
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-maxlength">JSON Schema Validation Spec, Section 6.3.1</a>
      */
     public Integer maxLength;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor29
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-minlength">JSON Schema Validation Spec, Section 6.3.2</a>
      */
     public Integer minLength;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor33
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-pattern">JSON Schema Validation Spec, Section 6.3.3</a>
      */
     public String pattern;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor42
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-maxitems">JSON Schema Validation Spec, Section 6.4.1</a>
      */
     public Integer maxItems;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor45
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-minitems">JSON Schema Validation Spec, Section 6.4.2</a>
      */
     public Integer minItems;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor49
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-uniqueitems">JSON Schema Validation Spec, Section 6.4.3</a>
      */
     public boolean uniqueItems;
     private Boolean uniqueItemsBoolean;
     /**
-     * See http://json-schema.org/latest/json-schema-validation.html#anchor14
+     * See <a href="https://web.archive.org/web/20240502205731/https://json-schema.org/draft/2020-12/json-schema-validation#name-multipleof">JSON Schema Validation Spec, Section 6.2.1</a>
      */
     public Number multipleOf;
     private Integer maxProperties;
@@ -261,6 +263,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isAnyType = this.isAnyType;
         output.isArray = this.isArray;
         output.isMap = this.isMap;
+        output.isOptional = this.isOptional;
         output.isExplode = this.isExplode;
         output.style = this.style;
         output.isDeepObject = this.isDeepObject;
@@ -280,7 +283,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 enumDefaultValue, enumName, style, isDeepObject, isMatrix, isAllowEmptyValue, example, examples,
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
                 isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
-                isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, isEnumRef, _enum, allowableValues,
+                isFreeFormObject, isAnyType, isArray, isMap, isOptional, isFile, isEnum, isEnumRef, _enum, allowableValues,
                 items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation,
                 getMaxProperties(), getMinProperties(), isNullable, isDeprecated, required, getMaximum(),
                 getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(),
@@ -330,6 +333,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isAnyType == that.isAnyType &&
                 isArray == that.isArray &&
                 isMap == that.isMap &&
+                isOptional == that.isOptional &&
                 isFile == that.isFile &&
                 isEnum == that.isEnum &&
                 isEnumRef == that.isEnumRef &&
@@ -463,6 +467,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", isAnyType=").append(isAnyType);
         sb.append(", isArray=").append(isArray);
         sb.append(", isMap=").append(isMap);
+        sb.append(", isOptional=").append(isOptional);
         sb.append(", isFile=").append(isFile);
         sb.append(", isEnum=").append(isEnum);
         sb.append(", isEnumRef=").append(isEnumRef);
@@ -753,6 +758,16 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setIsMap(boolean isMap) {
         this.isMap = isMap;
+    }
+
+    @Override
+    public boolean getIsOptional() {
+        return isOptional;
+    }
+
+    @Override
+    public void setIsOptional(boolean isOptional) {
+        this.isOptional = isOptional;
     }
 
     @Override

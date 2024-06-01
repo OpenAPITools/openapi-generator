@@ -760,3 +760,35 @@ components:
           type: string
         message:
           type: string
+    SchemaWithSet:
+      description: Schema with a set property
+      type: object
+      properties:
+        certificates:
+          description: pedigree and other certificates
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        vaccinationBook:
+          description: Vaccination book of the pet
+          type: object
+          required:
+            - vaccines
+          properties:
+            vaccines:
+              type: array
+              uniqueItems: true
+              items:
+                title: vaccine
+                type: object
+                required:
+                  - date
+                  - boosterRequired
+                properties:
+                  date:
+                    format: date
+                    description: vaccination date
+                  boosterRequired:
+                    type: boolean
+                    description: true if a booster is still needed to complete the vaccination

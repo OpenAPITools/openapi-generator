@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="Model for testing model name starting with number")
 @JsonTypeName("200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Model200Response  implements Serializable {
   private Integer name;
   private String propertyClass;
@@ -114,7 +114,7 @@ public class Model200Response  implements Serializable {
     return new Model200ResponseBuilderImpl();
   }
 
-  private static final class Model200ResponseBuilderImpl extends Model200ResponseBuilder<Model200Response, Model200ResponseBuilderImpl> {
+  private static class Model200ResponseBuilderImpl extends Model200ResponseBuilder<Model200Response, Model200ResponseBuilderImpl> {
 
     @Override
     protected Model200ResponseBuilderImpl self() {

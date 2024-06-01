@@ -3,6 +3,7 @@
 namespace OpenAPI\Client;
 
 use DateTime;
+use Generator;
 use GuzzleHttp\Psr7\Utils;
 use OpenAPI\Client\Model\Pet;
 use OpenAPI\Client\Model\Tag;
@@ -569,6 +570,37 @@ class ObjectSerializerTest extends TestCase
                 true, 'skipValidation', 'boolean', 'form', true, false, 'skipValidation=true',
             ],
         ];
+    }
+
+    /**
+     * @covers ObjectSerializer::buildQuery
+     * @dataProvider provideBuildQuery
+     */
+    public function testToBuildQuery(
+        string $expected,
+        array $data,
+        string|null $booleanFormatString = null,
+    ): void
+    {
+        $config = new Configuration();
+        if ($booleanFormatString !== null) {
+            $config->setBooleanFormatForQueryString($booleanFormatString);
+        }
+        $config::setDefaultConfiguration($config);
+
+        $query = ObjectSerializer::buildQuery($data);
+        $this->assertEquals($expected, $query);
+    }
+
+    /** @return Generator<string, array{string, array<string, mixed>, 2?: Configuration::BOOLEAN_FORMAT_*}> */
+    public function provideBuildQuery(): Generator
+    {
+        yield 'true as int' => ['foo=1', ['foo' => true]];
+        yield 'true as int as default' => ['foo=1', ['foo' => true], Configuration::BOOLEAN_FORMAT_INT];
+        yield 'false as int' => ['foo=0', ['foo' => false]];
+        yield 'false as int as default' => ['foo=0', ['foo' => false], Configuration::BOOLEAN_FORMAT_INT];
+        yield 'true as string' => ['foo=true', ['foo' => true], Configuration::BOOLEAN_FORMAT_STRING];
+        yield 'false as string' => ['foo=false', ['foo' => false], Configuration::BOOLEAN_FORMAT_STRING];
     }
 
     /**

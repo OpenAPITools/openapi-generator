@@ -60,7 +60,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FruitReq extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FruitReq.class.getName());
 
@@ -151,12 +151,7 @@ public class FruitReq extends AbstractOpenApiSchema {
         super("oneOf", Boolean.TRUE);
     }
 
-    public FruitReq(AppleReq o) {
-        super("oneOf", Boolean.TRUE);
-        setActualInstance(o);
-    }
-
-    public FruitReq(BananaReq o) {
+    public FruitReq(Object o) {
         super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }

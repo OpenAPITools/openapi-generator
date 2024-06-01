@@ -1,7 +1,7 @@
 package org.openapitools.codegen.jetbrains.http.client;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JetbrainsHttpClientClientCodegen;
@@ -403,7 +403,7 @@ public class JetbrainsHttpClientClientCodegenTest {
     }
 
     @Test
-    @Ignore // For some reason this test fails during Docker image generation. Investigate one day.
+    @Disabled // For some reason this test fails during Docker image generation. Investigate one day.
     public void testBasicGenerationMultipleRequests() throws IOException {
         // Checking that each request example is present in the output file
         File output = Files.createTempDirectory("jetbrainstest_").toFile();

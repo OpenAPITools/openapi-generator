@@ -36,6 +36,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |HttpContent|#include &quot;HttpContent.h&quot;|
 |Object|#include &quot;Object.h&quot;|
 |std::map|#include &lt;map&gt;|
+|std::set|#include &lt;set&gt;|
 |std::string|#include &lt;string&gt;|
 |std::vector|#include &lt;vector&gt;|
 |utility::datetime|#include &lt;cpprest/details/basic_types.h&gt;|

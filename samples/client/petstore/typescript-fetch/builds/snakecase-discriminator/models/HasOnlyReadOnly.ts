@@ -36,7 +36,7 @@ export interface HasOnlyReadOnly {
 /**
  * Check if a given object implements the HasOnlyReadOnly interface.
  */
-export function instanceOfHasOnlyReadOnly(value: object): boolean {
+export function instanceOfHasOnlyReadOnly(value: object): value is HasOnlyReadOnly {
     return true;
 }
 

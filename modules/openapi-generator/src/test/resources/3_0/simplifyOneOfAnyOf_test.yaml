@@ -103,6 +103,17 @@ components:
         - type: string
         - type: number
         - type: integer
+    AnyOfAnyTypeWithRef:
+      anyOf:
+        - type: boolean
+        - type: array
+          items: { }
+        - type: object
+        - type: string
+        - type: number
+        - $ref: '#/components/schemas/IntegerRef'
+    IntegerRef:
+      type: integer
     OneOfAnyType:
       oneOf:
         - type: object

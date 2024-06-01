@@ -69,7 +69,7 @@ import okhttp3.MultipartBody
 
 {{/isMultipart}}
 {{/x-kotlin-multipart-import}}
-interface {{classname}} {
+{{#nonPublicApi}}internal {{/nonPublicApi}}interface {{classname}} {
     {{#operation}}
     {{#allParams}}
     {{#isEnum}}

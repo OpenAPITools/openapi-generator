@@ -6,7 +6,7 @@ templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
   hideGenerationTimestamp: "true"
 files:
-  README.md:
+  README.mustache:
     destinationFilename: info.md
   api_doc.mustache:
     templateType: APIDocs

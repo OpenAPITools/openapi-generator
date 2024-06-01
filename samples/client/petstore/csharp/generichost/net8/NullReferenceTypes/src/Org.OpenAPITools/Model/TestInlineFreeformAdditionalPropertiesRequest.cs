@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, testInlineFreeformAdditionalPropertiesRequest, jsonSerializerOptions);
+            WriteProperties(writer, testInlineFreeformAdditionalPropertiesRequest, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="testInlineFreeformAdditionalPropertiesRequest"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet && testInlineFreeformAdditionalPropertiesRequest.SomeProperty == null)
                 throw new ArgumentNullException(nameof(testInlineFreeformAdditionalPropertiesRequest.SomeProperty), "Property is required for class TestInlineFreeformAdditionalPropertiesRequest.");

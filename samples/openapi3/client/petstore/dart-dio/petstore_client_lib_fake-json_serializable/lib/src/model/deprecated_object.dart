@@ -34,13 +34,15 @@ class DeprecatedObject {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is DeprecatedObject &&
-     other.name == name;
 
-  @override
-  int get hashCode =>
-    name.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is DeprecatedObject &&
+      other.name == name;
+
+    @override
+    int get hashCode =>
+        name.hashCode;
 
   factory DeprecatedObject.fromJson(Map<String, dynamic> json) => _$DeprecatedObjectFromJson(json);
 

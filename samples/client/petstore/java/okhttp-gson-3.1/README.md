@@ -2,7 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
-  - Generator version: 7.6.0-SNAPSHOT
+  - Generator version: 7.7.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -144,6 +144,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [AllOfSimpleModel](docs/AllOfSimpleModel.md)
  - [Animal](docs/Animal.md)
  - [AnyTypeTest](docs/AnyTypeTest.md)
  - [ArrayOfSameRef](docs/ArrayOfSameRef.md)
@@ -158,6 +159,7 @@ Class | Method | HTTP request | Description
  - [OneOfStringOrInt](docs/OneOfStringOrInt.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
+ - [SimpleModelWithArrayProperty](docs/SimpleModelWithArrayProperty.md)
  - [StringOrInt](docs/StringOrInt.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)

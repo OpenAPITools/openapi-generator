@@ -313,6 +313,48 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void testVendorExtensionGenerateUnmarshalJson() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setGitUserId("OpenAPITools")
+                .setGitRepoId("openapi-generator")
+                .setInputSpec("src/test/resources/3_0/go/allof_with_unmarshal_json.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/model_base_item.go"));
+        TestUtils.assertFileContains(Paths.get(output + "/model_base_item.go"),
+                "func (o *BaseItem) UnmarshalJSON(data []byte) (err error) {");
+    }
+
+    @Test
+    public void testVendorExtensionSkipGenerateUnmarshalJson() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setGitUserId("OpenAPITools")
+                .setGitRepoId("openapi-generator")
+                .setInputSpec("src/test/resources/3_0/go/allof_skip_unmarshal_json.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/model_base_item.go"));
+        TestUtils.assertFileNotContains(Paths.get(output + "/model_base_item.go"),
+                "func (o *BaseItem) UnmarshalJSON(data []byte) (err error) {");
+    }
+
+    @Test
     public void testAdditionalPropertiesWithGoMod() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();

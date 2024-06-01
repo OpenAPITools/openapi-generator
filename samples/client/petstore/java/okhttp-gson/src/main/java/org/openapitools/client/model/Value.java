@@ -52,7 +52,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Value extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Value.class.getName());
 
@@ -66,8 +66,8 @@ public class Value extends AbstractOpenApiSchema {
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             final TypeAdapter<Scalar> adapterScalar = gson.getDelegateAdapter(this, TypeToken.get(Scalar.class));
 
-            final Type typeInstance = new TypeToken<List<Scalar>>(){}.getType();
-            final TypeAdapter<List<Scalar>> adapterListScalar = (TypeAdapter<List<Scalar>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+            final Type typeInstanceListScalar = new TypeToken<List<Scalar>>(){}.getType();
+            final TypeAdapter<List<Scalar>> adapterListScalar = (TypeAdapter<List<Scalar>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstanceListScalar));
 
             return (TypeAdapter<T>) new TypeAdapter<Value>() {
                 @Override
@@ -156,12 +156,7 @@ public class Value extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Value(List<Scalar> o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public Value(Scalar o) {
+    public Value(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

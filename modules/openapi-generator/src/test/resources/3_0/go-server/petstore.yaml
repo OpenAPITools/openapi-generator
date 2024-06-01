@@ -100,6 +100,21 @@ paths:
               - "OPTION_1"
               - "OPTION_2"
               - "OPTION_3"
+        - name: defaultInt
+          in: query
+          schema:
+            default: 1
+            type: integer
+        - name: defaultNum
+          in: query
+          schema:
+            default: 1.5
+            type: number
+        - name: defaultStr
+          in: query
+          schema:
+            default: default
+            type: string
         - name: status
           in: query
           description: Status values that need to be considered for filter
@@ -616,9 +631,9 @@ paths:
           required: true
           schema:
             type: string
-        - name: boolean_test
+        - name: remember_me
           in: query
-          description: The password for login in clear text
+          description: Remember Me
           schema:
             type: boolean
       responses:
@@ -731,9 +746,9 @@ paths:
           required: true
           schema:
             type: string
-        - name: boolean_test # to ensure boolean query parameter won't cause compilation errors
+        - name: confirmation # to ensure boolean query parameter won't cause compilation errors
           in: query
-          description: boolean query parameter
+          description: Confirm the deletion
           schema:
             type: boolean
       responses:

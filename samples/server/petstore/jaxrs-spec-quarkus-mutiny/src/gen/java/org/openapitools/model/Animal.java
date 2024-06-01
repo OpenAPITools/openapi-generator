@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Animal")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Animal  implements Serializable {
   private String className;
   private String color = "red";
@@ -119,7 +119,7 @@ public class Animal  implements Serializable {
     return new AnimalBuilderImpl();
   }
 
-  private static final class AnimalBuilderImpl extends AnimalBuilder<Animal, AnimalBuilderImpl> {
+  private static class AnimalBuilderImpl extends AnimalBuilder<Animal, AnimalBuilderImpl> {
 
     @Override
     protected AnimalBuilderImpl self() {

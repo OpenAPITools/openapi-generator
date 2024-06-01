@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: My service
+  description: My service
+  version: 1.0.0
+servers:
+  - url: 'https://localhost'
+paths:
+  /generator/test:
+    post:
+      summary: Get test generator models
+      responses:
+        200:
+          description: returns Page of Pets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfPets'
+components:
+  schemas:
+    Page:
+      properties:
+        count:
+#  test readonly and required
+          type: integer
+          readOnly: true
+      required:
+        - count
+    # test composition
+    PageOfPets:
+      allOf:
+        - $ref: '#/components/schemas/Page'
+        - type: object
+          properties:
+            list:
+              type: array
+              items:
+                $ref: '#/components/schemas/Pet'
+# test inheritance
+    Pet:
+      type: object
+      required:
+        - type
+      properties:
+        dateOfBirth:
+          type: string
+          format: date
+        name:
+          type: string
+        type:
+          type: string
+          readOnly: true
+      discriminator:
+        propertyName: type
+        mapping:
+          CAT: '#/components/schemas/Cat'
+          DOG: '#/components/schemas/Dog'
+    Cat:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+      required:
+        - race
+      properties:
+        paws:
+          type: integer
+        race:
+          type: string
+      discriminator:
+        propertyName: race
+        mapping:
+          PERSIAN: '#/components/schemas/Persian'
+          MAINE_COON: '#/components/schemas/MaineCoon'
+    Dog:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+      required:
+        - race
+      properties:
+        tails:
+          type: integer
+        race:
+          type: string
+      discriminator:
+        propertyName: race
+        mapping:
+          POODLE: '#/components/schemas/Poodle'
+          LABRADOR: '#/components/schemas/Labrador'
+    Poodle:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Dog'
+      properties:
+        hairType:
+          type: string
+      required:
+        - race
+    Labrador:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Dog'
+      properties:
+        hairColor:
+          type: string
+      required:
+        - race
+    Persian:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+      properties:
+        hairType:
+          type: string
+      required:
+        - race
+    MaineCoon:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+      properties:
+        hairColor:
+          type: string
+      required:
+        - race

@@ -18,12 +18,9 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
-import org.mozilla.javascript.optimizer.Codegen;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -38,9 +35,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -411,7 +405,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
-            final Schema parentModel = allDefinitions.get(toModelName(codegenModel.parent));
+            final Schema<?> parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
                 if (codegenModel.hasEnums) {
@@ -429,13 +423,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     }
                 }
 
-                CodegenProperty last = null;
                 for (final CodegenProperty property : parentCodegenModel.vars) {
                     // helper list of parentVars simplifies templating
                     if (!propertyHash.containsKey(property.name)) {
                         final CodegenProperty parentVar = property.clone();
                         parentVar.isInherited = true;
-                        last = parentVar;
                         LOGGER.debug("adding parent variable {}", property.name);
                         codegenModel.parentVars.add(parentVar);
                     }
@@ -456,7 +448,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         // avoid breaking changes
-        if (GENERICHOST.equals(getLibrary())) {
+        if (GENERICHOST.equals(getLibrary()) && codegenModel != null) {
 
             Collections.sort(codegenModel.vars, propertyComparatorByName);
             Collections.sort(codegenModel.allVars, propertyComparatorByName);
@@ -485,17 +477,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
     };
 
-    public static Comparator<CodegenProperty> propertyComparatorByNotNullableRequiredNoDefault = new Comparator<CodegenProperty>() {
-        @Override
-        public int compare(CodegenProperty one, CodegenProperty another) {
-            if (one.isNullable == another.isNullable && one.required == another.required && (one.defaultValue == null) == (another.defaultValue == null))
-                return 0;
-            else if (!one.isNullable && one.required && one.defaultValue == null)
-                return -1;
-            else
-                return 1;
-        }
-    };
+    public static Comparator<CodegenProperty> propertyComparatorByNotNullableRequiredNoDefault =
+            Comparator.comparing(p -> p.isNullable || !p.required || p.defaultValue != null);
 
     public static Comparator<CodegenParameter> parameterComparatorByDataType = new Comparator<CodegenParameter>() {
         @Override
@@ -1079,12 +1062,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.packageGuid = packageGuid;
     }
 
-    // TODO: this does the same as super
-    @Override
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
     /**
      * Sets the api name. This value must be a valid class name.
      *
@@ -1095,12 +1072,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             throw new RuntimeException("Invalid project name " + apiName + ". May only contain alphanumeric characters or underscore and start with a letter.");
         }
         this.apiName = apiName;
-    }
-
-    // TODO: this does the same as super
-    @Override
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     public void setSupportsAsync(Boolean supportsAsync) {
@@ -1335,8 +1306,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings("Duplicates")
     private static abstract class FrameworkStrategy {
 
-        private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
-
         static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3", "net7.0") {
         };
         static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4", "net7.0") {
@@ -1375,22 +1344,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             this.description = description;
             this.testTargetFramework = testTargetFramework;
             this.isNetStandard = isNetStandard;
-        }
-
-        protected void configureAdditionalProperties(final Map<String, Object> properties) {
-            properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, this.name);
-
-            // not intended to be user-settable
-            properties.put(TARGET_FRAMEWORK_IDENTIFIER, this.getTargetFrameworkIdentifier());
-            properties.put(TARGET_FRAMEWORK_VERSION, this.getTargetFrameworkVersion());
-            properties.putIfAbsent(MCS_NET_VERSION_KEY, "4.6-api");
-
-            properties.put(NET_STANDARD, this.isNetStandard);
-            if (properties.containsKey(SUPPORTS_UWP)) {
-                LOGGER.warn(".NET {} generator does not support the UWP option. Use the csharp generator instead.",
-                        this.name);
-                properties.remove(SUPPORTS_UWP);
-            }
         }
 
         protected String getNugetFrameworkIdentifier() {
@@ -1508,7 +1461,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+            Schema<?> additionalProperties = ModelUtils.getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
             if (ModelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);

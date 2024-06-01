@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  **/
 @ApiModel(description = "Model for testing model name same as property name")
 @JsonTypeName("Name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Name  implements Serializable {
   private Integer name;
   private Integer snakeCase;
@@ -161,7 +161,7 @@ public class Name  implements Serializable {
     return new NameBuilderImpl();
   }
 
-  private static final class NameBuilderImpl extends NameBuilder<Name, NameBuilderImpl> {
+  private static class NameBuilderImpl extends NameBuilder<Name, NameBuilderImpl> {
 
     @Override
     protected NameBuilderImpl self() {

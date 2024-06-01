@@ -36,7 +36,7 @@ export interface Tag {
 /**
  * Check if a given object implements the Tag interface.
  */
-export function instanceOfTag(value: object): boolean {
+export function instanceOfTag(value: object): value is Tag {
     return true;
 }
 

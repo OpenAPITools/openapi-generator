@@ -19,24 +19,24 @@ import {
     OuterEnumFromJSONTyped,
     OuterEnumToJSON,
 } from './OuterEnum';
-import type { OuterEnumDefaultValue } from './OuterEnumDefaultValue';
-import {
-    OuterEnumDefaultValueFromJSON,
-    OuterEnumDefaultValueFromJSONTyped,
-    OuterEnumDefaultValueToJSON,
-} from './OuterEnumDefaultValue';
-import type { OuterEnumInteger } from './OuterEnumInteger';
-import {
-    OuterEnumIntegerFromJSON,
-    OuterEnumIntegerFromJSONTyped,
-    OuterEnumIntegerToJSON,
-} from './OuterEnumInteger';
 import type { OuterEnumIntegerDefaultValue } from './OuterEnumIntegerDefaultValue';
 import {
     OuterEnumIntegerDefaultValueFromJSON,
     OuterEnumIntegerDefaultValueFromJSONTyped,
     OuterEnumIntegerDefaultValueToJSON,
 } from './OuterEnumIntegerDefaultValue';
+import type { OuterEnumInteger } from './OuterEnumInteger';
+import {
+    OuterEnumIntegerFromJSON,
+    OuterEnumIntegerFromJSONTyped,
+    OuterEnumIntegerToJSON,
+} from './OuterEnumInteger';
+import type { OuterEnumDefaultValue } from './OuterEnumDefaultValue';
+import {
+    OuterEnumDefaultValueFromJSON,
+    OuterEnumDefaultValueFromJSONTyped,
+    OuterEnumDefaultValueToJSON,
+} from './OuterEnumDefaultValue';
 
 /**
  * 
@@ -137,8 +137,8 @@ export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof 
 /**
  * Check if a given object implements the EnumTest interface.
  */
-export function instanceOfEnumTest(value: object): boolean {
-    if (!('enumStringRequired' in value)) return false;
+export function instanceOfEnumTest(value: object): value is EnumTest {
+    if (!('enumStringRequired' in value) || value['enumStringRequired'] === undefined) return false;
     return true;
 }
 

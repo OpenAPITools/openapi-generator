@@ -49,9 +49,9 @@ func New{{{classname}}}FromValue(v {{{format}}}{{^format}}{{dataType}}{{/format}
 	ev := {{{classname}}}(v)
 	if ev.IsValid() {
 		return ev, nil
-	} else {
-		return "", fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, Allowed{{{classname}}}EnumValues)
 	}
+
+	return "", fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, Allowed{{{classname}}}EnumValues)
 }
 
 {{/isEnum}}{{^isEnum}}{{#description}}
@@ -166,14 +166,69 @@ func Assert{{classname}}Constraints(obj {{classname}}) error {
 {{#Vars}}
 {{#minimum}}
 	if {{#isNullable}}obj.{{name}} != nil && *{{/isNullable}}obj.{{name}} < {{minimum}} {
-		return &ParsingError{Err: errors.New(errMsgMinValueConstraint)}
+		return &ParsingError{Param: "{{name}}", Err: errors.New(errMsgMinValueConstraint)}
 	}
 {{/minimum}}
 {{#maximum}}
 	if {{#isNullable}}obj.{{name}} != nil && *{{/isNullable}}obj.{{name}} > {{maximum}} {
-		return &ParsingError{Err: errors.New(errMsgMaxValueConstraint)}
+		return &ParsingError{Param: "{{name}}", Err: errors.New(errMsgMaxValueConstraint)}
 	}
 {{/maximum}}
+{{#isNullable}}
+{{#isModel}}
+    if obj.{{name}} != nil {
+{{/isModel}}
+{{#isArray}}
+{{#items.isModel}}
+    if obj.{{name}} != nil {
+{{/items.isModel}}
+{{/isArray}}
+{{/isNullable}}
+{{#isModel}}
+{{#isNullable}}     {{/isNullable}}	if err := Assert{{baseType}}Constraints({{#isNullable}}*{{/isNullable}}obj.{{name}}); err != nil {
+{{#isNullable}}     {{/isNullable}}		return err
+{{#isNullable}}     {{/isNullable}}	}
+{{/isModel}}
+{{#isArray}}
+{{#items.isModel}}
+{{#isNullable}}     {{/isNullable}}	for _, el := range {{#isNullable}}*{{/isNullable}}obj.{{name}} {
+{{#isNullable}}     {{/isNullable}}		if err := Assert{{items.baseType}}Constraints(el); err != nil {
+{{#isNullable}}     {{/isNullable}}			return err
+{{#isNullable}}     {{/isNullable}}		}
+{{#isNullable}}     {{/isNullable}}	}
+{{/items.isModel}}
+{{^items.isModel}}
+{{#mostInnerItems.isModel}}
+{{^mostInnerItems.isPrimitiveType}}
+{{#isNullable}}
+    if obj.{{name}} != nil {
+{{/isNullable}}
+{{#isNullable}}     {{/isNullable}}	if err := AssertRecurseInterfaceRequired({{#isNullable}}*{{/isNullable}}obj.{{name}}, Assert{{mostInnerItems.dataType}}Constraints); err != nil {
+{{#isNullable}}     {{/isNullable}}		return err
+{{#isNullable}}     {{/isNullable}}	}
+{{/mostInnerItems.isPrimitiveType}}
+{{/mostInnerItems.isModel}}
+{{/items.isModel}}
+{{/isArray}}
+{{#isNullable}}
+{{#isModel}}
+    }
+{{/isModel}}
+{{#isArray}}
+{{#items.isModel}}
+    }
+{{/items.isModel}}
+{{^items.isModel}}
+{{#mostInnerItems.isModel}}
+{{^mostInnerItems.isPrimitiveType}}
+{{#isNullable}}
+    }
+{{/isNullable}}
+{{/mostInnerItems.isPrimitiveType}}
+{{/mostInnerItems.isModel}}
+{{/items.isModel}}
+{{/isArray}}
+{{/isNullable}}
 {{/Vars}}
 	return nil
 }{{/model}}{{/models}}

@@ -5,10 +5,10 @@ var _ MappedNullable = &{{classname}}{}
 type {{classname}} struct {
 {{#parentModel.name}}
 {{^isArray}}
-	{{{parentModel.name}}}
+	{{{parentModel.classname}}}
 {{/isArray}}
 {{#isArray}}
-	Items {{{parentModel.name}}}
+	Items {{{parentModel.classname}}}
 {{/isArray}}
 {{/parentModel.name}}
 {{#vars}}
@@ -337,6 +337,7 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
+{{#vendorExtensions.x-go-generate-unmarshal-json}}
 {{#isAdditionalPropertiesTrue}}
 func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 {{/isAdditionalPropertiesTrue}}
@@ -514,4 +515,5 @@ func (o *{{{classname}}}) UnmarshalJSON(data []byte) (err error) {
 }
 
 {{/isArray}}
+{{/vendorExtensions.x-go-generate-unmarshal-json}}
 {{>nullable_model}}

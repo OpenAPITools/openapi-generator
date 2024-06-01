@@ -30,5 +30,8 @@ data class ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter (
     @SerializedName("values")
     val propertyValues: kotlin.collections.List<kotlin.String>? = null
 
-)
+) {
+
+
+}
 

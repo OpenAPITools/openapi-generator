@@ -270,10 +270,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        // Remove the discriminator field from the model, serde will take care of this
         for (ModelMap model : objs.getModels()) {
             CodegenModel cm = model.getModel();
 
+            // Remove the discriminator field from the model, serde will take care of this
             if (cm.discriminator != null) {
                 String reserved_var_name = cm.discriminator.getPropertyBaseName();
 
@@ -282,6 +282,14 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                         cm.vars.remove(cp);
                         break;
                     }
+                }
+            }
+
+            // Flag structs with byteArrays in them so that we can annotate them with the serde_as macro
+            for (CodegenProperty cp : cm.vars) {
+                if (cp.isByteArray) {
+                    cm.vendorExtensions.put("x-rust-has-byte-array", true);
+                    break;
                 }
             }
         }
@@ -535,6 +543,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         // which requires the `serde_with` extension crate for deserialization.
         // See: https://docs.rs/serde_with/latest/serde_with/rust/double_option/index.html
         if (property.isNullable && !property.required) {
+            additionalProperties.put("serdeWith", true);
+        }
+
+        // If a property is a base64-encoded byte array, use `serde_with` for deserialization.
+        if (property.isByteArray) {
             additionalProperties.put("serdeWith", true);
         }
     }
