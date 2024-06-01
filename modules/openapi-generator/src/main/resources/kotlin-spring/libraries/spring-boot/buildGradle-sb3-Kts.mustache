@@ -13,6 +13,12 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
 }
 
+{{#interfaceOnly}}
+tasks.bootJar {
+    enabled = false
+}
+
+{{/interfaceOnly}}
 plugins {
     val kotlinVersion = "1.7.10"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion

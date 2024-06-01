@@ -104,6 +104,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean isArray;
     public boolean hasChildren;
     public boolean isMap;
+    /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
+    public boolean isOptional;
     public boolean isNull;
     public boolean isVoid = false;
     /**
@@ -742,6 +744,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsOptional() {
+        return isOptional;
+    }
+
+    @Override
+    public void setIsOptional(boolean isOptional) {
+        this.isOptional = isOptional;
+    }
+
+    @Override
     public boolean getIsArray() {
         return isArray;
     }
@@ -1128,6 +1140,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isArray == that.isArray &&
                 hasChildren == that.hasChildren &&
                 isMap == that.isMap &&
+                isOptional == that.isOptional &&
                 isDeprecated == that.isDeprecated &&
                 hasReadOnly == that.hasReadOnly &&
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
@@ -1221,7 +1234,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getVars(), getAllVars(), getNonNullableVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
-                hasChildren, isMap, isDeprecated, hasReadOnly, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
+                hasChildren, isMap, isOptional, isDeprecated, hasReadOnly, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
@@ -1296,6 +1309,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isArray=").append(isArray);
         sb.append(", hasChildren=").append(hasChildren);
         sb.append(", isMap=").append(isMap);
+        sb.append(", isOptional=").append(isOptional);
         sb.append(", isDeprecated=").append(isDeprecated);
         sb.append(", hasReadOnly=").append(hasReadOnly);
         sb.append(", hasOnlyReadOnly=").append(hasOnlyReadOnly);

@@ -22,6 +22,14 @@ jobs:
           - samples/client/petstore/csharp/generichost/net4.7/OneOf
           - samples/client/petstore/csharp/generichost/net4.7/Petstore
           - samples/client/petstore/csharp/generichost/net4.7/UseDateTimeForDate
+
+          - samples/client/petstore/csharp/generichost/net4.8/AllOf
+          - samples/client/petstore/csharp/generichost/net4.8/AnyOf
+          - samples/client/petstore/csharp/generichost/net4.8/AnyOfNoCompare
+          - samples/client/petstore/csharp/generichost/net4.8/FormModels
+          - samples/client/petstore/csharp/generichost/net4.8/OneOf
+          - samples/client/petstore/csharp/generichost/net4.8/Petstore
+          - samples/client/petstore/csharp/generichost/net4.8/UseDateTimeForDate
     steps:
       - uses: actions/checkout@v4
       - name: Build

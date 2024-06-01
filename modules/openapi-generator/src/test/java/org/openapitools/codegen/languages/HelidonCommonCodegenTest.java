@@ -18,7 +18,7 @@ package org.openapitools.codegen.languages;
 
 import java.util.List;
 
-import org.junit.Assert;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 // This test class is in this package, not org.openapitools.codegen.java.helidon, so it can refer to elements of
