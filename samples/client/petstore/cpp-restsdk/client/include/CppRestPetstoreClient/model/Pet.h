@@ -34,7 +34,6 @@ namespace model {
 class Category;
 class Tag;
 
-
 /// <summary>
 /// A pet for sale in the pet store
 /// </summary>
