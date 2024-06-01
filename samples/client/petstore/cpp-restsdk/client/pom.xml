@@ -48,10 +48,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>cmake</executable>
-                            <arguments>
-                                <argument>--config=Debug</argument>
-                            </arguments>
+                            <executable>make</executable>
                         </configuration>
                     </execution>
                 </executions>
