@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
 // This test class is in this package, not org.openapitools.codegen.java.helidon, so it can refer to elements of
 // JavaHelidonCommonCodegen without making them public; package-private is sufficient and we don't want to expose those methods
 // more broadly.
-class HelidonCommonCodegenTest {
+public class HelidonCommonCodegenTest {
 
     @Test
     void checkMajorVersionMatch() {
