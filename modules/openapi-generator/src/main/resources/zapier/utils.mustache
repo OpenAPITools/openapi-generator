@@ -39,6 +39,15 @@ const triggerMiddleware = (action) => {
     return action
 }
 
+const isTrigger = (key) => {
+    // TODO: custom logic
+    return false
+}
+
+const triggerMiddleware = (action) => {
+    return action
+}
+
 module.exports = {
     replacePathParameters: replacePathParameters,
     childMapping: childMapping,
@@ -48,6 +57,7 @@ module.exports = {
     isSearchAction: isSearchAction,
     searchMiddleware: searchMiddleware,
     requestOptionsMiddleware: requestOptionsMiddleware,
+    responseOptionsMiddleware: responseOptionsMiddleware,
     isTrigger: isTrigger,
     triggerMiddleware: triggerMiddleware,
 }
