@@ -4746,9 +4746,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (contentType != null) {
                 contentType = contentType.toLowerCase(Locale.ROOT);
             }
-            if (contentType != null &&
-                    ((!(this instanceof RustAxumServerCodegen) && contentType.startsWith("application/x-www-form-urlencoded")) ||
-                            contentType.startsWith("multipart"))) {
+            if (isFormMimeType(contentType)) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
                 op.isMultipart = contentType.startsWith("multipart");
@@ -5276,11 +5274,7 @@ public class DefaultCodegen implements CodegenConfig {
             parameterSchema = unaliasSchema(parameter.getSchema());
             parameterModelName = getParameterDataType(parameter, parameterSchema);
             CodegenProperty prop;
-            if (this instanceof RustServerCodegen) {
-                // for rust server, we need to do somethings special as it uses
-                // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
-                prop = fromProperty(parameter.getName(), parameterSchema, false);
-            } else if (getUseInlineModelResolver()) {
+            if (getUseInlineModelResolver()) {
                 prop = fromProperty(parameter.getName(), getReferencedSchemaWhenNotEnum(parameterSchema), false);
             } else {
                 prop = fromProperty(parameter.getName(), parameterSchema, false);
@@ -5327,7 +5321,7 @@ public class DefaultCodegen implements CodegenConfig {
             return codegenParameter;
         }
 
-        if (getUseInlineModelResolver() && !(this instanceof RustServerCodegen)) {
+        if (getUseInlineModelResolver()) {
             // for rust server, we cannot run the following as it uses
             // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
             parameterSchema = getReferencedSchemaWhenNotEnum(parameterSchema);
@@ -7011,9 +7005,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         for (String consume : consumesInfo) {
-            if (consume != null &&
-                    (consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                            consume.toLowerCase(Locale.ROOT).startsWith("multipart"))) {
+            if (isFormMimeType(consume)) {
                 return true;
             }
         }
@@ -7156,8 +7148,6 @@ public class DefaultCodegen implements CodegenConfig {
         // https://github.com/OpenAPITools/openapi-generator/issues/10415
         addProperties(properties, allRequired, schema, new HashSet<>());
 
-        boolean isOneOfOrAnyOf = ModelUtils.isOneOf(schema) || ModelUtils.isAnyOf(schema);
-
         if (!properties.isEmpty()) {
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {
                 CodegenParameter codegenParameter;
@@ -7167,7 +7157,7 @@ public class DefaultCodegen implements CodegenConfig {
                 Schema propertySchema = entry.getValue();
                 codegenParameter = fromFormProperty(propertyName, propertySchema, imports);
 
-                if (isOneOfOrAnyOf) {
+                if (ModelUtils.isOneOf(schema) || ModelUtils.isAnyOf(schema)) {
                     // for oneOf/anyOf, mark all the properties collected from the sub-schemas as optional
                     // so that users can choose which property to include in the form parameters
                     codegenParameter.required = false;
@@ -8345,6 +8335,16 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected boolean isFormMimeType(String mime) {
+        if (mime == null) {
+            return false;
+        }
+        
+        mime = mime.toLowerCase(Locale.ROOT);
+        return mime.startsWith("application/x-www-form-urlencoded") 
+            || mime.startsWith("multipart");    // ← maybe multipart/form-data would be more accurate?
+    }
+    
     /**
      * Check if the given MIME is a JSON MIME.
      * JSON MIME examples:

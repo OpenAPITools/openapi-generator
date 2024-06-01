@@ -15,13 +15,17 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen.go;
+package org.openapitools.codegen.languages;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import org.assertj.core.api.Assertions;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.languages.GoClientCodegen;
+import org.openapitools.codegen.model.ModelsMap;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -33,6 +37,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class GoClientCodegenTest {
@@ -130,7 +136,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path modelFile = Paths.get(output + "/model_example.go");
@@ -170,7 +175,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path docFile = Paths.get(output + "/docs/PetAPI.md");
@@ -366,7 +370,6 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path goModFile = Paths.get(output + "/go.mod");
@@ -388,12 +391,62 @@ public class GoClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        System.out.println(files);
         files.forEach(File::deleteOnExit);
 
         Path goModFile = Paths.get(output + "/go.mod");
         TestUtils.assertFileNotExists(goModFile);
         Path goSumFile = Paths.get(output + "/go.sum");
         TestUtils.assertFileNotExists(goSumFile);
+    }
+
+    @Test
+    public void addsFmtImports_whenModelIsEnum() throws IOException {
+        ArgumentCaptor<ModelsMap> captor = ArgumentCaptor.forClass(ModelsMap.class);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI testSpec = new OpenAPIParser().readLocation("src/test/resources/3_0/enum.yaml", null, null).getOpenAPI();
+        final GoClientCodegen codegen = Mockito.spy(new GoClientCodegen());
+        codegen.setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        codegen.additionalProperties().put(GoClientCodegen.WITH_GO_MOD, false);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGenerateMetadata(false);
+        generator.opts(new ClientOptInput().config(codegen).openAPI(testSpec)).generate();
+        
+        // postProcessModelsEnum is called for every model, hence expecting atLeast(2)
+        Mockito.verify(codegen, Mockito.atLeast(2)).postProcessModelsEnum(captor.capture());
+        assertThat(captor.getAllValues()).extracting(ModelsMap::getImports)
+            .satisfiesExactly(
+                importList -> assertThat(importList).doesNotContain(Map.of("import", "fmt")),
+                importList -> assertThat(importList).contains(Map.of("import", "fmt"))
+            );
+    }
+
+    @Test
+    public void doesNotAddFmtImports_whenModelIsNotEnum() throws IOException {
+        ArgumentCaptor<ModelsMap> captor = ArgumentCaptor.forClass(ModelsMap.class);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final OpenAPI testSpec = new OpenAPIParser().readLocation("src/test/resources/3_0/arrayRefBody.yaml", null, null).getOpenAPI();
+        final GoClientCodegen codegen = Mockito.spy(new GoClientCodegen());
+        codegen.setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        codegen.additionalProperties().put(GoClientCodegen.WITH_GO_MOD, false);
+        final DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGenerateMetadata(false);
+        
+        generator.opts(new ClientOptInput().config(codegen).openAPI(testSpec)).generate();
+
+        // postProcessModelsEnum is called for every model, hence expecting atLeast(1)
+        Mockito.verify(codegen, Mockito.atLeastOnce()).postProcessModelsEnum(captor.capture());
+        assertThat(captor.getAllValues()).flatExtracting(ModelsMap::getImports)
+            .doesNotContain(Map.of("import", "fmt"));
     }
 }

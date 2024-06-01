@@ -48,7 +48,6 @@ public class JSONTest {
             RFC3339DateFormat df = new RFC3339DateFormat();
             StringBuffer sb = new StringBuffer();
             String s = df.format(date);
-            System.out.println("DATE: " + s);
             assertEquals("2011-01-18T00:00:00.000+00:00", s);
         }
         {

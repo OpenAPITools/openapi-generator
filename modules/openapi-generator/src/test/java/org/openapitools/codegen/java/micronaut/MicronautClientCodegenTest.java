@@ -3,8 +3,10 @@ package org.openapitools.codegen.java.micronaut;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
+import org.assertj.core.api.Assertions;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.languages.JavaMicronautAbstractCodegen;
 import org.openapitools.codegen.languages.JavaMicronautClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -309,5 +311,35 @@ public class MicronautClientCodegenTest extends AbstractMicronautCodegenTest {
 
         // Micronaut declarative http client should use the provided path separator
         assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client(\"${openapi-micronaut-client.base-path}\")");
+    }
+    
+    @Test
+    public void generateOperationOnlyForFirstTag_isFalse() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+        
+        Assertions.assertThat(codegen).hasFieldOrPropertyWithValue("generateOperationOnlyForFirstTag", false);
+    }
+    
+   @Test
+    public void generateSwaggerAnnotations_isFalseString() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+
+       Assertions.assertThat(codegen).hasFieldOrPropertyWithValue(
+           "generateSwaggerAnnotations", JavaMicronautAbstractCodegen.OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE
+       );
+    }
+
+    @Test
+    public void outputFolder_endsWithMicronautClient() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+
+        Assertions.assertThat(codegen.outputFolder()).endsWith("java-micronaut-client");
+    }
+
+    @Test
+    public void artifactId_isOpenapiMicronautClient() {
+        JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
+
+        Assertions.assertThat(codegen.getArtifactId()).isEqualTo("openapi-micronaut-client");
     }
 }

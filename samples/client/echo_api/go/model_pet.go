@@ -13,8 +13,8 @@ package openapi
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
+	"bytes"
 )
 
 // checks if the Pet type satisfies the MappedNullable interface at compile time

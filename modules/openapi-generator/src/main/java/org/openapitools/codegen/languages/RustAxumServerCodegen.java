@@ -414,6 +414,11 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 isMimetypeMultipartRelated(mimetype));
     }
 
+    @Override protected boolean isFormMimeType(String mime) {
+        return mime != null 
+            && mime.toLowerCase(Locale.ROOT).startsWith("multipart");    // ← maybe multipart/form-data would be more accurate?
+    }
+
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);

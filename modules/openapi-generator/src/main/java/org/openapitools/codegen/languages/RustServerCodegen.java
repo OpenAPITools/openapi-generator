@@ -1480,4 +1480,11 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
         return null;
     }
+
+    @Override 
+    public boolean getUseInlineModelResolver() {
+        // for rust server, we need to do something special as it uses
+        // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
+        return false;
+    }
 }

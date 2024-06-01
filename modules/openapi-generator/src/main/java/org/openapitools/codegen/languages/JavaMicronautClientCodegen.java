@@ -32,7 +32,11 @@ public class JavaMicronautClientCodegen extends JavaMicronautAbstractCodegen {
         super();
 
         title = "OpenAPI Micronaut Client";
+        artifactId = "openapi-micronaut-client";
         configureAuthorization = false;
+        generateOperationOnlyForFirstTag = false;
+        generateSwaggerAnnotations = OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE;
+        outputFolder = "generated-code/java-micronaut-client";
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)

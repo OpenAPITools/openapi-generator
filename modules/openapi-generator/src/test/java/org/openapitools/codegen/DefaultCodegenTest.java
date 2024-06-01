@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -31,6 +30,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.PathParameter;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -47,6 +47,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
@@ -57,6 +58,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.testng.Assert.*;
 
 public class DefaultCodegenTest {
@@ -4932,5 +4934,87 @@ public class DefaultCodegenTest {
         assertThat(getNames(springCat.allVars)).isEqualTo(List.of("petType", "name"));
         CodegenModel springCat2 = springCodegen.fromModel("Cat2", cat2Model);
         assertThat(getNames(springCat2.allVars)).isEqualTo(List.of("petType", "name"));
+    }
+
+    @SuppressWarnings("NewClassNamingConvention")
+    public static class fromParameter {
+
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        @BeforeTest void setOpenAPI() {
+            codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas(
+                "SampleRequestInput",
+                new ObjectSchema().addProperty(
+                    "FormProp1",
+                    new StringSchema()
+                )
+            )));
+        }
+
+        @Test public void resolvesReferencedSchema() {
+            var parameter = new PathParameter()
+                .name("input")
+                .schema(new Schema<>().$ref("SampleRequestInput"));
+
+            CodegenParameter result = codegen.fromParameter(parameter, new HashSet<>());
+
+            assertThat(result.getSchema())
+                .returns("object", CodegenProperty::getBaseType)
+                .returns("Object", CodegenProperty::getDataType)
+                .returns(null, CodegenProperty::getRef)
+                .returns(true, CodegenProperty::getHasVars)
+
+                .extracting(CodegenProperty::getVars).asList().hasSize(1)
+                .first(type(CodegenProperty.class))
+                .returns("FormProp1", CodegenProperty::getName)
+                .returns("String", CodegenProperty::getDataType);
+        }
+    }
+
+    @SuppressWarnings("NewClassNamingConvention")
+    public static class fromOperation {
+
+        DefaultCodegen codegen = new DefaultCodegen();
+        
+        @BeforeTest void setOpenAPI() {
+            codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("SampleRequestInput", new ObjectSchema().addProperty("FormProp1", new StringSchema()))));
+        }
+        
+        
+        @Test public void addsFormParametersFromRequestProperties_forFormContentType() {
+            var operation = new Operation()
+                .parameters(List.of())
+                .operationId("foobar")
+                .requestBody(new RequestBody().content(new Content().addMediaType(
+                    "application/x-www-form-urlencoded", 
+                    new MediaType().schema(new Schema<>().$ref("SampleRequestInput"))
+                )));
+
+            CodegenOperation result = codegen.fromOperation("/", "GET", operation, List.of());
+
+            assertThat(result.bodyParams).isEmpty();
+            assertThat(result.formParams).hasSize(1).first()
+                .hasFieldOrPropertyWithValue("baseName", "FormProp1")
+                .hasFieldOrPropertyWithValue("dataType", "String")
+                .hasFieldOrPropertyWithValue("paramName", "formProp1");
+        }
+        
+        @Test public void doesNotAddFormParametersFromRequestProperties_forJsonContentType() {
+            var operation = new Operation()
+                .parameters(List.of())
+                .operationId("foobar")
+                .requestBody(new RequestBody().content(new Content().addMediaType(
+                    "application/json",
+                    new MediaType().schema(new Schema<>().$ref("SampleRequestInput"))
+                )));
+
+            CodegenOperation result = codegen.fromOperation("", "GET", operation, List.of());
+
+            assertThat(result.formParams).isEmpty();
+            assertThat(result.bodyParams).hasSize(1).first()
+                .hasFieldOrPropertyWithValue("baseName", "SampleRequestInput")
+                .hasFieldOrPropertyWithValue("dataType", "SampleRequestInput")
+                .hasFieldOrPropertyWithValue("paramName", "sampleRequestInput");
+        }
     }
 }
