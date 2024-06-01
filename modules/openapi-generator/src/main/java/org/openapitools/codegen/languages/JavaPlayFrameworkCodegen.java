@@ -134,6 +134,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         convertPropertyToStringAndWriteBack(CONFIG_PACKAGE, this::setConfigPackage);
 
         convertPropertyToStringAndWriteBack(BASE_PACKAGE, this::setBasePackage);
+        convertPropertyToBooleanAndWriteBack(CONTROLLER_ONLY, this::setControllerOnly);
 
         convertPropertyToBooleanAndWriteBack(USE_INTERFACES, this::setUseInterfaces);
 
