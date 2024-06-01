@@ -774,7 +774,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
             String newDataType = WordUtils.capitalize(operation.operationId) + WordUtils.capitalize(cp.enumName);
             cp.vendorExtensions.put("x-swift-nested-enum-type", newDataType);
             if (cp.isArray) {
-                if (cp.uniqueItems) {
+                if (Boolean.TRUE.equals(cp.uniqueItems)) {
                     cp.dataType = "Set<" + newDataType + ">";
                 } else {
                     cp.dataType = "[" + newDataType + "]";
