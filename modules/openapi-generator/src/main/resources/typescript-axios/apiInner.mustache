@@ -382,6 +382,14 @@ export class {{classname}} extends BaseAPI implements {{classname}}Interface {
 {{^withInterfaces}}
 export class {{classname}} extends BaseAPI {
 {{/withInterfaces}}
+    constructor(configuration: Configuration, basePath?: string, axios?: AxiosInstance) {
+        super(configuration, basePath, axios);
+        // bind function to keep `this` context
+        {{#operation}}
+        this.{{nickname}} = this.{{nickname}}.bind(this);
+        {{/operation}}
+    }
+
     {{#operation}}
     /**
      * {{&notes}}
