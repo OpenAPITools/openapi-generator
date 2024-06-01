@@ -15,6 +15,8 @@ project(CppRestPetstoreClient CXX)
 # Force -fPIC even if the project is configured for building a static library.
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+set(CMAKE_CXX_STANDARD 17)
+
 set(CXX_STANDARD_REQUIRED ON)
 if(NOT CMAKE_CXX_STANDARD)
     if(DEFINED CMAKE_CXX20_STANDARD_COMPILE_OPTION OR
