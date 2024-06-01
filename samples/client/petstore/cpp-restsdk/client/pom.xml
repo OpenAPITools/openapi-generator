@@ -41,16 +41,6 @@
                             </arguments>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>make</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>make</executable>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
         </plugins>
