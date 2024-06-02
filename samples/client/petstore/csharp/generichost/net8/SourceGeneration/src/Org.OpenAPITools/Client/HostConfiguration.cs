@@ -89,7 +89,12 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new MammalJsonConverter());
             _jsonOptions.Converters.Add(new MapTestJsonConverter());
             _jsonOptions.Converters.Add(new MixLogJsonConverter());
+            _jsonOptions.Converters.Add(new MixedAnyOfJsonConverter());
+            _jsonOptions.Converters.Add(new MixedAnyOfContentJsonConverter());
+            _jsonOptions.Converters.Add(new MixedOneOfJsonConverter());
+            _jsonOptions.Converters.Add(new MixedOneOfContentJsonConverter());
             _jsonOptions.Converters.Add(new MixedPropertiesAndAdditionalPropertiesClassJsonConverter());
+            _jsonOptions.Converters.Add(new MixedSubIdJsonConverter());
             _jsonOptions.Converters.Add(new Model200ResponseJsonConverter());
             _jsonOptions.Converters.Add(new ModelClientJsonConverter());
             _jsonOptions.Converters.Add(new NameJsonConverter());
@@ -190,7 +195,12 @@ namespace Org.OpenAPITools.Client
                 new MammalSerializationContext(),
                 new MapTestSerializationContext(),
                 new MixLogSerializationContext(),
+                new MixedAnyOfSerializationContext(),
+                new MixedAnyOfContentSerializationContext(),
+                new MixedOneOfSerializationContext(),
+                new MixedOneOfContentSerializationContext(),
                 new MixedPropertiesAndAdditionalPropertiesClassSerializationContext(),
+                new MixedSubIdSerializationContext(),
                 new Model200ResponseSerializationContext(),
                 new ModelClientSerializationContext(),
                 new NameSerializationContext(),
