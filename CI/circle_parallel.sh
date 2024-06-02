@@ -41,6 +41,7 @@ elif [ "$NODE_INDEX" = "2" ]; then
 
   # install cpprestsdk
   sudo apt-get install libcpprest-dev
+  sudo apt-get install clang-6.0
 
   # run go integration tests
   (cd samples/client/petstore/go && mvn integration-test)
