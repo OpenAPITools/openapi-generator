@@ -60,6 +60,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
 import static org.testng.Assert.*;
@@ -110,6 +111,12 @@ public class JavaClientCodegenTest {
 
     @DataProvider Iterator<Library> supportedLibraries() {
         return Arrays.stream(Library.values()).iterator();
+    }
+
+    @DataProvider Iterator<Library> librariesSupportingGson() {
+        return Arrays.stream(Library.values())
+            .filter(library -> library.getSupportedSerializers().contains(Serializer.GSON))
+            .iterator();
     }
 
     @Test
@@ -257,7 +264,7 @@ public class JavaClientCodegenTest {
         codegen
                 .additionalProperties()
                 .put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.zzzzzzz.iiii.invoker");
-        codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "JACKSON");
+        codegen.additionalProperties().put(SERIALIZATION_LIBRARY, "JACKSON");
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, JavaClientCodegen.JERSEY2);
         codegen.processOpts();
 
@@ -3434,5 +3441,38 @@ public class JavaClientCodegenTest {
                 entry(SERIALIZATION_LIBRARY_JACKSON, "true"),
                 entry(SERIALIZATION_LIBRARY_JSONB, "true")
             );
+    }
+    
+    /**
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/18515">#18515</a>:
+     * When GSON is selected as serializer, there should not be any jackson references
+     * (except jackson-databind-nullable that is, which is only added when openApiNullable=true)
+     */
+    @Test(dataProvider = "librariesSupportingGson") void gsonCodeDoesNotContainJacksonReferences(Library library) {
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .addAdditionalProperty(SERIALIZATION_LIBRARY, Serializer.GSON)
+            .addAdditionalProperty(OPENAPI_NULLABLE, "false")
+            .setGeneratorName("java")
+            .setLibrary(library.getValue())
+            .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
+            .setOutputDir(newTempFolder().toString());
+        var generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        
+        assertThat(files).allSatisfy(
+            file -> assertThat(file).content().doesNotContainIgnoringCase("jackson")
+        );
+    }
+    
+    private Path newTempFolder() {
+        try {
+            var tempDir = Files.createTempDirectory("test");
+            tempDir.toFile().deleteOnExit();
+            return tempDir;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
