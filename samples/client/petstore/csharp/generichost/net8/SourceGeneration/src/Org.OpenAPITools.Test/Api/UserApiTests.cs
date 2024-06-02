@@ -108,9 +108,9 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task LoginUserAsyncTest()
         {
-            string password = default!;
             string username = default!;
-            var response = await _instance.LoginUserAsync(password, username);
+            string password = default!;
+            var response = await _instance.LoginUserAsync(username, password);
             var model = response.Ok();
             Assert.IsType<string>(model);
         }
@@ -130,9 +130,9 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task UpdateUserAsyncTest()
         {
-            User user = default!;
             string username = default!;
-            await _instance.UpdateUserAsync(user, username);
+            User user = default!;
+            await _instance.UpdateUserAsync(username, user);
         }
     }
 }

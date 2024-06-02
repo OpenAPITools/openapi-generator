@@ -114,6 +114,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean equatable = Boolean.FALSE;
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
+    private static final String USE_LEGACY_OPERATION_PARAMETER_SORTING_KEY = "useLegacyOperationParameterSorting";
+    private boolean useLegacyOperationParameterSorting = Boolean.TRUE;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
     protected String releaseNote = "Minor update";
@@ -323,6 +325,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.EQUATABLE_DESC,
                 this.equatable);
 
+        addSwitch(CSharpClientCodegen.USE_LEGACY_OPERATION_PARAMETER_SORTING_KEY, "Preserve legacy operation parameter sorting to avoid a breaking change.", this.useLegacyOperationParameterSorting);
+
         addSwitch("useSourceGeneration",
                 "Use source generation where available (only `generichost` library supports this option).",
                 this.getUseSourceGeneration());
@@ -480,6 +484,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public static Comparator<CodegenProperty> propertyComparatorByNotNullableRequiredNoDefault =
             Comparator.comparing(p -> p.isNullable || !p.required || p.defaultValue != null);
 
+    public static Comparator<CodegenParameter> parameterComparatorByDataType = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            return one.dataType.compareTo(another.dataType);
+        }
+    };
+
     public static Comparator<CodegenParameter> parameterComparatorByName = new Comparator<CodegenParameter>() {
         @Override
         public int compare(CodegenParameter one, CodegenParameter another) {
@@ -489,6 +500,30 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public static Comparator<CodegenParameter> parameterComparatorByNotNullableRequiredNoDefault =
             Comparator.comparing(p -> p.isNullable || !p.required || p.defaultValue != null);
+
+    public static Comparator<CodegenParameter> parameterComparatorByDefaultValue = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            if ((one.defaultValue == null) == (another.defaultValue == null))
+                return 0;
+            else if (one.defaultValue == null)
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    public static Comparator<CodegenParameter> parameterComparatorByRequired = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            if (one.required == another.required)
+                return 0;
+            else if (Boolean.TRUE.equals(one.required))
+                return -1;
+            else
+                return 1;
+        }
+    };
 
     @Override
     public String getHelp() {
@@ -746,6 +781,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, "netStandard", this::setNetStandard, this.netStandard);
 
         syncBooleanProperty(additionalProperties, CodegenConstants.EQUATABLE, this::setEquatable, this.equatable);
+        syncBooleanProperty(additionalProperties, CSharpClientCodegen.USE_LEGACY_OPERATION_PARAMETER_SORTING_KEY, this::setUseLegacyOperationParameterSorting, this.useLegacyOperationParameterSorting);
         syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
         syncBooleanProperty(additionalProperties, SUPPORTS_RETRY, this::setSupportsRetry, this.supportsRetry);
@@ -849,29 +885,55 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             return op;
         }
 
-        Collections.sort(op.allParams, parameterComparatorByName);
-        Collections.sort(op.bodyParams, parameterComparatorByName);
-        Collections.sort(op.pathParams, parameterComparatorByName);
-        Collections.sort(op.queryParams, parameterComparatorByName);
-        Collections.sort(op.headerParams, parameterComparatorByName);
-        Collections.sort(op.implicitHeadersParams, parameterComparatorByName);
-        Collections.sort(op.formParams, parameterComparatorByName);
-        Collections.sort(op.cookieParams, parameterComparatorByName);
-        Collections.sort(op.requiredParams, parameterComparatorByName);
-        Collections.sort(op.optionalParams, parameterComparatorByName);
-        Collections.sort(op.notNullableParams, parameterComparatorByName);
+        if (this.useLegacyOperationParameterSorting) {
+            Collections.sort(op.bodyParams, parameterComparatorByDataType);
+            Collections.sort(op.pathParams, parameterComparatorByDataType);
+            Collections.sort(op.queryParams, parameterComparatorByDataType);
+            Collections.sort(op.headerParams, parameterComparatorByDataType);
+            Collections.sort(op.implicitHeadersParams, parameterComparatorByDataType);
+            Collections.sort(op.formParams, parameterComparatorByDataType);
+            Collections.sort(op.cookieParams, parameterComparatorByDataType);
+            Collections.sort(op.requiredParams, parameterComparatorByDataType);
+            Collections.sort(op.optionalParams, parameterComparatorByDataType);
+            Collections.sort(op.notNullableParams, parameterComparatorByDataType);
+    
+            Comparator<CodegenParameter> comparator = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
+            Collections.sort(op.allParams, comparator);
+            Collections.sort(op.bodyParams, comparator);
+            Collections.sort(op.pathParams, comparator);
+            Collections.sort(op.queryParams, comparator);
+            Collections.sort(op.headerParams, comparator);
+            Collections.sort(op.implicitHeadersParams, comparator);
+            Collections.sort(op.formParams, comparator);
+            Collections.sort(op.cookieParams, comparator);
+            Collections.sort(op.requiredParams, comparator);
+            Collections.sort(op.optionalParams, comparator);
+            Collections.sort(op.notNullableParams, comparator);
+        } else {
+            Collections.sort(op.allParams, parameterComparatorByName);
+            Collections.sort(op.bodyParams, parameterComparatorByName);
+            Collections.sort(op.pathParams, parameterComparatorByName);
+            Collections.sort(op.queryParams, parameterComparatorByName);
+            Collections.sort(op.headerParams, parameterComparatorByName);
+            Collections.sort(op.implicitHeadersParams, parameterComparatorByName);
+            Collections.sort(op.formParams, parameterComparatorByName);
+            Collections.sort(op.cookieParams, parameterComparatorByName);
+            Collections.sort(op.requiredParams, parameterComparatorByName);
+            Collections.sort(op.optionalParams, parameterComparatorByName);
+            Collections.sort(op.notNullableParams, parameterComparatorByName);
 
-        Collections.sort(op.allParams, parameterComparatorByNotNullableRequiredNoDefault);
-        Collections.sort(op.bodyParams, parameterComparatorByNotNullableRequiredNoDefault);
-        Collections.sort(op.pathParams, parameterComparatorByNotNullableRequiredNoDefault);
-        Collections.sort(op.queryParams, parameterComparatorByNotNullableRequiredNoDefault);
-        Collections.sort(op.headerParams, parameterComparatorByNotNullableRequiredNoDefault);
-        Collections.sort(op.implicitHeadersParams, parameterComparatorByNotNullableRequiredNoDefault);
-        Collections.sort(op.formParams, parameterComparatorByNotNullableRequiredNoDefault);
-        Collections.sort(op.cookieParams, parameterComparatorByNotNullableRequiredNoDefault);
-        Collections.sort(op.requiredParams, parameterComparatorByNotNullableRequiredNoDefault);
-        Collections.sort(op.optionalParams, parameterComparatorByNotNullableRequiredNoDefault);
-        Collections.sort(op.notNullableParams, parameterComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(op.allParams, parameterComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(op.bodyParams, parameterComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(op.pathParams, parameterComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(op.queryParams, parameterComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(op.headerParams, parameterComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(op.implicitHeadersParams, parameterComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(op.formParams, parameterComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(op.cookieParams, parameterComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(op.requiredParams, parameterComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(op.optionalParams, parameterComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(op.notNullableParams, parameterComparatorByNotNullableRequiredNoDefault);
+        }
 
         return op;
     }
@@ -1120,6 +1182,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setEquatable(boolean equatable) {
         this.equatable = equatable;
+    }
+
+    public void setUseLegacyOperationParameterSorting(boolean useLegacyOperationParameterSorting) {
+        this.useLegacyOperationParameterSorting = useLegacyOperationParameterSorting;
     }
 
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {

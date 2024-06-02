@@ -2374,11 +2374,11 @@ namespace Org.OpenAPITools.Api
 
                     List<KeyValuePair<string, string>> formParameterLocalVars = new List<KeyValuePair<string, string>>();
 
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));                    if (additionalMetadata.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string, string>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata.Value)));
-
-                    if (file.IsSet)
+                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));                    if (file.IsSet)
                         multipartContentLocalVar.Add(new StreamContent(file.Value));
+
+                    if (additionalMetadata.IsSet)
+                        formParameterLocalVars.Add(new KeyValuePair<string, string>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata.Value)));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;

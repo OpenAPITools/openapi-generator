@@ -453,7 +453,7 @@ No authorization required
 
 <a id="loginuser"></a>
 # **LoginUser**
-> string LoginUser (string password, string username)
+> string LoginUser (string username, string password)
 
 Logs user into the system
 
@@ -474,13 +474,13 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
-            var password = "password_example";  // string | The password for login in clear text
             var username = "username_example";  // string | The user name for login
+            var password = "password_example";  // string | The password for login in clear text
 
             try
             {
                 // Logs user into the system
-                string result = apiInstance.LoginUser(password, username);
+                string result = apiInstance.LoginUser(username, password);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -501,7 +501,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Logs user into the system
-    ApiResponse<string> response = apiInstance.LoginUserWithHttpInfo(password, username);
+    ApiResponse<string> response = apiInstance.LoginUserWithHttpInfo(username, password);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -518,8 +518,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **password** | **string** | The password for login in clear text |  |
 | **username** | **string** | The user name for login |  |
+| **password** | **string** | The password for login in clear text |  |
 
 ### Return type
 
@@ -625,7 +625,7 @@ No authorization required
 
 <a id="updateuser"></a>
 # **UpdateUser**
-> void UpdateUser (User user, string username)
+> void UpdateUser (string username, User user)
 
 Updated user
 
@@ -648,13 +648,13 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
-            var user = new User(); // User | Updated user object
             var username = "username_example";  // string | name that need to be deleted
+            var user = new User(); // User | Updated user object
 
             try
             {
                 // Updated user
-                apiInstance.UpdateUser(user, username);
+                apiInstance.UpdateUser(username, user);
             }
             catch (ApiException  e)
             {
@@ -674,7 +674,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Updated user
-    apiInstance.UpdateUserWithHttpInfo(user, username);
+    apiInstance.UpdateUserWithHttpInfo(username, user);
 }
 catch (ApiException e)
 {
@@ -688,8 +688,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **user** | [**User**](User.md) | Updated user object |  |
 | **username** | **string** | name that need to be deleted |  |
+| **user** | [**User**](User.md) | Updated user object |  |
 
 ### Return type
 
