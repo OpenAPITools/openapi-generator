@@ -3472,5 +3472,4 @@ public class JavaClientCodegenTest {
                         ".name(getName())",
                         "hasLegs(getHasLegs())");
     }
-
 }
