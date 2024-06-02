@@ -1,0 +1,65 @@
+openapi: 3.1.0
+info:
+  title: oneof
+  version: 0.0.1
+servers:
+- url: /
+paths:
+  /:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+          description: Key-value pairs with results
+components:
+  schemas:
+    Result:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+        checksum:
+          type: string
+      required:
+      - checksum
+      - type
+    FileResult:
+      allOf:
+      - $ref: '#/components/schemas/Result'
+      example:
+        downloadUrl: downloadUrl
+      properties:
+        downloadUrl: {}
+      required:
+      - downloadUrl
+    StringResult:
+      allOf:
+      - $ref: '#/components/schemas/Result'
+      properties:
+        data: {}
+      required:
+      - data
+    Response:
+      example:
+        success: true
+        results:
+          key:
+            downloadUrl: downloadUrl
+      properties:
+        success:
+          type: boolean
+        results:
+          additionalProperties:
+            $ref: '#/components/schemas/Response_results_value'
+      required:
+      - results
+      - success
+    Response_results_value:
+      oneOf:
+      - $ref: '#/components/schemas/FileResult'
+      - $ref: '#/components/schemas/StringResult'
+
