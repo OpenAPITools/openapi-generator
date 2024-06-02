@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -111,7 +110,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
          *   use convertPropertyToStringAndWriteBack and instead of statements like if (additionalProperties.contains...
          *   Simplify the templates
          */
-        removeCodeGenFromAdditionalProperties();
+        useOnlyAdditionalProperties();
 
         if (StringUtils.isEmpty(System.getenv("RUBY_POST_PROCESS_FILE"))) {
             LOGGER.info("Hint: Environment variable 'RUBY_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export RUBY_POST_PROCESS_FILE=\"/usr/local/bin/rubocop -a\"' (Linux/Mac)");

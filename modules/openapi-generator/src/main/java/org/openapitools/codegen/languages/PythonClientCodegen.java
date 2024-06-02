@@ -179,7 +179,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         super.processOpts();
 
         if (!additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
-            // fix bug in mustache generation
+            // backward compatibitity generation
             additionalProperties.put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, false);
         }
 

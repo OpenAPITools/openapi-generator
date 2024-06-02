@@ -221,33 +221,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         super.processOpts();
 
         convertPropertyToStringAndWriteBack(DEFAULT_DATABASE_NAME, this::setDefaultDatabaseName);
-//        if (additionalProperties.containsKey(DEFAULT_DATABASE_NAME)) {
-//            if (additionalProperties.get(DEFAULT_DATABASE_NAME).equals("")) {
-//                additionalProperties.remove(DEFAULT_DATABASE_NAME);
-//            } else {
-//                this.setDefaultDatabaseName((String) additionalProperties.get(DEFAULT_DATABASE_NAME));
-//                // default database name may be escaped, need to overwrite additional prop
-//                additionalProperties.put(DEFAULT_DATABASE_NAME, getDefaultDatabaseName());
-//            }
-//        }
-
-//        if (additionalProperties.containsKey(JSON_DATA_TYPE_ENABLED)) {
-//            this.setJsonDataTypeEnabled(Boolean.valueOf(additionalProperties.get(JSON_DATA_TYPE_ENABLED).toString()));
-//        } else {
-//            additionalProperties.put(JSON_DATA_TYPE_ENABLED, getJsonDataTypeEnabled());
-//        }
         convertPropertyToBooleanAndWriteBack(JSON_DATA_TYPE_ENABLED, this::setJsonDataTypeEnabled);
-
-//        if (additionalProperties.containsKey(NAMED_PARAMETERS_ENABLED)) {
-//            this.setNamedParametersEnabled(Boolean.valueOf(additionalProperties.get(NAMED_PARAMETERS_ENABLED).toString()));
-//        }
-//
-//        additionalProperties.put(NAMED_PARAMETERS_ENABLED, getNamedParametersEnabled());
         convertPropertyToBooleanAndWriteBack(NAMED_PARAMETERS_ENABLED, this::setNamedParametersEnabled);
-
-//        if (additionalProperties.containsKey(IDENTIFIER_NAMING_CONVENTION)) {
-//            this.setIdentifierNamingConvention((String) additionalProperties.get(IDENTIFIER_NAMING_CONVENTION));
-//        }
         convertPropertyToStringAndWriteBack(IDENTIFIER_NAMING_CONVENTION, this::setIdentifierNamingConvention);
         convertPropertyToStringAndWriteBack(NAMED_PARAMETERS_ENABLED, this::setIdentifierNamingConvention);
 
