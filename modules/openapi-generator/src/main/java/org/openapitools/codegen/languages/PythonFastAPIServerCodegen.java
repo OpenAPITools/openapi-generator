@@ -90,18 +90,17 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         super();
 
         modifyFeatureSet(features -> features.includeSecurityFeatures(
-                SecurityFeature.OAuth2_AuthorizationCode,
-                SecurityFeature.OAuth2_Password
+            SecurityFeature.OAuth2_AuthorizationCode, 
+            SecurityFeature.OAuth2_Password
         ));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
-        SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addKeySerializer(String.class, new SnakeCaseKeySerializer());
-        simpleModule.addSerializer(Boolean.class, new PythonBooleanSerializer());
-        MAPPER.registerModule(simpleModule);
+        MAPPER.registerModule(
+            new SimpleModule()
+                .addKeySerializer(String.class, new SnakeCaseKeySerializer())
+                .addSerializer(Boolean.class, new PythonBooleanSerializer())
+        );
 
         /*
          * Additional Properties.  These values can be passed to the templates and
