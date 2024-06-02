@@ -64,8 +64,6 @@ public class AllGeneratorsTest {
 
     /**
      * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/18810">#18810</a>
-     * <br>
-     * Nice: currently fails for PythonFastAPIServerCodegen 
      */
     @Test(dataProvider = "generators") void noDuplicateCliOptions(CodegenConfig codegenConfig) {
         final List<String> cliOptionKeys = codegenConfig.cliOptions()
