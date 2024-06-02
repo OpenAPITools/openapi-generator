@@ -1,7 +1,3 @@
---
--- Database: `sqlite.db`
---
-CREATE DATABASE IF NOT EXISTS `sqlite.db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 -- --------------------------------------------------------------------------
@@ -9,7 +5,7 @@ CREATE DATABASE IF NOT EXISTS `sqlite.db` DEFAULT CHARACTER SET utf8mb4 COLLATE 
 -- Describes the result of uploading an image resource
 --
 
-CREATE TABLE IF NOT EXISTS `sqlite.db`.`ApiResponse` (
+CREATE TABLE IF NOT EXISTS `ApiResponse` (
   `code` int,
   `type` text,
   `message` text
@@ -21,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `sqlite.db`.`ApiResponse` (
 -- A category for a pet
 --
 
-CREATE TABLE IF NOT EXISTS `sqlite.db`.`Category` (
+CREATE TABLE IF NOT EXISTS `Category` (
   `id` long PRIMARY KEY AUTOINCREMENT,
   `name` text
 );  /*A category for a pet*/
@@ -32,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `sqlite.db`.`Category` (
 -- An order for a pets from the pet store
 --
 
-CREATE TABLE IF NOT EXISTS `sqlite.db`.`Order` (
+CREATE TABLE IF NOT EXISTS `Order` (
   `id` long PRIMARY KEY AUTOINCREMENT,
   `petId` long,
   `quantity` int,
@@ -47,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `sqlite.db`.`Order` (
 -- A pet for sale in the pet store
 --
 
-CREATE TABLE IF NOT EXISTS `sqlite.db`.`Pet` (
+CREATE TABLE IF NOT EXISTS `Pet` (
   `name` text NOT NULL,
   `id` long PRIMARY KEY AUTOINCREMENT,
   `category` long,
@@ -57,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `sqlite.db`.`Pet` (
 -- --------------------------------------------------------------------------
 -- Table structure for table `PetPhotoUrls` generated from model 'PetPhotoUrls'
 
-CREATE TABLE IF NOT EXISTS `sqlite.db`.`PetPhotoUrls` (
+CREATE TABLE IF NOT EXISTS `PetPhotoUrls` (
   `pet` long NOT NULL
   `photoUrls` text NOT NULL
 );
@@ -65,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `sqlite.db`.`PetPhotoUrls` (
 -- --------------------------------------------------------------------------
 -- Table structure for table `PetTag` generated from model 'PetTag'
 
-CREATE TABLE IF NOT EXISTS `sqlite.db`.`PetTag` (
+CREATE TABLE IF NOT EXISTS `PetTag` (
   `pet` long NOT NULL
   `tag` long NOT NULL
 );
@@ -76,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `sqlite.db`.`PetTag` (
 -- A tag for a pet
 --
 
-CREATE TABLE IF NOT EXISTS `sqlite.db`.`Tag` (
+CREATE TABLE IF NOT EXISTS `Tag` (
   `id` long PRIMARY KEY AUTOINCREMENT,
   `name` text
 );  /*A tag for a pet*/
@@ -87,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `sqlite.db`.`Tag` (
 -- A User who is purchasing from the pet store
 --
 
-CREATE TABLE IF NOT EXISTS `sqlite.db`.`User` (
+CREATE TABLE IF NOT EXISTS `User` (
   `id` long PRIMARY KEY AUTOINCREMENT,
   `username` text,
   `firstName` text,

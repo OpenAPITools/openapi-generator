@@ -52,7 +52,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     public static final Integer IDENTIFIER_MAX_LENGTH = 255;
 
     protected String importModelPackageName = "";
-    protected String defaultDatabaseName = "sqlite.db";
+    protected String defaultDatabaseName = null;
     protected String databaseNamePrefix = "_", databaseNameSuffix = "";
     protected String tableNamePrefix = "_", tableNameSuffix = "";
     protected String columnNamePrefix = "_", columnNameSuffix = "";
