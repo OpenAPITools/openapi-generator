@@ -222,11 +222,11 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="query"></param>
         /// <param name="user"></param>
+        /// <param name="query"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestBodyWithQueryParamsApiResponse"/>&gt;</returns>
-        Task<ITestBodyWithQueryParamsApiResponse> TestBodyWithQueryParamsAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestBodyWithQueryParamsApiResponse> TestBodyWithQueryParamsAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -234,11 +234,11 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <param name="query"></param>
         /// <param name="user"></param>
+        /// <param name="query"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestBodyWithQueryParamsApiResponse"/>&gt;</returns>
-        Task<ITestBodyWithQueryParamsApiResponse> TestBodyWithQueryParamsOrDefaultAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestBodyWithQueryParamsApiResponse> TestBodyWithQueryParamsOrDefaultAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test \&quot;client\&quot; model
@@ -270,23 +270,23 @@ namespace Org.OpenAPITools.Api
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="varByte">None</param>
         /// <param name="number">None</param>
         /// <param name="varDouble">None</param>
         /// <param name="patternWithoutDelimiter">None</param>
-        /// <param name="varByte">None</param>
+        /// <param name="date">None (optional)</param>
+        /// <param name="binary">None (optional)</param>
+        /// <param name="varFloat">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
-        /// <param name="varFloat">None (optional)</param>
         /// <param name="varString">None (optional)</param>
-        /// <param name="binary">None (optional)</param>
-        /// <param name="date">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEndpointParametersApiResponse"/>&gt;</returns>
-        Task<ITestEndpointParametersApiResponse> TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<float> varFloat = default, Option<string> varString = default, Option<System.IO.Stream> binary = default, Option<DateOnly> date = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestEndpointParametersApiResponse> TestEndpointParametersAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -294,23 +294,23 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </remarks>
+        /// <param name="varByte">None</param>
         /// <param name="number">None</param>
         /// <param name="varDouble">None</param>
         /// <param name="patternWithoutDelimiter">None</param>
-        /// <param name="varByte">None</param>
+        /// <param name="date">None (optional)</param>
+        /// <param name="binary">None (optional)</param>
+        /// <param name="varFloat">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
-        /// <param name="varFloat">None (optional)</param>
         /// <param name="varString">None (optional)</param>
-        /// <param name="binary">None (optional)</param>
-        /// <param name="date">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEndpointParametersApiResponse"/>&gt;</returns>
-        Task<ITestEndpointParametersApiResponse> TestEndpointParametersOrDefaultAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<float> varFloat = default, Option<string> varString = default, Option<System.IO.Stream> binary = default, Option<DateOnly> date = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestEndpointParametersApiResponse> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test enum parameters
@@ -321,15 +321,15 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEnumParametersApiResponse"/>&gt;</returns>
-        Task<ITestEnumParametersApiResponse> TestEnumParametersAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<int> enumQueryInteger = default, Option<double> enumQueryDouble = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<List<string>> enumFormStringArray = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestEnumParametersApiResponse> TestEnumParametersAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<double> enumQueryDouble = default, Option<int> enumQueryInteger = default, Option<List<string>> enumFormStringArray = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test enum parameters
@@ -339,15 +339,15 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEnumParametersApiResponse"/>&gt;</returns>
-        Task<ITestEnumParametersApiResponse> TestEnumParametersOrDefaultAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<int> enumQueryInteger = default, Option<double> enumQueryDouble = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<List<string>> enumFormStringArray = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestEnumParametersApiResponse> TestEnumParametersOrDefaultAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<double> enumQueryDouble = default, Option<int> enumQueryInteger = default, Option<List<string>> enumFormStringArray = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -356,15 +356,15 @@ namespace Org.OpenAPITools.Api
         /// Fake endpoint to test group parameters (optional)
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requiredStringGroup">Required String in group parameters</param>
         /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
         /// <param name="requiredInt64Group">Required Integer in group parameters</param>
-        /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestGroupParametersApiResponse"/>&gt;</returns>
-        Task<ITestGroupParametersApiResponse> TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default, Option<bool> booleanGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestGroupParametersApiResponse> TestGroupParametersAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup = default, Option<int> stringGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -372,15 +372,15 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Fake endpoint to test group parameters (optional)
         /// </remarks>
-        /// <param name="requiredStringGroup">Required String in group parameters</param>
         /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
         /// <param name="requiredInt64Group">Required Integer in group parameters</param>
-        /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestGroupParametersApiResponse"/>&gt;</returns>
-        Task<ITestGroupParametersApiResponse> TestGroupParametersOrDefaultAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default, Option<bool> booleanGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestGroupParametersApiResponse> TestGroupParametersOrDefaultAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup = default, Option<int> stringGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// test inline additionalProperties
@@ -2861,33 +2861,33 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatTestBodyWithQueryParams(ref string query, User user);
+        partial void FormatTestBodyWithQueryParams(User user, ref string query);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="query"></param>
         /// <param name="user"></param>
+        /// <param name="query"></param>
         /// <returns></returns>
-        private void ValidateTestBodyWithQueryParams(string query, User user)
+        private void ValidateTestBodyWithQueryParams(User user, string query)
         {
-            if (query == null)
-                throw new ArgumentNullException(nameof(query));
-
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
+
+            if (query == null)
+                throw new ArgumentNullException(nameof(query));
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="query"></param>
         /// <param name="user"></param>
-        private void AfterTestBodyWithQueryParamsDefaultImplementation(ITestBodyWithQueryParamsApiResponse apiResponseLocalVar, string query, User user)
+        /// <param name="query"></param>
+        private void AfterTestBodyWithQueryParamsDefaultImplementation(ITestBodyWithQueryParamsApiResponse apiResponseLocalVar, User user, string query)
         {
             bool suppressDefaultLog = false;
-            AfterTestBodyWithQueryParams(ref suppressDefaultLog, apiResponseLocalVar, query, user);
+            AfterTestBodyWithQueryParams(ref suppressDefaultLog, apiResponseLocalVar, user, query);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -2897,9 +2897,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="query"></param>
         /// <param name="user"></param>
-        partial void AfterTestBodyWithQueryParams(ref bool suppressDefaultLog, ITestBodyWithQueryParamsApiResponse apiResponseLocalVar, string query, User user);
+        /// <param name="query"></param>
+        partial void AfterTestBodyWithQueryParams(ref bool suppressDefaultLog, ITestBodyWithQueryParamsApiResponse apiResponseLocalVar, User user, string query);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2907,12 +2907,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="query"></param>
         /// <param name="user"></param>
-        private void OnErrorTestBodyWithQueryParamsDefaultImplementation(Exception exception, string pathFormat, string path, string query, User user)
+        /// <param name="query"></param>
+        private void OnErrorTestBodyWithQueryParamsDefaultImplementation(Exception exception, string pathFormat, string path, User user, string query)
         {
             bool suppressDefaultLog = false;
-            OnErrorTestBodyWithQueryParams(ref suppressDefaultLog, exception, pathFormat, path, query, user);
+            OnErrorTestBodyWithQueryParams(ref suppressDefaultLog, exception, pathFormat, path, user, query);
             if (!suppressDefaultLog)
                 Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -2924,22 +2924,22 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="query"></param>
         /// <param name="user"></param>
-        partial void OnErrorTestBodyWithQueryParams(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string query, User user);
+        /// <param name="query"></param>
+        partial void OnErrorTestBodyWithQueryParams(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, User user, string query);
 
         /// <summary>
         ///  
         /// </summary>
-        /// <param name="query"></param>
         /// <param name="user"></param>
+        /// <param name="query"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestBodyWithQueryParamsApiResponse"/>&gt;</returns>
-        public async Task<ITestBodyWithQueryParamsApiResponse> TestBodyWithQueryParamsOrDefaultAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestBodyWithQueryParamsApiResponse> TestBodyWithQueryParamsOrDefaultAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await TestBodyWithQueryParamsAsync(query, user, cancellationToken).ConfigureAwait(false);
+                return await TestBodyWithQueryParamsAsync(user, query, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -2951,19 +2951,19 @@ namespace Org.OpenAPITools.Api
         ///  
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="query"></param>
         /// <param name="user"></param>
+        /// <param name="query"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestBodyWithQueryParamsApiResponse"/>&gt;</returns>
-        public async Task<ITestBodyWithQueryParamsApiResponse> TestBodyWithQueryParamsAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestBodyWithQueryParamsApiResponse> TestBodyWithQueryParamsAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateTestBodyWithQueryParams(query, user);
+                ValidateTestBodyWithQueryParams(user, query);
 
-                FormatTestBodyWithQueryParams(ref query, user);
+                FormatTestBodyWithQueryParams(user, ref query);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -3005,7 +3005,7 @@ namespace Org.OpenAPITools.Api
 
                         TestBodyWithQueryParamsApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/body-with-query-params", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestBodyWithQueryParamsDefaultImplementation(apiResponseLocalVar, query, user);
+                        AfterTestBodyWithQueryParamsDefaultImplementation(apiResponseLocalVar, user, query);
 
                         Events.ExecuteOnTestBodyWithQueryParams(apiResponseLocalVar);
 
@@ -3015,7 +3015,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestBodyWithQueryParamsDefaultImplementation(e, "/fake/body-with-query-params", uriBuilderLocalVar.Path, query, user);
+                OnErrorTestBodyWithQueryParamsDefaultImplementation(e, "/fake/body-with-query-params", uriBuilderLocalVar.Path, user, query);
                 Events.ExecuteOnErrorTestBodyWithQueryParams(e);
                 throw;
             }
@@ -3296,31 +3296,31 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatTestEndpointParameters(ref decimal number, ref double varDouble, ref string patternWithoutDelimiter, ref byte[] varByte, ref Option<int> integer, ref Option<int> int32, ref Option<long> int64, ref Option<float> varFloat, ref Option<string> varString, ref Option<System.IO.Stream> binary, ref Option<DateOnly> date, ref Option<string> password, ref Option<string> callback, ref Option<DateTime> dateTime);
+        partial void FormatTestEndpointParameters(ref byte[] varByte, ref decimal number, ref double varDouble, ref string patternWithoutDelimiter, ref Option<DateOnly> date, ref Option<System.IO.Stream> binary, ref Option<float> varFloat, ref Option<int> integer, ref Option<int> int32, ref Option<long> int64, ref Option<string> varString, ref Option<string> password, ref Option<string> callback, ref Option<DateTime> dateTime);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="patternWithoutDelimiter"></param>
         /// <param name="varByte"></param>
-        /// <param name="varString"></param>
+        /// <param name="patternWithoutDelimiter"></param>
         /// <param name="binary"></param>
+        /// <param name="varString"></param>
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        private void ValidateTestEndpointParameters(string patternWithoutDelimiter, byte[] varByte, Option<string> varString, Option<System.IO.Stream> binary, Option<string> password, Option<string> callback)
+        private void ValidateTestEndpointParameters(byte[] varByte, string patternWithoutDelimiter, Option<System.IO.Stream> binary, Option<string> varString, Option<string> password, Option<string> callback)
         {
-            if (patternWithoutDelimiter == null)
-                throw new ArgumentNullException(nameof(patternWithoutDelimiter));
-
             if (varByte == null)
                 throw new ArgumentNullException(nameof(varByte));
 
-            if (varString.IsSet && varString.Value == null)
-                throw new ArgumentNullException(nameof(varString));
+            if (patternWithoutDelimiter == null)
+                throw new ArgumentNullException(nameof(patternWithoutDelimiter));
 
             if (binary.IsSet && binary.Value == null)
                 throw new ArgumentNullException(nameof(binary));
+
+            if (varString.IsSet && varString.Value == null)
+                throw new ArgumentNullException(nameof(varString));
 
             if (password.IsSet && password.Value == null)
                 throw new ArgumentNullException(nameof(password));
@@ -3333,24 +3333,24 @@ namespace Org.OpenAPITools.Api
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
+        /// <param name="varByte"></param>
         /// <param name="number"></param>
         /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
-        /// <param name="varByte"></param>
+        /// <param name="date"></param>
+        /// <param name="binary"></param>
+        /// <param name="varFloat"></param>
         /// <param name="integer"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
-        /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        /// <param name="binary"></param>
-        /// <param name="date"></param>
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        private void AfterTestEndpointParametersDefaultImplementation(ITestEndpointParametersApiResponse apiResponseLocalVar, decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer, Option<int> int32, Option<long> int64, Option<float> varFloat, Option<string> varString, Option<System.IO.Stream> binary, Option<DateOnly> date, Option<string> password, Option<string> callback, Option<DateTime> dateTime)
+        private void AfterTestEndpointParametersDefaultImplementation(ITestEndpointParametersApiResponse apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime)
         {
             bool suppressDefaultLog = false;
-            AfterTestEndpointParameters(ref suppressDefaultLog, apiResponseLocalVar, number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, password, callback, dateTime);
+            AfterTestEndpointParameters(ref suppressDefaultLog, apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -3360,21 +3360,21 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
+        /// <param name="varByte"></param>
         /// <param name="number"></param>
         /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
-        /// <param name="varByte"></param>
+        /// <param name="date"></param>
+        /// <param name="binary"></param>
+        /// <param name="varFloat"></param>
         /// <param name="integer"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
-        /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        /// <param name="binary"></param>
-        /// <param name="date"></param>
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        partial void AfterTestEndpointParameters(ref bool suppressDefaultLog, ITestEndpointParametersApiResponse apiResponseLocalVar, decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer, Option<int> int32, Option<long> int64, Option<float> varFloat, Option<string> varString, Option<System.IO.Stream> binary, Option<DateOnly> date, Option<string> password, Option<string> callback, Option<DateTime> dateTime);
+        partial void AfterTestEndpointParameters(ref bool suppressDefaultLog, ITestEndpointParametersApiResponse apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3382,24 +3382,24 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
+        /// <param name="varByte"></param>
         /// <param name="number"></param>
         /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
-        /// <param name="varByte"></param>
+        /// <param name="date"></param>
+        /// <param name="binary"></param>
+        /// <param name="varFloat"></param>
         /// <param name="integer"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
-        /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        /// <param name="binary"></param>
-        /// <param name="date"></param>
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        private void OnErrorTestEndpointParametersDefaultImplementation(Exception exception, string pathFormat, string path, decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer, Option<int> int32, Option<long> int64, Option<float> varFloat, Option<string> varString, Option<System.IO.Stream> binary, Option<DateOnly> date, Option<string> password, Option<string> callback, Option<DateTime> dateTime)
+        private void OnErrorTestEndpointParametersDefaultImplementation(Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime)
         {
             bool suppressDefaultLog = false;
-            OnErrorTestEndpointParameters(ref suppressDefaultLog, exception, pathFormat, path, number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, password, callback, dateTime);
+            OnErrorTestEndpointParameters(ref suppressDefaultLog, exception, pathFormat, path, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
             if (!suppressDefaultLog)
                 Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -3411,46 +3411,46 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
+        /// <param name="varByte"></param>
         /// <param name="number"></param>
         /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
-        /// <param name="varByte"></param>
+        /// <param name="date"></param>
+        /// <param name="binary"></param>
+        /// <param name="varFloat"></param>
         /// <param name="integer"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
-        /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        /// <param name="binary"></param>
-        /// <param name="date"></param>
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        partial void OnErrorTestEndpointParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer, Option<int> int32, Option<long> int64, Option<float> varFloat, Option<string> varString, Option<System.IO.Stream> binary, Option<DateOnly> date, Option<string> password, Option<string> callback, Option<DateTime> dateTime);
+        partial void OnErrorTestEndpointParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
+        /// <param name="varByte">None</param>
         /// <param name="number">None</param>
         /// <param name="varDouble">None</param>
         /// <param name="patternWithoutDelimiter">None</param>
-        /// <param name="varByte">None</param>
+        /// <param name="date">None (optional)</param>
+        /// <param name="binary">None (optional)</param>
+        /// <param name="varFloat">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
-        /// <param name="varFloat">None (optional)</param>
         /// <param name="varString">None (optional)</param>
-        /// <param name="binary">None (optional)</param>
-        /// <param name="date">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEndpointParametersApiResponse"/>&gt;</returns>
-        public async Task<ITestEndpointParametersApiResponse> TestEndpointParametersOrDefaultAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<float> varFloat = default, Option<string> varString = default, Option<System.IO.Stream> binary = default, Option<DateOnly> date = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestEndpointParametersApiResponse> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await TestEndpointParametersAsync(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, password, callback, dateTime, cancellationToken).ConfigureAwait(false);
+                return await TestEndpointParametersAsync(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -3462,31 +3462,31 @@ namespace Org.OpenAPITools.Api
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="varByte">None</param>
         /// <param name="number">None</param>
         /// <param name="varDouble">None</param>
         /// <param name="patternWithoutDelimiter">None</param>
-        /// <param name="varByte">None</param>
+        /// <param name="date">None (optional)</param>
+        /// <param name="binary">None (optional)</param>
+        /// <param name="varFloat">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
-        /// <param name="varFloat">None (optional)</param>
         /// <param name="varString">None (optional)</param>
-        /// <param name="binary">None (optional)</param>
-        /// <param name="date">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEndpointParametersApiResponse"/>&gt;</returns>
-        public async Task<ITestEndpointParametersApiResponse> TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<float> varFloat = default, Option<string> varString = default, Option<System.IO.Stream> binary = default, Option<DateOnly> date = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestEndpointParametersApiResponse> TestEndpointParametersAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateTestEndpointParameters(patternWithoutDelimiter, varByte, varString, binary, password, callback);
+                ValidateTestEndpointParameters(varByte, patternWithoutDelimiter, binary, varString, password, callback);
 
-                FormatTestEndpointParameters(ref number, ref varDouble, ref patternWithoutDelimiter, ref varByte, ref integer, ref int32, ref int64, ref varFloat, ref varString, ref binary, ref date, ref password, ref callback, ref dateTime);
+                FormatTestEndpointParameters(ref varByte, ref number, ref varDouble, ref patternWithoutDelimiter, ref date, ref binary, ref varFloat, ref integer, ref int32, ref int64, ref varString, ref password, ref callback, ref dateTime);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -3571,7 +3571,7 @@ namespace Org.OpenAPITools.Api
 
                         TestEndpointParametersApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestEndpointParametersDefaultImplementation(apiResponseLocalVar, number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, password, callback, dateTime);
+                        AfterTestEndpointParametersDefaultImplementation(apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
 
                         Events.ExecuteOnTestEndpointParameters(apiResponseLocalVar);
 
@@ -3585,7 +3585,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestEndpointParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, password, callback, dateTime);
+                OnErrorTestEndpointParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
                 Events.ExecuteOnErrorTestEndpointParameters(e);
                 throw;
             }
@@ -3642,19 +3642,19 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatTestEnumParameters(Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, ref Option<int> enumQueryInteger, ref Option<double> enumQueryDouble, ref Option<string> enumHeaderString, ref Option<string> enumQueryString, Option<List<string>> enumFormStringArray, ref Option<string> enumFormString);
+        partial void FormatTestEnumParameters(Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, ref Option<double> enumQueryDouble, ref Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, ref Option<string> enumHeaderString, ref Option<string> enumQueryString, ref Option<string> enumFormString);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="enumHeaderStringArray"></param>
         /// <param name="enumQueryStringArray"></param>
+        /// <param name="enumFormStringArray"></param>
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
-        /// <param name="enumFormStringArray"></param>
         /// <param name="enumFormString"></param>
         /// <returns></returns>
-        private void ValidateTestEnumParameters(Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<List<string>> enumFormStringArray, Option<string> enumFormString)
+        private void ValidateTestEnumParameters(Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<string> enumFormString)
         {
             if (enumHeaderStringArray.IsSet && enumHeaderStringArray.Value == null)
                 throw new ArgumentNullException(nameof(enumHeaderStringArray));
@@ -3662,14 +3662,14 @@ namespace Org.OpenAPITools.Api
             if (enumQueryStringArray.IsSet && enumQueryStringArray.Value == null)
                 throw new ArgumentNullException(nameof(enumQueryStringArray));
 
+            if (enumFormStringArray.IsSet && enumFormStringArray.Value == null)
+                throw new ArgumentNullException(nameof(enumFormStringArray));
+
             if (enumHeaderString.IsSet && enumHeaderString.Value == null)
                 throw new ArgumentNullException(nameof(enumHeaderString));
 
             if (enumQueryString.IsSet && enumQueryString.Value == null)
                 throw new ArgumentNullException(nameof(enumQueryString));
-
-            if (enumFormStringArray.IsSet && enumFormStringArray.Value == null)
-                throw new ArgumentNullException(nameof(enumFormStringArray));
 
             if (enumFormString.IsSet && enumFormString.Value == null)
                 throw new ArgumentNullException(nameof(enumFormString));
@@ -3681,16 +3681,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="enumHeaderStringArray"></param>
         /// <param name="enumQueryStringArray"></param>
-        /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryDouble"></param>
+        /// <param name="enumQueryInteger"></param>
+        /// <param name="enumFormStringArray"></param>
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
-        /// <param name="enumFormStringArray"></param>
         /// <param name="enumFormString"></param>
-        private void AfterTestEnumParametersDefaultImplementation(ITestEnumParametersApiResponse apiResponseLocalVar, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<int> enumQueryInteger, Option<double> enumQueryDouble, Option<string> enumHeaderString, Option<string> enumQueryString, Option<List<string>> enumFormStringArray, Option<string> enumFormString)
+        private void AfterTestEnumParametersDefaultImplementation(ITestEnumParametersApiResponse apiResponseLocalVar, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<string> enumFormString)
         {
             bool suppressDefaultLog = false;
-            AfterTestEnumParameters(ref suppressDefaultLog, apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString);
+            AfterTestEnumParameters(ref suppressDefaultLog, apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -3702,13 +3702,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="enumHeaderStringArray"></param>
         /// <param name="enumQueryStringArray"></param>
-        /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryDouble"></param>
+        /// <param name="enumQueryInteger"></param>
+        /// <param name="enumFormStringArray"></param>
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
-        /// <param name="enumFormStringArray"></param>
         /// <param name="enumFormString"></param>
-        partial void AfterTestEnumParameters(ref bool suppressDefaultLog, ITestEnumParametersApiResponse apiResponseLocalVar, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<int> enumQueryInteger, Option<double> enumQueryDouble, Option<string> enumHeaderString, Option<string> enumQueryString, Option<List<string>> enumFormStringArray, Option<string> enumFormString);
+        partial void AfterTestEnumParameters(ref bool suppressDefaultLog, ITestEnumParametersApiResponse apiResponseLocalVar, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<string> enumFormString);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3718,16 +3718,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         /// <param name="enumHeaderStringArray"></param>
         /// <param name="enumQueryStringArray"></param>
-        /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryDouble"></param>
+        /// <param name="enumQueryInteger"></param>
+        /// <param name="enumFormStringArray"></param>
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
-        /// <param name="enumFormStringArray"></param>
         /// <param name="enumFormString"></param>
-        private void OnErrorTestEnumParametersDefaultImplementation(Exception exception, string pathFormat, string path, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<int> enumQueryInteger, Option<double> enumQueryDouble, Option<string> enumHeaderString, Option<string> enumQueryString, Option<List<string>> enumFormStringArray, Option<string> enumFormString)
+        private void OnErrorTestEnumParametersDefaultImplementation(Exception exception, string pathFormat, string path, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<string> enumFormString)
         {
             bool suppressDefaultLog = false;
-            OnErrorTestEnumParameters(ref suppressDefaultLog, exception, pathFormat, path, enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString);
+            OnErrorTestEnumParameters(ref suppressDefaultLog, exception, pathFormat, path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
             if (!suppressDefaultLog)
                 Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -3741,32 +3741,32 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         /// <param name="enumHeaderStringArray"></param>
         /// <param name="enumQueryStringArray"></param>
-        /// <param name="enumQueryInteger"></param>
         /// <param name="enumQueryDouble"></param>
+        /// <param name="enumQueryInteger"></param>
+        /// <param name="enumFormStringArray"></param>
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
-        /// <param name="enumFormStringArray"></param>
         /// <param name="enumFormString"></param>
-        partial void OnErrorTestEnumParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<int> enumQueryInteger, Option<double> enumQueryDouble, Option<string> enumHeaderString, Option<string> enumQueryString, Option<List<string>> enumFormStringArray, Option<string> enumFormString);
+        partial void OnErrorTestEnumParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<string> enumFormString);
 
         /// <summary>
         /// To test enum parameters To test enum parameters
         /// </summary>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEnumParametersApiResponse"/>&gt;</returns>
-        public async Task<ITestEnumParametersApiResponse> TestEnumParametersOrDefaultAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<int> enumQueryInteger = default, Option<double> enumQueryDouble = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<List<string>> enumFormStringArray = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestEnumParametersApiResponse> TestEnumParametersOrDefaultAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<double> enumQueryDouble = default, Option<int> enumQueryInteger = default, Option<List<string>> enumFormStringArray = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await TestEnumParametersAsync(enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString, cancellationToken).ConfigureAwait(false);
+                return await TestEnumParametersAsync(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -3780,23 +3780,23 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEnumParametersApiResponse"/>&gt;</returns>
-        public async Task<ITestEnumParametersApiResponse> TestEnumParametersAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<int> enumQueryInteger = default, Option<double> enumQueryDouble = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<List<string>> enumFormStringArray = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestEnumParametersApiResponse> TestEnumParametersAsync(Option<List<string>> enumHeaderStringArray = default, Option<List<string>> enumQueryStringArray = default, Option<double> enumQueryDouble = default, Option<int> enumQueryInteger = default, Option<List<string>> enumFormStringArray = default, Option<string> enumHeaderString = default, Option<string> enumQueryString = default, Option<string> enumFormString = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString);
+                ValidateTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
 
-                FormatTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, ref enumQueryInteger, ref enumQueryDouble, ref enumHeaderString, ref enumQueryString, enumFormStringArray, ref enumFormString);
+                FormatTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, ref enumQueryDouble, ref enumQueryInteger, enumFormStringArray, ref enumHeaderString, ref enumQueryString, ref enumFormString);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -3866,7 +3866,7 @@ namespace Org.OpenAPITools.Api
 
                         TestEnumParametersApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestEnumParametersDefaultImplementation(apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString);
+                        AfterTestEnumParametersDefaultImplementation(apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
 
                         Events.ExecuteOnTestEnumParameters(apiResponseLocalVar);
 
@@ -3876,7 +3876,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestEnumParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, enumHeaderStringArray, enumQueryStringArray, enumQueryInteger, enumQueryDouble, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString);
+                OnErrorTestEnumParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
                 Events.ExecuteOnErrorTestEnumParameters(e);
                 throw;
             }
@@ -3933,22 +3933,22 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatTestGroupParameters(ref int requiredStringGroup, ref bool requiredBooleanGroup, ref long requiredInt64Group, ref Option<int> stringGroup, ref Option<bool> booleanGroup, ref Option<long> int64Group);
+        partial void FormatTestGroupParameters(ref bool requiredBooleanGroup, ref int requiredStringGroup, ref long requiredInt64Group, ref Option<bool> booleanGroup, ref Option<int> stringGroup, ref Option<long> int64Group);
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="requiredStringGroup"></param>
         /// <param name="requiredBooleanGroup"></param>
+        /// <param name="requiredStringGroup"></param>
         /// <param name="requiredInt64Group"></param>
-        /// <param name="stringGroup"></param>
         /// <param name="booleanGroup"></param>
+        /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        private void AfterTestGroupParametersDefaultImplementation(ITestGroupParametersApiResponse apiResponseLocalVar, int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup, Option<bool> booleanGroup, Option<long> int64Group)
+        private void AfterTestGroupParametersDefaultImplementation(ITestGroupParametersApiResponse apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup, Option<int> stringGroup, Option<long> int64Group)
         {
             bool suppressDefaultLog = false;
-            AfterTestGroupParameters(ref suppressDefaultLog, apiResponseLocalVar, requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+            AfterTestGroupParameters(ref suppressDefaultLog, apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -3958,13 +3958,13 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="requiredStringGroup"></param>
         /// <param name="requiredBooleanGroup"></param>
+        /// <param name="requiredStringGroup"></param>
         /// <param name="requiredInt64Group"></param>
-        /// <param name="stringGroup"></param>
         /// <param name="booleanGroup"></param>
+        /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        partial void AfterTestGroupParameters(ref bool suppressDefaultLog, ITestGroupParametersApiResponse apiResponseLocalVar, int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup, Option<bool> booleanGroup, Option<long> int64Group);
+        partial void AfterTestGroupParameters(ref bool suppressDefaultLog, ITestGroupParametersApiResponse apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup, Option<int> stringGroup, Option<long> int64Group);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3972,16 +3972,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="requiredStringGroup"></param>
         /// <param name="requiredBooleanGroup"></param>
+        /// <param name="requiredStringGroup"></param>
         /// <param name="requiredInt64Group"></param>
-        /// <param name="stringGroup"></param>
         /// <param name="booleanGroup"></param>
+        /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        private void OnErrorTestGroupParametersDefaultImplementation(Exception exception, string pathFormat, string path, int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup, Option<bool> booleanGroup, Option<long> int64Group)
+        private void OnErrorTestGroupParametersDefaultImplementation(Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup, Option<int> stringGroup, Option<long> int64Group)
         {
             bool suppressDefaultLog = false;
-            OnErrorTestGroupParameters(ref suppressDefaultLog, exception, pathFormat, path, requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+            OnErrorTestGroupParameters(ref suppressDefaultLog, exception, pathFormat, path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
             if (!suppressDefaultLog)
                 Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -3993,30 +3993,30 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="requiredStringGroup"></param>
         /// <param name="requiredBooleanGroup"></param>
+        /// <param name="requiredStringGroup"></param>
         /// <param name="requiredInt64Group"></param>
-        /// <param name="stringGroup"></param>
         /// <param name="booleanGroup"></param>
+        /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        partial void OnErrorTestGroupParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup, Option<bool> booleanGroup, Option<long> int64Group);
+        partial void OnErrorTestGroupParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup, Option<int> stringGroup, Option<long> int64Group);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
         /// </summary>
-        /// <param name="requiredStringGroup">Required String in group parameters</param>
         /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
         /// <param name="requiredInt64Group">Required Integer in group parameters</param>
-        /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestGroupParametersApiResponse"/>&gt;</returns>
-        public async Task<ITestGroupParametersApiResponse> TestGroupParametersOrDefaultAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default, Option<bool> booleanGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestGroupParametersApiResponse> TestGroupParametersOrDefaultAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup = default, Option<int> stringGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await TestGroupParametersAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, cancellationToken).ConfigureAwait(false);
+                return await TestGroupParametersAsync(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -4028,21 +4028,21 @@ namespace Org.OpenAPITools.Api
         /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requiredStringGroup">Required String in group parameters</param>
         /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
         /// <param name="requiredInt64Group">Required Integer in group parameters</param>
-        /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestGroupParametersApiResponse"/>&gt;</returns>
-        public async Task<ITestGroupParametersApiResponse> TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default, Option<bool> booleanGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestGroupParametersApiResponse> TestGroupParametersAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup = default, Option<int> stringGroup = default, Option<long> int64Group = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                FormatTestGroupParameters(ref requiredStringGroup, ref requiredBooleanGroup, ref requiredInt64Group, ref stringGroup, ref booleanGroup, ref int64Group);
+                FormatTestGroupParameters(ref requiredBooleanGroup, ref requiredStringGroup, ref requiredInt64Group, ref booleanGroup, ref stringGroup, ref int64Group);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -4092,7 +4092,7 @@ namespace Org.OpenAPITools.Api
 
                         TestGroupParametersApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestGroupParametersDefaultImplementation(apiResponseLocalVar, requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+                        AfterTestGroupParametersDefaultImplementation(apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
 
                         Events.ExecuteOnTestGroupParameters(apiResponseLocalVar);
 
@@ -4106,7 +4106,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestGroupParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+                OnErrorTestGroupParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
                 Events.ExecuteOnErrorTestGroupParameters(e);
                 throw;
             }

@@ -130,9 +130,9 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task UpdateUserAsyncTest()
         {
-            string username = default!;
             User user = default!;
-            await _instance.UpdateUserAsync(username, user);
+            string username = default!;
+            await _instance.UpdateUserAsync(user, username);
         }
     }
 }

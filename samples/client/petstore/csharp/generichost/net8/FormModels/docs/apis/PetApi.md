@@ -668,7 +668,7 @@ void (empty response body)
 
 <a id="uploadfile"></a>
 # **UploadFile**
-> ApiResponse UploadFile (long petId, string additionalMetadata = null, System.IO.Stream file = null)
+> ApiResponse UploadFile (long petId, System.IO.Stream file = null, string additionalMetadata = null)
 
 uploads an image
 
@@ -693,13 +693,13 @@ namespace Example
 
             var apiInstance = new PetApi(config);
             var petId = 789L;  // long | ID of pet to update
-            var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
             var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload (optional) 
+            var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
 
             try
             {
                 // uploads an image
-                ApiResponse result = apiInstance.UploadFile(petId, additionalMetadata, file);
+                ApiResponse result = apiInstance.UploadFile(petId, file, additionalMetadata);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -720,7 +720,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // uploads an image
-    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithHttpInfo(petId, additionalMetadata, file);
+    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithHttpInfo(petId, file, additionalMetadata);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -738,8 +738,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **petId** | **long** | ID of pet to update |  |
-| **additionalMetadata** | **string** | Additional data to pass to server | [optional]  |
 | **file** | **System.IO.Stream****System.IO.Stream** | file to upload | [optional]  |
+| **additionalMetadata** | **string** | Additional data to pass to server | [optional]  |
 
 ### Return type
 
@@ -764,7 +764,7 @@ catch (ApiException e)
 
 <a id="uploadfilewithrequiredfile"></a>
 # **UploadFileWithRequiredFile**
-> ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+> ApiResponse UploadFileWithRequiredFile (System.IO.Stream requiredFile, long petId, string additionalMetadata = null)
 
 uploads an image (required)
 
@@ -788,14 +788,14 @@ namespace Example
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(config);
-            var petId = 789L;  // long | ID of pet to update
             var requiredFile = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload
+            var petId = 789L;  // long | ID of pet to update
             var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
 
             try
             {
                 // uploads an image (required)
-                ApiResponse result = apiInstance.UploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+                ApiResponse result = apiInstance.UploadFileWithRequiredFile(requiredFile, petId, additionalMetadata);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -816,7 +816,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // uploads an image (required)
-    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
+    ApiResponse<ApiResponse> response = apiInstance.UploadFileWithRequiredFileWithHttpInfo(requiredFile, petId, additionalMetadata);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -833,8 +833,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **petId** | **long** | ID of pet to update |  |
 | **requiredFile** | **System.IO.Stream****System.IO.Stream** | file to upload |  |
+| **petId** | **long** | ID of pet to update |  |
 | **additionalMetadata** | **string** | Additional data to pass to server | [optional]  |
 
 ### Return type

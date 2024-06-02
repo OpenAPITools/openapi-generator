@@ -147,9 +147,9 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task TestBodyWithQueryParamsAsyncTest()
         {
-            string query = default;
             User user = default;
-            await _instance.TestBodyWithQueryParamsAsync(query, user);
+            string query = default;
+            await _instance.TestBodyWithQueryParamsAsync(user, query);
         }
 
         /// <summary>
@@ -170,21 +170,21 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task TestEndpointParametersAsyncTest()
         {
+            byte[] varByte = default;
             decimal number = default;
             double varDouble = default;
             string patternWithoutDelimiter = default;
-            byte[] varByte = default;
+            Client.Option<DateOnly> date = default;
+            Client.Option<System.IO.Stream> binary = default;
+            Client.Option<float> varFloat = default;
             Client.Option<int> integer = default;
             Client.Option<int> int32 = default;
             Client.Option<long> int64 = default;
-            Client.Option<float> varFloat = default;
             Client.Option<string> varString = default;
-            Client.Option<System.IO.Stream> binary = default;
-            Client.Option<DateOnly> date = default;
             Client.Option<string> password = default;
             Client.Option<string> callback = default;
             Client.Option<DateTime> dateTime = default;
-            await _instance.TestEndpointParametersAsync(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, password, callback, dateTime);
+            await _instance.TestEndpointParametersAsync(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
         }
 
         /// <summary>
@@ -194,14 +194,14 @@ namespace Org.OpenAPITools.Test.Api
         public async Task TestEnumParametersAsyncTest()
         {
             Client.Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumHeaderStringArray = default;
-            Client.Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString = default;
             Client.Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumQueryStringArray = default;
-            Client.Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString = default;
-            Client.Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger = default;
-            Client.Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble = default;
             Client.Option<List<TestEnumParametersRequestEnumFormStringArrayInner>> enumFormStringArray = default;
+            Client.Option<TestEnumParametersEnumHeaderStringParameter> enumHeaderString = default;
+            Client.Option<TestEnumParametersEnumHeaderStringParameter> enumQueryString = default;
+            Client.Option<TestEnumParametersEnumQueryDoubleParameter> enumQueryDouble = default;
+            Client.Option<TestEnumParametersEnumQueryIntegerParameter> enumQueryInteger = default;
             Client.Option<TestEnumParametersRequestEnumFormString> enumFormString = default;
-            await _instance.TestEnumParametersAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+            await _instance.TestEnumParametersAsync(enumHeaderStringArray, enumQueryStringArray, enumFormStringArray, enumHeaderString, enumQueryString, enumQueryDouble, enumQueryInteger, enumFormString);
         }
 
         /// <summary>
@@ -210,13 +210,13 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task TestGroupParametersAsyncTest()
         {
-            int requiredStringGroup = default;
             bool requiredBooleanGroup = default;
+            int requiredStringGroup = default;
             long requiredInt64Group = default;
-            Client.Option<int> stringGroup = default;
             Client.Option<bool> booleanGroup = default;
+            Client.Option<int> stringGroup = default;
             Client.Option<long> int64Group = default;
-            await _instance.TestGroupParametersAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+            await _instance.TestGroupParametersAsync(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
         }
 
         /// <summary>

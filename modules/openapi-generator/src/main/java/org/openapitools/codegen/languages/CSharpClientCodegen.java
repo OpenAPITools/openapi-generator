@@ -886,6 +886,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         if (this.useLegacyOperationParameterSorting) {
+            Collections.sort(op.allParams, parameterComparatorByDataType);
             Collections.sort(op.bodyParams, parameterComparatorByDataType);
             Collections.sort(op.pathParams, parameterComparatorByDataType);
             Collections.sort(op.queryParams, parameterComparatorByDataType);
@@ -896,7 +897,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             Collections.sort(op.requiredParams, parameterComparatorByDataType);
             Collections.sort(op.optionalParams, parameterComparatorByDataType);
             Collections.sort(op.notNullableParams, parameterComparatorByDataType);
-    
+
             Comparator<CodegenParameter> comparator = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
             Collections.sort(op.allParams, comparator);
             Collections.sort(op.bodyParams, comparator);
