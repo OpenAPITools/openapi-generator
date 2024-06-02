@@ -603,8 +603,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                         property.name = patchPropertyName(model, camelize(property.baseType));
                         property.isNullable = true;
                         patchPropertyVendorExtensions(property);
-                        String baseName = model.name.substring(model.name.lastIndexOf('_') + 1);
-                        property.vendorExtensions.put("x-base-name", baseName);
+                        property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
                     }
                 }
 
@@ -615,8 +614,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                         property.name = patchPropertyName(model, camelize(property.baseType));
                         property.isNullable = true;
                         patchPropertyVendorExtensions(property);
-                        String baseName = model.name.substring(model.name.lastIndexOf('_') + 1);
-                        property.vendorExtensions.put("x-base-name", baseName);
+                        property.vendorExtensions.put("x-base-name", model.name.substring(model.name.lastIndexOf('_') + 1));
                     }
                 }
             }
