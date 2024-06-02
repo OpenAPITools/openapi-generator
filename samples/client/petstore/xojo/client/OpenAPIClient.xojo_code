@@ -66,7 +66,7 @@ Protected Module OpenAPIClient
 		      Raise error
 		    End Try
 		  Else
-		    Dim error As New OpenAPIClient.OpenAPIClientException(kErrorInternal, "Nil parameter ")
+		    Dim error As New OpenAPIClient.OpenAPIClientException(kErrorInternal, "Nil parameter xojo-client")
 		    Raise error
 		  End If
 		  

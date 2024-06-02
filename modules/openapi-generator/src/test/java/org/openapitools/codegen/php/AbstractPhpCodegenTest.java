@@ -120,9 +120,9 @@ public class AbstractPhpCodegenTest {
     @DataProvider(name = "composerNames")
     public static Object[][] composerNames() {
         return new Object[][] {
-            {"", "", ""},
-            {"null", "null", ""},
-            {"GIT_REPO_ID", "GIT_USER_ID", ""},
+            {"", "", null},
+            {"null", "null", null},
+            {"GIT_REPO_ID", "GIT_USER_ID", null},
             {"git_repo_id", "git_user_id", "git_repo_id/git_user_id"},
             {"foo", "bar", "foo/bar"},
         };

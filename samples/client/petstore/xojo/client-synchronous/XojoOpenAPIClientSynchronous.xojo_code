@@ -66,7 +66,7 @@ Protected Module XojoOpenAPIClientSynchronous
 		      Raise error
 		    End Try
 		  Else
-		    Dim error As New XojoOpenAPIClientSynchronous.XojoOpenAPIClientSynchronousException(kErrorInternal, "Nil parameter ")
+		    Dim error As New XojoOpenAPIClientSynchronous.XojoOpenAPIClientSynchronousException(kErrorInternal, "Nil parameter xojo-client")
 		    Raise error
 		  End If
 		  

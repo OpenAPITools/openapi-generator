@@ -251,7 +251,7 @@ public class MysqlSchemaCodegenTest {
     @Test
     public void testGetDefaultDatabaseName() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        Assert.assertSame(codegen.getDefaultDatabaseName(), "");
+        Assert.assertSame(codegen.getDefaultDatabaseName(), null);
     }
 
     @Test

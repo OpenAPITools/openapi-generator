@@ -329,18 +329,20 @@ public class DefaultCodegen implements CodegenConfig {
         /**
          * add this instance to additionalProperties.
          * This instance is used as parent context in Mustache.
-         * It means that Mustache uses the values
+         * It means that Mustache uses the values found in this order:
          * first from additionalProperties
          * then from the getter in this instance
          * then from the fields in this instance
+         *
+         * For backward compatibility, call removeCodeGenFromAdditionalProperties()
          */
         additionalProperties.put(CodegenConstants.CONFIG, this);
         convertPropertyToStringAndWriteBack(CodegenConstants.TEMPLATE_DIR, this::setTemplateDir);
         convertPropertyToStringAndWriteBack(CodegenConstants.MODEL_PACKAGE, this::setModelPackage);
         convertPropertyToStringAndWriteBack(CodegenConstants.API_PACKAGE, this::setApiPackage);
-        convertPropertyToBooleanAndWriteBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP, this::setHideGenerationTimestamp);
 
-        // put the value back in additionalProperties for backward compatibility with generators not using yet  convertPropertyToBooleanAndWriteBack
+        convertPropertyToBooleanAndWriteBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP, this::setHideGenerationTimestamp);
+        // put the value back in additionalProperties for backward compatibility with generators not using yet convertPropertyToBooleanAndWriteBack
         writePropertyBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP, isHideGenerationTimestamp());
 
         convertPropertyToBooleanAndWriteBack(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, this::setSortParamsByRequiredFlag);
@@ -364,6 +366,14 @@ public class DefaultCodegen implements CodegenConfig {
         convertPropertyToBooleanAndWriteBack(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, this::setDisallowAdditionalPropertiesIfNotPresent);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, this::setEnumUnknownDefaultCase);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.AUTOSET_CONSTANTS, this::setAutosetConstants);
+    }
+
+
+    /**
+     * can be used to rely only on additionalProperties in the mustache templates.
+     */
+    protected void removeCodeGenFromAdditionalProperties() {
+        additionalProperties.put(CodegenConstants.CONFIG, new Object());
     }
 
     /***

@@ -39,6 +39,7 @@ public class MysqlSchemaOptionsTest extends AbstractOptionsTest {
     @SuppressWarnings("unused")
     @Override
     protected void verifyOptions() {
+
         verify(clientCodegen).setDefaultDatabaseName(MysqlSchemaOptionsProvider.DEFAULT_DATABASE_NAME_VALUE);
         verify(clientCodegen).setJsonDataTypeEnabled(Boolean.valueOf(MysqlSchemaOptionsProvider.JSON_DATA_TYPE_ENABLED_VALUE));
         verify(clientCodegen).setIdentifierNamingConvention(MysqlSchemaOptionsProvider.IDENTIFIER_NAMING_CONVENTION_VALUE);

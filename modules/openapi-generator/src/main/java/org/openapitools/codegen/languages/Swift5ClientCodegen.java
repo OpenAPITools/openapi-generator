@@ -90,7 +90,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean readonlyProperties = false;
     protected boolean swiftUseApiNamespace = false;
     protected boolean useSPMFileStructure = false;
-    protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
+    protected String swiftPackagePath = null;
     protected boolean useClasses = false;
     protected boolean useBacktickEscapes = false;
     protected boolean generateModelAdditionalProperties = true;
@@ -100,7 +100,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean useCustomDateWithoutTime = false;
     protected boolean validatable = true;
     protected String[] responseAs = new String[0];
-    protected String sourceFolder = swiftPackagePath;
+    protected String sourceFolder = "Classes" + File.separator + "OpenAPIs";
     protected HashSet objcReservedWords;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";

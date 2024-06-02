@@ -161,7 +161,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         // option to change how we process + set the data in the 'additionalProperties' keyword.
         CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
                 CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
-                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.FALSE.toString());
         Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
         disallowAdditionalPropertiesIfNotPresentOpts.put("false",
                 "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
@@ -177,6 +177,11 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         this.setLegacyDiscriminatorBehavior(false);
 
         super.processOpts();
+
+        if (!additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            // fix bug in mustache generation
+            additionalProperties.put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, false);
+        }
 
         // map to Dot instead of Period
         specialCharReplacements.put(".", "Dot");

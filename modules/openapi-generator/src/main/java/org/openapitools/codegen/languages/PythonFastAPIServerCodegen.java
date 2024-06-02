@@ -157,6 +157,10 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+        if (!additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            // fix bug in mustache generation
+            additionalProperties.put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, false);
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));

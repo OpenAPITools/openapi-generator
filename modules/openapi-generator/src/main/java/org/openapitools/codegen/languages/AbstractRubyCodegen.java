@@ -103,6 +103,16 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
     public void processOpts() {
         super.processOpts();
 
+        /**
+         * the values specified as field are totally different from the one in the template.
+         * It would be easier to only used the fields.
+         *
+         * TODO:
+         *   use convertPropertyToStringAndWriteBack and instead of statements like if (additionalProperties.contains...
+         *   Simplify the templates
+         */
+        removeCodeGenFromAdditionalProperties();
+
         if (StringUtils.isEmpty(System.getenv("RUBY_POST_PROCESS_FILE"))) {
             LOGGER.info("Hint: Environment variable 'RUBY_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export RUBY_POST_PROCESS_FILE=\"/usr/local/bin/rubocop -a\"' (Linux/Mac)");
         }

@@ -248,10 +248,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             this.setGitRepoId((String) additionalProperties.get(CodegenConstants.GIT_REPO_ID));
         }
 
-        if (!this.getComposerPackageName().isEmpty()) {
-            additionalProperties.put("composerPackageName", this.getComposerPackageName());
-        }
-
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
 
         // make api and model src path available in mustache template
@@ -898,7 +894,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     /**
      * Get Composer package name based on GIT_USER_ID and GIT_REPO_ID.
      *
-     * @return package name or empty string on fail
+     * @return package name or null string on fail.
      */
     public String getComposerPackageName() {
         String packageName = this.getGitUserId() + "/" + this.getGitRepoId();
@@ -907,7 +903,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                         || packageName.contentEquals("null/null")
                         || !Pattern.matches("^[a-z0-9]([_.-]?[a-z0-9]+)*/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*$", packageName)
         ) {
-            return "";
+            // must be null and not empty string so that mustache interprets the value as false
+            return null;
         }
 
         return packageName;
