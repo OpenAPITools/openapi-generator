@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.*;
@@ -64,6 +65,52 @@ import static org.openapitools.codegen.languages.JavaClientCodegen.*;
 import static org.testng.Assert.*;
 
 public class JavaClientCodegenTest {
+
+    // This is the kind of information that ideally would be defined and available system-wide
+    @Getter enum Library {
+        APACHE_HTTPCLIENT("apache-httpclient", Serializer.JACKSON),
+        FEIGN("feign", Serializer.JACKSON, Set.of(Serializer.GSON)),
+        GOOGLE_API_CLIENT("google-api-client", Serializer.JACKSON),
+        JERSEY_2("jersey2", Serializer.JACKSON),
+        JERSEY_3("jersey3", Serializer.JACKSON),
+        MICROPROFILE("microprofile", Serializer.JSONB, Set.of(Serializer.JACKSON)),
+        NATIVE("native", Serializer.JACKSON),
+        OKHTTP("okhttp-gson", Serializer.GSON),
+        REST_ASSURED("rest-assured", Serializer.GSON, Set.of(Serializer.JACKSON)),
+        RESTEASY("resteasy", Serializer.JACKSON),
+        REST_CLIENT("restclient", Serializer.JACKSON),
+        REST_TEMPLATE("resttemplate", Serializer.JACKSON),
+        RETROFIT_2("retrofit2", Serializer.GSON),
+        VERTX("vertx", Serializer.JACKSON),
+        WEBCLIENT("webclient", Serializer.JACKSON);
+
+        public final String value;
+        public final Set<Serializer> supportedSerializers;
+        public final Serializer defaultSerializer;
+
+        Library(String identifier, Serializer defaultSerializer) {
+            this(identifier, defaultSerializer, Set.of());
+        }
+        
+        Library(String identifier, Serializer defaultSerializer, Set<Serializer> otherSupportedSerializers) {
+            otherSupportedSerializers = new HashSet<>(otherSupportedSerializers);
+            otherSupportedSerializers.add(defaultSerializer);
+            this.supportedSerializers = Set.copyOf(otherSupportedSerializers);
+            this.defaultSerializer = defaultSerializer;
+            this.value = identifier;
+        }
+    }
+
+    enum Serializer {
+        GSON, JACKSON, JSONB;
+        public String toString() {
+            return this.name().toLowerCase(Locale.ROOT);
+        }
+    }
+
+    @DataProvider Iterator<Library> supportedLibraries() {
+        return Arrays.stream(Library.values()).iterator();
+    }
 
     @Test
     public void arraysInRequestBody() {
@@ -228,7 +275,7 @@ public class JavaClientCodegenTest {
         Assertions.assertEquals(
                 codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
                 "xyz.yyyyy.zzzzzzz.iiii.invoker");
-        Assertions.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
+        Assertions.assertEquals(codegen.getSerializationLibrary(), SERIALIZATION_LIBRARY_JACKSON);
     }
 
     @Test
@@ -1470,7 +1517,7 @@ public class JavaClientCodegenTest {
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("java")
-                .setLibrary(JavaClientCodegen.FEIGN)
+                .setLibrary(FEIGN)
                 .setInputSpec("src/test/resources/3_0/issue_7791.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
@@ -1671,76 +1718,6 @@ public class JavaClientCodegenTest {
                         + " queryObject.getMaxBuilds()));",
                 "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"maxWaitSecs\","
                         + " queryObject.getMaxWaitSecs()));");
-    }
-
-    @Test
-    public void testExtraAnnotationsNative() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.NATIVE);
-    }
-
-    @Test
-    public void testExtraAnnotationsJersey2() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.JERSEY2);
-    }
-
-    @Test
-    public void testExtraAnnotationsJersey3() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.JERSEY3);
-    }
-
-    @Test
-    public void testExtraAnnotationsMicroprofile() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.MICROPROFILE);
-    }
-
-    @Test
-    public void testExtraAnnotationsOKHttpGSON() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.OKHTTP_GSON);
-    }
-
-    @Test
-    public void testExtraAnnotationsVertx() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.VERTX);
-    }
-
-    @Test
-    public void testExtraAnnotationsFeign() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.FEIGN);
-    }
-
-    @Test
-    public void testExtraAnnotationsRetrofit2() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.RETROFIT_2);
-    }
-
-    @Test
-    public void testExtraAnnotationsRestTemplate() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.RESTTEMPLATE);
-    }
-
-    @Test
-    public void testExtraAnnotationsWebClient() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.WEBCLIENT);
-    }
-
-    @Test
-    public void testExtraAnnotationsRestEasy() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.RESTEASY);
-    }
-
-    @Test
-    public void testExtraAnnotationsGoogleApiClient() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.GOOGLE_API_CLIENT);
-    }
-
-    @Test
-    public void testExtraAnnotationsRestAssured() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.REST_ASSURED);
-    }
-
-    @Test
-    public void testExtraAnnotationsApache() throws IOException {
-        testExtraAnnotations(JavaClientCodegen.APACHE);
     }
 
     @Test
@@ -1998,7 +1975,8 @@ public class JavaClientCodegenTest {
                         + " ParameterizedTypeReference<org.springframework.core.io.Resource>()");
     }
 
-    public void testExtraAnnotations(String library) throws IOException {
+    @Test(dataProvider = "supportedLibraries")
+    void testExtraAnnotations(Library library) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -2008,7 +1986,7 @@ public class JavaClientCodegenTest {
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("java")
-                .setLibrary(library)
+                .setLibrary(library.value)
                 .setAdditionalProperties(properties)
                 .setInputSpec("src/test/resources/3_0/issue_11772.yml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
@@ -2019,12 +1997,9 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(clientOptInput).generate();
 
-        TestUtils.assertExtraAnnotationFiles(
-                outputPath + "/src/main/java/org/openapitools/client/model");
+        TestUtils.assertExtraAnnotationFiles(outputPath + "/src/main/java/org/openapitools/client/model");
     }
 
     /**
