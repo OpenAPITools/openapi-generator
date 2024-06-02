@@ -58,6 +58,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
@@ -2610,6 +2611,62 @@ public class JavaClientCodegenTest {
         );
     }
     
+    /**
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/6496">#6496</a>
+     */
+    @Test void doesNotGenerateJacksonToStringSerializerAnnotation_whenLibraryIsGson_andSerializeBigDecimalAsStringIsTrue() {
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+            .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_GSON)
+            .addAdditionalProperty(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, true)
+            .addGlobalProperty(CodegenConstants.MODELS, "FormatTest")
+            .addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
+            .addGlobalProperty(CodegenConstants.MODEL_TESTS, "false")
+            .setInputSpec("src/test/resources/2_0/java/issue-6496.yaml")
+            .setOutputDir(newTempFolder().toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(files).hasSize(1).first(FILE).content()
+            .doesNotContain(
+                "@JsonDeserialize(as = LinkedHashSet.class)",
+                "@JsonSerialize(using = ToStringSerializer.class)",
+                "com.fasterxml.jackson.databind.ser.std.ToStringSerializer",
+                "com.fasterxml.jackson.databind.annotation.JsonDeserialize",
+                "com.fasterxml.jackson.databind.annotation.JsonSerialize"
+            );
+    }
+    
+    /**
+     * Test that fix for <a href="https://github.com/OpenAPITools/openapi-generator/issues/6496">#6496</a> has
+     * no unwanted side effects on the existing feature (Jackson + bigDecimalAsString)
+     */
+    @Test void generatesJacksonToStringSerializerAnnotation_whenLibraryIsJackson_andSerializeBigDecimalAsStringIsTrue() {
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.NATIVE)
+            .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON)
+            .addAdditionalProperty(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, true)
+            .addAdditionalProperty(OPENAPI_NULLABLE, false)
+            .addGlobalProperty(CodegenConstants.MODELS, "FormatTest")
+            .addGlobalProperty(CodegenConstants.MODEL_DOCS, "false")
+            .addGlobalProperty(CodegenConstants.MODEL_TESTS, "false")
+            .setInputSpec("src/test/resources/2_0/java/issue-6496.yaml")
+            .setOutputDir(newTempFolder().toString().replace("\\", "/"));
+        
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(files).hasSize(1).first(FILE).content()
+            .contains(
+                "@JsonDeserialize(as = LinkedHashSet.class)",
+                "@JsonSerialize(using = ToStringSerializer.class)",
+                "com.fasterxml.jackson.databind.ser.std.ToStringSerializer",
+                "com.fasterxml.jackson.databind.annotation.JsonDeserialize",
+                "com.fasterxml.jackson.databind.annotation.JsonSerialize"
+            );
+    }
+
     static private Path newTempFolder() {
         try {
             var tempDir = Files.createTempDirectory("test");
