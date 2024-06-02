@@ -312,6 +312,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     public void processOpts() {
         super.processOpts();
+        // small differences are seen in the generated files
+        // to be checked by cpp developpers.
+        useOnlyAdditionalProperties();
 
         if (StringUtils.isEmpty(System.getenv("CPP_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");

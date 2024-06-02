@@ -334,9 +334,13 @@ public class DefaultCodegen implements CodegenConfig {
          * then from the getter in this instance
          * then from the fields in this instance
          *
-         * For backward compatibility, call removeCodeGenFromAdditionalProperties()
+         * For backward compatibility, either USE_ONLY_ADDITIONAL_PROPERTIES or call useOnlyAdditionalProperties()
          */
-        additionalProperties.put(CodegenConstants.CONFIG, this);
+        if (convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONLY_ADDITIONAL_PROPERTIES)) {
+            additionalProperties.put(CodegenConstants.CONFIG, new Object());
+        } else {
+            additionalProperties.put(CodegenConstants.CONFIG, this);
+        }
         convertPropertyToStringAndWriteBack(CodegenConstants.TEMPLATE_DIR, this::setTemplateDir);
         convertPropertyToStringAndWriteBack(CodegenConstants.MODEL_PACKAGE, this::setModelPackage);
         convertPropertyToStringAndWriteBack(CodegenConstants.API_PACKAGE, this::setApiPackage);
@@ -372,7 +376,8 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * can be used to rely only on additionalProperties in the mustache templates.
      */
-    protected void removeCodeGenFromAdditionalProperties() {
+    protected void useOnlyAdditionalProperties() {
+        additionalProperties.put(CodegenConstants.USE_ONLY_ADDITIONAL_PROPERTIES, true);
         additionalProperties.put(CodegenConstants.CONFIG, new Object());
     }
 
