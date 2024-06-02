@@ -76,5 +76,34 @@ public class AllGeneratorsTest {
         );
     }
     
-    // TODO while we're at it – additional tests for supportedLibraries, additionalProperties, supportingFiles, …younameit…
+    @Test(dataProvider = "generators") void noDuplicateSupportedLibraries(CodegenConfig codegenConfig) {
+        final var supportedLibraries = codegenConfig.supportedLibraries().keySet();
+
+        assertThat(supportedLibraries).allSatisfy(
+            lib -> assertThat(supportedLibraries)
+                .as("Generator '%s' defines '%s' more than once in supportedLibraries!", codegenConfig.getName(), lib)
+                .containsOnlyOnce(lib)
+        );
+    }
+    
+    @Test(dataProvider = "generators") void noDuplicateSupportingFiles(CodegenConfig codegenConfig) {
+        final List<String> supportingFiles = codegenConfig.supportingFiles()
+            .stream().map(SupportingFile::toString).collect(Collectors.toList());
+
+        assertThat(supportingFiles).allSatisfy(
+            file -> assertThat(supportingFiles)
+                .as("Generator '%s' defines '%s' more than once in supportingFiles!", codegenConfig.getName(), file)
+                .containsOnlyOnce(file)
+        );
+    }
+    
+    @Test(dataProvider = "generators") void noDuplicateSupportedVendorExtensions(CodegenConfig codegenConfig) {
+        final List<VendorExtension> supportedVendorExtensions = codegenConfig.getSupportedVendorExtensions();
+
+        assertThat(supportedVendorExtensions).allSatisfy(
+            extension -> assertThat(supportedVendorExtensions)
+                .as("Generator '%s' defines '%s' more than once in supportedVendorExtensions!", codegenConfig.getName(), extension)
+                .containsOnlyOnce(extension)
+        );
+    }
 }
