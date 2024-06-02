@@ -177,14 +177,14 @@ namespace Org.OpenAPITools.Test.Api
             Client.Option<System.IO.Stream> binary = default!;
             Client.Option<string> callback = default!;
             Client.Option<DateOnly> date = default!;
-            Client.Option<DateTime> dateTime = default!;
             Client.Option<int> int32 = default!;
             Client.Option<long> int64 = default!;
             Client.Option<int> integer = default!;
             Client.Option<string> password = default!;
             Client.Option<float> varFloat = default!;
             Client.Option<string> varString = default!;
-            await _instance.TestEndpointParametersAsync(number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, dateTime, int32, int64, integer, password, varFloat, varString);
+            Client.Option<DateTime> dateTime = default!;
+            await _instance.TestEndpointParametersAsync(number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, int32, int64, integer, password, varFloat, varString, dateTime);
         }
 
         /// <summary>
@@ -193,15 +193,15 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task TestEnumParametersAsyncTest()
         {
-            Client.Option<string> enumFormString = default!;
-            Client.Option<List<string>> enumFormStringArray = default!;
-            Client.Option<string> enumHeaderString = default!;
             Client.Option<List<string>> enumHeaderStringArray = default!;
             Client.Option<double> enumQueryDouble = default!;
             Client.Option<int> enumQueryInteger = default!;
-            Client.Option<string> enumQueryString = default!;
             Client.Option<List<string>> enumQueryStringArray = default!;
-            await _instance.TestEnumParametersAsync(enumFormString, enumFormStringArray, enumHeaderString, enumHeaderStringArray, enumQueryDouble, enumQueryInteger, enumQueryString, enumQueryStringArray);
+            Client.Option<string> enumFormString = default!;
+            Client.Option<List<string>> enumFormStringArray = default!;
+            Client.Option<string> enumHeaderString = default!;
+            Client.Option<string> enumQueryString = default!;
+            await _instance.TestEnumParametersAsync(enumHeaderStringArray, enumQueryDouble, enumQueryInteger, enumQueryStringArray, enumFormString, enumFormStringArray, enumHeaderString, enumQueryString);
         }
 
         /// <summary>
@@ -261,11 +261,11 @@ namespace Org.OpenAPITools.Test.Api
             List<string> ioutil = default!;
             List<string> pipe = default!;
             string requiredNotNullable = default!;
+            string? requiredNullable = default!;
             List<string> url = default!;
             Client.Option<string> notRequiredNotNullable = default!;
             Client.Option<string?> notRequiredNullable = default!;
-            string? requiredNullable = default!;
-            await _instance.TestQueryParameterCollectionFormatAsync(context, http, ioutil, pipe, requiredNotNullable, url, notRequiredNotNullable, notRequiredNullable, requiredNullable);
+            await _instance.TestQueryParameterCollectionFormatAsync(context, http, ioutil, pipe, requiredNotNullable, requiredNullable, url, notRequiredNotNullable, notRequiredNullable);
         }
 
         /// <summary>

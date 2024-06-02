@@ -277,16 +277,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="binary">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="varFloat">None (optional)</param>
         /// <param name="varString">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEndpointParametersApiResponse"/>&gt;</returns>
-        Task<ITestEndpointParametersApiResponse> TestEndpointParametersAsync(decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary = default, Option<string> callback = default, Option<DateOnly> date = default, Option<DateTime> dateTime = default, Option<int> int32 = default, Option<long> int64 = default, Option<int> integer = default, Option<string> password = default, Option<float> varFloat = default, Option<string> varString = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestEndpointParametersApiResponse> TestEndpointParametersAsync(decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary = default, Option<string> callback = default, Option<DateOnly> date = default, Option<int> int32 = default, Option<long> int64 = default, Option<int> integer = default, Option<string> password = default, Option<float> varFloat = default, Option<string> varString = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -301,16 +301,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="binary">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="varFloat">None (optional)</param>
         /// <param name="varString">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEndpointParametersApiResponse"/>&gt;</returns>
-        Task<ITestEndpointParametersApiResponse> TestEndpointParametersOrDefaultAsync(decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary = default, Option<string> callback = default, Option<DateOnly> date = default, Option<DateTime> dateTime = default, Option<int> int32 = default, Option<long> int64 = default, Option<int> integer = default, Option<string> password = default, Option<float> varFloat = default, Option<string> varString = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestEndpointParametersApiResponse> TestEndpointParametersOrDefaultAsync(decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary = default, Option<string> callback = default, Option<DateOnly> date = default, Option<int> int32 = default, Option<long> int64 = default, Option<int> integer = default, Option<string> password = default, Option<float> varFloat = default, Option<string> varString = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test enum parameters
@@ -465,13 +465,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="ioutil"></param>
         /// <param name="pipe"></param>
         /// <param name="requiredNotNullable"></param>
+        /// <param name="requiredNullable"></param>
         /// <param name="url"></param>
         /// <param name="notRequiredNotNullable"> (optional)</param>
         /// <param name="notRequiredNullable"> (optional)</param>
-        /// <param name="requiredNullable"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestQueryParameterCollectionFormatApiResponse"/>&gt;</returns>
-        Task<ITestQueryParameterCollectionFormatApiResponse> TestQueryParameterCollectionFormatAsync(List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable = default, Option<string> notRequiredNullable = default, string requiredNullable = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestQueryParameterCollectionFormatApiResponse> TestQueryParameterCollectionFormatAsync(List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, string requiredNullable = default, List<string> url, Option<string> notRequiredNotNullable = default, Option<string> notRequiredNullable = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -484,13 +484,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="ioutil"></param>
         /// <param name="pipe"></param>
         /// <param name="requiredNotNullable"></param>
+        /// <param name="requiredNullable"></param>
         /// <param name="url"></param>
         /// <param name="notRequiredNotNullable"> (optional)</param>
         /// <param name="notRequiredNullable"> (optional)</param>
-        /// <param name="requiredNullable"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestQueryParameterCollectionFormatApiResponse"/>&gt;</returns>
-        Task<ITestQueryParameterCollectionFormatApiResponse> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable = default, Option<string> notRequiredNullable = default, string requiredNullable = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestQueryParameterCollectionFormatApiResponse> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, string requiredNullable = default, List<string> url, Option<string> notRequiredNotNullable = default, Option<string> notRequiredNullable = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// test referenced string map
@@ -3296,7 +3296,7 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatTestEndpointParameters(ref decimal number, ref string patternWithoutDelimiter, ref byte[] varByte, ref double varDouble, ref Option<System.IO.Stream> binary, ref Option<string> callback, ref Option<DateOnly> date, ref Option<DateTime> dateTime, ref Option<int> int32, ref Option<long> int64, ref Option<int> integer, ref Option<string> password, ref Option<float> varFloat, ref Option<string> varString);
+        partial void FormatTestEndpointParameters(ref decimal number, ref string patternWithoutDelimiter, ref byte[] varByte, ref double varDouble, ref Option<System.IO.Stream> binary, ref Option<string> callback, ref Option<DateOnly> date, ref Option<int> int32, ref Option<long> int64, ref Option<int> integer, ref Option<string> password, ref Option<float> varFloat, ref Option<string> varString, ref Option<DateTime> dateTime);
 
         /// <summary>
         /// Validates the request parameters
@@ -3340,17 +3340,17 @@ namespace Org.OpenAPITools.Api
         /// <param name="binary"></param>
         /// <param name="callback"></param>
         /// <param name="date"></param>
-        /// <param name="dateTime"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
         /// <param name="integer"></param>
         /// <param name="password"></param>
         /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        private void AfterTestEndpointParametersDefaultImplementation(ITestEndpointParametersApiResponse apiResponseLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString)
+        /// <param name="dateTime"></param>
+        private void AfterTestEndpointParametersDefaultImplementation(ITestEndpointParametersApiResponse apiResponseLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString, Option<DateTime> dateTime)
         {
             bool suppressDefaultLog = false;
-            AfterTestEndpointParameters(ref suppressDefaultLog, apiResponseLocalVar, number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, dateTime, int32, int64, integer, password, varFloat, varString);
+            AfterTestEndpointParameters(ref suppressDefaultLog, apiResponseLocalVar, number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, int32, int64, integer, password, varFloat, varString, dateTime);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -3367,14 +3367,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="binary"></param>
         /// <param name="callback"></param>
         /// <param name="date"></param>
-        /// <param name="dateTime"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
         /// <param name="integer"></param>
         /// <param name="password"></param>
         /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        partial void AfterTestEndpointParameters(ref bool suppressDefaultLog, ITestEndpointParametersApiResponse apiResponseLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString);
+        /// <param name="dateTime"></param>
+        partial void AfterTestEndpointParameters(ref bool suppressDefaultLog, ITestEndpointParametersApiResponse apiResponseLocalVar, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString, Option<DateTime> dateTime);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3389,17 +3389,17 @@ namespace Org.OpenAPITools.Api
         /// <param name="binary"></param>
         /// <param name="callback"></param>
         /// <param name="date"></param>
-        /// <param name="dateTime"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
         /// <param name="integer"></param>
         /// <param name="password"></param>
         /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        private void OnErrorTestEndpointParametersDefaultImplementation(Exception exception, string pathFormat, string path, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString)
+        /// <param name="dateTime"></param>
+        private void OnErrorTestEndpointParametersDefaultImplementation(Exception exception, string pathFormat, string path, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString, Option<DateTime> dateTime)
         {
             bool suppressDefaultLog = false;
-            OnErrorTestEndpointParameters(ref suppressDefaultLog, exception, pathFormat, path, number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, dateTime, int32, int64, integer, password, varFloat, varString);
+            OnErrorTestEndpointParameters(ref suppressDefaultLog, exception, pathFormat, path, number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, int32, int64, integer, password, varFloat, varString, dateTime);
             if (!suppressDefaultLog)
                 Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -3418,14 +3418,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="binary"></param>
         /// <param name="callback"></param>
         /// <param name="date"></param>
-        /// <param name="dateTime"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
         /// <param name="integer"></param>
         /// <param name="password"></param>
         /// <param name="varFloat"></param>
         /// <param name="varString"></param>
-        partial void OnErrorTestEndpointParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<DateTime> dateTime, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString);
+        /// <param name="dateTime"></param>
+        partial void OnErrorTestEndpointParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary, Option<string> callback, Option<DateOnly> date, Option<int> int32, Option<long> int64, Option<int> integer, Option<string> password, Option<float> varFloat, Option<string> varString, Option<DateTime> dateTime);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -3437,20 +3437,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="binary">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="varFloat">None (optional)</param>
         /// <param name="varString">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEndpointParametersApiResponse"/>&gt;</returns>
-        public async Task<ITestEndpointParametersApiResponse> TestEndpointParametersOrDefaultAsync(decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary = default, Option<string> callback = default, Option<DateOnly> date = default, Option<DateTime> dateTime = default, Option<int> int32 = default, Option<long> int64 = default, Option<int> integer = default, Option<string> password = default, Option<float> varFloat = default, Option<string> varString = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestEndpointParametersApiResponse> TestEndpointParametersOrDefaultAsync(decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary = default, Option<string> callback = default, Option<DateOnly> date = default, Option<int> int32 = default, Option<long> int64 = default, Option<int> integer = default, Option<string> password = default, Option<float> varFloat = default, Option<string> varString = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await TestEndpointParametersAsync(number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, dateTime, int32, int64, integer, password, varFloat, varString, cancellationToken).ConfigureAwait(false);
+                return await TestEndpointParametersAsync(number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, int32, int64, integer, password, varFloat, varString, dateTime, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -3469,16 +3469,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="binary">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="varFloat">None (optional)</param>
         /// <param name="varString">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEndpointParametersApiResponse"/>&gt;</returns>
-        public async Task<ITestEndpointParametersApiResponse> TestEndpointParametersAsync(decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary = default, Option<string> callback = default, Option<DateOnly> date = default, Option<DateTime> dateTime = default, Option<int> int32 = default, Option<long> int64 = default, Option<int> integer = default, Option<string> password = default, Option<float> varFloat = default, Option<string> varString = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestEndpointParametersApiResponse> TestEndpointParametersAsync(decimal number, string patternWithoutDelimiter, byte[] varByte, double varDouble, Option<System.IO.Stream> binary = default, Option<string> callback = default, Option<DateOnly> date = default, Option<int> int32 = default, Option<long> int64 = default, Option<int> integer = default, Option<string> password = default, Option<float> varFloat = default, Option<string> varString = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -3486,7 +3486,7 @@ namespace Org.OpenAPITools.Api
             {
                 ValidateTestEndpointParameters(patternWithoutDelimiter, varByte, binary, callback, password, varString);
 
-                FormatTestEndpointParameters(ref number, ref patternWithoutDelimiter, ref varByte, ref varDouble, ref binary, ref callback, ref date, ref dateTime, ref int32, ref int64, ref integer, ref password, ref varFloat, ref varString);
+                FormatTestEndpointParameters(ref number, ref patternWithoutDelimiter, ref varByte, ref varDouble, ref binary, ref callback, ref date, ref int32, ref int64, ref integer, ref password, ref varFloat, ref varString, ref dateTime);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -3520,9 +3520,6 @@ namespace Org.OpenAPITools.Api
                     if (date.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("date", ClientUtils.ParameterToString(date.Value)));
 
-                    if (dateTime.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string, string>("dateTime", ClientUtils.ParameterToString(dateTime.Value)));
-
                     if (int32.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("int32", ClientUtils.ParameterToString(int32.Value)));
 
@@ -3540,6 +3537,9 @@ namespace Org.OpenAPITools.Api
 
                     if (varString.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("string", ClientUtils.ParameterToString(varString.Value)));
+
+                    if (dateTime.IsSet)
+                        formParameterLocalVars.Add(new KeyValuePair<string, string>("dateTime", ClientUtils.ParameterToString(dateTime.Value)));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -3571,7 +3571,7 @@ namespace Org.OpenAPITools.Api
 
                         TestEndpointParametersApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestEndpointParametersDefaultImplementation(apiResponseLocalVar, number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, dateTime, int32, int64, integer, password, varFloat, varString);
+                        AfterTestEndpointParametersDefaultImplementation(apiResponseLocalVar, number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, int32, int64, integer, password, varFloat, varString, dateTime);
 
                         Events.ExecuteOnTestEndpointParameters(apiResponseLocalVar);
 
@@ -3585,7 +3585,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestEndpointParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, dateTime, int32, int64, integer, password, varFloat, varString);
+                OnErrorTestEndpointParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, int32, int64, integer, password, varFloat, varString, dateTime);
                 Events.ExecuteOnErrorTestEndpointParameters(e);
                 throw;
             }
@@ -4730,7 +4730,7 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatTestQueryParameterCollectionFormat(List<string> context, List<string> http, List<string> ioutil, List<string> pipe, ref string requiredNotNullable, List<string> url, ref Option<string> notRequiredNotNullable, ref Option<string> notRequiredNullable, ref string requiredNullable);
+        partial void FormatTestQueryParameterCollectionFormat(List<string> context, List<string> http, List<string> ioutil, List<string> pipe, ref string requiredNotNullable, ref string requiredNullable, List<string> url, ref Option<string> notRequiredNotNullable, ref Option<string> notRequiredNullable);
 
         /// <summary>
         /// Validates the request parameters
@@ -4776,14 +4776,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="ioutil"></param>
         /// <param name="pipe"></param>
         /// <param name="requiredNotNullable"></param>
+        /// <param name="requiredNullable"></param>
         /// <param name="url"></param>
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
-        /// <param name="requiredNullable"></param>
-        private void AfterTestQueryParameterCollectionFormatDefaultImplementation(ITestQueryParameterCollectionFormatApiResponse apiResponseLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable)
+        private void AfterTestQueryParameterCollectionFormatDefaultImplementation(ITestQueryParameterCollectionFormatApiResponse apiResponseLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, string requiredNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable)
         {
             bool suppressDefaultLog = false;
-            AfterTestQueryParameterCollectionFormat(ref suppressDefaultLog, apiResponseLocalVar, context, http, ioutil, pipe, requiredNotNullable, url, notRequiredNotNullable, notRequiredNullable, requiredNullable);
+            AfterTestQueryParameterCollectionFormat(ref suppressDefaultLog, apiResponseLocalVar, context, http, ioutil, pipe, requiredNotNullable, requiredNullable, url, notRequiredNotNullable, notRequiredNullable);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -4798,11 +4798,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="ioutil"></param>
         /// <param name="pipe"></param>
         /// <param name="requiredNotNullable"></param>
+        /// <param name="requiredNullable"></param>
         /// <param name="url"></param>
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
-        /// <param name="requiredNullable"></param>
-        partial void AfterTestQueryParameterCollectionFormat(ref bool suppressDefaultLog, ITestQueryParameterCollectionFormatApiResponse apiResponseLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable);
+        partial void AfterTestQueryParameterCollectionFormat(ref bool suppressDefaultLog, ITestQueryParameterCollectionFormatApiResponse apiResponseLocalVar, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, string requiredNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -4815,14 +4815,14 @@ namespace Org.OpenAPITools.Api
         /// <param name="ioutil"></param>
         /// <param name="pipe"></param>
         /// <param name="requiredNotNullable"></param>
+        /// <param name="requiredNullable"></param>
         /// <param name="url"></param>
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
-        /// <param name="requiredNullable"></param>
-        private void OnErrorTestQueryParameterCollectionFormatDefaultImplementation(Exception exception, string pathFormat, string path, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable)
+        private void OnErrorTestQueryParameterCollectionFormatDefaultImplementation(Exception exception, string pathFormat, string path, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, string requiredNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable)
         {
             bool suppressDefaultLog = false;
-            OnErrorTestQueryParameterCollectionFormat(ref suppressDefaultLog, exception, pathFormat, path, context, http, ioutil, pipe, requiredNotNullable, url, notRequiredNotNullable, notRequiredNullable, requiredNullable);
+            OnErrorTestQueryParameterCollectionFormat(ref suppressDefaultLog, exception, pathFormat, path, context, http, ioutil, pipe, requiredNotNullable, requiredNullable, url, notRequiredNotNullable, notRequiredNullable);
             if (!suppressDefaultLog)
                 Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -4839,11 +4839,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="ioutil"></param>
         /// <param name="pipe"></param>
         /// <param name="requiredNotNullable"></param>
+        /// <param name="requiredNullable"></param>
         /// <param name="url"></param>
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
-        /// <param name="requiredNullable"></param>
-        partial void OnErrorTestQueryParameterCollectionFormat(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable, string requiredNullable);
+        partial void OnErrorTestQueryParameterCollectionFormat(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, string requiredNullable, List<string> url, Option<string> notRequiredNotNullable, Option<string> notRequiredNullable);
 
         /// <summary>
         ///  To test the collection format in query parameters
@@ -4853,17 +4853,17 @@ namespace Org.OpenAPITools.Api
         /// <param name="ioutil"></param>
         /// <param name="pipe"></param>
         /// <param name="requiredNotNullable"></param>
+        /// <param name="requiredNullable"></param>
         /// <param name="url"></param>
         /// <param name="notRequiredNotNullable"> (optional)</param>
         /// <param name="notRequiredNullable"> (optional)</param>
-        /// <param name="requiredNullable"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestQueryParameterCollectionFormatApiResponse"/>&gt;</returns>
-        public async Task<ITestQueryParameterCollectionFormatApiResponse> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable = default, Option<string> notRequiredNullable = default, string requiredNullable = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestQueryParameterCollectionFormatApiResponse> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, string requiredNullable = default, List<string> url, Option<string> notRequiredNotNullable = default, Option<string> notRequiredNullable = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await TestQueryParameterCollectionFormatAsync(context, http, ioutil, pipe, requiredNotNullable, url, notRequiredNotNullable, notRequiredNullable, requiredNullable, cancellationToken).ConfigureAwait(false);
+                return await TestQueryParameterCollectionFormatAsync(context, http, ioutil, pipe, requiredNotNullable, requiredNullable, url, notRequiredNotNullable, notRequiredNullable, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -4880,13 +4880,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="ioutil"></param>
         /// <param name="pipe"></param>
         /// <param name="requiredNotNullable"></param>
+        /// <param name="requiredNullable"></param>
         /// <param name="url"></param>
         /// <param name="notRequiredNotNullable"> (optional)</param>
         /// <param name="notRequiredNullable"> (optional)</param>
-        /// <param name="requiredNullable"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestQueryParameterCollectionFormatApiResponse"/>&gt;</returns>
-        public async Task<ITestQueryParameterCollectionFormatApiResponse> TestQueryParameterCollectionFormatAsync(List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable = default, Option<string> notRequiredNullable = default, string requiredNullable = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestQueryParameterCollectionFormatApiResponse> TestQueryParameterCollectionFormatAsync(List<string> context, List<string> http, List<string> ioutil, List<string> pipe, string requiredNotNullable, string requiredNullable = default, List<string> url, Option<string> notRequiredNotNullable = default, Option<string> notRequiredNullable = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -4894,7 +4894,7 @@ namespace Org.OpenAPITools.Api
             {
                 ValidateTestQueryParameterCollectionFormat(context, http, ioutil, pipe, requiredNotNullable, url, notRequiredNotNullable);
 
-                FormatTestQueryParameterCollectionFormat(context, http, ioutil, pipe, ref requiredNotNullable, url, ref notRequiredNotNullable, ref notRequiredNullable, ref requiredNullable);
+                FormatTestQueryParameterCollectionFormat(context, http, ioutil, pipe, ref requiredNotNullable, ref requiredNullable, url, ref notRequiredNotNullable, ref notRequiredNullable);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -4910,8 +4910,8 @@ namespace Org.OpenAPITools.Api
                     parseQueryStringLocalVar["ioutil"] = ClientUtils.ParameterToString(ioutil);
                     parseQueryStringLocalVar["pipe"] = ClientUtils.ParameterToString(pipe);
                     parseQueryStringLocalVar["requiredNotNullable"] = ClientUtils.ParameterToString(requiredNotNullable);
-                    parseQueryStringLocalVar["url"] = ClientUtils.ParameterToString(url);
                     parseQueryStringLocalVar["requiredNullable"] = ClientUtils.ParameterToString(requiredNullable);
+                    parseQueryStringLocalVar["url"] = ClientUtils.ParameterToString(url);
 
                     if (notRequiredNotNullable.IsSet)
                         // here too
@@ -4937,7 +4937,7 @@ namespace Org.OpenAPITools.Api
 
                         TestQueryParameterCollectionFormatApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/test-query-parameters", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestQueryParameterCollectionFormatDefaultImplementation(apiResponseLocalVar, context, http, ioutil, pipe, requiredNotNullable, url, notRequiredNotNullable, notRequiredNullable, requiredNullable);
+                        AfterTestQueryParameterCollectionFormatDefaultImplementation(apiResponseLocalVar, context, http, ioutil, pipe, requiredNotNullable, requiredNullable, url, notRequiredNotNullable, notRequiredNullable);
 
                         Events.ExecuteOnTestQueryParameterCollectionFormat(apiResponseLocalVar);
 
@@ -4947,7 +4947,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestQueryParameterCollectionFormatDefaultImplementation(e, "/fake/test-query-parameters", uriBuilderLocalVar.Path, context, http, ioutil, pipe, requiredNotNullable, url, notRequiredNotNullable, notRequiredNullable, requiredNullable);
+                OnErrorTestQueryParameterCollectionFormatDefaultImplementation(e, "/fake/test-query-parameters", uriBuilderLocalVar.Path, context, http, ioutil, pipe, requiredNotNullable, requiredNullable, url, notRequiredNotNullable, notRequiredNullable);
                 Events.ExecuteOnErrorTestQueryParameterCollectionFormat(e);
                 throw;
             }
