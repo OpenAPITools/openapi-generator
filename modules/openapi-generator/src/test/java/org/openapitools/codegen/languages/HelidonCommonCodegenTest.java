@@ -16,37 +16,26 @@
  */
 package org.openapitools.codegen.languages;
 
+import org.testng.annotations.Test;
+
 import java.util.List;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 // This test class is in this package, not org.openapitools.codegen.java.helidon, so it can refer to elements of
 // JavaHelidonCommonCodegen without making them public; package-private is sufficient and we don't want to expose those methods
 // more broadly.
-class HelidonCommonCodegenTest {
+public class HelidonCommonCodegenTest {
 
-    @Test
-    void checkMajorVersionMatch() {
-        Assert.assertEquals("1.2.3",
-                            JavaHelidonCommonCodegen.VersionUtil.instance().chooseVersion("1",
-                                                                                          List.of("3.2.1",
-                                                                                                  "3.2.0",
-                                                                                                  "2.0.4",
-                                                                                                  "1.2.3",
-                                                                                                  "1.2.2",
-                                                                                                  "1.1.0")));
+    JavaHelidonCommonCodegen.VersionUtil test = JavaHelidonCommonCodegen.VersionUtil.instance();
+    
+    @Test void checkMajorVersionMatch() {
+        assertThat(test.chooseVersion("1", List.of("3.2.1", "3.2.0", "2.0.4", "1.2.3", "1.2.2", "1.1.0")))
+            .isEqualTo("1.2.3");
     }
 
-    @Test
-    void checkExactMatch() {
-        Assert.assertEquals("1.2.2",
-                            JavaHelidonCommonCodegen.VersionUtil.instance().chooseVersion("1.2.2",
-                                                                                          List.of("3.2.1",
-                                                                                                  "3.2.0",
-                                                                                                  "2.0.4",
-                                                                                                  "1.2.3",
-                                                                                                  "1.2.2",
-                                                                                                  "1.1.0")));
+    @Test void checkExactMatch() {
+        assertThat(test.chooseVersion("1.2.2", List.of("3.2.1", "3.2.0", "2.0.4", "1.2.3", "1.2.2", "1.1.0")))
+            .isEqualTo("1.2.2");
     }
 }
