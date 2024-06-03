@@ -65,34 +65,34 @@ Accept: application/json
 
 ### List Dependabot alerts for an enterprise
 ## List Dependabot alerts for an enterprise
-GET https://api.github.com/enterprises/{{enterprise}}/dependabot/alerts
+GET https://api.github.com/enterprises/{{enterprise}}/dependabot/alerts?state={{state}}&severity={{severity}}&ecosystem={{ecosystem}}&package={{package}}&scope={{scope}}&sort={{sort}}&direction={{direction}}&before={{before}}&after={{after}}&first={{first}}&last={{last}}&perPage={{perPage}}
 Accept: application/json
 
 ### List Dependabot alerts for an organization
 ## List Dependabot alerts for an organization
-GET https://api.github.com/orgs/{{org}}/dependabot/alerts
+GET https://api.github.com/orgs/{{org}}/dependabot/alerts?state={{state}}&severity={{severity}}&ecosystem={{ecosystem}}&package={{package}}&scope={{scope}}&sort={{sort}}&direction={{direction}}&before={{before}}&after={{after}}&first={{first}}&last={{last}}&perPage={{perPage}}
 Accept: application/json
 Accept: application/scim+json
 
 ### List Dependabot alerts for a repository
 ## List Dependabot alerts for a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/alerts
+GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/alerts?state={{state}}&severity={{severity}}&ecosystem={{ecosystem}}&package={{package}}&manifest={{manifest}}&scope={{scope}}&sort={{sort}}&direction={{direction}}&page={{page}}&perPage={{perPage}}&before={{before}}&after={{after}}&first={{first}}&last={{last}}
 Accept: application/json
 Accept: application/scim+json
 
 ### List organization secrets
 ## List organization secrets
-GET https://api.github.com/orgs/{{org}}/dependabot/secrets
+GET https://api.github.com/orgs/{{org}}/dependabot/secrets?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository secrets
 ## List repository secrets
-GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets
+GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List selected repositories for an organization secret
 ## List selected repositories for an organization secret
-GET https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}/repositories
+GET https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}/repositories?page={{page}}&perPage={{perPage}}
 Accept: application/json
 
 ### Remove selected repository from an organization secret

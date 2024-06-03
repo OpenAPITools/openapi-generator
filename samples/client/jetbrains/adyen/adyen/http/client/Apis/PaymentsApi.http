@@ -2,7 +2,7 @@
 
 ### Get the result of a payment session
 ## Get the result of a payment session
-GET https://checkout-test.adyen.com/v71/sessions/{{sessionId}}
+GET https://checkout-test.adyen.com/v71/sessions/{{sessionId}}?sessionResult={{sessionResult}}
 Accept: application/json
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
@@ -12,6 +12,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/cardDetails
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -25,6 +26,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/cardDetails
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -40,6 +42,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/paymentMethods
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -52,6 +55,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/paymentMethods
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -70,6 +74,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/paymentMethods
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -89,6 +94,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -111,6 +117,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -164,6 +171,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -200,6 +208,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -226,6 +235,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -251,6 +261,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -280,6 +291,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -302,6 +314,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -324,6 +337,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -369,6 +383,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -395,6 +410,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -420,6 +436,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -451,6 +468,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -477,6 +495,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -507,6 +526,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments/details
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -521,6 +541,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments/details
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -536,6 +557,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/sessions
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -555,6 +577,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/sessions
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -599,6 +622,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/sessions
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -622,6 +646,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/sessions
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 

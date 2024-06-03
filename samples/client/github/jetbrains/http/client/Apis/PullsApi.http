@@ -103,22 +103,22 @@ Accept: application/json
 
 ### List pull requests
 ## List pull requests
-GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls?state={{state}}&head={{head}}&base={{base}}&sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List comments for a pull request review
 ## List comments for a pull request review
-GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews/{{review_id}}/comments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews/{{review_id}}/comments?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List commits on a pull request
 ## List commits on a pull request
-GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/commits
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/commits?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List pull requests files
 ## List pull requests files
-GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/files
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/files?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Get all requested reviewers for a pull request
@@ -128,17 +128,17 @@ Accept: application/json
 
 ### List review comments on a pull request
 ## List review comments on a pull request
-GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/comments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/comments?sort={{sort}}&direction={{direction}}&since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List review comments in a repository
 ## List review comments in a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments?sort={{sort}}&direction={{direction}}&since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List reviews for a pull request
 ## List reviews for a pull request
-GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/reviews?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Merge a pull request

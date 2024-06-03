@@ -131,7 +131,7 @@ Accept: application/json
 
 ### Get contextual information for a user
 ## Get contextual information for a user
-GET https://api.github.com/users/{{username}}/hovercard
+GET https://api.github.com/users/{{username}}/hovercard?subjectType={{subjectType}}&subjectId={{subjectId}}
 Accept: application/json
 
 ### Get a GPG key for the authenticated user
@@ -151,82 +151,82 @@ Accept: application/json
 
 ### List users
 ## List users
-GET https://api.github.com/users
+GET https://api.github.com/users?since={{since}}&perPage={{perPage}}
 Accept: application/json
 
 ### List users blocked by the authenticated user
 ## List users blocked by the authenticated user
-GET https://api.github.com/user/blocks
+GET https://api.github.com/user/blocks?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List email addresses for the authenticated user
 ## List email addresses for the authenticated user
-GET https://api.github.com/user/emails
+GET https://api.github.com/user/emails?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List the people the authenticated user follows
 ## List the people the authenticated user follows
-GET https://api.github.com/user/following
+GET https://api.github.com/user/following?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List followers of the authenticated user
 ## List followers of the authenticated user
-GET https://api.github.com/user/followers
+GET https://api.github.com/user/followers?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List followers of a user
 ## List followers of a user
-GET https://api.github.com/users/{{username}}/followers
+GET https://api.github.com/users/{{username}}/followers?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List the people a user follows
 ## List the people a user follows
-GET https://api.github.com/users/{{username}}/following
+GET https://api.github.com/users/{{username}}/following?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List GPG keys for the authenticated user
 ## List GPG keys for the authenticated user
-GET https://api.github.com/user/gpg_keys
+GET https://api.github.com/user/gpg_keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List GPG keys for a user
 ## List GPG keys for a user
-GET https://api.github.com/users/{{username}}/gpg_keys
+GET https://api.github.com/users/{{username}}/gpg_keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public email addresses for the authenticated user
 ## List public email addresses for the authenticated user
-GET https://api.github.com/user/public_emails
+GET https://api.github.com/user/public_emails?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public keys for a user
 ## List public keys for a user
-GET https://api.github.com/users/{{username}}/keys
+GET https://api.github.com/users/{{username}}/keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public SSH keys for the authenticated user
 ## List public SSH keys for the authenticated user
-GET https://api.github.com/user/keys
+GET https://api.github.com/user/keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List social accounts for the authenticated user
 ## List social accounts for the authenticated user
-GET https://api.github.com/user/social_accounts
+GET https://api.github.com/user/social_accounts?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List social accounts for a user
 ## List social accounts for a user
-GET https://api.github.com/users/{{username}}/social_accounts
+GET https://api.github.com/users/{{username}}/social_accounts?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List SSH signing keys for the authenticated user
 ## List SSH signing keys for the authenticated user
-GET https://api.github.com/user/ssh_signing_keys
+GET https://api.github.com/user/ssh_signing_keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List SSH signing keys for a user
 ## List SSH signing keys for a user
-GET https://api.github.com/users/{{username}}/ssh_signing_keys
+GET https://api.github.com/users/{{username}}/ssh_signing_keys?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Set primary email visibility for the authenticated user
