@@ -25,6 +25,9 @@ module.exports = {
             inputFields: [
                 {{#allParams}}
                 {{#isPrimitiveType}}
+                {{#isHeaderParam}}
+                {{/isHeaderParam}}
+                {{^isHeaderParam}}
                 {
                     key: '{{baseName}}',
                     label: '{{description}}',
@@ -40,6 +43,7 @@ module.exports = {
                     ],
                     {{/isEnum}}
                 },
+                {{/isHeaderParam}}
                 {{/isPrimitiveType}}
                 {{^isPrimitiveType}}
                 {{#isArray}}
