@@ -603,11 +603,177 @@ public class JetbrainsHttpClientClientCodegenTest {
                 "Custom-Header: {{customHeader}}\n" +
                 "Another-Custom-Header: {{anotherCustomHeader}}\n");
 
-        // Checking when there is nothing
         TestUtils.assertFileContains(path, "### Create New User\n" +
                 "## Example request for Get User\n" +
                 "POST http://localhost:5000/v1/user\n" +
                 "Content-Type: application/json\n" +
                 "Accept: application/json");
     }
+
+    @Test
+    public void testTemplateEnvironmentFileGenerationEmpty() throws IOException {
+        // Checking that each request example is present in the output file
+        File output = Files.createTempDirectory("jetbrainstest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jetbrains-http-client")
+                .setInputSpec("src/test/resources/3_0/jetbrains/environmentgeneration/simple.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/Apis//http-client.template.env.json");
+        assertFileExists(path);
+
+        TestUtils.assertFileContains(path, "{\n" +
+                "    \"dev\": {\n" +
+                "    }\n" +
+                "}");
+    }
+
+    @Test
+    public void testTemplateEnvironmentFileGenerationPath() throws IOException {
+        // Checking that each request example is present in the output file
+        File output = Files.createTempDirectory("jetbrainstest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jetbrains-http-client")
+                .setInputSpec("src/test/resources/3_0/jetbrains/environmentgeneration/Path.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/Apis//http-client.template.env.json");
+        assertFileExists(path);
+
+        TestUtils.assertFileContains(path, "{\n" +
+                "    \"dev\": {\n" +
+                "        \"resource\" : \"\"\n" +
+                "    }\n" +
+                "}");
+    }
+
+    @Test
+    public void testTemplateEnvironmentFileGenerationQueryParam() throws IOException {
+        // Checking that each request example is present in the output file
+        File output = Files.createTempDirectory("jetbrainstest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jetbrains-http-client")
+                .setInputSpec("src/test/resources/3_0/jetbrains/environmentgeneration/QueryParam.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/Apis//http-client.template.env.json");
+        assertFileExists(path);
+
+        TestUtils.assertFileContains(path, "{\n" +
+                "    \"dev\": {\n" +
+                "        \"laneRole\" : \"\",\n" +
+                "        \"heroId\" : \"\"\n" +
+                "    }\n" +
+                "}");
+    }
+
+    @Test
+    public void testTemplateEnvironmentFileGenerationHeader() throws IOException {
+        // Checking that each request example is present in the output file
+        File output = Files.createTempDirectory("jetbrainstest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jetbrains-http-client")
+                .setInputSpec("src/test/resources/3_0/jetbrains/environmentgeneration/Header.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/Apis//http-client.template.env.json");
+        assertFileExists(path);
+
+        TestUtils.assertFileContains(path, "{\n" +
+                "    \"dev\": {\n" +
+                "        \"Custom-Header\" : \"\",\n" +
+                "        \"Another-Custom-Header\" : \"\"\n" +
+                "    }\n" +
+                "}");
+    }
+
+    @Test
+    public void testTemplateEnvironmentFileGenerationCustomVariable() throws IOException {
+        // Checking that each request example is present in the output file
+        File output = Files.createTempDirectory("jetbrainstest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jetbrains-http-client")
+                .setInputSpec("src/test/resources/3_0/jetbrains/environmentgeneration/CustomVariable.yaml")
+                .addAdditionalProperty(JetbrainsHttpClientClientCodegen.BODY_VARIABLES, "MY_VAR_NAME-MY_VAR_LAST_NAME")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/Apis//http-client.template.env.json");
+        assertFileExists(path);
+
+        TestUtils.assertFileContains(path, "{\n" +
+                "    \"dev\": {\n" +
+                "        \"MY_VAR_LAST_NAME\" : \"\",\n" +
+                "        \"MY_VAR_NAME\" : \"\"\n" +
+                "    }\n" +
+                "}");
+    }
+
+    @Test
+    public void testTemplateEnvironmentFileGenerationCustomHeaders() throws IOException {
+        // Checking that each request example is present in the output file
+        File output = Files.createTempDirectory("jetbrainstest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jetbrains-http-client")
+                .setInputSpec("src/test/resources/3_0/jetbrains/environmentgeneration/CustomHeaders.yaml")
+                .addAdditionalProperty(JetbrainsHttpClientClientCodegen.CUSTOM_HEADERS, "Cookie:X-API-KEY={{cookieKey}}&Accept-Encoding=gzip")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/Apis//http-client.template.env.json");
+        assertFileExists(path);
+
+        TestUtils.assertFileContains(path, "{\n" +
+                "    \"dev\": {\n" +
+                "        \"cookieKey\" : \"\"\n" +
+                "    }\n" +
+                "}");
+    }
+
 }
