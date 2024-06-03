@@ -499,16 +499,62 @@ public class JetbrainsHttpClientClientCodegenTest {
 
         files.forEach(File::deleteOnExit);
 
-        Path path = Paths.get(output + "/Apis/BasicApi.http");
+        Path path = Paths.get(output + "/Apis/DefaultApi.http");
         assertFileExists(path);
 
-        // Checking first and last
+        // Checking with extra params
         TestUtils.assertFileContains(path, "### Get User Info by Query Param\n" +
                 "## Get User Info by Query Param\n" +
                 "GET http://localhost:5000/v1/users/?page={{page}}&pUserId={{pUserId}}&api_key={{queryKey}}\n" +
                 "Accept: application/json\n" +
                 "Custom-Header: {{customHeader}}\n" +
                 "Another-Custom-Header: {{anotherCustomHeader}}");
+
+        // Checking without extra params
+        TestUtils.assertFileContains(path, "### Get User Info by User ID\n" +
+                "## Get User Info by User ID\n" +
+                "GET http://localhost:5000/v1/users/{{userId}}?api_key={{queryKey}}\n" +
+                "Accept: application/json\n" +
+                "strCode: {{strCode}}\n" +
+                "strCode2: {{strCode2}}");
+
+        // Checking with only auth
+        TestUtils.assertFileContains(path, "### Get User Info by User ID\n" +
+                "## Get User Info by User ID\n" +
+                "GET http://localhost:5000/v1/users/{{userId}}?api_key={{queryKey}}\n" +
+                "Accept: application/json\n" +
+                "strCode: {{strCode}}\n" +
+                "strCode2: {{strCode2}}");
+
+        // Checking with only param
+        TestUtils.assertFileContains(path, "### Update User Information\n" +
+                "## Update User Information\n" +
+                "PATCH http://localhost:5000/v1/users/{{userId}}?page={{page}}\n" +
+                "Content-Type: application/json\n" +
+                "Accept: application/json\n" +
+                "strCode: {{strCode}}\n" +
+                "strCode2: {{strCode2}}\n" +
+                "\n" +
+                "{\n" +
+                "  \"firstName\" : \"Rebecca\"\n" +
+                "}");
+
+        // Checking when there is nothing
+        TestUtils.assertFileContains(path, "### Create New User\n" +
+                "## Example request for Get User\n" +
+                "POST http://localhost:5000/v1/user\n" +
+                "Content-Type: application/json\n" +
+                "Accept: application/json\n" +
+                "\n" +
+                "{\n" +
+                " \"id\": 777,\n" +
+                " \"firstName\": \"Alotta\",\n" +
+                " \"lastName\": \"Rotta\",\n" +
+                " \"email\": \"alotta.rotta@gmail.com\",\n" +
+                " \"dateOfBirth\": \"1997-10-31\",\n" +
+                " \"emailVerified\": true,\n" +
+                " \"createDate\": \"2019-08-24\"\n" +
+                "}");
     }
 
 
