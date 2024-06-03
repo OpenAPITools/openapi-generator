@@ -528,13 +528,24 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isFile}}
 	{{/isFormParam}}
 	{{#isHeaderParam}}
-	{{paramName}}Param := getPointerOrNilIfEmpty(r.Header.Get("{{baseName}}"))
+	{{paramName}}ParamValues := r.Header.Values("{{baseName}}")
 	{{#required}}
-	if {{paramName}}Param == nil {
+	if len({{paramName}}ParamValues) == 0 {
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}
 	{{/required}}
+	{{#isArray}}
+	{{paramName}}Param := {{paramName}}ParamValues
+	{{/isArray}}
+	{{^isArray}}
+	{{#required}}
+	{{paramName}}Param := getPointer({{paramName}}ParamValues[0])
+	{{/required}}
+	{{^required}}
+	{{paramName}}Param := getPointerOrNilIfEmpty(r.Header.Get("{{baseName}}"))
+	{{/required}}
+	{{/isArray}}
 	{{/isHeaderParam}}
 	{{#isBodyParam}}
 	{{paramName}}Param := {{^isArray}}&{{/isArray}}{{dataType}}{}
