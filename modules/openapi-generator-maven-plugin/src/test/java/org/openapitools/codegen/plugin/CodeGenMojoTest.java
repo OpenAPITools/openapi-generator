@@ -33,6 +33,7 @@ import org.eclipse.aether.internal.impl.SimpleLocalRepositoryManagerFactory;
 import org.eclipse.aether.repository.LocalRepository;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -225,6 +226,43 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertTrue(hashFolder.resolve("_merged_spec.yaml-executionId.sha256").toFile().exists());
     }
 
+    /**
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/4512">#4512</a>
+     */
+    public void test_skipIfSpecIsUnchanged_WillNotGenerateTwice_forMultipleExecutions_withIdenticalFilenames() throws Exception {
+
+        //GIVEN
+        /* Setup the mojo */
+        final Path tempDir = newTempFolder();
+        final CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/issue-4512", null, "execution_petstore1");
+        mojo.inputSpecRootDirectory = tempDir.toString();
+            
+
+        /* Perform an initial generation */
+        mojo.execute();
+
+        /* Check the hash file was created */
+        final Path hashFolder = tempDir.resolve("target/generated-sources/issue-4512/.openapi-generator");
+        assertTrue(hashFolder.resolve("petstore.yaml-execution_petstore1.sha256").toFile().exists());
+        assertTrue(hashFolder.resolve("petstore.yaml-execution_petstore2.sha256").toFile().exists());
+
+        /* Remove the generated source */
+        FileUtils.deleteDirectory(tempDir.resolve("target/generated-sources/issue-4512/src").toFile());
+
+
+        // WHEN
+        /* Execute the mojo again */
+        mojo.execute();
+
+        // THEN
+        /* Verify that the source directory has not been repopulated. If it has then we generated code again */
+        assertFalse(
+            "src directory should not have been regenerated", 
+            tempDir.resolve("target/generated-sources/issue-4512/src").toFile().exists()
+        );
+
+    }
+
     protected CodeGenMojo loadMojo(Path temporaryFolder, String projectRoot, String profile) throws Exception {
         return loadMojo(temporaryFolder, projectRoot, profile, "default");
     }
@@ -236,6 +274,8 @@ public class CodeGenMojoTest extends BaseTestCase {
         MojoExecution execution = newMojoExecution("generate");
         MojoExecution executionWithId = copyWithExecutionId(executionId, execution);
         return (CodeGenMojo) lookupConfiguredMojo(session, executionWithId);
+//        codegenMojo.inputSpecRootDirectory = temporaryFolder.toString();
+//        return codegenMojo;
     }
 
     private MojoExecution copyWithExecutionId(String executionId, MojoExecution execution) {
@@ -262,9 +302,13 @@ public class CodeGenMojoTest extends BaseTestCase {
         return project;
     }
 
-    @SneakyThrows
     static private Path newTempFolder() {
-        var tempDir = Files.createTempDirectory("test");
+        final Path tempDir;
+        try {
+            tempDir = Files.createTempDirectory("test");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         tempDir.toFile().deleteOnExit();
         return tempDir;
     }

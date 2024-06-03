@@ -1,0 +1,69 @@
+<!--
+  ~ Copyright 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>common.maven</groupId>
+    <artifactId>issue-4512</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>OpenAPI Generator Configuration Test</name>
+    <url>https://openapi-generator.tech/</url>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <configuration>
+                    <generatorName>java</generatorName>
+                    
+                    <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                    
+                    <library>native</library>
+                    <output>${basedir}/target/generated-sources/issue-4512</output>
+                    <additionalProperties>hideGenerationTimestamp=true</additionalProperties>
+                    <generateApis>false</generateApis>
+                    <generateApiDocumentation>false</generateApiDocumentation>
+                    <generateModelDocumentation>false</generateModelDocumentation>
+                    <generateModelTests>false</generateModelTests>
+                    <generateSupportingFiles>false</generateSupportingFiles>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>execution_petstore1</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${basedir}/dir1/petstore.yaml</inputSpec>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>execution_petstore2</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${basedir}/dir2/petstore.yaml</inputSpec>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
