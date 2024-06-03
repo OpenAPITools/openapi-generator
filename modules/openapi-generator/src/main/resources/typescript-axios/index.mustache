@@ -2,6 +2,6 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-export * from "./api";
-export * from "./configuration";
+export * from "./api{{#supportsES6}}.js{{/supportsES6}}";
+export * from "./configuration{{#supportsES6}}.js{{/supportsES6}}";
 {{#withSeparateModelsAndApi}}export * from "./{{tsModelPackage}}";{{/withSeparateModelsAndApi}}
