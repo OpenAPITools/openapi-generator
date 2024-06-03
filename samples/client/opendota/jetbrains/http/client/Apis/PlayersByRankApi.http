@@ -3,4 +3,7 @@
 ### GET /playersByRank
 ## GET /playersByRank
 GET https://api.opendota.com/api/playersByRank
+
+
+
 Accept: application/json; charset=utf-8

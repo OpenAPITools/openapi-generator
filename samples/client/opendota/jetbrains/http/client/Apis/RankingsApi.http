@@ -3,4 +3,9 @@
 ### GET /rankings
 ## GET /rankings
 GET https://api.opendota.com/api/rankings
+
+
+heroId={{paramName}}
+    
+
 Accept: application/json; charset=utf-8

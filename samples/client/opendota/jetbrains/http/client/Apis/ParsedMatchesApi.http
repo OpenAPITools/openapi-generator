@@ -3,4 +3,9 @@
 ### GET /parsedMatches
 ## GET /parsedMatches
 GET https://api.opendota.com/api/parsedMatches
+
+
+lessThanMatchId={{paramName}}
+    
+
 Accept: application/json; charset=utf-8

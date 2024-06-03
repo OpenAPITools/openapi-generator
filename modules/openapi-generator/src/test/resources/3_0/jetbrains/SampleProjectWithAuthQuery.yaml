@@ -43,6 +43,8 @@ paths:
       description: Retrieve the information of the user with the matching user ID.
       tags:
         - basic
+      security:
+        - ApiKeyAuthQuery: [ ]
       parameters:
         - description: Page length
           name: page
@@ -292,6 +294,10 @@ components:
       type: apiKey
       name: X-API-Key
       in: header
+    ApiKeyAuthQuery:
+      in: query
+      name: api_key
+      type: apiKey
   schemas:
     User:
       title: User

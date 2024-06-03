@@ -3,4 +3,7 @@
 ### GET /health
 ## GET /health
 GET https://api.opendota.com/api/health
+
+
+
 Accept: application/json; charset=utf-8

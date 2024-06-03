@@ -3,9 +3,15 @@
 ### GET /constants
 ## GET /constants
 GET https://api.opendota.com/api/constants
+
+
+
 Accept: application/json; charset=utf-8
 
 ### GET /constants
 ## GET /constants
 GET https://api.opendota.com/api/constants/{{resource}}
+
+
+
 Accept: application/json; charset=utf-8

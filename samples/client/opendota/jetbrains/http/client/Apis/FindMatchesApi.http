@@ -3,4 +3,11 @@
 ### GET /
 ## GET /
 GET https://api.opendota.com/api/findMatches
+
+
+teamA={{paramName}}
+    &
+teamB={{paramName}}
+    
+
 Accept: application/json; charset=utf-8

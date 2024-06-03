@@ -3,4 +3,9 @@
 ### GET /explorer
 ## GET /explorer
 GET https://api.opendota.com/api/explorer
+
+
+sql={{paramName}}
+    
+
 Accept: application/json; charset=utf-8

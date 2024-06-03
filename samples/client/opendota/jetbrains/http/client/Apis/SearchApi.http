@@ -3,4 +3,9 @@
 ### GET /search
 ## GET /search
 GET https://api.opendota.com/api/search
+
+
+q={{paramName}}
+    
+
 Accept: application/json; charset=utf-8
