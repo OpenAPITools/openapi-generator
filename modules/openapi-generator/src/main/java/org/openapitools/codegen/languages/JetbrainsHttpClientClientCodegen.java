@@ -31,6 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -66,6 +68,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     public List<String> customHeaders = new ArrayList<>();
 
+    // A map is nice, because that way I easily override variables across APIs, for pagination for example. This should add nice defaults
     private final Map<String, Object> customVariables = new HashMap<>();
 
 
@@ -121,7 +124,12 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         }
 
         bodyVariables.forEach(variable -> customVariables.put(variable, ""));
-        customHeaders.forEach(header -> customVariables.put(header, ""));
+        for(String header: customHeaders) {
+            List<String> variables = extractDoubleCurlyBraces(header);
+            if(!variables.isEmpty()) {
+                variables.forEach(v -> customVariables.put(v, ""));
+            }
+        }
     }
 
     @Override
@@ -209,9 +217,41 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
             items.add(new RequestItem(codegenOperation.summary, null));
         }
 
+        codegenOperation.headerParams.forEach(param -> customVariables.put(param.baseName, ""));
+        codegenOperation.queryParams.forEach(param -> customVariables.put(param.paramName, ""));
+
+        // I also need to grab the parameters from the path
+        List<String> pathVariables = extractSingleCurlyBraces(codegenOperation.path);
+        pathVariables.forEach(pv -> customVariables.put(pv, ""));
+
         // Handling custom variables now
         return handleCustomVariablesInRequests(items);
     }
+
+    public static List<String> extractDoubleCurlyBraces(String input) {
+        List<String> result = new ArrayList<>();
+        Pattern pattern = Pattern.compile("\\{\\{([^}]+)\\}\\}");
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            result.add(matcher.group(1));
+        }
+
+        return result;
+    }
+
+    public static List<String> extractSingleCurlyBraces(String input) {
+        List<String> result = new ArrayList<>();
+        Pattern pattern = Pattern.compile("\\{([^}]+)\\}");
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            result.add(matcher.group(1));
+        }
+
+        return result;
+    }
+
 
     private List<RequestItem> handleCustomVariablesInRequests(List<RequestItem> items) {
         if (!bodyVariables.isEmpty()) {
