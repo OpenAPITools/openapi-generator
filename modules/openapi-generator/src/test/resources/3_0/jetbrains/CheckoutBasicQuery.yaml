@@ -1,4 +1,4 @@
-  openapi: 3.0.3
+openapi: 3.0.3
 info:
   title: Checkout Basic
   description: Checkout Basic

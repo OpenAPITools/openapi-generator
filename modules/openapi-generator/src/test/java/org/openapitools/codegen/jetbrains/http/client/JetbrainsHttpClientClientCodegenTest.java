@@ -481,4 +481,35 @@ public class JetbrainsHttpClientClientCodegenTest {
                 "  \"channel\" : \"Android\"\n" +
                 "}");
     }
+
+    @Test
+    public void testBasicGenerationQueryParamsNoAuth() throws IOException {
+        // Checking that each request example is present in the output file
+        File output = Files.createTempDirectory("jetbrainstest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jetbrains-http-client")
+                .setInputSpec("src/test/resources/3_0/jetbrains/SampleProjectWithAuthQuery.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/Apis/BasicApi.http");
+        assertFileExists(path);
+
+        // Checking first and last
+        TestUtils.assertFileContains(path, "### Get User Info by Query Param\n" +
+                "## Get User Info by Query Param\n" +
+                "GET http://localhost:5000/v1/users/?page={{page}}&pUserId={{pUserId}}&api_key={{queryKey}}\n" +
+                "Accept: application/json\n" +
+                "Custom-Header: {{customHeader}}\n" +
+                "Another-Custom-Header: {{anotherCustomHeader}}");
+    }
+
+
 }

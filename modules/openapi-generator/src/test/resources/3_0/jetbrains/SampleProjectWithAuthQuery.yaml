@@ -3,9 +3,9 @@ info:
   title: Sample project
   version: '1.0'
   contact:
-    name: Beppe Catanese
-    email: gcatanese@yahoo.com
-    url: 'https://github.com/gcatanese'
+    name: Julien Lengrand-Lambert
+    email: fake@email.com
+    url: 'https://github.com/jlengrand'
   description: 'Sample API Check "API Key" '
   license:
     name: Apache 2.0

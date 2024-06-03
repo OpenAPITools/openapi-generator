@@ -96,6 +96,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         embeddedTemplateDir = templateDir = "jetbrains-http-client";
         apiPackage = "Apis";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("http-client.template.env.mustache", "", "http-client.template.env.json"));
 
 
         cliOptions.clear();
