@@ -1,4 +1,4 @@
-FROM maven:3-eclipse-temurin-17
+FROM maven:3.6.3-jdk-11-openj9
 
 ENV GEN_DIR /opt/openapi-generator
 WORKDIR ${GEN_DIR}
@@ -29,7 +29,7 @@ COPY ./modules/openapi-generator-core ${GEN_DIR}/modules/openapi-generator-core
 COPY ./modules/openapi-generator ${GEN_DIR}/modules/openapi-generator
 
 # Pre-compile openapi-generator-cli
-RUN mvn -B -am -pl "modules/openapi-generator-cli" package
+RUN mvn -am -pl "modules/openapi-generator-cli" package
 
 # This exists at the end of the file to benefit from cached layers when modifying docker-entrypoint.sh.
 COPY docker-entrypoint.sh /usr/local/bin/
