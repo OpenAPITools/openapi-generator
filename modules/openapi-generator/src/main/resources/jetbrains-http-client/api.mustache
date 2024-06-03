@@ -12,6 +12,9 @@ Content-Type: {{{mediaType}}}
 {{#produces}}
 Accept: {{{mediaType}}}
 {{/produces}}
+{{#headerParams}}
+{{baseName}}: {{=<% %>=}}{{<%paramName%>}}<%={{ }}=%>
+{{/headerParams}}
 {{#vendorExtensions.customHeaders}}
 {{{.}}}
 {{/vendorExtensions.customHeaders}}
