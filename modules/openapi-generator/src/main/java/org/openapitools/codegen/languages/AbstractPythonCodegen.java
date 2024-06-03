@@ -45,12 +45,12 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenDiscriminator;
 import org.openapitools.codegen.CodegenMediaType;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.GeneratorLanguage;
 import org.openapitools.codegen.IJsonSchemaValidationProperties;
@@ -1261,6 +1261,20 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     moduleImports,
                     null
                 );
+            }
+
+            // update typing import for operation responses type
+            for (CodegenResponse response : operation.responses) {
+                    // Not interested in the result, only in the update of the imports
+                    getPydanticType(
+                            response.returnProperty,
+                            modelImports,
+                            exampleImports,
+                            postponedModelImports,
+                            postponedExampleImports,
+                            moduleImports,
+                            null
+                    );
             }
 
             // add import for code samples
