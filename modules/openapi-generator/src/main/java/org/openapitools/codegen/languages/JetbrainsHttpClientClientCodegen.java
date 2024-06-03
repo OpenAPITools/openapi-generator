@@ -66,6 +66,8 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     public List<String> customHeaders = new ArrayList<>();
 
+    private final Map<String, Object> customVariables = new HashMap<>();
+
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -96,7 +98,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         embeddedTemplateDir = templateDir = "jetbrains-http-client";
         apiPackage = "Apis";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("http-client.template.env.mustache", "", "http-client.template.env.json"));
+        supportingFiles.add(new SupportingFile("http-client.template.env.mustache", "Apis", "http-client.template.env.json"));
 
 
         cliOptions.clear();
@@ -117,6 +119,9 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         if (additionalProperties.containsKey(CUSTOM_HEADERS)) {
             customHeaders = Arrays.asList(additionalProperties.get(CUSTOM_HEADERS).toString().split("&"));
         }
+
+        bodyVariables.forEach(variable -> customVariables.put(variable, ""));
+        customHeaders.forEach(header -> customVariables.put(header, ""));
     }
 
     @Override
@@ -153,7 +158,15 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
                 codegenOperation.vendorExtensions.put("customHeaders", customHeaders);
             }
         }
+
         return results;
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        var variables = new ArrayList<>(customVariables.keySet());
+        objs.put("vendorExtensionsVariables", variables);
+        return objs;
     }
 
     List<RequestItem> getRequests(CodegenOperation codegenOperation) {
@@ -221,7 +234,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
     public void postProcess() {
         System.out.println("##########################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                                    #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                           #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
         System.out.println("# https://opencollective.com/openapi_generator/donate                                    #");
         System.out.println("#                                                                                        #");
         System.out.println("# This generator was written by Julien Lengrand-Lambert (https://github.com/jlengrand)   #");
