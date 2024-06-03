@@ -16,7 +16,6 @@ import java.util.List;
 import static org.openapitools.codegen.TestUtils.assertFileExists;
 
 public class JetbrainsHttpClientClientCodegenTest {
-
     @Test
     public void testBasicGenerationYaml() throws IOException {
 
@@ -483,7 +482,7 @@ public class JetbrainsHttpClientClientCodegenTest {
     }
 
     @Test
-    public void testBasicGenerationQueryParamsNoAuth() throws IOException {
+    public void testBasicGenerationQueryParams() throws IOException {
         // Checking that each request example is present in the output file
         File output = Files.createTempDirectory("jetbrainstest_").toFile();
         output.deleteOnExit();
@@ -557,5 +556,58 @@ public class JetbrainsHttpClientClientCodegenTest {
                 "}");
     }
 
+    @Test
+    public void testBasicGenerationHeaderParams() throws IOException {
+        // Checking that each request example is present in the output file
+        File output = Files.createTempDirectory("jetbrainstest_").toFile();
+        output.deleteOnExit();
 
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jetbrains-http-client")
+                .setInputSpec("src/test/resources/3_0/jetbrains/SampleProjectWithHeaderParams.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/Apis/DefaultApi.http");
+        assertFileExists(path);
+
+        // Checking with extra headers and header security
+        TestUtils.assertFileContains(path, "### Get User Info by Query Param\n" +
+                "## Get User Info by Query Param\n" +
+                "GET http://localhost:5000/v1/users/?page={{page}}&pUserId={{pUserId}}\n" +
+                "Accept: application/json\n" +
+                "Custom-Header: {{customHeader}}\n" +
+                "Another-Custom-Header: {{anotherCustomHeader}}\n" +
+                "X-API-Key: {{apiKey}}");
+
+        // Checking with only header security
+        TestUtils.assertFileContains(path, "### Update User Information\n" +
+                "## Update User Information\n" +
+                "PATCH http://localhost:5000/v1/users/{{userId}}?page={{page}}\n" +
+                "Content-Type: application/json\n" +
+                "Accept: application/json\n" +
+                "strCode: {{strCode}}\n" +
+                "strCode2: {{strCode2}}\n" +
+                "X-API-Key: {{apiKey}}");
+
+        // Checking with only extra headers
+        TestUtils.assertFileContains(path, "### Get group by ID\n" +
+                "## Get group by ID\n" +
+                "GET http://localhost:5000/v1/groups/{{groupId}}\n" +
+                "Accept: application/json\n" +
+                "Custom-Header: {{customHeader}}\n" +
+                "Another-Custom-Header: {{anotherCustomHeader}}\n");
+
+        // Checking when there is nothing
+        TestUtils.assertFileContains(path, "### Create New User\n" +
+                "## Example request for Get User\n" +
+                "POST http://localhost:5000/v1/user\n" +
+                "Content-Type: application/json\n" +
+                "Accept: application/json");
+    }
 }
