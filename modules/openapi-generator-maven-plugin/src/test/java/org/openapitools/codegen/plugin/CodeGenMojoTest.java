@@ -35,12 +35,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CodeGenMojoTest extends BaseTestCase {
@@ -225,6 +227,33 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertTrue(hashFolder.resolve("_merged_spec.yaml-executionId.sha256").toFile().exists());
     }
 
+    /**
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/16489">#16489</a>
+     */
+    public void test_skipIfSpecIsUnchanged_recognizesUpdatesInExternalReferencedFile() throws Exception {
+
+        //GIVEN
+        final Path tempDir = newTempFolder();
+        final Path generatedDir = tempDir.resolve("target/generated-sources/issue-16489");
+        final Path hashFile = generatedDir.resolve(".openapi-generator/petstore.yaml-default.sha256");
+        final CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/issue-16489", null);
+        mojo.execute(); // Perform an initial generation 
+        var currentHash = Files.readString(hashFile);   // read hash
+        FileUtils.deleteDirectory(generatedDir.resolve("src").toFile());    // Remove the generated source
+        Files.writeString(  // change schema definition in external file
+            tempDir.resolve("schemas/Pet.yaml"),"\n  wrapped: true", StandardOpenOption.APPEND
+        );
+
+        // WHEN
+        mojo.execute(); // Execute the mojo again
+
+        // THEN
+        assertNotEquals(
+            Files.readString(hashFile), currentHash, "Checksum should not be the same after external file change"
+        );         
+        assertTrue("Src directory should have been regenerated", Files.exists(generatedDir.resolve("src")));
+    }
+
     protected CodeGenMojo loadMojo(Path temporaryFolder, String projectRoot, String profile) throws Exception {
         return loadMojo(temporaryFolder, projectRoot, profile, "default");
     }
@@ -263,7 +292,7 @@ public class CodeGenMojoTest extends BaseTestCase {
     }
 
     static private Path newTempFolder() throws IOException {
-        var tempDir = Files.createTempDirectory("test");
+        final Path tempDir = Files.createTempDirectory("test");
         tempDir.toFile().deleteOnExit();
         return tempDir;
     }
