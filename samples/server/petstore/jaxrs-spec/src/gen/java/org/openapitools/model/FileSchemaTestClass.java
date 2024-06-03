@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("FileSchemaTestClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FileSchemaTestClass  implements Serializable {
   private ModelFile _file;
   private @Valid List<@Valid ModelFile> files = new ArrayList<>();
@@ -133,7 +133,7 @@ public class FileSchemaTestClass  implements Serializable {
     return new FileSchemaTestClassBuilderImpl();
   }
 
-  private static final class FileSchemaTestClassBuilderImpl extends FileSchemaTestClassBuilder<FileSchemaTestClass, FileSchemaTestClassBuilderImpl> {
+  private static class FileSchemaTestClassBuilderImpl extends FileSchemaTestClassBuilder<FileSchemaTestClass, FileSchemaTestClassBuilderImpl> {
 
     @Override
     protected FileSchemaTestClassBuilderImpl self() {

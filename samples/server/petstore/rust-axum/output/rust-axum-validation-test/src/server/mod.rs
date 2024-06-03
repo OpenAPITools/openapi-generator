@@ -10,15 +10,13 @@ use validator::{Validate, ValidationErrors};
 use crate::{header, types::*};
 
 #[allow(unused_imports)]
-use crate::models;
-
-use crate::{Api, MailPutResponse};
+use crate::{apis, models};
 
 /// Setup API Server.
 pub fn new<I, A>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: Api + 'static,
+    A: apis::default::Default + 'static,
 {
     // build our application with a route
     Router::new()
@@ -37,7 +35,7 @@ async fn mail_put<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     let result = api_impl
         .as_ref()
@@ -48,7 +46,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            MailPutResponse::Status204_OK => {
+            apis::default::MailPutResponse::Status204_OK => {
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }

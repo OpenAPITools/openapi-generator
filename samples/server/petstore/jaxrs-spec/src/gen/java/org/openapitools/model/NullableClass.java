@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("NullableClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NullableClass extends HashMap<String, Object> implements Serializable {
   private Integer integerProp;
   private BigDecimal numberProp;
@@ -126,7 +126,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   
   @ApiModelProperty(value = "")
   @JsonProperty("date_prop")
-  @Valid public LocalDate getDateProp() {
+  public LocalDate getDateProp() {
     return dateProp;
   }
 
@@ -145,7 +145,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   
   @ApiModelProperty(value = "")
   @JsonProperty("datetime_prop")
-  @Valid public Date getDatetimeProp() {
+  public Date getDatetimeProp() {
     return datetimeProp;
   }
 

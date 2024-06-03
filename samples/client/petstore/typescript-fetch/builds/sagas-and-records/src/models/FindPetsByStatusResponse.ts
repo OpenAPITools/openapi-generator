@@ -49,8 +49,8 @@ export interface FindPetsByStatusResponse {
 /**
  * Check if a given object implements the FindPetsByStatusResponse interface.
  */
-export function instanceOfFindPetsByStatusResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfFindPetsByStatusResponse(value: object): value is FindPetsByStatusResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 

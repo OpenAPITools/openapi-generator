@@ -8,7 +8,8 @@ use std::marker::PhantomData;
 use std::task::{Poll, Context};
 use swagger::auth::{AuthData, Authorization, Bearer, Scopes};
 use swagger::{EmptyContext, Has, Pop, Push, XSpanIdString};
-use crate::Api;
+use crate::{Api, AuthenticationApi};
+use log::error;
 
 pub struct MakeAddContext<T, A> {
     inner: T,
@@ -89,7 +90,7 @@ impl<T, A, B, C, D, ReqBody> Service<Request<ReqBody>> for AddContext<T, A, B, C
         B: Push<Option<AuthData>, Result=C>,
         C: Push<Option<Authorization>, Result=D>,
         D: Send + 'static,
-        T: Service<(Request<ReqBody>, D)>
+        T: Service<(Request<ReqBody>, D)> + AuthenticationApi
 {
     type Error = T::Error;
     type Future = T::Future;

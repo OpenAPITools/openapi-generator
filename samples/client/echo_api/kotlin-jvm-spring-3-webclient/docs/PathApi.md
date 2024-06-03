@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://localhost:3000*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
 
 
 <a id="testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath"></a>
@@ -39,13 +39,12 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pathString** | **kotlin.String**|  |
- **pathInteger** | **kotlin.Int**|  |
- **enumNonrefStringPath** | **kotlin.String**|  | [enum: success, failure, unclassified]
- **enumRefStringPath** | [**StringEnumRef**](.md)|  | [enum: success, failure, unclassified]
+| **pathString** | **kotlin.String**|  | |
+| **pathInteger** | **kotlin.Int**|  | |
+| **enumNonrefStringPath** | **kotlin.String**|  | [enum: success, failure, unclassified] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **enumRefStringPath** | [**StringEnumRef**](.md)|  | [enum: success, failure, unclassified] |
 
 ### Return type
 

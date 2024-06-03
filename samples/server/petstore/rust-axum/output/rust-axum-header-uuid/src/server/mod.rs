@@ -10,15 +10,13 @@ use validator::{Validate, ValidationErrors};
 use crate::{header, types::*};
 
 #[allow(unused_imports)]
-use crate::models;
-
-use crate::{Api, UsersPostResponse};
+use crate::{apis, models};
 
 /// Setup API Server.
 pub fn new<I, A>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: Api + 'static,
+    A: apis::default::Default + 'static,
 {
     // build our application with a route
     Router::new()
@@ -45,7 +43,7 @@ async fn users_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: Api,
+    A: apis::default::Default,
 {
     // Header parameters
     let header_params = {
@@ -101,7 +99,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UsersPostResponse::Status201_AddedRowToTable(body) => {
+            apis::default::UsersPostResponse::Status201_AddedRowToTable(body) => {
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();

@@ -356,13 +356,17 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
      * data types for Header and Query parameters.
      * @param param CodegenParameter to be modified.
      */
-    private static void postProcessSingleParam(CodegenParameter param) {
+    private void postProcessSingleParam(CodegenParameter param) {
         //TODO: This changes the info about the real type but it is needed to parse the header params
         if (param.isHeaderParam) {
             param.dataType = "std::optional<Pistache::Http::Header::Raw>";
             param.baseType = "std::optional<Pistache::Http::Header::Raw>";
         } else if (param.isQueryParam) {
-            param.dataType = "std::optional<" + param.dataType + ">";
+            String dataTypeWithNamespace = param.isPrimitiveType ? param.dataType : prefixWithNameSpaceIfNeeded(param.dataType);
+
+            param.dataType = "std::optional<" + dataTypeWithNamespace + ">";
+            param.isOptional = true;
+
             if (!param.isPrimitiveType) {
                 param.baseType = "std::optional<" + param.baseType + ">";
             }
@@ -434,8 +438,17 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return toModelName(openAPIType);
         }
 
+        return prefixWithNameSpaceIfNeeded(openAPIType);
+    }
+
+    /**
+     * Prefix an open API type with a namespace or not, depending of its current type and if it is on a list to avoid it.
+     * @param openAPIType Open API Type.
+     * @return type prefixed with the namespace or not.
+     */
+    private String prefixWithNameSpaceIfNeeded(String openAPIType) {
         // Some types might not support namespace
-        if (this.openAPITypesWithoutModelNamespace.contains(openAPIType)) {
+        if (this.openAPITypesWithoutModelNamespace.contains(openAPIType) || openAPIType.startsWith("std::")) {
             return openAPIType;
         }
         else {

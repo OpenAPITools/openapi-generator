@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, quadrilateralInterface, jsonSerializerOptions);
+            WriteProperties(writer, quadrilateralInterface, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -161,7 +161,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="quadrilateralInterface"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, QuadrilateralInterface quadrilateralInterface, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, QuadrilateralInterface quadrilateralInterface, JsonSerializerOptions jsonSerializerOptions)
         {
             if (quadrilateralInterface.QuadrilateralType == null)
                 throw new ArgumentNullException(nameof(quadrilateralInterface.QuadrilateralType), "Property is required for class QuadrilateralInterface.");

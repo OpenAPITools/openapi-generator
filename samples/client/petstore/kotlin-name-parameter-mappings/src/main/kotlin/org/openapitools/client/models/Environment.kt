@@ -31,5 +31,8 @@ data class Environment (
     @Json(name = "dummy")
     val dummy: kotlin.String? = null
 
-)
+) {
+
+
+}
 

@@ -26,11 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -76,18 +76,16 @@ public class JavaHelidonCommonCodegenPackagePrefixTest {
                                        String explicitPrefix,
                                        String generatorName,
                                        String libraryName) {
-    IllegalArgumentException e = Assert.assertThrows("Run invalid combo: " + assertMsg(explicitHelidonVersion,
-                                                                                       explicitPrefix,
-                                                                                       generatorName,
-                                                                                       libraryName),
-                                                     IllegalArgumentException.class,
-        () -> runTest(explicitHelidonVersion, explicitPrefix, generatorName, libraryName));
-    Assert.assertTrue("Exception message for " + assertMsg(explicitHelidonVersion,
-                                                           explicitPrefix,
-                                                           generatorName,
-                                                           libraryName)
-                              + "'" + e.getMessage() + "' containing '" + EXCEPTION_MESSAGE_FRAGMENT + "'",
-        e.getMessage().contains(EXCEPTION_MESSAGE_FRAGMENT));
+    IllegalArgumentException e = Assert.expectThrows(
+        "Run invalid combo: " + assertMsg(explicitHelidonVersion, explicitPrefix, generatorName, libraryName),
+       IllegalArgumentException.class,
+       () -> runTest(explicitHelidonVersion, explicitPrefix, generatorName, libraryName)
+    );
+    Assert.assertTrue(
+        e.getMessage().contains(EXCEPTION_MESSAGE_FRAGMENT),
+        "Exception message for " + assertMsg(explicitHelidonVersion, explicitPrefix, generatorName, libraryName)
+                          + "'" + e.getMessage() + "' containing '" + EXCEPTION_MESSAGE_FRAGMENT + "'"
+    );
   }
 
   private static String assertMsg(String explicitHelidonVersion, String explicitPrefix, String generatorName, String libraryName) {

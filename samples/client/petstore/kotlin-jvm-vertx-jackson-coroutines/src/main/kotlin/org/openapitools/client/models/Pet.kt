@@ -66,5 +66,6 @@ data class Pet (
         @JsonProperty(value = "pending") pending("pending"),
         @JsonProperty(value = "sold") sold("sold");
     }
+
 }
 

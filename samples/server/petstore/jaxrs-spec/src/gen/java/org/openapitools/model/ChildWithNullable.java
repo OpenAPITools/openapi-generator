@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ChildWithNullable")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ChildWithNullable extends ParentWithNullable implements Serializable {
   private String otherProperty;
 
@@ -94,7 +94,7 @@ public class ChildWithNullable extends ParentWithNullable implements Serializabl
     return new ChildWithNullableBuilderImpl();
   }
 
-  private static final class ChildWithNullableBuilderImpl extends ChildWithNullableBuilder<ChildWithNullable, ChildWithNullableBuilderImpl> {
+  private static class ChildWithNullableBuilderImpl extends ChildWithNullableBuilder<ChildWithNullable, ChildWithNullableBuilderImpl> {
 
     @Override
     protected ChildWithNullableBuilderImpl self() {

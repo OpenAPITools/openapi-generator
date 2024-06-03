@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Cat")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Cat extends Animal implements Serializable {
   private Boolean declawed;
 
@@ -91,7 +91,7 @@ public class Cat extends Animal implements Serializable {
     return new CatBuilderImpl();
   }
 
-  private static final class CatBuilderImpl extends CatBuilder<Cat, CatBuilderImpl> {
+  private static class CatBuilderImpl extends CatBuilder<Cat, CatBuilderImpl> {
 
     @Override
     protected CatBuilderImpl self() {

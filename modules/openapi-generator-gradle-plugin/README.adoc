@@ -389,11 +389,6 @@ apply plugin: 'org.openapi.generator'
 |true
 |Defines whether or not api-related _documentation_ files should be generated.
 
-|withXml
-|Boolean
-|false
-|A special-case setting which configures some generators with XML support. In some cases, this forces json OR xml, so the default here is false.
-
 |configOptions
 |Map(String,String)
 |None

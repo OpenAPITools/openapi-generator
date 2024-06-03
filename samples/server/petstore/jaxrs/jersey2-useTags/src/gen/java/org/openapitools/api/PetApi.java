@@ -32,7 +32,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the Pet API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class PetApi  {
    private final PetApiService delegate;
 
@@ -43,7 +43,7 @@ public class PetApi  {
          String implClass = servletContext.getInitParameter("PetApi.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = (PetApiService) Class.forName(implClass).newInstance();
+               delegate = (PetApiService) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }

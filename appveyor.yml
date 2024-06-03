@@ -54,7 +54,24 @@ test_script:
   - dotnet test samples\client\petstore\csharp\generichost\net8\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\SourceGeneration\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\UseDateTimeForDate\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+
   - dotnet test samples\client\petstore\csharp\generichost\standard2.0\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+
+  - dotnet test samples\client\petstore\csharp\generichost\net4.8\AllOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net4.8\AnyOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net4.8\AnyOfNoCompare\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net4.8\FormModels\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net4.8\OneOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net4.8\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net4.8\UseDateTimeForDate\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+
+  - dotnet test samples\client\petstore\csharp\generichost\net4.7\AllOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net4.7\AnyOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net4.7\AnyOfNoCompare\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net4.7\FormModels\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net4.7\OneOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net4.7\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net4.7\UseDateTimeForDate\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
 
   - dotnet test samples\client\petstore\csharp\httpclient\standard2.0\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
 

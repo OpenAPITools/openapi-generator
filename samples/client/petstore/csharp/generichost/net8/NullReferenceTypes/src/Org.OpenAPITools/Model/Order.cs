@@ -363,7 +363,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, order, jsonSerializerOptions);
+            WriteProperties(writer, order, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -374,7 +374,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="order"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
             if (order.CompleteOption.IsSet)
                 writer.WriteBoolean("complete", order.CompleteOption.Value!.Value);

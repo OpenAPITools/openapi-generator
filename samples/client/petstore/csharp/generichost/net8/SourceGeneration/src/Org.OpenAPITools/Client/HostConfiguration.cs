@@ -88,6 +88,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new LiteralStringClassJsonConverter());
             _jsonOptions.Converters.Add(new MammalJsonConverter());
             _jsonOptions.Converters.Add(new MapTestJsonConverter());
+            _jsonOptions.Converters.Add(new MixLogJsonConverter());
             _jsonOptions.Converters.Add(new MixedPropertiesAndAdditionalPropertiesClassJsonConverter());
             _jsonOptions.Converters.Add(new Model200ResponseJsonConverter());
             _jsonOptions.Converters.Add(new ModelClientJsonConverter());
@@ -188,6 +189,7 @@ namespace Org.OpenAPITools.Client
                 new LiteralStringClassSerializationContext(),
                 new MammalSerializationContext(),
                 new MapTestSerializationContext(),
+                new MixLogSerializationContext(),
                 new MixedPropertiesAndAdditionalPropertiesClassSerializationContext(),
                 new Model200ResponseSerializationContext(),
                 new ModelClientSerializationContext(),

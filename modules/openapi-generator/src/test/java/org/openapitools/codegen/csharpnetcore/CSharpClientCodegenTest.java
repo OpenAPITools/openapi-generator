@@ -116,4 +116,29 @@ public class CSharpClientCodegenTest {
         assertFileContains(apiFile.toPath(),
                 "localVarRequestOptions.HeaderParameters.Add(\"X-CUSTOM_CONSTANT_HEADER\", Org.OpenAPITools.Client.ClientUtils.ParameterToString(\"CONSTANT_VALUE\"));");
     }
+
+    @Test
+    public void test31specAdditionalPropertiesOfOneOf() throws IOException {
+        // for https://github.com/OpenAPITools/openapi-generator/pull/18772
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/additional_properties_oneof.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File modelFile = files
+                .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Response.cs").toString());
+        assertNotNull(modelFile);
+        assertFileContains(modelFile.toPath(),
+                " Dictionary<string, ResponseResultsValue> results = default(Dictionary<string, ResponseResultsValue>");
+    }
 }

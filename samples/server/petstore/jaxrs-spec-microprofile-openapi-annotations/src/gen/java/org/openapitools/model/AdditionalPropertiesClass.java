@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("AdditionalPropertiesClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AdditionalPropertiesClass  implements Serializable {
   private @Valid Map<String, String> mapString = new HashMap<>();
   private @Valid Map<String, BigDecimal> mapNumber = new HashMap<>();
@@ -199,7 +199,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("map_array_integer")
-  @Valid public Map<String, List<Integer>> getMapArrayInteger() {
+  public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
 
@@ -234,7 +234,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("map_array_anytype")
-  @Valid public Map<String, List<Object>> getMapArrayAnytype() {
+  public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
 
@@ -269,7 +269,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("map_map_string")
-  @Valid public Map<String, Map<String, String>> getMapMapString() {
+  public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
 
@@ -304,7 +304,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("map_map_anytype")
-  @Valid public Map<String, Map<String, Object>> getMapMapAnytype() {
+  public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
 
@@ -450,7 +450,7 @@ public class AdditionalPropertiesClass  implements Serializable {
     return new AdditionalPropertiesClassBuilderImpl();
   }
 
-  private static final class AdditionalPropertiesClassBuilderImpl extends AdditionalPropertiesClassBuilder<AdditionalPropertiesClass, AdditionalPropertiesClassBuilderImpl> {
+  private static class AdditionalPropertiesClassBuilderImpl extends AdditionalPropertiesClassBuilder<AdditionalPropertiesClass, AdditionalPropertiesClassBuilderImpl> {
 
     @Override
     protected AdditionalPropertiesClassBuilderImpl self() {

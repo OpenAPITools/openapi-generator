@@ -49,8 +49,8 @@ export interface GetPetPartTypeResponse {
 /**
  * Check if a given object implements the GetPetPartTypeResponse interface.
  */
-export function instanceOfGetPetPartTypeResponse(value: object): boolean {
-    if (!('meta' in value)) return false;
+export function instanceOfGetPetPartTypeResponse(value: object): value is GetPetPartTypeResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
     return true;
 }
 

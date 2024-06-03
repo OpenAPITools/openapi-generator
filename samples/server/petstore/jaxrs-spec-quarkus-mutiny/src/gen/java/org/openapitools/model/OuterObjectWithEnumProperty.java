@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("OuterObjectWithEnumProperty")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty  implements Serializable {
   private OuterEnumInteger value;
 
@@ -36,7 +36,7 @@ public class OuterObjectWithEnumProperty  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("value")
-  @NotNull @Valid public OuterEnumInteger getValue() {
+  @NotNull public OuterEnumInteger getValue() {
     return value;
   }
 
@@ -89,7 +89,7 @@ public class OuterObjectWithEnumProperty  implements Serializable {
     return new OuterObjectWithEnumPropertyBuilderImpl();
   }
 
-  private static final class OuterObjectWithEnumPropertyBuilderImpl extends OuterObjectWithEnumPropertyBuilder<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilderImpl> {
+  private static class OuterObjectWithEnumPropertyBuilderImpl extends OuterObjectWithEnumPropertyBuilder<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilderImpl> {
 
     @Override
     protected OuterObjectWithEnumPropertyBuilderImpl self() {

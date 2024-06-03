@@ -211,11 +211,6 @@
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind-version}</version>
-        </dependency>
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -305,6 +300,11 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson-version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-databind-version}</version>
+            </dependency>
             {{#openApiNullable}}
             <dependency>
                 <groupId>org.openapitools</groupId>
@@ -344,6 +344,11 @@
                 <artifactId>play-ahc-ws_2.12</artifactId>
                 <version>${play-version}</version>
             </dependency>
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${beanvalidation-version}</version>
+            </dependency>
         {{/usePlayWS}}
         {{#parcelableModel}}
             <!-- Needed for Parcelable support-->
@@ -377,12 +382,12 @@
         <gson-fire-version>1.9.0</gson-fire-version>
         {{/gson}}
         <swagger-annotations-version>1.6.3</swagger-annotations-version>
-        <jackson-databind-version>2.15.2</jackson-databind-version>
         {{#jackson}}
-        <jackson-version>2.15.2</jackson-version>
-        {{#openApiNullable}}
+        <jackson-databind-version>2.17.1</jackson-databind-version>
+        <jackson-version>2.17.1</jackson-version>
+            {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
-        {{/openApiNullable}}
+            {{/openApiNullable}}
         <javax.ws.rs-api-version>2.1.1</javax.ws.rs-api-version>
         {{/jackson}}
         {{#usePlayWS}}
@@ -404,9 +409,9 @@
         {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         {{/useJakartaEe}}
-{{#useBeanValidation}}
+        {{#useBeanValidation}}
         <beanvalidation-version>3.0.2</beanvalidation-version>
-{{/useBeanValidation}}
+        {{/useBeanValidation}}
         <oltu-version>1.0.1</oltu-version>
         <junit-version>4.13.2</junit-version>
     </properties>

@@ -31,5 +31,8 @@ data class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter (
     @field:JsonProperty("values")
     val propertyValues: kotlin.collections.List<kotlin.String>? = null
 
-)
+) {
+
+
+}
 

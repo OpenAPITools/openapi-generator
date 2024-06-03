@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Category")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Category  implements Serializable {
   private Long id;
   private String name = "default-name";
@@ -111,7 +111,7 @@ public class Category  implements Serializable {
     return new CategoryBuilderImpl();
   }
 
-  private static final class CategoryBuilderImpl extends CategoryBuilder<Category, CategoryBuilderImpl> {
+  private static class CategoryBuilderImpl extends CategoryBuilder<Category, CategoryBuilderImpl> {
 
     @Override
     protected CategoryBuilderImpl self() {

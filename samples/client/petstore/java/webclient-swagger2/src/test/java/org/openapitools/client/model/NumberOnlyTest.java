@@ -18,23 +18,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for NumberOnly
  */
-public class NumberOnlyTest {
+class NumberOnlyTest {
     private final NumberOnly model = new NumberOnly();
 
     /**
      * Model tests for NumberOnly
      */
     @Test
-    public void testNumberOnly() {
+    void testNumberOnly() {
         // TODO: test NumberOnly
     }
 
@@ -42,7 +42,7 @@ public class NumberOnlyTest {
      * Test the property 'justNumber'
      */
     @Test
-    public void justNumberTest() {
+    void justNumberTest() {
         // TODO: test justNumber
     }
 

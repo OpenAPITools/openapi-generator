@@ -224,11 +224,10 @@
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&body);
 {{/x-consumes-json}}
 {{^x-consumes-plain-text}}
-                                    let handle_unknown_field = |path: serde_ignored::Path<'_>| {
-                                        warn!("Ignoring unknown field in body: {}", path);
-                                        unused_elements.push(path.to_string());
-                                    };
-                                    match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
                                         Ok(param_{{{paramName}}}) => param_{{{paramName}}},
 {{#required}}
                                         Err(e) => return Ok(Response::builder()
@@ -422,11 +421,10 @@
                                             Some("{{{contentType}}}") if param_{{{paramName}}}.is_none() => {
                                                 // Extract JSON part.
                                                 let deserializer = &mut serde_json::Deserializer::from_slice(part.body.as_slice());
-                                                let handle_unknown_field = |path: serde_ignored::Path<'_>| {
+                                                let json_data: {{dataType}} = match serde_ignored::deserialize(deserializer, |path| {
                                                     warn!("Ignoring unknown field in JSON part: {}", path);
                                                     unused_elements.push(path.to_string());
-                                                };
-                                                let json_data: {{dataType}} = match serde_ignored::deserialize(deserializer, handle_unknown_field) {
+                                                }) {
                                                     Ok(json_data) => json_data,
                                                     Err(e) => return Ok(Response::builder()
                                                                     .status(StatusCode::BAD_REQUEST)
