@@ -241,11 +241,11 @@ export class {{classname}} extends runtime.BaseAPI {
         if (requestParameters['{{paramName}}'] != null) {
             {{#isCollectionFormatMulti}}
             requestParameters['{{paramName}}'].forEach((element) => {
-                formParams.append('{{baseName}}', element as any);
+                formParams.append('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', element as any);
             })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            formParams.append('{{baseName}}', {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters['{{paramName}}']{{#uniqueItems}}){{/uniqueItems}}!.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
+            formParams.append('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters['{{paramName}}']{{#uniqueItems}}){{/uniqueItems}}!.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
             {{/isCollectionFormatMulti}}
         }
 
