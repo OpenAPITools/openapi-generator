@@ -16,17 +16,7 @@
 
 package org.openapitools.codegen.plugin;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.DefaultMavenExecutionRequest;
@@ -39,10 +29,20 @@ import org.apache.maven.project.ProjectBuilder;
 import org.apache.maven.project.ProjectBuildingRequest;
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
 import org.eclipse.aether.DefaultRepositorySystemSession;
-import org.eclipse.aether.impl.DefaultServiceLocator;
 import org.eclipse.aether.internal.impl.SimpleLocalRepositoryManagerFactory;
 import org.eclipse.aether.repository.LocalRepository;
-import org.eclipse.aether.RepositorySystem;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CodeGenMojoTest extends BaseTestCase {
     @Override
@@ -64,8 +64,7 @@ public class CodeGenMojoTest extends BaseTestCase {
 
     @SuppressWarnings("unchecked")
     private void testCommonConfiguration(String profile) throws Exception {
-        File folder = Files.createTempDirectory("test").toFile();
-        CodeGenMojo mojo = loadMojo(folder, "src/test/resources/default", profile);
+        CodeGenMojo mojo = loadMojo(newTempFolder(), "src/test/resources/default", profile);
         mojo.execute();
         assertEquals("java", getVariableValueFromObject(mojo, "generatorName"));
         assertEquals("jersey2", getVariableValueFromObject(mojo, "library"));
@@ -81,14 +80,14 @@ public class CodeGenMojoTest extends BaseTestCase {
 
     public void testHashGenerationFileContainsExecutionId() throws Exception {
         // GIVEN
-        Path folder = Files.createTempDirectory("test");
-        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "file", "executionId");
+        final Path tempDir = newTempFolder();
+        CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/default", "file", "executionId");
 
         // WHEN
         mojo.execute();
 
         // THEN
-        Path hashFolder = folder.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
+        Path hashFolder = tempDir.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
         assertTrue(hashFolder.resolve("petstore.yaml-executionId.sha256").toFile().exists());
     }
 
@@ -99,21 +98,20 @@ public class CodeGenMojoTest extends BaseTestCase {
      * @throws Exception
      */
     public void testSkipRegenerationForClasspathSpecFileNoChange() throws Exception {
-
         //GIVEN
         /* Setup the mojo */
-        final Path folder = Files.createTempDirectory("test-classpath");
-        final CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/classpath", null, "executionId");
+        final Path tempDir = newTempFolder();
+        final CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/classpath", null, "executionId");
 
         /* Perform an initial generation */
         mojo.execute();
 
         /* Check the hash file was created */
-        final Path hashFolder = folder.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
+        final Path hashFolder = tempDir.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
         assertTrue(hashFolder.resolve("petstore-on-classpath.yaml-executionId.sha256").toFile().exists());
 
         /* Remove the generated source */
-        Files.walk(folder.resolve("target/generated-sources/common-maven/remote-openapi/src"))
+        Files.walk(tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src"))
             .sorted(Comparator.reverseOrder())
             .map(Path::toFile)
             .forEach(File::delete);
@@ -126,7 +124,7 @@ public class CodeGenMojoTest extends BaseTestCase {
         // THEN
         /* Verify that the source directory has not been repopulated. If it has then we generated code again */
         assertFalse("src directory should not have been regenerated", 
-            folder.resolve("target/generated-sources/common-maven/remote-openapi/src").toFile().exists());
+            tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src").toFile().exists());
 
     }
 
@@ -137,17 +135,16 @@ public class CodeGenMojoTest extends BaseTestCase {
      * @throws Exception
      */
     public void testSkipRegenerationForClasspathSpecFileWithChange() throws Exception {
-
         //GIVEN
         /* Setup the mojo */
-        final Path folder = Files.createTempDirectory("test-classpath");
-        final CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/classpath", null, "executionId");
+        final Path tempDir = newTempFolder();
+        final CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/classpath", null, "executionId");
 
         /* Perform an initial generation */
         mojo.execute();
 
         /* Check the hash file was created, proving a generation occurred */
-        final Path hashFolder = folder.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
+        final Path hashFolder = tempDir.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
         assertTrue(hashFolder.resolve("petstore-on-classpath.yaml-executionId.sha256").toFile().exists());
 
         /* Update the hash contents to be a different value, simulating a spec change */
@@ -156,7 +153,7 @@ public class CodeGenMojoTest extends BaseTestCase {
             Arrays.asList("bd1bf4a953c858f9d47b67ed6029daacf1707e5cbd3d2e4b01383ba30363366f"));
 
         /* Remove the generated source */
-        Files.walk(folder.resolve("target/generated-sources/common-maven/remote-openapi/src"))
+        Files.walk(tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src"))
             .sorted(Comparator.reverseOrder())
             .map(Path::toFile)
             .forEach(File::delete);
@@ -169,27 +166,26 @@ public class CodeGenMojoTest extends BaseTestCase {
         // THEN
         /* Verify that the source directory has not been repopulated. If it has then we generated code again */
         assertTrue("src directory should have been regenerated", 
-            folder.resolve("target/generated-sources/common-maven/remote-openapi/src").toFile().exists());
+            tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src").toFile().exists());
 
     }
 
     public void testCollapsedSpecProduced() throws Exception {
         // GIVEN
-        Path folder = Files.createTempDirectory("test");
-        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "file", "executionId");
+        final Path tempDir = newTempFolder();
+        CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/default", "file", "executionId");
 
         // WHEN
         mojo.execute();
 
         // THEN
-        File collapseSpecFile = folder.resolve("target/generated-sources/common-maven/remote-openapi/petstore-full-spec.yaml").toFile();
+        File collapseSpecFile = tempDir.resolve("target/generated-sources/common-maven/remote-openapi/petstore-full-spec.yaml").toFile();
         assertTrue(collapseSpecFile.exists());
     }
 
     public void testCollapsedSpecAddedToArtifacts() throws Exception {
         // GIVEN
-        Path folder = Files.createTempDirectory("test");
-        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "file", "executionId");
+        CodeGenMojo mojo = loadMojo(newTempFolder(), "src/test/resources/default", "file", "executionId");
 
         // WHEN
         mojo.execute();
@@ -203,8 +199,7 @@ public class CodeGenMojoTest extends BaseTestCase {
 
     public void testAnyInputSpecMustBeProvided() throws Exception {
         // GIVEN
-        Path folder = Files.createTempDirectory("test");
-        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "file", "executionId");
+        CodeGenMojo mojo = loadMojo(newTempFolder(), "src/test/resources/default", "file", "executionId");
         mojo.inputSpec = null;
         mojo.inputSpecRootDirectory = null;
 
@@ -217,8 +212,8 @@ public class CodeGenMojoTest extends BaseTestCase {
 
     public void testInputSpecRootDirectoryDoesNotRequireInputSpec() throws Exception {
         // GIVEN
-        Path folder = Files.createTempDirectory("test");
-        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "file", "executionId");
+        final Path tempDir = newTempFolder();
+        CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/default", "file", "executionId");
         mojo.inputSpec = null;
         mojo.inputSpecRootDirectory = "src/test/resources/default";
 
@@ -227,22 +222,60 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         // THEN
         /* Check the hash file was created */
-        final Path hashFolder = folder.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
+        final Path hashFolder = tempDir.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
         assertTrue(hashFolder.resolve("_merged_spec.yaml-executionId.sha256").toFile().exists());
     }
 
-    protected CodeGenMojo loadMojo(File temporaryFolder, String projectRoot, String profile) throws Exception {
+    /**
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/4512">#4512</a>
+     */
+    public void test_skipIfSpecIsUnchanged_WillNotGenerateTwice_forMultipleExecutions_withIdenticalFilenames() throws Exception {
+
+        //GIVEN
+        /* Setup the mojo */
+        final Path tempDir = newTempFolder();
+        final CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/issue-4512", null, "execution_petstore1");
+        mojo.inputSpecRootDirectory = tempDir.toString();
+            
+
+        /* Perform an initial generation */
+        mojo.execute();
+
+        /* Check the hash file was created */
+        final Path hashFolder = tempDir.resolve("target/generated-sources/issue-4512/.openapi-generator");
+        assertTrue(hashFolder.resolve("petstore.yaml-execution_petstore1.sha256").toFile().exists());
+        assertTrue(hashFolder.resolve("petstore.yaml-execution_petstore2.sha256").toFile().exists());
+
+        /* Remove the generated source */
+        FileUtils.deleteDirectory(tempDir.resolve("target/generated-sources/issue-4512/src").toFile());
+
+
+        // WHEN
+        /* Execute the mojo again */
+        mojo.execute();
+
+        // THEN
+        /* Verify that the source directory has not been repopulated. If it has then we generated code again */
+        assertFalse(
+            "src directory should not have been regenerated", 
+            tempDir.resolve("target/generated-sources/issue-4512/src").toFile().exists()
+        );
+
+    }
+
+    protected CodeGenMojo loadMojo(Path temporaryFolder, String projectRoot, String profile) throws Exception {
         return loadMojo(temporaryFolder, projectRoot, profile, "default");
     }
 
-    protected CodeGenMojo loadMojo(File temporaryFolder, String projectRoot, String profile, String executionId) throws Exception {
-        File file = new File(projectRoot);
-        FileUtils.copyDirectory(file, temporaryFolder);
+    protected CodeGenMojo loadMojo(Path temporaryFolder, String projectRoot, String profile, String executionId) throws Exception {
+        FileUtils.copyDirectory(new File(projectRoot), temporaryFolder.toFile());
         MavenProject project = readMavenProject(temporaryFolder, profile);
         MavenSession session = newMavenSession(project);
         MojoExecution execution = newMojoExecution("generate");
         MojoExecution executionWithId = copyWithExecutionId(executionId, execution);
         return (CodeGenMojo) lookupConfiguredMojo(session, executionWithId);
+//        codegenMojo.inputSpecRootDirectory = temporaryFolder.toString();
+//        return codegenMojo;
     }
 
     private MojoExecution copyWithExecutionId(String executionId, MojoExecution execution) {
@@ -251,22 +284,32 @@ public class CodeGenMojoTest extends BaseTestCase {
         return executionWithId;
     }
 
-    protected MavenProject readMavenProject(File basedir, String profile)
-            throws Exception {
-        File pom = new File(basedir, "pom.xml");
-        LocalRepository localRepo = new LocalRepository(new File(basedir, "local-repo"));
+    protected MavenProject readMavenProject(Path basedir, String profile) throws Exception {
+        Path pom = basedir.resolve("pom.xml");
+        LocalRepository localRepo = new LocalRepository(basedir.resolve("local-repo").toFile());
         DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
         session.setLocalRepositoryManager(new SimpleLocalRepositoryManagerFactory().newInstance(session, localRepo));
         MavenExecutionRequest request = new DefaultMavenExecutionRequest();
-        request.setBaseDirectory(basedir);
+        request.setBaseDirectory(basedir.toFile());
         if (profile != null) {
             request.addActiveProfile(profile);
         }
         ProjectBuildingRequest configuration = request.getProjectBuildingRequest();
         configuration.setRepositorySession(session);
         configuration.setResolveDependencies(true);
-        MavenProject project = lookup(ProjectBuilder.class).build(pom, configuration).getProject();
+        MavenProject project = lookup(ProjectBuilder.class).build(pom.toFile(), configuration).getProject();
         assertNotNull(project);
         return project;
+    }
+
+    static private Path newTempFolder() {
+        final Path tempDir;
+        try {
+            tempDir = Files.createTempDirectory("test");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        tempDir.toFile().deleteOnExit();
+        return tempDir;
     }
 }
