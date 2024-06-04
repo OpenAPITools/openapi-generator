@@ -99,6 +99,14 @@ public class ProcessUtils {
         return false;
     }
 
+    public static boolean hasAnyOfSchemas(OpenAPI openAPI) {
+        return openAPI.getComponents().getSchemas().values().stream().anyMatch(ModelUtils::hasAnyOf);
+    }
+    
+    public static boolean hasOneOfSchemas(OpenAPI openAPI) {
+        return openAPI.getComponents().getSchemas().values().stream().anyMatch(ModelUtils::hasOneOf);
+    }
+    
     /**
      * Returns a list of OAS Codegen security objects
      *
