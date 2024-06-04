@@ -37,7 +37,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -95,14 +94,12 @@ public class CodeGenMojoTest extends BaseTestCase {
     }
 
     /**
-     * For a Pom file which refers to a input file which will be on the classpath, as opposed to a file path,
+     * For a Pom file which refers to an input file which will be on the classpath, as opposed to a file path,
      * test that the spec is not regenerated when the hash has not changed. 
-     * 
-     * @throws Exception
      */
     public void testSkipRegenerationForClasspathSpecFileNoChange() throws Exception {
         //GIVEN
-        /* Setup the mojo */
+        /* Set up the mojo */
         final Path tempDir = newTempFolder();
         final CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/classpath", null, "executionId");
 
@@ -115,6 +112,7 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         /* Remove the generated source */
         try (Stream<Path> files = Files.walk(tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src"))) {
+            //noinspection ResultOfMethodCallIgnored
             files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
         }
 
@@ -130,14 +128,12 @@ public class CodeGenMojoTest extends BaseTestCase {
     }
 
     /**
-     * For a Pom file which refers to a input file which will be on the classpath, as opposed to a file path,
+     * For a Pom file which refers to an input file which will be on the classpath, as opposed to a file path,
      * test that the generated source is regenerated when the hash has changed. 
-     * 
-     * @throws Exception
      */
     public void testSkipRegenerationForClasspathSpecFileWithChange() throws Exception {
         //GIVEN
-        /* Setup the mojo */
+        /* Set up the mojo */
         final Path tempDir = newTempFolder();
         final CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/classpath", null, "executionId");
 
@@ -150,12 +146,13 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         /* Update the hash contents to be a different value, simulating a spec change */
         Files.write(
-            hashFolder.resolve("petstore-on-classpath.yaml-executionId.sha256"), 
-            Arrays.asList("bd1bf4a953c858f9d47b67ed6029daacf1707e5cbd3d2e4b01383ba30363366f")
+            hashFolder.resolve("petstore-on-classpath.yaml-executionId.sha256"),
+            List.of("bd1bf4a953c858f9d47b67ed6029daacf1707e5cbd3d2e4b01383ba30363366f")
         );
 
         /* Remove the generated source */
         try(Stream<Path> files = Files.walk(tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src"))) {
+            //noinspection ResultOfMethodCallIgnored
             files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
         }
 
@@ -165,7 +162,7 @@ public class CodeGenMojoTest extends BaseTestCase {
         mojo.execute();
 
         // THEN
-        /* Verify that the source directory has not been repopulated. If it has then we generated code again */
+        /* Verify that the source directory has been repopulated. */
         assertTrue("src directory should have been regenerated", 
             tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src").toFile().exists());
 
@@ -274,21 +271,21 @@ public class CodeGenMojoTest extends BaseTestCase {
     }
 
     protected MavenProject readMavenProject(Path basedir, String profile) throws Exception {
-        Path pom = basedir.resolve("pom.xml");
         LocalRepository localRepo = new LocalRepository(basedir.resolve("local-repo").toFile());
         DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
         session.setLocalRepositoryManager(
             new SimpleLocalRepositoryManagerFactory(new DefaultLocalPathComposer()).newInstance(session, localRepo)
         );
-        MavenExecutionRequest request = new DefaultMavenExecutionRequest();
-        request.setBaseDirectory(basedir.toFile());
+        MavenExecutionRequest request = new DefaultMavenExecutionRequest().setBaseDirectory(basedir.toFile());
         if (profile != null) {
             request.addActiveProfile(profile);
         }
-        ProjectBuildingRequest configuration = request.getProjectBuildingRequest();
-        configuration.setRepositorySession(session);
-        configuration.setResolveDependencies(true);
-        MavenProject project = lookup(ProjectBuilder.class).build(pom.toFile(), configuration).getProject();
+        ProjectBuildingRequest configuration = request.getProjectBuildingRequest()
+            .setRepositorySession(session)
+            .setResolveDependencies(true);
+        MavenProject project = lookup(ProjectBuilder.class)
+            .build(basedir.resolve("pom.xml").toFile(), configuration)
+            .getProject();
         assertNotNull(project);
         return project;
     }
