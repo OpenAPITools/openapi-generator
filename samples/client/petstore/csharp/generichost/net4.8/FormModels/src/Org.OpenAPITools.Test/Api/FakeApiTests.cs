@@ -122,6 +122,28 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
+        /// Test GetMixedAnyOf
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task GetMixedAnyOfAsyncTest()
+        {
+            var response = await _instance.GetMixedAnyOfAsync();
+            var model = response.Ok();
+            Assert.IsType<MixedAnyOf>(model);
+        }
+
+        /// <summary>
+        /// Test GetMixedOneOf
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task GetMixedOneOfAsyncTest()
+        {
+            var response = await _instance.GetMixedOneOfAsync();
+            var model = response.Ok();
+            Assert.IsType<MixedOneOf>(model);
+        }
+
+        /// <summary>
         /// Test TestAdditionalPropertiesReference
         /// </summary>
         [Fact (Skip = "not implemented")]
