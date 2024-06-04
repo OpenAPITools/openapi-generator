@@ -17,18 +17,10 @@
 
 package org.openapitools.codegen.php;
 
-import org.assertj.core.api.Assertions;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PhpLaravelServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.List;
 
 public class PhpLaravelServerCodegenTest {
 
@@ -59,23 +51,5 @@ public class PhpLaravelServerCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
-    }
-
-    /**
-     * Transitional test, just to check the file is still in the list after the fix
-     */
-    @Test void SupportingFilesContainFailedJobsTableMigrationIn() throws IOException {
-        var tempDir = Files.createTempDirectory("temp");
-        tempDir.toFile().deleteOnExit();
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("php-laravel")
-            .setInputSpec("src/test/resources/3_0/pingSomeObj.yaml")
-            .setOutputDir(tempDir.toString().replace("\\", "/"));
-
-        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-        
-        Assertions.assertThat(files).contains(
-            tempDir.resolve( "lib/database/migrations/2019_08_19_000000_create_failed_jobs_table.php").toFile()
-        );
     }
 }
