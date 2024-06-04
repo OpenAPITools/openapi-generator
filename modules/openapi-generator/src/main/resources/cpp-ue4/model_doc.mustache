@@ -1,0 +1,22 @@
+{{#models}}
+{{#model}}
+# {{{packageName}}}.{{modelPackage}}.{{{classname}}}
+{{#description}}{{&description}}
+{{/description}}
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+{{#parent}}
+{{#parentVars}}
+**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
+{{/parentVars}}
+{{/parent}}
+{{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
+{{/vars}}
+
+[[Back to Model list]](../{{#useGenericHost}}../{{/useGenericHost}}README.md#documentation-for-models) [[Back to API list]](../{{#useGenericHost}}../{{/useGenericHost}}README.md#documentation-for-api-endpoints) [[Back to README]](../{{#useGenericHost}}../{{/useGenericHost}}README.md)
+
+{{/model}}
+{{/models}}
