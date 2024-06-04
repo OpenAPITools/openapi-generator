@@ -46,10 +46,10 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -400,11 +400,7 @@ public class ModelUtils {
             return null;
         }
 
-        try {
-            ref = URLDecoder.decode(ref, "UTF-8");
-        } catch (UnsupportedEncodingException ignored) {
-            once(LOGGER).warn("Found UnsupportedEncodingException: {}", ref);
-        }
+        ref = URLDecoder.decode(ref, StandardCharsets.UTF_8);
 
         // see https://tools.ietf.org/html/rfc6901#section-3
         // Because the characters '~' (%x7E) and '/' (%x2F) have special meanings in
