@@ -28,6 +28,7 @@ import org.apache.maven.project.ProjectBuilder;
 import org.apache.maven.project.ProjectBuildingRequest;
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
 import org.eclipse.aether.DefaultRepositorySystemSession;
+import org.eclipse.aether.internal.impl.DefaultLocalPathComposer;
 import org.eclipse.aether.internal.impl.SimpleLocalRepositoryManagerFactory;
 import org.eclipse.aether.repository.LocalRepository;
 
@@ -276,7 +277,9 @@ public class CodeGenMojoTest extends BaseTestCase {
         Path pom = basedir.resolve("pom.xml");
         LocalRepository localRepo = new LocalRepository(basedir.resolve("local-repo").toFile());
         DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
-        session.setLocalRepositoryManager(new SimpleLocalRepositoryManagerFactory().newInstance(session, localRepo));
+        session.setLocalRepositoryManager(
+            new SimpleLocalRepositoryManagerFactory(new DefaultLocalPathComposer()).newInstance(session, localRepo)
+        );
         MavenExecutionRequest request = new DefaultMavenExecutionRequest();
         request.setBaseDirectory(basedir.toFile());
         if (profile != null) {
