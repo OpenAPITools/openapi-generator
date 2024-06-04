@@ -2667,6 +2667,48 @@ public class JavaClientCodegenTest {
             );
     }
 
+    @DataProvider
+    public static Object[][] librariesWhoseModelsExtendAbstractOpenApiSchema() {
+        return new Object[][]{{"okhttp-gson"}, {"jersey2"}, {"jersey3"}, {"native"}};
+    }
+    
+    /**
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/18829">#18829</a>
+     */
+    @Test(dataProvider = "librariesWhoseModelsExtendAbstractOpenApiSchema") 
+    void doesIncludeAbstractOpenApiSchema_whenOnlyModelsAreGenerated(String library) {
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(library)
+            .setInputSpec("src/test/resources/3_1/java/petstore.yaml");
+
+        var generator = new DefaultGenerator(true);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        var files = generator.opts(configurator.toClientOptInput()).generate();
+
+        assertThat(files).extracting(File::getName).contains("AbstractOpenApiSchema.java");
+    }
+
+    /**
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/16257">#16257</a>
+     */
+    @Test(dataProvider = "librariesWhoseModelsExtendAbstractOpenApiSchema")
+    void doesNotIncludeAbstractOpenApiSchema_whenModelsAreNotGenerated(String library) {
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(library)
+            .setInputSpec("src/test/resources/3_1/java/petstore.yaml");
+
+        var generator = new DefaultGenerator(true);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+        var files = generator.opts(configurator.toClientOptInput()).generate();
+
+        assertThat(files).extracting(File::getName)
+            .doesNotContain("AbstractOpenApiSchema.java");
+    }    
+    
     static private Path newTempFolder() {
         try {
             var tempDir = Files.createTempDirectory("test");
