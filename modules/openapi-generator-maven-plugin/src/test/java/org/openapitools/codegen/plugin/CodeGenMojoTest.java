@@ -41,6 +41,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -112,11 +113,9 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertTrue(hashFolder.resolve("petstore-on-classpath.yaml-executionId.sha256").toFile().exists());
 
         /* Remove the generated source */
-        Files.walk(tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src"))
-            .sorted(Comparator.reverseOrder())
-            .map(Path::toFile)
-            .forEach(File::delete);
-
+        try (Stream<Path> files = Files.walk(tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src"))) {
+            files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+        }
 
         // WHEN
         /* Execute the mojo again */
@@ -151,13 +150,13 @@ public class CodeGenMojoTest extends BaseTestCase {
         /* Update the hash contents to be a different value, simulating a spec change */
         Files.write(
             hashFolder.resolve("petstore-on-classpath.yaml-executionId.sha256"), 
-            Arrays.asList("bd1bf4a953c858f9d47b67ed6029daacf1707e5cbd3d2e4b01383ba30363366f"));
+            Arrays.asList("bd1bf4a953c858f9d47b67ed6029daacf1707e5cbd3d2e4b01383ba30363366f")
+        );
 
         /* Remove the generated source */
-        Files.walk(tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src"))
-            .sorted(Comparator.reverseOrder())
-            .map(Path::toFile)
-            .forEach(File::delete);
+        try(Stream<Path> files = Files.walk(tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src"))) {
+            files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+        }
 
 
         // WHEN
