@@ -89,8 +89,9 @@ public class CodeGenMojoTest extends BaseTestCase {
         mojo.execute();
 
         // THEN
-        Path hashFolder = tempDir.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
-        assertTrue(hashFolder.resolve("petstore.yaml-executionId.sha256").toFile().exists());
+        assertTrue(Files.exists(tempDir.resolve(
+            "target/generated-sources/common-maven/remote-openapi/.openapi-generator/petstore.yaml-executionId.sha256"
+        )));
     }
 
     /**
@@ -107,11 +108,13 @@ public class CodeGenMojoTest extends BaseTestCase {
         mojo.execute();
 
         /* Check the hash file was created */
-        final Path hashFolder = tempDir.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
-        assertTrue(hashFolder.resolve("petstore-on-classpath.yaml-executionId.sha256").toFile().exists());
+        final Path generatedDir = tempDir.resolve("target/generated-sources/common-maven/remote-openapi");
+        assertTrue(Files.exists(
+            generatedDir.resolve(".openapi-generator/petstore-on-classpath.yaml-executionId.sha256")
+        ));
 
         /* Remove the generated source */
-        try (Stream<Path> files = Files.walk(tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src"))) {
+        try (Stream<Path> files = Files.walk(generatedDir.resolve("src"))) {
             //noinspection ResultOfMethodCallIgnored
             files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
         }
@@ -122,9 +125,7 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         // THEN
         /* Verify that the source directory has not been repopulated. If it has then we generated code again */
-        assertFalse("src directory should not have been regenerated", 
-            tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src").toFile().exists());
-
+        assertFalse("src directory should not have been regenerated", Files.exists(generatedDir.resolve("src")));
     }
 
     /**
@@ -141,17 +142,17 @@ public class CodeGenMojoTest extends BaseTestCase {
         mojo.execute();
 
         /* Check the hash file was created, proving a generation occurred */
-        final Path hashFolder = tempDir.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
-        assertTrue(hashFolder.resolve("petstore-on-classpath.yaml-executionId.sha256").toFile().exists());
+        final Path generatedDir = tempDir.resolve("target/generated-sources/common-maven/remote-openapi");
+        assertTrue(Files.exists(generatedDir.resolve(".openapi-generator/petstore-on-classpath.yaml-executionId.sha256")));
 
         /* Update the hash contents to be a different value, simulating a spec change */
         Files.write(
-            hashFolder.resolve("petstore-on-classpath.yaml-executionId.sha256"),
+            generatedDir.resolve(".openapi-generator/petstore-on-classpath.yaml-executionId.sha256"),
             List.of("bd1bf4a953c858f9d47b67ed6029daacf1707e5cbd3d2e4b01383ba30363366f")
         );
 
         /* Remove the generated source */
-        try(Stream<Path> files = Files.walk(tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src"))) {
+        try(Stream<Path> files = Files.walk(generatedDir.resolve("src"))) {
             //noinspection ResultOfMethodCallIgnored
             files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
         }
@@ -163,9 +164,7 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         // THEN
         /* Verify that the source directory has been repopulated. */
-        assertTrue("src directory should have been regenerated", 
-            tempDir.resolve("target/generated-sources/common-maven/remote-openapi/src").toFile().exists());
-
+        assertTrue("src directory should have been regenerated", Files.exists(generatedDir.resolve("src")));
     }
 
     public void testCollapsedSpecProduced() throws Exception {
@@ -177,8 +176,9 @@ public class CodeGenMojoTest extends BaseTestCase {
         mojo.execute();
 
         // THEN
-        File collapseSpecFile = tempDir.resolve("target/generated-sources/common-maven/remote-openapi/petstore-full-spec.yaml").toFile();
-        assertTrue(collapseSpecFile.exists());
+        assertTrue(Files.exists(
+            tempDir.resolve("target/generated-sources/common-maven/remote-openapi/petstore-full-spec.yaml")
+        ));
     }
 
     public void testCollapsedSpecAddedToArtifacts() throws Exception {
@@ -221,7 +221,7 @@ public class CodeGenMojoTest extends BaseTestCase {
         // THEN
         /* Check the hash file was created */
         final Path hashFolder = tempDir.resolve("target/generated-sources/common-maven/remote-openapi/.openapi-generator");
-        assertTrue(hashFolder.resolve("_merged_spec.yaml-executionId.sha256").toFile().exists());
+        assertTrue(Files.exists(hashFolder.resolve("_merged_spec.yaml-executionId.sha256")));
     }
 
     /**
