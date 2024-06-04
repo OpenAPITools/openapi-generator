@@ -618,7 +618,7 @@ public class JetbrainsHttpClientClientCodegenTest {
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("jetbrains-http-client")
-                .setInputSpec("src/test/resources/3_0/jetbrains/environmentgeneration/simple.yaml")
+                .setInputSpec("src/test/resources/3_0/jetbrains/environmentgeneration/Simple.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
