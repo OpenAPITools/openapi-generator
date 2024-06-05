@@ -16,7 +16,7 @@ import java.util.Locale;
      *
      * @return a {@link Path} instance
      */
-    private Path path;
+    private final Path path;
     /**
      * -- GETTER --
      *  Gets the 

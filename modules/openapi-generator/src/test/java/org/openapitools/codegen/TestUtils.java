@@ -15,12 +15,10 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.testng.Assert;
 
 import java.io.File;
 import java.io.IOException;
@@ -93,24 +91,6 @@ public class TestUtils {
         openAPI.setComponents(new Components());
         openAPI.getComponents().addSchemas(name, schema);
         return openAPI;
-    }
-
-    /**
-     * Extract file from {@link MockDefaultGenerator}
-     *
-     * @param generator Generator
-     * @param root root path
-     * @param filename filename under root
-     *
-     * @return a {@link WrittenTemplateBasedFile}
-     * @deprecated Since 5.0. Please avoid this method and usage of {@link MockDefaultGenerator}, prefer {@link DefaultGenerator#DefaultGenerator(Boolean)} with dryRun=true.
-     */
-    @Deprecated
-    public static WrittenTemplateBasedFile getTemplateBasedFile(MockDefaultGenerator generator, File root, String filename) {
-        String defaultApiFilename = new File(root, filename).getAbsolutePath().replace("\\", "/");
-        Optional<WrittenTemplateBasedFile> optional = generator.getTemplateBasedFiles().stream().filter(f -> defaultApiFilename.equals(f.getOutputFilename())).findFirst();
-        Assert.assertTrue(optional.isPresent());
-        return optional.get();
     }
 
     public static void ensureContainsFile(List<File> generatedFiles, File root, String filename) {
