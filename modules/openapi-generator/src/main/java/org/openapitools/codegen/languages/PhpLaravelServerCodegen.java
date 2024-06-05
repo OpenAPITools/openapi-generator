@@ -202,9 +202,6 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("config/session.php", outputFolder + File.separator + "config", "session.php"));
         supportingFiles.add(new SupportingFile("config/view.php", outputFolder + File.separator + "config", "view.php"));
 
-        // /database/
-        supportingFiles.add(new SupportingFile("database/migrations/2019_08_19_000000_create_failed_jobs_table.php", outputFolder + File.separator + "database" + File.separator + "migrations", "2019_08_19_000000_create_failed_jobs_table.php"));
-
         // /resources/
         supportingFiles.add(new SupportingFile("resources/js/app.js", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js", "app.js"));
         supportingFiles.add(new SupportingFile("resources/js/bootstrap.js", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js", "bootstrap.js"));

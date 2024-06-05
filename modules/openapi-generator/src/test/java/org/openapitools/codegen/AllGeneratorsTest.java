@@ -86,8 +86,7 @@ public class AllGeneratorsTest {
         );
     }
     
-    @Test(dataProvider = "generators", enabled = false) // re-enable when https://github.com/OpenAPITools/openapi-generator/issues/18831 is fixed 
-    void noDuplicateSupportingFiles(CodegenConfig codegenConfig) {
+    @Test(dataProvider = "generators") void noDuplicateSupportingFiles(CodegenConfig codegenConfig) {
         final List<String> supportingFiles = codegenConfig.supportingFiles()
             .stream().map(SupportingFile::toString).collect(Collectors.toList());
 
