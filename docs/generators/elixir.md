@@ -63,6 +63,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>__CALLER__</li>
+<li>__DIR__</li>
+<li>__ENV__</li>
+<li>__FILE__</li>
+<li>__MODULE__</li>
+<li>__struct__</li>
 <li>after</li>
 <li>and</li>
 <li>catch</li>
