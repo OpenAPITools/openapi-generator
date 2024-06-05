@@ -78,18 +78,18 @@ Accept: application/json
 
 ### List global security advisories
 ## List global security advisories
-GET https://api.github.com/advisories
+GET https://api.github.com/advisories?ghsaId={{ghsaId}}&type={{type}}&cveId={{cveId}}&ecosystem={{ecosystem}}&severity={{severity}}&cwes={{cwes}}&isWithdrawn={{isWithdrawn}}&affects={{affects}}&published={{published}}&updated={{updated}}&modified={{modified}}&before={{before}}&after={{after}}&direction={{direction}}&perPage={{perPage}}&sort={{sort}}
 Accept: application/json
 
 ### List repository security advisories for an organization
 ## List repository security advisories for an organization
-GET https://api.github.com/orgs/{{org}}/security-advisories
+GET https://api.github.com/orgs/{{org}}/security-advisories?direction={{direction}}&sort={{sort}}&before={{before}}&after={{after}}&perPage={{perPage}}&state={{state}}
 Accept: application/json
 Accept: application/scim+json
 
 ### List repository security advisories
 ## List repository security advisories
-GET https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories
+GET https://api.github.com/repos/{{owner}}/{{repo}}/security-advisories?direction={{direction}}&sort={{sort}}&before={{before}}&after={{after}}&perPage={{perPage}}&state={{state}}
 Accept: application/json
 Accept: application/scim+json
 

@@ -3,9 +3,9 @@ info:
   title: Sample project
   version: '1.0'
   contact:
-    name: Beppe Catanese
-    email: gcatanese@yahoo.com
-    url: 'https://github.com/gcatanese'
+    name: Julien Lengrand-Lambert
+    email: fake@email.com
+    url: 'https://github.com/jlengrand'
   description: 'Sample API Check "API Key" '
   license:
     name: Apache 2.0
@@ -41,8 +41,8 @@ paths:
       summary: Get User Info by Query Param
       operationId: get-users-query-id
       description: Retrieve the information of the user with the matching user ID.
-      tags:
-        - basic
+      security:
+        - ApiKeyAuthQuery: [ ]
       parameters:
         - description: Page length
           name: page
@@ -69,7 +69,6 @@ paths:
           schema:
             type: string
             default: abc
-
       responses:
         '200':
           description: User Found
@@ -134,8 +133,8 @@ paths:
         description: Code as header2
     get:
       summary: Get User Info by User ID
-      tags:
-        - advanced
+      security:
+        - ApiKeyAuthQuery: [ ]
       responses:
         '200':
           description: User Found
@@ -159,6 +158,14 @@ paths:
       summary: Update User Information
       deprecated: true
       operationId: patch-users-userId
+      parameters:
+        - description: Page length
+          name: page
+          in: query
+          required: false
+          schema:
+            type: string
+            example: 50
       responses:
         '200':
           description: User Updated
@@ -253,13 +260,9 @@ paths:
                     $ref: '#/components/examples/get-user-basic'
         description: Post the necessary fields for the API to create a new user.
       description: Create a new user.
-      tags:
-        - basic
   '/groups/{groupId}':
     get:
       summary: Get group by ID
-      tags:
-        - advanced
       parameters:
         - description: group Id
           name: groupId
@@ -292,6 +295,10 @@ components:
       type: apiKey
       name: X-API-Key
       in: header
+    ApiKeyAuthQuery:
+      in: query
+      name: api_key
+      type: apiKey
   schemas:
     User:
       title: User

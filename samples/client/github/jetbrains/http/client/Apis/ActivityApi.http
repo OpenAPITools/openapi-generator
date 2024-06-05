@@ -36,88 +36,88 @@ Accept: application/json
 
 ### List events for the authenticated user
 ## List events for the authenticated user
-GET https://api.github.com/users/{{username}}/events
+GET https://api.github.com/users/{{username}}/events?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List notifications for the authenticated user
 ## List notifications for the authenticated user
-GET https://api.github.com/notifications
+GET https://api.github.com/notifications?all={{all}}&participating={{participating}}&since={{since}}&before={{before}}&page={{page}}&perPage={{perPage}}
 Accept: application/json
 
 ### List organization events for the authenticated user
 ## List organization events for the authenticated user
-GET https://api.github.com/users/{{username}}/events/orgs/{{org}}
+GET https://api.github.com/users/{{username}}/events/orgs/{{org}}?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public events
 ## List public events
-GET https://api.github.com/events
+GET https://api.github.com/events?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public events for a network of repositories
 ## List public events for a network of repositories
-GET https://api.github.com/networks/{{owner}}/{{repo}}/events
+GET https://api.github.com/networks/{{owner}}/{{repo}}/events?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public events for a user
 ## List public events for a user
-GET https://api.github.com/users/{{username}}/events/public
+GET https://api.github.com/users/{{username}}/events/public?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public organization events
 ## List public organization events
-GET https://api.github.com/orgs/{{org}}/events
+GET https://api.github.com/orgs/{{org}}/events?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List events received by the authenticated user
 ## List events received by the authenticated user
-GET https://api.github.com/users/{{username}}/received_events
+GET https://api.github.com/users/{{username}}/received_events?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public events received by a user
 ## List public events received by a user
-GET https://api.github.com/users/{{username}}/received_events/public
+GET https://api.github.com/users/{{username}}/received_events/public?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository events
 ## List repository events
-GET https://api.github.com/repos/{{owner}}/{{repo}}/events
+GET https://api.github.com/repos/{{owner}}/{{repo}}/events?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository notifications for the authenticated user
 ## List repository notifications for the authenticated user
-GET https://api.github.com/repos/{{owner}}/{{repo}}/notifications
+GET https://api.github.com/repos/{{owner}}/{{repo}}/notifications?all={{all}}&participating={{participating}}&since={{since}}&before={{before}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repositories starred by the authenticated user
 ## List repositories starred by the authenticated user
-GET https://api.github.com/user/starred
+GET https://api.github.com/user/starred?sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 Accept: application/vnd.github.v3.star+json
 
 ### List repositories starred by a user
 ## List repositories starred by a user
-GET https://api.github.com/users/{{username}}/starred
+GET https://api.github.com/users/{{username}}/starred?sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repositories watched by a user
 ## List repositories watched by a user
-GET https://api.github.com/users/{{username}}/subscriptions
+GET https://api.github.com/users/{{username}}/subscriptions?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List stargazers
 ## List stargazers
-GET https://api.github.com/repos/{{owner}}/{{repo}}/stargazers
+GET https://api.github.com/repos/{{owner}}/{{repo}}/stargazers?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repositories watched by the authenticated user
 ## List repositories watched by the authenticated user
-GET https://api.github.com/user/subscriptions
+GET https://api.github.com/user/subscriptions?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List watchers
 ## List watchers
-GET https://api.github.com/repos/{{owner}}/{{repo}}/subscribers
+GET https://api.github.com/repos/{{owner}}/{{repo}}/subscribers?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Mark notifications as read
