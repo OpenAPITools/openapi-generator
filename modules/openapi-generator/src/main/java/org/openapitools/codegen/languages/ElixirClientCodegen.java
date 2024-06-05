@@ -120,7 +120,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
         /**
          * Reserved words. Override this with reserved words specific to your language
-         * Ref: https://hexdocs.pm/elixir/1.13/syntax-reference.html#reserved-words
+         * Ref: https://hexdocs.pm/elixir/1.16.3/syntax-reference.html#reserved-words
          */
         reservedWords = new HashSet<>(
                 Arrays.asList(
@@ -138,7 +138,13 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         "catch",
                         "rescue",
                         "after",
-                        "else"));
+                        "else",
+                        "__struct__",
+                        "__MODULE__",
+                        "__FILE__",
+                        "__DIR__",
+                        "__ENV__",
+                        "__CALLER__"));
 
         /**
          * Additional Properties. These values can be passed to the templates and
@@ -432,7 +438,11 @@ public class ElixirClientCodegen extends DefaultCodegen {
      */
     @Override
     public String escapeReservedWord(String name) {
-        return name + "_var"; // add a generic suffix to the name
+        String escapedName = name + "_var";
+
+        // Trim leading underscores in the event the name is already underscored
+        escapedName = escapedName.replaceAll("^_+", "");
+        return escapedName;
     }
 
     private String sourceFolder() {
