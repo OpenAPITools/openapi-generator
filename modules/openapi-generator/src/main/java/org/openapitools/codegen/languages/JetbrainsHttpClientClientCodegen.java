@@ -25,6 +25,8 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.examples.Example;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 
 import java.io.File;
@@ -72,14 +74,17 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
     private final Map<String, Object> customVariables = new HashMap<>();
 
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "jetbrains-http-client";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a jetbrains-http client. See https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html";
     }
@@ -281,6 +286,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         System.out.println("##########################################################################################");
     }
 
+    @Getter @Setter
     public class RequestItem {
 
         private String name;
@@ -288,22 +294,6 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
         public RequestItem(String name, String body) {
             this.name = name;
-            this.body = body;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getBody() {
-            return body;
-        }
-
-        public void setBody(String body) {
             this.body = body;
         }
     }

@@ -27,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import lombok.Setter;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -312,19 +313,19 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
     private final Map<String, Generex> REGEX_GENERATORS = new HashMap<>();
 
-    protected boolean generateOperationBody = false;
+    @Setter protected boolean generateOperationBody = false;
 
-    protected boolean loadTestDataFromFile = false;
+    @Setter protected boolean loadTestDataFromFile = false;
 
-    protected boolean supportMultipleSpringServices = false;
+    @Setter protected boolean supportMultipleSpringServices = false;
 
     protected JsonCache testDataCache = null;
 
     protected JsonCache testDataControlCache = null;
 
-    protected File testDataFile = null;
+    @Setter protected File testDataFile = null;
 
-    protected File testDataControlFile = null;
+    @Setter protected File testDataControlFile = null;
 
     public JavaCXFExtServerCodegen() {
         super();
@@ -1401,26 +1402,6 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                 }
             }
         }
-    }
-
-    public void setGenerateOperationBody(boolean generateOperationBody) {
-        this.generateOperationBody = generateOperationBody;
-    }
-
-    public void setLoadTestDataFromFile(boolean loadTestDataFromFile) {
-        this.loadTestDataFromFile = loadTestDataFromFile;
-    }
-
-    public void setSupportMultipleSpringServices(boolean supportMultipleSpringServices) {
-        this.supportMultipleSpringServices = supportMultipleSpringServices;
-    }
-
-    public void setTestDataControlFile(File testDataControlFile) {
-        this.testDataControlFile = testDataControlFile;
-    }
-
-    public void setTestDataFile(File testDataFile) {
-        this.testDataFile = testDataFile;
     }
 
     @Override

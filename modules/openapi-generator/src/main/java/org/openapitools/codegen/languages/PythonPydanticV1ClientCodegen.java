@@ -17,19 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -38,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codegen implements CodegenConfig {
@@ -50,12 +44,12 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
     public static final String DATETIME_FORMAT = "datetimeFormat";
     public static final String DATE_FORMAT = "dateFormat";
 
-    protected String packageUrl;
+    @Setter protected String packageUrl;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
-    protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
-    protected String dateFormat = "%Y-%m-%d";
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Setter protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
+    @Setter protected String dateFormat = "%Y-%m-%d";
 
 
     private String testFolder;
@@ -350,10 +344,6 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
         apiPackage = this.packageName + "." + apiPackage;
     }
 
-    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
-        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
-    }
-
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
     }
@@ -428,10 +418,6 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
         return outputFolder + File.separatorChar + testFolder;
     }
 
-    public void setPackageUrl(String packageUrl) {
-        this.packageUrl = packageUrl;
-    }
-
     public String packagePath() {
         return packageName.replace('.', File.separatorChar);
     }
@@ -471,14 +457,4 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
         }
         return "var_" + name;
     }
-
-    public void setDatetimeFormat(String datetimeFormat) {
-        this.datetimeFormat = datetimeFormat;
-    }
-
-    public void setDateFormat(String dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
-
 }

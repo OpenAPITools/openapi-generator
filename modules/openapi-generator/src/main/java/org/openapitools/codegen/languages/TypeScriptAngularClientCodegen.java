@@ -18,6 +18,9 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -74,14 +77,15 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
 
     protected String ngVersion = "17.0.0";
+    @Getter @Setter
     protected String npmRepository = null;
-    private boolean useSingleRequestParameter = false;
+    @Setter(AccessLevel.PRIVATE) private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
     protected String fileNaming = "camelCase";
-    protected Boolean stringEnums = false;
+    @Getter protected Boolean stringEnums = false;
     protected QUERY_PARAM_OBJECT_FORMAT_TYPE queryParamObjectFormat = QUERY_PARAM_OBJECT_FORMAT_TYPE.dot;
     protected PROVIDED_IN_LEVEL providedIn = PROVIDED_IN_LEVEL.root;
 
@@ -397,10 +401,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         stringEnums = value;
     }
 
-    public Boolean getStringEnums() {
-        return stringEnums;
-    }
-
     public boolean getQueryParamObjectFormatDot() {
         return QUERY_PARAM_OBJECT_FORMAT_TYPE.dot.equals(queryParamObjectFormat);
     }
@@ -640,20 +640,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + toModelFilename(removeModelPrefixSuffix(name)).substring(DEFAULT_IMPORT_PREFIX.length());
     }
 
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
     private boolean getUseSingleRequestParameter() {
         return useSingleRequestParameter;
-    }
-
-    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
-        this.useSingleRequestParameter = useSingleRequestParameter;
     }
 
     private String getApiFilenameFromClassname(String classname) {

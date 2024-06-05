@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.haskellservant;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class HaskellModelTest {

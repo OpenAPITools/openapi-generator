@@ -21,6 +21,8 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -91,8 +93,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     );
     private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() - 1);
     protected final Map<String, String> frameworks;
-    protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
-    protected String clientPackage = "Client";
+    @Setter protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    @Setter protected String clientPackage = "Client";
     protected String authFolder = "Auth";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -110,16 +112,17 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsFileParameters = Boolean.TRUE;
     protected boolean supportsDateOnly = Boolean.FALSE;
 
-    protected boolean validatable = Boolean.TRUE;
-    protected boolean equatable = Boolean.FALSE;
+    @Setter protected boolean validatable = Boolean.TRUE;
+    @Setter protected boolean equatable = Boolean.FALSE;
     // By default, generated code is considered public
+    @Getter @Setter
     protected boolean nonPublicApi = Boolean.FALSE;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
     protected String releaseNote = "Minor update";
-    protected String licenseId;
-    protected String packageTags;
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Setter protected String licenseId;
+    @Setter protected String packageTags;
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     protected boolean needsCustomHttpMethod = false;
     protected boolean needsUriBuilder = false;
@@ -575,14 +578,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return CodegenType.CLIENT;
     }
 
-    public boolean isNonPublicApi() {
-        return nonPublicApi;
-    }
-
-    public void setNonPublicApi(final boolean nonPublicApi) {
-        this.nonPublicApi = nonPublicApi;
-    }
-
     @Override
     public String modelDocFileFolder() {
         if (GENERICHOST.equals(getLibrary())) {
@@ -855,10 +850,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.useSourceGeneration = useSourceGeneration;
     }
 
-    public void setClientPackage(String clientPackage) {
-        this.clientPackage = clientPackage;
-    }
-
     @Override
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
@@ -1057,11 +1048,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void setOptionalProjectFileFlag(boolean flag) {
         this.optionalProjectFileFlag = flag;
     }
-
-    public void setPackageGuid(String packageGuid) {
-        this.packageGuid = packageGuid;
-    }
-
+    
     /**
      * Sets the api name. This value must be a valid class name.
      *
@@ -1136,33 +1123,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 .collect(Collectors.joining(";"));
     }
 
-    public void setValidatable(boolean validatable) {
-        this.validatable = validatable;
-    }
-
-    public void setEquatable(boolean equatable) {
-        this.equatable = equatable;
-    }
-
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
-    }
-
-    public void setLicenseId(String licenseId) {
-        this.licenseId = licenseId;
     }
 
     @Override
     public void setReleaseNote(String releaseNote) {
         this.releaseNote = releaseNote;
-    }
-
-    public void setPackageTags(String packageTags) {
-        this.packageTags = packageTags;
-    }
-
-    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
-        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
     }
 
     public boolean getUseOneOfDiscriminatorLookup() {

@@ -51,6 +51,7 @@ import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.ClasspathHelper;
+import lombok.Setter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -96,6 +97,7 @@ public class CodeGenMojo extends AbstractMojo {
      * The build context is only avail when running from within eclipse.
      * It is used to update the eclipse-m2e-layer when the plugin is executed inside the IDE.
      */
+    @Setter
     @Component
     private BuildContext buildContext = new DefaultBuildContext();
 
@@ -555,10 +557,6 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(readonly = true, required = true, defaultValue = "${project}")
     private MavenProject project;
-
-    public void setBuildContext(BuildContext buildContext) {
-        this.buildContext = buildContext;
-    }
 
     @Override
     public void execute() throws MojoExecutionException {

@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.JbossFeature;
@@ -28,6 +29,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import java.io.File;
 import java.util.*;
 
+@Setter
 public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen implements JbossFeature {
 
     protected boolean generateJbossDeploymentDescriptor = true;
@@ -167,9 +169,5 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
         objs = super.postProcessOperationsWithModels(objs, allModels);
         removeImport(objs, "java.util.List");
         return objs;
-    }
-
-    public void setGenerateJbossDeploymentDescriptor(boolean generateJbossDeploymentDescriptor) {
-        this.generateJbossDeploymentDescriptor = generateJbossDeploymentDescriptor;
     }
 }
