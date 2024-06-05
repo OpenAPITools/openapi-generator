@@ -182,6 +182,9 @@ class TestManual(unittest.TestCase):
 
         api_response = api_instance.test_echo_body_free_form_object_response_string({})
         self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
+        
+        api_response = api_instance.test_echo_body_tag_response_string(None)
+        self.assertEqual(api_response, "") # assertion to ensure emtpy string is sent in the body
 
     def testAuthHttpBasic(self):
         api_instance = openapi_client.AuthApi()
