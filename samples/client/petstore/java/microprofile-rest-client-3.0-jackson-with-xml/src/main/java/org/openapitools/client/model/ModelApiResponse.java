@@ -23,12 +23,14 @@ import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "ModelApiResponse", propOrder =
-    { "code", "type", "message"
-})
+@XmlType(name = "ModelApiResponse", propOrder =
+    { "code", "type", "message" }
+)
 
-@XmlRootElement(name="ModelApiResponse")
+
+@XmlRootElement(name = "ModelApiResponse")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ModelApiResponse")
 @JsonPropertyOrder({
   ModelApiResponse.JSON_PROPERTY_CODE,
   ModelApiResponse.JSON_PROPERTY_TYPE,

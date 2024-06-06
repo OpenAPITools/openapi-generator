@@ -23,12 +23,14 @@ import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "Tag", propOrder =
-    { "id", "name"
-})
+@XmlType(name = "Tag", propOrder =
+    { "id", "name" }
+)
 
-@XmlRootElement(name="Tag")
+
+@XmlRootElement(name = "Tag")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Tag")
 @JsonPropertyOrder({
   Tag.JSON_PROPERTY_ID,
   Tag.JSON_PROPERTY_NAME

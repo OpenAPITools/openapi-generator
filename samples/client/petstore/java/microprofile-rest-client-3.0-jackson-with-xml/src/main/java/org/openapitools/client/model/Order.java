@@ -24,12 +24,14 @@ import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "Order", propOrder =
-    { "id", "petId", "quantity", "shipDate", "status", "complete"
-})
+@XmlType(name = "Order", propOrder =
+    { "id", "petId", "quantity", "shipDate", "status", "complete" }
+)
 
-@XmlRootElement(name="Order")
+
+@XmlRootElement(name = "Order")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Order")
 @JsonPropertyOrder({
   Order.JSON_PROPERTY_ID,
   Order.JSON_PROPERTY_PET_ID,
