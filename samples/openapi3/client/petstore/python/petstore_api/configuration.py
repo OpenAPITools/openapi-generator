@@ -144,6 +144,8 @@ conf = petstore_api.Configuration(
                  server_index=None, server_variables=None,
                  server_operation_index=None, server_operation_variables=None,
                  ssl_ca_cert=None,
+                 *,
+                 debug: bool | None = None
                  ) -> None:
         """Constructor
         """
@@ -206,7 +208,8 @@ conf = petstore_api.Configuration(
         self.logger_file = None
         """Debug file location
         """
-        self.debug = False
+        if debug is not None:
+            self.debug = debug
         """Debug switch
         """
 
