@@ -5829,10 +5829,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected Map<String, Schema> unaliasPropertySchema(Map<String, Schema> properties) {
         if (properties != null) {
-            for (String key : properties.keySet()) {
-                properties.put(key, unaliasSchema(properties.get(key)));
-
-            }
+            properties.replaceAll((k, v) -> unaliasSchema(properties.get(k)));
         }
 
         return properties;
