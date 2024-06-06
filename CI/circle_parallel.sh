@@ -41,7 +41,10 @@ elif [ "$NODE_INDEX" = "2" ]; then
 
   # install cpprestsdk
   sudo apt-get install libcpprest-dev
-  sudo apt-get install clang-6.0
+  wget "https://github.com/aminya/setup-cpp/releases/download/v0.37.0/setup-cpp-x64-linux"
+  chmod +x ./setup-cpp-x64-linux
+  sudo ./setup-cpp-x64-linux --compiler llvm --cmake true --ninja true
+  source ~/.cpprc # activate cpp environment variables
 
   # run go integration tests
   (cd samples/client/petstore/go && mvn integration-test)
