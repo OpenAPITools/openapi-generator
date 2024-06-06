@@ -386,15 +386,11 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel codegenModel = super.fromModel(name, model);
         if (isLibrary(HELIDON_MP)) {
-            if (codegenModel.imports.contains("ApiModel")) {
-                // Remove io.swagger.annotations.ApiModel import
-                codegenModel.imports.remove("ApiModel");
-            }
+            // Remove io.swagger.annotations.ApiModel import
+            codegenModel.imports.remove("ApiModel");
         } else if (isLibrary(HELIDON_SE)) {
-            if (codegenModel.imports.contains("ApiModel")) {
-                // Remove io.swagger.annotations.ApiModel import
-                codegenModel.imports.remove("ApiModel");
-            }
+            // Remove io.swagger.annotations.ApiModel import
+            codegenModel.imports.remove("ApiModel");
         }
         return codegenModel;
     }

@@ -500,13 +500,11 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 Map<String, Schema> properties = schema.getProperties();
                 Set<String> propkeys = null;
                 if (properties != null) propkeys = properties.keySet();
-                if (toExclude != null && reqs.contains(toExclude)) {
+                if (toExclude != null) {
                     reqs.remove(toExclude);
                 }
                 for (String toRemove : includedSchemas.stream().map(Schema::getTitle).collect(Collectors.toList())) {
-                    if (reqs.contains(toRemove)) {
-                        reqs.remove(toRemove);
-                    }
+                    reqs.remove(toRemove);
                 }
                 if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                     includedSchemas.add(schema);
