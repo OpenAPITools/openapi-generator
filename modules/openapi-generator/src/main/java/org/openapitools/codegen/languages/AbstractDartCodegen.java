@@ -372,10 +372,17 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String toVarName(String name) {
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         // replace - with _ e.g. created-at => created_at
         name = name.replace("-", "_");
 
         // always need to replace leading underscores first
+        if (name.equals("_")) {
+            return "underscore";
+        }
         name = name.replaceAll("^_", "");
 
         // if it's all upper case, do nothing
@@ -408,12 +415,20 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String toParamName(String name) {
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // should be the same as variable name
         return toVarName(name);
     }
 
     @Override
     public String toModelName(final String name) {
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         String sanitizedName = sanitizeName(name);
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
