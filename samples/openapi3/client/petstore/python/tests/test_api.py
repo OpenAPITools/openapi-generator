@@ -53,6 +53,9 @@ class TestErrorResponsesWithModels(unittest.TestCase):
         mock_resp.data = json.dumps({"reason400": "400 reason"}).encode("utf-8")
         mock_resp.getheaders.return_value = {}
         mock_resp.getheader.return_value = ""
+        mock_resp.getheader = (
+            lambda name: "application/json" if name == "content-type" else Mock()
+        )
 
         with patch(
             "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
@@ -71,6 +74,9 @@ class TestErrorResponsesWithModels(unittest.TestCase):
         mock_resp.data = json.dumps({"reason404": "404 reason"}).encode("utf-8")
         mock_resp.getheaders.return_value = {}
         mock_resp.getheader.return_value = ""
+        mock_resp.getheader = (
+            lambda name: "application/json" if name == "content-type" else Mock()
+        )
 
         with patch(
             "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
