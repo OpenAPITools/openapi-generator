@@ -403,7 +403,10 @@ class ApiClient:
             except ValueError:
                 data = response_text
         elif content_type.startswith("application/json"):
-            data = json.loads(response_text)
+            if response_text == "":
+                data = ""
+            else:
+                data = json.loads(response_text)
         elif content_type.startswith("text/plain"):
             data = response_text
         else:
