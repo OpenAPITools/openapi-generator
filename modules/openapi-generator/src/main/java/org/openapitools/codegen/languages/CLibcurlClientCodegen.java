@@ -785,10 +785,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelImport(String name) {
-        if (importMapping.containsKey(name)) {
-            return "#include \"" + "../model/" + importMapping.get(name) + ".h\"";
-        } else
-            return "#include \"" + "../model/" + name + ".h\"";
+        return "#include \"" + "../model/" + importMapping.getOrDefault(name, name) + ".h\"";
     }
 
     @Override

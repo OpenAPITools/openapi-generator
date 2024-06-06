@@ -109,13 +109,7 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
     }
 
     private String addModelPrefix(String openAPIType) {
-        String type;
-        if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-        } else {
-            type = openAPIType;
-        }
-
+        String type = typeMapping.getOrDefault(openAPIType, openAPIType);
         if (!isLanguagePrimitive(type) && !isLanguageGenericType(type)) {
             type = "models." + openAPIType;
         }
