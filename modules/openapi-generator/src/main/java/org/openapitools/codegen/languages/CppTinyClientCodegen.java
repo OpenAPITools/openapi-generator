@@ -280,8 +280,8 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
 
     @Override
     public String toModelName(String type) {
-        if (typeMapping.keySet().contains(type) ||
-                typeMapping.values().contains(type) ||
+        if (typeMapping.containsKey(type) ||
+                typeMapping.containsValue(type) ||
                 defaultIncludes.contains(type) ||
                 languageSpecificPrimitives.contains(type)) {
             return type;

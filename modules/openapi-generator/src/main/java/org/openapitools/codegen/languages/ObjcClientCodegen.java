@@ -465,9 +465,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         type = type.replaceAll("[^0-9a-zA-Z_]", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // language build-in classes
-        if (typeMapping.keySet().contains(type) ||
+        if (typeMapping.containsKey(type) ||
                 foundationClasses.contains(type) ||
-                importMapping.values().contains(type) ||
+                importMapping.containsValue(type) ||
                 defaultIncludes.contains(type) ||
                 languageSpecificPrimitives.contains(type)) {
             return camelize(type);
