@@ -92,7 +92,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DateProp
         /// </summary>
         [DataMember(Name = "date_prop", EmitDefaultValue = true)]
-        [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateOnly DateProp { get; set; }
 
         /// <summary>
