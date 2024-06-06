@@ -126,11 +126,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
             }
             co.subresourceOperation = !co.path.isEmpty();
         }
-        List<CodegenOperation> opList = operations.get(basePath);
-        if (opList == null) {
-            opList = new ArrayList<>();
-            operations.put(basePath, opList);
-        }
+        List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
         opList.add(co);
         co.baseName = basePath;
     }

@@ -5697,11 +5697,7 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("static-method")
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
             co, Map<String, List<CodegenOperation>> operations) {
-        List<CodegenOperation> opList = operations.get(tag);
-        if (opList == null) {
-            opList = new ArrayList<>();
-            operations.put(tag, opList);
-        }
+        List<CodegenOperation> opList = operations.computeIfAbsent(tag, k -> new ArrayList<>());
         // check for operationId uniqueness
         String uniqueName = co.operationId;
         int counter = 0;
