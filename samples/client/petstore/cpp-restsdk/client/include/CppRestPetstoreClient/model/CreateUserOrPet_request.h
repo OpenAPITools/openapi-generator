@@ -18,6 +18,7 @@
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_CreateUserOrPet_request_H_
 #define ORG_OPENAPITOOLS_CLIENT_MODEL_CreateUserOrPet_request_H_
 
+#include <variant>
 
 #include "CppRestPetstoreClient/ModelBase.h"
 
@@ -36,7 +37,6 @@ namespace model {
 class Category;
 class Tag;
 
-#include <variant>
 
 class  CreateUserOrPet_request
 {

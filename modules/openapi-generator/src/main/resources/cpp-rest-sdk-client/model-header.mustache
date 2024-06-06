@@ -8,6 +8,11 @@
 #ifndef {{modelHeaderGuardPrefix}}_{{classname}}_H_
 #define {{modelHeaderGuardPrefix}}_{{classname}}_H_
 
+{{#oneOf}}
+{{#-first}}
+#include <variant>
+{{/-first}}
+{{/oneOf}}
 {{^parent}}
 {{{defaultInclude}}}
 #include "{{packageName}}/ModelBase.h"
@@ -25,7 +30,6 @@ namespace {{this}} {
 {{/vendorExtensions.x-forward-declarations}}
 {{/vendorExtensions.x-has-forward-declarations}}
 {{#oneOf}}{{#-first}}
-#include <variant>
 
 class {{declspec}} {{classname}}
 {
