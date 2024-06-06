@@ -58,7 +58,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
     protected static final String defaultPackageName = "openapi_client";
 
     String supportedElixirVersion = "1.10";
-    List<String> extraApplications = Arrays.asList(":logger");
+    List<String> extraApplications = List.of(":logger");
     List<String> deps = Arrays.asList(
             "{:tesla, \"~> 1.7\"}",
             "{:jason, \"~> 1.4\"}",

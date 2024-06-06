@@ -537,7 +537,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                             }
                             if (operation.getTags().size() > 0) {
                                 String tag = operation.getTags().get(0);
-                                operation.setTags(Arrays.asList(tag));
+                                operation.setTags(Collections.singletonList(tag));
                             }
                             operation.addExtension("x-tags", tags);
                         }

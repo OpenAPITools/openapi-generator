@@ -36,6 +36,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.SpringCodegen;
@@ -48,8 +49,6 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import org.junit.jupiter.api.Assertions;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -2563,7 +2562,7 @@ public class DefaultCodegenTest {
         modelName = "UserSleep";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
-        final Set<String> expectedAllOf = new HashSet<>(Arrays.asList("UserTimeBase"));
+        final Set<String> expectedAllOf = new HashSet<>(List.of("UserTimeBase"));
         assertEquals(cm.allOf, expectedAllOf);
         assertEquals(openAPI.getComponents().getSchemas().size(), 2);
         assertNull(cm.getDiscriminator());
@@ -3514,8 +3513,7 @@ public class DefaultCodegenTest {
                 "ComposedHasAllofReqPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
                 "ComposedHasAllofReqPropHasPropertiesHasRequired"  // TODO: hasRequired should be true, fix this
         ));
-        HashSet<String> modelNamesWithRequired = new HashSet(Arrays.asList(
-        ));
+        HashSet<String> modelNamesWithRequired = new HashSet(List.of());
         for (CodegenProperty var : cm.getVars()) {
             boolean hasRequired = var.getHasRequired();
             if (modelNamesWithoutRequired.contains(var.name)) {
@@ -3564,8 +3562,7 @@ public class DefaultCodegenTest {
                 "ComposedHasAllofReqPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
                 "ComposedHasAllofReqPropHasPropertiesHasRequired"  // TODO: hasRequired should be true, fix this
         ));
-        HashSet<String> modelNamesWithRequired = new HashSet(Arrays.asList(
-        ));
+        HashSet<String> modelNamesWithRequired = new HashSet(List.of());
         for (CodegenParameter param : co.pathParams) {
             boolean hasRequired = param.getHasRequired();
             if (modelNamesWithoutRequired.contains(param.baseName)) {
@@ -3614,8 +3611,7 @@ public class DefaultCodegenTest {
                 "ComposedHasAllofReqPropNoPropertiesHasRequired",  // TODO: hasRequired should be true, fix this
                 "ComposedHasAllofReqPropHasPropertiesHasRequired"  // TODO: hasRequired should be true, fix this
         ));
-        HashSet<String> modelNamesWithRequired = new HashSet(Arrays.asList(
-        ));
+        HashSet<String> modelNamesWithRequired = new HashSet(List.of());
         for (CodegenResponse cr : co.responses) {
             boolean hasRequired = cr.getHasRequired();
             if (modelNamesWithoutRequired.contains(cr.message)) {
@@ -4123,7 +4119,7 @@ public class DefaultCodegenTest {
         CodegenParameter coordinatesInlineSchema = co.queryParams.get(0);
         LinkedHashMap<String, CodegenMediaType> content = coordinatesInlineSchema.getContent();
         assertNotNull(content);
-        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json")));
+        assertEquals(content.keySet(), new HashSet<>(List.of("application/json")));
         CodegenMediaType mt = content.get("application/json");
         assertNull(mt.getEncoding());
         CodegenProperty cp = mt.getSchema();
@@ -4264,7 +4260,7 @@ public class DefaultCodegenTest {
         CodegenParameter coordinatesInlineSchema = co.queryParams.get(0);
         LinkedHashMap<String, CodegenMediaType> content = coordinatesInlineSchema.getContent();
         assertNotNull(content);
-        assertEquals(content.keySet(), new HashSet<>(Arrays.asList("application/json")));
+        assertEquals(content.keySet(), new HashSet<>(List.of("application/json")));
 
         CodegenParameter schemaParam = co.queryParams.get(2);
         assertEquals(schemaParam.getSchema().baseName, "stringWithMinLength");

@@ -19,14 +19,9 @@ package org.openapitools.codegen.php;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.mockito.Answers;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractPhpCodegen;
-import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -34,6 +29,7 @@ import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.withSettings;
@@ -113,7 +109,7 @@ public class AbstractPhpCodegenTest {
         codegenOperation.hasProduces = true;
         codegenOperation.produces = Arrays.asList(all, applicationJson);
 
-        codegen.escapeMediaType(Arrays.asList(codegenOperation));
+        codegen.escapeMediaType(List.of(codegenOperation));
 
         Assert.assertEquals(codegenOperation.produces.get(0).get("mediaType"), "*_/_*");
         Assert.assertEquals(codegenOperation.produces.get(1).get("mediaType"), "application/json");

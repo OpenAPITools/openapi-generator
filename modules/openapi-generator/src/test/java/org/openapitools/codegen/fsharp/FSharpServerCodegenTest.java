@@ -15,7 +15,6 @@
  */
 
 package org.openapitools.codegen.fsharp;
-import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.languages.AbstractFSharpCodegen;
@@ -24,10 +23,9 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Arrays;
+import java.util.*;
+
+import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 
 @SuppressWarnings("static-method")
 public class FSharpServerCodegenTest {
@@ -37,11 +35,11 @@ public class FSharpServerCodegenTest {
         final AbstractFSharpCodegen codegen = new P_AbstractFSharpCodegen();
 
         final CodegenModel wheel = new CodegenModel();
-        wheel.setImports(new HashSet<>(Arrays.asList()));
+        wheel.setImports(new HashSet<>(List.of()));
         wheel.setClassname("wheel");
 
         final CodegenModel bike = new CodegenModel();
-        bike.setImports(new HashSet<>(Arrays.asList("wheel")));
+        bike.setImports(new HashSet<>(List.of("wheel")));
         bike.setClassname("bike");
 
         final CodegenModel parent = new CodegenModel();
@@ -49,7 +47,7 @@ public class FSharpServerCodegenTest {
         parent.setClassname("parent");
 
         final CodegenModel car = new CodegenModel();
-        car.setImports(new HashSet<>(Arrays.asList("wheel")));
+        car.setImports(new HashSet<>(List.of("wheel")));
         car.setClassname("car");
 
         final CodegenModel child = new CodegenModel();

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.models.tags.Tag;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 
 import static org.testng.Assert.assertEquals;
@@ -143,9 +144,9 @@ public class SerializerUtilsTest {
                 new Server().url("http://www.server1.com").description("first server"),
                 new Server().url("http://www.server2.com").description("second server")
             ));
-        openAPI.setSecurity(Arrays.asList(
-                new SecurityRequirement().addList("some_auth", Arrays.asList("write", "read"))
-            ));
+        openAPI.setSecurity(Collections.singletonList(
+            new SecurityRequirement().addList("some_auth", Arrays.asList("write", "read"))
+        ));
         openAPI.setTags(Arrays.asList(
                 new Tag().name("tag1").description("some 1 description"),
                 new Tag().name("tag2").description("some 2 description"),
@@ -217,9 +218,9 @@ public class SerializerUtilsTest {
     private OpenAPI createMinimalExample() {
         OpenAPI openAPI = new OpenAPI();
         openAPI.setInfo(new Info().title("Some title"));
-        openAPI.setServers(Arrays.asList(
-                new Server().url("http://www.server1.com")
-            ));
+        openAPI.setServers(Collections.singletonList(
+            new Server().url("http://www.server1.com")
+        ));
         openAPI.path("/ping/pong", new PathItem().get(new Operation()
                 .description("Some description")
                 .operationId("pingOp")

@@ -91,9 +91,9 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
         srcBasePath = "";
 
         defaultIncludes = new HashSet<>(
-                Arrays.asList(
-                        "\\DateTime"
-                )
+            List.of(
+                "\\DateTime"
+            )
         );
 
         variableNamingConvention = "camelCase";

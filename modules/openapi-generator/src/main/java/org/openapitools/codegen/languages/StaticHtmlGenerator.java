@@ -196,7 +196,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
-            return escape(name, specialCharReplacements, Arrays.asList("_"), null);
+            return escape(name, specialCharReplacements, List.of("_"), null);
         } else {
             return name;
         }
