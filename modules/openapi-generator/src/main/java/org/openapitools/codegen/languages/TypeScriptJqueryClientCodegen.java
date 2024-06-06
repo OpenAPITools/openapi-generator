@@ -26,13 +26,10 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodegen {
-    private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptJqueryClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String JQUERY_ALREADY_IMPORTED = "jqueryAlreadyImported";
@@ -112,13 +109,7 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
     }
 
     private String addModelPrefix(String openAPIType) {
-        String type = null;
-        if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-        } else {
-            type = openAPIType;
-        }
-
+        String type = typeMapping.getOrDefault(openAPIType, openAPIType);
         if (!isLanguagePrimitive(type) && !isLanguageGenericType(type)) {
             type = "models." + openAPIType;
         }

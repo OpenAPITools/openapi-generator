@@ -192,7 +192,6 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
     
     @DataProvider(name = "codegenParameterMatrix")
     public Object[][] codegenParameterMatrix() {
-        final Set<String> libraries = new JavaJerseyServerCodegen().supportedLibraries().keySet();
         final List<Object[]> rows = new ArrayList<Object[]>();
         for (final String jerseyLibrary: ImmutableList.of("jersey2")) {
             for (final String dateLibrary: ImmutableList.of("joda", "java8")) {

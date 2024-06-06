@@ -113,7 +113,7 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {

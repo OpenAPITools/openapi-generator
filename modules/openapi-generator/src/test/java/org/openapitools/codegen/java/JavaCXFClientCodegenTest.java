@@ -58,7 +58,6 @@ public class JavaCXFClientCodegenTest {
                                         .content(new Content().addMediaType("application/json",
                                                 new MediaType().schema(listOfPets))))
                         .addApiResponse("400", new ApiResponse().description("Error")));
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
         final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
         final CodegenOperation co = codegen.fromOperation("getAllPets", "GET", operation, null);
 

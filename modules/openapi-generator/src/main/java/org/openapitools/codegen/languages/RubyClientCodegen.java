@@ -386,7 +386,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     @Override
     public String getSchemaType(Schema schema) {
         String openAPIType = super.getSchemaType(schema);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {

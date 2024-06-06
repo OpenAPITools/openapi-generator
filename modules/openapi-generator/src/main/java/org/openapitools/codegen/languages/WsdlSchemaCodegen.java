@@ -278,10 +278,7 @@ public class WsdlSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         for (ModelMap mo : objs.getModels()) {
-            CodegenModel model = mo.getModel();
-            Map<String, Object> modelVendorExtensions = model.getVendorExtensions();
-
-            for (CodegenProperty var : model.vars) {
+            for (CodegenProperty var : mo.getModel().vars) {
                 Map<String, Object> propertyVendorExtensions = var.getVendorExtensions();
 
                 // lowercase basetypes if openapitype is string

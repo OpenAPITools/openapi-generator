@@ -260,7 +260,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {

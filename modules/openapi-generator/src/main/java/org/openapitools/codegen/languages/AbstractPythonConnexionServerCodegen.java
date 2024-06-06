@@ -515,7 +515,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             opsByPathList.add(opsByPathEntry);
             opsByPathEntry.put("path", entry.getKey());
             opsByPathEntry.put("operation", entry.getValue());
-            List<CodegenOperation> operationsForThisPath = Lists.newArrayList(entry.getValue());
         }
 
         return opsByPathList;
@@ -553,7 +552,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
                     for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
-                        HttpMethod method = operationMapEntry.getKey();
                         Operation operation = operationMapEntry.getValue();
                         if (operation.getParameters() != null) {
                             for (Parameter parameter : operation.getParameters()) {

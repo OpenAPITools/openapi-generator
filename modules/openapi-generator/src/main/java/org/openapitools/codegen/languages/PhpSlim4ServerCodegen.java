@@ -52,9 +52,9 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-server";
     protected String authDirName = "Auth";
-    protected String authPackage = "";
+    protected String authPackage;
     protected String appDirName = "App";
-    protected String appPackage = "";
+    protected String appPackage;
     /**
      * -- GETTER --
      *  Returns PSR-7 implementation package.
@@ -63,7 +63,7 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
      */
     @Getter protected String psr7Implementation = "slim-psr7";
     protected String interfacesDirName = "Interfaces";
-    protected String interfacesPackage = "";
+    protected String interfacesPackage;
 
     public PhpSlim4ServerCodegen() {
         super();

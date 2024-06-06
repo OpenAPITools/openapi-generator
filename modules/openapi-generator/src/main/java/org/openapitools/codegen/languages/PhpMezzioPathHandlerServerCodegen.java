@@ -143,11 +143,7 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
      */
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        List<CodegenOperation> opList = operations.get(resourcePath);
-        if (opList == null) {
-            opList = new ArrayList<CodegenOperation>();
-            operations.put(resourcePath, opList);
-        }
+        List<CodegenOperation> opList = operations.computeIfAbsent(resourcePath, k -> new ArrayList<>());
         //ignore duplicate operation ids - that means that operation has several tags
         int counter = 0;
         for (CodegenOperation op : opList) {

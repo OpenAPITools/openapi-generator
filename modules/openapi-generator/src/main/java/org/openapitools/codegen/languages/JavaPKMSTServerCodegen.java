@@ -525,7 +525,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
         if (openAPI.getPaths() != null) {
             for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
-                String pathname = openAPIGetPathsEntry.getKey();
                 PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() != null) {
                     for (Operation operation : path.readOperations()) {
@@ -538,7 +537,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                             }
                             if (operation.getTags().size() > 0) {
                                 String tag = operation.getTags().get(0);
-                                operation.setTags(Arrays.asList(tag));
+                                operation.setTags(Collections.singletonList(tag));
                             }
                             operation.addExtension("x-tags", tags);
                         }

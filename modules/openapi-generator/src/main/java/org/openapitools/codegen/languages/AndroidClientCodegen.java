@@ -240,7 +240,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type) || type.indexOf(".") >= 0 ||

@@ -396,13 +396,11 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
                     }
                 }
 
-                CodegenProperty last = null;
                 for (final CodegenProperty property : parentCodegenModel.vars) {
                     // helper list of parentVars simplifies templating
                     if (!propertyHash.containsKey(property.name)) {
                         final CodegenProperty parentVar = property.clone();
                         parentVar.isInherited = true;
-                        last = parentVar;
                         LOGGER.debug("adding parent variable {}", property.name);
                         codegenModel.parentVars.add(parentVar);
                     }
@@ -656,7 +654,6 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
         String packageFolder = sourceFolder + File.separator + packageName;
         String clientPackageDir = packageFolder + File.separator + clientPackage;
         String modelPackageDir = packageFolder + File.separator + modelPackage;
-        String testPackageFolder = testFolder + File.separator + testPackageName;
 
         additionalProperties.put("testPackageName", testPackageName);
 

@@ -26,7 +26,7 @@ public class KotlinJvmVolleyModelCodegenTest {
         codegen.additionalProperties().put(KotlinClientCodegen.ROOM_MODEL_PACKAGE, "models.room");
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, KotlinClientCodegen.SERIALIZATION_LIBRARY_TYPE.gson.name());
 
-        String outputPath = checkModel(codegen, false);
+        checkModel(codegen, false);
 
         // TODO need revision on how kotlin client generator handles allOf ($ref vs inline)
         //assertFileContains(Paths.get(outputPath + "/src/main/java/models/room/BigDogRoomModel.kt"), "toApiModel()");

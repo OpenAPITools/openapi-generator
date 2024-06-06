@@ -46,8 +46,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     protected String moduleName;
     protected String projectName;
     protected static final String defaultProjectName = "openapi_client";
-    protected String specFolder = "spec";
-    protected String libFolder = "lib";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected boolean useJsonUnformatted = false;
@@ -556,7 +554,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String getSchemaType(Schema schema) {
         String openAPIType = super.getSchemaType(schema);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
@@ -787,10 +785,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelImport(String name) {
-        if (importMapping.containsKey(name)) {
-            return "#include \"" + "../model/" + importMapping.get(name) + ".h\"";
-        } else
-            return "#include \"" + "../model/" + name + ".h\"";
+        return "#include \"" + "../model/" + importMapping.getOrDefault(name, name) + ".h\"";
     }
 
     @Override

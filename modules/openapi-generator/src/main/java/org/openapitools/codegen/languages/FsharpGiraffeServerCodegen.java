@@ -18,14 +18,13 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
-
 import lombok.Setter;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -54,8 +53,6 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     protected final Logger LOGGER = LoggerFactory.getLogger(FsharpGiraffeServerCodegen.class);
 
     private boolean useSwashbuckle = false;
-    protected int serverPort = 8080;
-    protected String serverHost = "0.0.0.0";
     private boolean generateBody = true;
     private String buildTarget = "program";
     private String projectSdk = SDK_WEB;

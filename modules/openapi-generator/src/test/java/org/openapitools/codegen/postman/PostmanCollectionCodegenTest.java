@@ -11,13 +11,12 @@ import org.openapitools.codegen.languages.PostmanCollectionCodegen;
 import org.testng.annotations.Test;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -703,17 +702,17 @@ public class PostmanCollectionCodegenTest {
 
         CodegenOperation operationUsers = new CodegenOperation();
         operationUsers.path = "/users";
-        operationUsers.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic")));
+        operationUsers.tags = new ArrayList<>(Collections.singletonList(new Tag().name("basic")));
         postmanV2Generator.addToMap(operationUsers);
 
         CodegenOperation operationGroups = new CodegenOperation();
         operationGroups.path = "/groups";
-        operationGroups.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic")));
+        operationGroups.tags = new ArrayList<>(Collections.singletonList(new Tag().name("basic")));
         postmanV2Generator.addToMap(operationGroups);
 
         CodegenOperation operationUserId = new CodegenOperation();
         operationUserId.path = "/users/{id}";
-        operationUserId.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic")));
+        operationUserId.tags = new ArrayList<>(Collections.singletonList(new Tag().name("basic")));
         postmanV2Generator.addToMap(operationUserId);
 
         // verify tag 'basic'

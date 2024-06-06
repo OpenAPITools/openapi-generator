@@ -18,7 +18,6 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
@@ -30,7 +29,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.templating.mustache.CamelCaseAndSanitizeLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,7 +80,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     @Getter @Setter
     protected boolean supportNullable = Boolean.TRUE;
 
-    protected Set<String> nullableType = new HashSet<>();
+    protected Set<String> nullableType;
 
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractFSharpCodegen.class);
@@ -100,7 +99,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         collectionTypes = new HashSet<>(Arrays.asList("list", "seq"));
 
         mapTypes = new HashSet<>(
-                Arrays.asList("IDictionary")
+            List.of("IDictionary")
         );
 
         reservedWords.addAll(
@@ -850,7 +849,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         // TODO: collection type here should be fully qualified namespace to avoid model conflicts
         // This supports arrays of arrays.
         String arrayType = typeMapping.get("array");
-        StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema items = ModelUtils.getSchemaItems(arr);
         String nestedType = getTypeDeclaration(items);
         // TODO: We may want to differentiate here between generics and primitive arrays.

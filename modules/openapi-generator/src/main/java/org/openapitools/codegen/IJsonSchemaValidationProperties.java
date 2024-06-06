@@ -1,19 +1,12 @@
 package org.openapitools.codegen;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Stream;
-
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.media.Schema;
+import java.util.*;
+import java.util.stream.Stream;
 
 public interface IJsonSchemaValidationProperties {
     CodegenProperty getContains();
@@ -387,7 +380,7 @@ public interface IJsonSchemaValidationProperties {
                 anyOfs = composed.getAnyOf();
             }
             if (composed.getNot() != null && featureSet.getSchemaSupportFeatures().contains(SchemaSupportFeature.not)) {
-                nots = Arrays.asList(composed.getNot());
+                nots = Collections.singletonList(composed.getNot());
             }
             Stream<CodegenProperty> innerTypes = Stream.of(
                             allOfs.stream(), anyOfs.stream(), oneOfs.stream(), nots.stream())

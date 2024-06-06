@@ -387,7 +387,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+        String type;
 
         if (openAPIType == null) {
             LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());

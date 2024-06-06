@@ -316,7 +316,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      */
     public void addToMap(CodegenOperation codegenOperation){
 
-        String key = null;
+        String key;
         if(codegenOperation.tags == null || codegenOperation.tags.isEmpty()) {
             key = "default";
         } else {
@@ -593,7 +593,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
     // make sure operation name is always set
     String getSummary(CodegenOperation codegenOperation) {
-        String ret = null;
+        String ret;
 
         if(codegenOperation.summary != null) {
             ret = codegenOperation.summary;

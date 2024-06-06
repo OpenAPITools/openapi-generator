@@ -47,7 +47,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String DEFAULT_LICENSE = "Proprietary";
     public static final String CORE_DATA = "coreData";
 
-    protected Set<String> foundationClasses = new HashSet<>();
+    protected Set<String> foundationClasses;
     @Setter protected String podName = "OpenAPIClient";
     @Setter protected String podVersion = "1.0.0";
     @Setter protected String classPrefix = "OAI";
@@ -349,7 +349,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+        String type;
 
         if (openAPIType == null) {
             openAPIType = ""; // set OpenAPI type to empty string if null
@@ -465,9 +465,9 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         type = type.replaceAll("[^0-9a-zA-Z_]", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // language build-in classes
-        if (typeMapping.keySet().contains(type) ||
+        if (typeMapping.containsKey(type) ||
                 foundationClasses.contains(type) ||
-                importMapping.values().contains(type) ||
+                importMapping.containsValue(type) ||
                 defaultIncludes.contains(type) ||
                 languageSpecificPrimitives.contains(type)) {
             return camelize(type);

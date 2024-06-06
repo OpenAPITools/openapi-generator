@@ -345,7 +345,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
             if (operation.getResponses() != null) {
                 for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
-                    String s = operationGetResponsesEntry.getKey();
                     ApiResponse apiResponse = operationGetResponsesEntry.getValue();
                     if (apiResponse.getContent() != null) {
                         Content content = apiResponse.getContent();
@@ -412,7 +411,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         Paths paths = openAPI.getPaths();
         if (paths != null && !paths.isEmpty()) {
             for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
-                String path = pathsEntry.getKey();
                 PathItem item = pathsEntry.getValue();
                 collectEnumSchemas(item.getGet());
                 collectEnumSchemas(item.getPost());
@@ -676,7 +674,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public String toEnumValueName(String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
             return escape(name, specialCharReplacements, Collections.singletonList("_"), null);
         } else {
             return name;

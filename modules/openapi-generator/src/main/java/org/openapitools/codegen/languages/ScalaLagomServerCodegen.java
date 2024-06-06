@@ -24,8 +24,6 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -33,7 +31,6 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
-    private final Logger LOGGER = LoggerFactory.getLogger(ScalaLagomServerCodegen.class);
 
     private String authScheme = "";
     private boolean authPreemptive = false;

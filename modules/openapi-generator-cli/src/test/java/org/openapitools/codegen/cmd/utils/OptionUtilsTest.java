@@ -43,7 +43,7 @@ public class OptionUtilsTest {
     public void testParseCommaSeparatedTuples() throws Exception {
         doTupleListTest("a=1,b=2,c=3",
                 asList(Pair.of("a", "1"), Pair.of("b", "2"), Pair.of("c", "3")));
-        doTupleListTest("xyz", asList(Pair.of("xyz", "")));
+        doTupleListTest("xyz", List.of(Pair.of("xyz", "")));
         doTupleListTest("a=1,,c=3", asList(Pair.of("a", "1"), Pair.of("c", "3")));
         doTupleListTest("a=1,xyz=,c=3",
                 asList(Pair.of("a", "1"), Pair.of("xyz", ""), Pair.of("c", "3")));

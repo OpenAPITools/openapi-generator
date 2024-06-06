@@ -448,7 +448,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 processJVMOkHttpLibrary(infrastructureFolder);
                 break;
             case JVM_VOLLEY:
-                processJVMVolleyLibrary(infrastructureFolder, requestFolder, authFolder);
+                processJVMVolleyLibrary(infrastructureFolder, requestFolder);
                 break;
             case JVM_RETROFIT2:
                 processJVMRetrofit2Library(infrastructureFolder);
@@ -600,7 +600,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         addSupportingSerializerAdapters(infrastructureFolder);
     }
 
-    private void processJVMVolleyLibrary(String infrastructureFolder, String requestFolder, String authFolder) {
+    private void processJVMVolleyLibrary(String infrastructureFolder, String requestFolder) {
 
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_VOLLEY, true);

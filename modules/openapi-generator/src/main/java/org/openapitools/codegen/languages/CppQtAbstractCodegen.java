@@ -9,15 +9,12 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
 public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(CppQtAbstractCodegen.class);
     protected final String PREFIX = "OAI";
     protected String apiVersion = "1.0.0";
     protected static final String CPP_NAMESPACE = "cppNamespace";
@@ -26,7 +23,7 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
     protected static final String CONTENT_COMPRESSION_ENABLED_DESC = "Enable Compressed Content Encoding for requests and responses";
     protected Set<String> foundationClasses = new HashSet<>();
     protected String cppNamespace = "OpenAPI";
-    protected Map<String, String> namespaces = new HashMap<>();
+    protected Map<String, String> namespaces;
     protected Set<String> systemIncludes = new HashSet<>();
     protected boolean isContentCompressionEnabled = false;
 
@@ -256,7 +253,7 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
 
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
@@ -274,7 +271,7 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
     @Override
     public String toVarName(String name) {
         // sanitize name
-        String varName = name;
+        String varName;
         varName = sanitizeName(name);
 
         // if it's all upper case, convert to lower case

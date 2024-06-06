@@ -169,8 +169,6 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
 
     private Markdown markdownConverter = new Markdown();
 
-    private static final boolean CONVERT_TO_MARKDOWN_VIA_ESCAPE_TEXT = false;
-
     /**
      * Convert Markdown text to HTML
      *
@@ -197,8 +195,8 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     public String toVarName(String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
-            return escape(name, specialCharReplacements, Arrays.asList("_"), null);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
+            return escape(name, specialCharReplacements, List.of("_"), null);
         } else {
             return name;
         }

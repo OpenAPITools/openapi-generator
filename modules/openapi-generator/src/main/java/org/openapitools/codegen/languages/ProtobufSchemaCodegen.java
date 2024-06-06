@@ -17,8 +17,8 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
-
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.exceptions.ProtoBufIndexComputationException;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -31,9 +31,6 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import org.apache.commons.lang3.StringUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,13 +39,12 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final String IMPORT = "import";
-
-    private static final String IMPORTS = "imports";
 
     public static final String NUMBERED_FIELD_NUMBER_LIST = "numberedFieldNumberList";
 
@@ -233,13 +229,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 String name = (String) value.get("name");
                 value.put("name", prefix + "_" + name);
                 value.put("value", "\"" + prefix + "_" + name + "\"");
-            }
-        }
-
-        if (allowableValues.containsKey("values")) {
-            List<Object> values = (List<Object>) allowableValues.get("values");
-            for (Object value : values) {
-                value = prefix + "_" + String.valueOf(value);
             }
         }
     }
@@ -534,7 +523,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type)) {

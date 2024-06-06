@@ -736,8 +736,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         objs = super.postProcessAllModels(objs);
         objs = super.updateAllModels(objs);
 
-        Map<String, CodegenModel> allModels = getAllModels(objs);
-
         if (!additionalModelTypeAnnotations.isEmpty()) {
             for (String modelName : objs.keySet()) {
                 Map<String, Object> models = objs.get(modelName);
@@ -812,6 +810,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (isGenerateConstructorWithAllArgs()) {
+            final Map<String, CodegenModel> allModels = getAllModels(objs);
             // conditionally force the generation of all args constructor.
             for (CodegenModel cm : allModels.values()) {
                 if (isConstructorWithAllArgsAllowed(cm)) {
@@ -1294,7 +1293,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     _values = java.util.Collections.singletonList(String.valueOf(schema.getDefault()));
                 }
 
-                String defaultValue = "";
+                String defaultValue;
 
                 if (cp.items.getIsEnumOrRef()) { // inline or ref enum
                     List<String> defaultValues = new ArrayList<>();
@@ -1954,7 +1953,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         if (openAPI.getPaths() != null) {
             for (Map.Entry<String, PathItem> openAPIGetPathsEntry : openAPI.getPaths().entrySet()) {
-                String pathname = openAPIGetPathsEntry.getKey();
                 PathItem path = openAPIGetPathsEntry.getValue();
                 if (path.readOperations() == null) {
                     continue;

@@ -216,9 +216,6 @@ public class PlantumlDocumentationCodegenTest {
         List<Object> entityList = getList(objs, "entities");
         Assert.assertEquals(entityList.size(), 2, "size of entity list");
 
-        Map<String, Object> parentEntity = getEntityFromList("Parent", entityList);
-        Map<String, Object> childEntity = getEntityFromList("Child", entityList);
-
         List<Object> inheritanceList = getList(objs, "inheritances");
         Assert.assertEquals(inheritanceList.size(), 1, "size of inheritance list");
 

@@ -17,30 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
 import org.eclipse.aether.util.version.GenericVersionScheme;
@@ -55,16 +31,25 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 
-import static org.openapitools.codegen.CodegenConstants.DEVELOPER_EMAIL;
-import static org.openapitools.codegen.CodegenConstants.DEVELOPER_NAME;
-import static org.openapitools.codegen.CodegenConstants.DEVELOPER_ORGANIZATION;
-import static org.openapitools.codegen.CodegenConstants.DEVELOPER_ORGANIZATION_URL;
-import static org.openapitools.codegen.CodegenConstants.PARENT_ARTIFACT_ID;
-import static org.openapitools.codegen.CodegenConstants.PARENT_GROUP_ID;
-import static org.openapitools.codegen.CodegenConstants.PARENT_VERSION;
-import static org.openapitools.codegen.CodegenConstants.SCM_CONNECTION;
-import static org.openapitools.codegen.CodegenConstants.SCM_DEVELOPER_CONNECTION;
-import static org.openapitools.codegen.CodegenConstants.SCM_URL;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.Duration;
+import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static org.openapitools.codegen.CodegenConstants.*;
 
 public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures {
@@ -110,10 +95,6 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
     private String rootJavaEEPackage;
     private String rootJavaEEDepPrefix;
-    private String mpTestsGroup;
-    private String mpTestsArtifact;
-    private String jandexGroup;
-    private String jandexArtifact;
 
     public static String defaultHelidonVersion() {
         return VersionUtil.instance().defaultVersion();
@@ -172,8 +153,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         additionalProperties.put(HELIDON_VERSION, helidonVersion);
 
         setEEPackageAndDependencies(helidonVersion);
-        setMpTestDependency(helidonVersion);
-        setJandexPluginDependency(helidonVersion);
+        setMpTestDependency();
+        setJandexPluginDependency();
     }
 
     @Override
@@ -257,13 +238,13 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     }
 
 
-    private void setMpTestDependency(String version) {
+    private void setMpTestDependency() {
         // The Helidon MP test dependency changed from io.helidon.microprofile.tests:helidon-microprofile-tests-junit5 in 3.x
         // to io.helidon.microprofile.testing:helidon-microprofile-testing-junit5  in 4.x.
         additionalProperties.put(X_USE_MP_TESTING, helidonMajorVersion >= 4);
     }
 
-    private void setJandexPluginDependency(String version) {
+    private void setJandexPluginDependency() {
         // The Jandex plug-in GAV changed from org.jboss.jandex:jandex-maven-plugin in 3.x to
         // io.smallrye:jandex-maven-plugin in 4.x.
         additionalProperties.put(X_USE_SMALLRYE_JANDEX_PLUGIN, helidonMajorVersion >= 4);

@@ -71,8 +71,8 @@ public class SplitStringLambda implements Mustache.Lambda {
             builder.append(String.format(Locale.ROOT, SPLIT_INIT, inputLength));
 
             int currentPosition = 0;
-            int currentStringLength = 0;
-            char currentLastChar = '\\';
+            int currentStringLength;
+            char currentLastChar;
 
             // Split input into parts of at most maxLength and not ending with an escape character
             // Append each part to the StringBuilder

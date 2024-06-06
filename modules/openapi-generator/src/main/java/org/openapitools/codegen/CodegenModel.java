@@ -19,12 +19,11 @@ package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.models.ExternalDocumentation;
-
-import java.util.*;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.*;
 
 /**
  * CodegenModel represents a schema object in a OpenAPI document.
@@ -255,7 +254,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private CodegenProperty items;
     private CodegenProperty additionalProperties;
     private boolean isModel;
-    private boolean hasRequiredVars;
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private boolean isAnyType;
     private boolean isUuid;

@@ -429,7 +429,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             if (example == null) {
                 example = "";
             }
-            int len = 0;
+            int len;
             if (null != schema.getMinLength()) {
                 len = schema.getMinLength().intValue();
                 if (len < 1) {
@@ -500,13 +500,11 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 Map<String, Schema> properties = schema.getProperties();
                 Set<String> propkeys = null;
                 if (properties != null) propkeys = properties.keySet();
-                if (toExclude != null && reqs.contains(toExclude)) {
+                if (toExclude != null) {
                     reqs.remove(toExclude);
                 }
                 for (String toRemove : includedSchemas.stream().map(Schema::getTitle).collect(Collectors.toList())) {
-                    if (reqs.contains(toRemove)) {
-                        reqs.remove(toRemove);
-                    }
+                    reqs.remove(toRemove);
                 }
                 if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                     includedSchemas.add(schema);
@@ -848,7 +846,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 }
             }
 
-            List<CodegenProperty> codegenProperties = null;
+            List<CodegenProperty> codegenProperties;
             if (!model.oneOf.isEmpty()) { // oneOfValidationError
                 codegenProperties = model.getComposedSchemas().getOneOf();
                 typingImports.add("Any");
@@ -896,7 +894,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             for (CodegenProperty cp : codegenProperties) {
                 String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, model.classname);
                 List<String> fields = new ArrayList<>();
-                String firstField = "";
+                String firstField;
 
                 // is readOnly?
                 if (cp.isReadOnly) {
@@ -1625,7 +1623,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
         if (reservedWords.contains(name)) {
             name = name.toUpperCase(Locale.ROOT);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
             name = underscore(escape(name, specialCharReplacements, Collections.singletonList("_"), "_")).toUpperCase(Locale.ROOT);
         } else {
             name = name.toUpperCase(Locale.ROOT);
@@ -1659,7 +1657,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             return;
         }
 
-        List<CodegenProperty> codegenProperties = null;
+        List<CodegenProperty> codegenProperties;
         if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOf
             codegenProperties = cm.getComposedSchemas().getOneOf();
         } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
@@ -1710,7 +1708,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             return;
         }
 
-        List<CodegenProperty> codegenProperties = null;
+        List<CodegenProperty> codegenProperties;
         if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOfValidationError
             codegenProperties = cm.getComposedSchemas().getOneOf();
         } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
@@ -1755,7 +1753,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             for (CodegenParameter param : params) {
                 String typing = getPydanticType(param, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, null);
                 List<String> fields = new ArrayList<>();
-                String firstField = "";
+                String firstField;
 
                 if (!param.required) { //optional
                     firstField = "None";
@@ -1805,8 +1803,10 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
             // update typing import for operation return type
             if (!StringUtils.isEmpty(operation.returnType)) {
-                String typing = getPydanticType(operation.returnProperty, typingImports,
-                        new TreeSet<>() /* skip pydantic import for return type */, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, null);
+                getPydanticType(
+                    operation.returnProperty, typingImports, new TreeSet<>() /* skip pydantic import for return type */, 
+                    datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, null
+                );
             }
 
             // add import for code samples

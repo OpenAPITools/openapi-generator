@@ -112,7 +112,6 @@ public class KotlinServerCodegenTest {
                 "import javax.validation.Valid"
         );
 
-        Path petModel = Paths.get(outputPath + "/models/Pet.kt");
         assertFileNotContains(
                 petApi,
                 "import jakarta.validation.Valid",

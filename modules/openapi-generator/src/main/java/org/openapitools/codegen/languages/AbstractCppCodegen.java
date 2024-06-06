@@ -197,8 +197,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             name = "UnknownModel";
         }
 
-        if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
-                || importMapping.values().contains(name) || defaultIncludes.contains(name)
+        if (typeMapping.containsKey(name) || typeMapping.containsValue(name)
+                || importMapping.containsValue(name) || defaultIncludes.contains(name)
                 || languageSpecificPrimitives.contains(name)) {
             return name;
         } else {
@@ -220,8 +220,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             return nameMapping.get(name);
         }
 
-        if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
-                || importMapping.values().contains(name) || defaultIncludes.contains(name)
+        if (typeMapping.containsKey(name) || typeMapping.containsValue(name)
+                || importMapping.containsValue(name) || defaultIncludes.contains(name)
                 || languageSpecificPrimitives.contains(name)) {
             return sanitizeName(name);
         }

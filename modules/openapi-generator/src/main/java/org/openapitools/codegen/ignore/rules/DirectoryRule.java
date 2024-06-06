@@ -23,8 +23,8 @@ import java.util.List;
 
 public class DirectoryRule extends FileRule {
 
-    private PathMatcher directoryMatcher = null;
-    private PathMatcher contentsMatcher = null;
+    private PathMatcher directoryMatcher;
+    private PathMatcher contentsMatcher;
 
     DirectoryRule(List<Part> syntax, String definition) {
         super(syntax, definition);

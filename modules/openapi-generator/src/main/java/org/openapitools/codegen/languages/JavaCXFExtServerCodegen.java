@@ -344,7 +344,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
         if (var.dataType.equals("byte[]")) {
             // Byte arrays are represented as Base64-encoded strings.
-            appendByteArrayValue(buffer, indent, op, var, localVar, localVars, models);
+            appendByteArrayValue(buffer, var);
         } else {
             boolean isPrimitiveType = var.isPrimitiveType && !"Object".equals(var.items.dataType);
             int itemCount = Math.max(var.itemCount, var.minItems == null ? 1 : Math.max(1, var.minItems));
@@ -377,8 +377,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         }
     }
 
-    private void appendByteArrayValue(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
-                                      String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
+    private void appendByteArrayValue(StringBuilder buffer, CodegenVariable var) {
 
         if (!loadTestDataFromFile)
             buffer.append('"');
@@ -534,7 +533,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         }
     }
 
-    private void appendRandomBoolean(StringBuilder buffer, CodegenOperation op, CodegenVariable var) {
+    private void appendRandomBoolean(StringBuilder buffer, CodegenVariable var) {
         boolean randomBoolean = Math.random() > 0.5;
 
         if (loadTestDataFromFile)
@@ -693,7 +692,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         return false;
     }
 
-    private void appendRandomFile(StringBuilder buffer, CodegenOperation op, CodegenVariable var) {
+    private void appendRandomFile(StringBuilder buffer, CodegenVariable var) {
         // For code generation purposes we'll just supply a random string as the contents of a text 'file'.
         String randomString = generateRandomString(var);
 
@@ -828,7 +827,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                         break;
                     case "boolean":
                     case "Boolean":
-                        appendRandomBoolean(buffer, op, var);
+                        appendRandomBoolean(buffer, var);
                         break;
                     case "char":
                     case "Char":
@@ -861,7 +860,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                         appendRandomDate(buffer, op, var);
                         break;
                     case "File":
-                        appendRandomFile(buffer, op, var);
+                        appendRandomFile(buffer, var);
                         break;
                     default:
                         LOGGER.warn("Unrecognized component type '{}" + "' in '{}' property for '{}'operation",

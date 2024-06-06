@@ -73,7 +73,6 @@ public class CSharpModelEnumTest {
                 .child(subModel)
                 .interfaces(new ArrayList<RefModel>());
                 */
-        final DefaultCodegen codegen = new CSharpClientCodegen();
         final Map<String, Schema> allModels = new HashMap<>();
         allModels.put("ParentModel", parentModel);
         allModels.put("SubModel", subModel);

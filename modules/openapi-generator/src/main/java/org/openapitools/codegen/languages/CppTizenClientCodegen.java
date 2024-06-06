@@ -183,7 +183,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
@@ -207,9 +207,9 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
 
     @Override
     public String toModelName(String type) {
-        if (typeMapping.keySet().contains(type) ||
-                typeMapping.values().contains(type) ||
-                importMapping.values().contains(type) ||
+        if (typeMapping.containsKey(type) ||
+                typeMapping.containsValue(type) ||
+                importMapping.containsValue(type) ||
                 defaultIncludes.contains(type) ||
                 languageSpecificPrimitives.contains(type)) {
             return type;

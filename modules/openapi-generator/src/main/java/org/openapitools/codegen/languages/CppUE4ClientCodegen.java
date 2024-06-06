@@ -48,7 +48,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     protected String privateFolder = "Private";
     protected String publicFolder = "Public";
     protected String apiVersion = "1.0.0";
-    protected Map<String, String> namespaces = new HashMap<>();
+    protected Map<String, String> namespaces;
     // Will be included using the <> syntax, not used in Unreal's coding convention
     protected Set<String> systemIncludes = new HashSet<>();
     protected String cppNamespace = unrealModuleName;
@@ -163,8 +163,6 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
             supportingFiles.add(new SupportingFile("module-header.mustache", privateFolder, unrealModuleName + "Module.h"));
             supportingFiles.add(new SupportingFile("module-source.mustache", privateFolder, unrealModuleName + "Module.cpp"));
         }
-
-        super.typeMapping = new HashMap<>();
 
         // Maps C++ types during call to getSchemaType, see DefaultCodegen.getSchemaType and not the types/formats
         // defined in openapi specification "array" is also used explicitly in the generator for containers
@@ -488,7 +486,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
@@ -505,9 +503,9 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelName(String type) {
-        if (typeMapping.keySet().contains(type) ||
-                typeMapping.values().contains(type) ||
-                importMapping.values().contains(type) ||
+        if (typeMapping.containsKey(type) ||
+                typeMapping.containsValue(type) ||
+                importMapping.containsValue(type) ||
                 defaultIncludes.contains(type) ||
                 languageSpecificPrimitives.contains(type)) {
             return type;

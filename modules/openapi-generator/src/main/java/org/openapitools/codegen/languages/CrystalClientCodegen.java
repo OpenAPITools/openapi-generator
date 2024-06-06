@@ -63,7 +63,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Setter protected String shardAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected List<String> primitiveTypes = new ArrayList<String>();
+    protected List<String> primitiveTypes;
 
     public static final String SHARD_NAME = "shardName";
     public static final String MODULE_NAME = "moduleName";
@@ -340,7 +340,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Override
     public String getSchemaType(Schema schema) {
         String openAPIType = super.getSchemaType(schema);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {

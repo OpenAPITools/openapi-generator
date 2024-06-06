@@ -266,7 +266,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                     operation.setExtensions(new HashMap());
                 }
 
-                if (!operation.getExtensions().keySet().contains("x-gatling-path")) {
+                if (!operation.getExtensions().containsKey("x-gatling-path")) {
                     if (pathname.contains("{")) {
                         String gatlingPath = pathname.replaceAll("\\{", "\\$\\{");
                         operation.addExtension("x-gatling-path", gatlingPath);
@@ -405,7 +405,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
             if (languageSpecificPrimitives.contains(type))

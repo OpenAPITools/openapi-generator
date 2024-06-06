@@ -1548,8 +1548,6 @@ public class ModelUtils {
      */
     public static String getParentName(Schema composedSchema, Map<String, Schema> allSchemas) {
         List<Schema> interfaces = getInterfaces(composedSchema);
-        int nullSchemaChildrenCount = 0;
-        boolean hasAmbiguousParents = false;
         List<String> refedWithoutDiscriminator = new ArrayList<>();
 
         if (interfaces != null && !interfaces.isEmpty()) {
@@ -1566,24 +1564,9 @@ public class ModelUtils {
                         return parentName;
                     } else {
                         // not a parent since discriminator.propertyName or x-parent is not set
-                        hasAmbiguousParents = true;
                         refedWithoutDiscriminator.add(parentName);
                     }
-                } else {
-                    // not a ref, doing nothing, except counting the number of times the 'null' type
-                    // is listed as composed element.
-                    if (ModelUtils.isNullType(schema)) {
-                        // If there are two interfaces, and one of them is the 'null' type,
-                        // then the parent is obvious and there is no need to warn about specifying
-                        // a determinator.
-                        nullSchemaChildrenCount++;
-                    }
                 }
-            }
-            if (refedWithoutDiscriminator.size() == 1 && nullSchemaChildrenCount == 1) {
-                // One schema is a $ref and the other is the 'null' type, so the parent is obvious.
-                // In this particular case there is no need to specify a discriminator.
-                hasAmbiguousParents = false;
             }
         }
 
@@ -2227,18 +2210,7 @@ public class ModelUtils {
                 .withExclusiveMaximum()
                 .build();
 
-        public static Set<String> ALL_VALIDATIONS;
-
-        static {
-            ALL_VALIDATIONS = new HashSet<>(ARRAY_VALIDATIONS);
-            ALL_VALIDATIONS.addAll(OBJECT_VALIDATIONS);
-            ALL_VALIDATIONS.addAll(STRING_VALIDATIONS);
-            ALL_VALIDATIONS.addAll(NUMERIC_VALIDATIONS);
-        }
-
-        SchemaValidations() {
-        }
-
+        SchemaValidations() {}
 
         public static class ValidationSetBuilder {
             LinkedHashSet<String> validationSet;

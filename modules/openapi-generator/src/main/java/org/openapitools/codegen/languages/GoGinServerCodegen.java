@@ -17,17 +17,11 @@
 package org.openapitools.codegen.languages;
 
 import lombok.Setter;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
@@ -35,8 +29,6 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class GoGinServerCodegen extends AbstractGoCodegen {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(GoGinServerCodegen.class);
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
 

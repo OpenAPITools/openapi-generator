@@ -89,70 +89,54 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
-    public static FeatureSet DefaultFeatureSet;
+    public static FeatureSet DefaultFeatureSet = FeatureSet.newBuilder()
+        .includeDataTypeFeatures(
+            DataTypeFeature.Int32, DataTypeFeature.Int64, DataTypeFeature.Float, DataTypeFeature.Double,
+            DataTypeFeature.Decimal, DataTypeFeature.String, DataTypeFeature.Byte, DataTypeFeature.Binary,
+            DataTypeFeature.Boolean, DataTypeFeature.Date, DataTypeFeature.DateTime, DataTypeFeature.Password,
+            DataTypeFeature.File, DataTypeFeature.Array, DataTypeFeature.Object, DataTypeFeature.Maps, DataTypeFeature.CollectionFormat,
+            DataTypeFeature.CollectionFormatMulti, DataTypeFeature.Enum, DataTypeFeature.ArrayOfEnum, DataTypeFeature.ArrayOfModel,
+            DataTypeFeature.ArrayOfCollectionOfPrimitives, DataTypeFeature.ArrayOfCollectionOfModel, DataTypeFeature.ArrayOfCollectionOfEnum,
+            DataTypeFeature.MapOfEnum, DataTypeFeature.MapOfModel, DataTypeFeature.MapOfCollectionOfPrimitives,
+            DataTypeFeature.MapOfCollectionOfModel, DataTypeFeature.MapOfCollectionOfEnum
+            // Custom types are template specific
+        ).includeDocumentationFeatures(
+            DocumentationFeature.Api, DocumentationFeature.Model
+            // README is template specific
+        ).includeGlobalFeatures(
+            GlobalFeature.Host, GlobalFeature.BasePath, GlobalFeature.Info, GlobalFeature.PartialSchemes,
+            GlobalFeature.Consumes, GlobalFeature.Produces, GlobalFeature.ExternalDocumentation, GlobalFeature.Examples,
+            GlobalFeature.Callbacks
+            // TODO: xml structures, styles, link objects, parameterized servers, full schemes for OAS 2.0
+        ).includeSchemaSupportFeatures(
+            SchemaSupportFeature.Simple, SchemaSupportFeature.Composite,
+            SchemaSupportFeature.Polymorphism
+            // Union (OneOf) not 100% yet.
+        ).includeParameterFeatures(
+            ParameterFeature.Path, ParameterFeature.Query, ParameterFeature.Header, ParameterFeature.Body,
+            ParameterFeature.FormUnencoded, ParameterFeature.FormMultipart, ParameterFeature.Cookie
+        ).includeSecurityFeatures(
+            SecurityFeature.BasicAuth, SecurityFeature.ApiKey, SecurityFeature.BearerToken,
+            SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
+            SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
+            // OpenIdConnect and SignatureAuth and AW4Signature are not yet 100% supported
+        ).includeWireFormatFeatures(
+            WireFormatFeature.JSON, WireFormatFeature.XML
+            // PROTOBUF and Custom are generator specific
+        ).build();
 
     // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
-    private static final Cache<SanitizeNameOptions, String> sanitizedNameCache;
+    private static final Cache<SanitizeNameOptions, String> sanitizedNameCache = Caffeine.newBuilder()
+        .maximumSize(Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "500")))
+        .expireAfterAccess(Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_EXPIRY_PROPERTY, "10")), TimeUnit.SECONDS)
+        .ticker(Ticker.systemTicker())
+        .build();
+
     private static final String xSchemaTestExamplesKey = "x-schema-test-examples";
     private static final String xSchemaTestExamplesRefPrefix = "#/components/x-schema-test-examples/";
-    protected static Schema falseSchema;
+    protected static Schema falseSchema = new Schema().not(new Schema());
     protected static Schema trueSchema = new Schema();
-
-    static {
-        DefaultFeatureSet = FeatureSet.newBuilder()
-                .includeDataTypeFeatures(
-                        DataTypeFeature.Int32, DataTypeFeature.Int64, DataTypeFeature.Float, DataTypeFeature.Double,
-                        DataTypeFeature.Decimal, DataTypeFeature.String, DataTypeFeature.Byte, DataTypeFeature.Binary,
-                        DataTypeFeature.Boolean, DataTypeFeature.Date, DataTypeFeature.DateTime, DataTypeFeature.Password,
-                        DataTypeFeature.File, DataTypeFeature.Array, DataTypeFeature.Object, DataTypeFeature.Maps, DataTypeFeature.CollectionFormat,
-                        DataTypeFeature.CollectionFormatMulti, DataTypeFeature.Enum, DataTypeFeature.ArrayOfEnum, DataTypeFeature.ArrayOfModel,
-                        DataTypeFeature.ArrayOfCollectionOfPrimitives, DataTypeFeature.ArrayOfCollectionOfModel, DataTypeFeature.ArrayOfCollectionOfEnum,
-                        DataTypeFeature.MapOfEnum, DataTypeFeature.MapOfModel, DataTypeFeature.MapOfCollectionOfPrimitives,
-                        DataTypeFeature.MapOfCollectionOfModel, DataTypeFeature.MapOfCollectionOfEnum
-                        // Custom types are template specific
-                )
-                .includeDocumentationFeatures(
-                        DocumentationFeature.Api, DocumentationFeature.Model
-                        // README is template specific
-                )
-                .includeGlobalFeatures(
-                        GlobalFeature.Host, GlobalFeature.BasePath, GlobalFeature.Info, GlobalFeature.PartialSchemes,
-                        GlobalFeature.Consumes, GlobalFeature.Produces, GlobalFeature.ExternalDocumentation, GlobalFeature.Examples,
-                        GlobalFeature.Callbacks
-                        // TODO: xml structures, styles, link objects, parameterized servers, full schemes for OAS 2.0
-                )
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Simple, SchemaSupportFeature.Composite,
-                        SchemaSupportFeature.Polymorphism
-                        // Union (OneOf) not 100% yet.
-                )
-                .includeParameterFeatures(
-                        ParameterFeature.Path, ParameterFeature.Query, ParameterFeature.Header, ParameterFeature.Body,
-                        ParameterFeature.FormUnencoded, ParameterFeature.FormMultipart, ParameterFeature.Cookie
-                )
-                .includeSecurityFeatures(
-                        SecurityFeature.BasicAuth, SecurityFeature.ApiKey, SecurityFeature.BearerToken,
-                        SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
-                        // OpenIdConnect and SignatureAuth and AW4Signature are not yet 100% supported
-                )
-                .includeWireFormatFeatures(
-                        WireFormatFeature.JSON, WireFormatFeature.XML
-                        // PROTOBUF and Custom are generator specific
-                )
-                .build();
-
-        int cacheSize = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "500"));
-        int cacheExpiry = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_EXPIRY_PROPERTY, "10"));
-        sanitizedNameCache = Caffeine.newBuilder()
-                .maximumSize(cacheSize)
-                .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
-                .ticker(Ticker.systemTicker())
-                .build();
-        falseSchema = new Schema();
-        falseSchema.setNot(new Schema());
-    }
 
     protected GeneratorMetadata generatorMetadata;
     protected String inputSpec;
@@ -682,7 +666,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         // Let parent know about all its children
         for (Map.Entry<String, CodegenModel> allModelsEntry : allModels.entrySet()) {
-            String name = allModelsEntry.getKey();
             CodegenModel cm = allModelsEntry.getValue();
             CodegenModel parent = allModels.get(cm.getParent());
             // if a discriminator exists on the parent, don't add this child to the inheritance hierarchy
@@ -2761,7 +2744,6 @@ public class DefaultCodegen implements CodegenConfig {
                     refSchema = allDefinitions.get(ref);
                 }
                 final String modelName = toModelName(ref);
-                CodegenProperty interfaceProperty = fromProperty(modelName, interfaceSchema, false);
                 m.interfaces.add(modelName);
                 addImport(composed, refSchema, m, modelName);
 
@@ -3900,7 +3882,6 @@ public class DefaultCodegen implements CodegenConfig {
         // if it's ref to schema's properties, get the actual schema defined in the properties
         Schema refToPropertiesSchema = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, p.get$ref());
         if (refToPropertiesSchema != null) {
-            p = refToPropertiesSchema;
             return fromProperty(name, refToPropertiesSchema, required, schemaIsFromAdditionalProperties);
         }
 
@@ -5718,11 +5699,7 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("static-method")
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
             co, Map<String, List<CodegenOperation>> operations) {
-        List<CodegenOperation> opList = operations.get(tag);
-        if (opList == null) {
-            opList = new ArrayList<>();
-            operations.put(tag, opList);
-        }
+        List<CodegenOperation> opList = operations.computeIfAbsent(tag, k -> new ArrayList<>());
         // check for operationId uniqueness
         String uniqueName = co.operationId;
         int counter = 0;
@@ -5854,10 +5831,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected Map<String, Schema> unaliasPropertySchema(Map<String, Schema> properties) {
         if (properties != null) {
-            for (String key : properties.keySet()) {
-                properties.put(key, unaliasSchema(properties.get(key)));
-
-            }
+            properties.replaceAll((k, v) -> unaliasSchema(properties.get(k)));
         }
 
         return properties;
@@ -5945,7 +5919,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 final CodegenProperty cp;
 
-                if (cm != null && cm.allVars == vars && varsMap.keySet().contains(key)) {
+                if (cm != null && cm.allVars == vars && varsMap.containsKey(key)) {
                     // when updating allVars, reuse the codegen property from the child model if it's already present
                     // the goal is to avoid issues when the property is defined in both child, parent but the
                     // definition is not identical, e.g. required vs optional, integer vs string
@@ -7024,12 +6998,10 @@ public class DefaultCodegen implements CodegenConfig {
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
-        Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
         if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
                 ModelUtils.getType(schema) == null) {
             if (schema.getAllOf().get(0) instanceof Schema) {
-                original = schema;
                 schema = (Schema) schema.getAllOf().get(0);
             } else {
                 LOGGER.error("Unknown type in allOf schema. Please report the issue via openapi-generator's Github issue tracker.");
@@ -7176,7 +7148,6 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.isMap = true;
                 codegenParameter.additionalProperties = codegenProperty.additionalProperties;
                 codegenParameter.setAdditionalPropertiesIsAnyType(codegenProperty.getAdditionalPropertiesIsAnyType());
-                codegenParameter.items = codegenProperty.items;
                 codegenParameter.isPrimitiveType = false;
                 codegenParameter.items = codegenProperty.items;
                 codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;

@@ -33,8 +33,6 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
@@ -44,7 +42,6 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class GoClientCodegen extends AbstractGoCodegen {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
     @Setter protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";

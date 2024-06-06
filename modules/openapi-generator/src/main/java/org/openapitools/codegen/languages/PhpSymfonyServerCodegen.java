@@ -28,8 +28,6 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
@@ -38,14 +36,13 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
-    private final Logger LOGGER = LoggerFactory.getLogger(PhpSymfonyServerCodegen.class);
 
     public static final String BUNDLE_NAME = "bundleName";
     public static final String BUNDLE_ALIAS = "bundleAlias";
     public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
     public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
     public static final String PHP_LEGACY_SUPPORT = "phpLegacySupport";
-    public static final Map<String, String> SYMFONY_EXCEPTIONS;
+
     protected String testsPackage;
     protected String apiTestsPackage;
     protected String modelTestsPackage;
@@ -64,25 +61,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     @Setter protected Boolean phpLegacySupport = Boolean.TRUE;
 
     protected HashSet<String> typeHintable;
-
-    static {
-        SYMFONY_EXCEPTIONS = new HashMap<>();
-        SYMFONY_EXCEPTIONS.put("400", "Symfony\\Component\\HttpKernel\\Exception\\BadRequestHttpException");
-        SYMFONY_EXCEPTIONS.put("401", "Symfony\\Component\\HttpKernel\\Exception\\UnauthorizedHttpException");
-        SYMFONY_EXCEPTIONS.put("403", "Symfony\\Component\\HttpKernel\\Exception\\AccessDeniedHttpException");
-        SYMFONY_EXCEPTIONS.put("404", "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException");
-        SYMFONY_EXCEPTIONS.put("405", "Symfony\\Component\\HttpKernel\\Exception\\MethodNotAllowedHttpException");
-        SYMFONY_EXCEPTIONS.put("406", "Symfony\\Component\\HttpKernel\\Exception\\NotAcceptableHttpException");
-        SYMFONY_EXCEPTIONS.put("409", "Symfony\\Component\\HttpKernel\\Exception\\ConflictHttpException");
-        SYMFONY_EXCEPTIONS.put("410", "Symfony\\Component\\HttpKernel\\Exception\\GoneHttpException");
-        SYMFONY_EXCEPTIONS.put("411", "Symfony\\Component\\HttpKernel\\Exception\\LengthRequiredHttpException");
-        SYMFONY_EXCEPTIONS.put("412", "Symfony\\Component\\HttpKernel\\Exception\\PreconditionFailedHttpException");
-        SYMFONY_EXCEPTIONS.put("415", "Symfony\\Component\\HttpKernel\\Exception\\UnsupportedMediaTypeHttpException");
-        SYMFONY_EXCEPTIONS.put("422", "Symfony\\Component\\HttpKernel\\Exception\\UnprocessableEntityHttpException");
-        SYMFONY_EXCEPTIONS.put("428", "Symfony\\Component\\HttpKernel\\Exception\\PreconditionRequiredHttpException");
-        SYMFONY_EXCEPTIONS.put("429", "Symfony\\Component\\HttpKernel\\Exception\\TooManyRequestsHttpException");
-        SYMFONY_EXCEPTIONS.put("503", "Symfony\\Component\\HttpKernel\\Exception\\ServiceUnavailableHttpException");
-    }
 
     public PhpSymfonyServerCodegen() {
         super();

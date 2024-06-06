@@ -23,8 +23,6 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,7 +32,6 @@ import java.util.List;
 
 public class PhpClientCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
-    private final Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
     public static final String GUZZLE = "guzzle";
     public static final String PSR18 = "psr-18";
 

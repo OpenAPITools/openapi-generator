@@ -27,8 +27,6 @@ import org.openapitools.codegen.languages.features.LoggingTestFeatures;
 import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
@@ -36,8 +34,6 @@ import java.util.Map;
 
 public class JavaCXFClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, UseGenericResponseFeatures, GzipTestFeatures, LoggingTestFeatures {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(JavaCXFClientCodegen.class);
 
     /**
      * Name of the sub-directory in "src/main/resource" where to find the

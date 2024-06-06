@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
 
 public class OpenAPINormalizer {
     private OpenAPI openAPI;
-    private Map<String, String> inputRules = new HashMap<>();
     private Map<String, Boolean> rules = new HashMap<>();
 
     private TreeSet<String> anyTypeTreeSet = new TreeSet<>();
@@ -132,7 +131,6 @@ public class OpenAPINormalizer {
      */
     public OpenAPINormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
         this.openAPI = openAPI;
-        this.inputRules = inputRules;
 
         if (Boolean.parseBoolean(inputRules.get(DISABLE_ALL))) {
             this.disableAll = true;
@@ -527,7 +525,7 @@ public class OpenAPINormalizer {
             return normalizeAllOf(schema, visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) { // composed schema
             if (ModelUtils.isComplexComposedSchema(schema)) {
-                schema = normalizeComplexComposedSchema(schema, visitedSchemas);
+                schema = normalizeComplexComposedSchema(schema);
             }
 
             if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
@@ -543,7 +541,7 @@ public class OpenAPINormalizer {
             }
 
             if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-                normalizeProperties(schema.getProperties(), visitedSchemas);
+                normalizeProperties(schema.getProperties());
             }
 
             if (schema.getAdditionalProperties() != null) {
@@ -552,11 +550,11 @@ public class OpenAPINormalizer {
 
             return schema;
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            normalizeProperties(schema.getProperties(), visitedSchemas);
+            normalizeProperties(schema.getProperties());
         } else if (schema instanceof BooleanSchema) {
-            normalizeBooleanSchema(schema, visitedSchemas);
+            normalizeBooleanSchema(schema);
         } else if (schema instanceof IntegerSchema) {
-            normalizeIntegerSchema(schema, visitedSchemas);
+            normalizeIntegerSchema(schema);
         } else if (schema instanceof Schema) {
             return normalizeSimpleSchema(schema, visitedSchemas);
         } else {
@@ -580,17 +578,17 @@ public class OpenAPINormalizer {
         return processSetPrimitiveTypesToNullable(result);
     }
 
-    private void normalizeBooleanSchema(Schema schema, Set<Schema> visitedSchemas) {
+    private void normalizeBooleanSchema(Schema schema) {
         processSimplifyBooleanEnum(schema);
         processSetPrimitiveTypesToNullable(schema);
     }
 
-    private void normalizeIntegerSchema(Schema schema, Set<Schema> visitedSchemas) {
+    private void normalizeIntegerSchema(Schema schema) {
         processAddUnsignedToIntegerWithInvalidMaxValue(schema);
         processSetPrimitiveTypesToNullable(schema);
     }
 
-    private void normalizeProperties(Map<String, Schema> properties, Set<Schema> visitedSchemas) {
+    private void normalizeProperties(Map<String, Schema> properties) {
         if (properties == null) {
             return;
         }
@@ -666,10 +664,10 @@ public class OpenAPINormalizer {
         return processSimplifyAnyOfStringAndEnumString(schema);
     }
 
-    private Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
+    private Schema normalizeComplexComposedSchema(Schema schema) {
         // loop through properties, if any
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            normalizeProperties(schema.getProperties(), visitedSchemas);
+            normalizeProperties(schema.getProperties());
         }
 
         processRemoveAnyOfOneOfAndKeepPropertiesOnly(schema);
@@ -835,7 +833,7 @@ public class OpenAPINormalizer {
             return schema;
         }
 
-        Schema result = null, s0 = null, s1 = null;
+        Schema result, s0, s1;
         if (schema.getAnyOf().size() == 2) {
             s0 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(0));
             s1 = ModelUtils.unaliasSchema(openAPI, (Schema) schema.getAnyOf().get(1));

@@ -35,14 +35,11 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
 public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
-    private final Logger LOGGER = LoggerFactory.getLogger(PhpDataTransferClientCodegen.class);
     // Custom generator option names
     public static final String OPT_MODERN = "modern";
     // Internal vendor extension names for extra template data that should not be set in specification
@@ -454,7 +451,6 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
         Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {
             for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
-                String pathname = pathsEntry.getKey();
                 PathItem path = pathsEntry.getValue();
                 List<Operation> operations = path.readOperations();
                 if (operations != null) {

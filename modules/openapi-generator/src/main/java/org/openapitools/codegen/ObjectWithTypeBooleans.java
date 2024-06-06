@@ -23,7 +23,6 @@ public class ObjectWithTypeBooleans {
      * @param value the input payload that is stored
      */
     public ObjectWithTypeBooleans(Object value) {
-        Object usedValue = null;
         if (value instanceof Integer){
             this.isUnboundedInteger = true;
             this.value = value;

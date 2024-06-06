@@ -901,7 +901,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (NATIVE.equals(getLibrary()) || APACHE.equals(getLibrary())) {
             OperationMap operations = objs.getOperations();
             List<CodegenOperation> operationList = operations.getOperation();
-            Pattern methodPattern = Pattern.compile("^(.*):([^:]*)$");
             for (CodegenOperation op : operationList) {
                 // add extension to indicate content type is `text/plain` and the response type is `String`
                 if (op.produces != null) {
@@ -1054,10 +1053,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel codegenModel = super.fromModel(name, model);
         if (MICROPROFILE.equals(getLibrary())) {
-            if (codegenModel.imports.contains("ApiModel")) {
-                // Remove io.swagger.annotations.ApiModel import
-                codegenModel.imports.remove("ApiModel");
-            }
+            // Remove io.swagger.annotations.ApiModel import
+            codegenModel.imports.remove("ApiModel");
         }
 
         // TODO: inverse logic. Do not add the imports unconditionally in the first place.

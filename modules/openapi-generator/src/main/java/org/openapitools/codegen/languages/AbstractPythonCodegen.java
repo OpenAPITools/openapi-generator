@@ -69,10 +69,6 @@ import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
-
-
-
-
 public abstract class AbstractPythonCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonCodegen.class);
 
@@ -465,7 +461,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (example == null) {
                 example = "";
             }
-            int len = 0;
+            int len;
             if (null != schema.getMinLength()) {
                 len = schema.getMinLength().intValue();
                 if (len < 1) {
@@ -536,13 +532,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 Map<String, Schema> properties = schema.getProperties();
                 Set<String> propkeys = null;
                 if (properties != null) propkeys = properties.keySet();
-                if (toExclude != null && reqs.contains(toExclude)) {
+                if (toExclude != null) {
                     reqs.remove(toExclude);
                 }
                 for (String toRemove : includedSchemas.stream().map(Schema::getTitle).collect(Collectors.toList())) {
-                    if (reqs.contains(toRemove)) {
-                        reqs.remove(toRemove);
-                    }
+                    reqs.remove(toRemove);
                 }
                 if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                     includedSchemas.add(schema);
@@ -897,7 +891,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            List<CodegenProperty> codegenProperties = null;
+            List<CodegenProperty> codegenProperties;
             if (!model.oneOf.isEmpty()) { // oneOfValidationError
                 codegenProperties = model.getComposedSchemas().getOneOf();
                 moduleImports.add("typing", "Any");
@@ -1101,7 +1095,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         if (reservedWords.contains(name)) {
             name = name.toUpperCase(Locale.ROOT);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
             name = underscore(escape(name, specialCharReplacements, Collections.singletonList("_"), "_")).toUpperCase(Locale.ROOT);
         } else {
             name = name.toUpperCase(Locale.ROOT);
@@ -1135,7 +1129,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return;
         }
 
-        List<CodegenProperty> codegenProperties = null;
+        List<CodegenProperty> codegenProperties;
         if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOf
             codegenProperties = cm.getComposedSchemas().getOneOf();
         } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
@@ -1186,7 +1180,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return;
         }
 
-        List<CodegenProperty> codegenProperties = null;
+        List<CodegenProperty> codegenProperties;
         if (cm.oneOf != null && !cm.oneOf.isEmpty()) { // oneOfValidationError
             codegenProperties = cm.getComposedSchemas().getOneOf();
         } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) { // anyOF
@@ -1630,7 +1624,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             String defaultValue = this.defaultValue;
 
             if (this.annotations.size() > 0) {
-                String typeValue = "";
+                String typeValue;
 
                 List<String> ants = new ArrayList<>();
 
@@ -1941,7 +1935,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
         }
 
-        private PythonType boolType(IJsonSchemaValidationProperties cp) {
+        private PythonType boolType() {
             moduleImports.add("pydantic", "StrictBool");
             return new PythonType("StrictBool");
         }
@@ -1975,7 +1969,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return pt;
         }
 
-        private PythonType anyType(IJsonSchemaValidationProperties cp) {
+        private PythonType anyType() {
             moduleImports.add("typing", "Any");
             return new PythonType("Any");
         }
@@ -2028,11 +2022,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             } else if (cp.getIsBinary() || cp.getIsByteArray()) {
                 return binaryType(cp);
             } else if (cp.getIsBoolean()) {
-                return boolType(cp);
+                return boolType();
             } else if (cp.getIsDecimal()) {
                 return decimalType(cp);
             } else if (cp.getIsAnyType()) {
-                return anyType(cp);
+                return anyType();
             } else if (cp.getIsDate() || cp.getIsDateTime()) {
                 return dateType(cp);
             } else if (cp.getIsUuid()) {
