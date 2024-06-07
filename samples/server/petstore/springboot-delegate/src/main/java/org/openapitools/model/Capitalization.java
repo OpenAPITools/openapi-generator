@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * Capitalization
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Capitalization {
 
   private String smallCamel;
@@ -33,6 +33,10 @@ public class Capitalization {
   private String scAETHFlowPoints;
 
   private String ATT_NAME;
+
+  public Capitalization() {
+    super();
+  }
 
   /**
   * Constructor with all args parameters

@@ -59,7 +59,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NullableShape extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(NullableShape.class.getName());
 
@@ -172,12 +172,7 @@ public class NullableShape extends AbstractOpenApiSchema {
         super("oneOf", Boolean.TRUE);
     }
 
-    public NullableShape(Quadrilateral o) {
-        super("oneOf", Boolean.TRUE);
-        setActualInstance(o);
-    }
-
-    public NullableShape(Triangle o) {
+    public NullableShape(Object o) {
         super("oneOf", Boolean.TRUE);
         setActualInstance(o);
     }

@@ -21,9 +21,10 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -50,7 +51,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
     private final Pattern simpleAtomPattern = Pattern.compile("\\A(?:(?:[_@\\p{Alpha}][_@\\p{Alnum}]*[?!]?)|-)\\z");
 
     protected String apiVersion = "1.0.0";
-    protected String moduleName;
+    @Setter protected String moduleName;
     protected static final String defaultModuleName = "OpenAPI.Client";
 
     // This is the name of elixir project name;
@@ -699,7 +700,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     }
 
-    class ExtendedCodegenOperation extends CodegenOperation {
+    @Getter @Setter class ExtendedCodegenOperation extends CodegenOperation {
         private List<String> pathTemplateNames = new ArrayList<>();
         private String replacedPathName;
 
@@ -760,22 +761,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.nickname = o.nickname;
             this.operationIdLowerCase = o.operationIdLowerCase;
             this.operationIdCamelCase = o.operationIdCamelCase;
-        }
-
-        public List<String> getPathTemplateNames() {
-            return pathTemplateNames;
-        }
-
-        public void setPathTemplateNames(List<String> pathTemplateNames) {
-            this.pathTemplateNames = pathTemplateNames;
-        }
-
-        public String getReplacedPathName() {
-            return replacedPathName;
-        }
-
-        public void setReplacedPathName(String replacedPathName) {
-            this.replacedPathName = replacedPathName;
         }
 
         private void translateBaseType(StringBuilder returnEntry, String baseType) {
@@ -994,10 +979,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
     public String escapeUnsafeCharacters(String input) {
         // no need to escape as Elixir does not support multi-line comments
         return input;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
     }
 
     @Override

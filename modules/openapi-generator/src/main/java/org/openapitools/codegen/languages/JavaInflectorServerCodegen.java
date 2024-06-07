@@ -213,6 +213,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         return super.getOrGenerateOperationId(operation, path, httpMethod.toUpperCase(Locale.ROOT));
     }
 
+    @Override
     public String apiFilename(String templateName, String tag) {
         String result = super.apiFilename(templateName, tag);
 

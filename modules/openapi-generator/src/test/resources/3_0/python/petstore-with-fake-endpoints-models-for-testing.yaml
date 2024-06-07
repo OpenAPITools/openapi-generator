@@ -2060,6 +2060,35 @@ components:
           enum:
             - 1.1
             - -1.2
+        enum_number_vendor_ext:
+          type: integer
+          format: int32
+          enum:
+            - 42
+            - 18
+            - 56
+          x-enum-descriptions:
+            - 'Description for 42'
+            - 'Description for 18'
+            - 'Description for 56'
+          x-enum-varnames:
+            - FortyTwo
+            - Eigtheen
+            - FiftySix
+        enum_string_vendor_ext:
+          type: string
+          enum:
+            - FOO
+            - Bar
+            - baz
+          x-enum-descriptions:
+            - 'Description for FOO'
+            - 'Description for Bar'
+            - 'Description for baz'
+          x-enum-varnames:
+            - FOOVar
+            - BarVar
+            - bazVar
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
         outerEnumInteger:

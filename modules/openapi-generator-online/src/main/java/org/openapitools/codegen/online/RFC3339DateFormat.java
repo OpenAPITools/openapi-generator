@@ -17,35 +17,23 @@
 
 package org.openapitools.codegen.online;
 
-import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.databind.util.ISO8601Utils;
 
-import java.text.DateFormat;
 import java.text.FieldPosition;
-import java.text.ParsePosition;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.TimeZone;
 
-public class RFC3339DateFormat extends DateFormat {
+
+public class RFC3339DateFormat extends ISO8601DateFormat {
 
   private static final long serialVersionUID = 1L;
-  private static final DateTimeFormatter dtf = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-  private static final StdDateFormat sdf = new StdDateFormat()
-      .withTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()))
-      .withColonInTimeZone(true);
 
+  // Same as ISO8601DateFormat but serializing milliseconds.
   @Override
   public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition) {
-    String value = date.toInstant().atOffset(ZoneOffset.UTC).format(dtf);
+    String value = ISO8601Utils.format(date, true);
     toAppendTo.append(value);
     return toAppendTo;
-  }
-
-  @Override
-  public Date parse(String source, ParsePosition pos) {
-    return sdf.parse(source, pos);
   }
 
 }

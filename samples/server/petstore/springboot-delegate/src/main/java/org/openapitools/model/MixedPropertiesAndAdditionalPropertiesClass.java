@@ -25,7 +25,7 @@ import javax.annotation.Generated;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
   private UUID uuid;
@@ -35,6 +35,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   @Valid
   private Map<String, Animal> map = new HashMap<>();
+
+  public MixedPropertiesAndAdditionalPropertiesClass() {
+    super();
+  }
 
   /**
   * Constructor with all args parameters

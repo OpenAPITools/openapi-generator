@@ -12,3 +12,4 @@ additionalProperties:
   withXml: true
   hideGenerationTimestamp: "true"
   generateConstructorWithAllArgs: true
+  generateBuilders: true

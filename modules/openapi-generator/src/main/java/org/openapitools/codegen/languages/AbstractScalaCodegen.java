@@ -20,10 +20,11 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -48,8 +49,9 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
 
-    protected String modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
-    protected String invokerPackage = "org.openapitools.client";
+    @Getter protected String modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
+    @Setter protected String invokerPackage = "org.openapitools.client";
+    @Getter @Setter
     protected String sourceFolder = "src/main/scala";
     protected String appName = "OpenAPI Sample";
     protected String appDescription = "A sample openapi server";
@@ -59,7 +61,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     protected String licenseUrl = "http://apache.org/licenses/LICENSE-2.0.html";
     protected String apiVersion = "1.0";
     protected boolean stripPackageName = true;
-    protected String dateLibrary = DateLibraries.java8.name();
+    @Getter protected String dateLibrary = DateLibraries.java8.name();
 
     protected enum DateLibraries {
         java8("Java 8 native JSR310 (preferred for JDK 1.8+)"),
@@ -255,10 +257,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         throw new IllegalArgumentException("Invalid dateLibrary. Must be 'java8' or 'joda'");
     }
 
-    public String getDateLibrary() {
-        return this.dateLibrary;
-    }
-
     public void setModelPropertyNaming(String naming) {
         try {
             this.modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(naming).name();
@@ -267,10 +265,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                     naming + "'. Must be 'original', 'camelCase', " +
                     "'PascalCase' or 'snake_case'");
         }
-    }
-
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
     }
 
 
@@ -314,14 +308,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                         name + "'. Must be 'original', 'camelCase', " +
                         "'PascalCase' or 'snake_case'");
         }
-    }
-
-    public String getSourceFolder() {
-        return sourceFolder;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
     }
 
     @Override
@@ -612,10 +598,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         }
 
         return operationId;
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
     }
 
     @Override

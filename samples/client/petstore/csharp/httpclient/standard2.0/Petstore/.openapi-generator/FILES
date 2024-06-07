@@ -51,7 +51,13 @@ docs/List.md
 docs/LiteralStringClass.md
 docs/Mammal.md
 docs/MapTest.md
+docs/MixLog.md
+docs/MixedAnyOf.md
+docs/MixedAnyOfContent.md
+docs/MixedOneOf.md
+docs/MixedOneOfContent.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
+docs/MixedSubId.md
 docs/Model200Response.md
 docs/ModelClient.md
 docs/Name.md
@@ -171,7 +177,13 @@ src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
+src/Org.OpenAPITools/Model/MixLog.cs
+src/Org.OpenAPITools/Model/MixedAnyOf.cs
+src/Org.OpenAPITools/Model/MixedAnyOfContent.cs
+src/Org.OpenAPITools/Model/MixedOneOf.cs
+src/Org.OpenAPITools/Model/MixedOneOfContent.cs
 src/Org.OpenAPITools/Model/MixedPropertiesAndAdditionalPropertiesClass.cs
+src/Org.OpenAPITools/Model/MixedSubId.cs
 src/Org.OpenAPITools/Model/Model200Response.cs
 src/Org.OpenAPITools/Model/ModelClient.cs
 src/Org.OpenAPITools/Model/Name.cs

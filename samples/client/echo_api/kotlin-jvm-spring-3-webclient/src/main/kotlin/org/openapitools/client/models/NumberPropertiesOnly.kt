@@ -39,5 +39,8 @@ data class NumberPropertiesOnly (
     @field:JsonProperty("double")
     val double: kotlin.Double? = null
 
-)
+) {
+
+
+}
 

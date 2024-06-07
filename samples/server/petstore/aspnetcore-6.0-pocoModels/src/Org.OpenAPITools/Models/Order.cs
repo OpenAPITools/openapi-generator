@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Models
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
-        [DataMember(Name="shipDate", EmitDefaultValue=false)]
+        [DataMember(Name="shipDate", EmitDefaultValue=true)]
         public DateTime ShipDate { get; set; }
 
 

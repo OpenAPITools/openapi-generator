@@ -97,7 +97,7 @@ export interface NullableClass {
 /**
  * Check if a given object implements the NullableClass interface.
  */
-export function instanceOfNullableClass(value: object): boolean {
+export function instanceOfNullableClass(value: object): value is NullableClass {
     return true;
 }
 

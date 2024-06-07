@@ -28,7 +28,6 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 import java.io.File;
@@ -37,6 +36,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
@@ -112,14 +114,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
 
-    public enum RequestMappingMode {
+    @Getter public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
         controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
         none("Do not add a class level @RequestMapping annotation.");
-
-        public String getDescription() {
-            return description;
-        }
 
         private String description;
 
@@ -131,36 +129,42 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
 
-    protected String title = "OpenAPI Spring";
+    @Setter protected String title = "OpenAPI Spring";
+    @Getter @Setter
     protected String configPackage = "org.openapitools.configuration";
+    @Getter @Setter
     protected String basePackage = "org.openapitools";
+    @Getter @Setter
     protected String resourceFolder = projectFolder + "/resources";
 
-    protected boolean interfaceOnly = false;
-    protected boolean useFeignClientUrl = true;
-    protected boolean delegatePattern = false;
+    @Setter protected boolean interfaceOnly = false;
+    @Setter protected boolean useFeignClientUrl = true;
+    @Setter protected boolean delegatePattern = false;
     protected boolean delegateMethod = false;
-    protected boolean singleContentTypes = false;
-    protected boolean async = false;
-    protected boolean reactive = false;
-    protected boolean sse = false;
-    protected String responseWrapper = "";
-    protected boolean skipDefaultInterface = false;
-    protected boolean useTags = false;
+    @Setter protected boolean singleContentTypes = false;
+    @Setter protected boolean async = false;
+    @Setter protected boolean reactive = false;
+    @Setter protected boolean sse = false;
+    @Setter protected String responseWrapper = "";
+    @Setter protected boolean skipDefaultInterface = false;
+    @Setter protected boolean useTags = false;
     protected boolean useBeanValidation = true;
     protected boolean performBeanValidation = false;
-    protected boolean apiFirst = false;
+    @Setter protected boolean apiFirst = false;
     protected boolean useOptional = false;
-    protected boolean virtualService = false;
-    protected boolean hateoas = false;
-    protected boolean returnSuccessCode = false;
+    @Setter protected boolean virtualService = false;
+    @Setter protected boolean hateoas = false;
+    @Setter protected boolean returnSuccessCode = false;
+    @Getter @Setter
     protected boolean unhandledException = false;
-    protected boolean useSpringController = false;
+    @Setter protected boolean useSpringController = false;
     protected boolean useSwaggerUI = true;
-    protected boolean useResponseEntity = true;
-    protected boolean useEnumCaseInsensitive = false;
+    @Setter protected boolean useResponseEntity = true;
+    @Setter protected boolean useEnumCaseInsensitive = false;
+    @Getter @Setter
     protected boolean useSpringBoot3 = false;
     protected boolean generatedConstructorWithRequiredArgs = true;
+    @Getter @Setter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
 
     public SpringCodegen() {
@@ -296,6 +300,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         return isLibrary(SPRING_HTTP_INTERFACE) ? null : DocumentationProvider.SPRINGDOC;
     }
 
+    @Override
     public List<DocumentationProvider> supportedDocumentationProvider() {
         List<DocumentationProvider> supportedProviders = new ArrayList<>();
         supportedProviders.add(DocumentationProvider.NONE);
@@ -1023,102 +1028,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setConfigPackage(String configPackage) {
-        this.configPackage = configPackage;
-    }
-
-    public String getConfigPackage() {
-        return configPackage;
-    }
-
-    public boolean isUnhandledException() {
-        return unhandledException;
-    }
-
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
-
-    public String getBasePackage() {
-        return basePackage;
-    }
-
-    public void setInterfaceOnly(boolean interfaceOnly) {
-        this.interfaceOnly = interfaceOnly;
-    }
-
-    public void setUseFeignClientUrl(boolean useFeignClientUrl) {
-        this.useFeignClientUrl = useFeignClientUrl;
-    }
-
-    public void setDelegatePattern(boolean delegatePattern) {
-        this.delegatePattern = delegatePattern;
-    }
-
-    public void setSingleContentTypes(boolean singleContentTypes) {
-        this.singleContentTypes = singleContentTypes;
-    }
-
-    public void setSkipDefaultInterface(boolean skipDefaultInterface) {
-        this.skipDefaultInterface = skipDefaultInterface;
-    }
-
-    public void setVirtualService(boolean virtualService) {
-        this.virtualService = virtualService;
-    }
-
-    public void setAsync(boolean async) {
-        this.async = async;
-    }
-
-    public void setReactive(boolean reactive) {
-        this.reactive = reactive;
-    }
-
-    public void setSse(boolean sse) {
-        this.sse = sse;
-    }
-
-    public void setResponseWrapper(String responseWrapper) {
-        this.responseWrapper = responseWrapper;
-    }
-
-    public void setUseTags(boolean useTags) {
-        this.useTags = useTags;
-    }
-
-    public void setApiFirst(boolean apiFirst) {
-        this.apiFirst = apiFirst;
-    }
-
-    public void setHateoas(boolean hateoas) {
-        this.hateoas = hateoas;
-    }
-
-    public void setUseSpringController(boolean useSpringController) {
-        this.useSpringController = useSpringController;
-    }
-
-    public void setReturnSuccessCode(boolean returnSuccessCode) {
-        this.returnSuccessCode = returnSuccessCode;
-    }
-
-    public void setUnhandledException(boolean unhandledException) {
-        this.unhandledException = unhandledException;
-    }
-
-    public void setUseResponseEntity(boolean useResponseEntity) {
-        this.useResponseEntity = useResponseEntity;
-    }
-
-    public void setUseEnumCaseInsensitive(boolean useEnumCaseInsensitive) {
-        this.useEnumCaseInsensitive = useEnumCaseInsensitive;
-    }
-
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
@@ -1170,7 +1079,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     protected boolean isConstructorWithAllArgsAllowed(CodegenModel codegenModel) {
-        if (lombokAnnotations != null && lombokAnnotations.containsKey("allArgsConstructor")) {
+        if (lombokAnnotations != null && lombokAnnotations.containsKey("AllArgsConstructor")) {
             // constructor generated by lombok
             return false;
         }
@@ -1306,6 +1215,21 @@ public class SpringCodegen extends AbstractJavaCodegen
         return provideArgsClassSet;
     }
 
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        Map<String, CodegenModel> allModels = getAllModels(objs);
+        // conditionally force the generation of no args constructor
+        for (CodegenModel cm : allModels.values()) {
+            boolean hasLombokNoArgsConstructor = lombokAnnotations != null && lombokAnnotations.containsKey("NoArgsConstructor");
+            if (!hasLombokNoArgsConstructor
+                  &&  (cm.hasRequired || cm.vendorExtensions.containsKey("x-java-all-args-constructor"))) {
+                cm.vendorExtensions.put("x-java-no-args-constructor", true);
+            }
+        }
+        return objs;
+    }
 
     @Override
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {
@@ -1363,29 +1287,5 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_VERSION_PARAM);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         return extensions;
-    }
-
-    public boolean isUseSpringBoot3() {
-        return useSpringBoot3;
-    }
-
-    public void setUseSpringBoot3(boolean useSpringBoot3) {
-        this.useSpringBoot3 = useSpringBoot3;
-    }
-
-    public RequestMappingMode getRequestMappingMode() {
-        return requestMappingMode;
-    }
-
-    public void setRequestMappingMode(RequestMappingMode requestMappingMode) {
-        this.requestMappingMode = requestMappingMode;
-    }
-
-    public void setResourceFolder( String resourceFolder ) {
-        this.resourceFolder = resourceFolder;
-    }
-
-    public String getResourceFolder() {
-        return resourceFolder;
     }
 }

@@ -220,7 +220,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, polymorphicProperty, jsonSerializerOptions);
+            WriteProperties(writer, polymorphicProperty, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -231,7 +231,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="polymorphicProperty"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions jsonSerializerOptions)
         {
 
         }

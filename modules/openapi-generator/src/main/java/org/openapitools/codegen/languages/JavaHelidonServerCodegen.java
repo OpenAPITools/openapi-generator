@@ -1,6 +1,6 @@
 /*
- * Copyright 2022 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright (c) 2022 Oracle and/or its affiliates
+ * Copyright 2022, 2024 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ * Copyright (c) 2022, 2024 Oracle and/or its affiliates
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import java.util.Map;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -56,7 +57,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
     protected boolean useBeanValidation = true;
     protected String implFolder = "src/main/java";
-    protected String serializationLibrary = null;
+    @Getter protected String serializationLibrary = null;
 
     private boolean useAbstractClass = false;
     private boolean gradleProject = false;
@@ -104,8 +105,6 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
         supportedLibraries.put(HELIDON_MP, "Helidon MP Server");
         supportedLibraries.put(HELIDON_SE, "Helidon SE Server");
-        supportedLibraries.put(HELIDON_NIMA, "Helidon NIMA Server");
-        supportedLibraries.put(HELIDON_NIMA_ANNOTATIONS, "Helidon NIMA Annotations Server");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -224,10 +223,6 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             }
             importMapping.put("Handler", "io.helidon.webserver.Handler");
             processSupportingFiles(modifiable, unmodifiable);
-        } else if (isLibrary(HELIDON_NIMA)) {
-            throw new UnsupportedOperationException("Not implemented");
-        } else if (isLibrary(HELIDON_NIMA_ANNOTATIONS)) {
-            throw new UnsupportedOperationException("Not implemented");
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
             throw new IllegalArgumentException(
@@ -389,10 +384,6 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
     @Override
     public void setPerformBeanValidation(boolean performBeanValidation) {
         throw new UnsupportedOperationException("Not implemented");
-    }
-
-    public String getSerializationLibrary() {
-        return serializationLibrary;
     }
 
     public void setSerializationLibrary(String serializationLibrary) {

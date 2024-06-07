@@ -26,6 +26,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.samskivert.mustache.Mustache;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -89,24 +92,28 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW = "supportAndroidApiLevel25AndBelow";
 
+    public static final String GENERATE_ONEOF_ANYOF_WRAPPERS = "generateOneOfAnyOfWrappers";
+
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
-    protected String dateLibrary = DateLibrary.JAVA8.value;
-    protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
-    protected String collectionType = CollectionType.LIST.value;
+    @Setter protected String dateLibrary = DateLibrary.JAVA8.value;
+    @Setter protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
+    @Setter protected String collectionType = CollectionType.LIST.value;
     protected boolean useRxJava3 = false;
     protected boolean useCoroutines = false;
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
     protected boolean doNotUseRxAndCoroutines = true;
     protected boolean generateRoomModels = false;
-    protected String roomModelPackage = "";
-    protected boolean omitGradleWrapper = false;
+    @Setter protected String roomModelPackage = "";
+    @Setter protected boolean omitGradleWrapper = false;
+    @Setter protected boolean generateOneOfAnyOfWrappers = true;
 
     protected String authFolder;
 
-    protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
+    @Getter protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
     public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson' or 'jackson' or 'kotlinx_serialization'";
+
     public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson, kotlinx_serialization}
 
     public enum DateLibrary {
@@ -259,18 +266,23 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
 
+        cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers."));
+
         CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "kotlin";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Kotlin client.";
     }
@@ -281,6 +293,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public boolean getOmitGradleWrapper() {
         return omitGradleWrapper;
+    }
+
+    public boolean getGenerateOneOfAnyOfWrappers() {
+        return generateOneOfAnyOfWrappers;
     }
 
     public void setGenerateRoomModels(Boolean generateRoomModels) {
@@ -309,31 +325,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             this.doNotUseRxAndCoroutines = false;
         }
         this.useCoroutines = useCoroutines;
-    }
-
-
-    public void setDateLibrary(String library) {
-        this.dateLibrary = library;
-    }
-
-    public void setRequestDateConverter(String converter) {
-        this.requestDateConverter = converter;
-    }
-
-    public void setCollectionType(String collectionType) {
-        this.collectionType = collectionType;
-    }
-
-    public void setRoomModelPackage(String roomModelPackage) {
-        this.roomModelPackage = roomModelPackage;
-    }
-
-    public void setOmitGradleWrapper(boolean omitGradleWrapper) {
-        this.omitGradleWrapper = omitGradleWrapper;
-    }
-
-    public SERIALIZATION_LIBRARY_TYPE getSerializationLibrary() {
-        return this.serializationLibrary;
     }
 
     /**
@@ -443,6 +434,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(this.serializationLibrary.name(), true);
         }
 
+        if (additionalProperties.containsKey(GENERATE_ONEOF_ANYOF_WRAPPERS)) {
+            setGenerateOneOfAnyOfWrappers(Boolean.parseBoolean(additionalProperties.get(GENERATE_ONEOF_ANYOF_WRAPPERS).toString()));
+        }
+
         commonSupportingFiles();
 
         switch (getLibrary()) {
@@ -513,6 +508,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
             }
         }
+
+        additionalProperties.put("sanitizeGeneric", (Mustache.Lambda) (fragment, writer) -> {
+            String content = fragment.execute();
+            for (final String s : List.of("<", ">", ",", " ", ".")) {
+                content = content.replace(s, "");
+            }
+            writer.write(content);
+        });
     }
 
     private void processDateLibrary() {
@@ -874,7 +877,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         for (ModelMap mo : objects.getModels()) {
             CodegenModel cm = mo.getModel();
-            if (getGenerateRoomModels()) {
+            if (getGenerateRoomModels() || getGenerateOneOfAnyOfWrappers()) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
             }
 

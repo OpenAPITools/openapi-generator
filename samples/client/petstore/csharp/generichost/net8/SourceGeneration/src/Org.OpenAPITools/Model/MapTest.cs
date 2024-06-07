@@ -293,7 +293,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, mapTest, jsonSerializerOptions);
+            WriteProperties(writer, mapTest, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -304,7 +304,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapTest"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mapTest.DirectMapOption.IsSet && mapTest.DirectMap == null)
                 throw new ArgumentNullException(nameof(mapTest.DirectMap), "Property is required for class MapTest.");

@@ -45,7 +45,7 @@ public class GlobalSettings {
             Properties copy = new Properties();
             copy.putAll(System.getProperties());
             return copy;
-        };
+        }
     };
 
     public static String getProperty(String key, String defaultValue) {

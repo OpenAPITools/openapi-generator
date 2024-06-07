@@ -14,8 +14,9 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.Client;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for AnotherFakeApi
  */
-@Ignore
+@Disabled
 public class AnotherFakeApiTest {
 
     private final AnotherFakeApi api = new AnotherFakeApi();
@@ -39,8 +40,9 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void call123testSpecialTagsTest()  {
-        Client client = null;
-        Client response = api.call123testSpecialTags(client).block();
+        // uncomment below to test the function
+        //Client client = null;
+        //Client response = api.call123testSpecialTags(client).block();
 
         // TODO: test validations
     }

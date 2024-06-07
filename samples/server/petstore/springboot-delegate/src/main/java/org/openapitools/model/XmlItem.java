@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * XmlItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class XmlItem {
 
   private String attributeString;
@@ -92,6 +92,10 @@ public class XmlItem {
 
   @Valid
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
+
+  public XmlItem() {
+    super();
+  }
 
   /**
   * Constructor with all args parameters

@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Pet  implements Serializable {
   private Long id;
   private Category category;
@@ -292,7 +292,7 @@ public class Pet  implements Serializable {
     return new PetBuilderImpl();
   }
 
-  private static final class PetBuilderImpl extends PetBuilder<Pet, PetBuilderImpl> {
+  private static class PetBuilderImpl extends PetBuilder<Pet, PetBuilderImpl> {
 
     @Override
     protected PetBuilderImpl self() {

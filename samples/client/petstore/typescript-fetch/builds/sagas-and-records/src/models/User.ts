@@ -84,9 +84,9 @@ export interface User {
 /**
  * Check if a given object implements the User interface.
  */
-export function instanceOfUser(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('subUser2' in value)) return false;
+export function instanceOfUser(value: object): value is User {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('subUser2' in value) || value['subUser2'] === undefined) return false;
     return true;
 }
 

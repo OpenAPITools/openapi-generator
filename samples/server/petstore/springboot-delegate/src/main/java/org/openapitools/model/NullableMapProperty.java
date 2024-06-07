@@ -24,11 +24,15 @@ import javax.annotation.Generated;
  * NullableMapProperty
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NullableMapProperty {
 
   @Valid
   private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
+
+  public NullableMapProperty() {
+    super();
+  }
 
   /**
   * Constructor with all args parameters

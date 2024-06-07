@@ -25,12 +25,16 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.examples.Example;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -66,15 +70,21 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     public List<String> customHeaders = new ArrayList<>();
 
+    // A map is nice, because that way I easily override variables across APIs, for pagination for example. This should add nice defaults
+    private final Map<String, Object> customVariables = new HashMap<>();
 
+
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "jetbrains-http-client";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a jetbrains-http client. See https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html";
     }
@@ -96,6 +106,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         embeddedTemplateDir = templateDir = "jetbrains-http-client";
         apiPackage = "Apis";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("http-client.template.env.mustache", "Apis", "http-client.template.env.json"));
 
 
         cliOptions.clear();
@@ -115,6 +126,14 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
         if (additionalProperties.containsKey(CUSTOM_HEADERS)) {
             customHeaders = Arrays.asList(additionalProperties.get(CUSTOM_HEADERS).toString().split("&"));
+        }
+
+        bodyVariables.forEach(variable -> customVariables.put(variable, ""));
+        for(String header: customHeaders) {
+            List<String> variables = extractDoubleCurlyBraces(header);
+            if(!variables.isEmpty()) {
+                variables.forEach(v -> customVariables.put(v, ""));
+            }
         }
     }
 
@@ -152,7 +171,15 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
                 codegenOperation.vendorExtensions.put("customHeaders", customHeaders);
             }
         }
+
         return results;
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        var variables = new ArrayList<>(customVariables.keySet());
+        objs.put("vendorExtensionsVariables", variables);
+        return objs;
     }
 
     List<RequestItem> getRequests(CodegenOperation codegenOperation) {
@@ -195,9 +222,41 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
             items.add(new RequestItem(codegenOperation.summary, null));
         }
 
+        codegenOperation.headerParams.forEach(param -> customVariables.put(param.baseName, ""));
+        codegenOperation.queryParams.forEach(param -> customVariables.put(param.paramName, ""));
+
+        // I also need to grab the parameters from the path
+        List<String> pathVariables = extractSingleCurlyBraces(codegenOperation.path);
+        pathVariables.forEach(pv -> customVariables.put(pv, ""));
+
         // Handling custom variables now
         return handleCustomVariablesInRequests(items);
     }
+
+    public static List<String> extractDoubleCurlyBraces(String input) {
+        List<String> result = new ArrayList<>();
+        Pattern pattern = Pattern.compile("\\{\\{([^}]+)\\}\\}");
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            result.add(matcher.group(1));
+        }
+
+        return result;
+    }
+
+    public static List<String> extractSingleCurlyBraces(String input) {
+        List<String> result = new ArrayList<>();
+        Pattern pattern = Pattern.compile("\\{([^}]+)\\}");
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            result.add(matcher.group(1));
+        }
+
+        return result;
+    }
+
 
     private List<RequestItem> handleCustomVariablesInRequests(List<RequestItem> items) {
         if (!bodyVariables.isEmpty()) {
@@ -220,13 +279,14 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
     public void postProcess() {
         System.out.println("##########################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                                    #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                           #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
         System.out.println("# https://opencollective.com/openapi_generator/donate                                    #");
         System.out.println("#                                                                                        #");
         System.out.println("# This generator was written by Julien Lengrand-Lambert (https://github.com/jlengrand)   #");
         System.out.println("##########################################################################################");
     }
 
+    @Getter @Setter
     public class RequestItem {
 
         private String name;
@@ -234,22 +294,6 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
         public RequestItem(String name, String body) {
             this.name = name;
-            this.body = body;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getBody() {
-            return body;
-        }
-
-        public void setBody(String body) {
             this.body = body;
         }
     }

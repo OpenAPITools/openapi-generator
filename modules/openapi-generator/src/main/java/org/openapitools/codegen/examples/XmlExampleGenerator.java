@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.examples;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.XML;
 import org.apache.commons.lang3.StringUtils;

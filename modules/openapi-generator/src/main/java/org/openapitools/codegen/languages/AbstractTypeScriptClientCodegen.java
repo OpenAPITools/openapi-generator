@@ -18,10 +18,10 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -240,14 +240,18 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @SuppressWarnings("squid:S5164")
     protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
 
-    protected MODEL_PROPERTY_NAMING_TYPE modelPropertyNaming = MODEL_PROPERTY_NAMING_TYPE.original;
+    @Getter protected MODEL_PROPERTY_NAMING_TYPE modelPropertyNaming = MODEL_PROPERTY_NAMING_TYPE.original;
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
-    protected PARAM_NAMING_TYPE paramNaming = PARAM_NAMING_TYPE.camelCase;
+    @Getter protected PARAM_NAMING_TYPE paramNaming = PARAM_NAMING_TYPE.camelCase;
     protected boolean enumPropertyNamingReplaceSpecialChar = false;
+    @Getter @Setter
     protected Boolean supportsES6 = false;
+    @Getter @Setter
     protected Boolean nullSafeAdditionalProps = false;
     protected HashSet<String> languageGenericTypes;
+    @Getter @Setter
     protected String npmName = null;
+    @Getter @Setter
     protected String npmVersion = "1.0.0";
 
     protected String enumSuffix = "Enum";
@@ -827,14 +831,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
     }
 
-    public MODEL_PROPERTY_NAMING_TYPE getModelPropertyNaming() {
-        return modelPropertyNaming;
-    }
-
-    public PARAM_NAMING_TYPE getParamNaming() {
-        return paramNaming;
-    }
-
     private String getNameUsingParamNaming(String name) {
         switch (getParamNaming()) {
             case original:
@@ -1035,38 +1031,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             }
         }
         return result;
-    }
-
-    public void setSupportsES6(Boolean value) {
-        supportsES6 = value;
-    }
-
-    public Boolean getSupportsES6() {
-        return supportsES6;
-    }
-
-    public Boolean getNullSafeAdditionalProps() {
-        return nullSafeAdditionalProps;
-    }
-
-    public void setNullSafeAdditionalProps(Boolean value) {
-        nullSafeAdditionalProps = value;
-    }
-
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
     }
 
     private void setDiscriminatorValue(CodegenModel model, String baseName, String value) {

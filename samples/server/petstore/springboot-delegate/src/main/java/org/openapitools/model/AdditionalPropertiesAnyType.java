@@ -23,10 +23,14 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesAnyType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AdditionalPropertiesAnyType {
 
   private String name;
+
+  public AdditionalPropertiesAnyType() {
+    super();
+  }
 
   /**
   * Constructor with all args parameters

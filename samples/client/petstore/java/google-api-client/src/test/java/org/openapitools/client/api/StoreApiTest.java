@@ -14,8 +14,8 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.Order;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -28,12 +28,10 @@ import java.util.Map;
 /**
  * API tests for StoreApi
  */
-@Ignore
 public class StoreApiTest {
 
     private final StoreApi api = new StoreApi();
 
-    
     /**
      * Delete purchase order by ID
      *
@@ -45,11 +43,12 @@ public class StoreApiTest {
     @Test
     public void deleteOrderTest() throws IOException {
         String orderId = null;
-        api.deleteOrder(orderId);
+        // uncomment below to test the API function
+        //api.deleteOrder(orderId);
 
         // TODO: test validations
     }
-    
+
     /**
      * Returns pet inventories by status
      *
@@ -60,11 +59,12 @@ public class StoreApiTest {
      */
     @Test
     public void getInventoryTest() throws IOException {
-        Map<String, Integer> response = api.getInventory();
+        // uncomment below to test the API function
+        //Map<String, Integer> response = api.getInventory();
 
         // TODO: test validations
     }
-    
+
     /**
      * Find purchase order by ID
      *
@@ -76,11 +76,12 @@ public class StoreApiTest {
     @Test
     public void getOrderByIdTest() throws IOException {
         Long orderId = null;
-        Order response = api.getOrderById(orderId);
+        // uncomment below to test the API function
+        //Order response = api.getOrderById(orderId);
 
         // TODO: test validations
     }
-    
+
     /**
      * Place an order for a pet
      *
@@ -92,9 +93,10 @@ public class StoreApiTest {
     @Test
     public void placeOrderTest() throws IOException {
         Order body = null;
-        Order response = api.placeOrder(body);
+        // uncomment below to test the API function
+        //Order response = api.placeOrder(body);
 
         // TODO: test validations
     }
-    
+
 }

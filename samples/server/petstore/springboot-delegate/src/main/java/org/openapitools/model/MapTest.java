@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  * MapTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class MapTest {
 
   @Valid
@@ -71,6 +71,10 @@ public class MapTest {
 
   @Valid
   private Map<String, Boolean> indirectMap = new HashMap<>();
+
+  public MapTest() {
+    super();
+  }
 
   /**
   * Constructor with all args parameters

@@ -31,7 +31,7 @@ export interface TestInlineFreeformAdditionalPropertiesRequest {
 /**
  * Check if a given object implements the TestInlineFreeformAdditionalPropertiesRequest interface.
  */
-export function instanceOfTestInlineFreeformAdditionalPropertiesRequest(value: object): boolean {
+export function instanceOfTestInlineFreeformAdditionalPropertiesRequest(value: object): value is TestInlineFreeformAdditionalPropertiesRequest {
     return true;
 }
 

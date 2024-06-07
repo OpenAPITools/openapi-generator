@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -64,7 +65,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
 
-    private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
     protected final Logger LOGGER = LoggerFactory.getLogger(AspNetServerCodegen.class);
@@ -308,11 +309,6 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected Set<String> getValueTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
-    }
-
-    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -470,10 +466,6 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     @Override
     protected boolean useNet60OrLater() {
         return additionalProperties.containsKey(NET_60_OR_LATER);
-    }
-
-    public void setPackageGuid(String packageGuid) {
-        this.packageGuid = packageGuid;
     }
 
     @Override

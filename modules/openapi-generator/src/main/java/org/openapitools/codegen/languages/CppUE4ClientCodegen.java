@@ -16,8 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.CodegenModel;
@@ -52,7 +52,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     // Will be included using the <> syntax, not used in Unreal's coding convention
     protected Set<String> systemIncludes = new HashSet<>();
     protected String cppNamespace = unrealModuleName;
-    protected boolean optionalProjectFileFlag = true;
+    @Setter protected boolean optionalProjectFileFlag = true;
 
     public CppUE4ClientCodegen() {
         super();
@@ -244,10 +244,6 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
 
             importMapping.put("HttpFileInput", "#include \"" + modelNamePrefix + "Helpers.h\"");
         }
-    }
-
-    public void setOptionalProjectFileFlag(boolean flag) {
-        this.optionalProjectFileFlag = flag;
     }
 
     // override to post-process any model properties
@@ -559,17 +555,6 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     @Override
     public String toApiName(String type) {
         return modelNamePrefix + camelize(type) + "Api";
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     @Override

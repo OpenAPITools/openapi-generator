@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Tag")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Tag  implements Serializable {
   private Long id;
   private String name;
@@ -111,7 +111,7 @@ public class Tag  implements Serializable {
     return new TagBuilderImpl();
   }
 
-  private static final class TagBuilderImpl extends TagBuilder<Tag, TagBuilderImpl> {
+  private static class TagBuilderImpl extends TagBuilder<Tag, TagBuilderImpl> {
 
     @Override
     protected TagBuilderImpl self() {

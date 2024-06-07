@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("hasOnlyReadOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class HasOnlyReadOnly  implements Serializable {
   private String bar;
   private String foo;
@@ -114,7 +114,7 @@ public class HasOnlyReadOnly  implements Serializable {
     return new HasOnlyReadOnlyBuilderImpl();
   }
 
-  private static final class HasOnlyReadOnlyBuilderImpl extends HasOnlyReadOnlyBuilder<HasOnlyReadOnly, HasOnlyReadOnlyBuilderImpl> {
+  private static class HasOnlyReadOnlyBuilderImpl extends HasOnlyReadOnlyBuilder<HasOnlyReadOnly, HasOnlyReadOnlyBuilderImpl> {
 
     @Override
     protected HasOnlyReadOnlyBuilderImpl self() {

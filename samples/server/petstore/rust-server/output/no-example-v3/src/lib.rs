@@ -5,14 +5,21 @@
 use async_trait::async_trait;
 use futures::Stream;
 use std::error::Error;
+use std::collections::BTreeSet;
 use std::task::{Poll, Context};
 use swagger::{ApiError, ContextWrapper};
 use serde::{Serialize, Deserialize};
+use crate::server::Authorization;
+
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &str = "";
 pub const API_VERSION: &str = "0.0.1";
+
+mod auth;
+pub use auth::{AuthenticationApi, Claims};
+
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum OpGetResponse {

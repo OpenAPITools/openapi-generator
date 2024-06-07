@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, numberOnly, jsonSerializerOptions);
+            WriteProperties(writer, numberOnly, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="numberOnly"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             if (numberOnly.JustNumberOption.IsSet)
                 writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value.Value);

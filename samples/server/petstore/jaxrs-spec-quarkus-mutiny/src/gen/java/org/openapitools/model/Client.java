@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Client")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Client  implements Serializable {
   private String client;
 
@@ -88,7 +88,7 @@ public class Client  implements Serializable {
     return new ClientBuilderImpl();
   }
 
-  private static final class ClientBuilderImpl extends ClientBuilder<Client, ClientBuilderImpl> {
+  private static class ClientBuilderImpl extends ClientBuilder<Client, ClientBuilderImpl> {
 
     @Override
     protected ClientBuilderImpl self() {

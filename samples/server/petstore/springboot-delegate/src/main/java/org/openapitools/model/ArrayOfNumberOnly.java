@@ -23,11 +23,15 @@ import javax.annotation.Generated;
  * ArrayOfNumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ArrayOfNumberOnly {
 
   @Valid
   private List<BigDecimal> arrayNumber = new ArrayList<>();
+
+  public ArrayOfNumberOnly() {
+    super();
+  }
 
   /**
   * Constructor with all args parameters

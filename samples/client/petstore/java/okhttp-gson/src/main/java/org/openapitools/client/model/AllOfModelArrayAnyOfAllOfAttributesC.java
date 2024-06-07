@@ -64,7 +64,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(AllOfModelArrayAnyOfAllOfAttributesC.class.getName());
 
@@ -155,12 +155,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
         super("oneOf", Boolean.FALSE);
     }
 
-    public AllOfModelArrayAnyOfAllOfAttributesC(Order o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
-    public AllOfModelArrayAnyOfAllOfAttributesC(Pet o) {
+    public AllOfModelArrayAnyOfAllOfAttributesC(Object o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

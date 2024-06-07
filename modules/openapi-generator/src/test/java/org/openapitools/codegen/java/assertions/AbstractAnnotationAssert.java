@@ -23,6 +23,7 @@ public abstract class AbstractAnnotationAssert<ACTUAL extends AbstractAnnotation
         super(annotationExpr);
     }
 
+    @Override
     public ACTUAL hasSize(final int size) {
         super.hasSize(size);
         return myself();

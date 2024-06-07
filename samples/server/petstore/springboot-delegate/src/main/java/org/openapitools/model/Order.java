@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  * Order
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Order {
 
   private Long id;
@@ -74,6 +74,10 @@ public class Order {
   private StatusEnum status;
 
   private Boolean complete = false;
+
+  public Order() {
+    super();
+  }
 
   /**
   * Constructor with all args parameters

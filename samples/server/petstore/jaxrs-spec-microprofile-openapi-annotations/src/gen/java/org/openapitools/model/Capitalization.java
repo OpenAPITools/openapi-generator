@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Capitalization")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Capitalization  implements Serializable {
   private String smallCamel;
   private String capitalCamel;
@@ -204,7 +204,7 @@ public class Capitalization  implements Serializable {
     return new CapitalizationBuilderImpl();
   }
 
-  private static final class CapitalizationBuilderImpl extends CapitalizationBuilder<Capitalization, CapitalizationBuilderImpl> {
+  private static class CapitalizationBuilderImpl extends CapitalizationBuilder<Capitalization, CapitalizationBuilderImpl> {
 
     @Override
     protected CapitalizationBuilderImpl self() {

@@ -41,11 +41,11 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenDiscriminator;
 import org.openapitools.codegen.CodegenMediaType;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -66,7 +66,6 @@ import org.slf4j.LoggerFactory;
 import com.github.curiousoddman.rgxgen.RgxGen;
 
 import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
@@ -80,8 +79,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     public static final String MAP_NUMBER_TO = "mapNumberTo";
 
     protected String packageName = "openapi_client";
-    protected String packageVersion = "1.0.0";
-    protected String projectName; // for setup.py, e.g. petstore-api
+    @Setter protected String packageVersion = "1.0.0";
+    @Setter protected String projectName; // for setup.py, e.g. petstore-api
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected String mapNumberTo = "Union[StrictFloat, StrictInt]";
     protected Map<Character, String> regexModifiers;
@@ -679,14 +678,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, this.packageName);
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
     @Override
     public String getTypeDeclaration(Schema p) {
         p = ModelUtils.unaliasSchema(openAPI, p);
@@ -992,7 +983,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
                     } else {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
-                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
+                        // Do not overwrite the variable name if already set through x-enum-varnames
+                        if (model.vendorExtensions.get("x-enum-varnames") == null) {
+                            enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
+                        }
                     }
                 }
             }

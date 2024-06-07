@@ -19,12 +19,16 @@ import javax.annotation.Generated;
  * Tag
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Tag {
 
   private Long id;
 
   private String name;
+
+  public Tag() {
+    super();
+  }
 
   /**
   * Constructor with all args parameters

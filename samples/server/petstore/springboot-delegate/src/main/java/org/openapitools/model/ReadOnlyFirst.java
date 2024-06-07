@@ -19,12 +19,16 @@ import javax.annotation.Generated;
  * ReadOnlyFirst
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ReadOnlyFirst {
 
   private String bar;
 
   private String baz;
+
+  public ReadOnlyFirst() {
+    super();
+  }
 
   /**
   * Constructor with all args parameters

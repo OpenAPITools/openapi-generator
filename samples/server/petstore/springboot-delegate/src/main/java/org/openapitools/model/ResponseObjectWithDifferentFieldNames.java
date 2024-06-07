@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * ResponseObjectWithDifferentFieldNames
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNames {
 
   private String normalPropertyName;
@@ -29,6 +29,10 @@ public class ResponseObjectWithDifferentFieldNames {
   private String lowerCasePropertyDashes;
 
   private String propertyNameWithSpaces;
+
+  public ResponseObjectWithDifferentFieldNames() {
+    super();
+  }
 
   /**
   * Constructor with all args parameters

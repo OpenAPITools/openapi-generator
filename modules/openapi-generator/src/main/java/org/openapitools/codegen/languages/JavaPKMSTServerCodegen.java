@@ -21,6 +21,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.tags.Tag;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
@@ -39,6 +41,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 /**
  * Created by prokarma on 04/09/17.
  */
+@Setter
 public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -47,10 +50,10 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
     public static final String EUREKA_URI = "eurekaUri";
     public static final String ZIPKIN_URI = "zipkinUri";
     public static final String SPRINGADMIN_URI = "springBootAdminUri";
-    protected String basePackage = "com.prokarma.pkmst";
-    protected String serviceName = "Pkmst";
-    protected String configPackage = "com.prokarma.pkmst.config";
-    protected String title;
+    @Getter protected String basePackage = "com.prokarma.pkmst";
+    @Getter protected String serviceName = "Pkmst";
+    @Getter protected String configPackage = "com.prokarma.pkmst.config";
+    @Getter protected String title;
     protected String eurekaUri;
     protected String zipkinUri;
     protected String springBootAdminUri;
@@ -95,19 +98,23 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         }
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "java-pkmst";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a PKMST SpringBoot Server application using the SpringFox integration."
                 + " Also enables EurekaServerClient / Zipkin / Spring-Boot admin";
     }
 
+    @Override
     public void processOpts() {
         super.processOpts();
         if (this.additionalProperties.containsKey("basePackage")) {
@@ -319,10 +326,12 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                         }
                         doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
 
+                            @Override
                             public void setReturnType(final String returnType) {
                                 resp.dataType = returnType;
                             }
 
+                            @Override
                             public void setReturnContainer(final String returnContainer) {
                                 resp.containerType = returnContainer;
                             }
@@ -332,10 +341,12 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
                 doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
 
+                    @Override
                     public void setReturnType(final String returnType) {
                         operation.returnType = returnType;
                     }
 
+                    @Override
                     public void setReturnContainer(final String returnContainer) {
                         operation.returnContainer = returnContainer;
                     }
@@ -578,50 +589,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         return (this.outputFolder + "/" + this.modelDocPath).replace("/", File.separator);
     }
 
-    public void setEurekaUri(String eurekaUri) {
-        this.eurekaUri = eurekaUri;
-    }
-
-    public void setZipkinUri(String zipkinUri) {
-        this.zipkinUri = zipkinUri;
-    }
-
-    public void setSpringBootAdminUri(String springBootAdminUri) {
-        this.springBootAdminUri = springBootAdminUri;
-    }
-
-    public String getBasePackage() {
-        return basePackage;
-    }
-
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public String getConfigPackage() {
-        return configPackage;
-    }
-
-    public void setConfigPackage(String configPackage) {
-        this.configPackage = configPackage;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     private interface DataTypeAssigner {
 
         void setReturnType(String returnType);
@@ -629,17 +596,10 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         void setReturnContainer(String returnContainer);
     }
 
+    @Getter @Setter
     private static class ResourcePath {
 
         private String path;
-
-        public String getPath() {
-            return path;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
 
         @Override
         public String toString() {

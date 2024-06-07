@@ -24,14 +24,18 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     switch (json['{{discriminator.propertyBaseName}}']) {
 {{#discriminator.mappedModels}}
         case '{{mappingName}}':
-            return Object.assign({}, {{modelName}}FromJSONTyped(json, true), { {{discriminator.propertyName}}: '{{mappingName}}' });
+            return Object.assign({}, {{modelName}}FromJSONTyped(json, true), { {{discriminator.propertyName}}: '{{mappingName}}' } as const);
 {{/discriminator.mappedModels}}
         default:
             throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${json['{{discriminator.propertyName}}']}'`);
     }
 {{/discriminator}}
 {{^discriminator}}
-    return {{#oneOf}}{{{.}}}FromJSONTyped(json, true){{^-last}} || {{/-last}}{{/oneOf}};
+    {{#oneOf}}
+    if (instanceOf{{{.}}}(json)) {
+        return {{{.}}}FromJSONTyped(json, true);
+    }
+    {{/oneOf}}
 {{/discriminator}}
 }
 

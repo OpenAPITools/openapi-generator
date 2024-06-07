@@ -20,7 +20,6 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -133,7 +132,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
         importMapping = new HashMap<>();
         modelTemplateFiles.clear();
-        apiTemplateFiles.clear();
+        apiTemplateFiles.put("apis.mustache", ".rs");
 
         // types
         defaultIncludes = new HashSet<>(
@@ -239,18 +238,22 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         supportingFiles.add(new SupportingFile("types.mustache", "src", "types.rs"));
         supportingFiles.add(new SupportingFile("header.mustache", "src", "header.rs"));
         supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
+        supportingFiles.add(new SupportingFile("apis-mod.mustache", apiPackage().replace('.', File.separatorChar), "mod.rs"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
                 .doNotOverwrite());
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "rust-axum";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Rust server library which bases on Axum.";
     }
@@ -319,7 +322,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
     @Override
     public String apiPackage() {
-        return apiPath;
+        return "src" + File.separator + "apis";
     }
 
     @Override
@@ -346,6 +349,11 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return name.isEmpty() ?
                 "default" :
                 sanitizeIdentifier(name, CasingType.SNAKE_CASE, "api", "API", true);
+    }
+
+    @Override
+    public String toApiFilename(String name) {
+        return toApiName(name);
     }
 
     /**
@@ -552,12 +560,19 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             }
         }
 
+        // Include renderUuidConversionImpl exactly once in the vendorExtensions map when 
+        // at least one `uuid::Uuid` converted from a header value in the resulting Rust code. 
+        final Boolean renderUuidConversionImpl = op.headerParams.stream().anyMatch(h -> h.getDataType().equals(uuidType));
+        if (renderUuidConversionImpl) {
+            additionalProperties.put("renderUuidConversionImpl", "true");
+        }        
         return op;
     }
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap operationsMap, List<ModelMap> allModels) {
         OperationMap operations = operationsMap.getOperations();
+        operations.put("classnamePascalCase", camelize(operations.getClassname()));
         List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation op : operationList) {
@@ -642,13 +657,23 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
             op, Map<String, List<CodegenOperation>> operations) {
-        // only generate operation for the first tag of the tags
+        // If more than one tag, combine into a single unique group
         if (tag != null && op.tags.size() > 1) {
+            // Skip any tags other than the first one. This is because we
+            // override the tag with a combined version of all the tags.
             String expectedTag = sanitizeTag(op.tags.get(0).getName());
             if (!tag.equals(expectedTag)) {
                 LOGGER.info("generated skip additional tag `{}` with operationId={}", tag, op.operationId);
                 return;
             }
+
+            // Get all tags sorted by name
+            final List<String> tags = op.tags.stream().map(t -> t.getName()).sorted().collect(Collectors.toList());
+            // Combine into a single group
+            final String combinedTag = tags.stream().collect(Collectors.joining("-"));
+            // Add to group
+            super.addOperationToGroup(combinedTag, resourcePath, operation, op, operations);
+            return;
         }
         super.addOperationToGroup(tag, resourcePath, operation, op, operations);
     }

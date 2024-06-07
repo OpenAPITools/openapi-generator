@@ -32,12 +32,12 @@ Accept: application/json
 
 ### List package versions for a package owned by the authenticated user
 ## List package versions for a package owned by the authenticated user
-GET https://api.github.com/user/packages/{{package_type}}/{{package_name}}/versions
+GET https://api.github.com/user/packages/{{package_type}}/{{package_name}}/versions?page={{page}}&perPage={{perPage}}&state={{state}}
 Accept: application/json
 
 ### List package versions for a package owned by an organization
 ## List package versions for a package owned by an organization
-GET https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/versions
+GET https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/versions?page={{page}}&perPage={{perPage}}&state={{state}}
 Accept: application/json
 
 ### List package versions for a package owned by a user
@@ -92,32 +92,32 @@ Accept: application/json
 
 ### List packages for the authenticated user&#39;s namespace
 ## List packages for the authenticated user&#39;s namespace
-GET https://api.github.com/user/packages
+GET https://api.github.com/user/packages?packageType={{packageType}}&visibility={{visibility}}&page={{page}}&perPage={{perPage}}
 Accept: application/json
 
 ### List packages for an organization
 ## List packages for an organization
-GET https://api.github.com/orgs/{{org}}/packages
+GET https://api.github.com/orgs/{{org}}/packages?packageType={{packageType}}&visibility={{visibility}}&page={{page}}&perPage={{perPage}}
 Accept: application/json
 
 ### List packages for a user
 ## List packages for a user
-GET https://api.github.com/users/{{username}}/packages
+GET https://api.github.com/users/{{username}}/packages?packageType={{packageType}}&visibility={{visibility}}&page={{page}}&perPage={{perPage}}
 Accept: application/json
 
 ### Restore a package for the authenticated user
 ## Restore a package for the authenticated user
-POST https://api.github.com/user/packages/{{package_type}}/{{package_name}}/restore
+POST https://api.github.com/user/packages/{{package_type}}/{{package_name}}/restore?token={{token}}
 Accept: application/json
 
 ### Restore a package for an organization
 ## Restore a package for an organization
-POST https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/restore
+POST https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/restore?token={{token}}
 Accept: application/json
 
 ### Restore a package for a user
 ## Restore a package for a user
-POST https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}/restore
+POST https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}/restore?token={{token}}
 Accept: application/json
 
 ### Restore a package version for the authenticated user

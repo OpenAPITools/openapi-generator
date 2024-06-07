@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("User")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class User  implements Serializable {
   private Long id;
   private String username;
@@ -252,7 +252,7 @@ public class User  implements Serializable {
     return new UserBuilderImpl();
   }
 
-  private static final class UserBuilderImpl extends UserBuilder<User, UserBuilderImpl> {
+  private static class UserBuilderImpl extends UserBuilder<User, UserBuilderImpl> {
 
     @Override
     protected UserBuilderImpl self() {

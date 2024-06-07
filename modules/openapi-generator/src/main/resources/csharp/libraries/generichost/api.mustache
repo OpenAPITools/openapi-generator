@@ -606,13 +606,13 @@ namespace {{packageName}}.{{apiPackage}}
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
                     {{/-first}}
                     {{/produces}}
-                    {{^netStandard}}
+                    {{#net60OrLater}}
 
                     httpRequestMessageLocalVar.Method = HttpMethod.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}};
-                    {{/netStandard}}
-                    {{#netStandard}}
+                    {{/net60OrLater}}
+                    {{^net60OrLater}}
                     httpRequestMessageLocalVar.Method = new HttpMethod("{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}");
-                    {{/netStandard}}
+                    {{/net60OrLater}}
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
@@ -747,7 +747,7 @@ namespace {{packageName}}.{{apiPackage}}
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool Try{{vendorExtensions.x-http-status}}({{^netStandard}}[NotNullWhen(true)]{{/netStandard}}out {{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} result)
+            public bool Try{{vendorExtensions.x-http-status}}({{#net60OrLater}}[NotNullWhen(true)]{{/net60OrLater}}out {{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}{{#nrt}}?{{/nrt}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} result)
             {
                 result = null;
 

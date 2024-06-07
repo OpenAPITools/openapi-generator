@@ -30,7 +30,7 @@ export interface Client {
 /**
  * Check if a given object implements the Client interface.
  */
-export function instanceOfClient(value: object): boolean {
+export function instanceOfClient(value: object): value is Client {
     return true;
 }
 

@@ -34,7 +34,7 @@ func WithPathAPIErrorHandler(h ErrorHandler) PathAPIOption {
 }
 
 // NewPathAPIController creates a default api controller
-func NewPathAPIController(s PathAPIServicer, opts ...PathAPIOption) Router {
+func NewPathAPIController(s PathAPIServicer, opts ...PathAPIOption) *PathAPIController {
 	controller := &PathAPIController{
 		service:      s,
 		errorHandler: DefaultErrorHandler,
@@ -73,5 +73,5 @@ func (c *PathAPIController) Path(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }

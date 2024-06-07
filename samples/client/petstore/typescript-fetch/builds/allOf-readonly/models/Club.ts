@@ -37,7 +37,7 @@ export interface Club {
 /**
  * Check if a given object implements the Club interface.
  */
-export function instanceOfClub(value: object): boolean {
+export function instanceOfClub(value: object): value is Club {
     return true;
 }
 
