@@ -210,12 +210,14 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (quadrilateral.SimpleQuadrilateral != null) {
+            if (quadrilateral.SimpleQuadrilateral != null)
+            {
                 SimpleQuadrilateralJsonConverter simpleQuadrilateralJsonConverter = (SimpleQuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(quadrilateral.SimpleQuadrilateral.GetType()));
                 simpleQuadrilateralJsonConverter.WriteProperties(writer, quadrilateral.SimpleQuadrilateral, jsonSerializerOptions);
             }
 
-            if (quadrilateral.ComplexQuadrilateral != null) {
+            if (quadrilateral.ComplexQuadrilateral != null)
+            {
                 ComplexQuadrilateralJsonConverter complexQuadrilateralJsonConverter = (ComplexQuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(quadrilateral.ComplexQuadrilateral.GetType()));
                 complexQuadrilateralJsonConverter.WriteProperties(writer, quadrilateral.ComplexQuadrilateral, jsonSerializerOptions);
             }

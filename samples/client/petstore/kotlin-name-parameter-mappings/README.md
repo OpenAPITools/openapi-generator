@@ -43,9 +43,9 @@ This runs all tests and packages the library.
 
 All URIs are relative to *http://localhost*
 
-Class | Method | HTTP request | Description
------------- | ------------- | ------------- | -------------
-*FakeApi* | [**getParameterNameMapping**](docs/FakeApi.md#getparameternamemapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
+| Class | Method | HTTP request | Description |
+| ------------ | ------------- | ------------- | ------------- |
+| *FakeApi* | [**getParameterNameMapping**](docs/FakeApi.md#getparameternamemapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test |
 
 
 <a id="documentation-for-models"></a>

@@ -92,5 +92,6 @@ data class Pet (
             encoder.encodeSerializableValue(kotlin.String.serializer(), value.value)
         }
     }
+
 }
 

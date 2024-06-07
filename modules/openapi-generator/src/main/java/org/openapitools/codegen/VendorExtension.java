@@ -1,9 +1,11 @@
 package org.openapitools.codegen;
 
+import lombok.Getter;
+
 import java.util.Collections;
 import java.util.List;
 
-public enum VendorExtension {
+@Getter public enum VendorExtension {
 
     X_IMPLEMENTS("x-implements", ExtensionLevel.MODEL, "Ability to specify interfaces that model must implements", "empty array"),
     X_SPRING_PAGINATED("x-spring-paginated", ExtensionLevel.OPERATION, "Add org.springframework.data.domain.Pageable to controller method. Can be used to handle page & size query parameters", "false"),
@@ -36,22 +38,6 @@ public enum VendorExtension {
 
     VendorExtension(final String name, final ExtensionLevel level, final String description, final String defaultValue) {
         this(name, Collections.singletonList(level), description, defaultValue);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<ExtensionLevel> getLevels() {
-        return levels;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getDefaultValue() {
-        return defaultValue;
     }
 
     public enum ExtensionLevel {

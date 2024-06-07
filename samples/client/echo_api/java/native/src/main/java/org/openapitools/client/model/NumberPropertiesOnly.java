@@ -29,6 +29,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * NumberPropertiesOnly
  */
@@ -206,17 +207,17 @@ public class NumberPropertiesOnly {
 
     // add `number` to the URL query string
     if (getNumber() != null) {
-      joiner.add(String.format("%snumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%snumber%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `float` to the URL query string
     if (getFloat() != null) {
-      joiner.add(String.format("%sfloat%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFloat()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfloat%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFloat()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `double` to the URL query string
     if (getDouble() != null) {
-      joiner.add(String.format("%sdouble%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDouble()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdouble%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDouble()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

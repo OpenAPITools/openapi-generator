@@ -35,5 +35,8 @@ data class Category (
     @Json(name = "name")
     var name: kotlin.String? = null
 
-)
+) {
+
+
+}
 

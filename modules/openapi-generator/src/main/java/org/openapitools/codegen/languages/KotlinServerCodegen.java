@@ -18,6 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -37,19 +39,26 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinServerCodegen.class);
 
+    @Getter @Setter
     private Boolean autoHeadFeatureEnabled = true;
+    @Getter @Setter
     private Boolean conditionalHeadersFeatureEnabled = false;
+    @Getter @Setter
     private Boolean hstsFeatureEnabled = true;
+    @Getter @Setter
     private Boolean corsFeatureEnabled = false;
+    @Getter @Setter
     private Boolean compressionFeatureEnabled = true;
+    @Getter @Setter
     private Boolean resourcesFeatureEnabled = true;
+    @Getter @Setter
     private Boolean metricsFeatureEnabled = true;
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
     private boolean useCoroutines = false;
     private boolean useMutiny = false;
     private boolean returnResponse = false;
-    private boolean omitGradleWrapper = false;
+    @Setter private boolean omitGradleWrapper = false;
 
     // This is here to potentially warn the user when an option is not supported by the target framework.
     private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
@@ -138,78 +147,21 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(USE_JAKARTA_EE, Constants.USE_JAKARTA_EE_DESC, useJakartaEe);
     }
 
-    public Boolean getAutoHeadFeatureEnabled() {
-        return autoHeadFeatureEnabled;
-    }
-
-    public void setAutoHeadFeatureEnabled(Boolean autoHeadFeatureEnabled) {
-        this.autoHeadFeatureEnabled = autoHeadFeatureEnabled;
-    }
-
-    public Boolean getCompressionFeatureEnabled() {
-        return compressionFeatureEnabled;
-    }
-
-    public void setCompressionFeatureEnabled(Boolean compressionFeatureEnabled) {
-        this.compressionFeatureEnabled = compressionFeatureEnabled;
-    }
-
-    public Boolean getConditionalHeadersFeatureEnabled() {
-        return conditionalHeadersFeatureEnabled;
-    }
-
-    public void setConditionalHeadersFeatureEnabled(Boolean conditionalHeadersFeatureEnabled) {
-        this.conditionalHeadersFeatureEnabled = conditionalHeadersFeatureEnabled;
-    }
-
-    public Boolean getCorsFeatureEnabled() {
-        return corsFeatureEnabled;
-    }
-
-    public void setCorsFeatureEnabled(Boolean corsFeatureEnabled) {
-        this.corsFeatureEnabled = corsFeatureEnabled;
-    }
-
+    @Override
     public String getHelp() {
         return "Generates a Kotlin server.";
-    }
-
-    public Boolean getHstsFeatureEnabled() {
-        return hstsFeatureEnabled;
-    }
-
-    public void setHstsFeatureEnabled(Boolean hstsFeatureEnabled) {
-        this.hstsFeatureEnabled = hstsFeatureEnabled;
-    }
-
-    public Boolean getResourcesFeatureEnabled() {
-        return resourcesFeatureEnabled;
     }
 
     public boolean getOmitGradleWrapper() {
         return omitGradleWrapper;
     }
 
-    public void setOmitGradleWrapper(boolean omitGradleWrapper) {
-        this.omitGradleWrapper = omitGradleWrapper;
-    }
-
-    public void setResourcesFeatureEnabled(Boolean resourcesFeatureEnabled) {
-        this.resourcesFeatureEnabled = resourcesFeatureEnabled;
-    }
-
-    public Boolean getMetricsFeatureEnabled() {
-        return metricsFeatureEnabled;
-    }
-
-    public void setMetricsFeatureEnabled(Boolean metricsEnabled) {
-        this.metricsFeatureEnabled = metricsEnabled;
-    }
-
+    @Override
     public String getName() {
         return "kotlin-server";
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }

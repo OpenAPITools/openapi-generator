@@ -71,5 +71,6 @@ data class ApiDefaultValue (
         @SerializedName(value = "failure") FAILURE("failure"),
         @SerializedName(value = "unclassified") UNCLASSIFIED("unclassified");
     }
+
 }
 

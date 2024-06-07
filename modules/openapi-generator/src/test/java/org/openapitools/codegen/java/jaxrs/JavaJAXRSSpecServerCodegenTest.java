@@ -3,10 +3,8 @@ package org.openapitools.codegen.java.jaxrs;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.assertj.core.condition.AllOf;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
@@ -30,7 +28,6 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
-import static org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen.USE_TAGS;
 import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.*;
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 import static org.testng.Assert.assertTrue;

@@ -40,5 +40,8 @@ data class Apa (
 
     @SerialName(value = "n1") val n1: kotlin.Double? = null
 
-)
+) {
+
+
+}
 

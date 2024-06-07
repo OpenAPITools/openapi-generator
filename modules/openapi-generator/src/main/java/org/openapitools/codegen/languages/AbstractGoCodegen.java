@@ -17,8 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -40,18 +40,17 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
 
-    protected boolean withGoCodegenComment = false;
-    protected boolean withAWSV4Signature = false;
-    protected boolean withXml = false;
-    protected boolean enumClassPrefix = false;
-    protected boolean structPrefix = false;
-    protected boolean generateInterfaces = false;
-    protected boolean withGoMod = false;
-    protected boolean generateMarshalJSON = true;
-    protected boolean generateUnmarshalJSON = true;
+    @Setter protected boolean withGoCodegenComment = false;
+    @Setter protected boolean withAWSV4Signature = false;
+    @Setter protected boolean withXml = false;
+    @Setter protected boolean enumClassPrefix = false;
+    @Setter protected boolean structPrefix = false;
+    @Setter protected boolean generateInterfaces = false;
+    @Setter protected boolean withGoMod = false;
+    @Setter protected boolean generateMarshalJSON = true;
+    @Setter protected boolean generateUnmarshalJSON = true;
 
-
-    protected String packageName = "openapi";
+    @Setter protected String packageName = "openapi";
     protected Set<String> numberTypes;
 
     public AbstractGoCodegen() {
@@ -814,10 +813,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
@@ -904,42 +899,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         } else {
             return enumName;
         }
-    }
-
-    public void setWithGoCodegenComment(boolean withGoCodegenComment) {
-        this.withGoCodegenComment = withGoCodegenComment;
-    }
-
-    public void setWithAWSV4Signature(boolean withAWSV4Signature) {
-        this.withAWSV4Signature = withAWSV4Signature;
-    }
-
-    public void setWithXml(boolean withXml) {
-        this.withXml = withXml;
-    }
-
-    public void setEnumClassPrefix(boolean enumClassPrefix) {
-        this.enumClassPrefix = enumClassPrefix;
-    }
-
-    public void setStructPrefix(boolean structPrefix) {
-        this.structPrefix = structPrefix;
-    }
-
-    public void setGenerateInterfaces(boolean generateInterfaces) {
-        this.generateInterfaces = generateInterfaces;
-    }
-
-    public void setWithGoMod(boolean withGoMod) {
-        this.withGoMod = withGoMod;
-    }
-
-    public void setGenerateMarshalJSON(boolean generateMarshalJSON) {
-        this.generateMarshalJSON = generateMarshalJSON;
-    }
-
-    public void setGenerateUnmarshalJSON(boolean generateUnmarshalJSON) {
-        this.generateUnmarshalJSON = generateUnmarshalJSON;
     }
 
     @Override

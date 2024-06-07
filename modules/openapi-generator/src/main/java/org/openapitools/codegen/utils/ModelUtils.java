@@ -17,10 +17,9 @@
 
 package org.openapitools.codegen.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -64,6 +63,8 @@ public class ModelUtils {
 
     private static final String URI_FORMAT = "uri";
 
+    private static final Set<String> OPENAPI_TYPES = Set.of("array", "integer", "number", "boolean", "string", "object");
+
     private static final String generateAliasAsModelKey = "generateAliasAsModel";
 
     // A vendor extension to track the value of the 'swagger' field in a 2.0 doc, if applicable.
@@ -76,16 +77,10 @@ public class ModelUtils {
 
     private static final ObjectMapper JSON_MAPPER;
     private static final ObjectMapper YAML_MAPPER;
-    private static final ObjectMapper TYPED_JSON_MAPPER = new ObjectMapper();
 
     static {
         JSON_MAPPER = ObjectMapperFactory.createJson();
         YAML_MAPPER = ObjectMapperFactory.createYaml();
-
-        BasicPolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
-                .allowIfSubType(Object.class)
-                .build();
-        TYPED_JSON_MAPPER.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.EVERYTHING);
     }
 
     public static boolean isDisallowAdditionalPropertiesIfNotPresent() {
@@ -572,7 +567,7 @@ public class ModelUtils {
         }
 
         if (schema instanceof JsonSchema) { // 3.1 spec
-            return ((schema.getAdditionalProperties() instanceof JsonSchema) ||
+            return ((schema.getAdditionalProperties() instanceof Schema) ||
                     (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()));
         } else { // 3.0 or 2.x spec
             return (schema instanceof MapSchema) ||
@@ -960,7 +955,7 @@ public class ModelUtils {
      * @param schema  potentially containing a '$ref'
      * @return schema without '$ref'
      */
-    public static Schema getReferencedSchema(OpenAPI openAPI, Schema schema) {
+    public static Schema<?> getReferencedSchema(OpenAPI openAPI, Schema schema) {
         if (schema == null) {
             return null;
         }
@@ -2186,13 +2181,19 @@ public class ModelUtils {
         return false;
     }
 
-    public static Schema cloneSchema(Schema schema) {
-        try {
-            String json = TYPED_JSON_MAPPER.writeValueAsString(schema);
-            return TYPED_JSON_MAPPER.readValue(json, schema.getClass());
-        } catch (JsonProcessingException ex) {
-            LOGGER.error("Can't clone schema {}", schema, ex);
-            return schema;
+    public static Schema cloneSchema(Schema schema, boolean openapi31) {
+        if (openapi31) {
+            return AnnotationsUtils.clone(schema, openapi31);
+        } else {
+            // AnnotationsUtils.clone doesn't support custom schema types for OpenAPI < 3.1
+            String schemaType = schema.getType();
+            if (schemaType != null && !OPENAPI_TYPES.contains(schemaType)) {
+                schema.setType(null);
+            }
+            Schema result = AnnotationsUtils.clone(schema, openapi31);
+            schema.setType(schemaType);
+            result.setType(schemaType);
+            return result;
         }
     }
 

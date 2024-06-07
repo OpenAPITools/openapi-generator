@@ -35,5 +35,8 @@ data class Tag (
     @Json(name = "name")
     var name: kotlin.String? = null
 
-)
+) {
+
+
+}
 

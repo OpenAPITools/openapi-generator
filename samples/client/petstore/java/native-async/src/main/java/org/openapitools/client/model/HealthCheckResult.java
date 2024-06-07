@@ -32,6 +32,7 @@ import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
@@ -164,7 +165,7 @@ public class HealthCheckResult {
 
     // add `NullableMessage` to the URL query string
     if (getNullableMessage() != null) {
-      joiner.add(String.format("%sNullableMessage%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNullableMessage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sNullableMessage%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNullableMessage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

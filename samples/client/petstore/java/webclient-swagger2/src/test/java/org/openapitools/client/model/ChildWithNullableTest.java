@@ -24,21 +24,21 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.client.model.ParentWithNullable;
 import org.openapitools.jackson.nullable.JsonNullable;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for ChildWithNullable
  */
-public class ChildWithNullableTest {
+class ChildWithNullableTest {
     private final ChildWithNullable model = new ChildWithNullable();
 
     /**
      * Model tests for ChildWithNullable
      */
     @Test
-    public void testChildWithNullable() {
+    void testChildWithNullable() {
         // TODO: test ChildWithNullable
     }
 
@@ -46,7 +46,7 @@ public class ChildWithNullableTest {
      * Test the property 'type'
      */
     @Test
-    public void typeTest() {
+    void typeTest() {
         // TODO: test type
     }
 
@@ -54,7 +54,7 @@ public class ChildWithNullableTest {
      * Test the property 'nullableProperty'
      */
     @Test
-    public void nullablePropertyTest() {
+    void nullablePropertyTest() {
         // TODO: test nullableProperty
     }
 
@@ -62,7 +62,7 @@ public class ChildWithNullableTest {
      * Test the property 'otherProperty'
      */
     @Test
-    public void otherPropertyTest() {
+    void otherPropertyTest() {
         // TODO: test otherProperty
     }
 

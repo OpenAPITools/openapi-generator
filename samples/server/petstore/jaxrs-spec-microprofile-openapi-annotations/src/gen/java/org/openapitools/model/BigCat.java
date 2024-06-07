@@ -138,7 +138,7 @@ public class BigCat extends Cat implements Serializable {
     return new BigCatBuilderImpl();
   }
 
-  private static final class BigCatBuilderImpl extends BigCatBuilder<BigCat, BigCatBuilderImpl> {
+  private static class BigCatBuilderImpl extends BigCatBuilder<BigCat, BigCatBuilderImpl> {
 
     @Override
     protected BigCatBuilderImpl self() {

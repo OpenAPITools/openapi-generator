@@ -13,6 +13,10 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "17"
 }
 
+tasks.bootJar {
+    enabled = false
+}
+
 plugins {
     val kotlinVersion = "1.7.10"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
@@ -26,7 +30,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.springframework.boot:spring-boot-starter-web")
-        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0-M5")
+        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")

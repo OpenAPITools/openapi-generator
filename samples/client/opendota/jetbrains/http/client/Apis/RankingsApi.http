@@ -2,5 +2,5 @@
 
 ### GET /rankings
 ## GET /rankings
-GET https://api.opendota.com/api/rankings
+GET https://api.opendota.com/api/rankings?heroId={{heroId}}
 Accept: application/json; charset=utf-8

@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * ScaleneTriangle
  */
@@ -172,12 +173,12 @@ public class ScaleneTriangle {
 
     // add `shapeType` to the URL query string
     if (getShapeType() != null) {
-      joiner.add(String.format("%sshapeType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getShapeType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sshapeType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getShapeType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `triangleType` to the URL query string
     if (getTriangleType() != null) {
-      joiner.add(String.format("%striangleType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getTriangleType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%striangleType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTriangleType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

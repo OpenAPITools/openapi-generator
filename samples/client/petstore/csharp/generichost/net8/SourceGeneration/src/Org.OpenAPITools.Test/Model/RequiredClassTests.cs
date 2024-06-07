@@ -153,105 +153,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'RequiredNullableArrayOfString'
-        /// </summary>
-        [Fact]
-        public void RequiredNullableArrayOfStringTest()
-        {
-            // TODO unit test for the property 'RequiredNullableArrayOfString'
-        }
-
-        /// <summary>
-        /// Test the property 'RequiredNullableBooleanProp'
-        /// </summary>
-        [Fact]
-        public void RequiredNullableBooleanPropTest()
-        {
-            // TODO unit test for the property 'RequiredNullableBooleanProp'
-        }
-
-        /// <summary>
-        /// Test the property 'RequiredNullableDateProp'
-        /// </summary>
-        [Fact]
-        public void RequiredNullableDatePropTest()
-        {
-            // TODO unit test for the property 'RequiredNullableDateProp'
-        }
-
-        /// <summary>
-        /// Test the property 'RequiredNullableDatetimeProp'
-        /// </summary>
-        [Fact]
-        public void RequiredNullableDatetimePropTest()
-        {
-            // TODO unit test for the property 'RequiredNullableDatetimeProp'
-        }
-
-        /// <summary>
-        /// Test the property 'RequiredNullableEnumInteger'
-        /// </summary>
-        [Fact]
-        public void RequiredNullableEnumIntegerTest()
-        {
-            // TODO unit test for the property 'RequiredNullableEnumInteger'
-        }
-
-        /// <summary>
-        /// Test the property 'RequiredNullableEnumIntegerOnly'
-        /// </summary>
-        [Fact]
-        public void RequiredNullableEnumIntegerOnlyTest()
-        {
-            // TODO unit test for the property 'RequiredNullableEnumIntegerOnly'
-        }
-
-        /// <summary>
-        /// Test the property 'RequiredNullableEnumString'
-        /// </summary>
-        [Fact]
-        public void RequiredNullableEnumStringTest()
-        {
-            // TODO unit test for the property 'RequiredNullableEnumString'
-        }
-
-        /// <summary>
-        /// Test the property 'RequiredNullableIntegerProp'
-        /// </summary>
-        [Fact]
-        public void RequiredNullableIntegerPropTest()
-        {
-            // TODO unit test for the property 'RequiredNullableIntegerProp'
-        }
-
-        /// <summary>
-        /// Test the property 'RequiredNullableOuterEnumDefaultValue'
-        /// </summary>
-        [Fact]
-        public void RequiredNullableOuterEnumDefaultValueTest()
-        {
-            // TODO unit test for the property 'RequiredNullableOuterEnumDefaultValue'
-        }
-
-        /// <summary>
-        /// Test the property 'RequiredNullableStringProp'
-        /// </summary>
-        [Fact]
-        public void RequiredNullableStringPropTest()
-        {
-            // TODO unit test for the property 'RequiredNullableStringProp'
-        }
-
-        /// <summary>
-        /// Test the property 'RequiredNullableUuid'
-        /// </summary>
-        [Fact]
-        public void RequiredNullableUuidTest()
-        {
-            // TODO unit test for the property 'RequiredNullableUuid'
-        }
-
-        /// <summary>
         /// Test the property 'NotRequiredNotnullableDateProp'
         /// </summary>
         [Fact]
@@ -447,6 +348,105 @@ namespace Org.OpenAPITools.Test.Model
         public void NotrequiredNullableUuidTest()
         {
             // TODO unit test for the property 'NotrequiredNullableUuid'
+        }
+
+        /// <summary>
+        /// Test the property 'RequiredNullableArrayOfString'
+        /// </summary>
+        [Fact]
+        public void RequiredNullableArrayOfStringTest()
+        {
+            // TODO unit test for the property 'RequiredNullableArrayOfString'
+        }
+
+        /// <summary>
+        /// Test the property 'RequiredNullableBooleanProp'
+        /// </summary>
+        [Fact]
+        public void RequiredNullableBooleanPropTest()
+        {
+            // TODO unit test for the property 'RequiredNullableBooleanProp'
+        }
+
+        /// <summary>
+        /// Test the property 'RequiredNullableDateProp'
+        /// </summary>
+        [Fact]
+        public void RequiredNullableDatePropTest()
+        {
+            // TODO unit test for the property 'RequiredNullableDateProp'
+        }
+
+        /// <summary>
+        /// Test the property 'RequiredNullableDatetimeProp'
+        /// </summary>
+        [Fact]
+        public void RequiredNullableDatetimePropTest()
+        {
+            // TODO unit test for the property 'RequiredNullableDatetimeProp'
+        }
+
+        /// <summary>
+        /// Test the property 'RequiredNullableEnumInteger'
+        /// </summary>
+        [Fact]
+        public void RequiredNullableEnumIntegerTest()
+        {
+            // TODO unit test for the property 'RequiredNullableEnumInteger'
+        }
+
+        /// <summary>
+        /// Test the property 'RequiredNullableEnumIntegerOnly'
+        /// </summary>
+        [Fact]
+        public void RequiredNullableEnumIntegerOnlyTest()
+        {
+            // TODO unit test for the property 'RequiredNullableEnumIntegerOnly'
+        }
+
+        /// <summary>
+        /// Test the property 'RequiredNullableEnumString'
+        /// </summary>
+        [Fact]
+        public void RequiredNullableEnumStringTest()
+        {
+            // TODO unit test for the property 'RequiredNullableEnumString'
+        }
+
+        /// <summary>
+        /// Test the property 'RequiredNullableIntegerProp'
+        /// </summary>
+        [Fact]
+        public void RequiredNullableIntegerPropTest()
+        {
+            // TODO unit test for the property 'RequiredNullableIntegerProp'
+        }
+
+        /// <summary>
+        /// Test the property 'RequiredNullableOuterEnumDefaultValue'
+        /// </summary>
+        [Fact]
+        public void RequiredNullableOuterEnumDefaultValueTest()
+        {
+            // TODO unit test for the property 'RequiredNullableOuterEnumDefaultValue'
+        }
+
+        /// <summary>
+        /// Test the property 'RequiredNullableStringProp'
+        /// </summary>
+        [Fact]
+        public void RequiredNullableStringPropTest()
+        {
+            // TODO unit test for the property 'RequiredNullableStringProp'
+        }
+
+        /// <summary>
+        /// Test the property 'RequiredNullableUuid'
+        /// </summary>
+        [Fact]
+        public void RequiredNullableUuidTest()
+        {
+            // TODO unit test for the property 'RequiredNullableUuid'
         }
     }
 }

@@ -29,6 +29,7 @@ import java.util.Map;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -56,7 +57,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
     protected boolean useBeanValidation = true;
     protected String implFolder = "src/main/java";
-    protected String serializationLibrary = null;
+    @Getter protected String serializationLibrary = null;
 
     private boolean useAbstractClass = false;
     private boolean gradleProject = false;
@@ -383,10 +384,6 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
     @Override
     public void setPerformBeanValidation(boolean performBeanValidation) {
         throw new UnsupportedOperationException("Not implemented");
-    }
-
-    public String getSerializationLibrary() {
-        return serializationLibrary;
     }
 
     public void setSerializationLibrary(String serializationLibrary) {

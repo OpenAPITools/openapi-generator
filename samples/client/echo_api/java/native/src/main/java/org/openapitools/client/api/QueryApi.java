@@ -453,7 +453,10 @@ public class QueryApi {
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "query_object";
     if (queryObject != null) {
-      localVarQueryStringJoiner.add(queryObject.toUrlQueryString("query_object"));
+      String queryString = queryObject.toUrlQueryString("query_object");
+      if (!queryString.isBlank()) {
+        localVarQueryStringJoiner.add(queryString);
+      }
     }
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
@@ -546,7 +549,10 @@ public class QueryApi {
     String localVarQueryParameterBaseName;
     localVarQueryParameterBaseName = "query_object";
     if (queryObject != null) {
-      localVarQueryStringJoiner.add(queryObject.toUrlQueryString("query_object"));
+      String queryString = queryObject.toUrlQueryString("query_object");
+      if (!queryString.isBlank()) {
+        localVarQueryStringJoiner.add(queryString);
+      }
     }
 
     if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {

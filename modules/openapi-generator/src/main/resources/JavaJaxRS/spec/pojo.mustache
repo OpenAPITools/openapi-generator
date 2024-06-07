@@ -166,7 +166,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     return new {{classname}}BuilderImpl();
   }
 
-  private static final class {{classname}}BuilderImpl extends {{classname}}Builder<{{classname}}, {{classname}}BuilderImpl> {
+  private static class {{classname}}BuilderImpl extends {{classname}}Builder<{{classname}}, {{classname}}BuilderImpl> {
 
     @Override
     protected {{classname}}BuilderImpl self() {

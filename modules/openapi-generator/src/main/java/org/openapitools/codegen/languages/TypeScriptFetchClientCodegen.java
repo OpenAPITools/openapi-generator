@@ -27,6 +27,8 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -58,7 +60,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String CAMEL_CASE = "camelCase";
     public static final String PASCAL_CASE = "PascalCase";
 
+    @Getter @Setter
     protected String npmRepository = null;
+    @Getter @Setter
     protected String importFileExtension = "";
     private boolean useSingleRequestParameter = true;
     private boolean prefixParameterInterfaces = false;
@@ -81,10 +85,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
 
     protected boolean sagasAndRecords = false;
+    @Getter @Setter
     protected String detectPassthroughModelsWithSuffixAndField = null; // Ex: "Response;data"
-    protected boolean inferUniqueIdFromNameSuffix = false;
+    @Setter protected boolean inferUniqueIdFromNameSuffix = false;
+    @Getter @Setter
     protected String inferEntityFromUniqueIdWithName = null;
-    protected boolean packageAsSourceOnlyLibrary = false;
+    @Setter protected boolean packageAsSourceOnlyLibrary = false;
 
 
     public TypeScriptFetchClientCodegen() {
@@ -153,22 +159,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return "Generates a TypeScript client library using Fetch API (beta).";
     }
 
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
-    public String getImportFileExtension() {
-        return importFileExtension;
-    }
-
-    public void setImportFileExtension(String importFileExtension) {
-        this.importFileExtension = importFileExtension;
-    }
-
     public Boolean getWithoutRuntimeChecks() {
         return withoutRuntimeChecks;
     }
@@ -214,36 +204,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         return detectPassthroughModelsWithSuffixAndField != null ? detectPassthroughModelsWithSuffixAndField.split("\\.")[1] : null;
     }
 
-    public String getDetectPassthroughModelsWithSuffixAndField() {
-        return detectPassthroughModelsWithSuffixAndField;
-    }
-
-    public void setDetectPassthroughModelsWithSuffixAndField(String detectPassthroughModelsWithSuffixAndField) {
-        this.detectPassthroughModelsWithSuffixAndField = detectPassthroughModelsWithSuffixAndField;
-    }
-
     public boolean getInferUniqueIdFromNameSuffix() {
         return inferUniqueIdFromNameSuffix;
     }
 
-    public void setInferUniqueIdFromNameSuffix(boolean inferUniqueIdFromNameSuffix) {
-        this.inferUniqueIdFromNameSuffix = inferUniqueIdFromNameSuffix;
-    }
-
-    public String getInferEntityFromUniqueIdWithName() {
-        return inferEntityFromUniqueIdWithName;
-    }
-
-    public void setInferEntityFromUniqueIdWithName(String inferEntityFromUniqueIdWithName) {
-        this.inferEntityFromUniqueIdWithName = inferEntityFromUniqueIdWithName;
-    }
-
     public boolean getPackageAsSourceOnlyLibrary() {
         return packageAsSourceOnlyLibrary;
-    }
-
-    public void setPackageAsSourceOnlyLibrary(boolean packageAsSourceOnlyLibrary) {
-        this.packageAsSourceOnlyLibrary = packageAsSourceOnlyLibrary;
     }
 
     public boolean isUniqueIdAccordingToNameSuffix(String name) {
@@ -1048,7 +1014,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static boolean itemsAreUniqueId(CodegenProperty items) {
         if (items != null && items.items != null) {
             return itemsAreUniqueId(items.items);
-        };
+        }
         if (items != null && items.vendorExtensions.get(X_IS_UNIQUE_ID) instanceof Boolean) {
             return Boolean.TRUE.equals(items.vendorExtensions.get(X_IS_UNIQUE_ID));
         }
@@ -1061,7 +1027,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
         if (items.items != null) {
             return itemsAreNullable(items.items);
-        };
+        }
         return items.isNullable;
     }
 
@@ -1071,7 +1037,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
         if (items.items != null) {
             return getItemsDataType(items.items);
-        };
+        }
         return items.dataType;
     }
 
@@ -1501,6 +1467,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     class ExtendedCodegenModel extends CodegenModel {
+        @Getter @Setter
         public Set<String> modelImports = new TreeSet<String>();
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
@@ -1673,14 +1640,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             };
         }
 
-        public Set<String> getModelImports() {
-            return modelImports;
-        }
-
-        public void setModelImports(Set<String> modelImports) {
-            this.modelImports = modelImports;
-        }
-
         @Override
         public boolean equals(Object o) {
             if (o == null)
@@ -1719,5 +1678,4 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         private final String[] primitiveTypes = new String[] { "string", "number", "boolean" };
 
     }
-
 }

@@ -65,5 +65,6 @@ data class ApiPet (
         @SerializedName(value = "pending") PENDING("pending"),
         @SerializedName(value = "sold") SOLD("sold");
     }
+
 }
 

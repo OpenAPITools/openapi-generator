@@ -33,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 import org.openapitools.client.JSON;
+import org.openapitools.client.ApiClient;
 /**
  * Dog
  */
@@ -166,17 +167,17 @@ public class Dog extends Animal {
 
     // add `className` to the URL query string
     if (getClassName() != null) {
-      joiner.add(String.format("%sclassName%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getClassName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sclassName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getClassName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `color` to the URL query string
     if (getColor() != null) {
-      joiner.add(String.format("%scolor%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getColor()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scolor%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getColor()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `breed` to the URL query string
     if (getBreed() != null) {
-      joiner.add(String.format("%sbreed%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBreed()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbreed%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBreed()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

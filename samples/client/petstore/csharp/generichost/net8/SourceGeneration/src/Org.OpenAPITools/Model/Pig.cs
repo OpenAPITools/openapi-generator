@@ -211,12 +211,14 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (pig.BasquePig != null) {
+            if (pig.BasquePig != null)
+            {
                 BasquePigJsonConverter basquePigJsonConverter = (BasquePigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(pig.BasquePig.GetType()));
                 basquePigJsonConverter.WriteProperties(writer, pig.BasquePig, jsonSerializerOptions);
             }
 
-            if (pig.DanishPig != null) {
+            if (pig.DanishPig != null)
+            {
                 DanishPigJsonConverter danishPigJsonConverter = (DanishPigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(pig.DanishPig.GetType()));
                 danishPigJsonConverter.WriteProperties(writer, pig.DanishPig, jsonSerializerOptions);
             }
