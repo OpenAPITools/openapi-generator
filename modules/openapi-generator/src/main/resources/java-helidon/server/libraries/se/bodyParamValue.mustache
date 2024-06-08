@@ -1,0 +1,3 @@
+{{^isRequired}}{{^isContainer}}Optional.ofNullable({{/isContainer}}request.content().hasEntity()
+                ? {{/isRequired}}request.content().as({{> paramValueAs }}){{^isRequired}}
+                : {{^isContainer}}null){{/isContainer}}{{#isContainer}}{{containerTypeMapped}}.of(){{/isContainer}}{{/isRequired}}

@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -42,7 +43,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
 import org.eclipse.aether.util.version.GenericVersionScheme;
 import org.eclipse.aether.version.InvalidVersionSpecificationException;
 import org.eclipse.aether.version.Version;
@@ -51,9 +54,12 @@ import org.eclipse.aether.version.VersionScheme;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import static org.openapitools.codegen.CodegenConstants.DEVELOPER_EMAIL;
 import static org.openapitools.codegen.CodegenConstants.DEVELOPER_NAME;
@@ -78,6 +84,9 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     static final String X_USE_SMALLRYE_JANDEX_PLUGIN = "x-helidon-useSmallRyeJandexPlugin";
     static final String X_HAS_RETURN_TYPE = "x-helidon-hasReturnType";
     static final String X_RETURN_TYPE_EXAMPLE_VALUE = "x-helidon-exampleReturnTypeValue";
+    static final String X_MEDIA_SUPPORT_PACKAGE_PREFIX = "x-helidon-media-support-package-prefix";
+    static final String X_MEDIA_COMMON_MEDIA_TYPE_PACKAGE_PREFIX = "x-helidon-common-media-type-package-prefix";
+    static final String X_USE_REACTIVE = "x-helidon-use-reactive";
     static final String MICROPROFILE_ROOT_PACKAGE_DESC = "Root package name for Java EE";
     static final String MICROPROFILE_ROOT_PACKAGE_JAVAX = "javax";
     static final String MICROPROFILE_ROOT_PACKAGE_JAKARTA = "jakarta";
@@ -95,6 +104,10 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
     public static final String DEFAULT_HELIDON_VERSION = "3.0.1";
     public static final String HELIDON_VERSION = "helidonVersion";
+
+    // Helidon 3 featured reactive style; more recent releases feature synchronous.
+    static final String V3_STYLE = "x-helidon-v3";
+
     static final String HELIDON_VERSION_DESC = "Helidon complete version identifier or major version number. "
         + "The specified exact Helidon release or, if specified as a major version the latest release of that major version, "
         + " is used in the generated code.";
@@ -105,8 +118,10 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
             "exists or not: if it does not, same as true; if it does, same as false. Note that test files " +
             "are never overwritten.";
 
-    private String helidonVersion;
-    private int helidonMajorVersion;
+    protected String helidonVersion;
+    protected int helidonMajorVersion;
+    protected boolean useReactive;
+    protected final GenericTypeDeclarations genericTypeDeclarations = new GenericTypeDeclarations();
 
     private String rootJavaEEPackage;
     private String rootJavaEEDepPrefix;
@@ -142,6 +157,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     public void processOpts() {
         super.processOpts();
 
+        importMapping.put("Headers", helidonMajorVersion == 3 ? "io.helidon.http.common.Headers" : "io.helidon.http.Headers");
+
         String userHelidonVersion = "";
         String userParentVersion = "";
 
@@ -170,10 +187,13 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         }
 
         additionalProperties.put(HELIDON_VERSION, helidonVersion);
+        additionalProperties.put(V3_STYLE, (helidonMajorVersion == 3));
 
         setEEPackageAndDependencies(helidonVersion);
         setMpTestDependency(helidonVersion);
         setJandexPluginDependency(helidonVersion);
+        setMediaPackageInfo();
+        setUseReactive();
     }
 
     @Override
@@ -182,6 +202,15 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         op.vendorExtensions.put(X_HAS_RETURN_TYPE, op.returnType != null && !op.returnType.equals("void"));
         op.vendorExtensions.put(X_RETURN_TYPE_EXAMPLE_VALUE, chooseExampleReturnTypeValue(op));
         return op;
+    }
+
+    @Override
+    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+        CodegenParameter result = super.fromParameter(parameter, imports);
+        if (!result.required) {
+            imports.add("Optional");
+        }
+        return result;
     }
 
     /**
@@ -269,6 +298,18 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         additionalProperties.put(X_USE_SMALLRYE_JANDEX_PLUGIN, helidonMajorVersion >= 4);
     }
 
+    private void setMediaPackageInfo() {
+        additionalProperties.put(X_MEDIA_SUPPORT_PACKAGE_PREFIX,
+                                 (helidonMajorVersion == 4) ? "io.helidon.http.media" : "io.helidon.media");
+        additionalProperties.put(X_MEDIA_COMMON_MEDIA_TYPE_PACKAGE_PREFIX,
+                                 (helidonMajorVersion == 4) ? "io.helidon.common.media.type" : "io.helidon.common.http");
+    }
+
+    private void setUseReactive() {
+        useReactive = (helidonMajorVersion < 4);
+        additionalProperties.put(X_USE_REACTIVE, useReactive);
+    }
+
     private String checkAndSelectRootEEPackage(String version) {
         String packagePrefixImpliedByVersion = usesJakartaPackages(version)
             ? MICROPROFILE_ROOT_PACKAGE_JAKARTA
@@ -331,6 +372,18 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         forRemoval.forEach(cliOptions::remove);
     }
 
+    protected String apiFolder() {
+        return folder(apiPackage);
+    }
+
+    protected String modelFolder() {
+        return folder(modelPackage);
+    }
+
+    private String folder(String packageName) {
+        return (sourceFolder + File.separator + packageName).replace(".", java.io.File.separator);
+    }
+
     private String chooseExampleReturnTypeValue(CodegenOperation op) {
 
 
@@ -371,6 +424,47 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
         default:
             return "null";
+        }
+    }
+
+    public static class GenericTypeDeclaration {
+        @Getter private final String collectionType;
+        @Getter private final String baseType;
+
+        public GenericTypeDeclaration(String collectionType, String baseType) {
+            this.collectionType = collectionType;
+            this.baseType = baseType;
+        }
+    }
+
+    /**
+     * Captures information about the model types for which we need GenericType declarations.
+     */
+    public static class GenericTypeDeclarations {
+
+        protected static final String ATTR_NAME = "x-helidon-genericTypeDeclarations";
+        protected static final String HAS_ATTR_NAME = "x-helidon-hasGenericTypeDeclarations";
+
+        // Maps collection type (array or map) to an inner map of base type to declaration. This structure makes it easy to
+        // avoid duplicate declarations for the same collection and base type.
+        private final Map<String, Map<String, GenericTypeDeclaration>> declarations = new HashMap<>();
+
+        protected void register(OperationsMap opns) {
+            OperationMap ops = opns.getOperations();
+            ops.getOperation().stream()
+                    .flatMap(op -> op.allParams.stream())
+                    .filter(p -> p.isArray || p.isMap)
+                    .forEach(p -> {
+                        String collectionType = p.isArray ? "List" : "Map";
+                        declarations.computeIfAbsent(collectionType, ct -> new TreeMap<>())
+                                .computeIfAbsent(p.baseType, bt -> new GenericTypeDeclaration(collectionType, bt));
+                    });
+        }
+
+        public List<GenericTypeDeclaration> genericTypeDeclarations() {
+            return declarations.values().stream()
+                    .flatMap(m -> m.values().stream())
+                    .collect(Collectors.toList());
         }
     }
 

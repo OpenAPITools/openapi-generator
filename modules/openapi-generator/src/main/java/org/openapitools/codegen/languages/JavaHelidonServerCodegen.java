@@ -190,8 +190,8 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                     (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator),
                     "Main.java"));
             unmodifiable.add(new SupportingFile("validatorUtils.mustache",
-                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator),
-                    "ValidatorUtils.java"));
+                                                apiFolder(),
+                                                "ValidatorUtils.java"));
             if (useAbstractClass) {
                 importMapping.put("Map", "java.util.Map");
                 importMapping.put("HashMap", "java.util.HashMap");
@@ -204,7 +204,9 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                 importMapping.put("IOException", "java.io.IOException");
                 importMapping.put("ByteArrayInputStream", "java.io.ByteArrayInputStream");
             }
-            importMapping.put("Handler", "io.helidon.webserver.Handler");
+            importMapping.put("Handler", "io.helidon.webserver." + (helidonMajorVersion != 3 ? "http." : "") + "Handler");
+            importMapping.put("GenericType", "io.helidon.common.GenericType");
+            importMapping.put("Optional", "java.util.Optional");
             processSupportingFiles(modifiable, unmodifiable);
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
@@ -266,8 +268,14 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                 codegenOperation.imports.add("Jsonb");
                 codegenOperation.imports.add("JsonbBuilder");
             }
-            if (codegenOperation.bodyParam != null) {
+            if (codegenOperation.getHasBodyParam() && helidonMajorVersion == 3) {
                 codegenOperation.imports.add("Handler");
+            }
+            if (codegenOperation.getHasBodyParam() && codegenOperation.bodyParam.isContainer) {
+                codegenOperation.imports.add("GenericType");
+            }
+            if (codegenOperation.getHasHeaderParams()) {
+                codegenOperation.imports.add("Headers");
             }
             if (codegenOperation.queryParams.size() > 0 && useAbstractClass) {
                 codegenOperation.imports.add("List");
@@ -320,6 +328,12 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             return AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
         }
         if (operations != null && HELIDON_SE.equals(getLibrary())) {
+            genericTypeDeclarations.register(objs);
+            if (HELIDON_SE.equals(getLibrary()) && !genericTypeDeclarations.genericTypeDeclarations().isEmpty()) {
+                additionalProperties.put(GenericTypeDeclarations.HAS_ATTR_NAME, true);
+                additionalProperties.put(GenericTypeDeclarations.ATTR_NAME, genericTypeDeclarations.genericTypeDeclarations());
+                supportingFiles.add(new SupportingFile("genericTypes.mustache", modelFolder(), "GenericTypes.java"));
+            }
             List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
                 if (operation.formParams.size() > 0) {

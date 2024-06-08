@@ -5,8 +5,12 @@ package {{package}};
 {{^useAbstractClass}}
 import java.util.logging.Logger;{{/useAbstractClass}}
 
-import io.helidon.webserver.ServerRequest;
-import io.helidon.webserver.ServerResponse;
+import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerRequest;
+import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerResponse;
+
+{{#useBeanValidation}}import {{rootJavaEEPackage}}.validation.constraints.*;
+import {{rootJavaEEPackage}}.validation.Valid;{{/useBeanValidation}}
+{{#x-helidon-hasGenericTypeDeclarations}}import {{modelPackage}}.GenericTypes;{{/x-helidon-hasGenericTypeDeclarations}}
 
 {{#operations}}
 public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClass}}{{#useAbstractClass}}extends{{/useAbstractClass}} {{classname}} {
@@ -25,7 +29,15 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
     public void handle{{#lambda.titlecase}}{{{operationId}}}{{/lambda.titlecase}}(ServerRequest request, ServerResponse response{{#allParams}}, {{>dataType}} {{paramName}}{{/allParams}}) {
 {{/useAbstractClass}}
 {{^useAbstractClass}}
+{{#x-helidon-v3}}
     public void {{{operationId}}}(ServerRequest request, ServerResponse response{{#allParams}}{{#isBodyParam}}{{#isModel}}, {{{dataType}}} {{paramName}}{{/isModel}}{{/isBodyParam}}{{/allParams}}) {
+{{/x-helidon-v3}}
+{{^x-helidon-v3}}
+    public void {{{operationId}}}(ServerRequest request, ServerResponse response) {
+{{#allParams}}
+        {{>paramDecl}} = {{#isBodyParam}}{{>bodyParamValue}};{{/isBodyParam}}{{^isBodyParam}}{{>paramValue}}{{/isBodyParam}}
+{{/allParams}}
+{{/x-helidon-v3}}
 {{/useAbstractClass}}
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
@@ -35,6 +47,14 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
     public Void handleError(ServerRequest request, ServerResponse response, Throwable throwable) {
         return response.send(throwable);
     }
+{{/useAbstractClass}}
+{{^useAbstractClass}}
+{{^x-helidon-v3}}
+    @Override
+    public void afterStop() {
+        System.out.println("Service {{classname}} is down. Goodbye!");
+    }
+{{/x-helidon-v3}}
 {{/useAbstractClass}}
 }
 {{/operations}}

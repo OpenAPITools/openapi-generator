@@ -65,6 +65,7 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
     private static final String X_HELIDON_REQUIRED_IMPL_IMPORTS = "x-helidon-requiredImplImports";
     private static final String X_HELIDON_IMPL_IMPORTS = "x-helidon-implImports";
+    private static final String X_CLIENT_STYLE_V3 = "x-helidon-client-style-v3";
     public static final String CONFIG_KEY = "configKey";
 
     @Setter protected String configKey = null;
@@ -173,6 +174,8 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     public void processOpts() {
         super.processOpts();
 
+        // Not intended for users to set; we compute this based on the major version.
+        additionalProperties.put(X_CLIENT_STYLE_V3, helidonMajorVersion == 3);
         convertPropertyToStringAndWriteBack(SERIALIZATION_LIBRARY, this::setSerializationLibrary);
 
         convertPropertyToStringAndWriteBack(CONFIG_KEY, this::setConfigKey);

@@ -3,8 +3,10 @@ package {{apiPackage}};
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import {{rootJavaEEPackage}}.validation.ValidationException;
 
@@ -107,6 +109,29 @@ public final class ValidatorUtils {
             }
         } catch (Exception e) {
             throw new ValidationException(e);
+        }
+    }
+
+    public static <T> T nonEmpty(T arg) {
+        try {
+            if (arg instanceof Optional opt) {
+                if (opt.isEmpty()) {
+                    throw new ValidationException("Required value is missing");
+                }
+            } else if (arg instanceof List listArg) {
+                if (Objects.requireNonNull(listArg, "Required List is missing").isEmpty()) {
+                    throw new ValidationException("Required List is empty");
+                }
+            } else if (arg instanceof Map mapArg) {
+                if (Objects.requireNonNull(mapArg, "Required Map is missing").isEmpty()) {
+                    throw new ValidationException("Required Map is empty");
+                }
+            } else {
+                return Objects.requireNonNull(arg, "Required value is missing");
+            }
+            return arg;
+        } catch (NullPointerException npe) {
+            throw new ValidationException(npe);
         }
     }
 }
