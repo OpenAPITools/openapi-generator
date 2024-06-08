@@ -924,6 +924,18 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the enum default value in the language specified format
+     *
+     * @param property  The codegen property to create the default for.
+     * @param value     Enum variable name
+     * @return the default value for the enum
+     */
+    public String toEnumDefaultValue(CodegenProperty property, String value) {
+        // Use the datatype with the value.
+        return toEnumDefaultValue(value, property.datatypeWithEnum);
+    }
+
+    /**
      * Return the enum value in the language specified format
      * e.g. status becomes "status"
      *
@@ -6645,7 +6657,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             if (enumName != null) {
-                var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
+                var.defaultValue = toEnumDefaultValue(var, enumName);
             }
         }
     }

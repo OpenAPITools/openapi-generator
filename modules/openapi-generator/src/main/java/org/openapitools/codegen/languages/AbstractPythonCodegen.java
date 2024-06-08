@@ -198,6 +198,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toDefaultValue(Schema p) {
+        // If the Schema is a $ref, get the default value from the reference.
+        String ref = ModelUtils.getSimpleRef(p.get$ref());
+        if (ref != null) {
+            Schema referencedSchema = ModelUtils.getSchemas(this.openAPI).get(ref);
+            if (referencedSchema != null) {
+                String defaultValue = toDefaultValue(referencedSchema);
+                if (defaultValue != null) {
+                    return defaultValue;
+                }
+                // No default was found for the $ref, so see if one has been defined locally.
+            }
+        }
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (!Boolean.valueOf(p.getDefault().toString()))
@@ -216,6 +228,14 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isEnumSchema(p)) {
+            // Enum must come before string to use enum reference!
+            if (p.getDefault() != null) {
+                String defaultValue = String.valueOf(p.getDefault());
+                if (defaultValue != null) {
+                    return defaultValue;
+                }
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
@@ -237,7 +257,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return null;
             }
         }
-
         return null;
     }
 
@@ -1085,7 +1104,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         // remove quote e.g. 'abc' => abc
-        name = name.substring(1, name.length() - 1);
+        if (name.startsWith("'") && name.endsWith("'")) {
+            name = name.substring(1, name.length() - 1);
+        }
 
         if (name.length() == 0) {
             return "EMPTY";
@@ -1396,7 +1417,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public String toEnumDefaultValue(String value, String datatype) {
+    public String toEnumDefaultValue(CodegenProperty property, String value) {
+        if (property.isEnumRef) {
+            // Determine if it's a string by checking if the value has already been encapsulated in single quotes.
+            String dataType = (value.startsWith("'") && value.endsWith("'")) ? "string" : "int";
+            // If the property is an enum reference, then use the fully qualified name with the data type.
+            return property.dataType + "." + toEnumVariableName(value, dataType);
+        }
         return value;
     }
 
