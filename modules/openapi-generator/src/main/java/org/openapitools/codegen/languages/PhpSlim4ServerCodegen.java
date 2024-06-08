@@ -19,13 +19,9 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.Getter;
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.SupportingFile;
+import org.apache.commons.text.StringEscapeUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
@@ -37,9 +33,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.*;
+import java.nio.charset.StandardCharsets;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -349,23 +347,17 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         // from AbstractPhpCodegen.java
         // Trim the string to avoid leading and trailing spaces.
         input = input.trim();
-        try {
 
-            input = URLEncoder.encode(input, "UTF-8")
-                    .replaceAll("\\+", "%20")
-                    .replaceAll("\\%2F", "/")
-                    .replaceAll("\\%7B", "{") // keep { part of complex placeholders
-                    .replaceAll("\\%7D", "}") // } part
-                    .replaceAll("\\%5B", "[") // [ part
-                    .replaceAll("\\%5D", "]") // ] part
-                    .replaceAll("\\%3A", ":") // : part
-                    .replaceAll("\\%2B", "+") // + part
-                    .replaceAll("\\%5C\\%5Cd", "\\\\d"); // \d part
-        } catch (UnsupportedEncodingException e) {
-            // continue
-            LOGGER.error(e.getMessage(), e);
-        }
-        return input;
+        return URLEncoder.encode(input, StandardCharsets.UTF_8)
+                .replaceAll("\\+", "%20")
+                .replaceAll("\\%2F", "/")
+                .replaceAll("\\%7B", "{") // keep { part of complex placeholders
+                .replaceAll("\\%7D", "}") // } part
+                .replaceAll("\\%5B", "[") // [ part
+                .replaceAll("\\%5D", "]") // ] part
+                .replaceAll("\\%3A", ":") // : part
+                .replaceAll("\\%2B", "+") // + part
+                .replaceAll("\\%5C\\%5Cd", "\\\\d"); // \d part
     }
 
     @Override
