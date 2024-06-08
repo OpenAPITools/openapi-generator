@@ -106,7 +106,7 @@ Accept: application/json
 
 ### Get a tree
 ## Get a tree
-GET https://api.github.com/repos/{{owner}}/{{repo}}/git/trees/{{tree_sha}}
+GET https://api.github.com/repos/{{owner}}/{{repo}}/git/trees/{{tree_sha}}?recursive={{recursive}}
 Accept: application/json
 
 ### List matching references

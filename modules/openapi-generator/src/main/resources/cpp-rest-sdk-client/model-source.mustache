@@ -6,7 +6,56 @@
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
+{{#oneOf}}{{#-first}}
 
+void {{classname}}::validate()
+{
+    // TODO: implement validation
+}
+
+const {{classname}}::VariantType& {{classname}}::getVariant() const
+{
+    return m_variantValue;
+}
+
+void {{classname}}::setVariant({{classname}}::VariantType value)
+{
+    m_variantValue = value;
+}
+
+web::json::value {{classname}}::toJson() const
+{
+    web::json::value val = web::json::value::object();
+
+    std::visit([&](auto&& arg) {
+        using T = std::decay_t<decltype(arg)>;
+        if constexpr (std::is_same_v<T, std::monostate>) {
+            val = web::json::value::null();
+        } else {
+            val = arg.toJson();
+        }
+    }, m_variantValue);
+
+    return val;
+}
+
+void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
+{
+    std::visit([&](auto&& arg) {
+        using T = std::decay_t<decltype(arg)>;
+        if constexpr (!std::is_same_v<T, std::monostate>) {
+          arg.toMultipart(multipart, prefix);
+        }
+    }, m_variantValue);
+}
+
+{{#oneOf}}
+template bool {{classname}}::fromJson<{{.}}>(const web::json::value& json);
+template bool {{classname}}::fromMultiPart<{{.}}>(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix);
+{{/oneOf}}
+
+{{/-first}}{{/oneOf}}
+{{^oneOf}}
 {{#isEnum}}
 
 namespace
@@ -269,6 +318,7 @@ void {{classname}}::unset{{name}}()
 {{/isInherited}}
 {{/vars}}
 {{/isEnum}}
+{{/oneOf}}
 {{#modelNamespaceDeclarations}}
 }
 {{/modelNamespaceDeclarations}}

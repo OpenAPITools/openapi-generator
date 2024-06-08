@@ -18,6 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
@@ -45,17 +47,17 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
 
-    protected boolean useBeanValidation = false;
+    @Getter protected boolean useBeanValidation = false;
 
-    protected boolean useGenericResponse = false;
+    @Getter protected boolean useGenericResponse = false;
 
-    protected boolean useGzipFeatureForTests = false;
+    @Getter protected boolean useGzipFeatureForTests = false;
 
-    protected boolean useLoggingFeatureForTests = false;
+    @Getter protected boolean useLoggingFeatureForTests = false;
 
-    private boolean useJackson = false;
+    @Getter private boolean useJackson = false;
 
-    protected boolean useAbstractionForFiles = false;
+    @Setter protected boolean useAbstractionForFiles = false;
 
     public JavaCXFClientCodegen() {
         super();
@@ -193,17 +195,9 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         this.useBeanValidation = useBeanValidation;
     }
 
-    public boolean isUseBeanValidation() {
-        return useBeanValidation;
-    }
-
     @Override
     public void setUseGzipFeatureForTests(boolean useGzipFeatureForTests) {
         this.useGzipFeatureForTests = useGzipFeatureForTests;
-    }
-
-    public boolean isUseGzipFeatureForTests() {
-        return useGzipFeatureForTests;
     }
 
     @Override
@@ -211,24 +205,9 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         this.useLoggingFeatureForTests = useLoggingFeatureForTests;
     }
 
-    public boolean isUseLoggingFeatureForTests() {
-        return useLoggingFeatureForTests;
-    }
-
     @Override
     public void setUseGenericResponse(boolean useGenericResponse) {
         this.useGenericResponse = useGenericResponse;
     }
 
-    public boolean isUseGenericResponse() {
-        return useGenericResponse;
-    }
-
-    public boolean isUseJackson() {
-        return useJackson;
-    }
-
-    public void setUseAbstractionForFiles(boolean useAbstractionForFiles) {
-        this.useAbstractionForFiles = useAbstractionForFiles;
-    }
 }

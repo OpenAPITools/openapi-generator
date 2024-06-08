@@ -12,7 +12,7 @@ Accept: application/json
 
 ### Check if permissions defined by a devcontainer have been accepted by the authenticated user
 ## Check if permissions defined by a devcontainer have been accepted by the authenticated user
-GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/permissions_check
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/permissions_check?ref={{ref}}&devcontainerPath={{devcontainerPath}}
 Accept: application/json
 
 ### List machine types for a codespace
@@ -138,7 +138,7 @@ Accept: application/json
 
 ### List codespaces for a user in organization
 ## List codespaces for a user in organization
-GET https://api.github.com/orgs/{{org}}/members/{{username}}/codespaces
+GET https://api.github.com/orgs/{{org}}/members/{{username}}/codespaces?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Get details about a codespace export
@@ -183,33 +183,33 @@ Accept: application/json
 
 ### List devcontainer configurations in a repository for the authenticated user
 ## List devcontainer configurations in a repository for the authenticated user
-GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/devcontainers
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/devcontainers?perPage={{perPage}}&page={{page}}
 Accept: application/json
 Accept: application/scim+json
 
 ### List codespaces for the authenticated user
 ## List codespaces for the authenticated user
-GET https://api.github.com/user/codespaces
+GET https://api.github.com/user/codespaces?perPage={{perPage}}&page={{page}}&repositoryId={{repositoryId}}
 Accept: application/json
 
 ### List codespaces for the organization
 ## List codespaces for the organization
-GET https://api.github.com/orgs/{{org}}/codespaces
+GET https://api.github.com/orgs/{{org}}/codespaces?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List codespaces in a repository for the authenticated user
 ## List codespaces in a repository for the authenticated user
-GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List organization secrets
 ## List organization secrets
-GET https://api.github.com/orgs/{{org}}/codespaces/secrets
+GET https://api.github.com/orgs/{{org}}/codespaces/secrets?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository secrets
 ## List repository secrets
-GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List selected repositories for a user secret
@@ -219,17 +219,17 @@ Accept: application/json
 
 ### List secrets for the authenticated user
 ## List secrets for the authenticated user
-GET https://api.github.com/user/codespaces/secrets
+GET https://api.github.com/user/codespaces/secrets?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List selected repositories for an organization secret
 ## List selected repositories for an organization secret
-GET https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repositories
+GET https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repositories?page={{page}}&perPage={{perPage}}
 Accept: application/json
 
 ### Get default attributes for a codespace
 ## Get default attributes for a codespace
-GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/new
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/new?ref={{ref}}&clientIp={{clientIp}}
 Accept: application/json
 
 ### Create a repository from an unpublished codespace
@@ -256,7 +256,7 @@ Accept: application/json
 
 ### List available machine types for a repository
 ## List available machine types for a repository
-GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/machines
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/machines?location={{location}}&clientIp={{clientIp}}&ref={{ref}}
 Accept: application/json
 
 ### Manage access control for organization codespaces

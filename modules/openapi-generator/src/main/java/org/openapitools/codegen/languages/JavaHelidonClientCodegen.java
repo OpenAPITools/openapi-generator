@@ -33,6 +33,8 @@ import java.util.TreeSet;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -65,14 +67,14 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     private static final String X_HELIDON_IMPL_IMPORTS = "x-helidon-implImports";
     public static final String CONFIG_KEY = "configKey";
 
-    protected String configKey = null;
-    protected boolean useBeanValidation = false;
-    protected boolean performBeanValidation = false;
-    protected boolean useGzipFeature = false;
+    @Setter protected String configKey = null;
+    @Setter protected boolean useBeanValidation = false;
+    @Setter protected boolean performBeanValidation = false;
+    @Setter protected boolean useGzipFeature = false;
     protected boolean caseInsensitiveResponseHeaders = false;
     protected Path invokerFolder;
     protected Path apiFolder;
-    protected String serializationLibrary = null;
+    @Getter protected String serializationLibrary = null;
 
     /**
      * Constructor for this generator. Uses the embedded template dir to find common templates
@@ -460,28 +462,8 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
         return objs;
     }
 
-    public void setConfigKey(String configKey) {
-        this.configKey = configKey;
-    }
-
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
-    public void setPerformBeanValidation(boolean performBeanValidation) {
-        this.performBeanValidation = performBeanValidation;
-    }
-
-    public void setUseGzipFeature(boolean useGzipFeature) {
-        this.useGzipFeature = useGzipFeature;
-    }
-
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
-    }
-
-    public String getSerializationLibrary() {
-        return serializationLibrary;
     }
 
     public void setSerializationLibrary(String serializationLibrary) {

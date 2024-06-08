@@ -16,9 +16,9 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -43,17 +43,20 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public static final String PROJECT_NAME = "projectName";
 
-    protected String packageName = "openapiclient";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapiclient";
+    @Setter protected String packageVersion = "1.0.0";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "nim";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a nim client (beta).";
     }
@@ -164,14 +167,6 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("DateTime", "string");
         typeMapping.put("password", "string");
         typeMapping.put("file", "string");
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     @Override

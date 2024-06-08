@@ -1,6 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -365,11 +364,6 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
             }
         }
         return objs;
-    }
-
-    @Override
-    public String toEnumValue(String value, String datatype) {
-        return escapeText(value);
     }
 
     @Override

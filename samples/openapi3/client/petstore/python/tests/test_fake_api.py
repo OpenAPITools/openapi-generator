@@ -155,7 +155,7 @@ class TestFakeApi(unittest.TestCase):
         mock_resp.data = b'{"value": "0"}'
         mock_resp.getheaders.return_value = {}
         mock_resp.getheader = (
-            lambda name: "text/plain" if name == "content-type" else Mock()
+            lambda name: "application/json" if name == "content-type" else Mock()
         )
         with patch(
                 "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
@@ -165,3 +165,78 @@ class TestFakeApi(unittest.TestCase):
                 param=[OuterEnumInteger.NUMBER_0])
             self.assertEqual(call_api_mock.call_args[0][1],
                              'http://petstore.swagger.io:80/v2/fake/property/enum-int?param=0')
+
+    def testTopLevelStrJson(self):
+        """Test TopLevelStrJson"""
+        mock_resp = Mock()
+        mock_resp.status = 200
+        mock_resp.data = b'"a"'
+        mock_resp.getheaders.return_value = {}
+        mock_resp.getheader = (
+            lambda name: "application/json" if name == "content-type" else Mock()
+        )
+        with patch(
+            "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
+        ):
+            returned = self.fake_api.fake_return_string()
+            self.assertEqual('a', returned)
+    
+    def testTopLevelIntJson(self):
+        """Test TopLevelIntJson"""
+        mock_resp = Mock()
+        mock_resp.status = 200
+        mock_resp.data = b'1'
+        mock_resp.getheaders.return_value = {}
+        mock_resp.getheader = (
+            lambda name: "application/json" if name == "content-type" else Mock()
+        )
+        with patch(
+            "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
+        ):
+            returned = self.fake_api.fake_return_int()
+            self.assertEqual(1, returned)
+    
+    def testTopLevelFloatJson(self):
+        """Test TopLevelFloatJson"""
+        mock_resp = Mock()
+        mock_resp.status = 200
+        mock_resp.data = b'3.4'
+        mock_resp.getheaders.return_value = {}
+        mock_resp.getheader = (
+            lambda name: "application/json" if name == "content-type" else Mock()
+        )
+        with patch(
+            "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
+        ):
+            returned = self.fake_api.fake_return_float()
+            self.assertEqual(3.4, returned)
+    
+    def testTopLevelBoolJson(self):
+        """Test TopLevelBoolJson"""
+        mock_resp = Mock()
+        mock_resp.status = 200
+        mock_resp.data = b'true'
+        mock_resp.getheaders.return_value = {}
+        mock_resp.getheader = (
+            lambda name: "application/json" if name == "content-type" else Mock()
+        )
+        with patch(
+            "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
+        ):
+            returned = self.fake_api.fake_return_boolean()
+            self.assertEqual(True, returned)
+    
+    def testTopLevelEnumJson(self):
+        """Test TopLevelEnumJson"""
+        mock_resp = Mock()
+        mock_resp.status = 200
+        mock_resp.data = b'"a"'
+        mock_resp.getheaders.return_value = {}
+        mock_resp.getheader = (
+            lambda name: "application/json" if name == "content-type" else Mock()
+        )
+        with patch(
+            "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
+        ):
+            returned = self.fake_api.fake_return_enum()
+            self.assertEqual("a", returned)

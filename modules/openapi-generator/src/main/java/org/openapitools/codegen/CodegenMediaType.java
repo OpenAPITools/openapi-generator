@@ -1,13 +1,14 @@
 package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.examples.Example;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class CodegenMediaType {
+@Getter public class CodegenMediaType {
     private CodegenProperty schema;
     private LinkedHashMap<String, CodegenEncoding> encoding;
     private HashMap<String, SchemaTestCase> testCases = new HashMap<>();
@@ -31,28 +32,6 @@ public class CodegenMediaType {
     public CodegenMediaType(CodegenProperty schema, LinkedHashMap<String, CodegenEncoding> encoding, HashMap<String, SchemaTestCase> testCases, Object example) {
         this(schema, encoding, testCases);
         this.example = example;
-    }
-
-    public CodegenProperty getSchema() {
-        return schema;
-    }
-
-    public LinkedHashMap<String, CodegenEncoding> getEncoding() {
-        return encoding;
-    }
-
-    public HashMap<String, SchemaTestCase> getTestCases() { return testCases; }
-
-    public Map<String, Example> getExamples() {
-        return examples;
-    }
-
-    public Object getExample() {
-        return example;
-    }
-
-    public Map<String, Object> getVendorExtensions() {
-        return vendorExtensions;
     }
 
     public String toString() {

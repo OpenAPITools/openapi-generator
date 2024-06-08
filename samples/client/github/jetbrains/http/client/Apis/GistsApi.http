@@ -65,37 +65,37 @@ Accept: application/json
 
 ### List gists for the authenticated user
 ## List gists for the authenticated user
-GET https://api.github.com/gists
+GET https://api.github.com/gists?since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List gist comments
 ## List gist comments
-GET https://api.github.com/gists/{{gist_id}}/comments
+GET https://api.github.com/gists/{{gist_id}}/comments?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List gist commits
 ## List gist commits
-GET https://api.github.com/gists/{{gist_id}}/commits
+GET https://api.github.com/gists/{{gist_id}}/commits?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List gists for a user
 ## List gists for a user
-GET https://api.github.com/users/{{username}}/gists
+GET https://api.github.com/users/{{username}}/gists?since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List gist forks
 ## List gist forks
-GET https://api.github.com/gists/{{gist_id}}/forks
+GET https://api.github.com/gists/{{gist_id}}/forks?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List public gists
 ## List public gists
-GET https://api.github.com/gists/public
+GET https://api.github.com/gists/public?since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List starred gists
 ## List starred gists
-GET https://api.github.com/gists/starred
+GET https://api.github.com/gists/starred?since={{since}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Star a gist

@@ -119,7 +119,7 @@ public interface IJsonSchemaValidationProperties {
 
     boolean getIsArray();
 
-    void setIsArray(boolean isShort);
+    void setIsArray(boolean isArray);
 
     boolean getIsShort();
 
@@ -192,7 +192,7 @@ public interface IJsonSchemaValidationProperties {
 
     boolean getIsString();
 
-    void setIsString(boolean isNumber);
+    void setIsString(boolean isString);
 
     boolean getIsNumber();
 
@@ -248,7 +248,7 @@ public interface IJsonSchemaValidationProperties {
 
     boolean getIsDouble();
 
-    void setIsInteger(boolean isDouble);
+    void setIsInteger(boolean isInteger);
 
     boolean getIsInteger();
 
@@ -290,7 +290,6 @@ public interface IJsonSchemaValidationProperties {
             setIsArray(true);
         } else if (ModelUtils.isFileSchema(p) && !ModelUtils.isStringSchema(p)) {
             // swagger v2 only, type file
-            ;
         } else if (ModelUtils.isStringSchema(p)) {
             setIsString(true);
             if (ModelUtils.isByteArraySchema(p)) {

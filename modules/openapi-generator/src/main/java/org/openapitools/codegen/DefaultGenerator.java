@@ -29,7 +29,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
-
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.comparator.PathFileComparator;
 import org.apache.commons.lang3.ObjectUtils;
@@ -95,7 +95,15 @@ public class DefaultGenerator implements Generator {
     private String basePathWithoutHost;
     private String contextPath;
     private Map<String, String> generatorPropertyDefaults = new HashMap<>();
-    protected TemplateProcessor templateProcessor = null;
+    /**
+     * -- GETTER --
+     *  Retrieves an instance to the configured template processor, available after user-defined options are
+     *  applied via 
+     * .
+     *
+     * @return A configured {@link TemplateProcessor}, or null.
+     */
+    @Getter protected TemplateProcessor templateProcessor = null;
 
     private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
     private String generatorCheck = "spring";
@@ -158,16 +166,6 @@ public class DefaultGenerator implements Generator {
         }
 
         return this;
-    }
-
-    /**
-     * Retrieves an instance to the configured template processor, available after user-defined options are
-     * applied via {@link DefaultGenerator#opts(ClientOptInput)}.
-     *
-     * @return A configured {@link TemplateProcessor}, or null.
-     */
-    public TemplateProcessor getTemplateProcessor() {
-        return templateProcessor;
     }
 
     /**

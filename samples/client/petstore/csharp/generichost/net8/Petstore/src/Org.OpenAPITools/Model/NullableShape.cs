@@ -208,12 +208,14 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (nullableShape.Triangle != null) {
+            if (nullableShape.Triangle != null)
+            {
                 TriangleJsonConverter triangleJsonConverter = (TriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(nullableShape.Triangle.GetType()));
                 triangleJsonConverter.WriteProperties(writer, nullableShape.Triangle, jsonSerializerOptions);
             }
 
-            if (nullableShape.Quadrilateral != null) {
+            if (nullableShape.Quadrilateral != null)
+            {
                 QuadrilateralJsonConverter quadrilateralJsonConverter = (QuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(nullableShape.Quadrilateral.GetType()));
                 quadrilateralJsonConverter.WriteProperties(writer, nullableShape.Quadrilateral, jsonSerializerOptions);
             }

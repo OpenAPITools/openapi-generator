@@ -53,7 +53,7 @@ Accept: application/json
 
 ### Logs user into the system
 ## Logs user into the system
-GET http://petstore.swagger.io/v2/user/login
+GET http://petstore.swagger.io/v2/user/login?username={{username}}&password={{password}}
 Accept: application/xml
 Accept: application/json
 

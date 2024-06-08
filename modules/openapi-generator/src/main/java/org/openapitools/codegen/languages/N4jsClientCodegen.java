@@ -61,8 +61,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
@@ -79,14 +77,17 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     private boolean checkSuperfluousBodyProps = true;
     private boolean generateDefaultApiExecuter = true;
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "n4js";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a n4js client.";
     }
