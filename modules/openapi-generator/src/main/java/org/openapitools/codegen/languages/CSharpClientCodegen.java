@@ -1122,7 +1122,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             operationParameterSorting = "DEFAULT";
         }
 
-        this.operationParameterSorting = SortingMethod.valueOf(operationParameterSorting.toUpperCase());
+        this.operationParameterSorting = SortingMethod.valueOf(operationParameterSorting.toUpperCase(Locale.ROOT));
     }
 
     public void setSupportsAsync(Boolean supportsAsync) {
