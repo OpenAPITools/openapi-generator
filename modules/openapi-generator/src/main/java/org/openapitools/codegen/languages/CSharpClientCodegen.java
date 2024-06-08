@@ -117,8 +117,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     // By default, generated code is considered public
     @Getter @Setter
     protected boolean nonPublicApi = Boolean.FALSE;
-    private static final String USE_LEGACY_OPERATION_PARAMETER_SORTING_KEY = "useLegacyOperationParameterSorting";
-    @Setter private boolean useLegacyOperationParameterSorting = Boolean.TRUE;
+
+    private static final String OPERATION_PARAMETER_SORTING_KEY = "operationParameterSorting";
+    enum SortingMethod {
+        DEFAULT,
+        ALPHABETICAL,
+        LEGACY
+    }
+    private SortingMethod operationParameterSorting = SortingMethod.LEGACY;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
     protected String releaseNote = "Minor update";
@@ -219,6 +225,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addOption("zeroBasedEnums",
                 "Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.",
                 null);
+
+        addOption(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY,
+                "One of legacy, alphabetical, default (only `generichost` library supports this option).",
+                this.operationParameterSorting.toString().toLowerCase(Locale.ROOT));
 
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
@@ -327,8 +337,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.EQUATABLE,
                 CodegenConstants.EQUATABLE_DESC,
                 this.equatable);
-
-        addSwitch(CSharpClientCodegen.USE_LEGACY_OPERATION_PARAMETER_SORTING_KEY, "Preserve legacy operation parameter sorting to avoid a breaking change.", this.useLegacyOperationParameterSorting);
 
         addSwitch("useSourceGeneration",
                 "Use source generation where available (only `generichost` library supports this option).",
@@ -680,6 +688,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put(CodegenConstants.API_NAME, apiName);
         }
 
+        if (additionalProperties.containsKey(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY)) {
+            setOperationParameterSorting((String) additionalProperties.get(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY));
+        } else {
+            additionalProperties.put(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY, this.operationParameterSorting);
+        }
+
         if (isEmpty(apiPackage)) {
             setApiPackage("Api");
         }
@@ -776,7 +790,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, "netStandard", this::setNetStandard, this.netStandard);
 
         syncBooleanProperty(additionalProperties, CodegenConstants.EQUATABLE, this::setEquatable, this.equatable);
-        syncBooleanProperty(additionalProperties, CSharpClientCodegen.USE_LEGACY_OPERATION_PARAMETER_SORTING_KEY, this::setUseLegacyOperationParameterSorting, this.useLegacyOperationParameterSorting);
         syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
         syncBooleanProperty(additionalProperties, SUPPORTS_RETRY, this::setSupportsRetry, this.supportsRetry);
@@ -876,7 +889,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             return op;
         }
 
-        if (this.useLegacyOperationParameterSorting) {
+        if (this.operationParameterSorting == SortingMethod.LEGACY) {
             Collections.sort(op.allParams, parameterComparatorByDataType);
             Collections.sort(op.bodyParams, parameterComparatorByDataType);
             Collections.sort(op.pathParams, parameterComparatorByDataType);
@@ -902,17 +915,19 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             Collections.sort(op.optionalParams, comparator);
             Collections.sort(op.notNullableParams, comparator);
         } else {
-            Collections.sort(op.allParams, parameterComparatorByName);
-            Collections.sort(op.bodyParams, parameterComparatorByName);
-            Collections.sort(op.pathParams, parameterComparatorByName);
-            Collections.sort(op.queryParams, parameterComparatorByName);
-            Collections.sort(op.headerParams, parameterComparatorByName);
-            Collections.sort(op.implicitHeadersParams, parameterComparatorByName);
-            Collections.sort(op.formParams, parameterComparatorByName);
-            Collections.sort(op.cookieParams, parameterComparatorByName);
-            Collections.sort(op.requiredParams, parameterComparatorByName);
-            Collections.sort(op.optionalParams, parameterComparatorByName);
-            Collections.sort(op.notNullableParams, parameterComparatorByName);
+            if (this.operationParameterSorting == SortingMethod.ALPHABETICAL) {
+                Collections.sort(op.allParams, parameterComparatorByName);
+                Collections.sort(op.bodyParams, parameterComparatorByName);
+                Collections.sort(op.pathParams, parameterComparatorByName);
+                Collections.sort(op.queryParams, parameterComparatorByName);
+                Collections.sort(op.headerParams, parameterComparatorByName);
+                Collections.sort(op.implicitHeadersParams, parameterComparatorByName);
+                Collections.sort(op.formParams, parameterComparatorByName);
+                Collections.sort(op.cookieParams, parameterComparatorByName);
+                Collections.sort(op.requiredParams, parameterComparatorByName);
+                Collections.sort(op.optionalParams, parameterComparatorByName);
+                Collections.sort(op.notNullableParams, parameterComparatorByName);
+            }
 
             Collections.sort(op.allParams, parameterComparatorByNotNullableRequiredNoDefault);
             Collections.sort(op.bodyParams, parameterComparatorByNotNullableRequiredNoDefault);
@@ -1100,6 +1115,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             throw new RuntimeException("Invalid project name " + apiName + ". May only contain alphanumeric characters or underscore and start with a letter.");
         }
         this.apiName = apiName;
+    }
+
+    public void setOperationParameterSorting(String operationParameterSorting) {
+        if (operationParameterSorting == null) {
+            operationParameterSorting = "DEFAULT";
+        }
+
+        this.operationParameterSorting = SortingMethod.valueOf(operationParameterSorting.toUpperCase());
     }
 
     public void setSupportsAsync(Boolean supportsAsync) {
