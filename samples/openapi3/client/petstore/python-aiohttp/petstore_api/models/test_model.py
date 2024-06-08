@@ -30,7 +30,7 @@ class TestModel(BaseModel):
     """ # noqa: E501
     test_enum: TestEnum
     test_string: Optional[StrictStr] = None
-    test_enum_with_default: Optional[TestEnumWithDefault] = None
+    test_enum_with_default: Optional[TestEnumWithDefault] = TestEnumWithDefault.ZWEI
     test_string_with_default: Optional[StrictStr] = 'ahoy matey'
     test_inline_defined_enum_with_default: Optional[StrictStr] = 'B'
     __properties: ClassVar[List[str]] = ["test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]
@@ -98,7 +98,7 @@ class TestModel(BaseModel):
         _obj = cls.model_validate({
             "test_enum": obj.get("test_enum"),
             "test_string": obj.get("test_string"),
-            "test_enum_with_default": obj.get("test_enum_with_default"),
+            "test_enum_with_default": obj.get("test_enum_with_default") if obj.get("test_enum_with_default") is not None else TestEnumWithDefault.ZWEI,
             "test_string_with_default": obj.get("test_string_with_default") if obj.get("test_string_with_default") is not None else 'ahoy matey',
             "test_inline_defined_enum_with_default": obj.get("test_inline_defined_enum_with_default") if obj.get("test_inline_defined_enum_with_default") is not None else 'B'
         })
