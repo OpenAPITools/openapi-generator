@@ -682,16 +682,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             setLicenseId((String) additionalProperties.get(CodegenConstants.LICENSE_ID));
         }
 
+        if (additionalProperties.containsKey(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY)) {
+            setOperationParameterSorting((String) additionalProperties.get(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.API_NAME)) {
             setApiName((String) additionalProperties.get(CodegenConstants.API_NAME));
         } else {
             additionalProperties.put(CodegenConstants.API_NAME, apiName);
-        }
-
-        if (additionalProperties.containsKey(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY)) {
-            setOperationParameterSorting((String) additionalProperties.get(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY));
-        } else {
-            additionalProperties.put(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY, this.operationParameterSorting);
         }
 
         if (isEmpty(apiPackage)) {
