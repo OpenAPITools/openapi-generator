@@ -118,7 +118,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Getter @Setter
     protected boolean nonPublicApi = Boolean.FALSE;
     private static final String USE_LEGACY_OPERATION_PARAMETER_SORTING_KEY = "useLegacyOperationParameterSorting";
-    private boolean useLegacyOperationParameterSorting = Boolean.TRUE;
+    @Setter private boolean useLegacyOperationParameterSorting = Boolean.TRUE;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
     protected String releaseNote = "Minor update";
@@ -1162,10 +1162,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void setTargetFrameworkNuget(List<FrameworkStrategy> strategies) {
         this.targetFrameworkNuget = strategies.stream().map(p -> p.getNugetFrameworkIdentifier())
                 .collect(Collectors.joining(";"));
-    }
-
-    public void setUseLegacyOperationParameterSorting(boolean useLegacyOperationParameterSorting) {
-        this.useLegacyOperationParameterSorting = useLegacyOperationParameterSorting;
     }
 
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
