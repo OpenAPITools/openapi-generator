@@ -1164,14 +1164,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 .collect(Collectors.joining(";"));
     }
 
-    public void setValidatable(boolean validatable) {
-        this.validatable = validatable;
-    }
-
-    public void setEquatable(boolean equatable) {
-        this.equatable = equatable;
-    }
-
     public void setUseLegacyOperationParameterSorting(boolean useLegacyOperationParameterSorting) {
         this.useLegacyOperationParameterSorting = useLegacyOperationParameterSorting;
     }
