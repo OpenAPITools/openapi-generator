@@ -130,7 +130,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    enum_ref = petstore_api.EnumClass() # EnumClass | enum reference (optional)
+    enum_ref = -efg # EnumClass | enum reference (optional) (default to -efg)
 
     try:
         # test enum reference query parameter
@@ -146,7 +146,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enum_ref** | [**EnumClass**](.md)| enum reference | [optional] 
+ **enum_ref** | [**EnumClass**](.md)| enum reference | [optional] [default to -efg]
 
 ### Return type
 
