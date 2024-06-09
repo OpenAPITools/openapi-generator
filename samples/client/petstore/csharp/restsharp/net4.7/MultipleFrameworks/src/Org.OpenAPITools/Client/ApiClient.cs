@@ -430,7 +430,8 @@ namespace Org.OpenAPITools.Client
 
             return transformed;
         }
-private ApiResponse<T> ExecClient<T>(Func<RestClient, RestResponse<T>> getResponse, Action<RestClientOptions> setOptions, RestRequest request, RequestOptions options, IReadableConfiguration configuration)
+        
+        private ApiResponse<T> ExecClient<T>(Func<RestClient, RestResponse<T>> getResponse, Action<RestClientOptions> setOptions, RestRequest request, RequestOptions options, IReadableConfiguration configuration)
 		{
 			var baseUrl = configuration.GetOperationServerUrl(options.Operation, options.OperationIndex) ?? _baseUrl;
 
@@ -565,7 +566,7 @@ private ApiResponse<T> ExecClient<T>(Func<RestClient, RestResponse<T>> getRespon
 			return ExecClient(getResponse, setOptions, request, options, configuration);
 		}
 
-        private async Task<ApiResponse<T>> ExecAsync<T>(RestRequest request, RequestOptions options, IReadableConfiguration configuration, CancellationToken cancellationToken = default(CancellationToken))
+        private Task<ApiResponse<T>> ExecAsync<T>(RestRequest request, RequestOptions options, IReadableConfiguration configuration, CancellationToken cancellationToken = default(CancellationToken))
         {
 			Action<RestClientOptions> setOptions = (clientOptions) =>
 			{
