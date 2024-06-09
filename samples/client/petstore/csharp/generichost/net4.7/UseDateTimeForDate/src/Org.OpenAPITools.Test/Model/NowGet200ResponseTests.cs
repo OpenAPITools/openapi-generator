@@ -54,21 +54,21 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Now'
-        /// </summary>
-        [Fact]
-        public void NowTest()
-        {
-            // TODO unit test for the property 'Now'
-        }
-
-        /// <summary>
         /// Test the property 'Today'
         /// </summary>
         [Fact]
         public void TodayTest()
         {
             // TODO unit test for the property 'Today'
+        }
+
+        /// <summary>
+        /// Test the property 'Now'
+        /// </summary>
+        [Fact]
+        public void NowTest()
+        {
+            // TODO unit test for the property 'Now'
         }
     }
 }

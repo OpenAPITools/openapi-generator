@@ -54,21 +54,21 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Role'
-        /// </summary>
-        [Fact]
-        public void RoleTest()
-        {
-            // TODO unit test for the property 'Role'
-        }
-
-        /// <summary>
         /// Test the property 'RoleUuid'
         /// </summary>
         [Fact]
         public void RoleUuidTest()
         {
             // TODO unit test for the property 'RoleUuid'
+        }
+
+        /// <summary>
+        /// Test the property 'Role'
+        /// </summary>
+        [Fact]
+        public void RoleTest()
+        {
+            // TODO unit test for the property 'Role'
         }
     }
 }

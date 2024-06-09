@@ -54,6 +54,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'Number'
+        /// </summary>
+        [Fact]
+        public void NumberTest()
+        {
+            // TODO unit test for the property 'Number'
+        }
+
+        /// <summary>
         /// Test the property 'Byte'
         /// </summary>
         [Fact]
@@ -72,21 +81,93 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Number'
-        /// </summary>
-        [Fact]
-        public void NumberTest()
-        {
-            // TODO unit test for the property 'Number'
-        }
-
-        /// <summary>
         /// Test the property 'Password'
         /// </summary>
         [Fact]
         public void PasswordTest()
         {
             // TODO unit test for the property 'Password'
+        }
+
+        /// <summary>
+        /// Test the property 'Integer'
+        /// </summary>
+        [Fact]
+        public void IntegerTest()
+        {
+            // TODO unit test for the property 'Integer'
+        }
+
+        /// <summary>
+        /// Test the property 'Int32'
+        /// </summary>
+        [Fact]
+        public void Int32Test()
+        {
+            // TODO unit test for the property 'Int32'
+        }
+
+        /// <summary>
+        /// Test the property 'UnsignedInteger'
+        /// </summary>
+        [Fact]
+        public void UnsignedIntegerTest()
+        {
+            // TODO unit test for the property 'UnsignedInteger'
+        }
+
+        /// <summary>
+        /// Test the property 'Int64'
+        /// </summary>
+        [Fact]
+        public void Int64Test()
+        {
+            // TODO unit test for the property 'Int64'
+        }
+
+        /// <summary>
+        /// Test the property 'UnsignedLong'
+        /// </summary>
+        [Fact]
+        public void UnsignedLongTest()
+        {
+            // TODO unit test for the property 'UnsignedLong'
+        }
+
+        /// <summary>
+        /// Test the property 'Float'
+        /// </summary>
+        [Fact]
+        public void FloatTest()
+        {
+            // TODO unit test for the property 'Float'
+        }
+
+        /// <summary>
+        /// Test the property 'Double'
+        /// </summary>
+        [Fact]
+        public void DoubleTest()
+        {
+            // TODO unit test for the property 'Double'
+        }
+
+        /// <summary>
+        /// Test the property 'Decimal'
+        /// </summary>
+        [Fact]
+        public void DecimalTest()
+        {
+            // TODO unit test for the property 'Decimal'
+        }
+
+        /// <summary>
+        /// Test the property 'String'
+        /// </summary>
+        [Fact]
+        public void StringTest()
+        {
+            // TODO unit test for the property 'String'
         }
 
         /// <summary>
@@ -108,66 +189,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Decimal'
+        /// Test the property 'Uuid'
         /// </summary>
         [Fact]
-        public void DecimalTest()
+        public void UuidTest()
         {
-            // TODO unit test for the property 'Decimal'
-        }
-
-        /// <summary>
-        /// Test the property 'Double'
-        /// </summary>
-        [Fact]
-        public void DoubleTest()
-        {
-            // TODO unit test for the property 'Double'
-        }
-
-        /// <summary>
-        /// Test the property 'Float'
-        /// </summary>
-        [Fact]
-        public void FloatTest()
-        {
-            // TODO unit test for the property 'Float'
-        }
-
-        /// <summary>
-        /// Test the property 'Int32'
-        /// </summary>
-        [Fact]
-        public void Int32Test()
-        {
-            // TODO unit test for the property 'Int32'
-        }
-
-        /// <summary>
-        /// Test the property 'Int64'
-        /// </summary>
-        [Fact]
-        public void Int64Test()
-        {
-            // TODO unit test for the property 'Int64'
-        }
-
-        /// <summary>
-        /// Test the property 'Integer'
-        /// </summary>
-        [Fact]
-        public void IntegerTest()
-        {
-            // TODO unit test for the property 'Integer'
-        }
-
-        /// <summary>
-        /// Test the property 'PatternWithBackslash'
-        /// </summary>
-        [Fact]
-        public void PatternWithBackslashTest()
-        {
-            // TODO unit test for the property 'PatternWithBackslash'
+            // TODO unit test for the property 'Uuid'
         }
 
         /// <summary>
@@ -189,39 +216,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'String'
+        /// Test the property 'PatternWithBackslash'
         /// </summary>
         [Fact]
-        public void StringTest()
+        public void PatternWithBackslashTest()
         {
-            // TODO unit test for the property 'String'
-        }
-
-        /// <summary>
-        /// Test the property 'UnsignedInteger'
-        /// </summary>
-        [Fact]
-        public void UnsignedIntegerTest()
-        {
-            // TODO unit test for the property 'UnsignedInteger'
-        }
-
-        /// <summary>
-        /// Test the property 'UnsignedLong'
-        /// </summary>
-        [Fact]
-        public void UnsignedLongTest()
-        {
-            // TODO unit test for the property 'UnsignedLong'
-        }
-
-        /// <summary>
-        /// Test the property 'Uuid'
-        /// </summary>
-        [Fact]
-        public void UuidTest()
-        {
-            // TODO unit test for the property 'Uuid'
+            // TODO unit test for the property 'PatternWithBackslash'
         }
     }
 }

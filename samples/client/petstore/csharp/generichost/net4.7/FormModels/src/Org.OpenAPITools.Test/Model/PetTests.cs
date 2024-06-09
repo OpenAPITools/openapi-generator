@@ -72,15 +72,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Category'
-        /// </summary>
-        [Fact]
-        public void CategoryTest()
-        {
-            // TODO unit test for the property 'Category'
-        }
-
-        /// <summary>
         /// Test the property 'Id'
         /// </summary>
         [Fact]
@@ -90,12 +81,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Status'
+        /// Test the property 'Category'
         /// </summary>
         [Fact]
-        public void StatusTest()
+        public void CategoryTest()
         {
-            // TODO unit test for the property 'Status'
+            // TODO unit test for the property 'Category'
         }
 
         /// <summary>
@@ -105,6 +96,15 @@ namespace Org.OpenAPITools.Test.Model
         public void TagsTest()
         {
             // TODO unit test for the property 'Tags'
+        }
+
+        /// <summary>
+        /// Test the property 'Status'
+        /// </summary>
+        [Fact]
+        public void StatusTest()
+        {
+            // TODO unit test for the property 'Status'
         }
     }
 }

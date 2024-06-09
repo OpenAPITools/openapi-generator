@@ -54,21 +54,21 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'AObjVariableobject'
-        /// </summary>
-        [Fact]
-        public void AObjVariableobjectTest()
-        {
-            // TODO unit test for the property 'AObjVariableobject'
-        }
-
-        /// <summary>
         /// Test the property 'PkiNotificationtestID'
         /// </summary>
         [Fact]
         public void PkiNotificationtestIDTest()
         {
             // TODO unit test for the property 'PkiNotificationtestID'
+        }
+
+        /// <summary>
+        /// Test the property 'AObjVariableobject'
+        /// </summary>
+        [Fact]
+        public void AObjVariableobjectTest()
+        {
+            // TODO unit test for the property 'AObjVariableobject'
         }
     }
 }

@@ -54,15 +54,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'MyBoolean'
-        /// </summary>
-        [Fact]
-        public void MyBooleanTest()
-        {
-            // TODO unit test for the property 'MyBoolean'
-        }
-
-        /// <summary>
         /// Test the property 'MyNumber'
         /// </summary>
         [Fact]
@@ -78,6 +69,15 @@ namespace Org.OpenAPITools.Test.Model
         public void MyStringTest()
         {
             // TODO unit test for the property 'MyString'
+        }
+
+        /// <summary>
+        /// Test the property 'MyBoolean'
+        /// </summary>
+        [Fact]
+        public void MyBooleanTest()
+        {
+            // TODO unit test for the property 'MyBoolean'
         }
     }
 }

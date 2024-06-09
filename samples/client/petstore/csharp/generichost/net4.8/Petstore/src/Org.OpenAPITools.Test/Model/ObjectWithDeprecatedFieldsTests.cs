@@ -54,21 +54,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Bars'
+        /// Test the property 'Uuid'
         /// </summary>
         [Fact]
-        public void BarsTest()
+        public void UuidTest()
         {
-            // TODO unit test for the property 'Bars'
-        }
-
-        /// <summary>
-        /// Test the property 'DeprecatedRef'
-        /// </summary>
-        [Fact]
-        public void DeprecatedRefTest()
-        {
-            // TODO unit test for the property 'DeprecatedRef'
+            // TODO unit test for the property 'Uuid'
         }
 
         /// <summary>
@@ -81,12 +72,21 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Uuid'
+        /// Test the property 'DeprecatedRef'
         /// </summary>
         [Fact]
-        public void UuidTest()
+        public void DeprecatedRefTest()
         {
-            // TODO unit test for the property 'Uuid'
+            // TODO unit test for the property 'DeprecatedRef'
+        }
+
+        /// <summary>
+        /// Test the property 'Bars'
+        /// </summary>
+        [Fact]
+        public void BarsTest()
+        {
+            // TODO unit test for the property 'Bars'
         }
     }
 }
