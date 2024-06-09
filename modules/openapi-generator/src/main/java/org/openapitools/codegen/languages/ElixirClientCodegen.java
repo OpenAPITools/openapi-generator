@@ -833,7 +833,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 if (exResponse.baseType == null) {
                     returnEntry.append("nil");
                 } else if (exResponse.containerType == null) { // not container (array, map, set)
-                    returnEntry.append(normalizeTypeName(exResponse.baseType, exResponse.primitiveType));
+                    returnEntry.append(normalizeTypeName(exResponse.dataType, exResponse.primitiveType));
                 } else {
                     if (exResponse.containerType.equals("array") || exResponse.containerType.equals("set")) {
                         returnEntry.append("list(");
@@ -901,7 +901,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 buildTypespec(property.items, sb);
                 sb.append("}");
             } else {
-                sb.append(normalizeTypeName(property.baseType, property.isPrimitiveType));
+                sb.append(normalizeTypeName(property.dataType, property.isPrimitiveType));
             }
         }
 
