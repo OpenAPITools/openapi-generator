@@ -34,21 +34,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>
-        /// <param name="complete">complete (default to false)</param>
         /// <param name="id">id</param>
         /// <param name="petId">petId</param>
         /// <param name="quantity">quantity</param>
         /// <param name="shipDate">shipDate</param>
         /// <param name="status">Order Status</param>
+        /// <param name="complete">complete (default to false)</param>
         [JsonConstructor]
-        public Order(Option<bool?> complete = default, Option<long?> id = default, Option<long?> petId = default, Option<int?> quantity = default, Option<DateTime?> shipDate = default, Option<StatusEnum?> status = default)
+        public Order(Option<long?> id = default, Option<long?> petId = default, Option<int?> quantity = default, Option<DateTime?> shipDate = default, Option<StatusEnum?> status = default, Option<bool?> complete = default)
         {
-            CompleteOption = complete;
             IdOption = id;
             PetIdOption = petId;
             QuantityOption = quantity;
             ShipDateOption = shipDate;
             StatusOption = status;
+            CompleteOption = complete;
             OnCreated();
         }
 
@@ -150,19 +150,6 @@ namespace Org.OpenAPITools.Model
         public StatusEnum? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } }
 
         /// <summary>
-        /// Used to track the state of Complete
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<bool?> CompleteOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets Complete
-        /// </summary>
-        [JsonPropertyName("complete")]
-        public bool? Complete { get { return this.CompleteOption; } set { this.CompleteOption = new(value); } }
-
-        /// <summary>
         /// Used to track the state of Id
         /// </summary>
         [JsonIgnore]
@@ -216,6 +203,19 @@ namespace Org.OpenAPITools.Model
         public DateTime? ShipDate { get { return this.ShipDateOption; } set { this.ShipDateOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Complete
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<bool?> CompleteOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Complete
+        /// </summary>
+        [JsonPropertyName("complete")]
+        public bool? Complete { get { return this.CompleteOption; } set { this.CompleteOption = new(value); } }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -229,12 +229,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Order {\n");
-            sb.Append("  Complete: ").Append(Complete).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  PetId: ").Append(PetId).Append("\n");
             sb.Append("  Quantity: ").Append(Quantity).Append("\n");
             sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  Complete: ").Append(Complete).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -278,12 +278,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<bool?> complete = default;
             Option<long?> id = default;
             Option<long?> petId = default;
             Option<int?> quantity = default;
             Option<DateTime?> shipDate = default;
             Option<Order.StatusEnum?> status = default;
+            Option<bool?> complete = default;
 
             while (utf8JsonReader.Read())
             {
@@ -300,10 +300,6 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "complete":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                complete = new Option<bool?>(utf8JsonReader.GetBoolean());
-                            break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 id = new Option<long?>(utf8JsonReader.GetInt64());
@@ -325,14 +321,15 @@ namespace Org.OpenAPITools.Model
                             if (statusRawValue != null)
                                 status = new Option<Order.StatusEnum?>(Order.StatusEnumFromStringOrDefault(statusRawValue));
                             break;
+                        case "complete":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                complete = new Option<bool?>(utf8JsonReader.GetBoolean());
+                            break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (complete.IsSet && complete.Value == null)
-                throw new ArgumentNullException(nameof(complete), "Property is not nullable for class Order.");
 
             if (id.IsSet && id.Value == null)
                 throw new ArgumentNullException(nameof(id), "Property is not nullable for class Order.");
@@ -349,7 +346,10 @@ namespace Org.OpenAPITools.Model
             if (status.IsSet && status.Value == null)
                 throw new ArgumentNullException(nameof(status), "Property is not nullable for class Order.");
 
-            return new Order(complete, id, petId, quantity, shipDate, status);
+            if (complete.IsSet && complete.Value == null)
+                throw new ArgumentNullException(nameof(complete), "Property is not nullable for class Order.");
+
+            return new Order(id, petId, quantity, shipDate, status, complete);
         }
 
         /// <summary>
@@ -376,9 +376,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (order.CompleteOption.IsSet)
-                writer.WriteBoolean("complete", order.CompleteOption.Value!.Value);
-
             if (order.IdOption.IsSet)
                 writer.WriteNumber("id", order.IdOption.Value!.Value);
 
@@ -393,6 +390,8 @@ namespace Org.OpenAPITools.Model
 
             var statusRawValue = Order.StatusEnumToJsonValue(order.StatusOption.Value!.Value);
             writer.WriteString("status", statusRawValue);
+            if (order.CompleteOption.IsSet)
+                writer.WriteBoolean("complete", order.CompleteOption.Value!.Value);
         }
     }
 }

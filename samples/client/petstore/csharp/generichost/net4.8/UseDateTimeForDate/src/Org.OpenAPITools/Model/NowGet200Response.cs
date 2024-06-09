@@ -31,30 +31,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="NowGet200Response" /> class.
         /// </summary>
-        /// <param name="now">now</param>
         /// <param name="today">today</param>
+        /// <param name="now">now</param>
         [JsonConstructor]
-        public NowGet200Response(Option<DateTime?> now = default, Option<DateTime?> today = default)
+        public NowGet200Response(Option<DateTime?> today = default, Option<DateTime?> now = default)
         {
-            NowOption = now;
             TodayOption = today;
+            NowOption = now;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Used to track the state of Now
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<DateTime?> NowOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets Now
-        /// </summary>
-        [JsonPropertyName("now")]
-        public DateTime? Now { get { return this.NowOption; } set { this.NowOption = new Option<DateTime?>(value); } }
 
         /// <summary>
         /// Used to track the state of Today
@@ -70,6 +57,19 @@ namespace Org.OpenAPITools.Model
         public DateTime? Today { get { return this.TodayOption; } set { this.TodayOption = new Option<DateTime?>(value); } }
 
         /// <summary>
+        /// Used to track the state of Now
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<DateTime?> NowOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Now
+        /// </summary>
+        [JsonPropertyName("now")]
+        public DateTime? Now { get { return this.NowOption; } set { this.NowOption = new Option<DateTime?>(value); } }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -77,8 +77,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class NowGet200Response {\n");
-            sb.Append("  Now: ").Append(Now).Append("\n");
             sb.Append("  Today: ").Append(Today).Append("\n");
+            sb.Append("  Now: ").Append(Now).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -100,14 +100,14 @@ namespace Org.OpenAPITools.Model
     public class NowGet200ResponseJsonConverter : JsonConverter<NowGet200Response>
     {
         /// <summary>
-        /// The format to use to serialize Now
-        /// </summary>
-        public static string NowFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
-
-        /// <summary>
         /// The format to use to serialize Today
         /// </summary>
         public static string TodayFormat { get; set; } = "yyyy'-'MM'-'dd";
+
+        /// <summary>
+        /// The format to use to serialize Now
+        /// </summary>
+        public static string NowFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="NowGet200Response" />
@@ -126,8 +126,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<DateTime?> now = default;
             Option<DateTime?> today = default;
+            Option<DateTime?> now = default;
 
             while (utf8JsonReader.Read())
             {
@@ -144,13 +144,13 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "now":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                now = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
                         case "today":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 today = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
+                        case "now":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                now = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -158,13 +158,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (now.IsSet && now.Value == null)
-                throw new ArgumentNullException(nameof(now), "Property is not nullable for class NowGet200Response.");
-
             if (today.IsSet && today.Value == null)
                 throw new ArgumentNullException(nameof(today), "Property is not nullable for class NowGet200Response.");
 
-            return new NowGet200Response(now, today);
+            if (now.IsSet && now.Value == null)
+                throw new ArgumentNullException(nameof(now), "Property is not nullable for class NowGet200Response.");
+
+            return new NowGet200Response(today, now);
         }
 
         /// <summary>
@@ -191,11 +191,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NowGet200Response nowGet200Response, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (nowGet200Response.NowOption.IsSet)
-                writer.WriteString("now", nowGet200Response.NowOption.Value.Value.ToString(NowFormat));
-
             if (nowGet200Response.TodayOption.IsSet)
                 writer.WriteString("today", nowGet200Response.TodayOption.Value.Value.ToString(TodayFormat));
+
+            if (nowGet200Response.NowOption.IsSet)
+                writer.WriteString("now", nowGet200Response.NowOption.Value.Value.ToString(NowFormat));
         }
     }
 }

@@ -51,7 +51,7 @@ public class UnitTest1
         [TestMethod]
         public void Apple()
         {
-            string expected = """{"color_code":"#000000","cultivar":"cultivar","origin":"origin"}""";
+            string expected = """{"cultivar":"cultivar","origin":"origin","color_code":"#000000"}""";
             Apple? apple = JsonSerializer.Deserialize<Apple>(expected, _jsonSerializerOptions);
             string actual = JsonSerializer.Serialize(apple, _jsonSerializerOptions);
             Assert.AreEqual(expected, actual);
@@ -78,7 +78,7 @@ public class UnitTest1
         [TestMethod]
         public void GmFruit()
         {
-            string expected = """{"color_code":"#000000","cultivar":"cultivar","origin":"origin","lengthCm":10}""";
+            string expected = """{"cultivar":"cultivar","origin":"origin","color_code":"#000000","lengthCm":10}""";
             GmFruit? gmFruit = JsonSerializer.Deserialize<GmFruit>(expected, _jsonSerializerOptions);
             string actual = JsonSerializer.Serialize(gmFruit, _jsonSerializerOptions);
             Assert.AreEqual(expected, actual);
@@ -90,7 +90,7 @@ public class UnitTest1
 
             Apple? apple = JsonSerializer.Deserialize<Apple>(expected, _jsonSerializerOptions);
             string appleActual = JsonSerializer.Serialize(apple);
-            string appleExpected = """{"color_code":"#000000","cultivar":"cultivar","origin":"origin"}""";
+            string appleExpected = """{"cultivar":"cultivar","origin":"origin","color_code":"#000000"}""";
             Assert.AreEqual(appleExpected, appleActual);
         }
 
@@ -106,7 +106,7 @@ public class UnitTest1
         [TestMethod]
         public void Quadrilateral()
         {
-            string expected = """{"quadrilateralType":"SimpleQuadrilateral","shapeType":"some quadralateral"}""";
+            string expected = """{"shapeType":"some quadralateral","quadrilateralType":"SimpleQuadrilateral"}""";
             Quadrilateral? quadrilateral = JsonSerializer.Deserialize<Quadrilateral>(expected, _jsonSerializerOptions);
             string actual = JsonSerializer.Serialize(quadrilateral, _jsonSerializerOptions);
             Assert.AreEqual(expected, actual);
@@ -115,7 +115,7 @@ public class UnitTest1
         [TestMethod]
         public void SimpleQuadrilateral()
         {
-            string expected = """{"quadrilateralType":"SimpleQuadrilateral","shapeType":"some quadralateral"}""";
+            string expected = """{"shapeType":"some quadralateral","quadrilateralType":"SimpleQuadrilateral"}""";
             SimpleQuadrilateral? simpleQuadrilateral = JsonSerializer.Deserialize<SimpleQuadrilateral>(expected, _jsonSerializerOptions);
             string simpleQuadrilateralActual = JsonSerializer.Serialize(simpleQuadrilateral, _jsonSerializerOptions);
             Assert.AreEqual(expected, simpleQuadrilateralActual);
@@ -124,7 +124,7 @@ public class UnitTest1
         [TestMethod]
         public void ComplexQuadrilateral()
         {
-            string complexQuadrilateralExpected = """{"quadrilateralType":"ComplexQuadrilateral","shapeType":"some quadralateral"}""";
+            string complexQuadrilateralExpected = """{"shapeType":"some quadralateral","quadrilateralType":"ComplexQuadrilateral"}""";
             ComplexQuadrilateral? complexQuadrilateral = JsonSerializer.Deserialize<ComplexQuadrilateral>(complexQuadrilateralExpected, _jsonSerializerOptions);
             string complexQuadrilateralActual = JsonSerializer.Serialize(complexQuadrilateral, _jsonSerializerOptions);
             Assert.AreEqual(complexQuadrilateralExpected, complexQuadrilateralActual);
@@ -133,7 +133,7 @@ public class UnitTest1
         [TestMethod]
         public void ChildCat()
         {
-            string childCatExpected = """{"name":"foo","pet_type":"ChildCat"}""";
+            string childCatExpected = """{"pet_type":"ChildCat","name":"foo"}""";
             ChildCat? childCat = JsonSerializer.Deserialize<ChildCat>(childCatExpected, _jsonSerializerOptions);
             string childCatActual = JsonSerializer.Serialize(childCat, _jsonSerializerOptions);
             Assert.AreEqual(childCatExpected, childCatActual);
@@ -187,7 +187,7 @@ public class UnitTest1
         [TestMethod]
         public void Animal()
         {
-            string expected = """{"className":"Dog","breed":"maltese","color":"white"}""";
+            string expected = """{"className":"Dog","color":"white","breed":"maltese"}""";
             Animal? animal = JsonSerializer.Deserialize<Animal>(expected, _jsonSerializerOptions);
             Assert.IsInstanceOfType<Dog>(animal);
             string result = JsonSerializer.Serialize(animal, _jsonSerializerOptions);

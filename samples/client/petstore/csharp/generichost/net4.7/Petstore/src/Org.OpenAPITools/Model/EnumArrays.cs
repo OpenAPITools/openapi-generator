@@ -32,83 +32,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
-        /// <param name="arrayEnum">arrayEnum</param>
         /// <param name="justSymbol">justSymbol</param>
+        /// <param name="arrayEnum">arrayEnum</param>
         [JsonConstructor]
-        public EnumArrays(Option<List<EnumArrays.ArrayEnumEnum>> arrayEnum = default, Option<JustSymbolEnum?> justSymbol = default)
+        public EnumArrays(Option<JustSymbolEnum?> justSymbol = default, Option<List<EnumArrays.ArrayEnumEnum>> arrayEnum = default)
         {
-            ArrayEnumOption = arrayEnum;
             JustSymbolOption = justSymbol;
+            ArrayEnumOption = arrayEnum;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Defines ArrayEnum
-        /// </summary>
-        public enum ArrayEnumEnum
-        {
-            /// <summary>
-            /// Enum Fish for value: fish
-            /// </summary>
-            Fish = 1,
-
-            /// <summary>
-            /// Enum Crab for value: crab
-            /// </summary>
-            Crab = 2
-        }
-
-        /// <summary>
-        /// Returns a <see cref="ArrayEnumEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static ArrayEnumEnum ArrayEnumEnumFromString(string value)
-        {
-            if (value.Equals("fish"))
-                return ArrayEnumEnum.Fish;
-
-            if (value.Equals("crab"))
-                return ArrayEnumEnum.Crab;
-
-            throw new NotImplementedException($"Could not convert value to type ArrayEnumEnum: '{value}'");
-        }
-
-        /// <summary>
-        /// Returns a <see cref="ArrayEnumEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static ArrayEnumEnum? ArrayEnumEnumFromStringOrDefault(string value)
-        {
-            if (value.Equals("fish"))
-                return ArrayEnumEnum.Fish;
-
-            if (value.Equals("crab"))
-                return ArrayEnumEnum.Crab;
-
-            return null;
-        }
-
-        /// <summary>
-        /// Converts the <see cref="ArrayEnumEnum"/> to the json value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static string ArrayEnumEnumToJsonValue(ArrayEnumEnum value)
-        {
-            if (value == ArrayEnumEnum.Fish)
-                return "fish";
-
-            if (value == ArrayEnumEnum.Crab)
-                return "crab";
-
-            throw new NotImplementedException($"Value could not be handled: '{value}'");
-        }
 
         /// <summary>
         /// Defines JustSymbol
@@ -190,6 +124,72 @@ namespace Org.OpenAPITools.Model
         public JustSymbolEnum? JustSymbol { get { return this.JustSymbolOption; } set { this.JustSymbolOption = new Option<JustSymbolEnum?>(value); } }
 
         /// <summary>
+        /// Defines ArrayEnum
+        /// </summary>
+        public enum ArrayEnumEnum
+        {
+            /// <summary>
+            /// Enum Fish for value: fish
+            /// </summary>
+            Fish = 1,
+
+            /// <summary>
+            /// Enum Crab for value: crab
+            /// </summary>
+            Crab = 2
+        }
+
+        /// <summary>
+        /// Returns a <see cref="ArrayEnumEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static ArrayEnumEnum ArrayEnumEnumFromString(string value)
+        {
+            if (value.Equals("fish"))
+                return ArrayEnumEnum.Fish;
+
+            if (value.Equals("crab"))
+                return ArrayEnumEnum.Crab;
+
+            throw new NotImplementedException($"Could not convert value to type ArrayEnumEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns a <see cref="ArrayEnumEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static ArrayEnumEnum? ArrayEnumEnumFromStringOrDefault(string value)
+        {
+            if (value.Equals("fish"))
+                return ArrayEnumEnum.Fish;
+
+            if (value.Equals("crab"))
+                return ArrayEnumEnum.Crab;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="ArrayEnumEnum"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string ArrayEnumEnumToJsonValue(ArrayEnumEnum value)
+        {
+            if (value == ArrayEnumEnum.Fish)
+                return "fish";
+
+            if (value == ArrayEnumEnum.Crab)
+                return "crab";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+        }
+
+        /// <summary>
         /// Used to track the state of ArrayEnum
         /// </summary>
         [JsonIgnore]
@@ -216,8 +216,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class EnumArrays {\n");
-            sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
             sb.Append("  JustSymbol: ").Append(JustSymbol).Append("\n");
+            sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -256,8 +256,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<List<EnumArrays.ArrayEnumEnum>> arrayEnum = default;
             Option<EnumArrays.JustSymbolEnum?> justSymbol = default;
+            Option<List<EnumArrays.ArrayEnumEnum>> arrayEnum = default;
 
             while (utf8JsonReader.Read())
             {
@@ -274,14 +274,14 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "array_enum":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayEnum = new Option<List<EnumArrays.ArrayEnumEnum>>(JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
                         case "just_symbol":
                             string justSymbolRawValue = utf8JsonReader.GetString();
                             if (justSymbolRawValue != null)
                                 justSymbol = new Option<EnumArrays.JustSymbolEnum?>(EnumArrays.JustSymbolEnumFromStringOrDefault(justSymbolRawValue));
+                            break;
+                        case "array_enum":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                arrayEnum = new Option<List<EnumArrays.ArrayEnumEnum>>(JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -289,13 +289,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayEnum.IsSet && arrayEnum.Value == null)
-                throw new ArgumentNullException(nameof(arrayEnum), "Property is not nullable for class EnumArrays.");
-
             if (justSymbol.IsSet && justSymbol.Value == null)
                 throw new ArgumentNullException(nameof(justSymbol), "Property is not nullable for class EnumArrays.");
 
-            return new EnumArrays(arrayEnum, justSymbol);
+            if (arrayEnum.IsSet && arrayEnum.Value == null)
+                throw new ArgumentNullException(nameof(arrayEnum), "Property is not nullable for class EnumArrays.");
+
+            return new EnumArrays(justSymbol, arrayEnum);
         }
 
         /// <summary>
@@ -325,13 +325,13 @@ namespace Org.OpenAPITools.Model
             if (enumArrays.ArrayEnumOption.IsSet && enumArrays.ArrayEnum == null)
                 throw new ArgumentNullException(nameof(enumArrays.ArrayEnum), "Property is required for class EnumArrays.");
 
+            var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value.Value);
+            writer.WriteString("just_symbol", justSymbolRawValue);
             if (enumArrays.ArrayEnumOption.IsSet)
             {
                 writer.WritePropertyName("array_enum");
                 JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
             }
-            var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value.Value);
-            writer.WriteString("just_symbol", justSymbolRawValue);
         }
     }
 }

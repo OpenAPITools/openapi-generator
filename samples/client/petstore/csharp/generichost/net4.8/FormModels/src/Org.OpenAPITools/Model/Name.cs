@@ -33,15 +33,15 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
         /// <param name="varName">varName</param>
-        /// <param name="property">property</param>
         /// <param name="snakeCase">snakeCase</param>
+        /// <param name="property">property</param>
         /// <param name="var123Number">var123Number</param>
         [JsonConstructor]
-        public Name(int varName, Option<string> property = default, Option<int?> snakeCase = default, Option<int?> var123Number = default)
+        public Name(int varName, Option<int?> snakeCase = default, Option<string> property = default, Option<int?> var123Number = default)
         {
             VarName = varName;
-            PropertyOption = property;
             SnakeCaseOption = snakeCase;
+            PropertyOption = property;
             Var123NumberOption = var123Number;
             OnCreated();
         }
@@ -55,19 +55,6 @@ namespace Org.OpenAPITools.Model
         public int VarName { get; set; }
 
         /// <summary>
-        /// Used to track the state of Property
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string> PropertyOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets Property
-        /// </summary>
-        [JsonPropertyName("property")]
-        public string Property { get { return this.PropertyOption; } set { this.PropertyOption = new Option<string>(value); } }
-
-        /// <summary>
         /// Used to track the state of SnakeCase
         /// </summary>
         [JsonIgnore]
@@ -79,6 +66,19 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("snake_case")]
         public int? SnakeCase { get { return this.SnakeCaseOption; } }
+
+        /// <summary>
+        /// Used to track the state of Property
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> PropertyOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Property
+        /// </summary>
+        [JsonPropertyName("property")]
+        public string Property { get { return this.PropertyOption; } set { this.PropertyOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of Var123Number
@@ -108,8 +108,8 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Name {\n");
             sb.Append("  VarName: ").Append(VarName).Append("\n");
-            sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
+            sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("  Var123Number: ").Append(Var123Number).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -191,8 +191,8 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<int?> varName = default;
-            Option<string> property = default;
             Option<int?> snakeCase = default;
+            Option<string> property = default;
             Option<int?> var123Number = default;
 
             while (utf8JsonReader.Read())
@@ -214,12 +214,12 @@ namespace Org.OpenAPITools.Model
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 varName = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
-                        case "property":
-                            property = new Option<string>(utf8JsonReader.GetString());
-                            break;
                         case "snake_case":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 snakeCase = new Option<int?>(utf8JsonReader.GetInt32());
+                            break;
+                        case "property":
+                            property = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "123Number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -237,16 +237,16 @@ namespace Org.OpenAPITools.Model
             if (varName.IsSet && varName.Value == null)
                 throw new ArgumentNullException(nameof(varName), "Property is not nullable for class Name.");
 
-            if (property.IsSet && property.Value == null)
-                throw new ArgumentNullException(nameof(property), "Property is not nullable for class Name.");
-
             if (snakeCase.IsSet && snakeCase.Value == null)
                 throw new ArgumentNullException(nameof(snakeCase), "Property is not nullable for class Name.");
+
+            if (property.IsSet && property.Value == null)
+                throw new ArgumentNullException(nameof(property), "Property is not nullable for class Name.");
 
             if (var123Number.IsSet && var123Number.Value == null)
                 throw new ArgumentNullException(nameof(var123Number), "Property is not nullable for class Name.");
 
-            return new Name(varName.Value.Value, property, snakeCase, var123Number);
+            return new Name(varName.Value.Value, snakeCase, property, var123Number);
         }
 
         /// <summary>
@@ -278,11 +278,11 @@ namespace Org.OpenAPITools.Model
 
             writer.WriteNumber("name", name.VarName);
 
-            if (name.PropertyOption.IsSet)
-                writer.WriteString("property", name.Property);
-
             if (name.SnakeCaseOption.IsSet)
                 writer.WriteNumber("snake_case", name.SnakeCaseOption.Value.Value);
+
+            if (name.PropertyOption.IsSet)
+                writer.WriteString("property", name.Property);
 
             if (name.Var123NumberOption.IsSet)
                 writer.WriteNumber("123Number", name.Var123NumberOption.Value.Value);

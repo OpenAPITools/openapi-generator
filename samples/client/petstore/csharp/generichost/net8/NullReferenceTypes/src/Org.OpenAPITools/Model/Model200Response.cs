@@ -34,30 +34,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
-        /// <param name="class">class</param>
         /// <param name="name">name</param>
+        /// <param name="class">class</param>
         [JsonConstructor]
-        public Model200Response(Option<string?> @class = default, Option<int?> name = default)
+        public Model200Response(Option<int?> name = default, Option<string?> @class = default)
         {
-            ClassOption = @class;
             NameOption = name;
+            ClassOption = @class;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Used to track the state of Class
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> ClassOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets Class
-        /// </summary>
-        [JsonPropertyName("class")]
-        public string? Class { get { return this.ClassOption; } set { this.ClassOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -73,6 +60,19 @@ namespace Org.OpenAPITools.Model
         public int? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Class
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> ClassOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Class
+        /// </summary>
+        [JsonPropertyName("class")]
+        public string? Class { get { return this.ClassOption; } set { this.ClassOption = new(value); } }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -86,8 +86,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
-            sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -126,8 +126,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> varClass = default;
             Option<int?> name = default;
+            Option<string?> varClass = default;
 
             while (utf8JsonReader.Read())
             {
@@ -144,12 +144,12 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "class":
-                            varClass = new Option<string?>(utf8JsonReader.GetString()!);
-                            break;
                         case "name":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 name = new Option<int?>(utf8JsonReader.GetInt32());
+                            break;
+                        case "class":
+                            varClass = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -157,13 +157,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (varClass.IsSet && varClass.Value == null)
-                throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class Model200Response.");
-
             if (name.IsSet && name.Value == null)
                 throw new ArgumentNullException(nameof(name), "Property is not nullable for class Model200Response.");
 
-            return new Model200Response(varClass, name);
+            if (varClass.IsSet && varClass.Value == null)
+                throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class Model200Response.");
+
+            return new Model200Response(name, varClass);
         }
 
         /// <summary>
@@ -193,11 +193,11 @@ namespace Org.OpenAPITools.Model
             if (model200Response.ClassOption.IsSet && model200Response.Class == null)
                 throw new ArgumentNullException(nameof(model200Response.Class), "Property is required for class Model200Response.");
 
-            if (model200Response.ClassOption.IsSet)
-                writer.WriteString("class", model200Response.Class);
-
             if (model200Response.NameOption.IsSet)
                 writer.WriteNumber("name", model200Response.NameOption.Value!.Value);
+
+            if (model200Response.ClassOption.IsSet)
+                writer.WriteString("class", model200Response.Class);
         }
     }
 }
