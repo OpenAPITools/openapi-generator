@@ -836,9 +836,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
                     returnEntry.append(normalizeTypeName(exResponse.dataType, exResponse.primitiveType));
                 } else {
                     if (exResponse.containerType.equals("array") || exResponse.containerType.equals("set")) {
-                        returnEntry.append("list(");
-                        returnEntry.append(normalizeTypeName(exResponse.baseType, exResponse.primitiveType));
-                        returnEntry.append(")");
+                        returnEntry.append(normalizeTypeName(exResponse.dataType, true));
                     } else if (exResponse.containerType.equals("map")) {
                         returnEntry.append("map()");
                     }
