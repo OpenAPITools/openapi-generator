@@ -15,8 +15,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
+using System.Threading;
+using System.Threading.Tasks;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
+using ConfigurationClient = Org.OpenAPITools.Client.Configuration;
 
 namespace Org.OpenAPITools.Api
 {
@@ -33,7 +36,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test header parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="integerHeader"> (optional)</param>
         /// <param name="booleanHeader"> (optional)</param>
         /// <param name="stringHeader"> (optional)</param>
@@ -49,7 +52,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test header parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="integerHeader"> (optional)</param>
         /// <param name="booleanHeader"> (optional)</param>
         /// <param name="stringHeader"> (optional)</param>
@@ -73,7 +76,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test header parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="integerHeader"> (optional)</param>
         /// <param name="booleanHeader"> (optional)</param>
         /// <param name="stringHeader"> (optional)</param>
@@ -82,7 +85,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestHeaderIntegerBooleanStringEnumsAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<string> TestHeaderIntegerBooleanStringEnumsAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Test header parameter(s)
@@ -90,7 +93,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test header parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="integerHeader"> (optional)</param>
         /// <param name="booleanHeader"> (optional)</param>
         /// <param name="stringHeader"> (optional)</param>
@@ -99,7 +102,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ApiResponse<string>> TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -116,7 +119,7 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public partial class HeaderApi : IHeaderApi
     {
-        private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+        private ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HeaderApi"/> class.
@@ -130,15 +133,8 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="HeaderApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public HeaderApi(string basePath)
+        public HeaderApi(string basePath) : this(new ConfigurationClient { BasePath = basePath })
         {
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
-                new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
-            );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
@@ -147,17 +143,17 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public HeaderApi(Org.OpenAPITools.Client.Configuration configuration)
+        public HeaderApi(ConfigurationClient configuration)
         {
-            if (configuration == null) throw new ArgumentNullException("configuration");
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
+            Configuration = ConfigurationClient.MergeConfigurations(
+                GlobalConfiguration.Instance,
                 configuration
             );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+            Client = new ApiClient(Configuration.BasePath);
+            AsynchronousClient = new ApiClient(Configuration.BasePath);
+            ExceptionFactory = ConfigurationClient.DefaultExceptionFactory;
         }
 
         /// <summary>
@@ -167,27 +163,27 @@ namespace Org.OpenAPITools.Api
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        public HeaderApi(Org.OpenAPITools.Client.ISynchronousClient client, Org.OpenAPITools.Client.IAsynchronousClient asyncClient, Org.OpenAPITools.Client.IReadableConfiguration configuration)
+        public HeaderApi(ISynchronousClient client, IAsynchronousClient asyncClient, IReadableConfiguration configuration)
         {
-            if (client == null) throw new ArgumentNullException("client");
-            if (asyncClient == null) throw new ArgumentNullException("asyncClient");
-            if (configuration == null) throw new ArgumentNullException("configuration");
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (asyncClient == null) throw new ArgumentNullException(nameof(asyncClient));
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-            this.Client = client;
-            this.AsynchronousClient = asyncClient;
-            this.Configuration = configuration;
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+            Client = client;
+            AsynchronousClient = asyncClient;
+            Configuration = configuration;
+            ExceptionFactory = ConfigurationClient.DefaultExceptionFactory;
         }
 
         /// <summary>
         /// The client for accessing this underlying API asynchronously.
         /// </summary>
-        public Org.OpenAPITools.Client.IAsynchronousClient AsynchronousClient { get; set; }
+        public IAsynchronousClient AsynchronousClient { get; set; }
 
         /// <summary>
         /// The client for accessing this underlying API synchronously.
         /// </summary>
-        public Org.OpenAPITools.Client.ISynchronousClient Client { get; set; }
+        public ISynchronousClient Client { get; set; }
 
         /// <summary>
         /// Gets the base path of the API client.
@@ -195,19 +191,19 @@ namespace Org.OpenAPITools.Api
         /// <value>The base path</value>
         public string GetBasePath()
         {
-            return this.Configuration.BasePath;
+            return Configuration.BasePath;
         }
 
         /// <summary>
         /// Gets or sets the configuration object
         /// </summary>
         /// <value>An instance of the Configuration</value>
-        public Org.OpenAPITools.Client.IReadableConfiguration Configuration { get; set; }
+        public IReadableConfiguration Configuration { get; set; }
 
         /// <summary>
         /// Provides a factory method hook for the creation of exceptions.
         /// </summary>
-        public Org.OpenAPITools.Client.ExceptionFactory ExceptionFactory
+        public ExceptionFactory ExceptionFactory
         {
             get
             {
@@ -221,9 +217,103 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Provides a common RequestOptions object for all operations.
+        /// </summary>
+		private RequestOptions GetRequestOptions(string[] _contentTypes, string[] _accepts, string operationId, int operationIndex)
+		{
+            RequestOptions localVarRequestOptions = new RequestOptions();
+            var localVarContentType = ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            localVarRequestOptions.Operation = operationId;
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+            return localVarRequestOptions;
+		}
+
+        /// <summary>
+        /// Sets RequestOptions Authorization headers with bearer or oauth.
+        /// </summary>
+        private RequestOptions SetAuthorization(RequestOptions localVarRequestOptions)
+        {
+			// oauth required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
+                {
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+                }
+            }
+            return localVarRequestOptions;
+		}
+
+        /// <summary>
+        /// Validates if operation has an exception and rethrows it.
+        /// </summary>
+        private void ValidateException(string operationName, IApiResponse localVarResponse)
+        {
+            if (ExceptionFactory != null)
+            {
+                Exception _exception = ExceptionFactory(operationName, localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+		}
+
+        /// <summary>
+        /// Provides a specific RequestOptions object for TestHeaderIntegerBooleanStringEnums.
+        /// </summary>
+		private RequestOptions GetRequestOptionsTestHeaderIntegerBooleanStringEnums(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0)
+		{
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "text/plain"
+            };
+
+            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"HeaderApi.TestHeaderIntegerBooleanStringEnums" ,operationIndex);
+
+            if (integerHeader != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("integer_header", ClientUtils.ParameterToString(integerHeader)); // header parameter
+            }
+            if (booleanHeader != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("boolean_header", ClientUtils.ParameterToString(booleanHeader)); // header parameter
+            }
+            if (stringHeader != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("string_header", ClientUtils.ParameterToString(stringHeader)); // header parameter
+            }
+            if (enumNonrefStringHeader != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("enum_nonref_string_header", ClientUtils.ParameterToString(enumNonrefStringHeader)); // header parameter
+            }
+            if (enumRefStringHeader != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("enum_ref_string_header", ClientUtils.ParameterToString(enumRefStringHeader)); // header parameter
+            }
+
+			return localVarRequestOptions;
+		}
+
+        /// <summary>
         /// Test header parameter(s) Test header parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="integerHeader"> (optional)</param>
         /// <param name="booleanHeader"> (optional)</param>
         /// <param name="stringHeader"> (optional)</param>
@@ -233,14 +323,14 @@ namespace Org.OpenAPITools.Api
         /// <returns>string</returns>
         public string TestHeaderIntegerBooleanStringEnums(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
+            ApiResponse<string> localVarResponse = TestHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test header parameter(s) Test header parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="integerHeader"> (optional)</param>
         /// <param name="booleanHeader"> (optional)</param>
         /// <param name="stringHeader"> (optional)</param>
@@ -248,73 +338,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumRefStringHeader"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestHeaderIntegerBooleanStringEnumsWithHttpInfo(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0)
+        public ApiResponse<string> TestHeaderIntegerBooleanStringEnumsWithHttpInfo(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "text/plain"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            if (integerHeader != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("integer_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integerHeader)); // header parameter
-            }
-            if (booleanHeader != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("boolean_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanHeader)); // header parameter
-            }
-            if (stringHeader != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(stringHeader)); // header parameter
-            }
-            if (enumNonrefStringHeader != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("enum_nonref_string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumNonrefStringHeader)); // header parameter
-            }
-            if (enumRefStringHeader != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("enum_ref_string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumRefStringHeader)); // header parameter
-            }
-
-            localVarRequestOptions.Operation = "HeaderApi.TestHeaderIntegerBooleanStringEnums";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, operationIndex);
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<string>("/header/integer/boolean/string/enums", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestHeaderIntegerBooleanStringEnums", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = Client.Get<string>("/header/integer/boolean/string/enums", localVarRequestOptions, Configuration);
+            ValidateException("TestHeaderIntegerBooleanStringEnums", localVarResponse);
             return localVarResponse;
         }
 
         /// <summary>
         /// Test header parameter(s) Test header parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="integerHeader"> (optional)</param>
         /// <param name="booleanHeader"> (optional)</param>
         /// <param name="stringHeader"> (optional)</param>
@@ -323,16 +360,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestHeaderIntegerBooleanStringEnumsAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<string> TestHeaderIntegerBooleanStringEnumsAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, operationIndex, cancellationToken).ConfigureAwait(false);
+            ApiResponse<string> localVarResponse = await TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test header parameter(s) Test header parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="integerHeader"> (optional)</param>
         /// <param name="booleanHeader"> (optional)</param>
         /// <param name="stringHeader"> (optional)</param>
@@ -341,70 +378,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<ApiResponse<string>> TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "text/plain"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            if (integerHeader != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("integer_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integerHeader)); // header parameter
-            }
-            if (booleanHeader != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("boolean_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanHeader)); // header parameter
-            }
-            if (stringHeader != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(stringHeader)); // header parameter
-            }
-            if (enumNonrefStringHeader != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("enum_nonref_string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumNonrefStringHeader)); // header parameter
-            }
-            if (enumRefStringHeader != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("enum_ref_string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumRefStringHeader)); // header parameter
-            }
-
-            localVarRequestOptions.Operation = "HeaderApi.TestHeaderIntegerBooleanStringEnums";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, operationIndex);
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<string>("/header/integer/boolean/string/enums", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestHeaderIntegerBooleanStringEnums", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = await AsynchronousClient.GetAsync<string>("/header/integer/boolean/string/enums", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+            ValidateException("TestHeaderIntegerBooleanStringEnums", localVarResponse);
             return localVarResponse;
         }
-
     }
 }

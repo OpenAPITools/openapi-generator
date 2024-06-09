@@ -74,43 +74,43 @@ namespace Org.OpenAPITools.Model
         /// <param name="selectedVersionIndex">selectedVersionIndex.</param>
         public MixLog(Guid id = default(Guid), string description = default(string), DateTime mixDate = default(DateTime), Guid shopId = default(Guid), float? totalPrice = default(float?), int totalRecalculations = default(int), int totalOverPoors = default(int), int totalSkips = default(int), int totalUnderPours = default(int), DateTime formulaVersionDate = default(DateTime), string someCode = default(string), string batchNumber = default(string), string brandCode = default(string), string brandId = default(string), string brandName = default(string), string categoryCode = default(string), string color = default(string), string colorDescription = default(string), string comment = default(string), string commercialProductCode = default(string), string productLineCode = default(string), string country = default(string), string createdBy = default(string), string createdByFirstName = default(string), string createdByLastName = default(string), string deltaECalculationRepaired = default(string), string deltaECalculationSprayout = default(string), int? ownColorVariantNumber = default(int?), string primerProductId = default(string), string productId = default(string), string productName = default(string), int selectedVersionIndex = default(int))
         {
-            this.Id = id;
+            Id = id;
             // to ensure "description" is required (not null)
             if (description == null)
             {
                 throw new ArgumentNullException("description is a required property for MixLog and cannot be null");
             }
-            this.Description = description;
-            this.MixDate = mixDate;
-            this.TotalRecalculations = totalRecalculations;
-            this.TotalOverPoors = totalOverPoors;
-            this.TotalSkips = totalSkips;
-            this.TotalUnderPours = totalUnderPours;
-            this.FormulaVersionDate = formulaVersionDate;
-            this.ShopId = shopId;
-            this.TotalPrice = totalPrice;
-            this.SomeCode = someCode;
-            this.BatchNumber = batchNumber;
-            this.BrandCode = brandCode;
-            this.BrandId = brandId;
-            this.BrandName = brandName;
-            this.CategoryCode = categoryCode;
-            this.Color = color;
-            this.ColorDescription = colorDescription;
-            this.Comment = comment;
-            this.CommercialProductCode = commercialProductCode;
-            this.ProductLineCode = productLineCode;
-            this.Country = country;
-            this.CreatedBy = createdBy;
-            this.CreatedByFirstName = createdByFirstName;
-            this.CreatedByLastName = createdByLastName;
-            this.DeltaECalculationRepaired = deltaECalculationRepaired;
-            this.DeltaECalculationSprayout = deltaECalculationSprayout;
-            this.OwnColorVariantNumber = ownColorVariantNumber;
-            this.PrimerProductId = primerProductId;
-            this.ProductId = productId;
-            this.ProductName = productName;
-            this.SelectedVersionIndex = selectedVersionIndex;
+            Description = description;
+            MixDate = mixDate;
+            TotalRecalculations = totalRecalculations;
+            TotalOverPoors = totalOverPoors;
+            TotalSkips = totalSkips;
+            TotalUnderPours = totalUnderPours;
+            FormulaVersionDate = formulaVersionDate;
+            ShopId = shopId;
+            TotalPrice = totalPrice;
+            SomeCode = someCode;
+            BatchNumber = batchNumber;
+            BrandCode = brandCode;
+            BrandId = brandId;
+            BrandName = brandName;
+            CategoryCode = categoryCode;
+            Color = color;
+            ColorDescription = colorDescription;
+            Comment = comment;
+            CommercialProductCode = commercialProductCode;
+            ProductLineCode = productLineCode;
+            Country = country;
+            CreatedBy = createdBy;
+            CreatedByFirstName = createdByFirstName;
+            CreatedByLastName = createdByLastName;
+            DeltaECalculationRepaired = deltaECalculationRepaired;
+            DeltaECalculationSprayout = deltaECalculationSprayout;
+            OwnColorVariantNumber = ownColorVariantNumber;
+            PrimerProductId = primerProductId;
+            ProductId = productId;
+            ProductName = productName;
+            SelectedVersionIndex = selectedVersionIndex;
         }
 
         /// <summary>
@@ -364,7 +364,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -396,119 +396,47 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Id != null)
+				hashCode = (hashCode * 59) + Id.GetHashCode();
+				hashCode = (hashCode * 59) + Description.GetHashCode();
+				hashCode = (hashCode * 59) + MixDate.GetHashCode();
+				hashCode = (hashCode * 59) + ShopId.GetHashCode();
+                if (TotalPrice != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + TotalPrice.GetHashCode();
                 }
-                if (this.Description != null)
+                hashCode = (hashCode * 59) + TotalRecalculations.GetHashCode();
+                hashCode = (hashCode * 59) + TotalOverPoors.GetHashCode();
+                hashCode = (hashCode * 59) + TotalSkips.GetHashCode();
+                hashCode = (hashCode * 59) + TotalUnderPours.GetHashCode();
+				hashCode = (hashCode * 59) + FormulaVersionDate.GetHashCode();
+                if (SomeCode != null)
                 {
-                    hashCode = (hashCode * 59) + this.Description.GetHashCode();
+                    hashCode = (hashCode * 59) + SomeCode.GetHashCode();
                 }
-                if (this.MixDate != null)
+				hashCode = (hashCode * 59) + BatchNumber.GetHashCode();
+				hashCode = (hashCode * 59) + BrandCode.GetHashCode();
+				hashCode = (hashCode * 59) + BrandId.GetHashCode();
+				hashCode = (hashCode * 59) + BrandName.GetHashCode();
+				hashCode = (hashCode * 59) + CategoryCode.GetHashCode();
+				hashCode = (hashCode * 59) + Color.GetHashCode();
+				hashCode = (hashCode * 59) + ColorDescription.GetHashCode();
+				hashCode = (hashCode * 59) + Comment.GetHashCode();
+				hashCode = (hashCode * 59) + CommercialProductCode.GetHashCode();
+				hashCode = (hashCode * 59) + ProductLineCode.GetHashCode();
+				hashCode = (hashCode * 59) + Country.GetHashCode();
+				hashCode = (hashCode * 59) + CreatedBy.GetHashCode();
+				hashCode = (hashCode * 59) + CreatedByFirstName.GetHashCode();
+				hashCode = (hashCode * 59) + CreatedByLastName.GetHashCode();
+				hashCode = (hashCode * 59) + DeltaECalculationRepaired.GetHashCode();
+				hashCode = (hashCode * 59) + DeltaECalculationSprayout.GetHashCode();
+                if (OwnColorVariantNumber != null)
                 {
-                    hashCode = (hashCode * 59) + this.MixDate.GetHashCode();
+                    hashCode = (hashCode * 59) + OwnColorVariantNumber.GetHashCode();
                 }
-                if (this.ShopId != null)
-                {
-                    hashCode = (hashCode * 59) + this.ShopId.GetHashCode();
-                }
-                if (this.TotalPrice != null)
-                {
-                    hashCode = (hashCode * 59) + this.TotalPrice.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.TotalRecalculations.GetHashCode();
-                hashCode = (hashCode * 59) + this.TotalOverPoors.GetHashCode();
-                hashCode = (hashCode * 59) + this.TotalSkips.GetHashCode();
-                hashCode = (hashCode * 59) + this.TotalUnderPours.GetHashCode();
-                if (this.FormulaVersionDate != null)
-                {
-                    hashCode = (hashCode * 59) + this.FormulaVersionDate.GetHashCode();
-                }
-                if (this.SomeCode != null)
-                {
-                    hashCode = (hashCode * 59) + this.SomeCode.GetHashCode();
-                }
-                if (this.BatchNumber != null)
-                {
-                    hashCode = (hashCode * 59) + this.BatchNumber.GetHashCode();
-                }
-                if (this.BrandCode != null)
-                {
-                    hashCode = (hashCode * 59) + this.BrandCode.GetHashCode();
-                }
-                if (this.BrandId != null)
-                {
-                    hashCode = (hashCode * 59) + this.BrandId.GetHashCode();
-                }
-                if (this.BrandName != null)
-                {
-                    hashCode = (hashCode * 59) + this.BrandName.GetHashCode();
-                }
-                if (this.CategoryCode != null)
-                {
-                    hashCode = (hashCode * 59) + this.CategoryCode.GetHashCode();
-                }
-                if (this.Color != null)
-                {
-                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
-                }
-                if (this.ColorDescription != null)
-                {
-                    hashCode = (hashCode * 59) + this.ColorDescription.GetHashCode();
-                }
-                if (this.Comment != null)
-                {
-                    hashCode = (hashCode * 59) + this.Comment.GetHashCode();
-                }
-                if (this.CommercialProductCode != null)
-                {
-                    hashCode = (hashCode * 59) + this.CommercialProductCode.GetHashCode();
-                }
-                if (this.ProductLineCode != null)
-                {
-                    hashCode = (hashCode * 59) + this.ProductLineCode.GetHashCode();
-                }
-                if (this.Country != null)
-                {
-                    hashCode = (hashCode * 59) + this.Country.GetHashCode();
-                }
-                if (this.CreatedBy != null)
-                {
-                    hashCode = (hashCode * 59) + this.CreatedBy.GetHashCode();
-                }
-                if (this.CreatedByFirstName != null)
-                {
-                    hashCode = (hashCode * 59) + this.CreatedByFirstName.GetHashCode();
-                }
-                if (this.CreatedByLastName != null)
-                {
-                    hashCode = (hashCode * 59) + this.CreatedByLastName.GetHashCode();
-                }
-                if (this.DeltaECalculationRepaired != null)
-                {
-                    hashCode = (hashCode * 59) + this.DeltaECalculationRepaired.GetHashCode();
-                }
-                if (this.DeltaECalculationSprayout != null)
-                {
-                    hashCode = (hashCode * 59) + this.DeltaECalculationSprayout.GetHashCode();
-                }
-                if (this.OwnColorVariantNumber != null)
-                {
-                    hashCode = (hashCode * 59) + this.OwnColorVariantNumber.GetHashCode();
-                }
-                if (this.PrimerProductId != null)
-                {
-                    hashCode = (hashCode * 59) + this.PrimerProductId.GetHashCode();
-                }
-                if (this.ProductId != null)
-                {
-                    hashCode = (hashCode * 59) + this.ProductId.GetHashCode();
-                }
-                if (this.ProductName != null)
-                {
-                    hashCode = (hashCode * 59) + this.ProductName.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.SelectedVersionIndex.GetHashCode();
+				hashCode = (hashCode * 59) + PrimerProductId.GetHashCode();
+				hashCode = (hashCode * 59) + ProductId.GetHashCode();
+				hashCode = (hashCode * 59) + ProductName.GetHashCode();
+                hashCode = (hashCode * 59) + SelectedVersionIndex.GetHashCode();
                 return hashCode;
             }
         }
@@ -518,7 +446,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

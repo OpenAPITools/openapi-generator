@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="value">value.</param>
         public TestCollectionEndingWithWordList(string value = default(string))
         {
-            this.Value = value;
+            Value = value;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TestCollectionEndingWithWordList);
+            return Equals(input as TestCollectionEndingWithWordList);
         }
 
         /// <summary>
@@ -90,9 +90,8 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Value == input.Value ||
-                    (this.Value != null &&
-                    this.Value.Equals(input.Value))
+                    Value == input.Value ||
+					Value.Equals(input.Value)
                 );
         }
 
@@ -105,10 +104,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Value != null)
-                {
-                    hashCode = (hashCode * 59) + this.Value.GetHashCode();
-                }
+				hashCode = (hashCode * 59) + Value.GetHashCode();
                 return hashCode;
             }
         }

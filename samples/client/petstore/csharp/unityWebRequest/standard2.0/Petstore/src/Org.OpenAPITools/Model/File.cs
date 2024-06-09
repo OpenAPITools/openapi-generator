@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="sourceURI">Test capitalization.</param>
         public File(string sourceURI = default(string))
         {
-            this.SourceURI = sourceURI;
+            SourceURI = sourceURI;
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as File);
+            return Equals(input as File);
         }
 
         /// <summary>
@@ -91,9 +91,8 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.SourceURI == input.SourceURI ||
-                    (this.SourceURI != null &&
-                    this.SourceURI.Equals(input.SourceURI))
+                    SourceURI == input.SourceURI ||
+					SourceURI.Equals(input.SourceURI)
                 );
         }
 
@@ -106,10 +105,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.SourceURI != null)
-                {
-                    hashCode = (hashCode * 59) + this.SourceURI.GetHashCode();
-                }
+				hashCode = (hashCode * 59) + SourceURI.GetHashCode();
                 return hashCode;
             }
         }

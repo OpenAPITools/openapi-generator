@@ -59,35 +59,35 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithBackslash">None.</param>
         public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
-            this.Number = number;
+            Number = number;
             // to ensure "varByte" is required (not null)
             if (varByte == null)
             {
                 throw new ArgumentNullException("varByte is a required property for FormatTest and cannot be null");
             }
-            this.Byte = varByte;
-            this.Date = date;
+            Byte = varByte;
+            Date = date;
             // to ensure "password" is required (not null)
             if (password == null)
             {
                 throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
             }
-            this.Password = password;
-            this.Integer = integer;
-            this.Int32 = int32;
-            this.UnsignedInteger = unsignedInteger;
-            this.Int64 = int64;
-            this.UnsignedLong = unsignedLong;
-            this.Float = varFloat;
-            this.Double = varDouble;
-            this.Decimal = varDecimal;
-            this.String = varString;
-            this.Binary = binary;
-            this.DateTime = dateTime;
-            this.Uuid = uuid;
-            this.PatternWithDigits = patternWithDigits;
-            this.PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
-            this.PatternWithBackslash = patternWithBackslash;
+            Password = password;
+            Integer = integer;
+            Int32 = int32;
+            UnsignedInteger = unsignedInteger;
+            Int64 = int64;
+            UnsignedLong = unsignedLong;
+            Float = varFloat;
+            Double = varDouble;
+            Decimal = varDecimal;
+            String = varString;
+            Binary = binary;
+            DateTime = dateTime;
+            Uuid = uuid;
+            PatternWithDigits = patternWithDigits;
+            PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+            PatternWithBackslash = patternWithBackslash;
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as FormatTest);
+            return Equals(input as FormatTest);
         }
 
         /// <summary>
@@ -274,90 +274,80 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Integer == input.Integer ||
-                    this.Integer.Equals(input.Integer)
+                    Integer == input.Integer ||
+                    Integer.Equals(input.Integer)
                 ) && 
                 (
-                    this.Int32 == input.Int32 ||
-                    this.Int32.Equals(input.Int32)
+                    Int32 == input.Int32 ||
+                    Int32.Equals(input.Int32)
                 ) && 
                 (
-                    this.UnsignedInteger == input.UnsignedInteger ||
-                    this.UnsignedInteger.Equals(input.UnsignedInteger)
+                    UnsignedInteger == input.UnsignedInteger ||
+                    UnsignedInteger.Equals(input.UnsignedInteger)
                 ) && 
                 (
-                    this.Int64 == input.Int64 ||
-                    this.Int64.Equals(input.Int64)
+                    Int64 == input.Int64 ||
+                    Int64.Equals(input.Int64)
                 ) && 
                 (
-                    this.UnsignedLong == input.UnsignedLong ||
-                    this.UnsignedLong.Equals(input.UnsignedLong)
+                    UnsignedLong == input.UnsignedLong ||
+                    UnsignedLong.Equals(input.UnsignedLong)
                 ) && 
                 (
-                    this.Number == input.Number ||
-                    this.Number.Equals(input.Number)
+                    Number == input.Number ||
+                    Number.Equals(input.Number)
                 ) && 
                 (
-                    this.Float == input.Float ||
-                    this.Float.Equals(input.Float)
+                    Float == input.Float ||
+                    Float.Equals(input.Float)
                 ) && 
                 (
-                    this.Double == input.Double ||
-                    this.Double.Equals(input.Double)
+                    Double == input.Double ||
+                    Double.Equals(input.Double)
                 ) && 
                 (
-                    this.Decimal == input.Decimal ||
-                    this.Decimal.Equals(input.Decimal)
+                    Decimal == input.Decimal ||
+                    Decimal.Equals(input.Decimal)
                 ) && 
                 (
-                    this.String == input.String ||
-                    (this.String != null &&
-                    this.String.Equals(input.String))
+                    String == input.String ||
+					String.Equals(input.String)
                 ) && 
                 (
-                    this.Byte == input.Byte ||
-                    (this.Byte != null &&
-                    this.Byte.Equals(input.Byte))
+                    Byte == input.Byte ||
+					Byte.Equals(input.Byte)
                 ) && 
                 (
-                    this.Binary == input.Binary ||
-                    (this.Binary != null &&
-                    this.Binary.Equals(input.Binary))
+                    Binary == input.Binary ||
+					Binary.Equals(input.Binary)
                 ) && 
                 (
-                    this.Date == input.Date ||
-                    (this.Date != null &&
-                    this.Date.Equals(input.Date))
+                    Date == input.Date ||
+					Date.Equals(input.Date)
                 ) && 
                 (
-                    this.DateTime == input.DateTime ||
-                    (this.DateTime != null &&
-                    this.DateTime.Equals(input.DateTime))
+                    DateTime == input.DateTime ||
+					DateTime.Equals(input.DateTime)
                 ) && 
                 (
-                    this.Uuid == input.Uuid ||
-                    (this.Uuid != null &&
-                    this.Uuid.Equals(input.Uuid))
+                    Uuid == input.Uuid ||
+					Uuid.Equals(input.Uuid)
                 ) && 
                 (
-                    this.Password == input.Password ||
-                    (this.Password != null &&
-                    this.Password.Equals(input.Password))
+                    Password == input.Password ||
+					Password.Equals(input.Password)
                 ) && 
                 (
-                    this.PatternWithDigits == input.PatternWithDigits ||
-                    (this.PatternWithDigits != null &&
-                    this.PatternWithDigits.Equals(input.PatternWithDigits))
+                    PatternWithDigits == input.PatternWithDigits ||
+					PatternWithDigits.Equals(input.PatternWithDigits)
                 ) && 
                 (
-                    this.PatternWithDigitsAndDelimiter == input.PatternWithDigitsAndDelimiter ||
-                    (this.PatternWithDigitsAndDelimiter != null &&
-                    this.PatternWithDigitsAndDelimiter.Equals(input.PatternWithDigitsAndDelimiter))
+                    PatternWithDigitsAndDelimiter == input.PatternWithDigitsAndDelimiter ||
+					PatternWithDigitsAndDelimiter.Equals(input.PatternWithDigitsAndDelimiter)
                 ) && 
                 (
-                    this.PatternWithBackslash == input.PatternWithBackslash ||
-                    (this.PatternWithBackslash != null &&
-                    this.PatternWithBackslash.Equals(input.PatternWithBackslash))
+                    PatternWithBackslash == input.PatternWithBackslash ||
+					PatternWithBackslash.Equals(input.PatternWithBackslash)
                 );
         }
 
@@ -370,55 +360,25 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Integer.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int32.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
-                hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.Float.GetHashCode();
-                hashCode = (hashCode * 59) + this.Double.GetHashCode();
-                hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
-                if (this.String != null)
-                {
-                    hashCode = (hashCode * 59) + this.String.GetHashCode();
-                }
-                if (this.Byte != null)
-                {
-                    hashCode = (hashCode * 59) + this.Byte.GetHashCode();
-                }
-                if (this.Binary != null)
-                {
-                    hashCode = (hashCode * 59) + this.Binary.GetHashCode();
-                }
-                if (this.Date != null)
-                {
-                    hashCode = (hashCode * 59) + this.Date.GetHashCode();
-                }
-                if (this.DateTime != null)
-                {
-                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
-                }
-                if (this.Uuid != null)
-                {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
-                }
-                if (this.Password != null)
-                {
-                    hashCode = (hashCode * 59) + this.Password.GetHashCode();
-                }
-                if (this.PatternWithDigits != null)
-                {
-                    hashCode = (hashCode * 59) + this.PatternWithDigits.GetHashCode();
-                }
-                if (this.PatternWithDigitsAndDelimiter != null)
-                {
-                    hashCode = (hashCode * 59) + this.PatternWithDigitsAndDelimiter.GetHashCode();
-                }
-                if (this.PatternWithBackslash != null)
-                {
-                    hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + Integer.GetHashCode();
+                hashCode = (hashCode * 59) + Int32.GetHashCode();
+                hashCode = (hashCode * 59) + UnsignedInteger.GetHashCode();
+                hashCode = (hashCode * 59) + Int64.GetHashCode();
+                hashCode = (hashCode * 59) + UnsignedLong.GetHashCode();
+                hashCode = (hashCode * 59) + Number.GetHashCode();
+                hashCode = (hashCode * 59) + Float.GetHashCode();
+                hashCode = (hashCode * 59) + Double.GetHashCode();
+                hashCode = (hashCode * 59) + Decimal.GetHashCode();
+				hashCode = (hashCode * 59) + String.GetHashCode();
+				hashCode = (hashCode * 59) + Byte.GetHashCode();
+				hashCode = (hashCode * 59) + Binary.GetHashCode();
+				hashCode = (hashCode * 59) + Date.GetHashCode();
+				hashCode = (hashCode * 59) + DateTime.GetHashCode();
+				hashCode = (hashCode * 59) + Uuid.GetHashCode();
+				hashCode = (hashCode * 59) + Password.GetHashCode();
+				hashCode = (hashCode * 59) + PatternWithDigits.GetHashCode();
+				hashCode = (hashCode * 59) + PatternWithDigitsAndDelimiter.GetHashCode();
+				hashCode = (hashCode * 59) + PatternWithBackslash.GetHashCode();
                 return hashCode;
             }
         }

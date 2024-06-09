@@ -40,9 +40,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="varDouble">varDouble.</param>
         public NumberPropertiesOnly(decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double))
         {
-            this.Number = number;
-            this.Float = varFloat;
-            this.Double = varDouble;
+            Number = number;
+            Float = varFloat;
+            Double = varDouble;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as NumberPropertiesOnly);
+            return Equals(input as NumberPropertiesOnly);
         }
 
         /// <summary>
@@ -110,16 +110,16 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Number == input.Number ||
-                    this.Number.Equals(input.Number)
+                    Number == input.Number ||
+                    Number.Equals(input.Number)
                 ) && 
                 (
-                    this.Float == input.Float ||
-                    this.Float.Equals(input.Float)
+                    Float == input.Float ||
+                    Float.Equals(input.Float)
                 ) && 
                 (
-                    this.Double == input.Double ||
-                    this.Double.Equals(input.Double)
+                    Double == input.Double ||
+                    Double.Equals(input.Double)
                 );
         }
 
@@ -132,9 +132,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.Float.GetHashCode();
-                hashCode = (hashCode * 59) + this.Double.GetHashCode();
+                hashCode = (hashCode * 59) + Number.GetHashCode();
+                hashCode = (hashCode * 59) + Float.GetHashCode();
+                hashCode = (hashCode * 59) + Double.GetHashCode();
                 return hashCode;
             }
         }
@@ -144,18 +144,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // Double (double) maximum
             if (this.Double > (double)50.2)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value less than or equal to 50.2.", new [] { "Double" });
+                yield return new ValidationResult("Invalid value for Double, must be a value less than or equal to 50.2.", new [] { "Double" });
             }
 
             // Double (double) minimum
             if (this.Double < (double)0.8)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 0.8.", new [] { "Double" });
+                yield return new ValidationResult("Invalid value for Double, must be a value greater than or equal to 0.8.", new [] { "Double" });
             }
 
             yield break;

@@ -49,15 +49,15 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("varLock is a required property for Return and cannot be null");
             }
-            this.Lock = varLock;
+            Lock = varLock;
             // to ensure "varAbstract" is required (not null)
             if (varAbstract == null)
             {
                 throw new ArgumentNullException("varAbstract is a required property for Return and cannot be null");
             }
-            this.Abstract = varAbstract;
-            this.VarReturn = varReturn;
-            this.Unsafe = varUnsafe;
+            Abstract = varAbstract;
+            VarReturn = varReturn;
+            Unsafe = varUnsafe;
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Return);
+            return Equals(input as Return);
         }
 
         /// <summary>
@@ -132,23 +132,21 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.VarReturn == input.VarReturn ||
-                    this.VarReturn.Equals(input.VarReturn)
+                    VarReturn == input.VarReturn ||
+                    VarReturn.Equals(input.VarReturn)
                 ) && 
                 (
-                    this.Lock == input.Lock ||
-                    (this.Lock != null &&
-                    this.Lock.Equals(input.Lock))
+                    Lock == input.Lock ||
+					Lock.Equals(input.Lock)
                 ) && 
                 (
-                    this.Abstract == input.Abstract ||
-                    (this.Abstract != null &&
-                    this.Abstract.Equals(input.Abstract))
+                    Abstract == input.Abstract ||
+                    (Abstract != null &&
+                    Abstract.Equals(input.Abstract))
                 ) && 
                 (
-                    this.Unsafe == input.Unsafe ||
-                    (this.Unsafe != null &&
-                    this.Unsafe.Equals(input.Unsafe))
+                    Unsafe == input.Unsafe ||
+					Unsafe.Equals(input.Unsafe)
                 );
         }
 
@@ -161,19 +159,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
-                if (this.Lock != null)
+                hashCode = (hashCode * 59) + VarReturn.GetHashCode();
+				hashCode = (hashCode * 59) + Lock.GetHashCode();
+                if (Abstract != null)
                 {
-                    hashCode = (hashCode * 59) + this.Lock.GetHashCode();
+                    hashCode = (hashCode * 59) + Abstract.GetHashCode();
                 }
-                if (this.Abstract != null)
-                {
-                    hashCode = (hashCode * 59) + this.Abstract.GetHashCode();
-                }
-                if (this.Unsafe != null)
-                {
-                    hashCode = (hashCode * 59) + this.Unsafe.GetHashCode();
-                }
+				hashCode = (hashCode * 59) + Unsafe.GetHashCode();
                 return hashCode;
             }
         }

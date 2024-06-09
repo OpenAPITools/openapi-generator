@@ -42,9 +42,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="outcomes">outcomes.</param>
         public DataQuery(string suffix = default(string), string text = default(string), DateTime date = default(DateTime), long id = default(long), List<OutcomesEnum> outcomes = default(List<OutcomesEnum>)) : base(id, outcomes)
         {
-            this.Suffix = suffix;
-            this.Text = text;
-            this.Date = date;
+            Suffix = suffix;
+            Text = text;
+            Date = date;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as DataQuery);
+            return Equals(input as DataQuery);
         }
 
         /// <summary>
@@ -117,19 +117,16 @@ namespace Org.OpenAPITools.Model
             }
             return base.Equals(input) && 
                 (
-                    this.Suffix == input.Suffix ||
-                    (this.Suffix != null &&
-                    this.Suffix.Equals(input.Suffix))
+                    Suffix == input.Suffix ||
+					Suffix.Equals(input.Suffix)
                 ) && base.Equals(input) && 
                 (
-                    this.Text == input.Text ||
-                    (this.Text != null &&
-                    this.Text.Equals(input.Text))
+                    Text == input.Text ||
+					Text.Equals(input.Text)
                 ) && base.Equals(input) && 
                 (
-                    this.Date == input.Date ||
-                    (this.Date != null &&
-                    this.Date.Equals(input.Date))
+                    Date == input.Date ||
+					Date.Equals(input.Date)
                 );
         }
 
@@ -142,18 +139,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                if (this.Suffix != null)
-                {
-                    hashCode = (hashCode * 59) + this.Suffix.GetHashCode();
-                }
-                if (this.Text != null)
-                {
-                    hashCode = (hashCode * 59) + this.Text.GetHashCode();
-                }
-                if (this.Date != null)
-                {
-                    hashCode = (hashCode * 59) + this.Date.GetHashCode();
-                }
+				hashCode = (hashCode * 59) + Suffix.GetHashCode();
+				hashCode = (hashCode * 59) + Text.GetHashCode();
+				hashCode = (hashCode * 59) + Date.GetHashCode();
                 return hashCode;
             }
         }
@@ -163,7 +151,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -173,7 +161,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             foreach (var x in BaseValidate(validationContext))
             {

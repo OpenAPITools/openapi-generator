@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("shapeType is a required property for EquilateralTriangle and cannot be null");
             }
-            this.ShapeType = shapeType;
+            ShapeType = shapeType;
             // to ensure "triangleType" is required (not null)
             if (triangleType == null)
             {
                 throw new ArgumentNullException("triangleType is a required property for EquilateralTriangle and cannot be null");
             }
-            this.TriangleType = triangleType;
+            TriangleType = triangleType;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EquilateralTriangle);
+            return Equals(input as EquilateralTriangle);
         }
 
         /// <summary>
@@ -114,14 +114,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.ShapeType == input.ShapeType ||
-                    (this.ShapeType != null &&
-                    this.ShapeType.Equals(input.ShapeType))
+                    ShapeType == input.ShapeType ||
+					ShapeType.Equals(input.ShapeType)
                 ) && 
                 (
-                    this.TriangleType == input.TriangleType ||
-                    (this.TriangleType != null &&
-                    this.TriangleType.Equals(input.TriangleType))
+                    TriangleType == input.TriangleType ||
+					TriangleType.Equals(input.TriangleType)
                 );
         }
 
@@ -134,14 +132,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ShapeType != null)
-                {
-                    hashCode = (hashCode * 59) + this.ShapeType.GetHashCode();
-                }
-                if (this.TriangleType != null)
-                {
-                    hashCode = (hashCode * 59) + this.TriangleType.GetHashCode();
-                }
+				hashCode = (hashCode * 59) + ShapeType.GetHashCode();
+				hashCode = (hashCode * 59) + TriangleType.GetHashCode();
                 return hashCode;
             }
         }

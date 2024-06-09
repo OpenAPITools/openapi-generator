@@ -49,67 +49,67 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectItemsNullable">objectItemsNullable.</param>
         public NullableClass(int? integerProp = default(int?), decimal? numberProp = default(decimal?), bool? booleanProp = default(bool?), string stringProp = default(string), DateTime? dateProp = default(DateTime?), DateTime? datetimeProp = default(DateTime?), List<Object> arrayNullableProp = default(List<Object>), List<Object> arrayAndItemsNullableProp = default(List<Object>), List<Object> arrayItemsNullable = default(List<Object>), Dictionary<string, Object> objectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectItemsNullable = default(Dictionary<string, Object>))
         {
-            this._IntegerProp = integerProp;
-            if (this.IntegerProp != null)
+            _IntegerProp = integerProp;
+            if (IntegerProp != null)
             {
-                this._flagIntegerProp = true;
+                _flagIntegerProp = true;
             }
-            this._NumberProp = numberProp;
-            if (this.NumberProp != null)
+            _NumberProp = numberProp;
+            if (NumberProp != null)
             {
-                this._flagNumberProp = true;
+                _flagNumberProp = true;
             }
-            this._BooleanProp = booleanProp;
-            if (this.BooleanProp != null)
+            _BooleanProp = booleanProp;
+            if (BooleanProp != null)
             {
-                this._flagBooleanProp = true;
+                _flagBooleanProp = true;
             }
-            this._StringProp = stringProp;
-            if (this.StringProp != null)
+            _StringProp = stringProp;
+            if (StringProp != null)
             {
-                this._flagStringProp = true;
+                _flagStringProp = true;
             }
-            this._DateProp = dateProp;
-            if (this.DateProp != null)
+            _DateProp = dateProp;
+            if (DateProp != null)
             {
-                this._flagDateProp = true;
+                _flagDateProp = true;
             }
-            this._DatetimeProp = datetimeProp;
-            if (this.DatetimeProp != null)
+            _DatetimeProp = datetimeProp;
+            if (DatetimeProp != null)
             {
-                this._flagDatetimeProp = true;
+                _flagDatetimeProp = true;
             }
-            this._ArrayNullableProp = arrayNullableProp;
-            if (this.ArrayNullableProp != null)
+            _ArrayNullableProp = arrayNullableProp;
+            if (ArrayNullableProp != null)
             {
-                this._flagArrayNullableProp = true;
+                _flagArrayNullableProp = true;
             }
-            this._ArrayAndItemsNullableProp = arrayAndItemsNullableProp;
-            if (this.ArrayAndItemsNullableProp != null)
+            _ArrayAndItemsNullableProp = arrayAndItemsNullableProp;
+            if (ArrayAndItemsNullableProp != null)
             {
-                this._flagArrayAndItemsNullableProp = true;
+                _flagArrayAndItemsNullableProp = true;
             }
-            this._ArrayItemsNullable = arrayItemsNullable;
-            if (this.ArrayItemsNullable != null)
+            _ArrayItemsNullable = arrayItemsNullable;
+            if (ArrayItemsNullable != null)
             {
-                this._flagArrayItemsNullable = true;
+                _flagArrayItemsNullable = true;
             }
-            this._ObjectNullableProp = objectNullableProp;
-            if (this.ObjectNullableProp != null)
+            _ObjectNullableProp = objectNullableProp;
+            if (ObjectNullableProp != null)
             {
-                this._flagObjectNullableProp = true;
+                _flagObjectNullableProp = true;
             }
-            this._ObjectAndItemsNullableProp = objectAndItemsNullableProp;
-            if (this.ObjectAndItemsNullableProp != null)
+            _ObjectAndItemsNullableProp = objectAndItemsNullableProp;
+            if (ObjectAndItemsNullableProp != null)
             {
-                this._flagObjectAndItemsNullableProp = true;
+                _flagObjectAndItemsNullableProp = true;
             }
-            this._ObjectItemsNullable = objectItemsNullable;
-            if (this.ObjectItemsNullable != null)
+            _ObjectItemsNullable = objectItemsNullable;
+            if (ObjectItemsNullable != null)
             {
-                this._flagObjectItemsNullable = true;
+                _flagObjectItemsNullable = true;
             }
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -470,57 +470,51 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.IntegerProp != null)
+                if (IntegerProp != null)
                 {
-                    hashCode = (hashCode * 59) + this.IntegerProp.GetHashCode();
+                    hashCode = (hashCode * 59) + IntegerProp.GetHashCode();
                 }
-                if (this.NumberProp != null)
+                if (NumberProp != null)
                 {
-                    hashCode = (hashCode * 59) + this.NumberProp.GetHashCode();
+                    hashCode = (hashCode * 59) + NumberProp.GetHashCode();
                 }
-                if (this.BooleanProp != null)
+                if (BooleanProp != null)
                 {
-                    hashCode = (hashCode * 59) + this.BooleanProp.GetHashCode();
+                    hashCode = (hashCode * 59) + BooleanProp.GetHashCode();
                 }
-                if (this.StringProp != null)
+                if (StringProp != null)
                 {
-                    hashCode = (hashCode * 59) + this.StringProp.GetHashCode();
+                    hashCode = (hashCode * 59) + StringProp.GetHashCode();
                 }
-                if (this.DateProp != null)
+                if (DateProp != null)
                 {
-                    hashCode = (hashCode * 59) + this.DateProp.GetHashCode();
+                    hashCode = (hashCode * 59) + DateProp.GetHashCode();
                 }
-                if (this.DatetimeProp != null)
+                if (DatetimeProp != null)
                 {
-                    hashCode = (hashCode * 59) + this.DatetimeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + DatetimeProp.GetHashCode();
                 }
-                if (this.ArrayNullableProp != null)
+                if (ArrayNullableProp != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayNullableProp.GetHashCode();
+                    hashCode = (hashCode * 59) + ArrayNullableProp.GetHashCode();
                 }
-                if (this.ArrayAndItemsNullableProp != null)
+                if (ArrayAndItemsNullableProp != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayAndItemsNullableProp.GetHashCode();
+                    hashCode = (hashCode * 59) + ArrayAndItemsNullableProp.GetHashCode();
                 }
-                if (this.ArrayItemsNullable != null)
+				hashCode = (hashCode * 59) + ArrayItemsNullable.GetHashCode();
+                if (ObjectNullableProp != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayItemsNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + ObjectNullableProp.GetHashCode();
                 }
-                if (this.ObjectNullableProp != null)
+                if (ObjectAndItemsNullableProp != null)
                 {
-                    hashCode = (hashCode * 59) + this.ObjectNullableProp.GetHashCode();
+                    hashCode = (hashCode * 59) + ObjectAndItemsNullableProp.GetHashCode();
                 }
-                if (this.ObjectAndItemsNullableProp != null)
+				hashCode = (hashCode * 59) + ObjectItemsNullable.GetHashCode();
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.ObjectAndItemsNullableProp.GetHashCode();
-                }
-                if (this.ObjectItemsNullable != null)
-                {
-                    hashCode = (hashCode * 59) + this.ObjectItemsNullable.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -531,7 +525,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

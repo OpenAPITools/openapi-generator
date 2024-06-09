@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected Return()
         {
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
@@ -55,16 +55,16 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("varLock is a required property for Return and cannot be null");
             }
-            this.Lock = varLock;
+            Lock = varLock;
             // to ensure "varAbstract" is required (not null)
             if (varAbstract == null)
             {
                 throw new ArgumentNullException("varAbstract is a required property for Return and cannot be null");
             }
-            this.Abstract = varAbstract;
-            this.VarReturn = varReturn;
-            this.Unsafe = varUnsafe;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            Abstract = varAbstract;
+            VarReturn = varReturn;
+            Unsafe = varUnsafe;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -152,22 +152,16 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
-                if (this.Lock != null)
+                hashCode = (hashCode * 59) + VarReturn.GetHashCode();
+				hashCode = (hashCode * 59) + Lock.GetHashCode();
+                if (Abstract != null)
                 {
-                    hashCode = (hashCode * 59) + this.Lock.GetHashCode();
+                    hashCode = (hashCode * 59) + Abstract.GetHashCode();
                 }
-                if (this.Abstract != null)
+				hashCode = (hashCode * 59) + Unsafe.GetHashCode();
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.Abstract.GetHashCode();
-                }
-                if (this.Unsafe != null)
-                {
-                    hashCode = (hashCode * 59) + this.Unsafe.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -178,7 +172,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

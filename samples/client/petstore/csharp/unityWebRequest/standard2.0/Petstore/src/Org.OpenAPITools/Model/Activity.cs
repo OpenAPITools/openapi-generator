@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="activityOutputs">activityOutputs.</param>
         public Activity(Dictionary<string, List<ActivityOutputElementRepresentation>> activityOutputs = default(Dictionary<string, List<ActivityOutputElementRepresentation>>))
         {
-            this.ActivityOutputs = activityOutputs;
+            ActivityOutputs = activityOutputs;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Activity);
+            return Equals(input as Activity);
         }
 
         /// <summary>
@@ -90,10 +90,10 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.ActivityOutputs == input.ActivityOutputs ||
-                    this.ActivityOutputs != null &&
+                    ActivityOutputs == input.ActivityOutputs ||
+                    ActivityOutputs != null &&
                     input.ActivityOutputs != null &&
-                    this.ActivityOutputs.SequenceEqual(input.ActivityOutputs)
+                    ActivityOutputs.SequenceEqual(input.ActivityOutputs)
                 );
         }
 
@@ -106,10 +106,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ActivityOutputs != null)
-                {
-                    hashCode = (hashCode * 59) + this.ActivityOutputs.GetHashCode();
-                }
+				hashCode = (hashCode * 59) + ActivityOutputs.GetHashCode();
                 return hashCode;
             }
         }
