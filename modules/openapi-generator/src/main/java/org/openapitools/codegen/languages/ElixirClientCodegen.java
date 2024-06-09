@@ -21,7 +21,6 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -197,8 +196,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         "AnyType",
                         "Tuple",
                         "PID",
-                        "map()", // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec
-                                 // datetype to evaluate the primitive
+                        // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec
+                        // datetype to evaluate the primitive
+                        "map()",
                         "any()"));
 
         // ref:
@@ -567,7 +567,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
      * types. There is typically special handling for different property types
      *
      * @return a string value used as the `dataType` field for model templates,
-     *         `returnType` for api templates
+     * `returnType` for api templates
      */
     @Override
     public String getTypeDeclaration(Schema p) {
