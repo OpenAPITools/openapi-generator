@@ -181,7 +181,7 @@ defmodule OpenapiPetstore.Api.User do
   - `{:ok, String.t}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec login_user(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, nil} | {:ok, String} | {:error, Tesla.Env.t}
+  @spec login_user(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, nil} | {:ok, String.t} | {:error, Tesla.Env.t}
   def login_user(connection, username, password, _opts \\ []) do
     request =
       %{}
