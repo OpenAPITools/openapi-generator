@@ -403,15 +403,10 @@
                 {{/parent}}
                 {{#vars}}
                 {{^vendorExtensions.x-is-value-type}}
-				{{#isNullable}}
-                if ({{name}} != null)
+				if ({{name}} != null)
                 {
                     hashCode = (hashCode * 59) + {{name}}.GetHashCode();
                 }
-				{{/isNullable}}
-				{{^isNullable}}
-				hashCode = (hashCode * 59) + {{name}}.GetHashCode();
-				{{/isNullable}}
                 {{/vendorExtensions.x-is-value-type}}
                 {{#vendorExtensions.x-is-value-type}}
                 hashCode = (hashCode * 59) + {{name}}.GetHashCode();

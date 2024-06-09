@@ -220,10 +220,22 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + Id.GetHashCode();
-				hashCode = (hashCode * 59) + Name.GetHashCode();
-				hashCode = (hashCode * 59) + Category.GetHashCode();
-				hashCode = (hashCode * 59) + PhotoUrls.GetHashCode();
-				hashCode = (hashCode * 59) + Tags.GetHashCode();
+				if (Name != null)
+                {
+                    hashCode = (hashCode * 59) + Name.GetHashCode();
+                }
+				if (Category != null)
+                {
+                    hashCode = (hashCode * 59) + Category.GetHashCode();
+                }
+				if (PhotoUrls != null)
+                {
+                    hashCode = (hashCode * 59) + PhotoUrls.GetHashCode();
+                }
+				if (Tags != null)
+                {
+                    hashCode = (hashCode * 59) + Tags.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + Status.GetHashCode();
                 return hashCode;
             }

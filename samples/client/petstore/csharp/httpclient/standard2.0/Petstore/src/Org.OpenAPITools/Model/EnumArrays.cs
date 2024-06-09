@@ -155,7 +155,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + JustSymbol.GetHashCode();
-				hashCode = (hashCode * 59) + ArrayEnum.GetHashCode();
+				if (ArrayEnum != null)
+                {
+                    hashCode = (hashCode * 59) + ArrayEnum.GetHashCode();
+                }
                 if (AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();

@@ -396,11 +396,23 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + Id.GetHashCode();
-				hashCode = (hashCode * 59) + Description.GetHashCode();
-				hashCode = (hashCode * 59) + MixDate.GetHashCode();
-				hashCode = (hashCode * 59) + ShopId.GetHashCode();
-                if (TotalPrice != null)
+				if (Id != null)
+                {
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
+                }
+				if (Description != null)
+                {
+                    hashCode = (hashCode * 59) + Description.GetHashCode();
+                }
+				if (MixDate != null)
+                {
+                    hashCode = (hashCode * 59) + MixDate.GetHashCode();
+                }
+				if (ShopId != null)
+                {
+                    hashCode = (hashCode * 59) + ShopId.GetHashCode();
+                }
+				if (TotalPrice != null)
                 {
                     hashCode = (hashCode * 59) + TotalPrice.GetHashCode();
                 }
@@ -408,34 +420,94 @@ namespace Org.OpenAPITools.Model
                 hashCode = (hashCode * 59) + TotalOverPoors.GetHashCode();
                 hashCode = (hashCode * 59) + TotalSkips.GetHashCode();
                 hashCode = (hashCode * 59) + TotalUnderPours.GetHashCode();
-				hashCode = (hashCode * 59) + FormulaVersionDate.GetHashCode();
-                if (SomeCode != null)
+				if (FormulaVersionDate != null)
+                {
+                    hashCode = (hashCode * 59) + FormulaVersionDate.GetHashCode();
+                }
+				if (SomeCode != null)
                 {
                     hashCode = (hashCode * 59) + SomeCode.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + BatchNumber.GetHashCode();
-				hashCode = (hashCode * 59) + BrandCode.GetHashCode();
-				hashCode = (hashCode * 59) + BrandId.GetHashCode();
-				hashCode = (hashCode * 59) + BrandName.GetHashCode();
-				hashCode = (hashCode * 59) + CategoryCode.GetHashCode();
-				hashCode = (hashCode * 59) + Color.GetHashCode();
-				hashCode = (hashCode * 59) + ColorDescription.GetHashCode();
-				hashCode = (hashCode * 59) + Comment.GetHashCode();
-				hashCode = (hashCode * 59) + CommercialProductCode.GetHashCode();
-				hashCode = (hashCode * 59) + ProductLineCode.GetHashCode();
-				hashCode = (hashCode * 59) + Country.GetHashCode();
-				hashCode = (hashCode * 59) + CreatedBy.GetHashCode();
-				hashCode = (hashCode * 59) + CreatedByFirstName.GetHashCode();
-				hashCode = (hashCode * 59) + CreatedByLastName.GetHashCode();
-				hashCode = (hashCode * 59) + DeltaECalculationRepaired.GetHashCode();
-				hashCode = (hashCode * 59) + DeltaECalculationSprayout.GetHashCode();
-                if (OwnColorVariantNumber != null)
+				if (BatchNumber != null)
+                {
+                    hashCode = (hashCode * 59) + BatchNumber.GetHashCode();
+                }
+				if (BrandCode != null)
+                {
+                    hashCode = (hashCode * 59) + BrandCode.GetHashCode();
+                }
+				if (BrandId != null)
+                {
+                    hashCode = (hashCode * 59) + BrandId.GetHashCode();
+                }
+				if (BrandName != null)
+                {
+                    hashCode = (hashCode * 59) + BrandName.GetHashCode();
+                }
+				if (CategoryCode != null)
+                {
+                    hashCode = (hashCode * 59) + CategoryCode.GetHashCode();
+                }
+				if (Color != null)
+                {
+                    hashCode = (hashCode * 59) + Color.GetHashCode();
+                }
+				if (ColorDescription != null)
+                {
+                    hashCode = (hashCode * 59) + ColorDescription.GetHashCode();
+                }
+				if (Comment != null)
+                {
+                    hashCode = (hashCode * 59) + Comment.GetHashCode();
+                }
+				if (CommercialProductCode != null)
+                {
+                    hashCode = (hashCode * 59) + CommercialProductCode.GetHashCode();
+                }
+				if (ProductLineCode != null)
+                {
+                    hashCode = (hashCode * 59) + ProductLineCode.GetHashCode();
+                }
+				if (Country != null)
+                {
+                    hashCode = (hashCode * 59) + Country.GetHashCode();
+                }
+				if (CreatedBy != null)
+                {
+                    hashCode = (hashCode * 59) + CreatedBy.GetHashCode();
+                }
+				if (CreatedByFirstName != null)
+                {
+                    hashCode = (hashCode * 59) + CreatedByFirstName.GetHashCode();
+                }
+				if (CreatedByLastName != null)
+                {
+                    hashCode = (hashCode * 59) + CreatedByLastName.GetHashCode();
+                }
+				if (DeltaECalculationRepaired != null)
+                {
+                    hashCode = (hashCode * 59) + DeltaECalculationRepaired.GetHashCode();
+                }
+				if (DeltaECalculationSprayout != null)
+                {
+                    hashCode = (hashCode * 59) + DeltaECalculationSprayout.GetHashCode();
+                }
+				if (OwnColorVariantNumber != null)
                 {
                     hashCode = (hashCode * 59) + OwnColorVariantNumber.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + PrimerProductId.GetHashCode();
-				hashCode = (hashCode * 59) + ProductId.GetHashCode();
-				hashCode = (hashCode * 59) + ProductName.GetHashCode();
+				if (PrimerProductId != null)
+                {
+                    hashCode = (hashCode * 59) + PrimerProductId.GetHashCode();
+                }
+				if (ProductId != null)
+                {
+                    hashCode = (hashCode * 59) + ProductId.GetHashCode();
+                }
+				if (ProductName != null)
+                {
+                    hashCode = (hashCode * 59) + ProductName.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + SelectedVersionIndex.GetHashCode();
                 return hashCode;
             }

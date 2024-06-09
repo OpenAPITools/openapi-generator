@@ -905,56 +905,74 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (RequiredNullableIntegerProp != null)
+				if (RequiredNullableIntegerProp != null)
                 {
                     hashCode = (hashCode * 59) + RequiredNullableIntegerProp.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + RequiredNotnullableintegerProp.GetHashCode();
-                if (NotRequiredNullableIntegerProp != null)
+				if (NotRequiredNullableIntegerProp != null)
                 {
                     hashCode = (hashCode * 59) + NotRequiredNullableIntegerProp.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + NotRequiredNotnullableintegerProp.GetHashCode();
-                if (RequiredNullableStringProp != null)
+				if (RequiredNullableStringProp != null)
                 {
                     hashCode = (hashCode * 59) + RequiredNullableStringProp.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + RequiredNotnullableStringProp.GetHashCode();
-                if (NotrequiredNullableStringProp != null)
+				if (RequiredNotnullableStringProp != null)
+                {
+                    hashCode = (hashCode * 59) + RequiredNotnullableStringProp.GetHashCode();
+                }
+				if (NotrequiredNullableStringProp != null)
                 {
                     hashCode = (hashCode * 59) + NotrequiredNullableStringProp.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + NotrequiredNotnullableStringProp.GetHashCode();
-                if (RequiredNullableBooleanProp != null)
+				if (NotrequiredNotnullableStringProp != null)
+                {
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableStringProp.GetHashCode();
+                }
+				if (RequiredNullableBooleanProp != null)
                 {
                     hashCode = (hashCode * 59) + RequiredNullableBooleanProp.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + RequiredNotnullableBooleanProp.GetHashCode();
-                if (NotrequiredNullableBooleanProp != null)
+				if (NotrequiredNullableBooleanProp != null)
                 {
                     hashCode = (hashCode * 59) + NotrequiredNullableBooleanProp.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + NotrequiredNotnullableBooleanProp.GetHashCode();
-                if (RequiredNullableDateProp != null)
+				if (RequiredNullableDateProp != null)
                 {
                     hashCode = (hashCode * 59) + RequiredNullableDateProp.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + RequiredNotNullableDateProp.GetHashCode();
-                if (NotRequiredNullableDateProp != null)
+				if (RequiredNotNullableDateProp != null)
+                {
+                    hashCode = (hashCode * 59) + RequiredNotNullableDateProp.GetHashCode();
+                }
+				if (NotRequiredNullableDateProp != null)
                 {
                     hashCode = (hashCode * 59) + NotRequiredNullableDateProp.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + NotRequiredNotnullableDateProp.GetHashCode();
-				hashCode = (hashCode * 59) + RequiredNotnullableDatetimeProp.GetHashCode();
-                if (RequiredNullableDatetimeProp != null)
+				if (NotRequiredNotnullableDateProp != null)
+                {
+                    hashCode = (hashCode * 59) + NotRequiredNotnullableDateProp.GetHashCode();
+                }
+				if (RequiredNotnullableDatetimeProp != null)
+                {
+                    hashCode = (hashCode * 59) + RequiredNotnullableDatetimeProp.GetHashCode();
+                }
+				if (RequiredNullableDatetimeProp != null)
                 {
                     hashCode = (hashCode * 59) + RequiredNullableDatetimeProp.GetHashCode();
                 }
-                if (NotrequiredNullableDatetimeProp != null)
+				if (NotrequiredNullableDatetimeProp != null)
                 {
                     hashCode = (hashCode * 59) + NotrequiredNullableDatetimeProp.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + NotrequiredNotnullableDatetimeProp.GetHashCode();
+				if (NotrequiredNotnullableDatetimeProp != null)
+                {
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableDatetimeProp.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + RequiredNullableEnumInteger.GetHashCode();
                 hashCode = (hashCode * 59) + RequiredNotnullableEnumInteger.GetHashCode();
                 hashCode = (hashCode * 59) + NotrequiredNullableEnumInteger.GetHashCode();
@@ -971,26 +989,38 @@ namespace Org.OpenAPITools.Model
                 hashCode = (hashCode * 59) + RequiredNotnullableOuterEnumDefaultValue.GetHashCode();
                 hashCode = (hashCode * 59) + NotrequiredNullableOuterEnumDefaultValue.GetHashCode();
                 hashCode = (hashCode * 59) + NotrequiredNotnullableOuterEnumDefaultValue.GetHashCode();
-                if (RequiredNullableUuid != null)
+				if (RequiredNullableUuid != null)
                 {
                     hashCode = (hashCode * 59) + RequiredNullableUuid.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + RequiredNotnullableUuid.GetHashCode();
-                if (NotrequiredNullableUuid != null)
+				if (RequiredNotnullableUuid != null)
+                {
+                    hashCode = (hashCode * 59) + RequiredNotnullableUuid.GetHashCode();
+                }
+				if (NotrequiredNullableUuid != null)
                 {
                     hashCode = (hashCode * 59) + NotrequiredNullableUuid.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + NotrequiredNotnullableUuid.GetHashCode();
-                if (RequiredNullableArrayOfString != null)
+				if (NotrequiredNotnullableUuid != null)
+                {
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableUuid.GetHashCode();
+                }
+				if (RequiredNullableArrayOfString != null)
                 {
                     hashCode = (hashCode * 59) + RequiredNullableArrayOfString.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + RequiredNotnullableArrayOfString.GetHashCode();
-                if (NotrequiredNullableArrayOfString != null)
+				if (RequiredNotnullableArrayOfString != null)
+                {
+                    hashCode = (hashCode * 59) + RequiredNotnullableArrayOfString.GetHashCode();
+                }
+				if (NotrequiredNullableArrayOfString != null)
                 {
                     hashCode = (hashCode * 59) + NotrequiredNullableArrayOfString.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + NotrequiredNotnullableArrayOfString.GetHashCode();
+				if (NotrequiredNotnullableArrayOfString != null)
+                {
+                    hashCode = (hashCode * 59) + NotrequiredNotnullableArrayOfString.GetHashCode();
+                }
                 if (AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();

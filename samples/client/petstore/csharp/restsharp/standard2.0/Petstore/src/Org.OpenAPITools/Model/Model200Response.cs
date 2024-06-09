@@ -116,7 +116,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + Name.GetHashCode();
-				hashCode = (hashCode * 59) + Class.GetHashCode();
+				if (Class != null)
+                {
+                    hashCode = (hashCode * 59) + Class.GetHashCode();
+                }
                 if (AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();

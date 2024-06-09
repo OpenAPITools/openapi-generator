@@ -137,9 +137,18 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + Status.GetHashCode();
-				hashCode = (hashCode * 59) + Marker.GetHashCode();
-				hashCode = (hashCode * 59) + File.GetHashCode();
-				hashCode = (hashCode * 59) + StatusArray.GetHashCode();
+				if (Marker != null)
+                {
+                    hashCode = (hashCode * 59) + Marker.GetHashCode();
+                }
+				if (File != null)
+                {
+                    hashCode = (hashCode * 59) + File.GetHashCode();
+                }
+				if (StatusArray != null)
+                {
+                    hashCode = (hashCode * 59) + StatusArray.GetHashCode();
+                }
                 return hashCode;
             }
         }

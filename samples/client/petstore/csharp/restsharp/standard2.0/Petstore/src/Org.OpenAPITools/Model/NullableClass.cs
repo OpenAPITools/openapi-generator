@@ -206,48 +206,54 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (IntegerProp != null)
+				if (IntegerProp != null)
                 {
                     hashCode = (hashCode * 59) + IntegerProp.GetHashCode();
                 }
-                if (NumberProp != null)
+				if (NumberProp != null)
                 {
                     hashCode = (hashCode * 59) + NumberProp.GetHashCode();
                 }
-                if (BooleanProp != null)
+				if (BooleanProp != null)
                 {
                     hashCode = (hashCode * 59) + BooleanProp.GetHashCode();
                 }
-                if (StringProp != null)
+				if (StringProp != null)
                 {
                     hashCode = (hashCode * 59) + StringProp.GetHashCode();
                 }
-                if (DateProp != null)
+				if (DateProp != null)
                 {
                     hashCode = (hashCode * 59) + DateProp.GetHashCode();
                 }
-                if (DatetimeProp != null)
+				if (DatetimeProp != null)
                 {
                     hashCode = (hashCode * 59) + DatetimeProp.GetHashCode();
                 }
-                if (ArrayNullableProp != null)
+				if (ArrayNullableProp != null)
                 {
                     hashCode = (hashCode * 59) + ArrayNullableProp.GetHashCode();
                 }
-                if (ArrayAndItemsNullableProp != null)
+				if (ArrayAndItemsNullableProp != null)
                 {
                     hashCode = (hashCode * 59) + ArrayAndItemsNullableProp.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + ArrayItemsNullable.GetHashCode();
-                if (ObjectNullableProp != null)
+				if (ArrayItemsNullable != null)
+                {
+                    hashCode = (hashCode * 59) + ArrayItemsNullable.GetHashCode();
+                }
+				if (ObjectNullableProp != null)
                 {
                     hashCode = (hashCode * 59) + ObjectNullableProp.GetHashCode();
                 }
-                if (ObjectAndItemsNullableProp != null)
+				if (ObjectAndItemsNullableProp != null)
                 {
                     hashCode = (hashCode * 59) + ObjectAndItemsNullableProp.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + ObjectItemsNullable.GetHashCode();
+				if (ObjectItemsNullable != null)
+                {
+                    hashCode = (hashCode * 59) + ObjectItemsNullable.GetHashCode();
+                }
                 if (AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();

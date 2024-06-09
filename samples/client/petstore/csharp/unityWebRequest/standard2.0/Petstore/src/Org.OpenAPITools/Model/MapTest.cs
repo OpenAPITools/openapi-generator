@@ -170,10 +170,22 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + MapMapOfString.GetHashCode();
-				hashCode = (hashCode * 59) + MapOfEnumString.GetHashCode();
-				hashCode = (hashCode * 59) + DirectMap.GetHashCode();
-				hashCode = (hashCode * 59) + IndirectMap.GetHashCode();
+				if (MapMapOfString != null)
+                {
+                    hashCode = (hashCode * 59) + MapMapOfString.GetHashCode();
+                }
+				if (MapOfEnumString != null)
+                {
+                    hashCode = (hashCode * 59) + MapOfEnumString.GetHashCode();
+                }
+				if (DirectMap != null)
+                {
+                    hashCode = (hashCode * 59) + DirectMap.GetHashCode();
+                }
+				if (IndirectMap != null)
+                {
+                    hashCode = (hashCode * 59) + IndirectMap.GetHashCode();
+                }
                 return hashCode;
             }
         }

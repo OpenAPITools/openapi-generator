@@ -170,17 +170,38 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + MapProperty.GetHashCode();
-				hashCode = (hashCode * 59) + MapOfMapProperty.GetHashCode();
-                if (Anytype1 != null)
+				if (MapProperty != null)
+                {
+                    hashCode = (hashCode * 59) + MapProperty.GetHashCode();
+                }
+				if (MapOfMapProperty != null)
+                {
+                    hashCode = (hashCode * 59) + MapOfMapProperty.GetHashCode();
+                }
+				if (Anytype1 != null)
                 {
                     hashCode = (hashCode * 59) + Anytype1.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesAnytype1.GetHashCode();
-				hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesAnytype2.GetHashCode();
-				hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesAnytype3.GetHashCode();
-				hashCode = (hashCode * 59) + EmptyMap.GetHashCode();
-				hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesString.GetHashCode();
+				if (MapWithUndeclaredPropertiesAnytype1 != null)
+                {
+                    hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesAnytype1.GetHashCode();
+                }
+				if (MapWithUndeclaredPropertiesAnytype2 != null)
+                {
+                    hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesAnytype2.GetHashCode();
+                }
+				if (MapWithUndeclaredPropertiesAnytype3 != null)
+                {
+                    hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesAnytype3.GetHashCode();
+                }
+				if (EmptyMap != null)
+                {
+                    hashCode = (hashCode * 59) + EmptyMap.GetHashCode();
+                }
+				if (MapWithUndeclaredPropertiesString != null)
+                {
+                    hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesString.GetHashCode();
+                }
                 if (AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();

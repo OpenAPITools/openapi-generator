@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (NullableMessage != null)
+				if (NullableMessage != null)
                 {
                     hashCode = (hashCode * 59) + NullableMessage.GetHashCode();
                 }

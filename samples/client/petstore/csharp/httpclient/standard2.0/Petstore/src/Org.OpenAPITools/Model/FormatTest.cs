@@ -303,16 +303,46 @@ namespace Org.OpenAPITools.Model
                 hashCode = (hashCode * 59) + Float.GetHashCode();
                 hashCode = (hashCode * 59) + Double.GetHashCode();
                 hashCode = (hashCode * 59) + Decimal.GetHashCode();
-				hashCode = (hashCode * 59) + String.GetHashCode();
-				hashCode = (hashCode * 59) + Byte.GetHashCode();
-				hashCode = (hashCode * 59) + Binary.GetHashCode();
-				hashCode = (hashCode * 59) + Date.GetHashCode();
-				hashCode = (hashCode * 59) + DateTime.GetHashCode();
-				hashCode = (hashCode * 59) + Uuid.GetHashCode();
-				hashCode = (hashCode * 59) + Password.GetHashCode();
-				hashCode = (hashCode * 59) + PatternWithDigits.GetHashCode();
-				hashCode = (hashCode * 59) + PatternWithDigitsAndDelimiter.GetHashCode();
-				hashCode = (hashCode * 59) + PatternWithBackslash.GetHashCode();
+				if (String != null)
+                {
+                    hashCode = (hashCode * 59) + String.GetHashCode();
+                }
+				if (Byte != null)
+                {
+                    hashCode = (hashCode * 59) + Byte.GetHashCode();
+                }
+				if (Binary != null)
+                {
+                    hashCode = (hashCode * 59) + Binary.GetHashCode();
+                }
+				if (Date != null)
+                {
+                    hashCode = (hashCode * 59) + Date.GetHashCode();
+                }
+				if (DateTime != null)
+                {
+                    hashCode = (hashCode * 59) + DateTime.GetHashCode();
+                }
+				if (Uuid != null)
+                {
+                    hashCode = (hashCode * 59) + Uuid.GetHashCode();
+                }
+				if (Password != null)
+                {
+                    hashCode = (hashCode * 59) + Password.GetHashCode();
+                }
+				if (PatternWithDigits != null)
+                {
+                    hashCode = (hashCode * 59) + PatternWithDigits.GetHashCode();
+                }
+				if (PatternWithDigitsAndDelimiter != null)
+                {
+                    hashCode = (hashCode * 59) + PatternWithDigitsAndDelimiter.GetHashCode();
+                }
+				if (PatternWithBackslash != null)
+                {
+                    hashCode = (hashCode * 59) + PatternWithBackslash.GetHashCode();
+                }
                 if (AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();

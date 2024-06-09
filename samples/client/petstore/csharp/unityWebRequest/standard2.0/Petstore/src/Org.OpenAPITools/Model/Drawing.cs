@@ -156,16 +156,22 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + MainShape.GetHashCode();
-                if (ShapeOrNull != null)
+				if (MainShape != null)
+                {
+                    hashCode = (hashCode * 59) + MainShape.GetHashCode();
+                }
+				if (ShapeOrNull != null)
                 {
                     hashCode = (hashCode * 59) + ShapeOrNull.GetHashCode();
                 }
-                if (NullableShape != null)
+				if (NullableShape != null)
                 {
                     hashCode = (hashCode * 59) + NullableShape.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + Shapes.GetHashCode();
+				if (Shapes != null)
+                {
+                    hashCode = (hashCode * 59) + Shapes.GetHashCode();
+                }
                 if (AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();

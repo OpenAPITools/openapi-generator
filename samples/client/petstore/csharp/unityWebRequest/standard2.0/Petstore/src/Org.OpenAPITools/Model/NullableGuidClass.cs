@@ -106,7 +106,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (Uuid != null)
+				if (Uuid != null)
                 {
                     hashCode = (hashCode * 59) + Uuid.GetHashCode();
                 }

@@ -126,7 +126,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + MyNumber.GetHashCode();
-				hashCode = (hashCode * 59) + MyString.GetHashCode();
+				if (MyString != null)
+                {
+                    hashCode = (hashCode * 59) + MyString.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + MyBoolean.GetHashCode();
                 if (AdditionalProperties != null)
                 {

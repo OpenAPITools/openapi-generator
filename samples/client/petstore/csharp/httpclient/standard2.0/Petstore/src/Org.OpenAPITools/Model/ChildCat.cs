@@ -140,7 +140,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-				hashCode = (hashCode * 59) + Name.GetHashCode();
+				if (Name != null)
+                {
+                    hashCode = (hashCode * 59) + Name.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + PetType.GetHashCode();
                 if (AdditionalProperties != null)
                 {

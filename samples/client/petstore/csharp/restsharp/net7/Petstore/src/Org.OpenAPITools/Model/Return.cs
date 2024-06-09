@@ -141,12 +141,18 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + VarReturn.GetHashCode();
-				hashCode = (hashCode * 59) + Lock.GetHashCode();
-                if (Abstract != null)
+				if (Lock != null)
+                {
+                    hashCode = (hashCode * 59) + Lock.GetHashCode();
+                }
+				if (Abstract != null)
                 {
                     hashCode = (hashCode * 59) + Abstract.GetHashCode();
                 }
-				hashCode = (hashCode * 59) + Unsafe.GetHashCode();
+				if (Unsafe != null)
+                {
+                    hashCode = (hashCode * 59) + Unsafe.GetHashCode();
+                }
                 return hashCode;
             }
         }

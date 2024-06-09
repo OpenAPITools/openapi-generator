@@ -221,10 +221,22 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + UuidWithPattern.GetHashCode();
-				hashCode = (hashCode * 59) + Uuid.GetHashCode();
-				hashCode = (hashCode * 59) + DateTime.GetHashCode();
-				hashCode = (hashCode * 59) + Map.GetHashCode();
+				if (UuidWithPattern != null)
+                {
+                    hashCode = (hashCode * 59) + UuidWithPattern.GetHashCode();
+                }
+				if (Uuid != null)
+                {
+                    hashCode = (hashCode * 59) + Uuid.GetHashCode();
+                }
+				if (DateTime != null)
+                {
+                    hashCode = (hashCode * 59) + DateTime.GetHashCode();
+                }
+				if (Map != null)
+                {
+                    hashCode = (hashCode * 59) + Map.GetHashCode();
+                }
                 if (AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();

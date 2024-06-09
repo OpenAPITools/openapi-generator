@@ -237,20 +237,35 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + ArrayStringEnumRefDefault.GetHashCode();
-				hashCode = (hashCode * 59) + ArrayStringEnumDefault.GetHashCode();
-				hashCode = (hashCode * 59) + ArrayStringDefault.GetHashCode();
-				hashCode = (hashCode * 59) + ArrayIntegerDefault.GetHashCode();
-				hashCode = (hashCode * 59) + ArrayString.GetHashCode();
-                if (ArrayStringNullable != null)
+				if (ArrayStringEnumRefDefault != null)
+                {
+                    hashCode = (hashCode * 59) + ArrayStringEnumRefDefault.GetHashCode();
+                }
+				if (ArrayStringEnumDefault != null)
+                {
+                    hashCode = (hashCode * 59) + ArrayStringEnumDefault.GetHashCode();
+                }
+				if (ArrayStringDefault != null)
+                {
+                    hashCode = (hashCode * 59) + ArrayStringDefault.GetHashCode();
+                }
+				if (ArrayIntegerDefault != null)
+                {
+                    hashCode = (hashCode * 59) + ArrayIntegerDefault.GetHashCode();
+                }
+				if (ArrayString != null)
+                {
+                    hashCode = (hashCode * 59) + ArrayString.GetHashCode();
+                }
+				if (ArrayStringNullable != null)
                 {
                     hashCode = (hashCode * 59) + ArrayStringNullable.GetHashCode();
                 }
-                if (ArrayStringExtensionNullable != null)
+				if (ArrayStringExtensionNullable != null)
                 {
                     hashCode = (hashCode * 59) + ArrayStringExtensionNullable.GetHashCode();
                 }
-                if (StringNullable != null)
+				if (StringNullable != null)
                 {
                     hashCode = (hashCode * 59) + StringNullable.GetHashCode();
                 }

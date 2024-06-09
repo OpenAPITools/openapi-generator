@@ -116,9 +116,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + Cultivar.GetHashCode();
-				hashCode = (hashCode * 59) + Origin.GetHashCode();
-				hashCode = (hashCode * 59) + ColorCode.GetHashCode();
+				if (Cultivar != null)
+                {
+                    hashCode = (hashCode * 59) + Cultivar.GetHashCode();
+                }
+				if (Origin != null)
+                {
+                    hashCode = (hashCode * 59) + Origin.GetHashCode();
+                }
+				if (ColorCode != null)
+                {
+                    hashCode = (hashCode * 59) + ColorCode.GetHashCode();
+                }
                 return hashCode;
             }
         }

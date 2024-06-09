@@ -144,10 +144,22 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + HttpDebugOperation.GetHashCode();
-				hashCode = (hashCode * 59) + UnderscoreType.GetHashCode();
-				hashCode = (hashCode * 59) + Type.GetHashCode();
-				hashCode = (hashCode * 59) + TypeWithUnderscore.GetHashCode();
+				if (HttpDebugOperation != null)
+                {
+                    hashCode = (hashCode * 59) + HttpDebugOperation.GetHashCode();
+                }
+				if (UnderscoreType != null)
+                {
+                    hashCode = (hashCode * 59) + UnderscoreType.GetHashCode();
+                }
+				if (Type != null)
+                {
+                    hashCode = (hashCode * 59) + Type.GetHashCode();
+                }
+				if (TypeWithUnderscore != null)
+                {
+                    hashCode = (hashCode * 59) + TypeWithUnderscore.GetHashCode();
+                }
                 return hashCode;
             }
         }

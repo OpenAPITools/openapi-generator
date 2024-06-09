@@ -200,7 +200,10 @@ namespace Org.OpenAPITools.Model
                 hashCode = (hashCode * 59) + Id.GetHashCode();
                 hashCode = (hashCode * 59) + PetId.GetHashCode();
                 hashCode = (hashCode * 59) + Quantity.GetHashCode();
-				hashCode = (hashCode * 59) + ShipDate.GetHashCode();
+				if (ShipDate != null)
+                {
+                    hashCode = (hashCode * 59) + ShipDate.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + Status.GetHashCode();
                 hashCode = (hashCode * 59) + Complete.GetHashCode();
                 return hashCode;

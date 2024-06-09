@@ -119,8 +119,14 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + EscapedLiteralString.GetHashCode();
-				hashCode = (hashCode * 59) + UnescapedLiteralString.GetHashCode();
+				if (EscapedLiteralString != null)
+                {
+                    hashCode = (hashCode * 59) + EscapedLiteralString.GetHashCode();
+                }
+				if (UnescapedLiteralString != null)
+                {
+                    hashCode = (hashCode * 59) + UnescapedLiteralString.GetHashCode();
+                }
                 return hashCode;
             }
         }

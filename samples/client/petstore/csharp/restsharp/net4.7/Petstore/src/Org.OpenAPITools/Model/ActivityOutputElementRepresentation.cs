@@ -115,8 +115,14 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + Prop1.GetHashCode();
-				hashCode = (hashCode * 59) + Prop2.GetHashCode();
+				if (Prop1 != null)
+                {
+                    hashCode = (hashCode * 59) + Prop1.GetHashCode();
+                }
+				if (Prop2 != null)
+                {
+                    hashCode = (hashCode * 59) + Prop2.GetHashCode();
+                }
                 if (AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();

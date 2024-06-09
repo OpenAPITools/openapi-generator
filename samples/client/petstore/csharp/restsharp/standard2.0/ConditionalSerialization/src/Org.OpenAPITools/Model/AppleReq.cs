@@ -157,7 +157,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + Cultivar.GetHashCode();
+				if (Cultivar != null)
+                {
+                    hashCode = (hashCode * 59) + Cultivar.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + Mealy.GetHashCode();
                 return hashCode;
             }

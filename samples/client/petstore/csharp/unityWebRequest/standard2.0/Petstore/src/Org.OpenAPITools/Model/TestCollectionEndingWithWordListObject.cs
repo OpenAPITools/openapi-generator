@@ -106,7 +106,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + TestCollectionEndingWithWordList.GetHashCode();
+				if (TestCollectionEndingWithWordList != null)
+                {
+                    hashCode = (hashCode * 59) + TestCollectionEndingWithWordList.GetHashCode();
+                }
                 return hashCode;
             }
         }

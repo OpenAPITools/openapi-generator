@@ -144,7 +144,10 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + VarName.GetHashCode();
                 hashCode = (hashCode * 59) + SnakeCase.GetHashCode();
-				hashCode = (hashCode * 59) + Property.GetHashCode();
+				if (Property != null)
+                {
+                    hashCode = (hashCode * 59) + Property.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + Var123Number.GetHashCode();
                 return hashCode;
             }

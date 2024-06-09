@@ -129,7 +129,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + PkiNotificationtestID.GetHashCode();
-				hashCode = (hashCode * 59) + AObjVariableobject.GetHashCode();
+				if (AObjVariableobject != null)
+                {
+                    hashCode = (hashCode * 59) + AObjVariableobject.GetHashCode();
+                }
                 if (AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();

@@ -163,12 +163,30 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + Id.GetHashCode();
-				hashCode = (hashCode * 59) + Username.GetHashCode();
-				hashCode = (hashCode * 59) + FirstName.GetHashCode();
-				hashCode = (hashCode * 59) + LastName.GetHashCode();
-				hashCode = (hashCode * 59) + Email.GetHashCode();
-				hashCode = (hashCode * 59) + Password.GetHashCode();
-				hashCode = (hashCode * 59) + Phone.GetHashCode();
+				if (Username != null)
+                {
+                    hashCode = (hashCode * 59) + Username.GetHashCode();
+                }
+				if (FirstName != null)
+                {
+                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
+                }
+				if (LastName != null)
+                {
+                    hashCode = (hashCode * 59) + LastName.GetHashCode();
+                }
+				if (Email != null)
+                {
+                    hashCode = (hashCode * 59) + Email.GetHashCode();
+                }
+				if (Password != null)
+                {
+                    hashCode = (hashCode * 59) + Password.GetHashCode();
+                }
+				if (Phone != null)
+                {
+                    hashCode = (hashCode * 59) + Phone.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + UserStatus.GetHashCode();
                 return hashCode;
             }

@@ -153,12 +153,30 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + SmallCamel.GetHashCode();
-				hashCode = (hashCode * 59) + CapitalCamel.GetHashCode();
-				hashCode = (hashCode * 59) + SmallSnake.GetHashCode();
-				hashCode = (hashCode * 59) + CapitalSnake.GetHashCode();
-				hashCode = (hashCode * 59) + SCAETHFlowPoints.GetHashCode();
-				hashCode = (hashCode * 59) + ATT_NAME.GetHashCode();
+				if (SmallCamel != null)
+                {
+                    hashCode = (hashCode * 59) + SmallCamel.GetHashCode();
+                }
+				if (CapitalCamel != null)
+                {
+                    hashCode = (hashCode * 59) + CapitalCamel.GetHashCode();
+                }
+				if (SmallSnake != null)
+                {
+                    hashCode = (hashCode * 59) + SmallSnake.GetHashCode();
+                }
+				if (CapitalSnake != null)
+                {
+                    hashCode = (hashCode * 59) + CapitalSnake.GetHashCode();
+                }
+				if (SCAETHFlowPoints != null)
+                {
+                    hashCode = (hashCode * 59) + SCAETHFlowPoints.GetHashCode();
+                }
+				if (ATT_NAME != null)
+                {
+                    hashCode = (hashCode * 59) + ATT_NAME.GetHashCode();
+                }
                 if (AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();

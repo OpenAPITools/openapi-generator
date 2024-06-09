@@ -119,7 +119,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				hashCode = (hashCode * 59) + QuadrilateralType.GetHashCode();
+				if (QuadrilateralType != null)
+                {
+                    hashCode = (hashCode * 59) + QuadrilateralType.GetHashCode();
+                }
                 if (AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
