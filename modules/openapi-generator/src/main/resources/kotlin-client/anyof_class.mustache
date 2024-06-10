@@ -114,7 +114,7 @@ import java.io.IOException
                     {{/isPrimitiveType}}
                     {{^isPrimitiveType}}
                     {{#isArray}}
-                        List<?> list = (List<?>) value.actualInstance
+                        val list = value.actualInstance as List<Any>
                         if (list.get(0) is {{{items.dataType}}}) {
                             val array = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(value.actualInstance as {{{dataType}}}?).getAsJsonArray()
                             elementAdapter.write(out, array)
