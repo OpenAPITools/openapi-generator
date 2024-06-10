@@ -19,9 +19,10 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -73,9 +74,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     private static final String CLIENT_NAME = "clientName";
 
+    @Getter @Setter
     private String dateLibrary;
+    @Getter @Setter
     private String equalityCheckMethod;
 
+    @Getter @Setter
     private String clientName;
 
     private TemplateManager templateManager;
@@ -135,30 +139,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
         finalProperties.setDefault("true");
         cliOptions.add(finalProperties);
-    }
-
-    public String getDateLibrary() {
-        return dateLibrary;
-    }
-
-    public void setDateLibrary(String library) {
-        this.dateLibrary = library;
-    }
-
-    public String getEqualityCheckMethod() {
-        return equalityCheckMethod;
-    }
-
-    public void setEqualityCheckMethod(String equalityCheckMethod) {
-        this.equalityCheckMethod = equalityCheckMethod;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
     }
 
     @Override
@@ -790,13 +770,13 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
         final boolean isArray;
 
-        final boolean uniqueItems;
+        @Getter final boolean uniqueItems;
 
         final boolean isMap;
 
         final boolean isNullable;
 
-        final String dataType;
+        @Getter final String dataType;
 
         private BuiltValueSerializer(boolean isArray, boolean uniqueItems, boolean isMap, boolean isNullable, String dataType) {
             this.isArray = isArray;
@@ -810,20 +790,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             return isArray;
         }
 
-        public boolean isUniqueItems() {
-            return uniqueItems;
-        }
-
         public boolean isMap() {
             return isMap;
         }
 
         public boolean isNullable() {
             return isNullable;
-        }
-
-        public String getDataType() {
-            return dataType;
         }
 
         @Override

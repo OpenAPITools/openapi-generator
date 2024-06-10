@@ -151,8 +151,8 @@
     <junit.version>5.10.2</junit.version>
     <logback.version>1.4.14</logback.version>
     <cxf.version>3.2.7</cxf.version>
-    <jackson.jaxrs.version>2.15.2</jackson.jaxrs.version>
-    <jackson.version>2.15.2</jackson.version>
+    <jackson.jaxrs.version>2.17.1</jackson.jaxrs.version>
+    <jackson.version>2.17.1</jackson.version>
     <jakarta.activation.version>1.2.2</jakarta.activation.version>
     <jakarta.annotation.version>1.3.5</jakarta.annotation.version>
     <jakarta.json.bind.version>1.0.2</jakarta.json.bind.version>

@@ -34,5 +34,8 @@ data class ApiBird (
     @SerializedName("color")
     val color: kotlin.String? = null
 
-)
+) {
+
+
+}
 

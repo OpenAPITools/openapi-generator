@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://localhost:3000*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**testHeaderIntegerBooleanStringEnums**](HeaderApi.md#testHeaderIntegerBooleanStringEnums) | **GET** header/integer/boolean/string/enums | Test header parameter(s)
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**testHeaderIntegerBooleanStringEnums**](HeaderApi.md#testHeaderIntegerBooleanStringEnums) | **GET** header/integer/boolean/string/enums | Test header parameter(s) |
 
 
 
@@ -33,14 +33,13 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **integerHeader** | **kotlin.Int**|  | [optional]
- **booleanHeader** | **kotlin.Boolean**|  | [optional]
- **stringHeader** | **kotlin.String**|  | [optional]
- **enumNonrefStringHeader** | **kotlin.String**|  | [optional] [enum: success, failure, unclassified]
- **enumRefStringHeader** | [**ApiStringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified]
+| **integerHeader** | **kotlin.Int**|  | [optional] |
+| **booleanHeader** | **kotlin.Boolean**|  | [optional] |
+| **stringHeader** | **kotlin.String**|  | [optional] |
+| **enumNonrefStringHeader** | **kotlin.String**|  | [optional] [enum: success, failure, unclassified] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **enumRefStringHeader** | [**ApiStringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
 
 ### Return type
 

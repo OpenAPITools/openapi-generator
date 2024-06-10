@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Apple
  */
@@ -172,12 +173,12 @@ public class Apple {
 
     // add `cultivar` to the URL query string
     if (getCultivar() != null) {
-      joiner.add(String.format("%scultivar%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCultivar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scultivar%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCultivar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `origin` to the URL query string
     if (getOrigin() != null) {
-      joiner.add(String.format("%sorigin%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOrigin()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sorigin%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOrigin()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

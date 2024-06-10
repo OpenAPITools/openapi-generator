@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.io.FilenameUtils;
@@ -59,6 +58,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      *
      * @return the CodegenType for this generator
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -69,6 +69,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      *
      * @return the friendly name for the generator
      */
+    @Override
     public String getName() {
         return "haskell";
     }
@@ -79,6 +80,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      *
      * @return A string value for the help message
      */
+    @Override
     public String getHelp() {
         return "Generates a Haskell server and client library.";
     }

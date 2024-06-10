@@ -2,7 +2,7 @@
 
 ### GET /teams
 ## GET /teams
-GET https://api.opendota.com/api/teams
+GET https://api.opendota.com/api/teams?page={{page}}
 Accept: application/json; charset=utf-8
 
 ### GET /teams/{team_id}

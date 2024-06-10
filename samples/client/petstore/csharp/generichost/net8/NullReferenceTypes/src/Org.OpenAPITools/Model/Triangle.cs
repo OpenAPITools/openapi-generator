@@ -234,17 +234,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (triangle.EquilateralTriangle != null) {
+            if (triangle.EquilateralTriangle != null)
+            {
                 EquilateralTriangleJsonConverter equilateralTriangleJsonConverter = (EquilateralTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.EquilateralTriangle.GetType()));
                 equilateralTriangleJsonConverter.WriteProperties(writer, triangle.EquilateralTriangle, jsonSerializerOptions);
             }
 
-            if (triangle.IsoscelesTriangle != null) {
+            if (triangle.IsoscelesTriangle != null)
+            {
                 IsoscelesTriangleJsonConverter isoscelesTriangleJsonConverter = (IsoscelesTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.IsoscelesTriangle.GetType()));
                 isoscelesTriangleJsonConverter.WriteProperties(writer, triangle.IsoscelesTriangle, jsonSerializerOptions);
             }
 
-            if (triangle.ScaleneTriangle != null) {
+            if (triangle.ScaleneTriangle != null)
+            {
                 ScaleneTriangleJsonConverter scaleneTriangleJsonConverter = (ScaleneTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.ScaleneTriangle.GetType()));
                 scaleneTriangleJsonConverter.WriteProperties(writer, triangle.ScaleneTriangle, jsonSerializerOptions);
             }

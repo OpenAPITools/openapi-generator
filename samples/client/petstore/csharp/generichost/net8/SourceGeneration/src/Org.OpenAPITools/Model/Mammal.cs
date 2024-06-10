@@ -235,17 +235,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (mammal.Whale != null) {
+            if (mammal.Whale != null)
+            {
                 WhaleJsonConverter whaleJsonConverter = (WhaleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Whale.GetType()));
                 whaleJsonConverter.WriteProperties(writer, mammal.Whale, jsonSerializerOptions);
             }
 
-            if (mammal.Zebra != null) {
+            if (mammal.Zebra != null)
+            {
                 ZebraJsonConverter zebraJsonConverter = (ZebraJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Zebra.GetType()));
                 zebraJsonConverter.WriteProperties(writer, mammal.Zebra, jsonSerializerOptions);
             }
 
-            if (mammal.Pig != null) {
+            if (mammal.Pig != null)
+            {
                 PigJsonConverter pigJsonConverter = (PigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Pig.GetType()));
                 pigJsonConverter.WriteProperties(writer, mammal.Pig, jsonSerializerOptions);
             }

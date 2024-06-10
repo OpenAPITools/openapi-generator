@@ -39,8 +39,8 @@ class EnumTest(BaseModel):
     enum_string_vendor_ext: Optional[StrictStr] = None
     outer_enum: Optional[OuterEnum] = Field(default=None, alias="outerEnum")
     outer_enum_integer: Optional[OuterEnumInteger] = Field(default=None, alias="outerEnumInteger")
-    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=None, alias="outerEnumDefaultValue")
-    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=None, alias="outerEnumIntegerDefaultValue")
+    outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=OuterEnumDefaultValue.PLACED, alias="outerEnumDefaultValue")
+    outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=OuterEnumIntegerDefaultValue.NUMBER_0, alias="outerEnumIntegerDefaultValue")
     __properties: ClassVar[List[str]] = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "enum_number_vendor_ext", "enum_string_vendor_ext", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
 
     @field_validator('enum_string')
@@ -175,8 +175,8 @@ class EnumTest(BaseModel):
             "enum_string_vendor_ext": obj.get("enum_string_vendor_ext"),
             "outerEnum": obj.get("outerEnum"),
             "outerEnumInteger": obj.get("outerEnumInteger"),
-            "outerEnumDefaultValue": obj.get("outerEnumDefaultValue"),
-            "outerEnumIntegerDefaultValue": obj.get("outerEnumIntegerDefaultValue")
+            "outerEnumDefaultValue": obj.get("outerEnumDefaultValue") if obj.get("outerEnumDefaultValue") is not None else OuterEnumDefaultValue.PLACED,
+            "outerEnumIntegerDefaultValue": obj.get("outerEnumIntegerDefaultValue") if obj.get("outerEnumIntegerDefaultValue") is not None else OuterEnumIntegerDefaultValue.NUMBER_0
         })
         return _obj
 
