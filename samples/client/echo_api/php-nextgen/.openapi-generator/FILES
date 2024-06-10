@@ -24,13 +24,13 @@ docs/Model/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
 docs/Model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 git_push.sh
 phpunit.xml.dist
+src/ApiException.php
 src/Api/AuthApi.php
 src/Api/BodyApi.php
 src/Api/FormApi.php
 src/Api/HeaderApi.php
 src/Api/PathApi.php
 src/Api/QueryApi.php
-src/ApiException.php
 src/Configuration.php
 src/HeaderSelector.php
 src/Model/Bird.php
