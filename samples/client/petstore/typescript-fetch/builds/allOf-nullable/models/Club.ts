@@ -31,7 +31,7 @@ export interface Club {
      * @type {Owner}
      * @memberof Club
      */
-    owner?: Owner;
+    owner?: Owner | null;
 }
 
 /**

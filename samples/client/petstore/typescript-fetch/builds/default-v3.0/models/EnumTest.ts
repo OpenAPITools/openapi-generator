@@ -73,7 +73,7 @@ export interface EnumTest {
      * @type {OuterEnum}
      * @memberof EnumTest
      */
-    outerEnum?: OuterEnum;
+    outerEnum?: OuterEnum | null;
     /**
      * 
      * @type {OuterEnumInteger}

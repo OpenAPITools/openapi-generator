@@ -24,7 +24,7 @@ export interface HealthCheckResult {
      * @type {string}
      * @memberof HealthCheckResult
      */
-    nullableMessage?: string;
+    nullableMessage?: string | null;
 }
 
 /**

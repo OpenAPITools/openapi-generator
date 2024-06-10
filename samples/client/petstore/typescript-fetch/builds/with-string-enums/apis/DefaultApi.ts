@@ -40,9 +40,9 @@ export interface FakeEnumRequestGetInlineRequest {
 
 export interface FakeEnumRequestGetRefRequest {
     stringEnum?: StringEnum;
-    nullableStringEnum?: StringEnum;
+    nullableStringEnum?: StringEnum | null;
     numberEnum?: NumberEnum;
-    nullableNumberEnum?: NumberEnum;
+    nullableNumberEnum?: NumberEnum | null;
 }
 
 export interface FakeEnumRequestPostInlineRequest {
