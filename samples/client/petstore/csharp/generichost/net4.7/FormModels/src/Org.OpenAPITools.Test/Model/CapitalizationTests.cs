@@ -54,12 +54,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'ATT_NAME'
+        /// Test the property 'SmallCamel'
         /// </summary>
         [Fact]
-        public void ATT_NAMETest()
+        public void SmallCamelTest()
         {
-            // TODO unit test for the property 'ATT_NAME'
+            // TODO unit test for the property 'SmallCamel'
         }
 
         /// <summary>
@@ -69,6 +69,15 @@ namespace Org.OpenAPITools.Test.Model
         public void CapitalCamelTest()
         {
             // TODO unit test for the property 'CapitalCamel'
+        }
+
+        /// <summary>
+        /// Test the property 'SmallSnake'
+        /// </summary>
+        [Fact]
+        public void SmallSnakeTest()
+        {
+            // TODO unit test for the property 'SmallSnake'
         }
 
         /// <summary>
@@ -90,21 +99,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'SmallCamel'
+        /// Test the property 'ATT_NAME'
         /// </summary>
         [Fact]
-        public void SmallCamelTest()
+        public void ATT_NAMETest()
         {
-            // TODO unit test for the property 'SmallCamel'
-        }
-
-        /// <summary>
-        /// Test the property 'SmallSnake'
-        /// </summary>
-        [Fact]
-        public void SmallSnakeTest()
-        {
-            // TODO unit test for the property 'SmallSnake'
+            // TODO unit test for the property 'ATT_NAME'
         }
     }
 }

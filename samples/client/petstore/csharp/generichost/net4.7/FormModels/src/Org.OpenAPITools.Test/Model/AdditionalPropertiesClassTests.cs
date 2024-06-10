@@ -54,21 +54,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Anytype1'
+        /// Test the property 'MapProperty'
         /// </summary>
         [Fact]
-        public void Anytype1Test()
+        public void MapPropertyTest()
         {
-            // TODO unit test for the property 'Anytype1'
-        }
-
-        /// <summary>
-        /// Test the property 'EmptyMap'
-        /// </summary>
-        [Fact]
-        public void EmptyMapTest()
-        {
-            // TODO unit test for the property 'EmptyMap'
+            // TODO unit test for the property 'MapProperty'
         }
 
         /// <summary>
@@ -81,12 +72,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'MapProperty'
+        /// Test the property 'Anytype1'
         /// </summary>
         [Fact]
-        public void MapPropertyTest()
+        public void Anytype1Test()
         {
-            // TODO unit test for the property 'MapProperty'
+            // TODO unit test for the property 'Anytype1'
         }
 
         /// <summary>
@@ -114,6 +105,15 @@ namespace Org.OpenAPITools.Test.Model
         public void MapWithUndeclaredPropertiesAnytype3Test()
         {
             // TODO unit test for the property 'MapWithUndeclaredPropertiesAnytype3'
+        }
+
+        /// <summary>
+        /// Test the property 'EmptyMap'
+        /// </summary>
+        [Fact]
+        public void EmptyMapTest()
+        {
+            // TODO unit test for the property 'EmptyMap'
         }
 
         /// <summary>
