@@ -19,33 +19,46 @@ package org.openapitools.codegen.java.jaxrs;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
+import org.mockito.Answers;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.*;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.withSettings;
+
 public class AbstractJavaJAXRSServerCodegenTest {
 
-    private final AbstractJavaJAXRSServerCodegen fakeJavaJAXRSCodegen = new P_AbstractJavaJAXRSServerCodegen();
+    private AbstractJavaJAXRSServerCodegen codegen;
+
+    /**
+     * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
+     * using @BeforeMethod to have a fresh codegen mock for each test
+     */
+    @BeforeMethod void mockAbstractCodegen() {
+        codegen = mock(
+            AbstractJavaJAXRSServerCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
+        );
+    }
 
     @Test
     public void convertApiName() {
-        Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("name"), "NameApi");
-        Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("$name"), "NameApi");
-        Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("nam#e"), "NameApi");
-        Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("$another-fake?"), "AnotherFakeApi");
-        Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("fake_classname_tags 123#$%^"), "FakeClassnameTags123Api");
+        Assert.assertEquals(codegen.toApiName("name"), "NameApi");
+        Assert.assertEquals(codegen.toApiName("$name"), "NameApi");
+        Assert.assertEquals(codegen.toApiName("nam#e"), "NameApi");
+        Assert.assertEquals(codegen.toApiName("$another-fake?"), "AnotherFakeApi");
+        Assert.assertEquals(codegen.toApiName("fake_classname_tags 123#$%^"), "FakeClassnameTags123Api");
     }
 
     @Test
     public void testInitialConfigValues() throws Exception {
-        final AbstractJavaJAXRSServerCodegen codegen = new P_AbstractJavaJAXRSServerCodegen();
         codegen.processOpts();
 
         OpenAPI openAPI = new OpenAPI();
@@ -65,7 +78,6 @@ public class AbstractJavaJAXRSServerCodegenTest {
 
     @Test
     public void testSettersForConfigValues() throws Exception {
-        final AbstractJavaJAXRSServerCodegen codegen = new P_AbstractJavaJAXRSServerCodegen();
         codegen.setHideGenerationTimestamp(true);
         codegen.setModelPackage("xx.yyyyyyyy.model");
         codegen.setApiPackage("xx.yyyyyyyy.api");
@@ -84,7 +96,6 @@ public class AbstractJavaJAXRSServerCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        final AbstractJavaJAXRSServerCodegen codegen = new P_AbstractJavaJAXRSServerCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
@@ -109,7 +120,6 @@ public class AbstractJavaJAXRSServerCodegenTest {
 
     @Test
     public void testCommonPath() {
-        final AbstractJavaJAXRSServerCodegen codegen = new P_AbstractJavaJAXRSServerCodegen();
         OperationsMap objs = new OperationsMap();
         OperationMap opMap = new OperationMap();
         List<CodegenOperation> operations = new ArrayList<>();
@@ -175,23 +185,5 @@ public class AbstractJavaJAXRSServerCodegenTest {
         final CodegenOperation co = new CodegenOperation();
         co.path = path;
         return co;
-    }
-
-    private static class P_AbstractJavaJAXRSServerCodegen extends AbstractJavaJAXRSServerCodegen {
-
-        @Override
-        public CodegenType getTag() {
-            return null;
-        }
-
-        @Override
-        public String getName() {
-            return null;
-        }
-
-        @Override
-        public String getHelp() {
-            return null;
-        }
     }
 }

@@ -16,8 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -50,17 +50,17 @@ public class CrystalClientCodegen extends DefaultCodegen {
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
 
-    protected String shardName = "openapi_client";
-    protected String moduleName = "OpenAPIClient";
-    protected String shardVersion = "1.0.0";
+    @Setter protected String shardName = "openapi_client";
+    @Setter protected String moduleName = "OpenAPIClient";
+    @Setter protected String shardVersion = "1.0.0";
     protected String specFolder = "spec";
     protected String srcFolder = "src";
-    protected String shardLicense = "unlicense";
-    protected String shardHomepage = "https://openapitools.org";
-    protected String shardSummary = "A Crystal SDK for the REST API";
-    protected String shardDescription = "This shard maps to a REST API";
-    protected String shardAuthor = "";
-    protected String shardAuthorEmail = "";
+    @Setter protected String shardLicense = "unlicense";
+    @Setter protected String shardHomepage = "https://openapitools.org";
+    @Setter protected String shardSummary = "A Crystal SDK for the REST API";
+    @Setter protected String shardDescription = "This shard maps to a REST API";
+    @Setter protected String shardAuthor = "";
+    @Setter protected String shardAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected List<String> primitiveTypes = new ArrayList<String>();
@@ -545,42 +545,6 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Override
     public String toApiImport(String name) {
         return shardName + "/" + apiPackage() + "/" + toApiFilename(name);
-    }
-
-    public void setShardName(String shardName) {
-        this.shardName = shardName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void setShardVersion(String shardVersion) {
-        this.shardVersion = shardVersion;
-    }
-
-    public void setShardDescription(String shardDescription) {
-        this.shardDescription = shardDescription;
-    }
-
-    public void setShardSummary(String shardSummary) {
-        this.shardSummary = shardSummary;
-    }
-
-    public void setShardLicense(String shardLicense) {
-        this.shardLicense = shardLicense;
-    }
-
-    public void setShardHomepage(String shardHomepage) {
-        this.shardHomepage = shardHomepage;
-    }
-
-    public void setShardAuthor(String shardAuthor) {
-        this.shardAuthor = shardAuthor;
-    }
-
-    public void setShardAuthorEmail(String shardAuthorEmail) {
-        this.shardAuthorEmail = shardAuthorEmail;
     }
 
     @Override

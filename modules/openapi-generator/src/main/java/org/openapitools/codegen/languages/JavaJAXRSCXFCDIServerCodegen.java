@@ -113,8 +113,4 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification, assuming an "
                 + "Apache CXF runtime and a Java EE runtime with CDI enabled.";
     }
-
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
 }

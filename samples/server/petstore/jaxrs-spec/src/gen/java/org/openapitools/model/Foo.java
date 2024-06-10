@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Foo")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Foo  implements Serializable {
   private String bar = "bar";
 
@@ -90,7 +90,7 @@ public class Foo  implements Serializable {
     return new FooBuilderImpl();
   }
 
-  private static final class FooBuilderImpl extends FooBuilder<Foo, FooBuilderImpl> {
+  private static class FooBuilderImpl extends FooBuilder<Foo, FooBuilderImpl> {
 
     @Override
     protected FooBuilderImpl self() {

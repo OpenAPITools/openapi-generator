@@ -5,6 +5,7 @@
 POST https://checkout-test.adyen.com/v71/paymentSession
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -29,6 +30,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/paymentSession
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -55,6 +57,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/paymentSession
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -79,6 +82,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/paymentSession
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -117,6 +121,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/paymentSession
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -142,6 +147,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments/result
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 

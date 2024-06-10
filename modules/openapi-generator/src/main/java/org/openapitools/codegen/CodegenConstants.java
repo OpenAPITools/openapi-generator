@@ -25,6 +25,7 @@ public class CodegenConstants {
     // NOTE: We may want to move these to a separate class to avoid confusion or modification.
     public static final String APIS = "apis";
     public static final String MODELS = "models";
+    public static final String GENERATE_RECURSIVE_DEPENDENT_MODELS = "generateRecursiveDependentModels";
     public static final String SUPPORTING_FILES = "supportingFiles";
     public static final String MODEL_TESTS = "modelTests";
     public static final String MODEL_DOCS = "modelDocs";
@@ -32,7 +33,6 @@ public class CodegenConstants {
     public static final String API_TESTS = "apiTests";
     public static final String API_DOCS = "apiDocs";
 
-    public static final String WITH_XML = "withXml";
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
@@ -437,6 +437,8 @@ public class CodegenConstants {
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
 
+    public static final String WITH_XML = "withXml";
+    
     public static final String WITH_GO_MOD = "withGoMod";
 
     public static final String GENERATE_MARSHAL_JSON = "generateMarshalJSON";

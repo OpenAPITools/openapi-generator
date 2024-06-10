@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -90,18 +89,17 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         super();
 
         modifyFeatureSet(features -> features.includeSecurityFeatures(
-                SecurityFeature.OAuth2_AuthorizationCode,
-                SecurityFeature.OAuth2_Password
+            SecurityFeature.OAuth2_AuthorizationCode, 
+            SecurityFeature.OAuth2_Password
         ));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
-        SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addKeySerializer(String.class, new SnakeCaseKeySerializer());
-        simpleModule.addSerializer(Boolean.class, new PythonBooleanSerializer());
-        MAPPER.registerModule(simpleModule);
+        MAPPER.registerModule(
+            new SimpleModule()
+                .addKeySerializer(String.class, new SnakeCaseKeySerializer())
+                .addSerializer(Boolean.class, new PythonBooleanSerializer())
+        );
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -139,19 +137,6 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
                 .defaultValue(DEFAULT_SOURCE_FOLDER));
         cliOptions.add(new CliOption(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, "python package name for the implementation code (convention: snake_case).")
                 .defaultValue(implPackage));
-
-        // option to change how we process + set the data in the 'additionalProperties' keyword.
-        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
-                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
-                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
-        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
-        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
-                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
-        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
-                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
-        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
-        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
-        this.setDisallowAdditionalPropertiesIfNotPresent(true);
     }
 
     @Override
@@ -338,5 +323,5 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     }
 
     @Override
-    public String generatorLanguageVersion() { return "3.7"; };
+    public String generatorLanguageVersion() { return "3.7"; }
 }

@@ -206,19 +206,19 @@ class RegisterRoutes
                                 'header' => $authMethod['keyParamName'],
                                 'parameter' => null,
                                 'cookie' => null,
-                            ]
+                            ];
                         } else if ($authMethod['isKeyInQuery']) {
                             $authenticatorConfig = [
                                 'header' => null,
                                 'parameter' => $authMethod['keyParamName'],
                                 'cookie' => null,
-                            ]
+                            ];
                         } else if ($authMethod['isKeyInCookie']) {
                             $authenticatorConfig = [
                                 'header' => null,
                                 'parameter' => null,
                                 'cookie' => $authMethod['keyParamName'],
-                            ]
+                            ];
                         }
                         $route->add(new TokenAuthentication($authenticatorConfig));
                     }

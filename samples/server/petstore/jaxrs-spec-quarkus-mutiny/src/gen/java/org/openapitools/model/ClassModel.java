@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="Model for testing model with \"_class\" property")
 @JsonTypeName("ClassModel")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ClassModel  implements Serializable {
   private String propertyClass;
 
@@ -90,7 +90,7 @@ public class ClassModel  implements Serializable {
     return new ClassModelBuilderImpl();
   }
 
-  private static final class ClassModelBuilderImpl extends ClassModelBuilder<ClassModel, ClassModelBuilderImpl> {
+  private static class ClassModelBuilderImpl extends ClassModelBuilder<ClassModel, ClassModelBuilderImpl> {
 
     @Override
     protected ClassModelBuilderImpl self() {

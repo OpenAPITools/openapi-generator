@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.")
 @JsonTypeName("HealthCheckResult")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class HealthCheckResult  implements Serializable {
   private String nullableMessage;
 
@@ -91,7 +91,7 @@ public class HealthCheckResult  implements Serializable {
     return new HealthCheckResultBuilderImpl();
   }
 
-  private static final class HealthCheckResultBuilderImpl extends HealthCheckResultBuilder<HealthCheckResult, HealthCheckResultBuilderImpl> {
+  private static class HealthCheckResultBuilderImpl extends HealthCheckResultBuilder<HealthCheckResult, HealthCheckResultBuilderImpl> {
 
     @Override
     protected HealthCheckResultBuilderImpl self() {

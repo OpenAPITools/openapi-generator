@@ -214,62 +214,62 @@ Accept: application/scim+json
 
 ### List organizations
 ## List organizations
-GET https://api.github.com/organizations
+GET https://api.github.com/organizations?since={{since}}&perPage={{perPage}}
 Accept: application/json
 
 ### List app installations for an organization
 ## List app installations for an organization
-GET https://api.github.com/orgs/{{org}}/installations
+GET https://api.github.com/orgs/{{org}}/installations?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List users blocked by an organization
 ## List users blocked by an organization
-GET https://api.github.com/orgs/{{org}}/blocks
+GET https://api.github.com/orgs/{{org}}/blocks?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List custom property values for organization repositories
 ## List custom property values for organization repositories
-GET https://api.github.com/orgs/{{org}}/properties/values
+GET https://api.github.com/orgs/{{org}}/properties/values?perPage={{perPage}}&page={{page}}&repositoryQuery={{repositoryQuery}}
 Accept: application/json
 
 ### List failed organization invitations
 ## List failed organization invitations
-GET https://api.github.com/orgs/{{org}}/failed_invitations
+GET https://api.github.com/orgs/{{org}}/failed_invitations?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List organizations for the authenticated user
 ## List organizations for the authenticated user
-GET https://api.github.com/user/orgs
+GET https://api.github.com/user/orgs?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List organizations for a user
 ## List organizations for a user
-GET https://api.github.com/users/{{username}}/orgs
+GET https://api.github.com/users/{{username}}/orgs?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List organization invitation teams
 ## List organization invitation teams
-GET https://api.github.com/orgs/{{org}}/invitations/{{invitation_id}}/teams
+GET https://api.github.com/orgs/{{org}}/invitations/{{invitation_id}}/teams?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List organization members
 ## List organization members
-GET https://api.github.com/orgs/{{org}}/members
+GET https://api.github.com/orgs/{{org}}/members?filter={{filter}}&role={{role}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List organization memberships for the authenticated user
 ## List organization memberships for the authenticated user
-GET https://api.github.com/user/memberships/orgs
+GET https://api.github.com/user/memberships/orgs?state={{state}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List teams that are assigned to an organization role
 ## List teams that are assigned to an organization role
-GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}/teams
+GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}/teams?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List users that are assigned to an organization role
 ## List users that are assigned to an organization role
-GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}/users
+GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}/users?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Get all organization roles for an organization
@@ -284,37 +284,37 @@ Accept: application/json
 
 ### List outside collaborators for an organization
 ## List outside collaborators for an organization
-GET https://api.github.com/orgs/{{org}}/outside_collaborators
+GET https://api.github.com/orgs/{{org}}/outside_collaborators?filter={{filter}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repositories a fine-grained personal access token has access to
 ## List repositories a fine-grained personal access token has access to
-GET https://api.github.com/orgs/{{org}}/personal-access-tokens/{{pat_id}}/repositories
+GET https://api.github.com/orgs/{{org}}/personal-access-tokens/{{pat_id}}/repositories?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repositories requested to be accessed by a fine-grained personal access token
 ## List repositories requested to be accessed by a fine-grained personal access token
-GET https://api.github.com/orgs/{{org}}/personal-access-token-requests/{{pat_request_id}}/repositories
+GET https://api.github.com/orgs/{{org}}/personal-access-token-requests/{{pat_request_id}}/repositories?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List requests to access organization resources with fine-grained personal access tokens
 ## List requests to access organization resources with fine-grained personal access tokens
-GET https://api.github.com/orgs/{{org}}/personal-access-token-requests
+GET https://api.github.com/orgs/{{org}}/personal-access-token-requests?perPage={{perPage}}&page={{page}}&sort={{sort}}&direction={{direction}}&owner={{owner}}&repository={{repository}}&permission={{permission}}&lastUsedBefore={{lastUsedBefore}}&lastUsedAfter={{lastUsedAfter}}
 Accept: application/json
 
 ### List fine-grained personal access tokens with access to organization resources
 ## List fine-grained personal access tokens with access to organization resources
-GET https://api.github.com/orgs/{{org}}/personal-access-tokens
+GET https://api.github.com/orgs/{{org}}/personal-access-tokens?perPage={{perPage}}&page={{page}}&sort={{sort}}&direction={{direction}}&owner={{owner}}&repository={{repository}}&permission={{permission}}&lastUsedBefore={{lastUsedBefore}}&lastUsedAfter={{lastUsedAfter}}
 Accept: application/json
 
 ### List pending organization invitations
 ## List pending organization invitations
-GET https://api.github.com/orgs/{{org}}/invitations
+GET https://api.github.com/orgs/{{org}}/invitations?perPage={{perPage}}&page={{page}}&role={{role}}&invitationSource={{invitationSource}}
 Accept: application/json
 
 ### List public organization members
 ## List public organization members
-GET https://api.github.com/orgs/{{org}}/public_members
+GET https://api.github.com/orgs/{{org}}/public_members?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List security manager teams
@@ -324,13 +324,13 @@ Accept: application/json
 
 ### List deliveries for an organization webhook
 ## List deliveries for an organization webhook
-GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/deliveries
+GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/deliveries?perPage={{perPage}}&cursor={{cursor}}&redelivery={{redelivery}}
 Accept: application/json
 Accept: application/scim+json
 
 ### List organization webhooks
 ## List organization webhooks
-GET https://api.github.com/orgs/{{org}}/hooks
+GET https://api.github.com/orgs/{{org}}/hooks?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Update a custom organization role

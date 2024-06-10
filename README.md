@@ -15,7 +15,7 @@
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`7.6.0`):
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`7.7.0`):
 [![Build Status](https://api.travis-ci.com/OpenAPITools/openapi-generator.svg?branch=master&status=passed)](https://app.travis-ci.com/github/OpenAPITools/openapi-generator/builds)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator)
@@ -69,6 +69,8 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/svix.png" width="128" height="128">](https://www.svix.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img src="https://openapi-generator.tech/img/companies/litslink.png" width="128" height="128">](https://litslink.com/services/artificial-intelligence?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
 [<img src="https://openapi-generator.tech/img/companies/designli.jpg" width="128" height="128">](https://designli.co?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img src="https://openapi-generator.tech/img/companies/itm.png" width="128" height="128">](https://opensource.muenchen.de?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship)
+[<img src="https://openapi-generator.tech/img/companies/kong.png" width="128" height="128">](https://konghq.com/products/kong-konnect/register?utm_medium=referral&utm_source=github&utm_campaign=platform&utm_content=openapi-generator)
 
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS, Checkly for sponsoring the API monitoring and Gradle for sponsoring Develocity
@@ -126,8 +128,8 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| 7.6.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.6.0-SNAPSHOT/) | 17.54.2024   | Minor release with breaking changes (with fallback) |
-| [7.5.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.5.0) (latest stable release)                                                    | 17.04.2024   | Minor release with breaking changes (with fallback) |
+| 7.7.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.7.0-SNAPSHOT/) | 20.06.2024   | Minor release with breaking changes (with fallback) |
+| [7.6.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v7.6.0) (latest stable release)                                                    | 20.05.2024   | Minor release with breaking changes (with fallback) |
 | [6.6.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.6.0)                                                    | 11.05.2023   | Minor release with breaking changes (with fallback) |
 | [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0)                                                    | 31.01.2022   | Minor release with breaking changes (with fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
@@ -190,16 +192,16 @@ See the different versions of the [openapi-generator-cli](https://search.maven.o
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 11 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.5.0/openapi-generator-cli-7.5.0.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.6.0/openapi-generator-cli-7.6.0.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.5.0/openapi-generator-cli-7.5.0.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.6.0/openapi-generator-cli-7.6.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.5.0/openapi-generator-cli-7.5.0.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.6.0/openapi-generator-cli-7.6.0.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -1091,6 +1093,7 @@ Here is a list of template creators:
    * Kotlin (Spring Boot): @dr4ke616
    * Kotlin (Vertx): @Wooyme
    * Kotlin (JAX-RS): @anttileppa
+   * Kotlin WireMock: @stefankoppier
    * NodeJS Express: @YishTish
    * PHP Flight: @daniel-sc
    * PHP Laravel: @renepardon

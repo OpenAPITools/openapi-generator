@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("AllOfWithSingleRef")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AllOfWithSingleRef  implements Serializable {
   private String username;
   private SingleRefType singleRefType;
@@ -59,7 +59,7 @@ public class AllOfWithSingleRef  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("SingleRefType")
-  @Valid public SingleRefType getSingleRefType() {
+  public SingleRefType getSingleRefType() {
     return singleRefType;
   }
 
@@ -114,7 +114,7 @@ public class AllOfWithSingleRef  implements Serializable {
     return new AllOfWithSingleRefBuilderImpl();
   }
 
-  private static final class AllOfWithSingleRefBuilderImpl extends AllOfWithSingleRefBuilder<AllOfWithSingleRef, AllOfWithSingleRefBuilderImpl> {
+  private static class AllOfWithSingleRefBuilderImpl extends AllOfWithSingleRefBuilder<AllOfWithSingleRef, AllOfWithSingleRefBuilderImpl> {
 
     @Override
     protected AllOfWithSingleRefBuilderImpl self() {

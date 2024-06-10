@@ -115,7 +115,7 @@ Endpoints do not require authorization.
 
 ## Build
 - SDK version: 1.0.0
-- Generator version: 7.6.0-SNAPSHOT
+- Generator version: 7.7.0-SNAPSHOT
 - Build package: org.openapitools.codegen.languages.CSharpClientCodegen
 
 ## Api Information
@@ -132,7 +132,6 @@ Endpoints do not require authorization.
 - modelDocs: true
 - apiTests: true
 - modelTests: true
-- withXml: 
 
 ## [OpenApi Generator Parameters](https://openapi-generator.tech/docs/generators/csharp-netcore)
 - allowUnicodeIdentifiers: 

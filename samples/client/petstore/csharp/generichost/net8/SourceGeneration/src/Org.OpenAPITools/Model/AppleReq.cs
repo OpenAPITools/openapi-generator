@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            WriteProperties(ref writer, appleReq, jsonSerializerOptions);
+            WriteProperties(writer, appleReq, jsonSerializerOptions);
             writer.WriteEndObject();
         }
 
@@ -178,7 +178,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="appleReq"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void WriteProperties(ref Utf8JsonWriter writer, AppleReq appleReq, JsonSerializerOptions jsonSerializerOptions)
+        public void WriteProperties(Utf8JsonWriter writer, AppleReq appleReq, JsonSerializerOptions jsonSerializerOptions)
         {
             if (appleReq.Cultivar == null)
                 throw new ArgumentNullException(nameof(appleReq.Cultivar), "Property is required for class AppleReq.");

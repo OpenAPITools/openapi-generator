@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
@@ -26,7 +25,6 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
-import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -44,6 +42,8 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.StringEscapeUtils;
@@ -65,7 +65,6 @@ import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
-import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
@@ -184,12 +183,15 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> operationIdNameMapping = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
-    protected String modelPackage = "", apiPackage = "", fileSuffix;
+    @Setter protected String modelPackage = "", apiPackage = "";
+    protected String fileSuffix;
+    @Getter @Setter
     protected String modelNamePrefix = "", modelNameSuffix = "";
+    @Getter @Setter
     protected String apiNamePrefix = "", apiNameSuffix = "Api";
     protected String testPackage = "";
-    protected String filesMetadataFilename = "FILES";
-    protected String versionMetadataFilename = "VERSION";
+    @Setter protected String filesMetadataFilename = "FILES";
+    @Setter protected String versionMetadataFilename = "VERSION";
     /*
     apiTemplateFiles are for API outputs only (controllers/handlers).
     API templates may be written multiple times; APIs are grouped by tag and the file is written once per tag group.
@@ -201,7 +203,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> apiDocTemplateFiles = new HashMap<>();
     protected Map<String, String> modelDocTemplateFiles = new HashMap<>();
     protected Map<String, String> reservedWordsMappings = new HashMap<>();
-    protected String templateDir;
+    @Setter protected String templateDir;
     protected String embeddedTemplateDir;
     protected Map<String, Object> additionalProperties = new HashMap<>();
     protected Map<String, String> serverVariables = new HashMap<>();
@@ -216,7 +218,9 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<CliOption> cliOptions = new ArrayList<>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
+    @Getter @Setter
     protected String removeOperationIdPrefixDelimiter = "_";
+    @Getter @Setter
     protected int removeOperationIdPrefixCount = 1;
     protected boolean skipOperationExample;
 
@@ -249,9 +253,13 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean supportsMixins;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<>();
     protected String library;
+    @Getter @Setter
     protected Boolean sortParamsByRequiredFlag = true;
+    @Getter @Setter
     protected Boolean sortModelPropertiesByRequiredFlag = false;
+    @Getter @Setter
     protected Boolean ensureUniqueParams = true;
+    @Getter @Setter
     protected Boolean allowUnicodeIdentifiers = false;
     protected String gitHost, gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
@@ -262,6 +270,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> specialCharReplacements = new LinkedHashMap<>();
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = Collections.emptyMap();
+    @Getter @Setter
     protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
     protected String docExtension;
@@ -284,15 +293,15 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean removeEnumValuePrefix = true;
 
     // Support legacy logic for evaluating discriminators
-    protected boolean legacyDiscriminatorBehavior = true;
+    @Setter protected boolean legacyDiscriminatorBehavior = true;
 
     // Specify what to do if the 'additionalProperties' keyword is not present in a schema.
     // See CodegenConstants.java for more details.
-    protected boolean disallowAdditionalPropertiesIfNotPresent = true;
+    @Setter protected boolean disallowAdditionalPropertiesIfNotPresent = true;
 
     // If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.
     // With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.
-    protected boolean enumUnknownDefaultCase = false;
+    @Setter protected boolean enumUnknownDefaultCase = false;
     protected String enumUnknownDefaultCaseName = "unknown_default_open_api";
 
     // make openapi available to all methods
@@ -315,8 +324,9 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean addSuffixToDuplicateOperationNicknames = true;
 
     // Whether to automatically hardcode params that are considered Constants by OpenAPI Spec
-    protected boolean autosetConstants = false;
+    @Setter protected boolean autosetConstants = false;
 
+    @Override
     public boolean getAddSuffixToDuplicateOperationNicknames() {
         return addSuffixToDuplicateOperationNicknames;
     }
@@ -592,10 +602,21 @@ public class DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
+    /**
+     * A property is new if it is in a derived class and the derived property is different.
+     * This usually occurs when the data type is different.
+     * We can also consider discriminators as new because the derived class discriminator will have to be defined again
+     * to contain a new value. Doing so prevents having to include the discriminator in the constructor.
+     * @param model
+     * @param property
+     * @return
+     */
     private boolean codegenPropertyIsNew(CodegenModel model, CodegenProperty property) {
         return model.parentModel == null
                 ? false
-                : model.parentModel.allVars.stream().anyMatch(p -> p.name.equals(property.name) && (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false));
+                : model.parentModel.allVars.stream().anyMatch(p -> 
+                    p.name.equals(property.name) &&
+                    (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false || p.isDiscriminator));
     }
 
     /**
@@ -900,6 +921,18 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public String toEnumDefaultValue(String value, String datatype) {
         return datatype + "." + value;
+    }
+
+    /**
+     * Return the enum default value in the language specified format
+     *
+     * @param property  The codegen property to create the default for.
+     * @param value     Enum variable name
+     * @return the default value for the enum
+     */
+    public String toEnumDefaultValue(CodegenProperty property, String value) {
+        // Use the datatype with the value.
+        return toEnumDefaultValue(value, property.datatypeWithEnum);
     }
 
     /**
@@ -1448,125 +1481,21 @@ public class DefaultCodegen implements CodegenConfig {
         return filesMetadataFilename;
     }
 
-    public void setFilesMetadataFilename(String filesMetadataFilename) {
-        this.filesMetadataFilename = filesMetadataFilename;
-    }
-
     @Override
     public String getVersionMetadataFilename() {
         return versionMetadataFilename;
-    }
-
-    public void setVersionMetadataFilename(String versionMetadataFilename) {
-        this.versionMetadataFilename = versionMetadataFilename;
-    }
-
-    public void setTemplateDir(String templateDir) {
-        this.templateDir = templateDir;
-    }
-
-    public void setModelPackage(String modelPackage) {
-        this.modelPackage = modelPackage;
-    }
-
-    public String getModelNamePrefix() {
-        return modelNamePrefix;
-    }
-
-    public void setModelNamePrefix(String modelNamePrefix) {
-        this.modelNamePrefix = modelNamePrefix;
-    }
-
-    public String getModelNameSuffix() {
-        return modelNameSuffix;
-    }
-
-    public void setModelNameSuffix(String modelNameSuffix) {
-        this.modelNameSuffix = modelNameSuffix;
-    }
-
-    public String getApiNameSuffix() {
-        return apiNameSuffix;
-    }
-
-    public void setApiNameSuffix(String apiNameSuffix) {
-        this.apiNameSuffix = apiNameSuffix;
-    }
-
-    public String getApiNamePrefix() {
-        return apiNamePrefix;
-    }
-
-    public void setApiNamePrefix(String apiNamePrefix) {
-        this.apiNamePrefix = apiNamePrefix;
-    }
-
-    public void setApiPackage(String apiPackage) {
-        this.apiPackage = apiPackage;
-    }
-
-    public Boolean getSortParamsByRequiredFlag() {
-        return sortParamsByRequiredFlag;
-    }
-
-    public void setSortParamsByRequiredFlag(Boolean sortParamsByRequiredFlag) {
-        this.sortParamsByRequiredFlag = sortParamsByRequiredFlag;
-    }
-
-    public Boolean getSortModelPropertiesByRequiredFlag() {
-        return sortModelPropertiesByRequiredFlag;
-    }
-
-    public void setSortModelPropertiesByRequiredFlag(Boolean sortModelPropertiesByRequiredFlag) {
-        this.sortModelPropertiesByRequiredFlag = sortModelPropertiesByRequiredFlag;
-    }
-
-    public Boolean getPrependFormOrBodyParameters() {
-        return prependFormOrBodyParameters;
-    }
-
-    public void setPrependFormOrBodyParameters(Boolean prependFormOrBodyParameters) {
-        this.prependFormOrBodyParameters = prependFormOrBodyParameters;
-    }
-
-    public Boolean getEnsureUniqueParams() {
-        return ensureUniqueParams;
-    }
-
-    public void setEnsureUniqueParams(Boolean ensureUniqueParams) {
-        this.ensureUniqueParams = ensureUniqueParams;
     }
 
     public Boolean getLegacyDiscriminatorBehavior() {
         return legacyDiscriminatorBehavior;
     }
 
-    public void setLegacyDiscriminatorBehavior(boolean val) {
-        this.legacyDiscriminatorBehavior = val;
-    }
-
     public Boolean getDisallowAdditionalPropertiesIfNotPresent() {
         return disallowAdditionalPropertiesIfNotPresent;
     }
 
-    public void setDisallowAdditionalPropertiesIfNotPresent(boolean val) {
-        this.disallowAdditionalPropertiesIfNotPresent = val;
-    }
-
     public Boolean getEnumUnknownDefaultCase() {
         return enumUnknownDefaultCase;
-    }
-
-    public void setEnumUnknownDefaultCase(boolean val) {
-        this.enumUnknownDefaultCase = val;
-    }
-
-    public Boolean getAllowUnicodeIdentifiers() {
-        return allowUnicodeIdentifiers;
-    }
-
-    public void setAllowUnicodeIdentifiers(Boolean allowUnicodeIdentifiers) {
-        this.allowUnicodeIdentifiers = allowUnicodeIdentifiers;
     }
 
     public Boolean getUseOneOfInterfaces() {
@@ -2946,10 +2875,8 @@ public class DefaultCodegen implements CodegenConfig {
             Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
             newProperties.forEach((key, value) ->
-                    existingProperties.put(
-                            key,
-                            ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI))
-                    ));
+                    existingProperties.put(key, ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI)))
+            );
             if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
                 for (Object e : newType.getEnum()) {
                     // ensure all interface enum types are added to schema
@@ -6273,22 +6200,6 @@ public class DefaultCodegen implements CodegenConfig {
         this.removeOperationIdPrefix = removeOperationIdPrefix;
     }
 
-    public String getRemoveOperationIdPrefixDelimiter() {
-        return removeOperationIdPrefixDelimiter;
-    }
-
-    public void setRemoveOperationIdPrefixDelimiter(String removeOperationIdPrefixDelimiter) {
-        this.removeOperationIdPrefixDelimiter = removeOperationIdPrefixDelimiter;
-    }
-
-    public int getRemoveOperationIdPrefixCount() {
-        return removeOperationIdPrefixCount;
-    }
-
-    public void setRemoveOperationIdPrefixCount(int removeOperationIdPrefixCount) {
-        this.removeOperationIdPrefixCount = removeOperationIdPrefixCount;
-    }
-
     @Override
     public void setSkipOperationExample(boolean skipOperationExample) {
         this.skipOperationExample = skipOperationExample;
@@ -6746,7 +6657,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             if (enumName != null) {
-                var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
+                var.defaultValue = toEnumDefaultValue(var, enumName);
             }
         }
     }
@@ -8298,7 +8209,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * An map entry for cached sanitized names.
      */
-    private static class SanitizeNameOptions {
+    @Getter private static class SanitizeNameOptions {
         public SanitizeNameOptions(String name, String removeCharRegEx, List<String> exceptions) {
             this.name = name;
             this.removeCharRegEx = removeCharRegEx;
@@ -8307,18 +8218,6 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 this.exceptions = Collections.emptyList();
             }
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getRemoveCharRegEx() {
-            return removeCharRegEx;
-        }
-
-        public List<String> getExceptions() {
-            return exceptions;
         }
 
         private final String name;
@@ -8529,10 +8428,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    public void setAutosetConstants(boolean autosetConstants) {
-        this.autosetConstants = autosetConstants;
-    }
-
     /**
      * This method removes all constant Query, Header and Cookie Params from allParams and sets them as constantParams in the CodegenOperation.
      * The definition of constant is single valued required enum params.
@@ -8552,7 +8447,7 @@ public class DefaultCodegen implements CodegenConfig {
         // Also, adds back non constant params to allParams.
         for (CodegenParameter p : copy) {
             if (p.isEnum && p.required && p._enum != null && p._enum.size() == 1) {
-                // Add to constantParams for use in the code generation templates. 
+                // Add to constantParams for use in the code generation templates.
                 operation.constantParams.add(p);
                 if (p.isQueryParam) {
                     operation.queryParams.removeIf(param -> param.baseName.equals(p.baseName));

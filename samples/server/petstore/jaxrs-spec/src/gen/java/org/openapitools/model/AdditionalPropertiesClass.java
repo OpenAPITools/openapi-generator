@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("AdditionalPropertiesClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AdditionalPropertiesClass  implements Serializable {
   private @Valid Map<String, String> mapProperty = new HashMap<>();
   private @Valid Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
@@ -76,7 +76,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_of_map_property")
-  @Valid public Map<String, Map<String, String>> getMapOfMapProperty() {
+  public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }
 
@@ -147,7 +147,7 @@ public class AdditionalPropertiesClass  implements Serializable {
     return new AdditionalPropertiesClassBuilderImpl();
   }
 
-  private static final class AdditionalPropertiesClassBuilderImpl extends AdditionalPropertiesClassBuilder<AdditionalPropertiesClass, AdditionalPropertiesClassBuilderImpl> {
+  private static class AdditionalPropertiesClassBuilderImpl extends AdditionalPropertiesClassBuilder<AdditionalPropertiesClass, AdditionalPropertiesClassBuilderImpl> {
 
     @Override
     protected AdditionalPropertiesClassBuilderImpl self() {

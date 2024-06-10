@@ -19,6 +19,9 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -110,39 +113,45 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useRxJava3 = false;
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
-    protected boolean doNotUseRx = true;
-    protected boolean usePlayWS = false;
-    protected String microprofileFramework = MICROPROFILE_DEFAULT;
-    protected boolean microprofileMutiny = false;
-    protected String configKey = null;
-    protected boolean configKeyFromClassName = false;
+    @Setter protected boolean doNotUseRx = true;
+    @Setter protected boolean usePlayWS = false;
+    @Setter protected String microprofileFramework = MICROPROFILE_DEFAULT;
+    @Setter protected boolean microprofileMutiny = false;
+    @Setter protected String configKey = null;
+    @Setter(AccessLevel.PRIVATE) protected boolean configKeyFromClassName = false;
 
-    protected boolean asyncNative = false;
-    protected boolean parcelableModel = false;
-    protected boolean useBeanValidation = false;
-    protected boolean performBeanValidation = false;
-    protected boolean useGzipFeature = false;
-    protected boolean useRuntimeException = false;
-    protected boolean useReflectionEqualsHashCode = false;
+    @Setter protected boolean asyncNative = false;
+    @Setter protected boolean parcelableModel = false;
+    @Setter protected boolean useBeanValidation = false;
+    @Setter protected boolean performBeanValidation = false;
+    @Setter protected boolean useGzipFeature = false;
+    @Setter protected boolean useRuntimeException = false;
+    @Setter protected boolean useReflectionEqualsHashCode = false;
     protected boolean caseInsensitiveResponseHeaders = false;
-    protected boolean useAbstractionForFiles = false;
-    protected boolean dynamicOperations = false;
-    protected boolean supportStreaming = false;
-    protected boolean withAWSV4Signature = false;
-    protected String gradleProperties;
-    protected String errorObjectType;
+    @Setter protected boolean useAbstractionForFiles = false;
+    @Setter protected boolean dynamicOperations = false;
+    @Setter protected boolean supportStreaming = false;
+    @Setter protected boolean withAWSV4Signature = false;
+    @Setter protected String gradleProperties;
+    @Setter protected String errorObjectType;
     protected String authFolder;
-    protected String serializationLibrary = null;
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    /**
+     * -- GETTER --
+     *  Serialization library.
+     *
+     * @return 'gson' or 'jackson'
+     */
+    @Getter protected String serializationLibrary = null;
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new LinkedHashMap<>();
-    protected boolean useSingleRequestParameter = false;
+    @Setter(AccessLevel.PRIVATE) protected boolean useSingleRequestParameter = false;
     protected boolean webclientBlockingOperations = false;
-    protected boolean generateClientAsBean = false;
-    protected boolean useEnumCaseInsensitive = false;
+    @Setter protected boolean generateClientAsBean = false;
+    @Setter protected boolean useEnumCaseInsensitive = false;
 
-    protected int maxAttemptsForRetry = 1;
-    protected long waitTimeMillis = 10l;
+    @Setter protected int maxAttemptsForRetry = 1;
+    @Setter protected long waitTimeMillis = 10l;
 
     private static class MpRestClientVersion {
         public final String rootPackage;
@@ -235,21 +244,21 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
 
-        supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(JERSEY3, "HTTP client: Jersey client 3.x. JSON processing: Jackson 2.x");
-        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 10.x. JSON processing: Jackson 2.9.x. or Gson 2.x");
-        supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
-        supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
-        supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(RESTCLIENT, "HTTP client: Spring RestClient 6.1. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(VERTX, "HTTP client: VertX client 3.x. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8");
-        supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+");
-        supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client 1.x. JSON processing: JSON-B or Jackson 2.9.x");
-        supportedLibraries.put(APACHE, "HTTP client: Apache httpclient 5.x");
+        supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.17.1");
+        supportedLibraries.put(JERSEY3, "HTTP client: Jersey client 3.1.1. JSON processing: Jackson 2.17.1");
+        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 13.2.1. JSON processing: Jackson 2.17.1 or Gson 2.10.1");
+        supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 4.11.0. JSON processing: Gson 2.10.1. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
+        supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 4.11.0. JSON processing: Gson 2.10.1 (Retrofit 2.5.0) or Jackson 2.17.1. Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
+        supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 5.3.33 (6.1.5 if `useJakartaEe=true`). JSON processing: Jackson 2.17.1");
+        supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.1.18. JSON processing: Jackson 2.17.1");
+        supportedLibraries.put(RESTCLIENT, "HTTP client: Spring RestClient 6.1.6. JSON processing: Jackson 2.17.1");
+        supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 4.7.6. JSON processing: Jackson 2.17.1");
+        supportedLibraries.put(VERTX, "HTTP client: VertX client 3.5.2. JSON processing: Jackson 2.17.1");
+        supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 2.2.0. JSON processing: Jackson 2.17.1");
+        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured 5.3.2. JSON processing: Gson 2.10.1 or Jackson 2.17.1. Only for Java 8");
+        supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.17.1. Only for Java11+");
+        supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client " + MICROPROFILE_REST_CLIENT_DEFAULT_VERSION + " (default, set desired version via `" + MICROPROFILE_REST_CLIENT_VERSION + "=x.x.x`). JSON processing: JSON-B 1.0.2 or Jackson 2.17.1");
+        supportedLibraries.put(APACHE, "HTTP client: Apache httpclient 5.2.1. JSON processing: Jackson 2.17.1");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -1172,20 +1181,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         return false;
     }
 
-    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
-        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
-    }
-
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
     }
 
     private boolean getUseSingleRequestParameter() {
         return useSingleRequestParameter;
-    }
-
-    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
-        this.useSingleRequestParameter = useSingleRequestParameter;
     }
 
     public void setUseRxJava(boolean useRxJava) {
@@ -1203,105 +1204,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         doNotUseRx = false;
     }
 
-    public void setDoNotUseRx(boolean doNotUseRx) {
-        this.doNotUseRx = doNotUseRx;
-    }
-
-    public void setUsePlayWS(boolean usePlayWS) {
-        this.usePlayWS = usePlayWS;
-    }
-
-    public void setAsyncNative(boolean asyncNative) {
-        this.asyncNative = asyncNative;
-    }
-
-    public void setMicroprofileFramework(String microprofileFramework) {
-        this.microprofileFramework = microprofileFramework;
-    }
-
-    public void setMicroprofileMutiny(boolean microprofileMutiny) {
-        this.microprofileMutiny = microprofileMutiny;
-    }
-
-    public void setConfigKey(String configKey) {
-        this.configKey = configKey;
-    }
-
-    public void setParcelableModel(boolean parcelableModel) {
-        this.parcelableModel = parcelableModel;
-    }
-
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
-    }
-
-    public void setPerformBeanValidation(boolean performBeanValidation) {
-        this.performBeanValidation = performBeanValidation;
-    }
-
-    public void setUseGzipFeature(boolean useGzipFeature) {
-        this.useGzipFeature = useGzipFeature;
-    }
-
-    public void setUseRuntimeException(boolean useRuntimeException) {
-        this.useRuntimeException = useRuntimeException;
-    }
-
-    public void setUseReflectionEqualsHashCode(boolean useReflectionEqualsHashCode) {
-        this.useReflectionEqualsHashCode = useReflectionEqualsHashCode;
-    }
-
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
-    }
-
-    public void setUseAbstractionForFiles(boolean useAbstractionForFiles) {
-        this.useAbstractionForFiles = useAbstractionForFiles;
-    }
-
-    public void setDynamicOperations(final boolean dynamicOperations) {
-        this.dynamicOperations = dynamicOperations;
-    }
-
-    public void setSupportStreaming(final boolean supportStreaming) {
-        this.supportStreaming = supportStreaming;
-    }
-
-    public void setWithAWSV4Signature(boolean withAWSV4Signature) {
-        this.withAWSV4Signature = withAWSV4Signature;
-    }
-
-    public void setGradleProperties(final String gradleProperties) {
-        this.gradleProperties = gradleProperties;
-    }
-
-    public void setErrorObjectType(final String errorObjectType) {
-        this.errorObjectType = errorObjectType;
-    }
-
-    public void setGenerateClientAsBean(boolean generateClientAsBean) {
-        this.generateClientAsBean = generateClientAsBean;
-    }
-
-    public void setUseEnumCaseInsensitive(boolean useEnumCaseInsensitive) {
-        this.useEnumCaseInsensitive = useEnumCaseInsensitive;
-    }
-
-    public void setMaxAttemptsForRetry(int maxAttemptsForRetry) {
-        this.maxAttemptsForRetry = maxAttemptsForRetry;
-    }
-
-    public void setWaitTimeMillis(long waitTimeMillis) {
-        this.waitTimeMillis = waitTimeMillis;
-    }
-
-    /**
-     * Serialization library.
-     *
-     * @return 'gson' or 'jackson'
-     */
-    public String getSerializationLibrary() {
-        return serializationLibrary;
     }
 
     public void setSerializationLibrary(String serializationLibrary) {
@@ -1329,10 +1233,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
-    }
-
-    private void setConfigKeyFromClassName(boolean configKeyFromClassName) {
-        this.configKeyFromClassName = configKeyFromClassName;
     }
 
     @Override

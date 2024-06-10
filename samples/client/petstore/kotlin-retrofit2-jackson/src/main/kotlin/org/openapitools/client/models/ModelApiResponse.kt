@@ -44,5 +44,6 @@ data class ModelApiResponse (
         private const val serialVersionUID: Long = 123
     }
 
+
 }
 

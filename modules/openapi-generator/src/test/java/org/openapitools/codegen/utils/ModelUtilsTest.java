@@ -26,6 +26,7 @@ import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class ModelUtilsTest {
@@ -390,5 +391,74 @@ public class ModelUtilsTest {
 
         Schema complexComposedSchema = ModelUtils.getSchema(openAPI, "ComplexComposedSchema");
         Assert.assertTrue(ModelUtils.isComplexComposedSchema(complexComposedSchema));
+    }
+
+    @Test
+    public void testCloneNumberSchema() {
+        Schema schema = new NumberSchema()
+                .name("test-schema")
+                .minimum(new BigDecimal(100));
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Assert.assertEquals(deepCopy, schema);
+        Assert.assertNotSame(deepCopy, schema);
+    }
+
+    @Test
+    public void testCloneCustomSchema() {
+        Schema schema = new ObjectSchema().type("money");
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Assert.assertEquals(deepCopy, schema);
+        Assert.assertNotSame(deepCopy, schema);
+    }
+
+    @Test
+    public void testCloneComposedSchema() {
+        Schema base1 = new ObjectSchema()
+                .name("Base1")
+                .addProperty("foo", new StringSchema());
+        Schema base2 = new ObjectSchema()
+                .name("Base2")
+                .addProperty("bar", new StringSchema());
+        Schema composedSchema = new ComposedSchema()
+                .name("Composed")
+                .allOf(List.of(base1, base2))
+                .addProperty("baz", new StringSchema());
+
+        Schema deepCopy = ModelUtils.cloneSchema(composedSchema, false);
+
+        Assert.assertEquals(deepCopy, composedSchema);
+        Assert.assertNotSame(deepCopy, composedSchema);
+    }
+
+    @Test
+    public void testCloneArrayOfEnumsSchema() {
+        Schema schema = new ArraySchema()
+                .name("ArrayType")
+                .type("array")
+                .items(new StringSchema()
+                        .type("string")
+                        ._enum(List.of("SUCCESS", "FAILURE", "SKIPPED"))
+                )
+                ._default(List.of("SUCCESS", "FAILURE"));
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Assert.assertEquals(deepCopy, schema);
+        Assert.assertNotSame(deepCopy, schema);
+    }
+
+    @Test
+    public void testCloneDateTimeSchemaWithExample() {
+        Schema schema = new DateTimeSchema()
+                .example("2020-02-02T20:20:20.000222Z");
+
+        Schema deepCopy = ModelUtils.cloneSchema(schema, false);
+
+        Assert.assertEquals(deepCopy, schema);
+        Assert.assertNotSame(deepCopy, schema);
     }
 }

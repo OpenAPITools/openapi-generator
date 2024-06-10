@@ -1,17 +1,19 @@
 package org.openapitools.codegen;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class CodegenEncoding {
-    private String contentType;
-    private List<CodegenParameter> headers;
-    private String style;
+    @Getter private String contentType;
+    @Getter private List<CodegenParameter> headers;
+    @Getter private String style;
     private boolean explode;
     private boolean allowReserved;
-    public Map<String, Object> vendorExtensions = new HashMap<>();
+    @Getter public Map<String, Object> vendorExtensions = new HashMap<>();
 
     public CodegenEncoding(String contentType, List<CodegenParameter> headers, String style, boolean explode, boolean allowReserved) {
         this.contentType = contentType;
@@ -21,28 +23,12 @@ public class CodegenEncoding {
         this.allowReserved = allowReserved;
     }
 
-    public String getContentType() {
-        return contentType;
-    }
-
-    public List<CodegenParameter> getHeaders() {
-        return headers;
-    }
-
-    public String getStyle() {
-        return style;
-    }
-
     public boolean getExplode() {
         return explode;
     }
 
     public boolean getAllowReserved() {
         return allowReserved;
-    }
-
-    public Map<String, Object> getVendorExtensions() {
-        return vendorExtensions;
     }
 
     public String toString() {

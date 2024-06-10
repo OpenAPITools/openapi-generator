@@ -46,7 +46,7 @@ Accept: application/json
 
 ### Get a diff of the dependencies between commits
 ## Get a diff of the dependencies between commits
-GET https://api.github.com/repos/{{owner}}/{{repo}}/dependency-graph/compare/{{basehead}}
+GET https://api.github.com/repos/{{owner}}/{{repo}}/dependency-graph/compare/{{basehead}}?name={{name}}
 Accept: application/json
 
 ### Export a software bill of materials (SBOM) for a repository.

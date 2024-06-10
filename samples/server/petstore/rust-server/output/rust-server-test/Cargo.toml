@@ -5,7 +5,7 @@ authors = ["OpenAPI Generator team and contributors"]
 description = "This spec is for testing rust-server-specific things"
 # Override this license by providing a License Object in the OpenAPI.
 license = "Unlicense"
-edition = "2021"
+edition = "2018"
 
 [features]
 default = ["client", "server"]
@@ -58,6 +58,9 @@ frunk_derives = { version = "0.3.0", optional = true }
 frunk_core = { version = "0.3.0", optional = true }
 frunk-enum-derive = { version = "0.2.0", optional = true }
 frunk-enum-core = { version = "0.2.0", optional = true }
+
+# Bearer authentication
+jsonwebtoken = { version = "9.3.0", optional = false }
 
 [dev-dependencies]
 clap = "2.25"

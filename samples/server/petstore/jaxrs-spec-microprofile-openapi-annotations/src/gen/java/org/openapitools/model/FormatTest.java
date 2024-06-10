@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FormatTest  implements Serializable {
   private Integer integer;
   private Integer int32;
@@ -230,7 +230,7 @@ public class FormatTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("binary")
-  @Valid public File getBinary() {
+  public File getBinary() {
     return binary;
   }
 
@@ -249,7 +249,7 @@ public class FormatTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("date")
-  @NotNull @Valid public LocalDate getDate() {
+  @NotNull public LocalDate getDate() {
     return date;
   }
 
@@ -268,7 +268,7 @@ public class FormatTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("dateTime")
-  @Valid public LocalDateTime getDateTime() {
+  public LocalDateTime getDateTime() {
     return dateTime;
   }
 
@@ -287,7 +287,7 @@ public class FormatTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", description = "")
   @JsonProperty("uuid")
-  @Valid public UUID getUuid() {
+  public UUID getUuid() {
     return uuid;
   }
 
@@ -404,7 +404,7 @@ public class FormatTest  implements Serializable {
     return new FormatTestBuilderImpl();
   }
 
-  private static final class FormatTestBuilderImpl extends FormatTestBuilder<FormatTest, FormatTestBuilderImpl> {
+  private static class FormatTestBuilderImpl extends FormatTestBuilder<FormatTest, FormatTestBuilderImpl> {
 
     @Override
     protected FormatTestBuilderImpl self() {

@@ -30,7 +30,7 @@ export interface ClassModel {
 /**
  * Check if a given object implements the ClassModel interface.
  */
-export function instanceOfClassModel(value: object): boolean {
+export function instanceOfClassModel(value: object): value is ClassModel {
     return true;
 }
 

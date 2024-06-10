@@ -45,10 +45,10 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -62,6 +62,8 @@ public class ModelUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
 
     private static final String URI_FORMAT = "uri";
+
+    private static final Set<String> OPENAPI_TYPES = Set.of("array", "integer", "number", "boolean", "string", "object");
 
     private static final String generateAliasAsModelKey = "generateAliasAsModel";
 
@@ -393,11 +395,7 @@ public class ModelUtils {
             return null;
         }
 
-        try {
-            ref = URLDecoder.decode(ref, "UTF-8");
-        } catch (UnsupportedEncodingException ignored) {
-            once(LOGGER).warn("Found UnsupportedEncodingException: {}", ref);
-        }
+        ref = URLDecoder.decode(ref, StandardCharsets.UTF_8);
 
         // see https://tools.ietf.org/html/rfc6901#section-3
         // Because the characters '~' (%x7E) and '/' (%x2F) have special meanings in
@@ -565,7 +563,7 @@ public class ModelUtils {
         }
 
         if (schema instanceof JsonSchema) { // 3.1 spec
-            return ((schema.getAdditionalProperties() instanceof JsonSchema) ||
+            return ((schema.getAdditionalProperties() instanceof Schema) ||
                     (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()));
         } else { // 3.0 or 2.x spec
             return (schema instanceof MapSchema) ||
@@ -953,7 +951,7 @@ public class ModelUtils {
      * @param schema  potentially containing a '$ref'
      * @return schema without '$ref'
      */
-    public static Schema getReferencedSchema(OpenAPI openAPI, Schema schema) {
+    public static Schema<?> getReferencedSchema(OpenAPI openAPI, Schema schema) {
         if (schema == null) {
             return null;
         }
@@ -2179,24 +2177,20 @@ public class ModelUtils {
         return false;
     }
 
-    /**
-     * Returns a clone of the schema.
-     *
-     * @param schema the schema.
-     * @param specVersionGreaterThanOrEqualTo310 true if spec version is 3.1.0 or later.
-     * @return a clone of the schema.
-     */
-    public static Schema cloneSchema(Schema schema, boolean specVersionGreaterThanOrEqualTo310) {
-        Schema clone = AnnotationsUtils.clone(schema, specVersionGreaterThanOrEqualTo310);
-
-        // check to see if type is set and clone it if needed
-        // in openapi-generator, we also store type in `type` for 3.1 schema
-        // to make it backward compatible with the rest of the code base.
-        if (schema.getType() != null) {
-            clone.setType(schema.getType());
+    public static Schema cloneSchema(Schema schema, boolean openapi31) {
+        if (openapi31) {
+            return AnnotationsUtils.clone(schema, openapi31);
+        } else {
+            // AnnotationsUtils.clone doesn't support custom schema types for OpenAPI < 3.1
+            String schemaType = schema.getType();
+            if (schemaType != null && !OPENAPI_TYPES.contains(schemaType)) {
+                schema.setType(null);
+            }
+            Schema result = AnnotationsUtils.clone(schema, openapi31);
+            schema.setType(schemaType);
+            result.setType(schemaType);
+            return result;
         }
-
-        return clone;
     }
 
     @FunctionalInterface

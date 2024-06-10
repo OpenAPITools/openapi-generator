@@ -26,14 +26,17 @@ public class JavaMicroprofileServerCodegen extends JavaClientCodegen {
         setLibrary("microprofile");
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "java-microprofile";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a microprofile server.";
     }

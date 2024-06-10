@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("TypeHolderExample")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TypeHolderExample  implements Serializable {
   private String stringItem;
   private BigDecimal numberItem;
@@ -223,7 +223,7 @@ public class TypeHolderExample  implements Serializable {
     return new TypeHolderExampleBuilderImpl();
   }
 
-  private static final class TypeHolderExampleBuilderImpl extends TypeHolderExampleBuilder<TypeHolderExample, TypeHolderExampleBuilderImpl> {
+  private static class TypeHolderExampleBuilderImpl extends TypeHolderExampleBuilder<TypeHolderExample, TypeHolderExampleBuilderImpl> {
 
     @Override
     protected TypeHolderExampleBuilderImpl self() {

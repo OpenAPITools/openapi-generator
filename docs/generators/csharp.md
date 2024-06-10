@@ -34,6 +34,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |netCoreProjectFile|Use the new format (.NET Core) for .NET project files (.csproj).| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
 |nullableReferenceTypes|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer. Starting in .NET 6.0 the default is true.| |false|
+|operationParameterSorting|One of legacy, alphabetical, default (only `generichost` library supports this option).| |legacy|
 |optionalAssemblyInfo|Generate AssemblyInfo.cs.| |true|
 |optionalEmitDefaultValues|Set DataMember's EmitDefaultValue.| |false|
 |optionalMethodArgument|C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).| |true|

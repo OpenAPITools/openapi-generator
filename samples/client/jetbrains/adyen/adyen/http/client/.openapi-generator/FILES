@@ -6,4 +6,5 @@ Apis/PaymentLinksApi.http
 Apis/PaymentsApi.http
 Apis/RecurringApi.http
 Apis/UtilityApi.http
+Apis/http-client.template.env.json
 README.md

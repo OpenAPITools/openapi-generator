@@ -67,5 +67,6 @@ data class Order (
         @SerializedName(value = "approved") approved("approved"),
         @SerializedName(value = "delivered") delivered("delivered");
     }
+
 }
 

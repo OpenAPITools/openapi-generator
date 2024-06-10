@@ -22,6 +22,8 @@ import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import joptsimple.internal.Strings;
+import lombok.AccessLevel;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -43,14 +45,14 @@ import java.util.stream.Collectors;
 
 public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
-    private boolean useSingleRequestParameter = false;
-    private boolean supportAsync = true;
-    private boolean supportMiddleware = false;
+    @Setter(AccessLevel.PRIVATE) private boolean useSingleRequestParameter = false;
+    @Setter(AccessLevel.PRIVATE) private boolean supportAsync = true;
+    @Setter(AccessLevel.PRIVATE) private boolean supportMiddleware = false;
     private boolean supportMultipleResponses = false;
     private boolean withAWSV4Signature = false;
-    private boolean preferUnsignedInt = false;
-    private boolean bestFitInt = false;
-    private boolean avoidBoxedModels = false;
+    @Setter private boolean preferUnsignedInt = false;
+    @Setter private boolean bestFitInt = false;
+    @Setter private boolean avoidBoxedModels = false;
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
@@ -63,21 +65,24 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String BEST_FIT_INT = "bestFitInt";
     public static final String AVOID_BOXED_MODELS = "avoidBoxedModels";
 
-    protected String packageName = "openapi";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "rust";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Rust client library (beta).";
     }
@@ -417,16 +422,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         return supportAsync;
     }
 
-    private void setSupportAsync(boolean supportAsync) {
-        this.supportAsync = supportAsync;
-    }
-
     private boolean getSupportMiddleware() {
         return supportMiddleware;
-    }
-
-    private void setSupportMiddleware(boolean supportMiddleware) {
-        this.supportMiddleware = supportMiddleware;
     }
 
     public boolean getSupportMultipleReturns() {
@@ -441,32 +438,16 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         return preferUnsignedInt;
     }
 
-    public void setPreferUnsignedInt(boolean preferUnsignedInt) {
-        this.preferUnsignedInt = preferUnsignedInt;
-    }
-
     public boolean getBestFitInt() {
         return bestFitInt;
-    }
-
-    public void setBestFitInt(boolean bestFitInt) {
-        this.bestFitInt = bestFitInt;
     }
 
     private boolean getUseSingleRequestParameter() {
         return useSingleRequestParameter;
     }
 
-    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
-        this.useSingleRequestParameter = useSingleRequestParameter;
-    }
-
     public boolean getAvoidBoxedModels() {
         return avoidBoxedModels;
-    }
-
-    public void setAvoidBoxedModels(boolean avoidBoxedModels) {
-        this.avoidBoxedModels = avoidBoxedModels;
     }
 
     @Override
@@ -621,14 +602,6 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         return objs;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     @Override

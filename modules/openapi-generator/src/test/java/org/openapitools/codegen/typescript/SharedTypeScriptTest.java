@@ -7,11 +7,14 @@ import org.openapitools.codegen.Generator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -21,27 +24,33 @@ import static org.openapitools.codegen.typescript.TypeScriptGroups.*;
 
 @Test(groups = {TYPESCRIPT})
 public class SharedTypeScriptTest {
+    
     @Test
     public void typesInImportsAreSplitTest() throws IOException {
+        Path output = Files.createTempDirectory("test");
+        output.toFile().deleteOnExit();
+        
         CodegenConfigurator config =
                 new CodegenConfigurator()
                         .setInputSpec("src/test/resources/split-import.json")
                         .setModelPackage("model")
                         .setApiPackage("api")
-                        .setOutputDir("src/test/resources/typesInImportsAreSplittedTest")
+                        .setOutputDir(output.toString())
                         .addAdditionalProperty(
                                 TypeScriptAxiosClientCodegen.SEPARATE_MODELS_AND_API, true);
 
         config.setGeneratorName("typescript-axios");
-        checkAPIFile(getGenerator(config).generate(), "default-api.ts");
+        getGenerator(config).generate();
+        final String apiFileContent = Files.readString(output.resolve("api/default-api.ts"), StandardCharsets.UTF_8);
+        Assert.assertFalse(apiFileContent.contains("import { GetCustomer200Response | PersonWrapper }"));
+        Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import type { PersonWrapper }"),1);
+        Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import type { GetCustomer200Response }"),1);
 
         config.setGeneratorName("typescript-node");
         checkAPIFile(getGenerator(config).generate(), "defaultApi.ts");
 
         config.setGeneratorName("typescript-angular");
         checkAPIFile(getGenerator(config).generate(), "default.service.ts");
-
-        FileUtils.deleteDirectory(new File("src/test/resources/typesInImportsAreSplittedTest"));
     }
 
     private Generator getGenerator(CodegenConfigurator config) {
@@ -51,19 +60,22 @@ public class SharedTypeScriptTest {
     private void checkAPIFile(List<File> files, String apiFileName) throws IOException {
         File apiFile = files.stream().filter(file->file.getName().contains(apiFileName)).findFirst().get();
         String apiFileContent = FileUtils.readFileToString(apiFile, StandardCharsets.UTF_8);
-        Assert.assertTrue(!apiFileContent.contains("import { GetCustomer200Response | PersonWrapper }"));
+        Assert.assertFalse(apiFileContent.contains("import { GetCustomer200Response | PersonWrapper }"));
         Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import { PersonWrapper }"),1);
         Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import { GetCustomer200Response }"),1);
     }
 
     @Test
     public void oldImportsStillPresentTest() throws IOException {
+        Path output = Files.createTempDirectory("test");
+        output.toFile().deleteOnExit();
+        
         CodegenConfigurator config =
                 new CodegenConfigurator()
                         .setInputSpec("petstore.json")
                         .setModelPackage("model")
                         .setApiPackage("api")
-                        .setOutputDir("src/test/resources/oldImportsStillPresentTest/")
+                        .setOutputDir(output.toString())
                         .addAdditionalProperty(
                                 TypeScriptAxiosClientCodegen.SEPARATE_MODELS_AND_API, true);
 

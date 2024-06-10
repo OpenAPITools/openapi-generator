@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -51,8 +52,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     public static final String CO_HTTP = "cohttp";
 
-    protected String packageName = "openapi";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
@@ -62,14 +63,17 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     private Map<String, Schema> enumHash = new HashMap<>();
     private Map<String, String> enumUniqNames;
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "ocaml";
     }
 
+    @Override
     public String getHelp() {
         return "Generates an OCaml client library (beta).";
     }
@@ -750,14 +754,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type)
                 && !languageSpecificPrimitives.contains(type);
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     @Override

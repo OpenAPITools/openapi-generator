@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ObjectWithDeprecatedFields")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.6.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields  implements Serializable {
   private String uuid;
   private BigDecimal id;
@@ -180,7 +180,7 @@ public class ObjectWithDeprecatedFields  implements Serializable {
     return new ObjectWithDeprecatedFieldsBuilderImpl();
   }
 
-  private static final class ObjectWithDeprecatedFieldsBuilderImpl extends ObjectWithDeprecatedFieldsBuilder<ObjectWithDeprecatedFields, ObjectWithDeprecatedFieldsBuilderImpl> {
+  private static class ObjectWithDeprecatedFieldsBuilderImpl extends ObjectWithDeprecatedFieldsBuilder<ObjectWithDeprecatedFields, ObjectWithDeprecatedFieldsBuilderImpl> {
 
     @Override
     protected ObjectWithDeprecatedFieldsBuilderImpl self() {
