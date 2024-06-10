@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
             }
-            PetType = petType;
+            this.PetType = petType;
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -112,9 +112,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (PetType != null)
+                if (this.PetType != null)
                 {
-                    hashCode = (hashCode * 59) + PetType.GetHashCode();
+                    hashCode = (hashCode * 59) + this.PetType.GetHashCode();
                 }
                 return hashCode;
             }
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

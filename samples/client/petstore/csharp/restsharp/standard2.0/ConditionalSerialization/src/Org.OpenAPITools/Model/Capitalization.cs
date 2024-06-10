@@ -43,37 +43,37 @@ namespace Org.OpenAPITools.Model
         /// <param name="aTTNAME">Name of the pet .</param>
         public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string sCAETHFlowPoints = default(string), string aTTNAME = default(string))
         {
-            _SmallCamel = smallCamel;
-            if (SmallCamel != null)
+            this._SmallCamel = smallCamel;
+            if (this.SmallCamel != null)
             {
-                _flagSmallCamel = true;
+                this._flagSmallCamel = true;
             }
-            _CapitalCamel = capitalCamel;
-            if (CapitalCamel != null)
+            this._CapitalCamel = capitalCamel;
+            if (this.CapitalCamel != null)
             {
-                _flagCapitalCamel = true;
+                this._flagCapitalCamel = true;
             }
-            _SmallSnake = smallSnake;
-            if (SmallSnake != null)
+            this._SmallSnake = smallSnake;
+            if (this.SmallSnake != null)
             {
-                _flagSmallSnake = true;
+                this._flagSmallSnake = true;
             }
-            _CapitalSnake = capitalSnake;
-            if (CapitalSnake != null)
+            this._CapitalSnake = capitalSnake;
+            if (this.CapitalSnake != null)
             {
-                _flagCapitalSnake = true;
+                this._flagCapitalSnake = true;
             }
-            _SCAETHFlowPoints = sCAETHFlowPoints;
-            if (SCAETHFlowPoints != null)
+            this._SCAETHFlowPoints = sCAETHFlowPoints;
+            if (this.SCAETHFlowPoints != null)
             {
-                _flagSCAETHFlowPoints = true;
+                this._flagSCAETHFlowPoints = true;
             }
-            _ATT_NAME = aTTNAME;
-            if (ATT_NAME != null)
+            this._ATT_NAME = aTTNAME;
+            if (this.ATT_NAME != null)
             {
-                _flagATT_NAME = true;
+                this._flagATT_NAME = true;
             }
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -284,33 +284,33 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (SmallCamel != null)
+                if (this.SmallCamel != null)
                 {
-                    hashCode = (hashCode * 59) + SmallCamel.GetHashCode();
+                    hashCode = (hashCode * 59) + this.SmallCamel.GetHashCode();
                 }
-				if (CapitalCamel != null)
+                if (this.CapitalCamel != null)
                 {
-                    hashCode = (hashCode * 59) + CapitalCamel.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CapitalCamel.GetHashCode();
                 }
-				if (SmallSnake != null)
+                if (this.SmallSnake != null)
                 {
-                    hashCode = (hashCode * 59) + SmallSnake.GetHashCode();
+                    hashCode = (hashCode * 59) + this.SmallSnake.GetHashCode();
                 }
-				if (CapitalSnake != null)
+                if (this.CapitalSnake != null)
                 {
-                    hashCode = (hashCode * 59) + CapitalSnake.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CapitalSnake.GetHashCode();
                 }
-				if (SCAETHFlowPoints != null)
+                if (this.SCAETHFlowPoints != null)
                 {
-                    hashCode = (hashCode * 59) + SCAETHFlowPoints.GetHashCode();
+                    hashCode = (hashCode * 59) + this.SCAETHFlowPoints.GetHashCode();
                 }
-				if (ATT_NAME != null)
+                if (this.ATT_NAME != null)
                 {
-                    hashCode = (hashCode * 59) + ATT_NAME.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ATT_NAME.GetHashCode();
                 }
-                if (AdditionalProperties != null)
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -321,7 +321,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

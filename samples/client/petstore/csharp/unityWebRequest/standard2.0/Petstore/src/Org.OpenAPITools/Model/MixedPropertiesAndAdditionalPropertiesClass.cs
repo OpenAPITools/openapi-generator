@@ -39,10 +39,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="map">map.</param>
         public MixedPropertiesAndAdditionalPropertiesClass(Guid uuidWithPattern = default(Guid), Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
         {
-            UuidWithPattern = uuidWithPattern;
-            Uuid = uuid;
-            DateTime = dateTime;
-            Map = map;
+            this.UuidWithPattern = uuidWithPattern;
+            this.Uuid = uuid;
+            this.DateTime = dateTime;
+            this.Map = map;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as MixedPropertiesAndAdditionalPropertiesClass);
+            return this.Equals(input as MixedPropertiesAndAdditionalPropertiesClass);
         }
 
         /// <summary>
@@ -117,22 +117,25 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    UuidWithPattern == input.UuidWithPattern ||
-					UuidWithPattern.Equals(input.UuidWithPattern)
+                    this.UuidWithPattern == input.UuidWithPattern ||
+                    (this.UuidWithPattern != null &&
+                    this.UuidWithPattern.Equals(input.UuidWithPattern))
                 ) && 
                 (
-                    Uuid == input.Uuid ||
-					Uuid.Equals(input.Uuid)
+                    this.Uuid == input.Uuid ||
+                    (this.Uuid != null &&
+                    this.Uuid.Equals(input.Uuid))
                 ) && 
                 (
-                    DateTime == input.DateTime ||
-					DateTime.Equals(input.DateTime)
+                    this.DateTime == input.DateTime ||
+                    (this.DateTime != null &&
+                    this.DateTime.Equals(input.DateTime))
                 ) && 
                 (
-                    Map == input.Map ||
-                    Map != null &&
+                    this.Map == input.Map ||
+                    this.Map != null &&
                     input.Map != null &&
-                    Map.SequenceEqual(input.Map)
+                    this.Map.SequenceEqual(input.Map)
                 );
         }
 
@@ -145,21 +148,21 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (UuidWithPattern != null)
+                if (this.UuidWithPattern != null)
                 {
-                    hashCode = (hashCode * 59) + UuidWithPattern.GetHashCode();
+                    hashCode = (hashCode * 59) + this.UuidWithPattern.GetHashCode();
                 }
-				if (Uuid != null)
+                if (this.Uuid != null)
                 {
-                    hashCode = (hashCode * 59) + Uuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
                 }
-				if (DateTime != null)
+                if (this.DateTime != null)
                 {
-                    hashCode = (hashCode * 59) + DateTime.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
                 }
-				if (Map != null)
+                if (this.Map != null)
                 {
-                    hashCode = (hashCode * 59) + Map.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Map.GetHashCode();
                 }
                 return hashCode;
             }

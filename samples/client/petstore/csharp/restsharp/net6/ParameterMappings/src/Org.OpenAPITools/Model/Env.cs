@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="dummy">dummy.</param>
         public Env(string dummy = default(string))
         {
-            Dummy = dummy;
+            this.Dummy = dummy;
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as Env);
+            return this.Equals(input as Env);
         }
 
         /// <summary>
@@ -91,8 +91,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    Dummy == input.Dummy ||
-					Dummy.Equals(input.Dummy)
+                    this.Dummy == input.Dummy ||
+                    (this.Dummy != null &&
+                    this.Dummy.Equals(input.Dummy))
                 );
         }
 
@@ -105,9 +106,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (Dummy != null)
+                if (this.Dummy != null)
                 {
-                    hashCode = (hashCode * 59) + Dummy.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Dummy.GetHashCode();
                 }
                 return hashCode;
             }
@@ -118,7 +119,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="var123List">var123List.</param>
         public List(string var123List = default(string))
         {
-            Var123List = var123List;
+            this.Var123List = var123List;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as List);
+            return this.Equals(input as List);
         }
 
         /// <summary>
@@ -90,8 +90,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    Var123List == input.Var123List ||
-					Var123List.Equals(input.Var123List)
+                    this.Var123List == input.Var123List ||
+                    (this.Var123List != null &&
+                    this.Var123List.Equals(input.Var123List))
                 );
         }
 
@@ -104,9 +105,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (Var123List != null)
+                if (this.Var123List != null)
                 {
-                    hashCode = (hashCode * 59) + Var123List.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Var123List.GetHashCode();
                 }
                 return hashCode;
             }

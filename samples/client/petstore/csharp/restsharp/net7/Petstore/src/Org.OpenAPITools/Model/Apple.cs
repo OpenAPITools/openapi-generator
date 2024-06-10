@@ -40,9 +40,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="colorCode">colorCode.</param>
         public Apple(string cultivar = default(string), string origin = default(string), string colorCode = default(string))
         {
-            Cultivar = cultivar;
-            Origin = origin;
-            ColorCode = colorCode;
+            this.Cultivar = cultivar;
+            this.Origin = origin;
+            this.ColorCode = colorCode;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -116,17 +116,17 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (Cultivar != null)
+                if (this.Cultivar != null)
                 {
-                    hashCode = (hashCode * 59) + Cultivar.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Cultivar.GetHashCode();
                 }
-				if (Origin != null)
+                if (this.Origin != null)
                 {
-                    hashCode = (hashCode * 59) + Origin.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Origin.GetHashCode();
                 }
-				if (ColorCode != null)
+                if (this.ColorCode != null)
                 {
-                    hashCode = (hashCode * 59) + ColorCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ColorCode.GetHashCode();
                 }
                 return hashCode;
             }
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             if (this.Cultivar != null) {
                 // Cultivar (string) pattern

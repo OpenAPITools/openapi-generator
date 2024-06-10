@@ -38,8 +38,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="lengthCm">lengthCm.</param>
         public Banana(decimal lengthCm = default(decimal))
         {
-            LengthCm = lengthCm;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.LengthCm = lengthCm;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -106,10 +106,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + LengthCm.GetHashCode();
-                if (AdditionalProperties != null)
+                hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

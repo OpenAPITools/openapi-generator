@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="justNumber">justNumber.</param>
         public NumberOnly(decimal justNumber = default(decimal))
         {
-            JustNumber = justNumber;
+            this.JustNumber = justNumber;
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as NumberOnly);
+            return this.Equals(input as NumberOnly);
         }
 
         /// <summary>
@@ -93,8 +93,8 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    JustNumber == input.JustNumber ||
-                    JustNumber.Equals(input.JustNumber)
+                    this.JustNumber == input.JustNumber ||
+                    this.JustNumber.Equals(input.JustNumber)
                 );
         }
 
@@ -107,7 +107,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + JustNumber.GetHashCode();
+                hashCode = (hashCode * 59) + this.JustNumber.GetHashCode();
                 return hashCode;
             }
         }

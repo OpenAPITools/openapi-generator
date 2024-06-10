@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("quadrilateralType is a required property for QuadrilateralInterface and cannot be null");
             }
-            QuadrilateralType = quadrilateralType;
+            this.QuadrilateralType = quadrilateralType;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as QuadrilateralInterface);
+            return this.Equals(input as QuadrilateralInterface);
         }
 
         /// <summary>
@@ -100,8 +100,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    QuadrilateralType == input.QuadrilateralType ||
-					QuadrilateralType.Equals(input.QuadrilateralType)
+                    this.QuadrilateralType == input.QuadrilateralType ||
+                    (this.QuadrilateralType != null &&
+                    this.QuadrilateralType.Equals(input.QuadrilateralType))
                 );
         }
 
@@ -114,9 +115,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (QuadrilateralType != null)
+                if (this.QuadrilateralType != null)
                 {
-                    hashCode = (hashCode * 59) + QuadrilateralType.GetHashCode();
+                    hashCode = (hashCode * 59) + this.QuadrilateralType.GetHashCode();
                 }
                 return hashCode;
             }

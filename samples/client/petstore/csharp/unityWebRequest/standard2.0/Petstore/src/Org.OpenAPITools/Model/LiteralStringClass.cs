@@ -38,9 +38,9 @@ namespace Org.OpenAPITools.Model
         public LiteralStringClass(string escapedLiteralString = @"C:\\Users\\username", string unescapedLiteralString = @"C:\Users\username")
         {
             // use default value if no "escapedLiteralString" provided
-            EscapedLiteralString = escapedLiteralString ?? @"C:\\Users\\username";
+            this.EscapedLiteralString = escapedLiteralString ?? @"C:\\Users\\username";
             // use default value if no "unescapedLiteralString" provided
-            UnescapedLiteralString = unescapedLiteralString ?? @"C:\Users\username";
+            this.UnescapedLiteralString = unescapedLiteralString ?? @"C:\Users\username";
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as LiteralStringClass);
+            return this.Equals(input as LiteralStringClass);
         }
 
         /// <summary>
@@ -101,12 +101,14 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    EscapedLiteralString == input.EscapedLiteralString ||
-					EscapedLiteralString.Equals(input.EscapedLiteralString)
+                    this.EscapedLiteralString == input.EscapedLiteralString ||
+                    (this.EscapedLiteralString != null &&
+                    this.EscapedLiteralString.Equals(input.EscapedLiteralString))
                 ) && 
                 (
-                    UnescapedLiteralString == input.UnescapedLiteralString ||
-					UnescapedLiteralString.Equals(input.UnescapedLiteralString)
+                    this.UnescapedLiteralString == input.UnescapedLiteralString ||
+                    (this.UnescapedLiteralString != null &&
+                    this.UnescapedLiteralString.Equals(input.UnescapedLiteralString))
                 );
         }
 
@@ -119,13 +121,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (EscapedLiteralString != null)
+                if (this.EscapedLiteralString != null)
                 {
-                    hashCode = (hashCode * 59) + EscapedLiteralString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.EscapedLiteralString.GetHashCode();
                 }
-				if (UnescapedLiteralString != null)
+                if (this.UnescapedLiteralString != null)
                 {
-                    hashCode = (hashCode * 59) + UnescapedLiteralString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.UnescapedLiteralString.GetHashCode();
                 }
                 return hashCode;
             }

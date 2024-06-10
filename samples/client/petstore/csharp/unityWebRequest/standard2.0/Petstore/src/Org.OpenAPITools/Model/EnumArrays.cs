@@ -81,8 +81,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayEnum">arrayEnum.</param>
         public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
         {
-            JustSymbol = justSymbol;
-            ArrayEnum = arrayEnum;
+            this.JustSymbol = justSymbol;
+            this.ArrayEnum = arrayEnum;
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as EnumArrays);
+            return this.Equals(input as EnumArrays);
         }
 
         /// <summary>
@@ -137,14 +137,14 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    JustSymbol == input.JustSymbol ||
-                    JustSymbol.Equals(input.JustSymbol)
+                    this.JustSymbol == input.JustSymbol ||
+                    this.JustSymbol.Equals(input.JustSymbol)
                 ) && 
                 (
-                    ArrayEnum == input.ArrayEnum ||
-                    ArrayEnum != null &&
+                    this.ArrayEnum == input.ArrayEnum ||
+                    this.ArrayEnum != null &&
                     input.ArrayEnum != null &&
-                    ArrayEnum.SequenceEqual(input.ArrayEnum)
+                    this.ArrayEnum.SequenceEqual(input.ArrayEnum)
                 );
         }
 
@@ -157,10 +157,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + JustSymbol.GetHashCode();
-				if (ArrayEnum != null)
+                hashCode = (hashCode * 59) + this.JustSymbol.GetHashCode();
+                if (this.ArrayEnum != null)
                 {
-                    hashCode = (hashCode * 59) + ArrayEnum.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
                 }
                 return hashCode;
             }

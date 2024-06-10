@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected Zebra()
         {
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
@@ -81,9 +81,9 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
             }
-            ClassName = className;
-            Type = type;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.ClassName = className;
+            this.Type = type;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as Zebra);
+            return this.Equals(input as Zebra);
         }
 
         /// <summary>
@@ -145,14 +145,15 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    Type == input.Type ||
-                    Type.Equals(input.Type)
+                    this.Type == input.Type ||
+                    this.Type.Equals(input.Type)
                 ) && 
                 (
-                    ClassName == input.ClassName ||
-					ClassName.Equals(input.ClassName)
+                    this.ClassName == input.ClassName ||
+                    (this.ClassName != null &&
+                    this.ClassName.Equals(input.ClassName))
                 )
-                && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -164,14 +165,14 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + Type.GetHashCode();
-				if (ClassName != null)
+                hashCode = (hashCode * 59) + this.Type.GetHashCode();
+                if (this.ClassName != null)
                 {
-                    hashCode = (hashCode * 59) + ClassName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
                 }
-                if (AdditionalProperties != null)
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

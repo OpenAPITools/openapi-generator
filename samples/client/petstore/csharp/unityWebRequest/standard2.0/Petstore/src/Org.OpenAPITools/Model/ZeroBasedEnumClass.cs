@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="zeroBasedEnum">zeroBasedEnum.</param>
         public ZeroBasedEnumClass(ZeroBasedEnumEnum? zeroBasedEnum = default(ZeroBasedEnumEnum?))
         {
-            ZeroBasedEnum = zeroBasedEnum;
+            this.ZeroBasedEnum = zeroBasedEnum;
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as ZeroBasedEnumClass);
+            return this.Equals(input as ZeroBasedEnumClass);
         }
 
         /// <summary>
@@ -109,8 +109,8 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    ZeroBasedEnum == input.ZeroBasedEnum ||
-                    ZeroBasedEnum.Equals(input.ZeroBasedEnum)
+                    this.ZeroBasedEnum == input.ZeroBasedEnum ||
+                    this.ZeroBasedEnum.Equals(input.ZeroBasedEnum)
                 );
         }
 
@@ -123,7 +123,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + ZeroBasedEnum.GetHashCode();
+                hashCode = (hashCode * 59) + this.ZeroBasedEnum.GetHashCode();
                 return hashCode;
             }
         }

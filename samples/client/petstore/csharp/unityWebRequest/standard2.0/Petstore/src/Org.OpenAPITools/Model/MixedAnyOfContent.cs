@@ -39,9 +39,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of string.</param>
         public MixedAnyOfContent(string actualInstance)
         {
-            IsNullable = false;
-            SchemaType= "anyOf";
-            ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.IsNullable = false;
+            this.SchemaType= "anyOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of bool.</param>
         public MixedAnyOfContent(bool actualInstance)
         {
-            IsNullable = false;
-            SchemaType= "anyOf";
-            ActualInstance = actualInstance;
+            this.IsNullable = false;
+            this.SchemaType= "anyOf";
+            this.ActualInstance = actualInstance;
         }
 
         /// <summary>
@@ -63,9 +63,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of int.</param>
         public MixedAnyOfContent(int actualInstance)
         {
-            IsNullable = false;
-            SchemaType= "anyOf";
-            ActualInstance = actualInstance;
+            this.IsNullable = false;
+            this.SchemaType= "anyOf";
+            this.ActualInstance = actualInstance;
         }
 
         /// <summary>
@@ -75,9 +75,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of decimal.</param>
         public MixedAnyOfContent(decimal actualInstance)
         {
-            IsNullable = false;
-            SchemaType= "anyOf";
-            ActualInstance = actualInstance;
+            this.IsNullable = false;
+            this.SchemaType= "anyOf";
+            this.ActualInstance = actualInstance;
         }
 
         /// <summary>
@@ -87,9 +87,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of MixedSubId.</param>
         public MixedAnyOfContent(MixedSubId actualInstance)
         {
-            IsNullable = false;
-            SchemaType= "anyOf";
-            ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.IsNullable = false;
+            this.SchemaType= "anyOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
 
@@ -108,23 +108,23 @@ namespace Org.OpenAPITools.Model
             {
                 if (value.GetType() == typeof(MixedSubId))
                 {
-                    _actualInstance = value;
+                    this._actualInstance = value;
                 }
                 else if (value.GetType() == typeof(bool))
                 {
-                    _actualInstance = value;
+                    this._actualInstance = value;
                 }
                 else if (value.GetType() == typeof(decimal))
                 {
-                    _actualInstance = value;
+                    this._actualInstance = value;
                 }
                 else if (value.GetType() == typeof(int))
                 {
-                    _actualInstance = value;
+                    this._actualInstance = value;
                 }
                 else if (value.GetType() == typeof(string))
                 {
-                    _actualInstance = value;
+                    this._actualInstance = value;
                 }
                 else
                 {
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of string</returns>
         public string GetString()
         {
-            return (string)ActualInstance;
+            return (string)this.ActualInstance;
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of bool</returns>
         public bool GetBool()
         {
-            return (bool)ActualInstance;
+            return (bool)this.ActualInstance;
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of int</returns>
         public int GetInt()
         {
-            return (int)ActualInstance;
+            return (int)this.ActualInstance;
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of decimal</returns>
         public decimal GetDecimal()
         {
-            return (decimal)ActualInstance;
+            return (decimal)this.ActualInstance;
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of MixedSubId</returns>
         public MixedSubId GetMixedSubId()
         {
-            return (MixedSubId)ActualInstance;
+            return (MixedSubId)this.ActualInstance;
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class MixedAnyOfContent {\n");
-            sb.Append("  ActualInstance: ").Append(ActualInstance).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -202,7 +202,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(ActualInstance, MixedAnyOfContent.SerializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, MixedAnyOfContent.SerializerSettings);
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as MixedAnyOfContent);
+            return this.Equals(input as MixedAnyOfContent);
         }
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace Org.OpenAPITools.Model
             if (input == null)
                 return false;
 
-            return ActualInstance.Equals(input.ActualInstance);
+            return this.ActualInstance.Equals(input.ActualInstance);
         }
 
         /// <summary>
@@ -315,8 +315,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (ActualInstance != null)
-                    hashCode = hashCode * 59 + ActualInstance.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }

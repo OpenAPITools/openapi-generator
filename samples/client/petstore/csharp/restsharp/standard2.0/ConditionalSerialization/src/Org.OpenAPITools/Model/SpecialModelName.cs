@@ -39,17 +39,17 @@ namespace Org.OpenAPITools.Model
         /// <param name="varSpecialModelName">varSpecialModelName.</param>
         public SpecialModelName(long specialPropertyName = default(long), string varSpecialModelName = default(string))
         {
-            _SpecialPropertyName = specialPropertyName;
-            if (SpecialPropertyName != null)
+            this._SpecialPropertyName = specialPropertyName;
+            if (this.SpecialPropertyName != null)
             {
-                _flagSpecialPropertyName = true;
+                this._flagSpecialPropertyName = true;
             }
-            _VarSpecialModelName = varSpecialModelName;
-            if (VarSpecialModelName != null)
+            this._VarSpecialModelName = varSpecialModelName;
+            if (this.VarSpecialModelName != null)
             {
-                _flagVarSpecialModelName = true;
+                this._flagVarSpecialModelName = true;
             }
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -159,14 +159,14 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + SpecialPropertyName.GetHashCode();
-				if (VarSpecialModelName != null)
+                hashCode = (hashCode * 59) + this.SpecialPropertyName.GetHashCode();
+                if (this.VarSpecialModelName != null)
                 {
-                    hashCode = (hashCode * 59) + VarSpecialModelName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarSpecialModelName.GetHashCode();
                 }
-                if (AdditionalProperties != null)
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -177,7 +177,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

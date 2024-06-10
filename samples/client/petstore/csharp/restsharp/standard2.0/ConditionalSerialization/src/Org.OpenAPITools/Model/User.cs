@@ -49,67 +49,67 @@ namespace Org.OpenAPITools.Model
         /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values..</param>
         public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
         {
-            _Id = id;
-            if (Id != null)
+            this._Id = id;
+            if (this.Id != null)
             {
-                _flagId = true;
+                this._flagId = true;
             }
-            _Username = username;
-            if (Username != null)
+            this._Username = username;
+            if (this.Username != null)
             {
-                _flagUsername = true;
+                this._flagUsername = true;
             }
-            _FirstName = firstName;
-            if (FirstName != null)
+            this._FirstName = firstName;
+            if (this.FirstName != null)
             {
-                _flagFirstName = true;
+                this._flagFirstName = true;
             }
-            _LastName = lastName;
-            if (LastName != null)
+            this._LastName = lastName;
+            if (this.LastName != null)
             {
-                _flagLastName = true;
+                this._flagLastName = true;
             }
-            _Email = email;
-            if (Email != null)
+            this._Email = email;
+            if (this.Email != null)
             {
-                _flagEmail = true;
+                this._flagEmail = true;
             }
-            _Password = password;
-            if (Password != null)
+            this._Password = password;
+            if (this.Password != null)
             {
-                _flagPassword = true;
+                this._flagPassword = true;
             }
-            _Phone = phone;
-            if (Phone != null)
+            this._Phone = phone;
+            if (this.Phone != null)
             {
-                _flagPhone = true;
+                this._flagPhone = true;
             }
-            _UserStatus = userStatus;
-            if (UserStatus != null)
+            this._UserStatus = userStatus;
+            if (this.UserStatus != null)
             {
-                _flagUserStatus = true;
+                this._flagUserStatus = true;
             }
-            _ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
-            if (ObjectWithNoDeclaredProps != null)
+            this._ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
+            if (this.ObjectWithNoDeclaredProps != null)
             {
-                _flagObjectWithNoDeclaredProps = true;
+                this._flagObjectWithNoDeclaredProps = true;
             }
-            _ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
-            if (ObjectWithNoDeclaredPropsNullable != null)
+            this._ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
+            if (this.ObjectWithNoDeclaredPropsNullable != null)
             {
-                _flagObjectWithNoDeclaredPropsNullable = true;
+                this._flagObjectWithNoDeclaredPropsNullable = true;
             }
-            _AnyTypeProp = anyTypeProp;
-            if (AnyTypeProp != null)
+            this._AnyTypeProp = anyTypeProp;
+            if (this.AnyTypeProp != null)
             {
-                _flagAnyTypeProp = true;
+                this._flagAnyTypeProp = true;
             }
-            _AnyTypePropNullable = anyTypePropNullable;
-            if (AnyTypePropNullable != null)
+            this._AnyTypePropNullable = anyTypePropNullable;
+            if (this.AnyTypePropNullable != null)
             {
-                _flagAnyTypePropNullable = true;
+                this._flagAnyTypePropNullable = true;
             }
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -442,7 +442,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -474,51 +474,51 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + Id.GetHashCode();
-				if (Username != null)
+                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.Username != null)
                 {
-                    hashCode = (hashCode * 59) + Username.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Username.GetHashCode();
                 }
-				if (FirstName != null)
+                if (this.FirstName != null)
                 {
-                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
                 }
-				if (LastName != null)
+                if (this.LastName != null)
                 {
-                    hashCode = (hashCode * 59) + LastName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.LastName.GetHashCode();
                 }
-				if (Email != null)
+                if (this.Email != null)
                 {
-                    hashCode = (hashCode * 59) + Email.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Email.GetHashCode();
                 }
-				if (Password != null)
+                if (this.Password != null)
                 {
-                    hashCode = (hashCode * 59) + Password.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Password.GetHashCode();
                 }
-				if (Phone != null)
+                if (this.Phone != null)
                 {
-                    hashCode = (hashCode * 59) + Phone.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Phone.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + UserStatus.GetHashCode();
-				if (ObjectWithNoDeclaredProps != null)
+                hashCode = (hashCode * 59) + this.UserStatus.GetHashCode();
+                if (this.ObjectWithNoDeclaredProps != null)
                 {
-                    hashCode = (hashCode * 59) + ObjectWithNoDeclaredProps.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredProps.GetHashCode();
                 }
-				if (ObjectWithNoDeclaredPropsNullable != null)
+                if (this.ObjectWithNoDeclaredPropsNullable != null)
                 {
-                    hashCode = (hashCode * 59) + ObjectWithNoDeclaredPropsNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredPropsNullable.GetHashCode();
                 }
-				if (AnyTypeProp != null)
+                if (this.AnyTypeProp != null)
                 {
-                    hashCode = (hashCode * 59) + AnyTypeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AnyTypeProp.GetHashCode();
                 }
-				if (AnyTypePropNullable != null)
+                if (this.AnyTypePropNullable != null)
                 {
-                    hashCode = (hashCode * 59) + AnyTypePropNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AnyTypePropNullable.GetHashCode();
                 }
-                if (AdditionalProperties != null)
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -529,7 +529,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

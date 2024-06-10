@@ -39,8 +39,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="role">role.</param>
         public RolesReportsHash(Guid roleUuid = default(Guid), RolesReportsHashRole role = default(RolesReportsHashRole))
         {
-            RoleUuid = roleUuid;
-            Role = role;
+            this.RoleUuid = roleUuid;
+            this.Role = role;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -107,13 +107,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (RoleUuid != null)
+                if (this.RoleUuid != null)
                 {
-                    hashCode = (hashCode * 59) + RoleUuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RoleUuid.GetHashCode();
                 }
-				if (Role != null)
+                if (this.Role != null)
                 {
-                    hashCode = (hashCode * 59) + Role.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Role.GetHashCode();
                 }
                 return hashCode;
             }
@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

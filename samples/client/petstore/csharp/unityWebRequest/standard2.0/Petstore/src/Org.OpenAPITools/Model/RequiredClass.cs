@@ -535,90 +535,90 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("requiredNullableIntegerProp is a required property for RequiredClass and cannot be null");
             }
-            RequiredNullableIntegerProp = requiredNullableIntegerProp;
-            RequiredNotnullableintegerProp = requiredNotnullableintegerProp;
+            this.RequiredNullableIntegerProp = requiredNullableIntegerProp;
+            this.RequiredNotnullableintegerProp = requiredNotnullableintegerProp;
             // to ensure "requiredNullableStringProp" is required (not null)
             if (requiredNullableStringProp == null)
             {
                 throw new ArgumentNullException("requiredNullableStringProp is a required property for RequiredClass and cannot be null");
             }
-            RequiredNullableStringProp = requiredNullableStringProp;
+            this.RequiredNullableStringProp = requiredNullableStringProp;
             // to ensure "requiredNotnullableStringProp" is required (not null)
             if (requiredNotnullableStringProp == null)
             {
                 throw new ArgumentNullException("requiredNotnullableStringProp is a required property for RequiredClass and cannot be null");
             }
-            RequiredNotnullableStringProp = requiredNotnullableStringProp;
+            this.RequiredNotnullableStringProp = requiredNotnullableStringProp;
             // to ensure "requiredNullableBooleanProp" is required (not null)
             if (requiredNullableBooleanProp == null)
             {
                 throw new ArgumentNullException("requiredNullableBooleanProp is a required property for RequiredClass and cannot be null");
             }
-            RequiredNullableBooleanProp = requiredNullableBooleanProp;
-            RequiredNotnullableBooleanProp = requiredNotnullableBooleanProp;
+            this.RequiredNullableBooleanProp = requiredNullableBooleanProp;
+            this.RequiredNotnullableBooleanProp = requiredNotnullableBooleanProp;
             // to ensure "requiredNullableDateProp" is required (not null)
             if (requiredNullableDateProp == null)
             {
                 throw new ArgumentNullException("requiredNullableDateProp is a required property for RequiredClass and cannot be null");
             }
-            RequiredNullableDateProp = requiredNullableDateProp;
-            RequiredNotNullableDateProp = requiredNotNullableDateProp;
-            RequiredNotnullableDatetimeProp = requiredNotnullableDatetimeProp;
+            this.RequiredNullableDateProp = requiredNullableDateProp;
+            this.RequiredNotNullableDateProp = requiredNotNullableDateProp;
+            this.RequiredNotnullableDatetimeProp = requiredNotnullableDatetimeProp;
             // to ensure "requiredNullableDatetimeProp" is required (not null)
             if (requiredNullableDatetimeProp == null)
             {
                 throw new ArgumentNullException("requiredNullableDatetimeProp is a required property for RequiredClass and cannot be null");
             }
-            RequiredNullableDatetimeProp = requiredNullableDatetimeProp;
-            RequiredNullableEnumInteger = requiredNullableEnumInteger;
-            RequiredNotnullableEnumInteger = requiredNotnullableEnumInteger;
-            RequiredNullableEnumIntegerOnly = requiredNullableEnumIntegerOnly;
-            RequiredNotnullableEnumIntegerOnly = requiredNotnullableEnumIntegerOnly;
-            RequiredNotnullableEnumString = requiredNotnullableEnumString;
-            RequiredNullableEnumString = requiredNullableEnumString;
-            RequiredNullableOuterEnumDefaultValue = requiredNullableOuterEnumDefaultValue;
-            RequiredNotnullableOuterEnumDefaultValue = requiredNotnullableOuterEnumDefaultValue;
+            this.RequiredNullableDatetimeProp = requiredNullableDatetimeProp;
+            this.RequiredNullableEnumInteger = requiredNullableEnumInteger;
+            this.RequiredNotnullableEnumInteger = requiredNotnullableEnumInteger;
+            this.RequiredNullableEnumIntegerOnly = requiredNullableEnumIntegerOnly;
+            this.RequiredNotnullableEnumIntegerOnly = requiredNotnullableEnumIntegerOnly;
+            this.RequiredNotnullableEnumString = requiredNotnullableEnumString;
+            this.RequiredNullableEnumString = requiredNullableEnumString;
+            this.RequiredNullableOuterEnumDefaultValue = requiredNullableOuterEnumDefaultValue;
+            this.RequiredNotnullableOuterEnumDefaultValue = requiredNotnullableOuterEnumDefaultValue;
             // to ensure "requiredNullableUuid" is required (not null)
             if (requiredNullableUuid == null)
             {
                 throw new ArgumentNullException("requiredNullableUuid is a required property for RequiredClass and cannot be null");
             }
-            RequiredNullableUuid = requiredNullableUuid;
-            RequiredNotnullableUuid = requiredNotnullableUuid;
+            this.RequiredNullableUuid = requiredNullableUuid;
+            this.RequiredNotnullableUuid = requiredNotnullableUuid;
             // to ensure "requiredNullableArrayOfString" is required (not null)
             if (requiredNullableArrayOfString == null)
             {
                 throw new ArgumentNullException("requiredNullableArrayOfString is a required property for RequiredClass and cannot be null");
             }
-            RequiredNullableArrayOfString = requiredNullableArrayOfString;
+            this.RequiredNullableArrayOfString = requiredNullableArrayOfString;
             // to ensure "requiredNotnullableArrayOfString" is required (not null)
             if (requiredNotnullableArrayOfString == null)
             {
                 throw new ArgumentNullException("requiredNotnullableArrayOfString is a required property for RequiredClass and cannot be null");
             }
-            RequiredNotnullableArrayOfString = requiredNotnullableArrayOfString;
-            NotRequiredNullableIntegerProp = notRequiredNullableIntegerProp;
-            NotRequiredNotnullableintegerProp = notRequiredNotnullableintegerProp;
-            NotrequiredNullableStringProp = notrequiredNullableStringProp;
-            NotrequiredNotnullableStringProp = notrequiredNotnullableStringProp;
-            NotrequiredNullableBooleanProp = notrequiredNullableBooleanProp;
-            NotrequiredNotnullableBooleanProp = notrequiredNotnullableBooleanProp;
-            NotRequiredNullableDateProp = notRequiredNullableDateProp;
-            NotRequiredNotnullableDateProp = notRequiredNotnullableDateProp;
-            NotrequiredNullableDatetimeProp = notrequiredNullableDatetimeProp;
-            NotrequiredNotnullableDatetimeProp = notrequiredNotnullableDatetimeProp;
-            NotrequiredNullableEnumInteger = notrequiredNullableEnumInteger;
-            NotrequiredNotnullableEnumInteger = notrequiredNotnullableEnumInteger;
-            NotrequiredNullableEnumIntegerOnly = notrequiredNullableEnumIntegerOnly;
-            NotrequiredNotnullableEnumIntegerOnly = notrequiredNotnullableEnumIntegerOnly;
-            NotrequiredNullableEnumString = notrequiredNullableEnumString;
-            NotrequiredNotnullableEnumString = notrequiredNotnullableEnumString;
-            NotrequiredNullableOuterEnumDefaultValue = notrequiredNullableOuterEnumDefaultValue;
-            NotrequiredNotnullableOuterEnumDefaultValue = notrequiredNotnullableOuterEnumDefaultValue;
-            NotrequiredNullableUuid = notrequiredNullableUuid;
-            NotrequiredNotnullableUuid = notrequiredNotnullableUuid;
-            NotrequiredNullableArrayOfString = notrequiredNullableArrayOfString;
-            NotrequiredNotnullableArrayOfString = notrequiredNotnullableArrayOfString;
+            this.RequiredNotnullableArrayOfString = requiredNotnullableArrayOfString;
+            this.NotRequiredNullableIntegerProp = notRequiredNullableIntegerProp;
+            this.NotRequiredNotnullableintegerProp = notRequiredNotnullableintegerProp;
+            this.NotrequiredNullableStringProp = notrequiredNullableStringProp;
+            this.NotrequiredNotnullableStringProp = notrequiredNotnullableStringProp;
+            this.NotrequiredNullableBooleanProp = notrequiredNullableBooleanProp;
+            this.NotrequiredNotnullableBooleanProp = notrequiredNotnullableBooleanProp;
+            this.NotRequiredNullableDateProp = notRequiredNullableDateProp;
+            this.NotRequiredNotnullableDateProp = notRequiredNotnullableDateProp;
+            this.NotrequiredNullableDatetimeProp = notrequiredNullableDatetimeProp;
+            this.NotrequiredNotnullableDatetimeProp = notrequiredNotnullableDatetimeProp;
+            this.NotrequiredNullableEnumInteger = notrequiredNullableEnumInteger;
+            this.NotrequiredNotnullableEnumInteger = notrequiredNotnullableEnumInteger;
+            this.NotrequiredNullableEnumIntegerOnly = notrequiredNullableEnumIntegerOnly;
+            this.NotrequiredNotnullableEnumIntegerOnly = notrequiredNotnullableEnumIntegerOnly;
+            this.NotrequiredNullableEnumString = notrequiredNullableEnumString;
+            this.NotrequiredNotnullableEnumString = notrequiredNotnullableEnumString;
+            this.NotrequiredNullableOuterEnumDefaultValue = notrequiredNullableOuterEnumDefaultValue;
+            this.NotrequiredNotnullableOuterEnumDefaultValue = notrequiredNotnullableOuterEnumDefaultValue;
+            this.NotrequiredNullableUuid = notrequiredNullableUuid;
+            this.NotrequiredNotnullableUuid = notrequiredNotnullableUuid;
+            this.NotrequiredNullableArrayOfString = notrequiredNullableArrayOfString;
+            this.NotrequiredNotnullableArrayOfString = notrequiredNotnullableArrayOfString;
         }
 
         /// <summary>
@@ -859,7 +859,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -869,7 +869,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as RequiredClass);
+            return this.Equals(input as RequiredClass);
         }
 
         /// <summary>
@@ -885,200 +885,208 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    RequiredNullableIntegerProp == input.RequiredNullableIntegerProp ||
-                    (RequiredNullableIntegerProp != null &&
-                    RequiredNullableIntegerProp.Equals(input.RequiredNullableIntegerProp))
+                    this.RequiredNullableIntegerProp == input.RequiredNullableIntegerProp ||
+                    (this.RequiredNullableIntegerProp != null &&
+                    this.RequiredNullableIntegerProp.Equals(input.RequiredNullableIntegerProp))
                 ) && 
                 (
-                    RequiredNotnullableintegerProp == input.RequiredNotnullableintegerProp ||
-                    RequiredNotnullableintegerProp.Equals(input.RequiredNotnullableintegerProp)
+                    this.RequiredNotnullableintegerProp == input.RequiredNotnullableintegerProp ||
+                    this.RequiredNotnullableintegerProp.Equals(input.RequiredNotnullableintegerProp)
                 ) && 
                 (
-                    NotRequiredNullableIntegerProp == input.NotRequiredNullableIntegerProp ||
-                    (NotRequiredNullableIntegerProp != null &&
-                    NotRequiredNullableIntegerProp.Equals(input.NotRequiredNullableIntegerProp))
+                    this.NotRequiredNullableIntegerProp == input.NotRequiredNullableIntegerProp ||
+                    (this.NotRequiredNullableIntegerProp != null &&
+                    this.NotRequiredNullableIntegerProp.Equals(input.NotRequiredNullableIntegerProp))
                 ) && 
                 (
-                    NotRequiredNotnullableintegerProp == input.NotRequiredNotnullableintegerProp ||
-                    NotRequiredNotnullableintegerProp.Equals(input.NotRequiredNotnullableintegerProp)
+                    this.NotRequiredNotnullableintegerProp == input.NotRequiredNotnullableintegerProp ||
+                    this.NotRequiredNotnullableintegerProp.Equals(input.NotRequiredNotnullableintegerProp)
                 ) && 
                 (
-                    RequiredNullableStringProp == input.RequiredNullableStringProp ||
-                    (RequiredNullableStringProp != null &&
-                    RequiredNullableStringProp.Equals(input.RequiredNullableStringProp))
+                    this.RequiredNullableStringProp == input.RequiredNullableStringProp ||
+                    (this.RequiredNullableStringProp != null &&
+                    this.RequiredNullableStringProp.Equals(input.RequiredNullableStringProp))
                 ) && 
                 (
-                    RequiredNotnullableStringProp == input.RequiredNotnullableStringProp ||
-					RequiredNotnullableStringProp.Equals(input.RequiredNotnullableStringProp)
+                    this.RequiredNotnullableStringProp == input.RequiredNotnullableStringProp ||
+                    (this.RequiredNotnullableStringProp != null &&
+                    this.RequiredNotnullableStringProp.Equals(input.RequiredNotnullableStringProp))
                 ) && 
                 (
-                    NotrequiredNullableStringProp == input.NotrequiredNullableStringProp ||
-                    (NotrequiredNullableStringProp != null &&
-                    NotrequiredNullableStringProp.Equals(input.NotrequiredNullableStringProp))
+                    this.NotrequiredNullableStringProp == input.NotrequiredNullableStringProp ||
+                    (this.NotrequiredNullableStringProp != null &&
+                    this.NotrequiredNullableStringProp.Equals(input.NotrequiredNullableStringProp))
                 ) && 
                 (
-                    NotrequiredNotnullableStringProp == input.NotrequiredNotnullableStringProp ||
-					NotrequiredNotnullableStringProp.Equals(input.NotrequiredNotnullableStringProp)
+                    this.NotrequiredNotnullableStringProp == input.NotrequiredNotnullableStringProp ||
+                    (this.NotrequiredNotnullableStringProp != null &&
+                    this.NotrequiredNotnullableStringProp.Equals(input.NotrequiredNotnullableStringProp))
                 ) && 
                 (
-                    RequiredNullableBooleanProp == input.RequiredNullableBooleanProp ||
-                    (RequiredNullableBooleanProp != null &&
-                    RequiredNullableBooleanProp.Equals(input.RequiredNullableBooleanProp))
+                    this.RequiredNullableBooleanProp == input.RequiredNullableBooleanProp ||
+                    (this.RequiredNullableBooleanProp != null &&
+                    this.RequiredNullableBooleanProp.Equals(input.RequiredNullableBooleanProp))
                 ) && 
                 (
-                    RequiredNotnullableBooleanProp == input.RequiredNotnullableBooleanProp ||
-                    RequiredNotnullableBooleanProp.Equals(input.RequiredNotnullableBooleanProp)
+                    this.RequiredNotnullableBooleanProp == input.RequiredNotnullableBooleanProp ||
+                    this.RequiredNotnullableBooleanProp.Equals(input.RequiredNotnullableBooleanProp)
                 ) && 
                 (
-                    NotrequiredNullableBooleanProp == input.NotrequiredNullableBooleanProp ||
-                    (NotrequiredNullableBooleanProp != null &&
-                    NotrequiredNullableBooleanProp.Equals(input.NotrequiredNullableBooleanProp))
+                    this.NotrequiredNullableBooleanProp == input.NotrequiredNullableBooleanProp ||
+                    (this.NotrequiredNullableBooleanProp != null &&
+                    this.NotrequiredNullableBooleanProp.Equals(input.NotrequiredNullableBooleanProp))
                 ) && 
                 (
-                    NotrequiredNotnullableBooleanProp == input.NotrequiredNotnullableBooleanProp ||
-                    NotrequiredNotnullableBooleanProp.Equals(input.NotrequiredNotnullableBooleanProp)
+                    this.NotrequiredNotnullableBooleanProp == input.NotrequiredNotnullableBooleanProp ||
+                    this.NotrequiredNotnullableBooleanProp.Equals(input.NotrequiredNotnullableBooleanProp)
                 ) && 
                 (
-                    RequiredNullableDateProp == input.RequiredNullableDateProp ||
-                    (RequiredNullableDateProp != null &&
-                    RequiredNullableDateProp.Equals(input.RequiredNullableDateProp))
+                    this.RequiredNullableDateProp == input.RequiredNullableDateProp ||
+                    (this.RequiredNullableDateProp != null &&
+                    this.RequiredNullableDateProp.Equals(input.RequiredNullableDateProp))
                 ) && 
                 (
-                    RequiredNotNullableDateProp == input.RequiredNotNullableDateProp ||
-					RequiredNotNullableDateProp.Equals(input.RequiredNotNullableDateProp)
+                    this.RequiredNotNullableDateProp == input.RequiredNotNullableDateProp ||
+                    (this.RequiredNotNullableDateProp != null &&
+                    this.RequiredNotNullableDateProp.Equals(input.RequiredNotNullableDateProp))
                 ) && 
                 (
-                    NotRequiredNullableDateProp == input.NotRequiredNullableDateProp ||
-                    (NotRequiredNullableDateProp != null &&
-                    NotRequiredNullableDateProp.Equals(input.NotRequiredNullableDateProp))
+                    this.NotRequiredNullableDateProp == input.NotRequiredNullableDateProp ||
+                    (this.NotRequiredNullableDateProp != null &&
+                    this.NotRequiredNullableDateProp.Equals(input.NotRequiredNullableDateProp))
                 ) && 
                 (
-                    NotRequiredNotnullableDateProp == input.NotRequiredNotnullableDateProp ||
-					NotRequiredNotnullableDateProp.Equals(input.NotRequiredNotnullableDateProp)
+                    this.NotRequiredNotnullableDateProp == input.NotRequiredNotnullableDateProp ||
+                    (this.NotRequiredNotnullableDateProp != null &&
+                    this.NotRequiredNotnullableDateProp.Equals(input.NotRequiredNotnullableDateProp))
                 ) && 
                 (
-                    RequiredNotnullableDatetimeProp == input.RequiredNotnullableDatetimeProp ||
-					RequiredNotnullableDatetimeProp.Equals(input.RequiredNotnullableDatetimeProp)
+                    this.RequiredNotnullableDatetimeProp == input.RequiredNotnullableDatetimeProp ||
+                    (this.RequiredNotnullableDatetimeProp != null &&
+                    this.RequiredNotnullableDatetimeProp.Equals(input.RequiredNotnullableDatetimeProp))
                 ) && 
                 (
-                    RequiredNullableDatetimeProp == input.RequiredNullableDatetimeProp ||
-                    (RequiredNullableDatetimeProp != null &&
-                    RequiredNullableDatetimeProp.Equals(input.RequiredNullableDatetimeProp))
+                    this.RequiredNullableDatetimeProp == input.RequiredNullableDatetimeProp ||
+                    (this.RequiredNullableDatetimeProp != null &&
+                    this.RequiredNullableDatetimeProp.Equals(input.RequiredNullableDatetimeProp))
                 ) && 
                 (
-                    NotrequiredNullableDatetimeProp == input.NotrequiredNullableDatetimeProp ||
-                    (NotrequiredNullableDatetimeProp != null &&
-                    NotrequiredNullableDatetimeProp.Equals(input.NotrequiredNullableDatetimeProp))
+                    this.NotrequiredNullableDatetimeProp == input.NotrequiredNullableDatetimeProp ||
+                    (this.NotrequiredNullableDatetimeProp != null &&
+                    this.NotrequiredNullableDatetimeProp.Equals(input.NotrequiredNullableDatetimeProp))
                 ) && 
                 (
-                    NotrequiredNotnullableDatetimeProp == input.NotrequiredNotnullableDatetimeProp ||
-					NotrequiredNotnullableDatetimeProp.Equals(input.NotrequiredNotnullableDatetimeProp)
+                    this.NotrequiredNotnullableDatetimeProp == input.NotrequiredNotnullableDatetimeProp ||
+                    (this.NotrequiredNotnullableDatetimeProp != null &&
+                    this.NotrequiredNotnullableDatetimeProp.Equals(input.NotrequiredNotnullableDatetimeProp))
                 ) && 
                 (
-                    RequiredNullableEnumInteger == input.RequiredNullableEnumInteger ||
-                    RequiredNullableEnumInteger.Equals(input.RequiredNullableEnumInteger)
+                    this.RequiredNullableEnumInteger == input.RequiredNullableEnumInteger ||
+                    this.RequiredNullableEnumInteger.Equals(input.RequiredNullableEnumInteger)
                 ) && 
                 (
-                    RequiredNotnullableEnumInteger == input.RequiredNotnullableEnumInteger ||
-                    RequiredNotnullableEnumInteger.Equals(input.RequiredNotnullableEnumInteger)
+                    this.RequiredNotnullableEnumInteger == input.RequiredNotnullableEnumInteger ||
+                    this.RequiredNotnullableEnumInteger.Equals(input.RequiredNotnullableEnumInteger)
                 ) && 
                 (
-                    NotrequiredNullableEnumInteger == input.NotrequiredNullableEnumInteger ||
-                    NotrequiredNullableEnumInteger.Equals(input.NotrequiredNullableEnumInteger)
+                    this.NotrequiredNullableEnumInteger == input.NotrequiredNullableEnumInteger ||
+                    this.NotrequiredNullableEnumInteger.Equals(input.NotrequiredNullableEnumInteger)
                 ) && 
                 (
-                    NotrequiredNotnullableEnumInteger == input.NotrequiredNotnullableEnumInteger ||
-                    NotrequiredNotnullableEnumInteger.Equals(input.NotrequiredNotnullableEnumInteger)
+                    this.NotrequiredNotnullableEnumInteger == input.NotrequiredNotnullableEnumInteger ||
+                    this.NotrequiredNotnullableEnumInteger.Equals(input.NotrequiredNotnullableEnumInteger)
                 ) && 
                 (
-                    RequiredNullableEnumIntegerOnly == input.RequiredNullableEnumIntegerOnly ||
-                    RequiredNullableEnumIntegerOnly.Equals(input.RequiredNullableEnumIntegerOnly)
+                    this.RequiredNullableEnumIntegerOnly == input.RequiredNullableEnumIntegerOnly ||
+                    this.RequiredNullableEnumIntegerOnly.Equals(input.RequiredNullableEnumIntegerOnly)
                 ) && 
                 (
-                    RequiredNotnullableEnumIntegerOnly == input.RequiredNotnullableEnumIntegerOnly ||
-                    RequiredNotnullableEnumIntegerOnly.Equals(input.RequiredNotnullableEnumIntegerOnly)
+                    this.RequiredNotnullableEnumIntegerOnly == input.RequiredNotnullableEnumIntegerOnly ||
+                    this.RequiredNotnullableEnumIntegerOnly.Equals(input.RequiredNotnullableEnumIntegerOnly)
                 ) && 
                 (
-                    NotrequiredNullableEnumIntegerOnly == input.NotrequiredNullableEnumIntegerOnly ||
-                    NotrequiredNullableEnumIntegerOnly.Equals(input.NotrequiredNullableEnumIntegerOnly)
+                    this.NotrequiredNullableEnumIntegerOnly == input.NotrequiredNullableEnumIntegerOnly ||
+                    this.NotrequiredNullableEnumIntegerOnly.Equals(input.NotrequiredNullableEnumIntegerOnly)
                 ) && 
                 (
-                    NotrequiredNotnullableEnumIntegerOnly == input.NotrequiredNotnullableEnumIntegerOnly ||
-                    NotrequiredNotnullableEnumIntegerOnly.Equals(input.NotrequiredNotnullableEnumIntegerOnly)
+                    this.NotrequiredNotnullableEnumIntegerOnly == input.NotrequiredNotnullableEnumIntegerOnly ||
+                    this.NotrequiredNotnullableEnumIntegerOnly.Equals(input.NotrequiredNotnullableEnumIntegerOnly)
                 ) && 
                 (
-                    RequiredNotnullableEnumString == input.RequiredNotnullableEnumString ||
-                    RequiredNotnullableEnumString.Equals(input.RequiredNotnullableEnumString)
+                    this.RequiredNotnullableEnumString == input.RequiredNotnullableEnumString ||
+                    this.RequiredNotnullableEnumString.Equals(input.RequiredNotnullableEnumString)
                 ) && 
                 (
-                    RequiredNullableEnumString == input.RequiredNullableEnumString ||
-                    RequiredNullableEnumString.Equals(input.RequiredNullableEnumString)
+                    this.RequiredNullableEnumString == input.RequiredNullableEnumString ||
+                    this.RequiredNullableEnumString.Equals(input.RequiredNullableEnumString)
                 ) && 
                 (
-                    NotrequiredNullableEnumString == input.NotrequiredNullableEnumString ||
-                    NotrequiredNullableEnumString.Equals(input.NotrequiredNullableEnumString)
+                    this.NotrequiredNullableEnumString == input.NotrequiredNullableEnumString ||
+                    this.NotrequiredNullableEnumString.Equals(input.NotrequiredNullableEnumString)
                 ) && 
                 (
-                    NotrequiredNotnullableEnumString == input.NotrequiredNotnullableEnumString ||
-                    NotrequiredNotnullableEnumString.Equals(input.NotrequiredNotnullableEnumString)
+                    this.NotrequiredNotnullableEnumString == input.NotrequiredNotnullableEnumString ||
+                    this.NotrequiredNotnullableEnumString.Equals(input.NotrequiredNotnullableEnumString)
                 ) && 
                 (
-                    RequiredNullableOuterEnumDefaultValue == input.RequiredNullableOuterEnumDefaultValue ||
-                    RequiredNullableOuterEnumDefaultValue.Equals(input.RequiredNullableOuterEnumDefaultValue)
+                    this.RequiredNullableOuterEnumDefaultValue == input.RequiredNullableOuterEnumDefaultValue ||
+                    this.RequiredNullableOuterEnumDefaultValue.Equals(input.RequiredNullableOuterEnumDefaultValue)
                 ) && 
                 (
-                    RequiredNotnullableOuterEnumDefaultValue == input.RequiredNotnullableOuterEnumDefaultValue ||
-                    RequiredNotnullableOuterEnumDefaultValue.Equals(input.RequiredNotnullableOuterEnumDefaultValue)
+                    this.RequiredNotnullableOuterEnumDefaultValue == input.RequiredNotnullableOuterEnumDefaultValue ||
+                    this.RequiredNotnullableOuterEnumDefaultValue.Equals(input.RequiredNotnullableOuterEnumDefaultValue)
                 ) && 
                 (
-                    NotrequiredNullableOuterEnumDefaultValue == input.NotrequiredNullableOuterEnumDefaultValue ||
-                    NotrequiredNullableOuterEnumDefaultValue.Equals(input.NotrequiredNullableOuterEnumDefaultValue)
+                    this.NotrequiredNullableOuterEnumDefaultValue == input.NotrequiredNullableOuterEnumDefaultValue ||
+                    this.NotrequiredNullableOuterEnumDefaultValue.Equals(input.NotrequiredNullableOuterEnumDefaultValue)
                 ) && 
                 (
-                    NotrequiredNotnullableOuterEnumDefaultValue == input.NotrequiredNotnullableOuterEnumDefaultValue ||
-                    NotrequiredNotnullableOuterEnumDefaultValue.Equals(input.NotrequiredNotnullableOuterEnumDefaultValue)
+                    this.NotrequiredNotnullableOuterEnumDefaultValue == input.NotrequiredNotnullableOuterEnumDefaultValue ||
+                    this.NotrequiredNotnullableOuterEnumDefaultValue.Equals(input.NotrequiredNotnullableOuterEnumDefaultValue)
                 ) && 
                 (
-                    RequiredNullableUuid == input.RequiredNullableUuid ||
-                    (RequiredNullableUuid != null &&
-                    RequiredNullableUuid.Equals(input.RequiredNullableUuid))
+                    this.RequiredNullableUuid == input.RequiredNullableUuid ||
+                    (this.RequiredNullableUuid != null &&
+                    this.RequiredNullableUuid.Equals(input.RequiredNullableUuid))
                 ) && 
                 (
-                    RequiredNotnullableUuid == input.RequiredNotnullableUuid ||
-					RequiredNotnullableUuid.Equals(input.RequiredNotnullableUuid)
+                    this.RequiredNotnullableUuid == input.RequiredNotnullableUuid ||
+                    (this.RequiredNotnullableUuid != null &&
+                    this.RequiredNotnullableUuid.Equals(input.RequiredNotnullableUuid))
                 ) && 
                 (
-                    NotrequiredNullableUuid == input.NotrequiredNullableUuid ||
-                    (NotrequiredNullableUuid != null &&
-                    NotrequiredNullableUuid.Equals(input.NotrequiredNullableUuid))
+                    this.NotrequiredNullableUuid == input.NotrequiredNullableUuid ||
+                    (this.NotrequiredNullableUuid != null &&
+                    this.NotrequiredNullableUuid.Equals(input.NotrequiredNullableUuid))
                 ) && 
                 (
-                    NotrequiredNotnullableUuid == input.NotrequiredNotnullableUuid ||
-					NotrequiredNotnullableUuid.Equals(input.NotrequiredNotnullableUuid)
+                    this.NotrequiredNotnullableUuid == input.NotrequiredNotnullableUuid ||
+                    (this.NotrequiredNotnullableUuid != null &&
+                    this.NotrequiredNotnullableUuid.Equals(input.NotrequiredNotnullableUuid))
                 ) && 
                 (
-                    RequiredNullableArrayOfString == input.RequiredNullableArrayOfString ||
-                    RequiredNullableArrayOfString != null &&
+                    this.RequiredNullableArrayOfString == input.RequiredNullableArrayOfString ||
+                    this.RequiredNullableArrayOfString != null &&
                     input.RequiredNullableArrayOfString != null &&
-                    RequiredNullableArrayOfString.SequenceEqual(input.RequiredNullableArrayOfString)
+                    this.RequiredNullableArrayOfString.SequenceEqual(input.RequiredNullableArrayOfString)
                 ) && 
                 (
-                    RequiredNotnullableArrayOfString == input.RequiredNotnullableArrayOfString ||
-                    RequiredNotnullableArrayOfString != null &&
+                    this.RequiredNotnullableArrayOfString == input.RequiredNotnullableArrayOfString ||
+                    this.RequiredNotnullableArrayOfString != null &&
                     input.RequiredNotnullableArrayOfString != null &&
-                    RequiredNotnullableArrayOfString.SequenceEqual(input.RequiredNotnullableArrayOfString)
+                    this.RequiredNotnullableArrayOfString.SequenceEqual(input.RequiredNotnullableArrayOfString)
                 ) && 
                 (
-                    NotrequiredNullableArrayOfString == input.NotrequiredNullableArrayOfString ||
-                    NotrequiredNullableArrayOfString != null &&
+                    this.NotrequiredNullableArrayOfString == input.NotrequiredNullableArrayOfString ||
+                    this.NotrequiredNullableArrayOfString != null &&
                     input.NotrequiredNullableArrayOfString != null &&
-                    NotrequiredNullableArrayOfString.SequenceEqual(input.NotrequiredNullableArrayOfString)
+                    this.NotrequiredNullableArrayOfString.SequenceEqual(input.NotrequiredNullableArrayOfString)
                 ) && 
                 (
-                    NotrequiredNotnullableArrayOfString == input.NotrequiredNotnullableArrayOfString ||
-                    NotrequiredNotnullableArrayOfString != null &&
+                    this.NotrequiredNotnullableArrayOfString == input.NotrequiredNotnullableArrayOfString ||
+                    this.NotrequiredNotnullableArrayOfString != null &&
                     input.NotrequiredNotnullableArrayOfString != null &&
-                    NotrequiredNotnullableArrayOfString.SequenceEqual(input.NotrequiredNotnullableArrayOfString)
+                    this.NotrequiredNotnullableArrayOfString.SequenceEqual(input.NotrequiredNotnullableArrayOfString)
                 );
         }
 
@@ -1091,121 +1099,121 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (RequiredNullableIntegerProp != null)
+                if (this.RequiredNullableIntegerProp != null)
                 {
-                    hashCode = (hashCode * 59) + RequiredNullableIntegerProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RequiredNullableIntegerProp.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + RequiredNotnullableintegerProp.GetHashCode();
-				if (NotRequiredNullableIntegerProp != null)
+                hashCode = (hashCode * 59) + this.RequiredNotnullableintegerProp.GetHashCode();
+                if (this.NotRequiredNullableIntegerProp != null)
                 {
-                    hashCode = (hashCode * 59) + NotRequiredNullableIntegerProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotRequiredNullableIntegerProp.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + NotRequiredNotnullableintegerProp.GetHashCode();
-				if (RequiredNullableStringProp != null)
+                hashCode = (hashCode * 59) + this.NotRequiredNotnullableintegerProp.GetHashCode();
+                if (this.RequiredNullableStringProp != null)
                 {
-                    hashCode = (hashCode * 59) + RequiredNullableStringProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RequiredNullableStringProp.GetHashCode();
                 }
-				if (RequiredNotnullableStringProp != null)
+                if (this.RequiredNotnullableStringProp != null)
                 {
-                    hashCode = (hashCode * 59) + RequiredNotnullableStringProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RequiredNotnullableStringProp.GetHashCode();
                 }
-				if (NotrequiredNullableStringProp != null)
+                if (this.NotrequiredNullableStringProp != null)
                 {
-                    hashCode = (hashCode * 59) + NotrequiredNullableStringProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNullableStringProp.GetHashCode();
                 }
-				if (NotrequiredNotnullableStringProp != null)
+                if (this.NotrequiredNotnullableStringProp != null)
                 {
-                    hashCode = (hashCode * 59) + NotrequiredNotnullableStringProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableStringProp.GetHashCode();
                 }
-				if (RequiredNullableBooleanProp != null)
+                if (this.RequiredNullableBooleanProp != null)
                 {
-                    hashCode = (hashCode * 59) + RequiredNullableBooleanProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RequiredNullableBooleanProp.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + RequiredNotnullableBooleanProp.GetHashCode();
-				if (NotrequiredNullableBooleanProp != null)
+                hashCode = (hashCode * 59) + this.RequiredNotnullableBooleanProp.GetHashCode();
+                if (this.NotrequiredNullableBooleanProp != null)
                 {
-                    hashCode = (hashCode * 59) + NotrequiredNullableBooleanProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNullableBooleanProp.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + NotrequiredNotnullableBooleanProp.GetHashCode();
-				if (RequiredNullableDateProp != null)
+                hashCode = (hashCode * 59) + this.NotrequiredNotnullableBooleanProp.GetHashCode();
+                if (this.RequiredNullableDateProp != null)
                 {
-                    hashCode = (hashCode * 59) + RequiredNullableDateProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RequiredNullableDateProp.GetHashCode();
                 }
-				if (RequiredNotNullableDateProp != null)
+                if (this.RequiredNotNullableDateProp != null)
                 {
-                    hashCode = (hashCode * 59) + RequiredNotNullableDateProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RequiredNotNullableDateProp.GetHashCode();
                 }
-				if (NotRequiredNullableDateProp != null)
+                if (this.NotRequiredNullableDateProp != null)
                 {
-                    hashCode = (hashCode * 59) + NotRequiredNullableDateProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotRequiredNullableDateProp.GetHashCode();
                 }
-				if (NotRequiredNotnullableDateProp != null)
+                if (this.NotRequiredNotnullableDateProp != null)
                 {
-                    hashCode = (hashCode * 59) + NotRequiredNotnullableDateProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotRequiredNotnullableDateProp.GetHashCode();
                 }
-				if (RequiredNotnullableDatetimeProp != null)
+                if (this.RequiredNotnullableDatetimeProp != null)
                 {
-                    hashCode = (hashCode * 59) + RequiredNotnullableDatetimeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RequiredNotnullableDatetimeProp.GetHashCode();
                 }
-				if (RequiredNullableDatetimeProp != null)
+                if (this.RequiredNullableDatetimeProp != null)
                 {
-                    hashCode = (hashCode * 59) + RequiredNullableDatetimeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RequiredNullableDatetimeProp.GetHashCode();
                 }
-				if (NotrequiredNullableDatetimeProp != null)
+                if (this.NotrequiredNullableDatetimeProp != null)
                 {
-                    hashCode = (hashCode * 59) + NotrequiredNullableDatetimeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNullableDatetimeProp.GetHashCode();
                 }
-				if (NotrequiredNotnullableDatetimeProp != null)
+                if (this.NotrequiredNotnullableDatetimeProp != null)
                 {
-                    hashCode = (hashCode * 59) + NotrequiredNotnullableDatetimeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableDatetimeProp.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + RequiredNullableEnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + RequiredNotnullableEnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + NotrequiredNullableEnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + NotrequiredNotnullableEnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + RequiredNullableEnumIntegerOnly.GetHashCode();
-                hashCode = (hashCode * 59) + RequiredNotnullableEnumIntegerOnly.GetHashCode();
-                hashCode = (hashCode * 59) + NotrequiredNullableEnumIntegerOnly.GetHashCode();
-                hashCode = (hashCode * 59) + NotrequiredNotnullableEnumIntegerOnly.GetHashCode();
-                hashCode = (hashCode * 59) + RequiredNotnullableEnumString.GetHashCode();
-                hashCode = (hashCode * 59) + RequiredNullableEnumString.GetHashCode();
-                hashCode = (hashCode * 59) + NotrequiredNullableEnumString.GetHashCode();
-                hashCode = (hashCode * 59) + NotrequiredNotnullableEnumString.GetHashCode();
-                hashCode = (hashCode * 59) + RequiredNullableOuterEnumDefaultValue.GetHashCode();
-                hashCode = (hashCode * 59) + RequiredNotnullableOuterEnumDefaultValue.GetHashCode();
-                hashCode = (hashCode * 59) + NotrequiredNullableOuterEnumDefaultValue.GetHashCode();
-                hashCode = (hashCode * 59) + NotrequiredNotnullableOuterEnumDefaultValue.GetHashCode();
-				if (RequiredNullableUuid != null)
+                hashCode = (hashCode * 59) + this.RequiredNullableEnumInteger.GetHashCode();
+                hashCode = (hashCode * 59) + this.RequiredNotnullableEnumInteger.GetHashCode();
+                hashCode = (hashCode * 59) + this.NotrequiredNullableEnumInteger.GetHashCode();
+                hashCode = (hashCode * 59) + this.NotrequiredNotnullableEnumInteger.GetHashCode();
+                hashCode = (hashCode * 59) + this.RequiredNullableEnumIntegerOnly.GetHashCode();
+                hashCode = (hashCode * 59) + this.RequiredNotnullableEnumIntegerOnly.GetHashCode();
+                hashCode = (hashCode * 59) + this.NotrequiredNullableEnumIntegerOnly.GetHashCode();
+                hashCode = (hashCode * 59) + this.NotrequiredNotnullableEnumIntegerOnly.GetHashCode();
+                hashCode = (hashCode * 59) + this.RequiredNotnullableEnumString.GetHashCode();
+                hashCode = (hashCode * 59) + this.RequiredNullableEnumString.GetHashCode();
+                hashCode = (hashCode * 59) + this.NotrequiredNullableEnumString.GetHashCode();
+                hashCode = (hashCode * 59) + this.NotrequiredNotnullableEnumString.GetHashCode();
+                hashCode = (hashCode * 59) + this.RequiredNullableOuterEnumDefaultValue.GetHashCode();
+                hashCode = (hashCode * 59) + this.RequiredNotnullableOuterEnumDefaultValue.GetHashCode();
+                hashCode = (hashCode * 59) + this.NotrequiredNullableOuterEnumDefaultValue.GetHashCode();
+                hashCode = (hashCode * 59) + this.NotrequiredNotnullableOuterEnumDefaultValue.GetHashCode();
+                if (this.RequiredNullableUuid != null)
                 {
-                    hashCode = (hashCode * 59) + RequiredNullableUuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RequiredNullableUuid.GetHashCode();
                 }
-				if (RequiredNotnullableUuid != null)
+                if (this.RequiredNotnullableUuid != null)
                 {
-                    hashCode = (hashCode * 59) + RequiredNotnullableUuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RequiredNotnullableUuid.GetHashCode();
                 }
-				if (NotrequiredNullableUuid != null)
+                if (this.NotrequiredNullableUuid != null)
                 {
-                    hashCode = (hashCode * 59) + NotrequiredNullableUuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNullableUuid.GetHashCode();
                 }
-				if (NotrequiredNotnullableUuid != null)
+                if (this.NotrequiredNotnullableUuid != null)
                 {
-                    hashCode = (hashCode * 59) + NotrequiredNotnullableUuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableUuid.GetHashCode();
                 }
-				if (RequiredNullableArrayOfString != null)
+                if (this.RequiredNullableArrayOfString != null)
                 {
-                    hashCode = (hashCode * 59) + RequiredNullableArrayOfString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RequiredNullableArrayOfString.GetHashCode();
                 }
-				if (RequiredNotnullableArrayOfString != null)
+                if (this.RequiredNotnullableArrayOfString != null)
                 {
-                    hashCode = (hashCode * 59) + RequiredNotnullableArrayOfString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RequiredNotnullableArrayOfString.GetHashCode();
                 }
-				if (NotrequiredNullableArrayOfString != null)
+                if (this.NotrequiredNullableArrayOfString != null)
                 {
-                    hashCode = (hashCode * 59) + NotrequiredNullableArrayOfString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNullableArrayOfString.GetHashCode();
                 }
-				if (NotrequiredNotnullableArrayOfString != null)
+                if (this.NotrequiredNotnullableArrayOfString != null)
                 {
-                    hashCode = (hashCode * 59) + NotrequiredNotnullableArrayOfString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableArrayOfString.GetHashCode();
                 }
                 return hashCode;
             }

@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="content">content.</param>
         public MixedAnyOf(MixedAnyOfContent content = default(MixedAnyOfContent))
         {
-            Content = content;
+            this.Content = content;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -98,9 +98,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (Content != null)
+                if (this.Content != null)
                 {
-                    hashCode = (hashCode * 59) + Content.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Content.GetHashCode();
                 }
                 return hashCode;
             }
@@ -111,7 +111,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

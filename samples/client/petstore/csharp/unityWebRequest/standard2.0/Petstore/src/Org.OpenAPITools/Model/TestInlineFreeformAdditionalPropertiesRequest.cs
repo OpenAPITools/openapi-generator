@@ -36,8 +36,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="someProperty">someProperty.</param>
         public TestInlineFreeformAdditionalPropertiesRequest(string someProperty = default(string))
         {
-            SomeProperty = someProperty;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.SomeProperty = someProperty;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as TestInlineFreeformAdditionalPropertiesRequest);
+            return this.Equals(input as TestInlineFreeformAdditionalPropertiesRequest);
         }
 
         /// <summary>
@@ -98,10 +98,11 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    SomeProperty == input.SomeProperty ||
-					SomeProperty.Equals(input.SomeProperty)
+                    this.SomeProperty == input.SomeProperty ||
+                    (this.SomeProperty != null &&
+                    this.SomeProperty.Equals(input.SomeProperty))
                 )
-                && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -113,13 +114,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (SomeProperty != null)
+                if (this.SomeProperty != null)
                 {
-                    hashCode = (hashCode * 59) + SomeProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.SomeProperty.GetHashCode();
                 }
-                if (AdditionalProperties != null)
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="nullableMessage">nullableMessage.</param>
         public HealthCheckResult(string nullableMessage = default(string))
         {
-            NullableMessage = nullableMessage;
+            this.NullableMessage = nullableMessage;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as HealthCheckResult);
+            return this.Equals(input as HealthCheckResult);
         }
 
         /// <summary>
@@ -90,9 +90,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    NullableMessage == input.NullableMessage ||
-                    (NullableMessage != null &&
-                    NullableMessage.Equals(input.NullableMessage))
+                    this.NullableMessage == input.NullableMessage ||
+                    (this.NullableMessage != null &&
+                    this.NullableMessage.Equals(input.NullableMessage))
                 );
         }
 
@@ -105,9 +105,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (NullableMessage != null)
+                if (this.NullableMessage != null)
                 {
-                    hashCode = (hashCode * 59) + NullableMessage.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NullableMessage.GetHashCode();
                 }
                 return hashCode;
             }

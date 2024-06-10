@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
             }
-            TriangleType = triangleType;
+            this.TriangleType = triangleType;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as TriangleInterface);
+            return this.Equals(input as TriangleInterface);
         }
 
         /// <summary>
@@ -100,8 +100,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    TriangleType == input.TriangleType ||
-					TriangleType.Equals(input.TriangleType)
+                    this.TriangleType == input.TriangleType ||
+                    (this.TriangleType != null &&
+                    this.TriangleType.Equals(input.TriangleType))
                 );
         }
 
@@ -114,9 +115,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (TriangleType != null)
+                if (this.TriangleType != null)
                 {
-                    hashCode = (hashCode * 59) + TriangleType.GetHashCode();
+                    hashCode = (hashCode * 59) + this.TriangleType.GetHashCode();
                 }
                 return hashCode;
             }

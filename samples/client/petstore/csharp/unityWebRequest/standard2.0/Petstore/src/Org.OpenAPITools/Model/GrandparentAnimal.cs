@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
             }
-            PetType = petType;
+            this.PetType = petType;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as GrandparentAnimal);
+            return this.Equals(input as GrandparentAnimal);
         }
 
         /// <summary>
@@ -100,8 +100,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    PetType == input.PetType ||
-					PetType.Equals(input.PetType)
+                    this.PetType == input.PetType ||
+                    (this.PetType != null &&
+                    this.PetType.Equals(input.PetType))
                 );
         }
 
@@ -114,9 +115,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (PetType != null)
+                if (this.PetType != null)
                 {
-                    hashCode = (hashCode * 59) + PetType.GetHashCode();
+                    hashCode = (hashCode * 59) + this.PetType.GetHashCode();
                 }
                 return hashCode;
             }

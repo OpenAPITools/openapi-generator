@@ -48,9 +48,9 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("className is a required property for Whale and cannot be null");
             }
-            ClassName = className;
-            HasBaleen = hasBaleen;
-            HasTeeth = hasTeeth;
+            this.ClassName = className;
+            this.HasBaleen = hasBaleen;
+            this.HasTeeth = hasTeeth;
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as Whale);
+            return this.Equals(input as Whale);
         }
 
         /// <summary>
@@ -118,16 +118,17 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    HasBaleen == input.HasBaleen ||
-                    HasBaleen.Equals(input.HasBaleen)
+                    this.HasBaleen == input.HasBaleen ||
+                    this.HasBaleen.Equals(input.HasBaleen)
                 ) && 
                 (
-                    HasTeeth == input.HasTeeth ||
-                    HasTeeth.Equals(input.HasTeeth)
+                    this.HasTeeth == input.HasTeeth ||
+                    this.HasTeeth.Equals(input.HasTeeth)
                 ) && 
                 (
-                    ClassName == input.ClassName ||
-					ClassName.Equals(input.ClassName)
+                    this.ClassName == input.ClassName ||
+                    (this.ClassName != null &&
+                    this.ClassName.Equals(input.ClassName))
                 );
         }
 
@@ -140,11 +141,11 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + HasBaleen.GetHashCode();
-                hashCode = (hashCode * 59) + HasTeeth.GetHashCode();
-				if (ClassName != null)
+                hashCode = (hashCode * 59) + this.HasBaleen.GetHashCode();
+                hashCode = (hashCode * 59) + this.HasTeeth.GetHashCode();
+                if (this.ClassName != null)
                 {
-                    hashCode = (hashCode * 59) + ClassName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
                 }
                 return hashCode;
             }

@@ -41,27 +41,27 @@ namespace Org.OpenAPITools.Model
         /// <param name="bars">bars.</param>
         public ObjectWithDeprecatedFields(string uuid = default(string), decimal id = default(decimal), DeprecatedObject deprecatedRef = default(DeprecatedObject), List<string> bars = default(List<string>))
         {
-            _Uuid = uuid;
-            if (Uuid != null)
+            this._Uuid = uuid;
+            if (this.Uuid != null)
             {
-                _flagUuid = true;
+                this._flagUuid = true;
             }
-            _Id = id;
-            if (Id != null)
+            this._Id = id;
+            if (this.Id != null)
             {
-                _flagId = true;
+                this._flagId = true;
             }
-            _DeprecatedRef = deprecatedRef;
-            if (DeprecatedRef != null)
+            this._DeprecatedRef = deprecatedRef;
+            if (this.DeprecatedRef != null)
             {
-                _flagDeprecatedRef = true;
+                this._flagDeprecatedRef = true;
             }
-            _Bars = bars;
-            if (Bars != null)
+            this._Bars = bars;
+            if (this.Bars != null)
             {
-                _flagBars = true;
+                this._flagBars = true;
             }
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -224,22 +224,22 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (Uuid != null)
+                if (this.Uuid != null)
                 {
-                    hashCode = (hashCode * 59) + Uuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + Id.GetHashCode();
-				if (DeprecatedRef != null)
+                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.DeprecatedRef != null)
                 {
-                    hashCode = (hashCode * 59) + DeprecatedRef.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DeprecatedRef.GetHashCode();
                 }
-				if (Bars != null)
+                if (this.Bars != null)
                 {
-                    hashCode = (hashCode * 59) + Bars.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Bars.GetHashCode();
                 }
-                if (AdditionalProperties != null)
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -250,7 +250,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

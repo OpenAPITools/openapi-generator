@@ -42,9 +42,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of Apple.</param>
         public GmFruit(Apple actualInstance)
         {
-            IsNullable = false;
-            SchemaType= "anyOf";
-            ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.IsNullable = false;
+            this.SchemaType= "anyOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
@@ -54,9 +54,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="actualInstance">An instance of Banana.</param>
         public GmFruit(Banana actualInstance)
         {
-            IsNullable = false;
-            SchemaType= "anyOf";
-            ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+            this.IsNullable = false;
+            this.SchemaType= "anyOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
 
@@ -75,11 +75,11 @@ namespace Org.OpenAPITools.Model
             {
                 if (value.GetType() == typeof(Apple))
                 {
-                    _actualInstance = value;
+                    this._actualInstance = value;
                 }
                 else if (value.GetType() == typeof(Banana))
                 {
-                    _actualInstance = value;
+                    this._actualInstance = value;
                 }
                 else
                 {
@@ -95,7 +95,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of Apple</returns>
         public Apple GetApple()
         {
-            return (Apple)ActualInstance;
+            return (Apple)this.ActualInstance;
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>An instance of Banana</returns>
         public Banana GetBanana()
         {
-            return (Banana)ActualInstance;
+            return (Banana)this.ActualInstance;
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class GmFruit {\n");
-            sb.Append("  ActualInstance: ").Append(ActualInstance).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -127,7 +127,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(ActualInstance, GmFruit.SerializerSettings);
+            return JsonConvert.SerializeObject(this.ActualInstance, GmFruit.SerializerSettings);
         }
 
         /// <summary>
@@ -201,8 +201,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (ActualInstance != null)
-                    hashCode = hashCode * 59 + ActualInstance.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }

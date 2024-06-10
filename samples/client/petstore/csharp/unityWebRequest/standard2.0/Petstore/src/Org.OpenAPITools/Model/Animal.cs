@@ -47,9 +47,9 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("className is a required property for Animal and cannot be null");
             }
-            ClassName = className;
+            this.ClassName = className;
             // use default value if no "color" provided
-            Color = color ?? @"red";
+            this.Color = color ?? @"red";
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as Animal);
+            return this.Equals(input as Animal);
         }
 
         /// <summary>
@@ -110,12 +110,14 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    ClassName == input.ClassName ||
-					ClassName.Equals(input.ClassName)
+                    this.ClassName == input.ClassName ||
+                    (this.ClassName != null &&
+                    this.ClassName.Equals(input.ClassName))
                 ) && 
                 (
-                    Color == input.Color ||
-					Color.Equals(input.Color)
+                    this.Color == input.Color ||
+                    (this.Color != null &&
+                    this.Color.Equals(input.Color))
                 );
         }
 
@@ -128,13 +130,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (ClassName != null)
+                if (this.ClassName != null)
                 {
-                    hashCode = (hashCode * 59) + ClassName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
                 }
-				if (Color != null)
+                if (this.Color != null)
                 {
-                    hashCode = (hashCode * 59) + Color.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
                 }
                 return hashCode;
             }

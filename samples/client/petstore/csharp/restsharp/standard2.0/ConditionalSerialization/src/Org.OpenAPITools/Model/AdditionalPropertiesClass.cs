@@ -45,47 +45,47 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString.</param>
         public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>), Object anytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype2 = default(Object), Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default(Dictionary<string, Object>), Object emptyMap = default(Object), Dictionary<string, string> mapWithUndeclaredPropertiesString = default(Dictionary<string, string>))
         {
-            _MapProperty = mapProperty;
-            if (MapProperty != null)
+            this._MapProperty = mapProperty;
+            if (this.MapProperty != null)
             {
-                _flagMapProperty = true;
+                this._flagMapProperty = true;
             }
-            _MapOfMapProperty = mapOfMapProperty;
-            if (MapOfMapProperty != null)
+            this._MapOfMapProperty = mapOfMapProperty;
+            if (this.MapOfMapProperty != null)
             {
-                _flagMapOfMapProperty = true;
+                this._flagMapOfMapProperty = true;
             }
-            _Anytype1 = anytype1;
-            if (Anytype1 != null)
+            this._Anytype1 = anytype1;
+            if (this.Anytype1 != null)
             {
-                _flagAnytype1 = true;
+                this._flagAnytype1 = true;
             }
-            _MapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
-            if (MapWithUndeclaredPropertiesAnytype1 != null)
+            this._MapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
+            if (this.MapWithUndeclaredPropertiesAnytype1 != null)
             {
-                _flagMapWithUndeclaredPropertiesAnytype1 = true;
+                this._flagMapWithUndeclaredPropertiesAnytype1 = true;
             }
-            _MapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
-            if (MapWithUndeclaredPropertiesAnytype2 != null)
+            this._MapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
+            if (this.MapWithUndeclaredPropertiesAnytype2 != null)
             {
-                _flagMapWithUndeclaredPropertiesAnytype2 = true;
+                this._flagMapWithUndeclaredPropertiesAnytype2 = true;
             }
-            _MapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
-            if (MapWithUndeclaredPropertiesAnytype3 != null)
+            this._MapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
+            if (this.MapWithUndeclaredPropertiesAnytype3 != null)
             {
-                _flagMapWithUndeclaredPropertiesAnytype3 = true;
+                this._flagMapWithUndeclaredPropertiesAnytype3 = true;
             }
-            _EmptyMap = emptyMap;
-            if (EmptyMap != null)
+            this._EmptyMap = emptyMap;
+            if (this.EmptyMap != null)
             {
-                _flagEmptyMap = true;
+                this._flagEmptyMap = true;
             }
-            _MapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
-            if (MapWithUndeclaredPropertiesString != null)
+            this._MapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
+            if (this.MapWithUndeclaredPropertiesString != null)
             {
-                _flagMapWithUndeclaredPropertiesString = true;
+                this._flagMapWithUndeclaredPropertiesString = true;
             }
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -346,41 +346,41 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (MapProperty != null)
+                if (this.MapProperty != null)
                 {
-                    hashCode = (hashCode * 59) + MapProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapProperty.GetHashCode();
                 }
-				if (MapOfMapProperty != null)
+                if (this.MapOfMapProperty != null)
                 {
-                    hashCode = (hashCode * 59) + MapOfMapProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapOfMapProperty.GetHashCode();
                 }
-				if (Anytype1 != null)
+                if (this.Anytype1 != null)
                 {
-                    hashCode = (hashCode * 59) + Anytype1.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Anytype1.GetHashCode();
                 }
-				if (MapWithUndeclaredPropertiesAnytype1 != null)
+                if (this.MapWithUndeclaredPropertiesAnytype1 != null)
                 {
-                    hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesAnytype1.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype1.GetHashCode();
                 }
-				if (MapWithUndeclaredPropertiesAnytype2 != null)
+                if (this.MapWithUndeclaredPropertiesAnytype2 != null)
                 {
-                    hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesAnytype2.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype2.GetHashCode();
                 }
-				if (MapWithUndeclaredPropertiesAnytype3 != null)
+                if (this.MapWithUndeclaredPropertiesAnytype3 != null)
                 {
-                    hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesAnytype3.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype3.GetHashCode();
                 }
-				if (EmptyMap != null)
+                if (this.EmptyMap != null)
                 {
-                    hashCode = (hashCode * 59) + EmptyMap.GetHashCode();
+                    hashCode = (hashCode * 59) + this.EmptyMap.GetHashCode();
                 }
-				if (MapWithUndeclaredPropertiesString != null)
+                if (this.MapWithUndeclaredPropertiesString != null)
                 {
-                    hashCode = (hashCode * 59) + MapWithUndeclaredPropertiesString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesString.GetHashCode();
                 }
-                if (AdditionalProperties != null)
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -391,7 +391,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

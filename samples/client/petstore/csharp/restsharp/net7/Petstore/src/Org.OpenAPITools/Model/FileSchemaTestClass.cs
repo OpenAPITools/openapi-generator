@@ -39,8 +39,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="files">files.</param>
         public FileSchemaTestClass(File file = default(File), List<File> files = default(List<File>))
         {
-            File = file;
-            Files = files;
+            this.File = file;
+            this.Files = files;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -107,13 +107,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (File != null)
+                if (this.File != null)
                 {
-                    hashCode = (hashCode * 59) + File.GetHashCode();
+                    hashCode = (hashCode * 59) + this.File.GetHashCode();
                 }
-				if (Files != null)
+                if (this.Files != null)
                 {
-                    hashCode = (hashCode * 59) + Files.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Files.GetHashCode();
                 }
                 return hashCode;
             }
@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

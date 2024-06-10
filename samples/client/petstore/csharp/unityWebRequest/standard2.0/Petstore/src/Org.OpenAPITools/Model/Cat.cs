@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color (default to &quot;red&quot;).</param>
         public Cat(bool declawed = default(bool), string className = @"Cat", string color = @"red") : base(className, color)
         {
-            Declawed = declawed;
+            this.Declawed = declawed;
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as Cat);
+            return this.Equals(input as Cat);
         }
 
         /// <summary>
@@ -98,8 +98,8 @@ namespace Org.OpenAPITools.Model
             }
             return base.Equals(input) && 
                 (
-                    Declawed == input.Declawed ||
-                    Declawed.Equals(input.Declawed)
+                    this.Declawed == input.Declawed ||
+                    this.Declawed.Equals(input.Declawed)
                 );
         }
 
@@ -112,7 +112,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode * 59) + Declawed.GetHashCode();
+                hashCode = (hashCode * 59) + this.Declawed.GetHashCode();
                 return hashCode;
             }
         }

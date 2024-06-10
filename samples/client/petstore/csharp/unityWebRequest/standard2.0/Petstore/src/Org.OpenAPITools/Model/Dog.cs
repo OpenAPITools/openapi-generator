@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color (default to &quot;red&quot;).</param>
         public Dog(string breed = default(string), string className = @"Dog", string color = @"red") : base(className, color)
         {
-            Breed = breed;
+            this.Breed = breed;
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as Dog);
+            return this.Equals(input as Dog);
         }
 
         /// <summary>
@@ -98,8 +98,9 @@ namespace Org.OpenAPITools.Model
             }
             return base.Equals(input) && 
                 (
-                    Breed == input.Breed ||
-					Breed.Equals(input.Breed)
+                    this.Breed == input.Breed ||
+                    (this.Breed != null &&
+                    this.Breed.Equals(input.Breed))
                 );
         }
 
@@ -112,9 +113,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-				if (Breed != null)
+                if (this.Breed != null)
                 {
-                    hashCode = (hashCode * 59) + Breed.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Breed.GetHashCode();
                 }
                 return hashCode;
             }

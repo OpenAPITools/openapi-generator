@@ -433,7 +433,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected EnumTest()
         {
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
@@ -449,48 +449,48 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue.</param>
         public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumIntegerOnlyEnum? enumIntegerOnly = default(EnumIntegerOnlyEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?), OuterEnumInteger? outerEnumInteger = default(OuterEnumInteger?), OuterEnumDefaultValue? outerEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default(OuterEnumIntegerDefaultValue?))
         {
-            _EnumStringRequired = enumStringRequired;
-            _EnumString = enumString;
-            if (EnumString != null)
+            this._EnumStringRequired = enumStringRequired;
+            this._EnumString = enumString;
+            if (this.EnumString != null)
             {
-                _flagEnumString = true;
+                this._flagEnumString = true;
             }
-            _EnumInteger = enumInteger;
-            if (EnumInteger != null)
+            this._EnumInteger = enumInteger;
+            if (this.EnumInteger != null)
             {
-                _flagEnumInteger = true;
+                this._flagEnumInteger = true;
             }
-            _EnumIntegerOnly = enumIntegerOnly;
-            if (EnumIntegerOnly != null)
+            this._EnumIntegerOnly = enumIntegerOnly;
+            if (this.EnumIntegerOnly != null)
             {
-                _flagEnumIntegerOnly = true;
+                this._flagEnumIntegerOnly = true;
             }
-            _EnumNumber = enumNumber;
-            if (EnumNumber != null)
+            this._EnumNumber = enumNumber;
+            if (this.EnumNumber != null)
             {
-                _flagEnumNumber = true;
+                this._flagEnumNumber = true;
             }
-            _OuterEnum = outerEnum;
-            if (OuterEnum != null)
+            this._OuterEnum = outerEnum;
+            if (this.OuterEnum != null)
             {
-                _flagOuterEnum = true;
+                this._flagOuterEnum = true;
             }
-            _OuterEnumInteger = outerEnumInteger;
-            if (OuterEnumInteger != null)
+            this._OuterEnumInteger = outerEnumInteger;
+            if (this.OuterEnumInteger != null)
             {
-                _flagOuterEnumInteger = true;
+                this._flagOuterEnumInteger = true;
             }
-            _OuterEnumDefaultValue = outerEnumDefaultValue;
-            if (OuterEnumDefaultValue != null)
+            this._OuterEnumDefaultValue = outerEnumDefaultValue;
+            if (this.OuterEnumDefaultValue != null)
             {
-                _flagOuterEnumDefaultValue = true;
+                this._flagOuterEnumDefaultValue = true;
             }
-            _OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
-            if (OuterEnumIntegerDefaultValue != null)
+            this._OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+            if (this.OuterEnumIntegerDefaultValue != null)
             {
-                _flagOuterEnumIntegerDefaultValue = true;
+                this._flagOuterEnumIntegerDefaultValue = true;
             }
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -527,7 +527,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -559,18 +559,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + EnumString.GetHashCode();
-                hashCode = (hashCode * 59) + EnumStringRequired.GetHashCode();
-                hashCode = (hashCode * 59) + EnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + EnumIntegerOnly.GetHashCode();
-                hashCode = (hashCode * 59) + EnumNumber.GetHashCode();
-                hashCode = (hashCode * 59) + OuterEnum.GetHashCode();
-                hashCode = (hashCode * 59) + OuterEnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + OuterEnumDefaultValue.GetHashCode();
-                hashCode = (hashCode * 59) + OuterEnumIntegerDefaultValue.GetHashCode();
-                if (AdditionalProperties != null)
+                hashCode = (hashCode * 59) + this.EnumString.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumStringRequired.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumInteger.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumIntegerOnly.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumNumber.GetHashCode();
+                hashCode = (hashCode * 59) + this.OuterEnum.GetHashCode();
+                hashCode = (hashCode * 59) + this.OuterEnumInteger.GetHashCode();
+                hashCode = (hashCode * 59) + this.OuterEnumDefaultValue.GetHashCode();
+                hashCode = (hashCode * 59) + this.OuterEnumIntegerDefaultValue.GetHashCode();
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -581,7 +581,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

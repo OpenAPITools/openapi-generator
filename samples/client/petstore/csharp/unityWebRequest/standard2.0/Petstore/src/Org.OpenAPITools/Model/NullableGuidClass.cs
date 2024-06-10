@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid.</param>
         public NullableGuidClass(Guid? uuid = default(Guid?))
         {
-            Uuid = uuid;
+            this.Uuid = uuid;
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as NullableGuidClass);
+            return this.Equals(input as NullableGuidClass);
         }
 
         /// <summary>
@@ -91,9 +91,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    Uuid == input.Uuid ||
-                    (Uuid != null &&
-                    Uuid.Equals(input.Uuid))
+                    this.Uuid == input.Uuid ||
+                    (this.Uuid != null &&
+                    this.Uuid.Equals(input.Uuid))
                 );
         }
 
@@ -106,9 +106,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (Uuid != null)
+                if (this.Uuid != null)
                 {
-                    hashCode = (hashCode * 59) + Uuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
                 }
                 return hashCode;
             }

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="lengthCm">lengthCm.</param>
         public Banana(decimal lengthCm = default(decimal))
         {
-            LengthCm = lengthCm;
+            this.LengthCm = lengthCm;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as Banana);
+            return this.Equals(input as Banana);
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    LengthCm == input.LengthCm ||
-                    LengthCm.Equals(input.LengthCm)
+                    this.LengthCm == input.LengthCm ||
+                    this.LengthCm.Equals(input.LengthCm)
                 );
         }
 
@@ -104,7 +104,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + LengthCm.GetHashCode();
+                hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
                 return hashCode;
             }
         }

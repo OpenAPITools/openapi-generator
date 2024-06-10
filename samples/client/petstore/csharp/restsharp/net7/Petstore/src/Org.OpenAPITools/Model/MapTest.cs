@@ -60,10 +60,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="indirectMap">indirectMap.</param>
         public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> directMap = default(Dictionary<string, bool>), Dictionary<string, bool> indirectMap = default(Dictionary<string, bool>))
         {
-            MapMapOfString = mapMapOfString;
-            MapOfEnumString = mapOfEnumString;
-            DirectMap = directMap;
-            IndirectMap = indirectMap;
+            this.MapMapOfString = mapMapOfString;
+            this.MapOfEnumString = mapOfEnumString;
+            this.DirectMap = directMap;
+            this.IndirectMap = indirectMap;
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -144,21 +144,21 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (MapMapOfString != null)
+                if (this.MapMapOfString != null)
                 {
-                    hashCode = (hashCode * 59) + MapMapOfString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapMapOfString.GetHashCode();
                 }
-				if (MapOfEnumString != null)
+                if (this.MapOfEnumString != null)
                 {
-                    hashCode = (hashCode * 59) + MapOfEnumString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
                 }
-				if (DirectMap != null)
+                if (this.DirectMap != null)
                 {
-                    hashCode = (hashCode * 59) + DirectMap.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DirectMap.GetHashCode();
                 }
-				if (IndirectMap != null)
+                if (this.IndirectMap != null)
                 {
-                    hashCode = (hashCode * 59) + IndirectMap.GetHashCode();
+                    hashCode = (hashCode * 59) + this.IndirectMap.GetHashCode();
                 }
                 return hashCode;
             }
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

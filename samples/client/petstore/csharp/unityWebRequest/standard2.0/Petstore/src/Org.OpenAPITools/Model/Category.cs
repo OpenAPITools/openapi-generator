@@ -47,8 +47,8 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("name is a required property for Category and cannot be null");
             }
-            Name = name;
-            Id = id;
+            this.Name = name;
+            this.Id = id;
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as Category);
+            return this.Equals(input as Category);
         }
 
         /// <summary>
@@ -109,12 +109,13 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    Id == input.Id ||
-                    Id.Equals(input.Id)
+                    this.Id == input.Id ||
+                    this.Id.Equals(input.Id)
                 ) && 
                 (
-                    Name == input.Name ||
-					Name.Equals(input.Name)
+                    this.Name == input.Name ||
+                    (this.Name != null &&
+                    this.Name.Equals(input.Name))
                 );
         }
 
@@ -127,10 +128,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + Id.GetHashCode();
-				if (Name != null)
+                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.Name != null)
                 {
-                    hashCode = (hashCode * 59) + Name.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
                 return hashCode;
             }

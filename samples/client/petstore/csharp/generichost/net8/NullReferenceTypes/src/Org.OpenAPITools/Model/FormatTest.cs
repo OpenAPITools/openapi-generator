@@ -348,30 +348,30 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // Number (decimal) maximum
             if (this.Number > (decimal)543.2)
             {
-                yield return new ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
             }
 
             // Number (decimal) minimum
             if (this.Number < (decimal)32.1)
             {
-                yield return new ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
             // Password (string) maxLength
             if (this.Password != null && this.Password.Length > 64)
             {
-                yield return new ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
             }
 
             // Password (string) minLength
             if (this.Password != null && this.Password.Length < 10)
             {
-                yield return new ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
             }
 
             // Integer (int) maximum
@@ -389,13 +389,13 @@ namespace Org.OpenAPITools.Model
             // Int32 (int) maximum
             if (this.Int32Option.IsSet && this.Int32Option.Value > (int)200)
             {
-                yield return new ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
             }
 
             // Int32 (int) minimum
             if (this.Int32Option.IsSet && this.Int32Option.Value < (int)20)
             {
-                yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
             }
 
             // UnsignedInteger (uint) maximum

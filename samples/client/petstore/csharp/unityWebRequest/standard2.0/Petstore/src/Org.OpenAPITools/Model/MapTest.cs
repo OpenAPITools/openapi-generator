@@ -58,10 +58,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="indirectMap">indirectMap.</param>
         public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> directMap = default(Dictionary<string, bool>), Dictionary<string, bool> indirectMap = default(Dictionary<string, bool>))
         {
-            MapMapOfString = mapMapOfString;
-            MapOfEnumString = mapOfEnumString;
-            DirectMap = directMap;
-            IndirectMap = indirectMap;
+            this.MapMapOfString = mapMapOfString;
+            this.MapOfEnumString = mapOfEnumString;
+            this.DirectMap = directMap;
+            this.IndirectMap = indirectMap;
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as MapTest);
+            return this.Equals(input as MapTest);
         }
 
         /// <summary>
@@ -136,28 +136,28 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    MapMapOfString == input.MapMapOfString ||
-                    MapMapOfString != null &&
+                    this.MapMapOfString == input.MapMapOfString ||
+                    this.MapMapOfString != null &&
                     input.MapMapOfString != null &&
-                    MapMapOfString.SequenceEqual(input.MapMapOfString)
+                    this.MapMapOfString.SequenceEqual(input.MapMapOfString)
                 ) && 
                 (
-                    MapOfEnumString == input.MapOfEnumString ||
-                    MapOfEnumString != null &&
+                    this.MapOfEnumString == input.MapOfEnumString ||
+                    this.MapOfEnumString != null &&
                     input.MapOfEnumString != null &&
-                    MapOfEnumString.SequenceEqual(input.MapOfEnumString)
+                    this.MapOfEnumString.SequenceEqual(input.MapOfEnumString)
                 ) && 
                 (
-                    DirectMap == input.DirectMap ||
-                    DirectMap != null &&
+                    this.DirectMap == input.DirectMap ||
+                    this.DirectMap != null &&
                     input.DirectMap != null &&
-                    DirectMap.SequenceEqual(input.DirectMap)
+                    this.DirectMap.SequenceEqual(input.DirectMap)
                 ) && 
                 (
-                    IndirectMap == input.IndirectMap ||
-                    IndirectMap != null &&
+                    this.IndirectMap == input.IndirectMap ||
+                    this.IndirectMap != null &&
                     input.IndirectMap != null &&
-                    IndirectMap.SequenceEqual(input.IndirectMap)
+                    this.IndirectMap.SequenceEqual(input.IndirectMap)
                 );
         }
 
@@ -170,21 +170,21 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (MapMapOfString != null)
+                if (this.MapMapOfString != null)
                 {
-                    hashCode = (hashCode * 59) + MapMapOfString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapMapOfString.GetHashCode();
                 }
-				if (MapOfEnumString != null)
+                if (this.MapOfEnumString != null)
                 {
-                    hashCode = (hashCode * 59) + MapOfEnumString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapOfEnumString.GetHashCode();
                 }
-				if (DirectMap != null)
+                if (this.DirectMap != null)
                 {
-                    hashCode = (hashCode * 59) + DirectMap.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DirectMap.GetHashCode();
                 }
-				if (IndirectMap != null)
+                if (this.IndirectMap != null)
                 {
-                    hashCode = (hashCode * 59) + IndirectMap.GetHashCode();
+                    hashCode = (hashCode * 59) + this.IndirectMap.GetHashCode();
                 }
                 return hashCode;
             }

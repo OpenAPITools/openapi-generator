@@ -49,19 +49,19 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectItemsNullable">objectItemsNullable.</param>
         public NullableClass(int? integerProp = default(int?), decimal? numberProp = default(decimal?), bool? booleanProp = default(bool?), string stringProp = default(string), DateOnly dateProp = default(DateOnly), DateTime? datetimeProp = default(DateTime?), List<Object> arrayNullableProp = default(List<Object>), List<Object> arrayAndItemsNullableProp = default(List<Object>), List<Object> arrayItemsNullable = default(List<Object>), Dictionary<string, Object> objectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectItemsNullable = default(Dictionary<string, Object>))
         {
-            IntegerProp = integerProp;
-            NumberProp = numberProp;
-            BooleanProp = booleanProp;
-            StringProp = stringProp;
-            DateProp = dateProp;
-            DatetimeProp = datetimeProp;
-            ArrayNullableProp = arrayNullableProp;
-            ArrayAndItemsNullableProp = arrayAndItemsNullableProp;
-            ArrayItemsNullable = arrayItemsNullable;
-            ObjectNullableProp = objectNullableProp;
-            ObjectAndItemsNullableProp = objectAndItemsNullableProp;
-            ObjectItemsNullable = objectItemsNullable;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.IntegerProp = integerProp;
+            this.NumberProp = numberProp;
+            this.BooleanProp = booleanProp;
+            this.StringProp = stringProp;
+            this.DateProp = dateProp;
+            this.DatetimeProp = datetimeProp;
+            this.ArrayNullableProp = arrayNullableProp;
+            this.ArrayAndItemsNullableProp = arrayAndItemsNullableProp;
+            this.ArrayItemsNullable = arrayItemsNullable;
+            this.ObjectNullableProp = objectNullableProp;
+            this.ObjectAndItemsNullableProp = objectAndItemsNullableProp;
+            this.ObjectItemsNullable = objectItemsNullable;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -206,57 +206,57 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (IntegerProp != null)
+                if (this.IntegerProp != null)
                 {
-                    hashCode = (hashCode * 59) + IntegerProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.IntegerProp.GetHashCode();
                 }
-				if (NumberProp != null)
+                if (this.NumberProp != null)
                 {
-                    hashCode = (hashCode * 59) + NumberProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NumberProp.GetHashCode();
                 }
-				if (BooleanProp != null)
+                if (this.BooleanProp != null)
                 {
-                    hashCode = (hashCode * 59) + BooleanProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.BooleanProp.GetHashCode();
                 }
-				if (StringProp != null)
+                if (this.StringProp != null)
                 {
-                    hashCode = (hashCode * 59) + StringProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.StringProp.GetHashCode();
                 }
-				if (DateProp != null)
+                if (this.DateProp != null)
                 {
-                    hashCode = (hashCode * 59) + DateProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DateProp.GetHashCode();
                 }
-				if (DatetimeProp != null)
+                if (this.DatetimeProp != null)
                 {
-                    hashCode = (hashCode * 59) + DatetimeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DatetimeProp.GetHashCode();
                 }
-				if (ArrayNullableProp != null)
+                if (this.ArrayNullableProp != null)
                 {
-                    hashCode = (hashCode * 59) + ArrayNullableProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayNullableProp.GetHashCode();
                 }
-				if (ArrayAndItemsNullableProp != null)
+                if (this.ArrayAndItemsNullableProp != null)
                 {
-                    hashCode = (hashCode * 59) + ArrayAndItemsNullableProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayAndItemsNullableProp.GetHashCode();
                 }
-				if (ArrayItemsNullable != null)
+                if (this.ArrayItemsNullable != null)
                 {
-                    hashCode = (hashCode * 59) + ArrayItemsNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayItemsNullable.GetHashCode();
                 }
-				if (ObjectNullableProp != null)
+                if (this.ObjectNullableProp != null)
                 {
-                    hashCode = (hashCode * 59) + ObjectNullableProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ObjectNullableProp.GetHashCode();
                 }
-				if (ObjectAndItemsNullableProp != null)
+                if (this.ObjectAndItemsNullableProp != null)
                 {
-                    hashCode = (hashCode * 59) + ObjectAndItemsNullableProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ObjectAndItemsNullableProp.GetHashCode();
                 }
-				if (ObjectItemsNullable != null)
+                if (this.ObjectItemsNullable != null)
                 {
-                    hashCode = (hashCode * 59) + ObjectItemsNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ObjectItemsNullable.GetHashCode();
                 }
-                if (AdditionalProperties != null)
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -267,7 +267,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

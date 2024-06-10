@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayNumber">arrayNumber.</param>
         public ArrayOfNumberOnly(List<decimal> arrayNumber = default(List<decimal>))
         {
-            ArrayNumber = arrayNumber;
+            this.ArrayNumber = arrayNumber;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as ArrayOfNumberOnly);
+            return this.Equals(input as ArrayOfNumberOnly);
         }
 
         /// <summary>
@@ -90,10 +90,10 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    ArrayNumber == input.ArrayNumber ||
-                    ArrayNumber != null &&
+                    this.ArrayNumber == input.ArrayNumber ||
+                    this.ArrayNumber != null &&
                     input.ArrayNumber != null &&
-                    ArrayNumber.SequenceEqual(input.ArrayNumber)
+                    this.ArrayNumber.SequenceEqual(input.ArrayNumber)
                 );
         }
 
@@ -106,9 +106,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (ArrayNumber != null)
+                if (this.ArrayNumber != null)
                 {
-                    hashCode = (hashCode * 59) + ArrayNumber.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayNumber.GetHashCode();
                 }
                 return hashCode;
             }

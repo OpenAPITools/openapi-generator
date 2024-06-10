@@ -4,25 +4,25 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Number** | **decimal** |  | 
 **Byte** | **byte[]** |  | 
 **Date** | **DateTime** |  | 
-**Number** | **decimal** |  | 
 **Password** | **string** |  | 
+**Integer** | **int** |  | [optional] 
+**Int32** | **int** |  | [optional] 
+**UnsignedInteger** | **uint** |  | [optional] 
+**Int64** | **long** |  | [optional] 
+**UnsignedLong** | **ulong** |  | [optional] 
+**Float** | **float** |  | [optional] 
+**Double** | **double** |  | [optional] 
+**Decimal** | **decimal** |  | [optional] 
+**String** | **string** |  | [optional] 
 **Binary** | **System.IO.Stream** |  | [optional] 
 **DateTime** | **DateTime** |  | [optional] 
-**Decimal** | **decimal** |  | [optional] 
-**Double** | **double** |  | [optional] 
-**Float** | **float** |  | [optional] 
-**Int32** | **int** |  | [optional] 
-**Int64** | **long** |  | [optional] 
-**Integer** | **int** |  | [optional] 
-**PatternWithBackslash** | **string** | None | [optional] 
+**Uuid** | **Guid** |  | [optional] 
 **PatternWithDigits** | **string** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
 **PatternWithDigitsAndDelimiter** | **string** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 
-**String** | **string** |  | [optional] 
-**UnsignedInteger** | **uint** |  | [optional] 
-**UnsignedLong** | **ulong** |  | [optional] 
-**Uuid** | **Guid** |  | [optional] 
+**PatternWithBackslash** | **string** | None | [optional] 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

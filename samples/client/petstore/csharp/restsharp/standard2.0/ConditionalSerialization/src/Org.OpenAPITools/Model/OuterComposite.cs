@@ -40,22 +40,22 @@ namespace Org.OpenAPITools.Model
         /// <param name="myBoolean">myBoolean.</param>
         public OuterComposite(decimal myNumber = default(decimal), string myString = default(string), bool myBoolean = default(bool))
         {
-            _MyNumber = myNumber;
-            if (MyNumber != null)
+            this._MyNumber = myNumber;
+            if (this.MyNumber != null)
             {
-                _flagMyNumber = true;
+                this._flagMyNumber = true;
             }
-            _MyString = myString;
-            if (MyString != null)
+            this._MyString = myString;
+            if (this.MyString != null)
             {
-                _flagMyString = true;
+                this._flagMyString = true;
             }
-            _MyBoolean = myBoolean;
-            if (MyBoolean != null)
+            this._MyBoolean = myBoolean;
+            if (this.MyBoolean != null)
             {
-                _flagMyBoolean = true;
+                this._flagMyBoolean = true;
             }
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -190,15 +190,15 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + MyNumber.GetHashCode();
-				if (MyString != null)
+                hashCode = (hashCode * 59) + this.MyNumber.GetHashCode();
+                if (this.MyString != null)
                 {
-                    hashCode = (hashCode * 59) + MyString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MyString.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + MyBoolean.GetHashCode();
-                if (AdditionalProperties != null)
+                hashCode = (hashCode * 59) + this.MyBoolean.GetHashCode();
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -209,7 +209,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

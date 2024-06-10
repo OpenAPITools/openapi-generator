@@ -42,13 +42,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="aObjVariableobject">aObjVariableobject (required).</param>
         public NotificationtestGetElementsV1ResponseMPayload(int pkiNotificationtestID = default(int), List<Dictionary<string, Object>> aObjVariableobject = default(List<Dictionary<string, Object>>))
         {
-            PkiNotificationtestID = pkiNotificationtestID;
+            this.PkiNotificationtestID = pkiNotificationtestID;
             // to ensure "aObjVariableobject" is required (not null)
             if (aObjVariableobject == null)
             {
                 throw new ArgumentNullException("aObjVariableobject is a required property for NotificationtestGetElementsV1ResponseMPayload and cannot be null");
             }
-            AObjVariableobject = aObjVariableobject;
+            this.AObjVariableobject = aObjVariableobject;
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as NotificationtestGetElementsV1ResponseMPayload);
+            return this.Equals(input as NotificationtestGetElementsV1ResponseMPayload);
         }
 
         /// <summary>
@@ -109,14 +109,14 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    PkiNotificationtestID == input.PkiNotificationtestID ||
-                    PkiNotificationtestID.Equals(input.PkiNotificationtestID)
+                    this.PkiNotificationtestID == input.PkiNotificationtestID ||
+                    this.PkiNotificationtestID.Equals(input.PkiNotificationtestID)
                 ) && 
                 (
-                    AObjVariableobject == input.AObjVariableobject ||
-                    AObjVariableobject != null &&
+                    this.AObjVariableobject == input.AObjVariableobject ||
+                    this.AObjVariableobject != null &&
                     input.AObjVariableobject != null &&
-                    AObjVariableobject.SequenceEqual(input.AObjVariableobject)
+                    this.AObjVariableobject.SequenceEqual(input.AObjVariableobject)
                 );
         }
 
@@ -129,10 +129,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + PkiNotificationtestID.GetHashCode();
-				if (AObjVariableobject != null)
+                hashCode = (hashCode * 59) + this.PkiNotificationtestID.GetHashCode();
+                if (this.AObjVariableobject != null)
                 {
-                    hashCode = (hashCode * 59) + AObjVariableobject.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AObjVariableobject.GetHashCode();
                 }
                 return hashCode;
             }

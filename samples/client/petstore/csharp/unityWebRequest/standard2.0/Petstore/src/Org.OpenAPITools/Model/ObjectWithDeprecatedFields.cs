@@ -39,10 +39,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="bars">bars.</param>
         public ObjectWithDeprecatedFields(string uuid = default(string), decimal id = default(decimal), DeprecatedObject deprecatedRef = default(DeprecatedObject), List<string> bars = default(List<string>))
         {
-            Uuid = uuid;
-            Id = id;
-            DeprecatedRef = deprecatedRef;
-            Bars = bars;
+            this.Uuid = uuid;
+            this.Id = id;
+            this.DeprecatedRef = deprecatedRef;
+            this.Bars = bars;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as ObjectWithDeprecatedFields);
+            return this.Equals(input as ObjectWithDeprecatedFields);
         }
 
         /// <summary>
@@ -120,22 +120,24 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    Uuid == input.Uuid ||
-					Uuid.Equals(input.Uuid)
+                    this.Uuid == input.Uuid ||
+                    (this.Uuid != null &&
+                    this.Uuid.Equals(input.Uuid))
                 ) && 
                 (
-                    Id == input.Id ||
-                    Id.Equals(input.Id)
+                    this.Id == input.Id ||
+                    this.Id.Equals(input.Id)
                 ) && 
                 (
-                    DeprecatedRef == input.DeprecatedRef ||
-					DeprecatedRef.Equals(input.DeprecatedRef)
+                    this.DeprecatedRef == input.DeprecatedRef ||
+                    (this.DeprecatedRef != null &&
+                    this.DeprecatedRef.Equals(input.DeprecatedRef))
                 ) && 
                 (
-                    Bars == input.Bars ||
-                    Bars != null &&
+                    this.Bars == input.Bars ||
+                    this.Bars != null &&
                     input.Bars != null &&
-                    Bars.SequenceEqual(input.Bars)
+                    this.Bars.SequenceEqual(input.Bars)
                 );
         }
 
@@ -148,18 +150,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (Uuid != null)
+                if (this.Uuid != null)
                 {
-                    hashCode = (hashCode * 59) + Uuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + Id.GetHashCode();
-				if (DeprecatedRef != null)
+                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.DeprecatedRef != null)
                 {
-                    hashCode = (hashCode * 59) + DeprecatedRef.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DeprecatedRef.GetHashCode();
                 }
-				if (Bars != null)
+                if (this.Bars != null)
                 {
-                    hashCode = (hashCode * 59) + Bars.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Bars.GetHashCode();
                 }
                 return hashCode;
             }

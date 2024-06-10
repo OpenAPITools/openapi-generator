@@ -61,8 +61,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
         public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
         {
-            PetType = petType;
-            Name = name;
+            this.PetType = petType;
+            this.Name = name;
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as ChildCat);
+            return this.Equals(input as ChildCat);
         }
 
         /// <summary>
@@ -118,12 +118,13 @@ namespace Org.OpenAPITools.Model
             }
             return base.Equals(input) && 
                 (
-                    Name == input.Name ||
-					Name.Equals(input.Name)
+                    this.Name == input.Name ||
+                    (this.Name != null &&
+                    this.Name.Equals(input.Name))
                 ) && base.Equals(input) && 
                 (
-                    PetType == input.PetType ||
-                    PetType.Equals(input.PetType)
+                    this.PetType == input.PetType ||
+                    this.PetType.Equals(input.PetType)
                 );
         }
 
@@ -136,11 +137,11 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-				if (Name != null)
+                if (this.Name != null)
                 {
-                    hashCode = (hashCode * 59) + Name.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + PetType.GetHashCode();
+                hashCode = (hashCode * 59) + this.PetType.GetHashCode();
                 return hashCode;
             }
         }

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="dateOnlyProperty">dateOnlyProperty.</param>
         public DateOnlyClass(DateTime dateOnlyProperty = default(DateTime))
         {
-            DateOnlyProperty = dateOnlyProperty;
+            this.DateOnlyProperty = dateOnlyProperty;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as DateOnlyClass);
+            return this.Equals(input as DateOnlyClass);
         }
 
         /// <summary>
@@ -92,8 +92,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    DateOnlyProperty == input.DateOnlyProperty ||
-					DateOnlyProperty.Equals(input.DateOnlyProperty)
+                    this.DateOnlyProperty == input.DateOnlyProperty ||
+                    (this.DateOnlyProperty != null &&
+                    this.DateOnlyProperty.Equals(input.DateOnlyProperty))
                 );
         }
 
@@ -106,9 +107,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (DateOnlyProperty != null)
+                if (this.DateOnlyProperty != null)
                 {
-                    hashCode = (hashCode * 59) + DateOnlyProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DateOnlyProperty.GetHashCode();
                 }
                 return hashCode;
             }

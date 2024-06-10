@@ -253,7 +253,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected EnumTest()
         {
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
@@ -269,16 +269,16 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue.</param>
         public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumIntegerOnlyEnum? enumIntegerOnly = default(EnumIntegerOnlyEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?), OuterEnumInteger? outerEnumInteger = default(OuterEnumInteger?), OuterEnumDefaultValue? outerEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default(OuterEnumIntegerDefaultValue?))
         {
-            EnumStringRequired = enumStringRequired;
-            EnumString = enumString;
-            EnumInteger = enumInteger;
-            EnumIntegerOnly = enumIntegerOnly;
-            EnumNumber = enumNumber;
-            OuterEnum = outerEnum;
-            OuterEnumInteger = outerEnumInteger;
-            OuterEnumDefaultValue = outerEnumDefaultValue;
-            OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.EnumStringRequired = enumStringRequired;
+            this.EnumString = enumString;
+            this.EnumInteger = enumInteger;
+            this.EnumIntegerOnly = enumIntegerOnly;
+            this.EnumNumber = enumNumber;
+            this.OuterEnum = outerEnum;
+            this.OuterEnumInteger = outerEnumInteger;
+            this.OuterEnumDefaultValue = outerEnumDefaultValue;
+            this.OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -347,18 +347,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + EnumString.GetHashCode();
-                hashCode = (hashCode * 59) + EnumStringRequired.GetHashCode();
-                hashCode = (hashCode * 59) + EnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + EnumIntegerOnly.GetHashCode();
-                hashCode = (hashCode * 59) + EnumNumber.GetHashCode();
-                hashCode = (hashCode * 59) + OuterEnum.GetHashCode();
-                hashCode = (hashCode * 59) + OuterEnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + OuterEnumDefaultValue.GetHashCode();
-                hashCode = (hashCode * 59) + OuterEnumIntegerDefaultValue.GetHashCode();
-                if (AdditionalProperties != null)
+                hashCode = (hashCode * 59) + this.EnumString.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumStringRequired.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumInteger.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumIntegerOnly.GetHashCode();
+                hashCode = (hashCode * 59) + this.EnumNumber.GetHashCode();
+                hashCode = (hashCode * 59) + this.OuterEnum.GetHashCode();
+                hashCode = (hashCode * 59) + this.OuterEnumInteger.GetHashCode();
+                hashCode = (hashCode * 59) + this.OuterEnumDefaultValue.GetHashCode();
+                hashCode = (hashCode * 59) + this.OuterEnumIntegerDefaultValue.GetHashCode();
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -369,7 +369,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

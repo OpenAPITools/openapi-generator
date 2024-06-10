@@ -40,9 +40,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="message">message.</param>
         public ApiResponse(int code = default(int), string type = default(string), string message = default(string))
         {
-            Code = code;
-            Type = type;
-            Message = message;
+            this.Code = code;
+            this.Type = type;
+            this.Message = message;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -116,14 +116,14 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + Code.GetHashCode();
-				if (Type != null)
+                hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                if (this.Type != null)
                 {
-                    hashCode = (hashCode * 59) + Type.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Type.GetHashCode();
                 }
-				if (Message != null)
+                if (this.Message != null)
                 {
-                    hashCode = (hashCode * 59) + Message.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
                 }
                 return hashCode;
             }
@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

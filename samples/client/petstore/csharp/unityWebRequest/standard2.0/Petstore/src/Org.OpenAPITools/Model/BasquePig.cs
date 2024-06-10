@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("className is a required property for BasquePig and cannot be null");
             }
-            ClassName = className;
+            this.ClassName = className;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as BasquePig);
+            return this.Equals(input as BasquePig);
         }
 
         /// <summary>
@@ -100,8 +100,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    ClassName == input.ClassName ||
-					ClassName.Equals(input.ClassName)
+                    this.ClassName == input.ClassName ||
+                    (this.ClassName != null &&
+                    this.ClassName.Equals(input.ClassName))
                 );
         }
 
@@ -114,9 +115,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (ClassName != null)
+                if (this.ClassName != null)
                 {
-                    hashCode = (hashCode * 59) + ClassName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
                 }
                 return hashCode;
             }

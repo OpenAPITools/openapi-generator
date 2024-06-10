@@ -39,11 +39,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapes">shapes.</param>
         public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>))
         {
-            MainShape = mainShape;
-            ShapeOrNull = shapeOrNull;
-            NullableShape = nullableShape;
-            Shapes = shapes;
-            AdditionalProperties = new Dictionary<string, object>();
+            this.MainShape = mainShape;
+            this.ShapeOrNull = shapeOrNull;
+            this.NullableShape = nullableShape;
+            this.Shapes = shapes;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as Drawing);
+            return this.Equals(input as Drawing);
         }
 
         /// <summary>
@@ -125,26 +125,27 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    MainShape == input.MainShape ||
-					MainShape.Equals(input.MainShape)
+                    this.MainShape == input.MainShape ||
+                    (this.MainShape != null &&
+                    this.MainShape.Equals(input.MainShape))
                 ) && 
                 (
-                    ShapeOrNull == input.ShapeOrNull ||
-                    (ShapeOrNull != null &&
-                    ShapeOrNull.Equals(input.ShapeOrNull))
+                    this.ShapeOrNull == input.ShapeOrNull ||
+                    (this.ShapeOrNull != null &&
+                    this.ShapeOrNull.Equals(input.ShapeOrNull))
                 ) && 
                 (
-                    NullableShape == input.NullableShape ||
-                    (NullableShape != null &&
-                    NullableShape.Equals(input.NullableShape))
+                    this.NullableShape == input.NullableShape ||
+                    (this.NullableShape != null &&
+                    this.NullableShape.Equals(input.NullableShape))
                 ) && 
                 (
-                    Shapes == input.Shapes ||
-                    Shapes != null &&
+                    this.Shapes == input.Shapes ||
+                    this.Shapes != null &&
                     input.Shapes != null &&
-                    Shapes.SequenceEqual(input.Shapes)
+                    this.Shapes.SequenceEqual(input.Shapes)
                 )
-                && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -156,25 +157,25 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (MainShape != null)
+                if (this.MainShape != null)
                 {
-                    hashCode = (hashCode * 59) + MainShape.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MainShape.GetHashCode();
                 }
-				if (ShapeOrNull != null)
+                if (this.ShapeOrNull != null)
                 {
-                    hashCode = (hashCode * 59) + ShapeOrNull.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ShapeOrNull.GetHashCode();
                 }
-				if (NullableShape != null)
+                if (this.NullableShape != null)
                 {
-                    hashCode = (hashCode * 59) + NullableShape.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NullableShape.GetHashCode();
                 }
-				if (Shapes != null)
+                if (this.Shapes != null)
                 {
-                    hashCode = (hashCode * 59) + Shapes.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Shapes.GetHashCode();
                 }
-                if (AdditionalProperties != null)
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

@@ -47,18 +47,18 @@ namespace Org.OpenAPITools.Model
         /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values..</param>
         public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
         {
-            Id = id;
-            Username = username;
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            Password = password;
-            Phone = phone;
-            UserStatus = userStatus;
-            ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
-            ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
-            AnyTypeProp = anyTypeProp;
-            AnyTypePropNullable = anyTypePropNullable;
+            this.Id = id;
+            this.Username = username;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Email = email;
+            this.Password = password;
+            this.Phone = phone;
+            this.UserStatus = userStatus;
+            this.ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
+            this.ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
+            this.AnyTypeProp = anyTypeProp;
+            this.AnyTypePropNullable = anyTypePropNullable;
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as User);
+            return this.Equals(input as User);
         }
 
         /// <summary>
@@ -194,55 +194,62 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    Id == input.Id ||
-                    Id.Equals(input.Id)
+                    this.Id == input.Id ||
+                    this.Id.Equals(input.Id)
                 ) && 
                 (
-                    Username == input.Username ||
-					Username.Equals(input.Username)
+                    this.Username == input.Username ||
+                    (this.Username != null &&
+                    this.Username.Equals(input.Username))
                 ) && 
                 (
-                    FirstName == input.FirstName ||
-					FirstName.Equals(input.FirstName)
+                    this.FirstName == input.FirstName ||
+                    (this.FirstName != null &&
+                    this.FirstName.Equals(input.FirstName))
                 ) && 
                 (
-                    LastName == input.LastName ||
-					LastName.Equals(input.LastName)
+                    this.LastName == input.LastName ||
+                    (this.LastName != null &&
+                    this.LastName.Equals(input.LastName))
                 ) && 
                 (
-                    Email == input.Email ||
-					Email.Equals(input.Email)
+                    this.Email == input.Email ||
+                    (this.Email != null &&
+                    this.Email.Equals(input.Email))
                 ) && 
                 (
-                    Password == input.Password ||
-					Password.Equals(input.Password)
+                    this.Password == input.Password ||
+                    (this.Password != null &&
+                    this.Password.Equals(input.Password))
                 ) && 
                 (
-                    Phone == input.Phone ||
-					Phone.Equals(input.Phone)
+                    this.Phone == input.Phone ||
+                    (this.Phone != null &&
+                    this.Phone.Equals(input.Phone))
                 ) && 
                 (
-                    UserStatus == input.UserStatus ||
-                    UserStatus.Equals(input.UserStatus)
+                    this.UserStatus == input.UserStatus ||
+                    this.UserStatus.Equals(input.UserStatus)
                 ) && 
                 (
-                    ObjectWithNoDeclaredProps == input.ObjectWithNoDeclaredProps ||
-					ObjectWithNoDeclaredProps.Equals(input.ObjectWithNoDeclaredProps)
+                    this.ObjectWithNoDeclaredProps == input.ObjectWithNoDeclaredProps ||
+                    (this.ObjectWithNoDeclaredProps != null &&
+                    this.ObjectWithNoDeclaredProps.Equals(input.ObjectWithNoDeclaredProps))
                 ) && 
                 (
-                    ObjectWithNoDeclaredPropsNullable == input.ObjectWithNoDeclaredPropsNullable ||
-                    (ObjectWithNoDeclaredPropsNullable != null &&
-                    ObjectWithNoDeclaredPropsNullable.Equals(input.ObjectWithNoDeclaredPropsNullable))
+                    this.ObjectWithNoDeclaredPropsNullable == input.ObjectWithNoDeclaredPropsNullable ||
+                    (this.ObjectWithNoDeclaredPropsNullable != null &&
+                    this.ObjectWithNoDeclaredPropsNullable.Equals(input.ObjectWithNoDeclaredPropsNullable))
                 ) && 
                 (
-                    AnyTypeProp == input.AnyTypeProp ||
-                    (AnyTypeProp != null &&
-                    AnyTypeProp.Equals(input.AnyTypeProp))
+                    this.AnyTypeProp == input.AnyTypeProp ||
+                    (this.AnyTypeProp != null &&
+                    this.AnyTypeProp.Equals(input.AnyTypeProp))
                 ) && 
                 (
-                    AnyTypePropNullable == input.AnyTypePropNullable ||
-                    (AnyTypePropNullable != null &&
-                    AnyTypePropNullable.Equals(input.AnyTypePropNullable))
+                    this.AnyTypePropNullable == input.AnyTypePropNullable ||
+                    (this.AnyTypePropNullable != null &&
+                    this.AnyTypePropNullable.Equals(input.AnyTypePropNullable))
                 );
         }
 
@@ -255,47 +262,47 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + Id.GetHashCode();
-				if (Username != null)
+                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.Username != null)
                 {
-                    hashCode = (hashCode * 59) + Username.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Username.GetHashCode();
                 }
-				if (FirstName != null)
+                if (this.FirstName != null)
                 {
-                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
                 }
-				if (LastName != null)
+                if (this.LastName != null)
                 {
-                    hashCode = (hashCode * 59) + LastName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.LastName.GetHashCode();
                 }
-				if (Email != null)
+                if (this.Email != null)
                 {
-                    hashCode = (hashCode * 59) + Email.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Email.GetHashCode();
                 }
-				if (Password != null)
+                if (this.Password != null)
                 {
-                    hashCode = (hashCode * 59) + Password.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Password.GetHashCode();
                 }
-				if (Phone != null)
+                if (this.Phone != null)
                 {
-                    hashCode = (hashCode * 59) + Phone.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Phone.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + UserStatus.GetHashCode();
-				if (ObjectWithNoDeclaredProps != null)
+                hashCode = (hashCode * 59) + this.UserStatus.GetHashCode();
+                if (this.ObjectWithNoDeclaredProps != null)
                 {
-                    hashCode = (hashCode * 59) + ObjectWithNoDeclaredProps.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredProps.GetHashCode();
                 }
-				if (ObjectWithNoDeclaredPropsNullable != null)
+                if (this.ObjectWithNoDeclaredPropsNullable != null)
                 {
-                    hashCode = (hashCode * 59) + ObjectWithNoDeclaredPropsNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredPropsNullable.GetHashCode();
                 }
-				if (AnyTypeProp != null)
+                if (this.AnyTypeProp != null)
                 {
-                    hashCode = (hashCode * 59) + AnyTypeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AnyTypeProp.GetHashCode();
                 }
-				if (AnyTypePropNullable != null)
+                if (this.AnyTypePropNullable != null)
                 {
-                    hashCode = (hashCode * 59) + AnyTypePropNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AnyTypePropNullable.GetHashCode();
                 }
                 return hashCode;
             }

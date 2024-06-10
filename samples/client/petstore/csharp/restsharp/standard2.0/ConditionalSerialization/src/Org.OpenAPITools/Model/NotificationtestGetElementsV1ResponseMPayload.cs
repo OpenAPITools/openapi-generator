@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected NotificationtestGetElementsV1ResponseMPayload()
         {
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="NotificationtestGetElementsV1ResponseMPayload" /> class.
@@ -47,14 +47,14 @@ namespace Org.OpenAPITools.Model
         /// <param name="aObjVariableobject">aObjVariableobject (required).</param>
         public NotificationtestGetElementsV1ResponseMPayload(int pkiNotificationtestID = default(int), List<Dictionary<string, Object>> aObjVariableobject = default(List<Dictionary<string, Object>>))
         {
-            _PkiNotificationtestID = pkiNotificationtestID;
+            this._PkiNotificationtestID = pkiNotificationtestID;
             // to ensure "aObjVariableobject" is required (not null)
             if (aObjVariableobject == null)
             {
                 throw new ArgumentNullException("aObjVariableobject is a required property for NotificationtestGetElementsV1ResponseMPayload and cannot be null");
             }
-            _AObjVariableobject = aObjVariableobject;
-            AdditionalProperties = new Dictionary<string, object>();
+            this._AObjVariableobject = aObjVariableobject;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -164,14 +164,14 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + PkiNotificationtestID.GetHashCode();
-				if (AObjVariableobject != null)
+                hashCode = (hashCode * 59) + this.PkiNotificationtestID.GetHashCode();
+                if (this.AObjVariableobject != null)
                 {
-                    hashCode = (hashCode * 59) + AObjVariableobject.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AObjVariableobject.GetHashCode();
                 }
-                if (AdditionalProperties != null)
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -182,7 +182,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

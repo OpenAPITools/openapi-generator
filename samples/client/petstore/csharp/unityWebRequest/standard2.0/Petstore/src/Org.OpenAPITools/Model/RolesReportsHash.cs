@@ -37,8 +37,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="role">role.</param>
         public RolesReportsHash(Guid roleUuid = default(Guid), RolesReportsHashRole role = default(RolesReportsHashRole))
         {
-            RoleUuid = roleUuid;
-            Role = role;
+            this.RoleUuid = roleUuid;
+            this.Role = role;
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as RolesReportsHash);
+            return this.Equals(input as RolesReportsHash);
         }
 
         /// <summary>
@@ -99,12 +99,14 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    RoleUuid == input.RoleUuid ||
-					RoleUuid.Equals(input.RoleUuid)
+                    this.RoleUuid == input.RoleUuid ||
+                    (this.RoleUuid != null &&
+                    this.RoleUuid.Equals(input.RoleUuid))
                 ) && 
                 (
-                    Role == input.Role ||
-					Role.Equals(input.Role)
+                    this.Role == input.Role ||
+                    (this.Role != null &&
+                    this.Role.Equals(input.Role))
                 );
         }
 
@@ -117,13 +119,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (RoleUuid != null)
+                if (this.RoleUuid != null)
                 {
-                    hashCode = (hashCode * 59) + RoleUuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RoleUuid.GetHashCode();
                 }
-				if (Role != null)
+                if (this.Role != null)
                 {
-                    hashCode = (hashCode * 59) + Role.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Role.GetHashCode();
                 }
                 return hashCode;
             }

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="testCollectionEndingWithWordList">testCollectionEndingWithWordList.</param>
         public TestCollectionEndingWithWordListObject(List<TestCollectionEndingWithWordList> testCollectionEndingWithWordList = default(List<TestCollectionEndingWithWordList>))
         {
-            TestCollectionEndingWithWordList = testCollectionEndingWithWordList;
+            this.TestCollectionEndingWithWordList = testCollectionEndingWithWordList;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as TestCollectionEndingWithWordListObject);
+            return this.Equals(input as TestCollectionEndingWithWordListObject);
         }
 
         /// <summary>
@@ -90,10 +90,10 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    TestCollectionEndingWithWordList == input.TestCollectionEndingWithWordList ||
-                    TestCollectionEndingWithWordList != null &&
+                    this.TestCollectionEndingWithWordList == input.TestCollectionEndingWithWordList ||
+                    this.TestCollectionEndingWithWordList != null &&
                     input.TestCollectionEndingWithWordList != null &&
-                    TestCollectionEndingWithWordList.SequenceEqual(input.TestCollectionEndingWithWordList)
+                    this.TestCollectionEndingWithWordList.SequenceEqual(input.TestCollectionEndingWithWordList)
                 );
         }
 
@@ -106,9 +106,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (TestCollectionEndingWithWordList != null)
+                if (this.TestCollectionEndingWithWordList != null)
                 {
-                    hashCode = (hashCode * 59) + TestCollectionEndingWithWordList.GetHashCode();
+                    hashCode = (hashCode * 59) + this.TestCollectionEndingWithWordList.GetHashCode();
                 }
                 return hashCode;
             }

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="varClass">varClass.</param>
         public ClassModel(string varClass = default(string))
         {
-            Class = varClass;
+            this.Class = varClass;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as ClassModel);
+            return this.Equals(input as ClassModel);
         }
 
         /// <summary>
@@ -90,8 +90,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    Class == input.Class ||
-					Class.Equals(input.Class)
+                    this.Class == input.Class ||
+                    (this.Class != null &&
+                    this.Class.Equals(input.Class))
                 );
         }
 
@@ -104,9 +105,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (Class != null)
+                if (this.Class != null)
                 {
-                    hashCode = (hashCode * 59) + Class.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Class.GetHashCode();
                 }
                 return hashCode;
             }

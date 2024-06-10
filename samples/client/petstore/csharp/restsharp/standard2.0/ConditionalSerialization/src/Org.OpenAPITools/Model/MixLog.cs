@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected MixLog()
         {
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="MixLog" /> class.
@@ -77,140 +77,140 @@ namespace Org.OpenAPITools.Model
         /// <param name="selectedVersionIndex">selectedVersionIndex.</param>
         public MixLog(Guid id = default(Guid), string description = default(string), DateTime mixDate = default(DateTime), Guid shopId = default(Guid), float? totalPrice = default(float?), int totalRecalculations = default(int), int totalOverPoors = default(int), int totalSkips = default(int), int totalUnderPours = default(int), DateTime formulaVersionDate = default(DateTime), string someCode = default(string), string batchNumber = default(string), string brandCode = default(string), string brandId = default(string), string brandName = default(string), string categoryCode = default(string), string color = default(string), string colorDescription = default(string), string comment = default(string), string commercialProductCode = default(string), string productLineCode = default(string), string country = default(string), string createdBy = default(string), string createdByFirstName = default(string), string createdByLastName = default(string), string deltaECalculationRepaired = default(string), string deltaECalculationSprayout = default(string), int? ownColorVariantNumber = default(int?), string primerProductId = default(string), string productId = default(string), string productName = default(string), int selectedVersionIndex = default(int))
         {
-            _Id = id;
+            this._Id = id;
             // to ensure "description" is required (not null)
             if (description == null)
             {
                 throw new ArgumentNullException("description is a required property for MixLog and cannot be null");
             }
-            _Description = description;
-            _MixDate = mixDate;
-            _TotalRecalculations = totalRecalculations;
-            _TotalOverPoors = totalOverPoors;
-            _TotalSkips = totalSkips;
-            _TotalUnderPours = totalUnderPours;
-            _FormulaVersionDate = formulaVersionDate;
-            _ShopId = shopId;
-            if (ShopId != null)
+            this._Description = description;
+            this._MixDate = mixDate;
+            this._TotalRecalculations = totalRecalculations;
+            this._TotalOverPoors = totalOverPoors;
+            this._TotalSkips = totalSkips;
+            this._TotalUnderPours = totalUnderPours;
+            this._FormulaVersionDate = formulaVersionDate;
+            this._ShopId = shopId;
+            if (this.ShopId != null)
             {
-                _flagShopId = true;
+                this._flagShopId = true;
             }
-            _TotalPrice = totalPrice;
-            if (TotalPrice != null)
+            this._TotalPrice = totalPrice;
+            if (this.TotalPrice != null)
             {
-                _flagTotalPrice = true;
+                this._flagTotalPrice = true;
             }
-            _SomeCode = someCode;
-            if (SomeCode != null)
+            this._SomeCode = someCode;
+            if (this.SomeCode != null)
             {
-                _flagSomeCode = true;
+                this._flagSomeCode = true;
             }
-            _BatchNumber = batchNumber;
-            if (BatchNumber != null)
+            this._BatchNumber = batchNumber;
+            if (this.BatchNumber != null)
             {
-                _flagBatchNumber = true;
+                this._flagBatchNumber = true;
             }
-            _BrandCode = brandCode;
-            if (BrandCode != null)
+            this._BrandCode = brandCode;
+            if (this.BrandCode != null)
             {
-                _flagBrandCode = true;
+                this._flagBrandCode = true;
             }
-            _BrandId = brandId;
-            if (BrandId != null)
+            this._BrandId = brandId;
+            if (this.BrandId != null)
             {
-                _flagBrandId = true;
+                this._flagBrandId = true;
             }
-            _BrandName = brandName;
-            if (BrandName != null)
+            this._BrandName = brandName;
+            if (this.BrandName != null)
             {
-                _flagBrandName = true;
+                this._flagBrandName = true;
             }
-            _CategoryCode = categoryCode;
-            if (CategoryCode != null)
+            this._CategoryCode = categoryCode;
+            if (this.CategoryCode != null)
             {
-                _flagCategoryCode = true;
+                this._flagCategoryCode = true;
             }
-            _Color = color;
-            if (Color != null)
+            this._Color = color;
+            if (this.Color != null)
             {
-                _flagColor = true;
+                this._flagColor = true;
             }
-            _ColorDescription = colorDescription;
-            if (ColorDescription != null)
+            this._ColorDescription = colorDescription;
+            if (this.ColorDescription != null)
             {
-                _flagColorDescription = true;
+                this._flagColorDescription = true;
             }
-            _Comment = comment;
-            if (Comment != null)
+            this._Comment = comment;
+            if (this.Comment != null)
             {
-                _flagComment = true;
+                this._flagComment = true;
             }
-            _CommercialProductCode = commercialProductCode;
-            if (CommercialProductCode != null)
+            this._CommercialProductCode = commercialProductCode;
+            if (this.CommercialProductCode != null)
             {
-                _flagCommercialProductCode = true;
+                this._flagCommercialProductCode = true;
             }
-            _ProductLineCode = productLineCode;
-            if (ProductLineCode != null)
+            this._ProductLineCode = productLineCode;
+            if (this.ProductLineCode != null)
             {
-                _flagProductLineCode = true;
+                this._flagProductLineCode = true;
             }
-            _Country = country;
-            if (Country != null)
+            this._Country = country;
+            if (this.Country != null)
             {
-                _flagCountry = true;
+                this._flagCountry = true;
             }
-            _CreatedBy = createdBy;
-            if (CreatedBy != null)
+            this._CreatedBy = createdBy;
+            if (this.CreatedBy != null)
             {
-                _flagCreatedBy = true;
+                this._flagCreatedBy = true;
             }
-            _CreatedByFirstName = createdByFirstName;
-            if (CreatedByFirstName != null)
+            this._CreatedByFirstName = createdByFirstName;
+            if (this.CreatedByFirstName != null)
             {
-                _flagCreatedByFirstName = true;
+                this._flagCreatedByFirstName = true;
             }
-            _CreatedByLastName = createdByLastName;
-            if (CreatedByLastName != null)
+            this._CreatedByLastName = createdByLastName;
+            if (this.CreatedByLastName != null)
             {
-                _flagCreatedByLastName = true;
+                this._flagCreatedByLastName = true;
             }
-            _DeltaECalculationRepaired = deltaECalculationRepaired;
-            if (DeltaECalculationRepaired != null)
+            this._DeltaECalculationRepaired = deltaECalculationRepaired;
+            if (this.DeltaECalculationRepaired != null)
             {
-                _flagDeltaECalculationRepaired = true;
+                this._flagDeltaECalculationRepaired = true;
             }
-            _DeltaECalculationSprayout = deltaECalculationSprayout;
-            if (DeltaECalculationSprayout != null)
+            this._DeltaECalculationSprayout = deltaECalculationSprayout;
+            if (this.DeltaECalculationSprayout != null)
             {
-                _flagDeltaECalculationSprayout = true;
+                this._flagDeltaECalculationSprayout = true;
             }
-            _OwnColorVariantNumber = ownColorVariantNumber;
-            if (OwnColorVariantNumber != null)
+            this._OwnColorVariantNumber = ownColorVariantNumber;
+            if (this.OwnColorVariantNumber != null)
             {
-                _flagOwnColorVariantNumber = true;
+                this._flagOwnColorVariantNumber = true;
             }
-            _PrimerProductId = primerProductId;
-            if (PrimerProductId != null)
+            this._PrimerProductId = primerProductId;
+            if (this.PrimerProductId != null)
             {
-                _flagPrimerProductId = true;
+                this._flagPrimerProductId = true;
             }
-            _ProductId = productId;
-            if (ProductId != null)
+            this._ProductId = productId;
+            if (this.ProductId != null)
             {
-                _flagProductId = true;
+                this._flagProductId = true;
             }
-            _ProductName = productName;
-            if (ProductName != null)
+            this._ProductName = productName;
+            if (this.ProductName != null)
             {
-                _flagProductName = true;
+                this._flagProductName = true;
             }
-            _SelectedVersionIndex = selectedVersionIndex;
-            if (SelectedVersionIndex != null)
+            this._SelectedVersionIndex = selectedVersionIndex;
+            if (this.SelectedVersionIndex != null)
             {
-                _flagSelectedVersionIndex = true;
+                this._flagSelectedVersionIndex = true;
             }
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -1047,7 +1047,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -1079,122 +1079,122 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (Id != null)
+                if (this.Id != null)
                 {
-                    hashCode = (hashCode * 59) + Id.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
                 }
-				if (Description != null)
+                if (this.Description != null)
                 {
-                    hashCode = (hashCode * 59) + Description.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Description.GetHashCode();
                 }
-				if (MixDate != null)
+                if (this.MixDate != null)
                 {
-                    hashCode = (hashCode * 59) + MixDate.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MixDate.GetHashCode();
                 }
-				if (ShopId != null)
+                if (this.ShopId != null)
                 {
-                    hashCode = (hashCode * 59) + ShopId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ShopId.GetHashCode();
                 }
-				if (TotalPrice != null)
+                if (this.TotalPrice != null)
                 {
-                    hashCode = (hashCode * 59) + TotalPrice.GetHashCode();
+                    hashCode = (hashCode * 59) + this.TotalPrice.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + TotalRecalculations.GetHashCode();
-                hashCode = (hashCode * 59) + TotalOverPoors.GetHashCode();
-                hashCode = (hashCode * 59) + TotalSkips.GetHashCode();
-                hashCode = (hashCode * 59) + TotalUnderPours.GetHashCode();
-				if (FormulaVersionDate != null)
+                hashCode = (hashCode * 59) + this.TotalRecalculations.GetHashCode();
+                hashCode = (hashCode * 59) + this.TotalOverPoors.GetHashCode();
+                hashCode = (hashCode * 59) + this.TotalSkips.GetHashCode();
+                hashCode = (hashCode * 59) + this.TotalUnderPours.GetHashCode();
+                if (this.FormulaVersionDate != null)
                 {
-                    hashCode = (hashCode * 59) + FormulaVersionDate.GetHashCode();
+                    hashCode = (hashCode * 59) + this.FormulaVersionDate.GetHashCode();
                 }
-				if (SomeCode != null)
+                if (this.SomeCode != null)
                 {
-                    hashCode = (hashCode * 59) + SomeCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.SomeCode.GetHashCode();
                 }
-				if (BatchNumber != null)
+                if (this.BatchNumber != null)
                 {
-                    hashCode = (hashCode * 59) + BatchNumber.GetHashCode();
+                    hashCode = (hashCode * 59) + this.BatchNumber.GetHashCode();
                 }
-				if (BrandCode != null)
+                if (this.BrandCode != null)
                 {
-                    hashCode = (hashCode * 59) + BrandCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.BrandCode.GetHashCode();
                 }
-				if (BrandId != null)
+                if (this.BrandId != null)
                 {
-                    hashCode = (hashCode * 59) + BrandId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.BrandId.GetHashCode();
                 }
-				if (BrandName != null)
+                if (this.BrandName != null)
                 {
-                    hashCode = (hashCode * 59) + BrandName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.BrandName.GetHashCode();
                 }
-				if (CategoryCode != null)
+                if (this.CategoryCode != null)
                 {
-                    hashCode = (hashCode * 59) + CategoryCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CategoryCode.GetHashCode();
                 }
-				if (Color != null)
+                if (this.Color != null)
                 {
-                    hashCode = (hashCode * 59) + Color.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
                 }
-				if (ColorDescription != null)
+                if (this.ColorDescription != null)
                 {
-                    hashCode = (hashCode * 59) + ColorDescription.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ColorDescription.GetHashCode();
                 }
-				if (Comment != null)
+                if (this.Comment != null)
                 {
-                    hashCode = (hashCode * 59) + Comment.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Comment.GetHashCode();
                 }
-				if (CommercialProductCode != null)
+                if (this.CommercialProductCode != null)
                 {
-                    hashCode = (hashCode * 59) + CommercialProductCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CommercialProductCode.GetHashCode();
                 }
-				if (ProductLineCode != null)
+                if (this.ProductLineCode != null)
                 {
-                    hashCode = (hashCode * 59) + ProductLineCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ProductLineCode.GetHashCode();
                 }
-				if (Country != null)
+                if (this.Country != null)
                 {
-                    hashCode = (hashCode * 59) + Country.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Country.GetHashCode();
                 }
-				if (CreatedBy != null)
+                if (this.CreatedBy != null)
                 {
-                    hashCode = (hashCode * 59) + CreatedBy.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CreatedBy.GetHashCode();
                 }
-				if (CreatedByFirstName != null)
+                if (this.CreatedByFirstName != null)
                 {
-                    hashCode = (hashCode * 59) + CreatedByFirstName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CreatedByFirstName.GetHashCode();
                 }
-				if (CreatedByLastName != null)
+                if (this.CreatedByLastName != null)
                 {
-                    hashCode = (hashCode * 59) + CreatedByLastName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CreatedByLastName.GetHashCode();
                 }
-				if (DeltaECalculationRepaired != null)
+                if (this.DeltaECalculationRepaired != null)
                 {
-                    hashCode = (hashCode * 59) + DeltaECalculationRepaired.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DeltaECalculationRepaired.GetHashCode();
                 }
-				if (DeltaECalculationSprayout != null)
+                if (this.DeltaECalculationSprayout != null)
                 {
-                    hashCode = (hashCode * 59) + DeltaECalculationSprayout.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DeltaECalculationSprayout.GetHashCode();
                 }
-				if (OwnColorVariantNumber != null)
+                if (this.OwnColorVariantNumber != null)
                 {
-                    hashCode = (hashCode * 59) + OwnColorVariantNumber.GetHashCode();
+                    hashCode = (hashCode * 59) + this.OwnColorVariantNumber.GetHashCode();
                 }
-				if (PrimerProductId != null)
+                if (this.PrimerProductId != null)
                 {
-                    hashCode = (hashCode * 59) + PrimerProductId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.PrimerProductId.GetHashCode();
                 }
-				if (ProductId != null)
+                if (this.ProductId != null)
                 {
-                    hashCode = (hashCode * 59) + ProductId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ProductId.GetHashCode();
                 }
-				if (ProductName != null)
+                if (this.ProductName != null)
                 {
-                    hashCode = (hashCode * 59) + ProductName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ProductName.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + SelectedVersionIndex.GetHashCode();
-                if (AdditionalProperties != null)
+                hashCode = (hashCode * 59) + this.SelectedVersionIndex.GetHashCode();
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -1205,7 +1205,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

@@ -14,12 +14,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
-using System.Threading;
-using System.Threading.Tasks;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Client.Auth;
 using Org.OpenAPITools.Model;
-using ConfigurationClient = Org.OpenAPITools.Client.Configuration;
 
 namespace Org.OpenAPITools.Api
 {
@@ -33,7 +30,7 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// 
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>FooGetDefaultResponse</returns>
         FooGetDefaultResponse FooGet(int operationIndex = 0);
@@ -44,14 +41,14 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of FooGetDefaultResponse</returns>
         ApiResponse<FooGetDefaultResponse> FooGetWithHttpInfo(int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="country"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
@@ -63,7 +60,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="country"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
@@ -74,7 +71,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Hello
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>List&lt;Guid&gt;</returns>
         List<Guid> Hello(int operationIndex = 0);
@@ -85,14 +82,14 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Hello
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of List&lt;Guid&gt;</returns>
         ApiResponse<List<Guid>> HelloWithHttpInfo(int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>List&lt;List&lt;RolesReportsHash&gt;&gt;</returns>
         List<List<RolesReportsHash>> RolesReportGet(int operationIndex = 0);
@@ -103,14 +100,14 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of List&lt;List&lt;RolesReportsHash&gt;&gt;</returns>
         ApiResponse<List<List<RolesReportsHash>>> RolesReportGetWithHttpInfo(int operationIndex = 0);
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>NotificationtestGetElementsV1ResponseMPayload</returns>
         NotificationtestGetElementsV1ResponseMPayload Test(int operationIndex = 0);
@@ -121,7 +118,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of NotificationtestGetElementsV1ResponseMPayload</returns>
         ApiResponse<NotificationtestGetElementsV1ResponseMPayload> TestWithHttpInfo(int operationIndex = 0);
@@ -140,11 +137,11 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of FooGetDefaultResponse</returns>
-        Task<FooGetDefaultResponse> FooGetAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<FooGetDefaultResponse> FooGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -152,23 +149,23 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (FooGetDefaultResponse)</returns>
-        Task<ApiResponse<FooGetDefaultResponse>> FooGetWithHttpInfoAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<FooGetDefaultResponse>> FooGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="country"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        Task GetCountryAsync(string country, int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task GetCountryAsync(string country, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -176,23 +173,23 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="country"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        Task<ApiResponse<Object>> GetCountryWithHttpInfoAsync(string country, int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> GetCountryWithHttpInfoAsync(string country, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Hello
         /// </summary>
         /// <remarks>
         /// Hello
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;Guid&gt;</returns>
-        Task<List<Guid>> HelloAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<List<Guid>> HelloAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Hello
@@ -200,22 +197,22 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Hello
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;Guid&gt;)</returns>
-        Task<ApiResponse<List<Guid>>> HelloWithHttpInfoAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<List<Guid>>> HelloWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;List&lt;RolesReportsHash&gt;&gt;</returns>
-        Task<List<List<RolesReportsHash>>> RolesReportGetAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<List<List<RolesReportsHash>>> RolesReportGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -223,22 +220,22 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;List&lt;RolesReportsHash&gt;&gt;)</returns>
-        Task<ApiResponse<List<List<RolesReportsHash>>>> RolesReportGetWithHttpInfoAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<List<List<RolesReportsHash>>>> RolesReportGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of NotificationtestGetElementsV1ResponseMPayload</returns>
-        Task<NotificationtestGetElementsV1ResponseMPayload> TestAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<NotificationtestGetElementsV1ResponseMPayload> TestAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements
@@ -246,11 +243,11 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (NotificationtestGetElementsV1ResponseMPayload)</returns>
-        Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestWithHttpInfoAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -267,7 +264,7 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public partial class DefaultApi : IDefaultApi
     {
-        private ExceptionFactory _exceptionFactory = (name, response) => null;
+        private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultApi"/> class.
@@ -281,8 +278,15 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="DefaultApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public DefaultApi(string basePath) : this(new ConfigurationClient { BasePath = basePath })
+        public DefaultApi(string basePath)
         {
+            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
+                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
+                new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
+            );
+            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
@@ -291,17 +295,17 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public DefaultApi(ConfigurationClient configuration)
+        public DefaultApi(Org.OpenAPITools.Client.Configuration configuration)
         {
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+            if (configuration == null) throw new ArgumentNullException("configuration");
 
-            Configuration = ConfigurationClient.MergeConfigurations(
-                GlobalConfiguration.Instance,
+            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
+                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
                 configuration
             );
-            Client = new ApiClient(Configuration.BasePath);
-            AsynchronousClient = new ApiClient(Configuration.BasePath);
-            ExceptionFactory = ConfigurationClient.DefaultExceptionFactory;
+            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
@@ -311,27 +315,27 @@ namespace Org.OpenAPITools.Api
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        public DefaultApi(ISynchronousClient client, IAsynchronousClient asyncClient, IReadableConfiguration configuration)
+        public DefaultApi(Org.OpenAPITools.Client.ISynchronousClient client, Org.OpenAPITools.Client.IAsynchronousClient asyncClient, Org.OpenAPITools.Client.IReadableConfiguration configuration)
         {
-            if (client == null) throw new ArgumentNullException(nameof(client));
-            if (asyncClient == null) throw new ArgumentNullException(nameof(asyncClient));
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+            if (client == null) throw new ArgumentNullException("client");
+            if (asyncClient == null) throw new ArgumentNullException("asyncClient");
+            if (configuration == null) throw new ArgumentNullException("configuration");
 
-            Client = client;
-            AsynchronousClient = asyncClient;
-            Configuration = configuration;
-            ExceptionFactory = ConfigurationClient.DefaultExceptionFactory;
+            this.Client = client;
+            this.AsynchronousClient = asyncClient;
+            this.Configuration = configuration;
+            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
         /// The client for accessing this underlying API asynchronously.
         /// </summary>
-        public IAsynchronousClient AsynchronousClient { get; set; }
+        public Org.OpenAPITools.Client.IAsynchronousClient AsynchronousClient { get; set; }
 
         /// <summary>
         /// The client for accessing this underlying API synchronously.
         /// </summary>
-        public ISynchronousClient Client { get; set; }
+        public Org.OpenAPITools.Client.ISynchronousClient Client { get; set; }
 
         /// <summary>
         /// Gets the base path of the API client.
@@ -339,19 +343,19 @@ namespace Org.OpenAPITools.Api
         /// <value>The base path</value>
         public string GetBasePath()
         {
-            return Configuration.BasePath;
+            return this.Configuration.BasePath;
         }
 
         /// <summary>
         /// Gets or sets the configuration object
         /// </summary>
         /// <value>An instance of the Configuration</value>
-        public IReadableConfiguration Configuration { get; set; }
+        public Org.OpenAPITools.Client.IReadableConfiguration Configuration { get; set; }
 
         /// <summary>
         /// Provides a factory method hook for the creation of exceptions.
         /// </summary>
-        public ExceptionFactory ExceptionFactory
+        public Org.OpenAPITools.Client.ExceptionFactory ExceptionFactory
         {
             get
             {
@@ -365,72 +369,27 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Provides a common RequestOptions object for all operations.
+        ///  
         /// </summary>
-		private RequestOptions GetRequestOptions(string[] _contentTypes, string[] _accepts, string operationId, int operationIndex)
-		{
-            RequestOptions localVarRequestOptions = new RequestOptions();
-            var localVarContentType = ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            localVarRequestOptions.Operation = operationId;
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-            return localVarRequestOptions;
-		}
-
-        /// <summary>
-        /// Sets RequestOptions Authorization headers with bearer or oauth.
-        /// </summary>
-        private RequestOptions SetAuthorization(RequestOptions localVarRequestOptions)
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>FooGetDefaultResponse</returns>
+        public FooGetDefaultResponse FooGet(int operationIndex = 0)
         {
-			// oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
-                }
-                else if (!string.IsNullOrEmpty(Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(Configuration.OAuthClientSecret) &&
-                         Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-            }
-            return localVarRequestOptions;
-		}
+            Org.OpenAPITools.Client.ApiResponse<FooGetDefaultResponse> localVarResponse = FooGetWithHttpInfo();
+            return localVarResponse.Data;
+        }
 
         /// <summary>
-        /// Validates if operation has an exception and rethrows it.
+        ///  
         /// </summary>
-        private void ValidateException(string operationName, IApiResponse localVarResponse)
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of FooGetDefaultResponse</returns>
+        public Org.OpenAPITools.Client.ApiResponse<FooGetDefaultResponse> FooGetWithHttpInfo(int operationIndex = 0)
         {
-            if (ExceptionFactory != null)
-            {
-                Exception _exception = ExceptionFactory(operationName, localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-		}
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-        /// <summary>
-        /// Provides a specific RequestOptions object for FooGet.
-        /// </summary>
-		private RequestOptions GetRequestOptionsFooGet(int operationIndex = 0)
-		{
             string[] _contentTypes = new string[] {
             };
 
@@ -439,99 +398,106 @@ namespace Org.OpenAPITools.Api
                 "application/json"
             };
 
-            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"DefaultApi.FooGet" ,operationIndex);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
 
-			return localVarRequestOptions;
-		}
+            localVarRequestOptions.Operation = "DefaultApi.FooGet";
+            localVarRequestOptions.OperationIndex = operationIndex;
 
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>FooGetDefaultResponse</returns>
-        public FooGetDefaultResponse FooGet(int operationIndex = 0)
-        {
-            ApiResponse<FooGetDefaultResponse> localVarResponse = FooGetWithHttpInfo();
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <returns>ApiResponse of FooGetDefaultResponse</returns>
-        public ApiResponse<FooGetDefaultResponse> FooGetWithHttpInfo(int operationIndex = 0)
-        {
-            RequestOptions localVarRequestOptions = GetRequestOptionsFooGet(operationIndex);
 
             // make the HTTP request
-            var localVarResponse = Client.Get<FooGetDefaultResponse>("/foo", localVarRequestOptions, Configuration);
-            ValidateException("FooGet", localVarResponse);
+            var localVarResponse = this.Client.Get<FooGetDefaultResponse>("/foo", localVarRequestOptions, this.Configuration);
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("FooGet", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
             return localVarResponse;
         }
 
         /// <summary>
         ///  
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of FooGetDefaultResponse</returns>
-        public async Task<FooGetDefaultResponse> FooGetAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<FooGetDefaultResponse> FooGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            ApiResponse<FooGetDefaultResponse> localVarResponse = await FooGetWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<FooGetDefaultResponse> localVarResponse = await FooGetWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         ///  
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (FooGetDefaultResponse)</returns>
-        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetWithHttpInfoAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<FooGetDefaultResponse>> FooGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            RequestOptions localVarRequestOptions = GetRequestOptionsFooGet(operationIndex);
-            // make the HTTP request
-            var localVarResponse = await AsynchronousClient.GetAsync<FooGetDefaultResponse>("/foo", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
-            ValidateException("FooGet", localVarResponse);
-            return localVarResponse;
-        }
 
-        /// <summary>
-        /// Provides a specific RequestOptions object for GetCountry.
-        /// </summary>
-		private RequestOptions GetRequestOptionsGetCountry(string country, int operationIndex = 0)
-		{
-            // verify the required parameter 'country' is set
-            if (country == null)
-            {
-                throw new ApiException(400, "Missing required parameter 'country' when calling DefaultApi->GetCountry");
-            }
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
-                "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
-            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"DefaultApi.GetCountry" ,operationIndex);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
 
-            localVarRequestOptions.FormParameters.Add("country", ClientUtils.ParameterToString(country)); // form parameter
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
-			return localVarRequestOptions;
-		}
+
+            localVarRequestOptions.Operation = "DefaultApi.FooGet";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.GetAsync<FooGetDefaultResponse>("/foo", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("FooGet", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
 
         /// <summary>
         ///  
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="country"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
@@ -543,29 +509,69 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         ///  
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="country"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> GetCountryWithHttpInfo(string country, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> GetCountryWithHttpInfo(string country, int operationIndex = 0)
         {
-            RequestOptions localVarRequestOptions = GetRequestOptionsGetCountry(country, operationIndex);
+            // verify the required parameter 'country' is set
+            if (country == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'country' when calling DefaultApi->GetCountry");
+            }
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/x-www-form-urlencoded"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            localVarRequestOptions.FormParameters.Add("country", Org.OpenAPITools.Client.ClientUtils.ParameterToString(country)); // form parameter
+
+            localVarRequestOptions.Operation = "DefaultApi.GetCountry";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
 
             // make the HTTP request
-            var localVarResponse = Client.Post<Object>("/country", localVarRequestOptions, Configuration);
-            ValidateException("GetCountry", localVarResponse);
+            var localVarResponse = this.Client.Post<Object>("/country", localVarRequestOptions, this.Configuration);
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetCountry", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
             return localVarResponse;
         }
 
         /// <summary>
         ///  
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="country"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async Task GetCountryAsync(string country, int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task GetCountryAsync(string country, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await GetCountryWithHttpInfoAsync(country, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -573,101 +579,85 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         ///  
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="country"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async Task<ApiResponse<Object>> GetCountryWithHttpInfoAsync(string country, int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> GetCountryWithHttpInfoAsync(string country, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            RequestOptions localVarRequestOptions = GetRequestOptionsGetCountry(country, operationIndex);
-            // make the HTTP request
-            var localVarResponse = await AsynchronousClient.PostAsync<Object>("/country", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
-            ValidateException("GetCountry", localVarResponse);
-            return localVarResponse;
-        }
+            // verify the required parameter 'country' is set
+            if (country == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'country' when calling DefaultApi->GetCountry");
+            }
 
-        /// <summary>
-        /// Provides a specific RequestOptions object for Hello.
-        /// </summary>
-		private RequestOptions GetRequestOptionsHello(int operationIndex = 0)
-		{
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
             string[] _contentTypes = new string[] {
+                "application/x-www-form-urlencoded"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json"
             };
 
-            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"DefaultApi.Hello" ,operationIndex);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            localVarRequestOptions.FormParameters.Add("country", Org.OpenAPITools.Client.ClientUtils.ParameterToString(country)); // form parameter
+
+            localVarRequestOptions.Operation = "DefaultApi.GetCountry";
+            localVarRequestOptions.OperationIndex = operationIndex;
 
 
-			return localVarRequestOptions;
-		}
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/country", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetCountry", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
 
         /// <summary>
         /// Hello Hello
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>List&lt;Guid&gt;</returns>
         public List<Guid> Hello(int operationIndex = 0)
         {
-            ApiResponse<List<Guid>> localVarResponse = HelloWithHttpInfo();
+            Org.OpenAPITools.Client.ApiResponse<List<Guid>> localVarResponse = HelloWithHttpInfo();
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Hello Hello
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of List&lt;Guid&gt;</returns>
-        public ApiResponse<List<Guid>> HelloWithHttpInfo(int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<List<Guid>> HelloWithHttpInfo(int operationIndex = 0)
         {
-            RequestOptions localVarRequestOptions = GetRequestOptionsHello(operationIndex);
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            // make the HTTP request
-            var localVarResponse = Client.Get<List<Guid>>("/hello", localVarRequestOptions, Configuration);
-            ValidateException("Hello", localVarResponse);
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Hello Hello
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of List&lt;Guid&gt;</returns>
-        public async Task<List<Guid>> HelloAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            ApiResponse<List<Guid>> localVarResponse = await HelloWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Hello Hello
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;Guid&gt;)</returns>
-        public async Task<ApiResponse<List<Guid>>> HelloWithHttpInfoAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            RequestOptions localVarRequestOptions = GetRequestOptionsHello(operationIndex);
-            // make the HTTP request
-            var localVarResponse = await AsynchronousClient.GetAsync<List<Guid>>("/hello", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
-            ValidateException("Hello", localVarResponse);
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Provides a specific RequestOptions object for RolesReportGet.
-        /// </summary>
-		private RequestOptions GetRequestOptionsRolesReportGet(int operationIndex = 0)
-		{
             string[] _contentTypes = new string[] {
             };
 
@@ -676,74 +666,124 @@ namespace Org.OpenAPITools.Api
                 "application/json"
             };
 
-            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"DefaultApi.RolesReportGet" ,operationIndex);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
 
-			return localVarRequestOptions;
-		}
+            localVarRequestOptions.Operation = "DefaultApi.Hello";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<List<Guid>>("/hello", localVarRequestOptions, this.Configuration);
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("Hello", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Hello Hello
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of List&lt;Guid&gt;</returns>
+        public async System.Threading.Tasks.Task<List<Guid>> HelloAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Org.OpenAPITools.Client.ApiResponse<List<Guid>> localVarResponse = await HelloWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Hello Hello
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (List&lt;Guid&gt;)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Guid>>> HelloWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+
+            localVarRequestOptions.Operation = "DefaultApi.Hello";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.GetAsync<List<Guid>>("/hello", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("Hello", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
 
         /// <summary>
         ///  
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>List&lt;List&lt;RolesReportsHash&gt;&gt;</returns>
         public List<List<RolesReportsHash>> RolesReportGet(int operationIndex = 0)
         {
-            ApiResponse<List<List<RolesReportsHash>>> localVarResponse = RolesReportGetWithHttpInfo();
+            Org.OpenAPITools.Client.ApiResponse<List<List<RolesReportsHash>>> localVarResponse = RolesReportGetWithHttpInfo();
             return localVarResponse.Data;
         }
 
         /// <summary>
         ///  
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of List&lt;List&lt;RolesReportsHash&gt;&gt;</returns>
-        public ApiResponse<List<List<RolesReportsHash>>> RolesReportGetWithHttpInfo(int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<List<List<RolesReportsHash>>> RolesReportGetWithHttpInfo(int operationIndex = 0)
         {
-            RequestOptions localVarRequestOptions = GetRequestOptionsRolesReportGet(operationIndex);
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
-            // make the HTTP request
-            var localVarResponse = Client.Get<List<List<RolesReportsHash>>>("/roles/report", localVarRequestOptions, Configuration);
-            ValidateException("RolesReportGet", localVarResponse);
-            return localVarResponse;
-        }
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of List&lt;List&lt;RolesReportsHash&gt;&gt;</returns>
-        public async Task<List<List<RolesReportsHash>>> RolesReportGetAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            ApiResponse<List<List<RolesReportsHash>>> localVarResponse = await RolesReportGetWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;
-        }
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="operationIndex">Index associated with the operation.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (List&lt;List&lt;RolesReportsHash&gt;&gt;)</returns>
-        public async Task<ApiResponse<List<List<RolesReportsHash>>>> RolesReportGetWithHttpInfoAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            RequestOptions localVarRequestOptions = GetRequestOptionsRolesReportGet(operationIndex);
-            // make the HTTP request
-            var localVarResponse = await AsynchronousClient.GetAsync<List<List<RolesReportsHash>>>("/roles/report", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
-            ValidateException("RolesReportGet", localVarResponse);
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// Provides a specific RequestOptions object for Test.
-        /// </summary>
-		private RequestOptions GetRequestOptionsTest(int operationIndex = 0)
-		{
             string[] _contentTypes = new string[] {
             };
 
@@ -752,67 +792,227 @@ namespace Org.OpenAPITools.Api
                 "application/json"
             };
 
-            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"DefaultApi.Test" ,operationIndex);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
 
 
-			return localVarRequestOptions;
-		}
+            localVarRequestOptions.Operation = "DefaultApi.RolesReportGet";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<List<List<RolesReportsHash>>>("/roles/report", localVarRequestOptions, this.Configuration);
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("RolesReportGet", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of List&lt;List&lt;RolesReportsHash&gt;&gt;</returns>
+        public async System.Threading.Tasks.Task<List<List<RolesReportsHash>>> RolesReportGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Org.OpenAPITools.Client.ApiResponse<List<List<RolesReportsHash>>> localVarResponse = await RolesReportGetWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (List&lt;List&lt;RolesReportsHash&gt;&gt;)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<List<RolesReportsHash>>>> RolesReportGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+
+            localVarRequestOptions.Operation = "DefaultApi.RolesReportGet";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.GetAsync<List<List<RolesReportsHash>>>("/roles/report", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("RolesReportGet", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
 
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements 
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>NotificationtestGetElementsV1ResponseMPayload</returns>
         public NotificationtestGetElementsV1ResponseMPayload Test(int operationIndex = 0)
         {
-            ApiResponse<NotificationtestGetElementsV1ResponseMPayload> localVarResponse = TestWithHttpInfo();
+            Org.OpenAPITools.Client.ApiResponse<NotificationtestGetElementsV1ResponseMPayload> localVarResponse = TestWithHttpInfo();
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements 
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of NotificationtestGetElementsV1ResponseMPayload</returns>
-        public ApiResponse<NotificationtestGetElementsV1ResponseMPayload> TestWithHttpInfo(int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<NotificationtestGetElementsV1ResponseMPayload> TestWithHttpInfo(int operationIndex = 0)
         {
-            RequestOptions localVarRequestOptions = GetRequestOptionsTest(operationIndex);
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+
+            localVarRequestOptions.Operation = "DefaultApi.Test";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
 
             // make the HTTP request
-            var localVarResponse = Client.Get<NotificationtestGetElementsV1ResponseMPayload>("/test", localVarRequestOptions, Configuration);
-            ValidateException("Test", localVarResponse);
+            var localVarResponse = this.Client.Get<NotificationtestGetElementsV1ResponseMPayload>("/test", localVarRequestOptions, this.Configuration);
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("Test", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
             return localVarResponse;
         }
 
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements 
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of NotificationtestGetElementsV1ResponseMPayload</returns>
-        public async Task<NotificationtestGetElementsV1ResponseMPayload> TestAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<NotificationtestGetElementsV1ResponseMPayload> TestAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            ApiResponse<NotificationtestGetElementsV1ResponseMPayload> localVarResponse = await TestWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<NotificationtestGetElementsV1ResponseMPayload> localVarResponse = await TestWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Retrieve an existing Notificationtest&#39;s Elements 
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (NotificationtestGetElementsV1ResponseMPayload)</returns>
-        public async Task<ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestWithHttpInfoAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<NotificationtestGetElementsV1ResponseMPayload>> TestWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            RequestOptions localVarRequestOptions = GetRequestOptionsTest(operationIndex);
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+
+            localVarRequestOptions.Operation = "DefaultApi.Test";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
             // make the HTTP request
-            var localVarResponse = await AsynchronousClient.GetAsync<NotificationtestGetElementsV1ResponseMPayload>("/test", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
-            ValidateException("Test", localVarResponse);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<NotificationtestGetElementsV1ResponseMPayload>("/test", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("Test", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
             return localVarResponse;
         }
+
     }
 }
