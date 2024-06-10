@@ -33,16 +33,16 @@ import {
 
 export interface FakeEnumRequestGetInlineRequest {
     stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;
-    nullableStringEnum?: FakeEnumRequestGetInlineNullableStringEnumEnum;
+    nullableStringEnum?: FakeEnumRequestGetInlineNullableStringEnumEnum | null;
     numberEnum?: FakeEnumRequestGetInlineNumberEnumEnum;
-    nullableNumberEnum?: FakeEnumRequestGetInlineNullableNumberEnumEnum;
+    nullableNumberEnum?: FakeEnumRequestGetInlineNullableNumberEnumEnum | null;
 }
 
 export interface FakeEnumRequestGetRefRequest {
     stringEnum?: StringEnum;
-    nullableStringEnum?: StringEnum;
+    nullableStringEnum?: StringEnum | null;
     numberEnum?: NumberEnum;
-    nullableNumberEnum?: NumberEnum;
+    nullableNumberEnum?: NumberEnum | null;
 }
 
 export interface FakeEnumRequestPostInlineRequest {
