@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("shapeType is a required property for ShapeInterface and cannot be null");
             }
-            this.ShapeType = shapeType;
+            ShapeType = shapeType;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as ShapeInterface);
+            return Equals(input as ShapeInterface);
         }
 
         /// <summary>
@@ -100,9 +100,8 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.ShapeType == input.ShapeType ||
-                    (this.ShapeType != null &&
-                    this.ShapeType.Equals(input.ShapeType))
+                    ShapeType == input.ShapeType ||
+					ShapeType.Equals(input.ShapeType)
                 );
         }
 
@@ -115,9 +114,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ShapeType != null)
+				if (ShapeType != null)
                 {
-                    hashCode = (hashCode * 59) + this.ShapeType.GetHashCode();
+                    hashCode = (hashCode * 59) + ShapeType.GetHashCode();
                 }
                 return hashCode;
             }

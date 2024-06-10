@@ -64,8 +64,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="outcomes">outcomes.</param>
         public Query(long id = default(long), List<OutcomesEnum> outcomes = default(List<OutcomesEnum>))
         {
-            this.Id = id;
-            this.Outcomes = outcomes;
+            Id = id;
+            Outcomes = outcomes;
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Query);
+            return Equals(input as Query);
         }
 
         /// <summary>
@@ -127,14 +127,14 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Id == input.Id ||
-                    this.Id.Equals(input.Id)
+                    Id == input.Id ||
+                    Id.Equals(input.Id)
                 ) && 
                 (
-                    this.Outcomes == input.Outcomes ||
-                    this.Outcomes != null &&
+                    Outcomes == input.Outcomes ||
+                    Outcomes != null &&
                     input.Outcomes != null &&
-                    this.Outcomes.SequenceEqual(input.Outcomes)
+                    Outcomes.SequenceEqual(input.Outcomes)
                 );
         }
 
@@ -147,10 +147,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Outcomes != null)
+                hashCode = (hashCode * 59) + Id.GetHashCode();
+				if (Outcomes != null)
                 {
-                    hashCode = (hashCode * 59) + this.Outcomes.GetHashCode();
+                    hashCode = (hashCode * 59) + Outcomes.GetHashCode();
                 }
                 return hashCode;
             }
@@ -161,7 +161,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

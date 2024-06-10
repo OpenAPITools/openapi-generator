@@ -77,13 +77,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="complete">complete (default to false).</param>
         public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
         {
-            this.Id = id;
-            this.PetId = petId;
-            this.Quantity = quantity;
-            this.ShipDate = shipDate;
-            this.Status = status;
-            this.Complete = complete;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            Id = id;
+            PetId = petId;
+            Quantity = quantity;
+            ShipDate = shipDate;
+            Status = status;
+            Complete = complete;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -180,18 +180,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                hashCode = (hashCode * 59) + this.PetId.GetHashCode();
-                hashCode = (hashCode * 59) + this.Quantity.GetHashCode();
-                if (this.ShipDate != null)
+                hashCode = (hashCode * 59) + Id.GetHashCode();
+                hashCode = (hashCode * 59) + PetId.GetHashCode();
+                hashCode = (hashCode * 59) + Quantity.GetHashCode();
+				if (ShipDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.ShipDate.GetHashCode();
+                    hashCode = (hashCode * 59) + ShipDate.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Status.GetHashCode();
-                hashCode = (hashCode * 59) + this.Complete.GetHashCode();
-                if (this.AdditionalProperties != null)
+                hashCode = (hashCode * 59) + Status.GetHashCode();
+                hashCode = (hashCode * 59) + Complete.GetHashCode();
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -202,7 +202,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

@@ -86,17 +86,17 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("name is a required property for Pet and cannot be null");
             }
-            this.Name = name;
+            Name = name;
             // to ensure "photoUrls" is required (not null)
             if (photoUrls == null)
             {
                 throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
             }
-            this.PhotoUrls = photoUrls;
-            this.Id = id;
-            this.Category = category;
-            this.Tags = tags;
-            this.Status = status;
+            PhotoUrls = photoUrls;
+            Id = id;
+            Category = category;
+            Tags = tags;
+            Status = status;
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -186,24 +186,24 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Category != null)
+                hashCode = (hashCode * 59) + Id.GetHashCode();
+				if (Category != null)
                 {
-                    hashCode = (hashCode * 59) + this.Category.GetHashCode();
+                    hashCode = (hashCode * 59) + Category.GetHashCode();
                 }
-                if (this.Name != null)
+				if (Name != null)
                 {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                    hashCode = (hashCode * 59) + Name.GetHashCode();
                 }
-                if (this.PhotoUrls != null)
+				if (PhotoUrls != null)
                 {
-                    hashCode = (hashCode * 59) + this.PhotoUrls.GetHashCode();
+                    hashCode = (hashCode * 59) + PhotoUrls.GetHashCode();
                 }
-                if (this.Tags != null)
+				if (Tags != null)
                 {
-                    hashCode = (hashCode * 59) + this.Tags.GetHashCode();
+                    hashCode = (hashCode * 59) + Tags.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Status.GetHashCode();
+                hashCode = (hashCode * 59) + Status.GetHashCode();
                 return hashCode;
             }
         }
@@ -213,7 +213,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

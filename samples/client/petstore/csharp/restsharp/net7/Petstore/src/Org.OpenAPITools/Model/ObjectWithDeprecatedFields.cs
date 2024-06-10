@@ -41,10 +41,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="bars">bars.</param>
         public ObjectWithDeprecatedFields(string uuid = default(string), decimal id = default(decimal), DeprecatedObject deprecatedRef = default(DeprecatedObject), List<string> bars = default(List<string>))
         {
-            this.Uuid = uuid;
-            this.Id = id;
-            this.DeprecatedRef = deprecatedRef;
-            this.Bars = bars;
+            Uuid = uuid;
+            Id = id;
+            DeprecatedRef = deprecatedRef;
+            Bars = bars;
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -128,18 +128,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Uuid != null)
+				if (Uuid != null)
                 {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                    hashCode = (hashCode * 59) + Uuid.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.DeprecatedRef != null)
+                hashCode = (hashCode * 59) + Id.GetHashCode();
+				if (DeprecatedRef != null)
                 {
-                    hashCode = (hashCode * 59) + this.DeprecatedRef.GetHashCode();
+                    hashCode = (hashCode * 59) + DeprecatedRef.GetHashCode();
                 }
-                if (this.Bars != null)
+				if (Bars != null)
                 {
-                    hashCode = (hashCode * 59) + this.Bars.GetHashCode();
+                    hashCode = (hashCode * 59) + Bars.GetHashCode();
                 }
                 return hashCode;
             }
@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

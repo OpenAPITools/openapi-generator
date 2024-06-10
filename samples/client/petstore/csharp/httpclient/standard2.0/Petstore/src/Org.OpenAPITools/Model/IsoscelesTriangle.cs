@@ -50,13 +50,13 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("shapeType is a required property for IsoscelesTriangle and cannot be null");
             }
-            this.ShapeType = shapeType;
+            ShapeType = shapeType;
             // to ensure "triangleType" is required (not null)
             if (triangleType == null)
             {
                 throw new ArgumentNullException("triangleType is a required property for IsoscelesTriangle and cannot be null");
             }
-            this.TriangleType = triangleType;
+            TriangleType = triangleType;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -123,13 +123,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ShapeType != null)
+				if (ShapeType != null)
                 {
-                    hashCode = (hashCode * 59) + this.ShapeType.GetHashCode();
+                    hashCode = (hashCode * 59) + ShapeType.GetHashCode();
                 }
-                if (this.TriangleType != null)
+				if (TriangleType != null)
                 {
-                    hashCode = (hashCode * 59) + this.TriangleType.GetHashCode();
+                    hashCode = (hashCode * 59) + TriangleType.GetHashCode();
                 }
                 return hashCode;
             }
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

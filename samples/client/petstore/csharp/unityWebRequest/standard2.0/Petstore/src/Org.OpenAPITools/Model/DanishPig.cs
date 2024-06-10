@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("className is a required property for DanishPig and cannot be null");
             }
-            this.ClassName = className;
+            ClassName = className;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as DanishPig);
+            return Equals(input as DanishPig);
         }
 
         /// <summary>
@@ -100,9 +100,8 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.ClassName == input.ClassName ||
-                    (this.ClassName != null &&
-                    this.ClassName.Equals(input.ClassName))
+                    ClassName == input.ClassName ||
+					ClassName.Equals(input.ClassName)
                 );
         }
 
@@ -115,9 +114,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ClassName != null)
+				if (ClassName != null)
                 {
-                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
+                    hashCode = (hashCode * 59) + ClassName.GetHashCode();
                 }
                 return hashCode;
             }

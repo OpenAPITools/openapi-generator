@@ -45,14 +45,14 @@ namespace Org.OpenAPITools.Model
         /// <param name="userStatus">User Status.</param>
         public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int))
         {
-            this.Id = id;
-            this.Username = username;
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.Email = email;
-            this.Password = password;
-            this.Phone = phone;
-            this.UserStatus = userStatus;
+            Id = id;
+            Username = username;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Password = password;
+            Phone = phone;
+            UserStatus = userStatus;
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -162,32 +162,32 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Username != null)
+                hashCode = (hashCode * 59) + Id.GetHashCode();
+				if (Username != null)
                 {
-                    hashCode = (hashCode * 59) + this.Username.GetHashCode();
+                    hashCode = (hashCode * 59) + Username.GetHashCode();
                 }
-                if (this.FirstName != null)
+				if (FirstName != null)
                 {
-                    hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
+                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
                 }
-                if (this.LastName != null)
+				if (LastName != null)
                 {
-                    hashCode = (hashCode * 59) + this.LastName.GetHashCode();
+                    hashCode = (hashCode * 59) + LastName.GetHashCode();
                 }
-                if (this.Email != null)
+				if (Email != null)
                 {
-                    hashCode = (hashCode * 59) + this.Email.GetHashCode();
+                    hashCode = (hashCode * 59) + Email.GetHashCode();
                 }
-                if (this.Password != null)
+				if (Password != null)
                 {
-                    hashCode = (hashCode * 59) + this.Password.GetHashCode();
+                    hashCode = (hashCode * 59) + Password.GetHashCode();
                 }
-                if (this.Phone != null)
+				if (Phone != null)
                 {
-                    hashCode = (hashCode * 59) + this.Phone.GetHashCode();
+                    hashCode = (hashCode * 59) + Phone.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.UserStatus.GetHashCode();
+                hashCode = (hashCode * 59) + UserStatus.GetHashCode();
                 return hashCode;
             }
         }
@@ -197,7 +197,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

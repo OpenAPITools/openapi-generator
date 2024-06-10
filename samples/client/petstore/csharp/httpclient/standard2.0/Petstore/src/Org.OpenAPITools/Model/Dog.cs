@@ -41,7 +41,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected Dog()
         {
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
@@ -51,8 +51,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color (default to &quot;red&quot;).</param>
         public Dog(string breed = default(string), string className = @"Dog", string color = @"red") : base(className, color)
         {
-            this.Breed = breed;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            Breed = breed;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -120,13 +120,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                if (this.Breed != null)
+				if (Breed != null)
                 {
-                    hashCode = (hashCode * 59) + this.Breed.GetHashCode();
+                    hashCode = (hashCode * 59) + Breed.GetHashCode();
                 }
-                if (this.AdditionalProperties != null)
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             foreach (var x in base.BaseValidate(validationContext))
             {

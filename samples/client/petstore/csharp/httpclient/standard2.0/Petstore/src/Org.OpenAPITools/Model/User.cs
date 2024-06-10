@@ -50,19 +50,19 @@ namespace Org.OpenAPITools.Model
         /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values..</param>
         public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
         {
-            this.Id = id;
-            this.Username = username;
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.Email = email;
-            this.Password = password;
-            this.Phone = phone;
-            this.UserStatus = userStatus;
-            this.ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
-            this.ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
-            this.AnyTypeProp = anyTypeProp;
-            this.AnyTypePropNullable = anyTypePropNullable;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            Id = id;
+            Username = username;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Password = password;
+            Phone = phone;
+            UserStatus = userStatus;
+            ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
+            ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
+            AnyTypeProp = anyTypeProp;
+            AnyTypePropNullable = anyTypePropNullable;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -211,51 +211,51 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Username != null)
+                hashCode = (hashCode * 59) + Id.GetHashCode();
+				if (Username != null)
                 {
-                    hashCode = (hashCode * 59) + this.Username.GetHashCode();
+                    hashCode = (hashCode * 59) + Username.GetHashCode();
                 }
-                if (this.FirstName != null)
+				if (FirstName != null)
                 {
-                    hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
+                    hashCode = (hashCode * 59) + FirstName.GetHashCode();
                 }
-                if (this.LastName != null)
+				if (LastName != null)
                 {
-                    hashCode = (hashCode * 59) + this.LastName.GetHashCode();
+                    hashCode = (hashCode * 59) + LastName.GetHashCode();
                 }
-                if (this.Email != null)
+				if (Email != null)
                 {
-                    hashCode = (hashCode * 59) + this.Email.GetHashCode();
+                    hashCode = (hashCode * 59) + Email.GetHashCode();
                 }
-                if (this.Password != null)
+				if (Password != null)
                 {
-                    hashCode = (hashCode * 59) + this.Password.GetHashCode();
+                    hashCode = (hashCode * 59) + Password.GetHashCode();
                 }
-                if (this.Phone != null)
+				if (Phone != null)
                 {
-                    hashCode = (hashCode * 59) + this.Phone.GetHashCode();
+                    hashCode = (hashCode * 59) + Phone.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.UserStatus.GetHashCode();
-                if (this.ObjectWithNoDeclaredProps != null)
+                hashCode = (hashCode * 59) + UserStatus.GetHashCode();
+				if (ObjectWithNoDeclaredProps != null)
                 {
-                    hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredProps.GetHashCode();
+                    hashCode = (hashCode * 59) + ObjectWithNoDeclaredProps.GetHashCode();
                 }
-                if (this.ObjectWithNoDeclaredPropsNullable != null)
+				if (ObjectWithNoDeclaredPropsNullable != null)
                 {
-                    hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredPropsNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + ObjectWithNoDeclaredPropsNullable.GetHashCode();
                 }
-                if (this.AnyTypeProp != null)
+				if (AnyTypeProp != null)
                 {
-                    hashCode = (hashCode * 59) + this.AnyTypeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + AnyTypeProp.GetHashCode();
                 }
-                if (this.AnyTypePropNullable != null)
+				if (AnyTypePropNullable != null)
                 {
-                    hashCode = (hashCode * 59) + this.AnyTypePropNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + AnyTypePropNullable.GetHashCode();
                 }
-                if (this.AdditionalProperties != null)
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -266,7 +266,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

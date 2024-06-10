@@ -37,8 +37,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="files">files.</param>
         public FileSchemaTestClass(File file = default(File), List<File> files = default(List<File>))
         {
-            this.File = file;
-            this.Files = files;
+            File = file;
+            Files = files;
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as FileSchemaTestClass);
+            return Equals(input as FileSchemaTestClass);
         }
 
         /// <summary>
@@ -99,15 +99,14 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.File == input.File ||
-                    (this.File != null &&
-                    this.File.Equals(input.File))
+                    File == input.File ||
+					File.Equals(input.File)
                 ) && 
                 (
-                    this.Files == input.Files ||
-                    this.Files != null &&
+                    Files == input.Files ||
+                    Files != null &&
                     input.Files != null &&
-                    this.Files.SequenceEqual(input.Files)
+                    Files.SequenceEqual(input.Files)
                 );
         }
 
@@ -120,13 +119,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.File != null)
+				if (File != null)
                 {
-                    hashCode = (hashCode * 59) + this.File.GetHashCode();
+                    hashCode = (hashCode * 59) + File.GetHashCode();
                 }
-                if (this.Files != null)
+				if (Files != null)
                 {
-                    hashCode = (hashCode * 59) + this.Files.GetHashCode();
+                    hashCode = (hashCode * 59) + Files.GetHashCode();
                 }
                 return hashCode;
             }

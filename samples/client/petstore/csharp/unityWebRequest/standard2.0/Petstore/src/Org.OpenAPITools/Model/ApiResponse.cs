@@ -38,9 +38,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="message">message.</param>
         public ApiResponse(int code = default(int), string type = default(string), string message = default(string))
         {
-            this.Code = code;
-            this.Type = type;
-            this.Message = message;
+            Code = code;
+            Type = type;
+            Message = message;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as ApiResponse);
+            return Equals(input as ApiResponse);
         }
 
         /// <summary>
@@ -108,18 +108,16 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Code == input.Code ||
-                    this.Code.Equals(input.Code)
+                    Code == input.Code ||
+                    Code.Equals(input.Code)
                 ) && 
                 (
-                    this.Type == input.Type ||
-                    (this.Type != null &&
-                    this.Type.Equals(input.Type))
+                    Type == input.Type ||
+					Type.Equals(input.Type)
                 ) && 
                 (
-                    this.Message == input.Message ||
-                    (this.Message != null &&
-                    this.Message.Equals(input.Message))
+                    Message == input.Message ||
+					Message.Equals(input.Message)
                 );
         }
 
@@ -132,14 +130,14 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Code.GetHashCode();
-                if (this.Type != null)
+                hashCode = (hashCode * 59) + Code.GetHashCode();
+				if (Type != null)
                 {
-                    hashCode = (hashCode * 59) + this.Type.GetHashCode();
+                    hashCode = (hashCode * 59) + Type.GetHashCode();
                 }
-                if (this.Message != null)
+				if (Message != null)
                 {
-                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
+                    hashCode = (hashCode * 59) + Message.GetHashCode();
                 }
                 return hashCode;
             }

@@ -40,9 +40,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayArrayOfModel">arrayArrayOfModel.</param>
         public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
         {
-            this.ArrayOfString = arrayOfString;
-            this.ArrayArrayOfInteger = arrayArrayOfInteger;
-            this.ArrayArrayOfModel = arrayArrayOfModel;
+            ArrayOfString = arrayOfString;
+            ArrayArrayOfInteger = arrayArrayOfInteger;
+            ArrayArrayOfModel = arrayArrayOfModel;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -116,17 +116,17 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ArrayOfString != null)
+				if (ArrayOfString != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayOfString.GetHashCode();
+                    hashCode = (hashCode * 59) + ArrayOfString.GetHashCode();
                 }
-                if (this.ArrayArrayOfInteger != null)
+				if (ArrayArrayOfInteger != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayArrayOfInteger.GetHashCode();
+                    hashCode = (hashCode * 59) + ArrayArrayOfInteger.GetHashCode();
                 }
-                if (this.ArrayArrayOfModel != null)
+				if (ArrayArrayOfModel != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayArrayOfModel.GetHashCode();
+                    hashCode = (hashCode * 59) + ArrayArrayOfModel.GetHashCode();
                 }
                 return hashCode;
             }
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

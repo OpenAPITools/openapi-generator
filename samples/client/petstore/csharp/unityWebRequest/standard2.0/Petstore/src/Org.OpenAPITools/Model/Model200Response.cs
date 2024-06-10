@@ -37,8 +37,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="varClass">varClass.</param>
         public Model200Response(int name = default(int), string varClass = default(string))
         {
-            this.Name = name;
-            this.Class = varClass;
+            Name = name;
+            Class = varClass;
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Model200Response);
+            return Equals(input as Model200Response);
         }
 
         /// <summary>
@@ -99,13 +99,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Name == input.Name ||
-                    this.Name.Equals(input.Name)
+                    Name == input.Name ||
+                    Name.Equals(input.Name)
                 ) && 
                 (
-                    this.Class == input.Class ||
-                    (this.Class != null &&
-                    this.Class.Equals(input.Class))
+                    Class == input.Class ||
+					Class.Equals(input.Class)
                 );
         }
 
@@ -118,10 +117,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                if (this.Class != null)
+                hashCode = (hashCode * 59) + Name.GetHashCode();
+				if (Class != null)
                 {
-                    hashCode = (hashCode * 59) + this.Class.GetHashCode();
+                    hashCode = (hashCode * 59) + Class.GetHashCode();
                 }
                 return hashCode;
             }

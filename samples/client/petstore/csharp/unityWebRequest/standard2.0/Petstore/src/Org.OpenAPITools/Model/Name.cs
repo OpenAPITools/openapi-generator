@@ -42,8 +42,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="property">property.</param>
         public Name(int varName = default(int), string property = default(string))
         {
-            this.VarName = varName;
-            this.Property = property;
+            VarName = varName;
+            Property = property;
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Name);
+            return Equals(input as Name);
         }
 
         /// <summary>
@@ -134,21 +134,20 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.VarName == input.VarName ||
-                    this.VarName.Equals(input.VarName)
+                    VarName == input.VarName ||
+                    VarName.Equals(input.VarName)
                 ) && 
                 (
-                    this.SnakeCase == input.SnakeCase ||
-                    this.SnakeCase.Equals(input.SnakeCase)
+                    SnakeCase == input.SnakeCase ||
+                    SnakeCase.Equals(input.SnakeCase)
                 ) && 
                 (
-                    this.Property == input.Property ||
-                    (this.Property != null &&
-                    this.Property.Equals(input.Property))
+                    Property == input.Property ||
+					Property.Equals(input.Property)
                 ) && 
                 (
-                    this.Var123Number == input.Var123Number ||
-                    this.Var123Number.Equals(input.Var123Number)
+                    Var123Number == input.Var123Number ||
+                    Var123Number.Equals(input.Var123Number)
                 );
         }
 
@@ -161,13 +160,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.VarName.GetHashCode();
-                hashCode = (hashCode * 59) + this.SnakeCase.GetHashCode();
-                if (this.Property != null)
+                hashCode = (hashCode * 59) + VarName.GetHashCode();
+                hashCode = (hashCode * 59) + SnakeCase.GetHashCode();
+				if (Property != null)
                 {
-                    hashCode = (hashCode * 59) + this.Property.GetHashCode();
+                    hashCode = (hashCode * 59) + Property.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Var123Number.GetHashCode();
+                hashCode = (hashCode * 59) + Var123Number.GetHashCode();
                 return hashCode;
             }
         }

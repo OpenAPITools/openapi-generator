@@ -39,8 +39,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="prop2">prop2.</param>
         public ActivityOutputElementRepresentation(string prop1 = default(string), Object prop2 = default(Object))
         {
-            this.Prop1 = prop1;
-            this.Prop2 = prop2;
+            Prop1 = prop1;
+            Prop2 = prop2;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -107,13 +107,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Prop1 != null)
+				if (Prop1 != null)
                 {
-                    hashCode = (hashCode * 59) + this.Prop1.GetHashCode();
+                    hashCode = (hashCode * 59) + Prop1.GetHashCode();
                 }
-                if (this.Prop2 != null)
+				if (Prop2 != null)
                 {
-                    hashCode = (hashCode * 59) + this.Prop2.GetHashCode();
+                    hashCode = (hashCode * 59) + Prop2.GetHashCode();
                 }
                 return hashCode;
             }
@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

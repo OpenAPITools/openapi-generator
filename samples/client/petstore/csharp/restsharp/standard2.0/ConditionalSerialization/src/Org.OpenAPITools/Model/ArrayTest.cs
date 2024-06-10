@@ -40,22 +40,22 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayArrayOfModel">arrayArrayOfModel.</param>
         public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
         {
-            this._ArrayOfString = arrayOfString;
-            if (this.ArrayOfString != null)
+            _ArrayOfString = arrayOfString;
+            if (ArrayOfString != null)
             {
-                this._flagArrayOfString = true;
+                _flagArrayOfString = true;
             }
-            this._ArrayArrayOfInteger = arrayArrayOfInteger;
-            if (this.ArrayArrayOfInteger != null)
+            _ArrayArrayOfInteger = arrayArrayOfInteger;
+            if (ArrayArrayOfInteger != null)
             {
-                this._flagArrayArrayOfInteger = true;
+                _flagArrayArrayOfInteger = true;
             }
-            this._ArrayArrayOfModel = arrayArrayOfModel;
-            if (this.ArrayArrayOfModel != null)
+            _ArrayArrayOfModel = arrayArrayOfModel;
+            if (ArrayArrayOfModel != null)
             {
-                this._flagArrayArrayOfModel = true;
+                _flagArrayArrayOfModel = true;
             }
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -190,21 +190,21 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ArrayOfString != null)
+				if (ArrayOfString != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayOfString.GetHashCode();
+                    hashCode = (hashCode * 59) + ArrayOfString.GetHashCode();
                 }
-                if (this.ArrayArrayOfInteger != null)
+				if (ArrayArrayOfInteger != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayArrayOfInteger.GetHashCode();
+                    hashCode = (hashCode * 59) + ArrayArrayOfInteger.GetHashCode();
                 }
-                if (this.ArrayArrayOfModel != null)
+				if (ArrayArrayOfModel != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayArrayOfModel.GetHashCode();
+                    hashCode = (hashCode * 59) + ArrayArrayOfModel.GetHashCode();
                 }
-                if (this.AdditionalProperties != null)
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -215,7 +215,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

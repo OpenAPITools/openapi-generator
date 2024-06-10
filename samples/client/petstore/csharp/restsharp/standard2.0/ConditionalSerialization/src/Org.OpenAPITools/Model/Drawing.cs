@@ -41,27 +41,27 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapes">shapes.</param>
         public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>))
         {
-            this._MainShape = mainShape;
-            if (this.MainShape != null)
+            _MainShape = mainShape;
+            if (MainShape != null)
             {
-                this._flagMainShape = true;
+                _flagMainShape = true;
             }
-            this._ShapeOrNull = shapeOrNull;
-            if (this.ShapeOrNull != null)
+            _ShapeOrNull = shapeOrNull;
+            if (ShapeOrNull != null)
             {
-                this._flagShapeOrNull = true;
+                _flagShapeOrNull = true;
             }
-            this._NullableShape = nullableShape;
-            if (this.NullableShape != null)
+            _NullableShape = nullableShape;
+            if (NullableShape != null)
             {
-                this._flagNullableShape = true;
+                _flagNullableShape = true;
             }
-            this._Shapes = shapes;
-            if (this.Shapes != null)
+            _Shapes = shapes;
+            if (Shapes != null)
             {
-                this._flagShapes = true;
+                _flagShapes = true;
             }
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -221,25 +221,25 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.MainShape != null)
+				if (MainShape != null)
                 {
-                    hashCode = (hashCode * 59) + this.MainShape.GetHashCode();
+                    hashCode = (hashCode * 59) + MainShape.GetHashCode();
                 }
-                if (this.ShapeOrNull != null)
+				if (ShapeOrNull != null)
                 {
-                    hashCode = (hashCode * 59) + this.ShapeOrNull.GetHashCode();
+                    hashCode = (hashCode * 59) + ShapeOrNull.GetHashCode();
                 }
-                if (this.NullableShape != null)
+				if (NullableShape != null)
                 {
-                    hashCode = (hashCode * 59) + this.NullableShape.GetHashCode();
+                    hashCode = (hashCode * 59) + NullableShape.GetHashCode();
                 }
-                if (this.Shapes != null)
+				if (Shapes != null)
                 {
-                    hashCode = (hashCode * 59) + this.Shapes.GetHashCode();
+                    hashCode = (hashCode * 59) + Shapes.GetHashCode();
                 }
-                if (this.AdditionalProperties != null)
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -250,7 +250,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

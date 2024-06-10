@@ -53,9 +53,9 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("className is a required property for Animal and cannot be null");
             }
-            this.ClassName = className;
+            ClassName = className;
             // use default value if no "color" provided
-            this.Color = color ?? @"red";
+            Color = color ?? @"red";
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -122,13 +122,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ClassName != null)
+				if (ClassName != null)
                 {
-                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
+                    hashCode = (hashCode * 59) + ClassName.GetHashCode();
                 }
-                if (this.Color != null)
+				if (Color != null)
                 {
-                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
+                    hashCode = (hashCode * 59) + Color.GetHashCode();
                 }
                 return hashCode;
             }
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

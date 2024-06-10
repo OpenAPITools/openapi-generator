@@ -49,8 +49,8 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null");
             }
-            this.Cultivar = cultivar;
-            this.Mealy = mealy;
+            Cultivar = cultivar;
+            Mealy = mealy;
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -117,11 +117,11 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Cultivar != null)
+				if (Cultivar != null)
                 {
-                    hashCode = (hashCode * 59) + this.Cultivar.GetHashCode();
+                    hashCode = (hashCode * 59) + Cultivar.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Mealy.GetHashCode();
+                hashCode = (hashCode * 59) + Mealy.GetHashCode();
                 return hashCode;
             }
         }
@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
