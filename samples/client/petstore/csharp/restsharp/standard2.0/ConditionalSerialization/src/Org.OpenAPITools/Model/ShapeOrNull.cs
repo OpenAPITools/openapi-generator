@@ -82,11 +82,11 @@ namespace Org.OpenAPITools.Model
             }
             set
             {
-                if (value.GetType() == typeof(Quadrilateral))
+                if (value.GetType() == typeof(Quadrilateral) || value is Quadrilateral)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(Triangle))
+                else if (value.GetType() == typeof(Triangle) || value is Triangle)
                 {
                     this._actualInstance = value;
                 }
