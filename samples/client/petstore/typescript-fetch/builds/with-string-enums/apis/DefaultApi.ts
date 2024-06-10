@@ -33,9 +33,9 @@ import {
 
 export interface FakeEnumRequestGetInlineRequest {
     stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;
-    nullableStringEnum?: FakeEnumRequestGetInlineNullableStringEnumEnum | null;
+    nullableStringEnum?: FakeEnumRequestGetInlineNullableStringEnumEnum;
     numberEnum?: FakeEnumRequestGetInlineNumberEnumEnum;
-    nullableNumberEnum?: FakeEnumRequestGetInlineNullableNumberEnumEnum | null;
+    nullableNumberEnum?: FakeEnumRequestGetInlineNullableNumberEnumEnum;
 }
 
 export interface FakeEnumRequestGetRefRequest {
