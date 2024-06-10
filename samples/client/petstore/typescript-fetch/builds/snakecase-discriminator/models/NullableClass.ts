@@ -73,7 +73,7 @@ export interface NullableClass {
      * @type {Array<object>}
      * @memberof NullableClass
      */
-    arrayItemsNullable?: Array<object> | null;
+    arrayItemsNullable?: Array<object>;
     /**
      * 
      * @type {{ [key: string]: object; }}
@@ -91,7 +91,7 @@ export interface NullableClass {
      * @type {{ [key: string]: object | null; }}
      * @memberof NullableClass
      */
-    objectItemsNullable?: { [key: string]: object | null; } | null;
+    objectItemsNullable?: { [key: string]: object | null; };
 }
 
 /**
