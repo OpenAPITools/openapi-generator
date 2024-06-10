@@ -70,14 +70,14 @@ namespace Org.OpenAPITools.Model
         /// <param name="stringNullable">stringNullable.</param>
         public DefaultValue(List<StringEnumRef> arrayStringEnumRefDefault = default(List<StringEnumRef>), List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = default(List<ArrayStringEnumDefaultEnum>), List<string> arrayStringDefault = default(List<string>), List<int> arrayIntegerDefault = default(List<int>), List<string> arrayString = default(List<string>), List<string> arrayStringNullable = default(List<string>), List<string> arrayStringExtensionNullable = default(List<string>), string stringNullable = default(string))
         {
-            ArrayStringEnumRefDefault = arrayStringEnumRefDefault;
-            ArrayStringEnumDefault = arrayStringEnumDefault;
-            ArrayStringDefault = arrayStringDefault;
-            ArrayIntegerDefault = arrayIntegerDefault;
-            ArrayString = arrayString;
-            ArrayStringNullable = arrayStringNullable;
-            ArrayStringExtensionNullable = arrayStringExtensionNullable;
-            StringNullable = stringNullable;
+            this.ArrayStringEnumRefDefault = arrayStringEnumRefDefault;
+            this.ArrayStringEnumDefault = arrayStringEnumDefault;
+            this.ArrayStringDefault = arrayStringDefault;
+            this.ArrayIntegerDefault = arrayIntegerDefault;
+            this.ArrayString = arrayString;
+            this.ArrayStringNullable = arrayStringNullable;
+            this.ArrayStringExtensionNullable = arrayStringExtensionNullable;
+            this.StringNullable = stringNullable;
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as DefaultValue);
+            return this.Equals(input as DefaultValue);
         }
 
         /// <summary>
@@ -180,51 +180,51 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    ArrayStringEnumRefDefault == input.ArrayStringEnumRefDefault ||
-                    ArrayStringEnumRefDefault != null &&
+                    this.ArrayStringEnumRefDefault == input.ArrayStringEnumRefDefault ||
+                    this.ArrayStringEnumRefDefault != null &&
                     input.ArrayStringEnumRefDefault != null &&
-                    ArrayStringEnumRefDefault.SequenceEqual(input.ArrayStringEnumRefDefault)
+                    this.ArrayStringEnumRefDefault.SequenceEqual(input.ArrayStringEnumRefDefault)
                 ) && 
                 (
-                    ArrayStringEnumDefault == input.ArrayStringEnumDefault ||
-                    ArrayStringEnumDefault != null &&
+                    this.ArrayStringEnumDefault == input.ArrayStringEnumDefault ||
+                    this.ArrayStringEnumDefault != null &&
                     input.ArrayStringEnumDefault != null &&
-                    ArrayStringEnumDefault.SequenceEqual(input.ArrayStringEnumDefault)
+                    this.ArrayStringEnumDefault.SequenceEqual(input.ArrayStringEnumDefault)
                 ) && 
                 (
-                    ArrayStringDefault == input.ArrayStringDefault ||
-                    ArrayStringDefault != null &&
+                    this.ArrayStringDefault == input.ArrayStringDefault ||
+                    this.ArrayStringDefault != null &&
                     input.ArrayStringDefault != null &&
-                    ArrayStringDefault.SequenceEqual(input.ArrayStringDefault)
+                    this.ArrayStringDefault.SequenceEqual(input.ArrayStringDefault)
                 ) && 
                 (
-                    ArrayIntegerDefault == input.ArrayIntegerDefault ||
-                    ArrayIntegerDefault != null &&
+                    this.ArrayIntegerDefault == input.ArrayIntegerDefault ||
+                    this.ArrayIntegerDefault != null &&
                     input.ArrayIntegerDefault != null &&
-                    ArrayIntegerDefault.SequenceEqual(input.ArrayIntegerDefault)
+                    this.ArrayIntegerDefault.SequenceEqual(input.ArrayIntegerDefault)
                 ) && 
                 (
-                    ArrayString == input.ArrayString ||
-                    ArrayString != null &&
+                    this.ArrayString == input.ArrayString ||
+                    this.ArrayString != null &&
                     input.ArrayString != null &&
-                    ArrayString.SequenceEqual(input.ArrayString)
+                    this.ArrayString.SequenceEqual(input.ArrayString)
                 ) && 
                 (
-                    ArrayStringNullable == input.ArrayStringNullable ||
-                    ArrayStringNullable != null &&
+                    this.ArrayStringNullable == input.ArrayStringNullable ||
+                    this.ArrayStringNullable != null &&
                     input.ArrayStringNullable != null &&
-                    ArrayStringNullable.SequenceEqual(input.ArrayStringNullable)
+                    this.ArrayStringNullable.SequenceEqual(input.ArrayStringNullable)
                 ) && 
                 (
-                    ArrayStringExtensionNullable == input.ArrayStringExtensionNullable ||
-                    ArrayStringExtensionNullable != null &&
+                    this.ArrayStringExtensionNullable == input.ArrayStringExtensionNullable ||
+                    this.ArrayStringExtensionNullable != null &&
                     input.ArrayStringExtensionNullable != null &&
-                    ArrayStringExtensionNullable.SequenceEqual(input.ArrayStringExtensionNullable)
+                    this.ArrayStringExtensionNullable.SequenceEqual(input.ArrayStringExtensionNullable)
                 ) && 
                 (
-                    StringNullable == input.StringNullable ||
-                    (StringNullable != null &&
-                    StringNullable.Equals(input.StringNullable))
+                    this.StringNullable == input.StringNullable ||
+                    (this.StringNullable != null &&
+                    this.StringNullable.Equals(input.StringNullable))
                 );
         }
 
@@ -237,37 +237,37 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (ArrayStringEnumRefDefault != null)
+                if (this.ArrayStringEnumRefDefault != null)
                 {
-                    hashCode = (hashCode * 59) + ArrayStringEnumRefDefault.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayStringEnumRefDefault.GetHashCode();
                 }
-				if (ArrayStringEnumDefault != null)
+                if (this.ArrayStringEnumDefault != null)
                 {
-                    hashCode = (hashCode * 59) + ArrayStringEnumDefault.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayStringEnumDefault.GetHashCode();
                 }
-				if (ArrayStringDefault != null)
+                if (this.ArrayStringDefault != null)
                 {
-                    hashCode = (hashCode * 59) + ArrayStringDefault.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayStringDefault.GetHashCode();
                 }
-				if (ArrayIntegerDefault != null)
+                if (this.ArrayIntegerDefault != null)
                 {
-                    hashCode = (hashCode * 59) + ArrayIntegerDefault.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayIntegerDefault.GetHashCode();
                 }
-				if (ArrayString != null)
+                if (this.ArrayString != null)
                 {
-                    hashCode = (hashCode * 59) + ArrayString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayString.GetHashCode();
                 }
-				if (ArrayStringNullable != null)
+                if (this.ArrayStringNullable != null)
                 {
-                    hashCode = (hashCode * 59) + ArrayStringNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayStringNullable.GetHashCode();
                 }
-				if (ArrayStringExtensionNullable != null)
+                if (this.ArrayStringExtensionNullable != null)
                 {
-                    hashCode = (hashCode * 59) + ArrayStringExtensionNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayStringExtensionNullable.GetHashCode();
                 }
-				if (StringNullable != null)
+                if (this.StringNullable != null)
                 {
-                    hashCode = (hashCode * 59) + StringNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.StringNullable.GetHashCode();
                 }
                 return hashCode;
             }
@@ -278,7 +278,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

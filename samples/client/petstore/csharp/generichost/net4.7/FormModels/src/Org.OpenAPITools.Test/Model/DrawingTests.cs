@@ -63,21 +63,21 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'ShapeOrNull'
-        /// </summary>
-        [Fact]
-        public void ShapeOrNullTest()
-        {
-            // TODO unit test for the property 'ShapeOrNull'
-        }
-
-        /// <summary>
         /// Test the property 'NullableShape'
         /// </summary>
         [Fact]
         public void NullableShapeTest()
         {
             // TODO unit test for the property 'NullableShape'
+        }
+
+        /// <summary>
+        /// Test the property 'ShapeOrNull'
+        /// </summary>
+        [Fact]
+        public void ShapeOrNullTest()
+        {
+            // TODO unit test for the property 'ShapeOrNull'
         }
 
         /// <summary>

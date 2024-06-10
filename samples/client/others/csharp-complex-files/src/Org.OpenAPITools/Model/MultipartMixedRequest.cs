@@ -52,15 +52,15 @@ namespace Org.OpenAPITools.Model
         /// <param name="statusArray">statusArray.</param>
         public MultipartMixedRequest(MultipartMixedStatus status = default(MultipartMixedStatus), MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), System.IO.Stream file = default(System.IO.Stream), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>))
         {
-            Status = status;
+            this.Status = status;
             // to ensure "file" is required (not null)
             if (file == null)
             {
                 throw new ArgumentNullException("file is a required property for MultipartMixedRequest and cannot be null");
             }
-            File = file;
-            Marker = marker;
-            StatusArray = statusArray;
+            this.File = file;
+            this.Marker = marker;
+            this.StatusArray = statusArray;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -136,18 +136,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + Status.GetHashCode();
-				if (Marker != null)
+                hashCode = (hashCode * 59) + this.Status.GetHashCode();
+                if (this.Marker != null)
                 {
-                    hashCode = (hashCode * 59) + Marker.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Marker.GetHashCode();
                 }
-				if (File != null)
+                if (this.File != null)
                 {
-                    hashCode = (hashCode * 59) + File.GetHashCode();
+                    hashCode = (hashCode * 59) + this.File.GetHashCode();
                 }
-				if (StatusArray != null)
+                if (this.StatusArray != null)
                 {
-                    hashCode = (hashCode * 59) + StatusArray.GetHashCode();
+                    hashCode = (hashCode * 59) + this.StatusArray.GetHashCode();
                 }
                 return hashCode;
             }
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="values">values.</param>
         public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(List<string> values = default(List<string>))
         {
-            Values = values;
+            this.Values = values;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return Equals(input as TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter);
+            return this.Equals(input as TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter);
         }
 
         /// <summary>
@@ -92,10 +92,10 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    Values == input.Values ||
-                    Values != null &&
+                    this.Values == input.Values ||
+                    this.Values != null &&
                     input.Values != null &&
-                    Values.SequenceEqual(input.Values)
+                    this.Values.SequenceEqual(input.Values)
                 );
         }
 
@@ -108,9 +108,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-				if (Values != null)
+                if (this.Values != null)
                 {
-                    hashCode = (hashCode * 59) + Values.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Values.GetHashCode();
                 }
                 return hashCode;
             }
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

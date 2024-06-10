@@ -120,7 +120,7 @@
         {{#isAdditionalPropertiesTrue}}
         protected {{classname}}()
         {
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
         {{/isAdditionalPropertiesTrue}}
     {{/hasOnlyReadOnly}}
@@ -147,10 +147,10 @@
             {
                 throw new ArgumentNullException("{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} is a required property for {{classname}} and cannot be null");
             }
-            {{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
+            this.{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
             {{/vendorExtensions.x-csharp-value-type}}
             {{#vendorExtensions.x-csharp-value-type}}
-            {{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
+            this.{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
             {{/vendorExtensions.x-csharp-value-type}}
             {{/conditionalSerialization}}
             {{#conditionalSerialization}}
@@ -160,10 +160,10 @@
             {
                 throw new ArgumentNullException("{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} is a required property for {{classname}} and cannot be null");
             }
-            _{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
+            this._{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
             {{/vendorExtensions.x-csharp-value-type}}
             {{#vendorExtensions.x-csharp-value-type}}
-            _{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
+            this._{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
             {{/vendorExtensions.x-csharp-value-type}}
             {{/conditionalSerialization}}
             {{/required}}
@@ -178,22 +178,22 @@
             {{^conditionalSerialization}}
             {{^vendorExtensions.x-csharp-value-type}}
             // use default value if no "{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}" provided
-            {{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} ?? {{#isString}}@{{/isString}}{{{defaultValue}}};
+            this.{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} ?? {{#isString}}@{{/isString}}{{{defaultValue}}};
             {{/vendorExtensions.x-csharp-value-type}}
             {{#vendorExtensions.x-csharp-value-type}}
-            {{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
+            this.{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
             {{/vendorExtensions.x-csharp-value-type}}
             {{/conditionalSerialization}}
             {{/defaultValue}}
             {{^defaultValue}}
             {{^conditionalSerialization}}
-            {{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
+            this.{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
             {{/conditionalSerialization}}
             {{#conditionalSerialization}}
-            _{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
-            if ({{name}} != null)
+            this._{{name}} = {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}};
+            if (this.{{name}} != null)
             {
-                _flag{{name}} = true;
+                this._flag{{name}} = true;
             }
             {{/conditionalSerialization}}
             {{/defaultValue}}
@@ -202,7 +202,7 @@
             {{/isInherited}}
             {{/vars}}
             {{#isAdditionalPropertiesTrue}}
-            AdditionalProperties = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
             {{/isAdditionalPropertiesTrue}}
         }
 
@@ -325,7 +325,7 @@
         /// <returns>JSON string presentation of the object</returns>
         public {{#parent}}{{^isArray}}{{^isMap}}override {{/isMap}}{{/isArray}}{{/parent}}{{^parent}}virtual {{/parent}}string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
         {{#equatable}}
 
@@ -340,7 +340,7 @@
             return OpenAPIClientUtils.compareLogic.Compare(this, input as {{classname}}).AreEqual;
             {{/useCompareNetObjects}}
             {{^useCompareNetObjects}}
-            return Equals(input as {{classname}});
+            return this.Equals(input as {{classname}});
             {{/useCompareNetObjects}}
         }
 
@@ -361,28 +361,23 @@
             }
             return {{#vars}}{{#parent}}base.Equals(input) && {{/parent}}{{^isContainer}}
                 (
-                    {{name}} == input.{{name}} ||
+                    this.{{name}} == input.{{name}} ||
                     {{^vendorExtensions.x-is-value-type}}
-					{{#isNullable}}
-                    ({{name}} != null &&
-                    {{name}}.Equals(input.{{name}}))
-					{{/isNullable}}
-					{{^isNullable}}
-					{{name}}.Equals(input.{{name}})
-					{{/isNullable}}
+                    (this.{{name}} != null &&
+                    this.{{name}}.Equals(input.{{name}}))
                     {{/vendorExtensions.x-is-value-type}}
                     {{#vendorExtensions.x-is-value-type}}
-                    {{name}}.Equals(input.{{name}})
+                    this.{{name}}.Equals(input.{{name}})
                     {{/vendorExtensions.x-is-value-type}}
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
                 (
-                    {{name}} == input.{{name}} ||
-                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
+                    this.{{name}} == input.{{name}} ||
+                    {{^vendorExtensions.x-is-value-type}}this.{{name}} != null &&
                     input.{{name}} != null &&
-                    {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(input.{{name}})
+                    {{/vendorExtensions.x-is-value-type}}this.{{name}}.SequenceEqual(input.{{name}})
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
                 {{#isAdditionalPropertiesTrue}}
-                && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
                 {{/isAdditionalPropertiesTrue}}
             {{/useCompareNetObjects}}
         }
@@ -403,19 +398,19 @@
                 {{/parent}}
                 {{#vars}}
                 {{^vendorExtensions.x-is-value-type}}
-				if ({{name}} != null)
+                if (this.{{name}} != null)
                 {
-                    hashCode = (hashCode * 59) + {{name}}.GetHashCode();
+                    hashCode = (hashCode * 59) + this.{{name}}.GetHashCode();
                 }
                 {{/vendorExtensions.x-is-value-type}}
                 {{#vendorExtensions.x-is-value-type}}
-                hashCode = (hashCode * 59) + {{name}}.GetHashCode();
+                hashCode = (hashCode * 59) + this.{{name}}.GetHashCode();
                 {{/vendorExtensions.x-is-value-type}}
                 {{/vars}}
                 {{#isAdditionalPropertiesTrue}}
-                if (AdditionalProperties != null)
+                if (this.AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 {{/isAdditionalPropertiesTrue}}
                 return hashCode;
