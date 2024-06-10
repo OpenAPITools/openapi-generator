@@ -103,6 +103,25 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String APPEND_REQUEST_TO_HANDLER = "appendRequestToHandler";
+    public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
+    public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
+    public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
+
+    public enum RequestMappingMode {
+        api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
+        controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
+        none("Do not add a class level @RequestMapping annotation.");
+
+        public String getDescription() {
+            return description;
+        }
+
+        private String description;
+
+        RequestMappingMode(String description) {
+            this.description = description;
+        }
+    }
 
     @Getter @Setter
     private String basePackage;
@@ -131,6 +150,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
+    protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
     private DocumentationProvider documentationProvider;
     private AnnotationLibrary annotationLibrary;
 
@@ -221,6 +241,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         cliOpt.setDefault(SPRING_BOOT);
         cliOpt.setEnum(supportedLibraries);
         cliOptions.add(cliOpt);
+
+        CliOption requestMappingOpt = new CliOption(REQUEST_MAPPING_OPTION,
+                "Where to generate the class level @RequestMapping annotation.")
+                .defaultValue(requestMappingMode.name());
+        for (RequestMappingMode mode: RequestMappingMode.values()) {
+            requestMappingOpt.addEnum(mode.name(), mode.getDescription());
+        }
+        cliOptions.add(requestMappingOpt);
 
         if (null != defaultDocumentationProvider()) {
             CliOption documentationProviderCliOption = new CliOption(DOCUMENTATION_PROVIDER,
@@ -433,6 +461,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             LOGGER.info("Set base package to invoker package ({})", basePackage);
         }
 
+        if (additionalProperties.containsKey(REQUEST_MAPPING_OPTION)) {
+            RequestMappingMode optValue = RequestMappingMode.valueOf(
+                    String.valueOf(additionalProperties.get(REQUEST_MAPPING_OPTION)));
+            setRequestMappingMode(optValue);
+            additionalProperties.remove(REQUEST_MAPPING_OPTION);
+        }
+
         if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
             this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
         } else {
@@ -639,6 +674,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
             }
 
+            // @RequestMapping not supported with spring cloud openfeign.
+            setRequestMappingMode(RequestMappingMode.none);
+
             supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                     "ApiKeyRequestInterceptor.kt"));
@@ -660,6 +698,19 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
                         "SpringDocConfiguration.kt"));
             }
+        }
+
+        switch (getRequestMappingMode()) {
+            case api_interface:
+                additionalProperties.put(USE_REQUEST_MAPPING_ON_INTERFACE, true);
+                break;
+            case controller:
+                additionalProperties.put(USE_REQUEST_MAPPING_ON_CONTROLLER, true);
+                break;
+            case none:
+                additionalProperties.put(USE_REQUEST_MAPPING_ON_INTERFACE, false);
+                additionalProperties.put(USE_REQUEST_MAPPING_ON_CONTROLLER, false);
+                break;
         }
 
         // spring uses the jackson lib, and we disallow configuration.
@@ -922,4 +973,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     static class RequestCodegenParameter extends CodegenParameter {
         boolean isRequestObject;
     }
+
+    public RequestMappingMode getRequestMappingMode() {
+        return requestMappingMode;
+    }
+
+    public void setRequestMappingMode(RequestMappingMode requestMappingMode) {
+        this.requestMappingMode = requestMappingMode;
+    }
+
 }

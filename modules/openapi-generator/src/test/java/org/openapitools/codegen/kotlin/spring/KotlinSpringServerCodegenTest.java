@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
+import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -82,7 +83,7 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void testNoRequestMappingAnnotation() throws IOException {
+    public void testNoRequestMappingAnnotation_spring_cloud_default() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -100,6 +101,74 @@ public class KotlinSpringServerCodegenTest {
             Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
             "@RequestMapping(\"\\${api.base-path"
         );
+    }
+
+    @Test
+    public void testNoRequestMappingAnnotationNone() throws IOException {
+        File output = generatePetstoreWithRequestMappingMode(KotlinSpringServerCodegen.RequestMappingMode.none);
+
+        // Check that the @RequestMapping annotation is not generated in the Api file
+        assertFileNotContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApi.kt"),
+                "@RequestMapping(\"\\${"
+        );
+        // Check that the @RequestMapping annotation is not generated in the ApiController file
+        assertFileNotContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApiController.kt"),
+                "@RequestMapping(\"\\${"
+        );
+    }
+
+    @Test
+    public void testNoRequestMappingAnnotationController() throws IOException {
+        File output = generatePetstoreWithRequestMappingMode(KotlinSpringServerCodegen.RequestMappingMode.controller);
+
+        // Check that the @RequestMapping annotation is not generated in the Api file
+        assertFileNotContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApi.kt"),
+                "@RequestMapping(\"\\${"
+        );
+        // Check that the @RequestMapping annotation is generated in the ApiController file
+        assertFileContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApiController.kt"),
+                "@RequestMapping(\"\\${"
+        );
+    }
+
+    @Test
+    public void testNoRequestMappingAnnotationApiInterface() throws IOException {
+        File output = generatePetstoreWithRequestMappingMode(KotlinSpringServerCodegen.RequestMappingMode.api_interface);
+
+        // Check that the @RequestMapping annotation is generated in the Api file
+        assertFileContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApi.kt"),
+                "@RequestMapping(\"\\${"
+        );
+        // Check that the @RequestMapping annotation is not generated in the ApiController file
+        assertFileNotContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApiController.kt"),
+                "@RequestMapping(\"\\${"
+        );
+    }
+
+    private static @NotNull File generatePetstoreWithRequestMappingMode(KotlinSpringServerCodegen.RequestMappingMode requestMappingMode) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REQUEST_MAPPING_OPTION, requestMappingMode);
+
+        new DefaultGenerator()
+                .opts(
+                        new ClientOptInput()
+                                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                                .config(codegen)
+                )
+                .generate();
+        return output;
     }
 
     @Test
