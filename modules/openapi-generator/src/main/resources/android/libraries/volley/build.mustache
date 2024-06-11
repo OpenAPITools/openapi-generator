@@ -1,55 +1,26 @@
-{{#useAndroidMavenGradlePlugin}}
-group = '{{groupId}}'
-project.version = '{{artifactVersion}}'
-{{/useAndroidMavenGradlePlugin}}
-
-buildscript {
-    repositories {
-        mavenLocal()
-        google()
-        maven {
-            url 'https://dl.google.com/dl/android/maven2'
-        }
-        jcenter()
-    }
-    dependencies {
-        {{#androidGradleVersion}}
-        classpath 'com.android.tools.build:gradle:{{{.}}}'
-        {{/androidGradleVersion}}
-        {{^androidGradleVersion}}
-        classpath 'com.android.tools.build:gradle:3.2.+'
-        {{/androidGradleVersion}}
-        {{#useAndroidMavenGradlePlugin}}
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        {{/useAndroidMavenGradlePlugin}}
-    }
+plugins {
+    {{#androidGradleVersion}}
+    id 'com.android.library' version '{{{.}}}'
+    {{/androidGradleVersion}}
+    {{^androidGradleVersion}}
+    id 'com.android.library' version '8.0.0'
+    {{/androidGradleVersion}}
+    id 'maven-publish'
 }
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
-}
-
-
-apply plugin: 'com.android.library'
-{{#useAndroidMavenGradlePlugin}}
-apply plugin: 'com.github.dcendents.android-maven'
-{{/useAndroidMavenGradlePlugin}}
 
 android {
+    namespace "{{invokerPackage}}"
     {{#androidSdkVersion}}
     compileSdkVersion {{{.}}}
     {{/androidSdkVersion}}
     {{^androidSdkVersion}}
-    compileSdkVersion 26
+    compileSdkVersion 33
     {{/androidSdkVersion}}
     {{#androidBuildToolsVersion}}
     buildToolsVersion '{{{.}}}'
     {{/androidBuildToolsVersion}}
     {{^androidBuildToolsVersion}}
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '34.0.0'
     {{/androidBuildToolsVersion}}
     defaultConfig {
         minSdkVersion 14
@@ -57,7 +28,7 @@ android {
         targetSdkVersion {{{.}}}
         {{/androidSdkVersion}}
         {{^androidSdkVersion}}
-        targetSdkVersion 26
+        targetSdkVersion 33
         {{/androidSdkVersion}}
     }
     compileOptions {
@@ -70,18 +41,13 @@ android {
     packagingOptions {
         resources.excludes += "META-INF/DEPENDENCIES"
     }
-
-    // Rename the aar correctly
-    libraryVariants.all { variant ->
-        variant.outputs.all { output ->
-            if (outputFile != null && outputFileName.endsWith('.aar')) {
-                outputFileName = "${archivesBaseName}-${version}.aar"
-            }
-        }
-    }
-
     testOptions {
         unitTests.returnDefaultValues = true
+    }
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
     }
 }
 
@@ -111,25 +77,16 @@ dependencies {
     testImplementation "net.jodah:concurrentunit:${concurrent_unit_version}"
 }
 
-afterEvaluate {
-    android.libraryVariants.all { variant ->
-        def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
-        task.description = "Create jar artifact for ${variant.name}"
-        task.dependsOn variant.javaCompile
-        task.from variant.javaCompile.destinationDirectory
-        task.destinationDirectory = project.file("${project.buildDir}/outputs/jar")
-        task.archiveFileName = "${project.name}-${variant.baseName}-${version}.jar"
-        artifacts.add('archives', task);
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = '{{groupId}}'
+            artifactId = '{{artifactId}}'
+            version = '{{artifactVersion}}'
+
+            afterEvaluate {
+                from components.release
+            }
+        }
     }
 }
-
-{{#useAndroidMavenGradlePlugin}}
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-artifacts {
-    archives sourcesJar
-}
-{{/useAndroidMavenGradlePlugin}}
