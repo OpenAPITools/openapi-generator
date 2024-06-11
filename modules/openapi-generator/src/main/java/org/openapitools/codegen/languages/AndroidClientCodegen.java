@@ -459,8 +459,6 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         if (additionalProperties.containsKey(USE_ANDROID_MAVEN_GRADLE_PLUGIN)) {
             this.setUseAndroidMavenGradlePlugin(Boolean.valueOf((String) additionalProperties
                     .get(USE_ANDROID_MAVEN_GRADLE_PLUGIN)));
-        } else {
-            additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
         }
 
         if (additionalProperties.containsKey(ANDROID_GRADLE_VERSION)) {
@@ -483,8 +481,9 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             this.setSerializableModel(Boolean.valueOf(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
         }
 
-        // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
+        // need to put back boolean properties into additionalProperties as the values in additionalProperties are strings
         additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+        additionalProperties.put(USE_ANDROID_MAVEN_GRADLE_PLUGIN, useAndroidMavenGradlePlugin);
 
         //make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
