@@ -63,6 +63,7 @@ docs/Model/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/Model/User.md
 git_push.sh
 phpunit.xml.dist
+src/ApiException.php
 src/Api/AnotherFakeApi.php
 src/Api/DefaultApi.php
 src/Api/FakeApi.php
@@ -70,7 +71,6 @@ src/Api/FakeClassnameTags123Api.php
 src/Api/PetApi.php
 src/Api/StoreApi.php
 src/Api/UserApi.php
-src/ApiException.php
 src/Configuration.php
 src/HeaderSelector.php
 src/Model/AdditionalPropertiesClass.php
