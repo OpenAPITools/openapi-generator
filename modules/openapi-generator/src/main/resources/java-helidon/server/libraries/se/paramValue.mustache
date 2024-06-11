@@ -1,25 +1,53 @@
-{{!
-Path parameters:
-  * Always required in OpenAPI so there is no need to use Optional.
-  * Helidon 3 supports only a single value for a path parameter; 4 supports multiple values. The OpenAPI document tells
-    whether to expect 1 or more than 1.
-}}{{#isPathParam}}{{#x-helidon-v3}}ValidatorUtils.nonEmpty(request.path().param("{{baseName}}"){{/x-helidon-v3}}{{/isPathParam}}{{!
-}}{{#isPathParam}}{{^x-helidon-v3}}ValidatorUtils.nonEmpty(request.path()
-                .pathParameters(){{#isContainer}}
-                .all("{{baseName}}"){{/isContainer}}{{^isContainer}}
-                .first("{{baseName}}")
-                .as({{> paramValueAs }}){{/isContainer}}){{/x-helidon-v3}}{{/isPathParam}}{{!
-}}{{#isQueryParam}}{{#isPrimitiveType}}request.query{{#x-helidon-v3}}Params{{/x-helidon-v3}}().toMap().getOrDefault("{{baseName}}", List.of()).stream().findFirst(){{/isPrimitiveType}}{{/isQueryParam}}{{!
-}}{{#isQueryParam}}{{^isPrimitiveType}}Optional.ofNullable(request.query{{#x-helidon-v3}}Params{{/x-helidon-v3}}().toMap().get("{{baseName}}")){{/isPrimitiveType}}{{/isQueryParam}}{{!
+{{#x-helidon-v3}}{{!
+}}{{#isPathParam}}Optional.ofNullable(request.path().param("{{baseName}}")){{/isPathParam}}{{!
+}}{{#isQueryParam}}{{#isPrimitiveType}}request.queryParams().toMap().getOrDefault("{{baseName}}", List.of()).stream().findFirst(){{/isPrimitiveType}}{{/isQueryParam}}{{!
+}}{{#isQueryParam}}{{^isPrimitiveType}}Optional.ofNullable(request.queryParams().toMap().get("{{baseName}}")){{/isPrimitiveType}}{{/isQueryParam}}{{!
 }}{{#isCookieParam}}{{#isPrimitiveType}}request.headers().cookies().toMap().getOrDefault("{{baseName}}", List.of()).stream().findFirst(){{/isPrimitiveType}}{{/isCookieParam}}{{!
 }}{{#isCookieParam}}{{^isPrimitiveType}}Optional.ofNullable(request.headers().cookies().toMap().get("{{baseName}}")){{/isPrimitiveType}}{{/isCookieParam}}{{!
-}}{{#isHeaderParam}}request.headers().value({{^x-helidon-v3}}HeaderNames.create({{/x-helidon-v3}}"{{baseName}}"{{^x-helidon-v3}}){{/x-helidon-v3}}){{/isHeaderParam}}{{!
+}}{{#isHeaderParam}}request.headers().value("{{baseName}}"){{/isHeaderParam}}{{!
 }}{{#isFormParam}}Optional.ofNullable({{#isFile}}fileFormContent{{/isFile}}{{^isFile}}nonFileFormContent{{/isFile}}.get("{{baseName}}")){{^isArray}}.flatMap(list->list.stream().findFirst()){{/isArray}}{{/isFormParam}}{{!
-}}{{#isPrimitiveType}}{{^isFile}}{{^isString}}
-                .map({{!
+}}{{#isPrimitiveType}}{{^isFile}}{{^isString}}.map({{!
     }}{{#isDecimal}}BigDecimal::new{{/isDecimal}}{{!
     }}{{#isNumber}}BigDecimal::new{{/isNumber}}{{!
     }}{{#isDate}}LocalDate::parse{{/isDate}}{{#isDateTime}}OffsetDateTime::parse{{/isDateTime}}{{!
     }}{{^isDecimal}}{{^isNumber}}{{^isDate}}{{^isDateTime}}{{{dataType}}}::valueOf{{/isDateTime}}{{/isDate}}{{/isNumber}}{{/isDecimal}}){{!
-}}{{/isString}}{{/isFile}}{{/isPrimitiveType}}
-                .orElse(null);
+}}{{/isString}}{{/isFile}}{{/isPrimitiveType}}{{!
+}}.orElse(null);
+{{/x-helidon-v3}}{{!
+}}{{^x-helidon-v3}}{{!
+
+Most non-body parameter values are handled largely the same regardless of their origin (path, query, cookie, header).
+Wrap a single-valued parameter in an Optional only if it is NOT declared as required; otherwise insist that it be present.
+
+The Helidon 4 API exposes path, query, and cookie values as Value objects but header values as Strings, so deal with
+them slightly differently.
+
+}}{{#required}}ValidatorUtils.nonEmpty({{/required}}{{!
+}}{{^isFormParam}}request{{/isFormParam}}{{!
+}}{{#isFormParam}}formParams{{/isFormParam}}{{!
+}}{{#isPathParam}}.path()
+                .pathParameters()
+{{/isPathParam}}{{#isQueryParam}}.query()
+{{/isQueryParam}}{{#isCookieParam}}.headers()
+                .cookies()
+{{/isCookieParam}}{{!
+}}{{#isHeaderParam}}.headers()
+{{/isHeaderParam}}{{!
+  We have generated code to access the object from which we'll get either the first value or all the values given a name.
+  Headers use "values" which accepts a HeaderName while the other objects use "all" which accepts a String to gather all of
+  potentially multiple values. All types use "first" to retrieve only the first value with the name.
+}}{{#isContainer}}{{#isHeaderParam}}{{!
+}}                .values(HeaderNames.create("{{baseName}}")){{/isHeaderParam}}{{!
+}}{{^isHeaderParam}}{{!
+}}                .all("{{baseName}}"){{/isHeaderParam}}
+                .stream(){{> paramValueMapExpr }}
+                .to{{containerTypeMapped}}(){{!
+}}{{/isContainer}}{{!
+}}{{^isContainer}}{{!
+}}{{^isFormParam}}                {{/isFormParam}}.first({{#isHeaderParam}}HeaderNames.create({{/isHeaderParam}}"{{baseName}}"{{#isHeaderParam}}){{/isHeaderParam}}){{> paramValueMapExpr }}{{!
+}}{{#isFormParam}}
+                .asOptional(){{!
+}}{{/isFormParam}}{{!
+}}{{/isContainer}}{{!
+}}{{#required}}){{/required}}{{!
+}}{{/x-helidon-v3}}

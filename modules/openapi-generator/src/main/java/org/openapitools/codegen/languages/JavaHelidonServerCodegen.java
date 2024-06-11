@@ -129,6 +129,11 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+        if (helidonMajorVersion > 3) {
+            importMapping.put("HeaderNames", "io.helidon.http.HeaderNames");
+            importMapping.put("Parameters", "io.helidon.common.parameters.Parameters");
+            importMapping.put("Value", "io.helidon.common.mapper.Value");
+        }
         supportingFiles.clear();
         dateLibrary = "java8";
 
@@ -274,8 +279,15 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             if (codegenOperation.getHasBodyParam() && codegenOperation.bodyParam.isContainer) {
                 codegenOperation.imports.add("GenericType");
             }
+            if (codegenOperation.getHasPathParams()) {
+            }
             if (codegenOperation.getHasHeaderParams()) {
                 codegenOperation.imports.add("Headers");
+                codegenOperation.imports.add("HeaderNames");
+            }
+            if (codegenOperation.getHasFormParams()) {
+                codegenOperation.imports.add("Parameters");
+                codegenOperation.imports.add("Value");
             }
             if (codegenOperation.queryParams.size() > 0 && useAbstractClass) {
                 codegenOperation.imports.add("List");
@@ -291,6 +303,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                 codegenOperation.imports.add("IOException");
                 codegenOperation.imports.add("UncheckedIOException");
                 codegenOperation.imports.add("ByteArrayInputStream");
+                codegenOperation.imports.add("Parameters");
             }
         }
         return codegenOperation;

@@ -34,8 +34,16 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
 {{/x-helidon-v3}}
 {{^x-helidon-v3}}
     public void {{{operationId}}}(ServerRequest request, ServerResponse response) {
-{{#allParams}}
-        {{>paramDecl}} = {{#isBodyParam}}{{>bodyParamValue}};{{/isBodyParam}}{{^isBodyParam}}{{>paramValue}}{{/isBodyParam}}
+{{!
+
+  If the operation has form parameters we need to generate code to process the request body as form data, creating a Helidon
+  Parameters object we can use to assign the individual form variables.
+
+}}{{#formParams}}{{#-first}}        Parameters formParams = request.content().as(Parameters.class);
+{{/-first}}{{/formParams}}{{!
+}}{{#allParams}}{{!
+}}        {{>paramDecl}} = {{#isBodyParam}}{{>bodyParamValue}}{{/isBodyParam}}{{^isBodyParam}}{{>paramValue}}{{/isBodyParam}};
+
 {{/allParams}}
 {{/x-helidon-v3}}
 {{/useAbstractClass}}

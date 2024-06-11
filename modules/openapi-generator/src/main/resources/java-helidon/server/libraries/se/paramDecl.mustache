@@ -1,2 +1,6 @@
-{{#isPathParam}}{{#x-helidon-v3}}{{baseType}}{{/x-helidon-v3}}{{^x-helidon-v3}}{{{dataType}}}{{/x-helidon-v3}} {{paramName}}{{/isPathParam}}{{!
-}}{{^isPathParam}}{{^isRequired}}{{^isContainer}}Optional<{{/isContainer}}{{/isRequired}}{{{dataType}}}{{^isRequired}}{{^isContainer}}>{{/isContainer}}{{/isRequired}} {{paramName}}{{/isPathParam}}
+{{#x-helidon-v3}}{{#isPathParam}}{{baseType}}  {{paramName}}{{/isPathParam}}{{/x-helidon-v3}}{{!
+
+}}{{^x-helidon-v3}}{{!
+    }}{{^required}}{{^isContainer}}Optional<{{/isContainer}}{{/required}}{{!
+}}{{{dataType}}}{{^required}}{{^isContainer}}>{{/isContainer}}{{/required}} {{paramName}}{{!
+}}{{/x-helidon-v3}}
