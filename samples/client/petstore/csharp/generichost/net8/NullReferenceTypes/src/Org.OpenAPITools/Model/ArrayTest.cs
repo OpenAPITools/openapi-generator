@@ -34,32 +34,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayTest" /> class.
         /// </summary>
-        /// <param name="arrayOfString">arrayOfString</param>
         /// <param name="arrayArrayOfInteger">arrayArrayOfInteger</param>
         /// <param name="arrayArrayOfModel">arrayArrayOfModel</param>
+        /// <param name="arrayOfString">arrayOfString</param>
         [JsonConstructor]
-        public ArrayTest(Option<List<string>?> arrayOfString = default, Option<List<List<long>>?> arrayArrayOfInteger = default, Option<List<List<ReadOnlyFirst>>?> arrayArrayOfModel = default)
+        public ArrayTest(Option<List<List<long>>?> arrayArrayOfInteger = default, Option<List<List<ReadOnlyFirst>>?> arrayArrayOfModel = default, Option<List<string>?> arrayOfString = default)
         {
-            ArrayOfStringOption = arrayOfString;
             ArrayArrayOfIntegerOption = arrayArrayOfInteger;
             ArrayArrayOfModelOption = arrayArrayOfModel;
+            ArrayOfStringOption = arrayOfString;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Used to track the state of ArrayOfString
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<List<string>?> ArrayOfStringOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets ArrayOfString
-        /// </summary>
-        [JsonPropertyName("array_of_string")]
-        public List<string>? ArrayOfString { get { return this.ArrayOfStringOption; } set { this.ArrayOfStringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayArrayOfInteger
@@ -88,6 +75,19 @@ namespace Org.OpenAPITools.Model
         public List<List<ReadOnlyFirst>>? ArrayArrayOfModel { get { return this.ArrayArrayOfModelOption; } set { this.ArrayArrayOfModelOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of ArrayOfString
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<List<string>?> ArrayOfStringOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets ArrayOfString
+        /// </summary>
+        [JsonPropertyName("array_of_string")]
+        public List<string>? ArrayOfString { get { return this.ArrayOfStringOption; } set { this.ArrayOfStringOption = new(value); } }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -101,9 +101,9 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ArrayTest {\n");
-            sb.Append("  ArrayOfString: ").Append(ArrayOfString).Append("\n");
             sb.Append("  ArrayArrayOfInteger: ").Append(ArrayArrayOfInteger).Append("\n");
             sb.Append("  ArrayArrayOfModel: ").Append(ArrayArrayOfModel).Append("\n");
+            sb.Append("  ArrayOfString: ").Append(ArrayOfString).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -142,9 +142,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<List<string>?> arrayOfString = default;
             Option<List<List<long>>?> arrayArrayOfInteger = default;
             Option<List<List<ReadOnlyFirst>>?> arrayArrayOfModel = default;
+            Option<List<string>?> arrayOfString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -161,10 +161,6 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "array_of_string":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayOfString = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
-                            break;
                         case "array_array_of_integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 arrayArrayOfInteger = new Option<List<List<long>>?>(JsonSerializer.Deserialize<List<List<long>>>(ref utf8JsonReader, jsonSerializerOptions)!);
@@ -173,14 +169,15 @@ namespace Org.OpenAPITools.Model
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 arrayArrayOfModel = new Option<List<List<ReadOnlyFirst>>?>(JsonSerializer.Deserialize<List<List<ReadOnlyFirst>>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
+                        case "array_of_string":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                arrayOfString = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
                         default:
                             break;
                     }
                 }
             }
-
-            if (arrayOfString.IsSet && arrayOfString.Value == null)
-                throw new ArgumentNullException(nameof(arrayOfString), "Property is not nullable for class ArrayTest.");
 
             if (arrayArrayOfInteger.IsSet && arrayArrayOfInteger.Value == null)
                 throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is not nullable for class ArrayTest.");
@@ -188,7 +185,10 @@ namespace Org.OpenAPITools.Model
             if (arrayArrayOfModel.IsSet && arrayArrayOfModel.Value == null)
                 throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is not nullable for class ArrayTest.");
 
-            return new ArrayTest(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
+            if (arrayOfString.IsSet && arrayOfString.Value == null)
+                throw new ArgumentNullException(nameof(arrayOfString), "Property is not nullable for class ArrayTest.");
+
+            return new ArrayTest(arrayArrayOfInteger, arrayArrayOfModel, arrayOfString);
         }
 
         /// <summary>
@@ -215,20 +215,15 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ArrayTest arrayTest, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (arrayTest.ArrayOfStringOption.IsSet && arrayTest.ArrayOfString == null)
-                throw new ArgumentNullException(nameof(arrayTest.ArrayOfString), "Property is required for class ArrayTest.");
-
             if (arrayTest.ArrayArrayOfIntegerOption.IsSet && arrayTest.ArrayArrayOfInteger == null)
                 throw new ArgumentNullException(nameof(arrayTest.ArrayArrayOfInteger), "Property is required for class ArrayTest.");
 
             if (arrayTest.ArrayArrayOfModelOption.IsSet && arrayTest.ArrayArrayOfModel == null)
                 throw new ArgumentNullException(nameof(arrayTest.ArrayArrayOfModel), "Property is required for class ArrayTest.");
 
-            if (arrayTest.ArrayOfStringOption.IsSet)
-            {
-                writer.WritePropertyName("array_of_string");
-                JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
-            }
+            if (arrayTest.ArrayOfStringOption.IsSet && arrayTest.ArrayOfString == null)
+                throw new ArgumentNullException(nameof(arrayTest.ArrayOfString), "Property is required for class ArrayTest.");
+
             if (arrayTest.ArrayArrayOfIntegerOption.IsSet)
             {
                 writer.WritePropertyName("array_array_of_integer");
@@ -238,6 +233,11 @@ namespace Org.OpenAPITools.Model
             {
                 writer.WritePropertyName("array_array_of_model");
                 JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, jsonSerializerOptions);
+            }
+            if (arrayTest.ArrayOfStringOption.IsSet)
+            {
+                writer.WritePropertyName("array_of_string");
+                JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
             }
         }
     }

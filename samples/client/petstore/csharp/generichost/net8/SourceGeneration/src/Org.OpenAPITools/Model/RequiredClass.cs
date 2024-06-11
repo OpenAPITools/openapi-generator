@@ -35,97 +35,97 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="RequiredClass" /> class.
         /// </summary>
-        /// <param name="requiredNotnullableintegerProp">requiredNotnullableintegerProp</param>
-        /// <param name="requiredNotnullableStringProp">requiredNotnullableStringProp</param>
-        /// <param name="requiredNotnullableBooleanProp">requiredNotnullableBooleanProp</param>
         /// <param name="requiredNotNullableDateProp">requiredNotNullableDateProp</param>
+        /// <param name="requiredNotnullableArrayOfString">requiredNotnullableArrayOfString</param>
+        /// <param name="requiredNotnullableBooleanProp">requiredNotnullableBooleanProp</param>
         /// <param name="requiredNotnullableDatetimeProp">requiredNotnullableDatetimeProp</param>
         /// <param name="requiredNotnullableEnumInteger">requiredNotnullableEnumInteger</param>
         /// <param name="requiredNotnullableEnumIntegerOnly">requiredNotnullableEnumIntegerOnly</param>
         /// <param name="requiredNotnullableEnumString">requiredNotnullableEnumString</param>
         /// <param name="requiredNotnullableOuterEnumDefaultValue">requiredNotnullableOuterEnumDefaultValue</param>
+        /// <param name="requiredNotnullableStringProp">requiredNotnullableStringProp</param>
         /// <param name="requiredNotnullableUuid">requiredNotnullableUuid</param>
-        /// <param name="requiredNotnullableArrayOfString">requiredNotnullableArrayOfString</param>
-        /// <param name="requiredNullableIntegerProp">requiredNullableIntegerProp</param>
-        /// <param name="requiredNullableStringProp">requiredNullableStringProp</param>
+        /// <param name="requiredNotnullableintegerProp">requiredNotnullableintegerProp</param>
+        /// <param name="notRequiredNotnullableDateProp">notRequiredNotnullableDateProp</param>
+        /// <param name="notRequiredNotnullableintegerProp">notRequiredNotnullableintegerProp</param>
+        /// <param name="notRequiredNullableDateProp">notRequiredNullableDateProp</param>
+        /// <param name="notRequiredNullableIntegerProp">notRequiredNullableIntegerProp</param>
+        /// <param name="notrequiredNotnullableArrayOfString">notrequiredNotnullableArrayOfString</param>
+        /// <param name="notrequiredNotnullableBooleanProp">notrequiredNotnullableBooleanProp</param>
+        /// <param name="notrequiredNotnullableDatetimeProp">notrequiredNotnullableDatetimeProp</param>
+        /// <param name="notrequiredNotnullableEnumInteger">notrequiredNotnullableEnumInteger</param>
+        /// <param name="notrequiredNotnullableEnumIntegerOnly">notrequiredNotnullableEnumIntegerOnly</param>
+        /// <param name="notrequiredNotnullableEnumString">notrequiredNotnullableEnumString</param>
+        /// <param name="notrequiredNotnullableOuterEnumDefaultValue">notrequiredNotnullableOuterEnumDefaultValue</param>
+        /// <param name="notrequiredNotnullableStringProp">notrequiredNotnullableStringProp</param>
+        /// <param name="notrequiredNotnullableUuid">notrequiredNotnullableUuid</param>
+        /// <param name="notrequiredNullableArrayOfString">notrequiredNullableArrayOfString</param>
+        /// <param name="notrequiredNullableBooleanProp">notrequiredNullableBooleanProp</param>
+        /// <param name="notrequiredNullableDatetimeProp">notrequiredNullableDatetimeProp</param>
+        /// <param name="notrequiredNullableEnumInteger">notrequiredNullableEnumInteger</param>
+        /// <param name="notrequiredNullableEnumIntegerOnly">notrequiredNullableEnumIntegerOnly</param>
+        /// <param name="notrequiredNullableEnumString">notrequiredNullableEnumString</param>
+        /// <param name="notrequiredNullableOuterEnumDefaultValue">notrequiredNullableOuterEnumDefaultValue</param>
+        /// <param name="notrequiredNullableStringProp">notrequiredNullableStringProp</param>
+        /// <param name="notrequiredNullableUuid">notrequiredNullableUuid</param>
+        /// <param name="requiredNullableArrayOfString">requiredNullableArrayOfString</param>
         /// <param name="requiredNullableBooleanProp">requiredNullableBooleanProp</param>
         /// <param name="requiredNullableDateProp">requiredNullableDateProp</param>
         /// <param name="requiredNullableDatetimeProp">requiredNullableDatetimeProp</param>
         /// <param name="requiredNullableEnumInteger">requiredNullableEnumInteger</param>
         /// <param name="requiredNullableEnumIntegerOnly">requiredNullableEnumIntegerOnly</param>
         /// <param name="requiredNullableEnumString">requiredNullableEnumString</param>
+        /// <param name="requiredNullableIntegerProp">requiredNullableIntegerProp</param>
         /// <param name="requiredNullableOuterEnumDefaultValue">requiredNullableOuterEnumDefaultValue</param>
+        /// <param name="requiredNullableStringProp">requiredNullableStringProp</param>
         /// <param name="requiredNullableUuid">requiredNullableUuid</param>
-        /// <param name="requiredNullableArrayOfString">requiredNullableArrayOfString</param>
-        /// <param name="notRequiredNullableIntegerProp">notRequiredNullableIntegerProp</param>
-        /// <param name="notRequiredNotnullableintegerProp">notRequiredNotnullableintegerProp</param>
-        /// <param name="notrequiredNullableStringProp">notrequiredNullableStringProp</param>
-        /// <param name="notrequiredNotnullableStringProp">notrequiredNotnullableStringProp</param>
-        /// <param name="notrequiredNullableBooleanProp">notrequiredNullableBooleanProp</param>
-        /// <param name="notrequiredNotnullableBooleanProp">notrequiredNotnullableBooleanProp</param>
-        /// <param name="notRequiredNullableDateProp">notRequiredNullableDateProp</param>
-        /// <param name="notRequiredNotnullableDateProp">notRequiredNotnullableDateProp</param>
-        /// <param name="notrequiredNullableDatetimeProp">notrequiredNullableDatetimeProp</param>
-        /// <param name="notrequiredNotnullableDatetimeProp">notrequiredNotnullableDatetimeProp</param>
-        /// <param name="notrequiredNullableEnumInteger">notrequiredNullableEnumInteger</param>
-        /// <param name="notrequiredNotnullableEnumInteger">notrequiredNotnullableEnumInteger</param>
-        /// <param name="notrequiredNullableEnumIntegerOnly">notrequiredNullableEnumIntegerOnly</param>
-        /// <param name="notrequiredNotnullableEnumIntegerOnly">notrequiredNotnullableEnumIntegerOnly</param>
-        /// <param name="notrequiredNullableEnumString">notrequiredNullableEnumString</param>
-        /// <param name="notrequiredNotnullableEnumString">notrequiredNotnullableEnumString</param>
-        /// <param name="notrequiredNullableOuterEnumDefaultValue">notrequiredNullableOuterEnumDefaultValue</param>
-        /// <param name="notrequiredNotnullableOuterEnumDefaultValue">notrequiredNotnullableOuterEnumDefaultValue</param>
-        /// <param name="notrequiredNullableUuid">notrequiredNullableUuid</param>
-        /// <param name="notrequiredNotnullableUuid">notrequiredNotnullableUuid</param>
-        /// <param name="notrequiredNullableArrayOfString">notrequiredNullableArrayOfString</param>
-        /// <param name="notrequiredNotnullableArrayOfString">notrequiredNotnullableArrayOfString</param>
         [JsonConstructor]
-        public RequiredClass(int requiredNotnullableintegerProp, string requiredNotnullableStringProp, bool requiredNotnullableBooleanProp, DateOnly requiredNotNullableDateProp, DateTime requiredNotnullableDatetimeProp, RequiredNotnullableEnumIntegerEnum requiredNotnullableEnumInteger, RequiredNotnullableEnumIntegerOnlyEnum requiredNotnullableEnumIntegerOnly, RequiredNotnullableEnumStringEnum requiredNotnullableEnumString, OuterEnumDefaultValue requiredNotnullableOuterEnumDefaultValue, Guid requiredNotnullableUuid, List<string> requiredNotnullableArrayOfString, int? requiredNullableIntegerProp = default, string? requiredNullableStringProp = default, bool? requiredNullableBooleanProp = default, DateOnly? requiredNullableDateProp = default, DateTime? requiredNullableDatetimeProp = default, RequiredNullableEnumIntegerEnum? requiredNullableEnumInteger = default, RequiredNullableEnumIntegerOnlyEnum? requiredNullableEnumIntegerOnly = default, RequiredNullableEnumStringEnum? requiredNullableEnumString = default, OuterEnumDefaultValue? requiredNullableOuterEnumDefaultValue = default, Guid? requiredNullableUuid = default, List<string>? requiredNullableArrayOfString = default, Option<int?> notRequiredNullableIntegerProp = default, Option<int?> notRequiredNotnullableintegerProp = default, Option<string?> notrequiredNullableStringProp = default, Option<string?> notrequiredNotnullableStringProp = default, Option<bool?> notrequiredNullableBooleanProp = default, Option<bool?> notrequiredNotnullableBooleanProp = default, Option<DateOnly?> notRequiredNullableDateProp = default, Option<DateOnly?> notRequiredNotnullableDateProp = default, Option<DateTime?> notrequiredNullableDatetimeProp = default, Option<DateTime?> notrequiredNotnullableDatetimeProp = default, Option<NotrequiredNullableEnumIntegerEnum?> notrequiredNullableEnumInteger = default, Option<NotrequiredNotnullableEnumIntegerEnum?> notrequiredNotnullableEnumInteger = default, Option<NotrequiredNullableEnumIntegerOnlyEnum?> notrequiredNullableEnumIntegerOnly = default, Option<NotrequiredNotnullableEnumIntegerOnlyEnum?> notrequiredNotnullableEnumIntegerOnly = default, Option<NotrequiredNullableEnumStringEnum?> notrequiredNullableEnumString = default, Option<NotrequiredNotnullableEnumStringEnum?> notrequiredNotnullableEnumString = default, Option<OuterEnumDefaultValue?> notrequiredNullableOuterEnumDefaultValue = default, Option<OuterEnumDefaultValue?> notrequiredNotnullableOuterEnumDefaultValue = default, Option<Guid?> notrequiredNullableUuid = default, Option<Guid?> notrequiredNotnullableUuid = default, Option<List<string>?> notrequiredNullableArrayOfString = default, Option<List<string>?> notrequiredNotnullableArrayOfString = default)
+        public RequiredClass(DateOnly requiredNotNullableDateProp, List<string> requiredNotnullableArrayOfString, bool requiredNotnullableBooleanProp, DateTime requiredNotnullableDatetimeProp, RequiredNotnullableEnumIntegerEnum requiredNotnullableEnumInteger, RequiredNotnullableEnumIntegerOnlyEnum requiredNotnullableEnumIntegerOnly, RequiredNotnullableEnumStringEnum requiredNotnullableEnumString, OuterEnumDefaultValue requiredNotnullableOuterEnumDefaultValue, string requiredNotnullableStringProp, Guid requiredNotnullableUuid, int requiredNotnullableintegerProp, Option<DateOnly?> notRequiredNotnullableDateProp = default, Option<int?> notRequiredNotnullableintegerProp = default, Option<DateOnly?> notRequiredNullableDateProp = default, Option<int?> notRequiredNullableIntegerProp = default, Option<List<string>?> notrequiredNotnullableArrayOfString = default, Option<bool?> notrequiredNotnullableBooleanProp = default, Option<DateTime?> notrequiredNotnullableDatetimeProp = default, Option<NotrequiredNotnullableEnumIntegerEnum?> notrequiredNotnullableEnumInteger = default, Option<NotrequiredNotnullableEnumIntegerOnlyEnum?> notrequiredNotnullableEnumIntegerOnly = default, Option<NotrequiredNotnullableEnumStringEnum?> notrequiredNotnullableEnumString = default, Option<OuterEnumDefaultValue?> notrequiredNotnullableOuterEnumDefaultValue = default, Option<string?> notrequiredNotnullableStringProp = default, Option<Guid?> notrequiredNotnullableUuid = default, Option<List<string>?> notrequiredNullableArrayOfString = default, Option<bool?> notrequiredNullableBooleanProp = default, Option<DateTime?> notrequiredNullableDatetimeProp = default, Option<NotrequiredNullableEnumIntegerEnum?> notrequiredNullableEnumInteger = default, Option<NotrequiredNullableEnumIntegerOnlyEnum?> notrequiredNullableEnumIntegerOnly = default, Option<NotrequiredNullableEnumStringEnum?> notrequiredNullableEnumString = default, Option<OuterEnumDefaultValue?> notrequiredNullableOuterEnumDefaultValue = default, Option<string?> notrequiredNullableStringProp = default, Option<Guid?> notrequiredNullableUuid = default, List<string>? requiredNullableArrayOfString = default, bool? requiredNullableBooleanProp = default, DateOnly? requiredNullableDateProp = default, DateTime? requiredNullableDatetimeProp = default, RequiredNullableEnumIntegerEnum? requiredNullableEnumInteger = default, RequiredNullableEnumIntegerOnlyEnum? requiredNullableEnumIntegerOnly = default, RequiredNullableEnumStringEnum? requiredNullableEnumString = default, int? requiredNullableIntegerProp = default, OuterEnumDefaultValue? requiredNullableOuterEnumDefaultValue = default, string? requiredNullableStringProp = default, Guid? requiredNullableUuid = default)
         {
-            RequiredNotnullableintegerProp = requiredNotnullableintegerProp;
-            RequiredNotnullableStringProp = requiredNotnullableStringProp;
-            RequiredNotnullableBooleanProp = requiredNotnullableBooleanProp;
             RequiredNotNullableDateProp = requiredNotNullableDateProp;
+            RequiredNotnullableArrayOfString = requiredNotnullableArrayOfString;
+            RequiredNotnullableBooleanProp = requiredNotnullableBooleanProp;
             RequiredNotnullableDatetimeProp = requiredNotnullableDatetimeProp;
             RequiredNotnullableEnumInteger = requiredNotnullableEnumInteger;
             RequiredNotnullableEnumIntegerOnly = requiredNotnullableEnumIntegerOnly;
             RequiredNotnullableEnumString = requiredNotnullableEnumString;
             RequiredNotnullableOuterEnumDefaultValue = requiredNotnullableOuterEnumDefaultValue;
+            RequiredNotnullableStringProp = requiredNotnullableStringProp;
             RequiredNotnullableUuid = requiredNotnullableUuid;
-            RequiredNotnullableArrayOfString = requiredNotnullableArrayOfString;
-            RequiredNullableIntegerProp = requiredNullableIntegerProp;
-            RequiredNullableStringProp = requiredNullableStringProp;
+            RequiredNotnullableintegerProp = requiredNotnullableintegerProp;
+            NotRequiredNotnullableDatePropOption = notRequiredNotnullableDateProp;
+            NotRequiredNotnullableintegerPropOption = notRequiredNotnullableintegerProp;
+            NotRequiredNullableDatePropOption = notRequiredNullableDateProp;
+            NotRequiredNullableIntegerPropOption = notRequiredNullableIntegerProp;
+            NotrequiredNotnullableArrayOfStringOption = notrequiredNotnullableArrayOfString;
+            NotrequiredNotnullableBooleanPropOption = notrequiredNotnullableBooleanProp;
+            NotrequiredNotnullableDatetimePropOption = notrequiredNotnullableDatetimeProp;
+            NotrequiredNotnullableEnumIntegerOption = notrequiredNotnullableEnumInteger;
+            NotrequiredNotnullableEnumIntegerOnlyOption = notrequiredNotnullableEnumIntegerOnly;
+            NotrequiredNotnullableEnumStringOption = notrequiredNotnullableEnumString;
+            NotrequiredNotnullableOuterEnumDefaultValueOption = notrequiredNotnullableOuterEnumDefaultValue;
+            NotrequiredNotnullableStringPropOption = notrequiredNotnullableStringProp;
+            NotrequiredNotnullableUuidOption = notrequiredNotnullableUuid;
+            NotrequiredNullableArrayOfStringOption = notrequiredNullableArrayOfString;
+            NotrequiredNullableBooleanPropOption = notrequiredNullableBooleanProp;
+            NotrequiredNullableDatetimePropOption = notrequiredNullableDatetimeProp;
+            NotrequiredNullableEnumIntegerOption = notrequiredNullableEnumInteger;
+            NotrequiredNullableEnumIntegerOnlyOption = notrequiredNullableEnumIntegerOnly;
+            NotrequiredNullableEnumStringOption = notrequiredNullableEnumString;
+            NotrequiredNullableOuterEnumDefaultValueOption = notrequiredNullableOuterEnumDefaultValue;
+            NotrequiredNullableStringPropOption = notrequiredNullableStringProp;
+            NotrequiredNullableUuidOption = notrequiredNullableUuid;
+            RequiredNullableArrayOfString = requiredNullableArrayOfString;
             RequiredNullableBooleanProp = requiredNullableBooleanProp;
             RequiredNullableDateProp = requiredNullableDateProp;
             RequiredNullableDatetimeProp = requiredNullableDatetimeProp;
             RequiredNullableEnumInteger = requiredNullableEnumInteger;
             RequiredNullableEnumIntegerOnly = requiredNullableEnumIntegerOnly;
             RequiredNullableEnumString = requiredNullableEnumString;
+            RequiredNullableIntegerProp = requiredNullableIntegerProp;
             RequiredNullableOuterEnumDefaultValue = requiredNullableOuterEnumDefaultValue;
+            RequiredNullableStringProp = requiredNullableStringProp;
             RequiredNullableUuid = requiredNullableUuid;
-            RequiredNullableArrayOfString = requiredNullableArrayOfString;
-            NotRequiredNullableIntegerPropOption = notRequiredNullableIntegerProp;
-            NotRequiredNotnullableintegerPropOption = notRequiredNotnullableintegerProp;
-            NotrequiredNullableStringPropOption = notrequiredNullableStringProp;
-            NotrequiredNotnullableStringPropOption = notrequiredNotnullableStringProp;
-            NotrequiredNullableBooleanPropOption = notrequiredNullableBooleanProp;
-            NotrequiredNotnullableBooleanPropOption = notrequiredNotnullableBooleanProp;
-            NotRequiredNullableDatePropOption = notRequiredNullableDateProp;
-            NotRequiredNotnullableDatePropOption = notRequiredNotnullableDateProp;
-            NotrequiredNullableDatetimePropOption = notrequiredNullableDatetimeProp;
-            NotrequiredNotnullableDatetimePropOption = notrequiredNotnullableDatetimeProp;
-            NotrequiredNullableEnumIntegerOption = notrequiredNullableEnumInteger;
-            NotrequiredNotnullableEnumIntegerOption = notrequiredNotnullableEnumInteger;
-            NotrequiredNullableEnumIntegerOnlyOption = notrequiredNullableEnumIntegerOnly;
-            NotrequiredNotnullableEnumIntegerOnlyOption = notrequiredNotnullableEnumIntegerOnly;
-            NotrequiredNullableEnumStringOption = notrequiredNullableEnumString;
-            NotrequiredNotnullableEnumStringOption = notrequiredNotnullableEnumString;
-            NotrequiredNullableOuterEnumDefaultValueOption = notrequiredNullableOuterEnumDefaultValue;
-            NotrequiredNotnullableOuterEnumDefaultValueOption = notrequiredNotnullableOuterEnumDefaultValue;
-            NotrequiredNullableUuidOption = notrequiredNullableUuid;
-            NotrequiredNotnullableUuidOption = notrequiredNotnullableUuid;
-            NotrequiredNullableArrayOfStringOption = notrequiredNullableArrayOfString;
-            NotrequiredNotnullableArrayOfStringOption = notrequiredNotnullableArrayOfString;
             OnCreated();
         }
 
@@ -424,6 +424,649 @@ namespace Org.OpenAPITools.Model
         public OuterEnumDefaultValue RequiredNotnullableOuterEnumDefaultValue { get; set; }
 
         /// <summary>
+        /// Defines NotrequiredNotnullableEnumInteger
+        /// </summary>
+        public enum NotrequiredNotnullableEnumIntegerEnum
+        {
+            /// <summary>
+            /// Enum NUMBER_1 for value: 1
+            /// </summary>
+            NUMBER_1 = 1,
+
+            /// <summary>
+            /// Enum NUMBER_MINUS_1 for value: -1
+            /// </summary>
+            NUMBER_MINUS_1 = -1
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NotrequiredNotnullableEnumIntegerEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static NotrequiredNotnullableEnumIntegerEnum NotrequiredNotnullableEnumIntegerEnumFromString(string value)
+        {
+            if (value.Equals((1).ToString()))
+                return NotrequiredNotnullableEnumIntegerEnum.NUMBER_1;
+
+            if (value.Equals((-1).ToString()))
+                return NotrequiredNotnullableEnumIntegerEnum.NUMBER_MINUS_1;
+
+            throw new NotImplementedException($"Could not convert value to type NotrequiredNotnullableEnumIntegerEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NotrequiredNotnullableEnumIntegerEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static NotrequiredNotnullableEnumIntegerEnum? NotrequiredNotnullableEnumIntegerEnumFromStringOrDefault(string value)
+        {
+            if (value.Equals((1).ToString()))
+                return NotrequiredNotnullableEnumIntegerEnum.NUMBER_1;
+
+            if (value.Equals((-1).ToString()))
+                return NotrequiredNotnullableEnumIntegerEnum.NUMBER_MINUS_1;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="NotrequiredNotnullableEnumIntegerEnum"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static int NotrequiredNotnullableEnumIntegerEnumToJsonValue(NotrequiredNotnullableEnumIntegerEnum value)
+        {
+            return (int) value;
+        }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNotnullableEnumInteger
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<NotrequiredNotnullableEnumIntegerEnum?> NotrequiredNotnullableEnumIntegerOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNotnullableEnumInteger
+        /// </summary>
+        [JsonPropertyName("notrequired_notnullable_enum_integer")]
+        public NotrequiredNotnullableEnumIntegerEnum? NotrequiredNotnullableEnumInteger { get { return this.NotrequiredNotnullableEnumIntegerOption; } set { this.NotrequiredNotnullableEnumIntegerOption = new(value); } }
+
+        /// <summary>
+        /// Defines NotrequiredNotnullableEnumIntegerOnly
+        /// </summary>
+        public enum NotrequiredNotnullableEnumIntegerOnlyEnum
+        {
+            /// <summary>
+            /// Enum NUMBER_2 for value: 2
+            /// </summary>
+            NUMBER_2 = 2,
+
+            /// <summary>
+            /// Enum NUMBER_MINUS_2 for value: -2
+            /// </summary>
+            NUMBER_MINUS_2 = -2
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NotrequiredNotnullableEnumIntegerOnlyEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static NotrequiredNotnullableEnumIntegerOnlyEnum NotrequiredNotnullableEnumIntegerOnlyEnumFromString(string value)
+        {
+            if (value.Equals((2).ToString()))
+                return NotrequiredNotnullableEnumIntegerOnlyEnum.NUMBER_2;
+
+            if (value.Equals((-2).ToString()))
+                return NotrequiredNotnullableEnumIntegerOnlyEnum.NUMBER_MINUS_2;
+
+            throw new NotImplementedException($"Could not convert value to type NotrequiredNotnullableEnumIntegerOnlyEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NotrequiredNotnullableEnumIntegerOnlyEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static NotrequiredNotnullableEnumIntegerOnlyEnum? NotrequiredNotnullableEnumIntegerOnlyEnumFromStringOrDefault(string value)
+        {
+            if (value.Equals((2).ToString()))
+                return NotrequiredNotnullableEnumIntegerOnlyEnum.NUMBER_2;
+
+            if (value.Equals((-2).ToString()))
+                return NotrequiredNotnullableEnumIntegerOnlyEnum.NUMBER_MINUS_2;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="NotrequiredNotnullableEnumIntegerOnlyEnum"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static int NotrequiredNotnullableEnumIntegerOnlyEnumToJsonValue(NotrequiredNotnullableEnumIntegerOnlyEnum value)
+        {
+            return (int) value;
+        }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNotnullableEnumIntegerOnly
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<NotrequiredNotnullableEnumIntegerOnlyEnum?> NotrequiredNotnullableEnumIntegerOnlyOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNotnullableEnumIntegerOnly
+        /// </summary>
+        [JsonPropertyName("notrequired_notnullable_enum_integer_only")]
+        public NotrequiredNotnullableEnumIntegerOnlyEnum? NotrequiredNotnullableEnumIntegerOnly { get { return this.NotrequiredNotnullableEnumIntegerOnlyOption; } set { this.NotrequiredNotnullableEnumIntegerOnlyOption = new(value); } }
+
+        /// <summary>
+        /// Defines NotrequiredNotnullableEnumString
+        /// </summary>
+        public enum NotrequiredNotnullableEnumStringEnum
+        {
+            /// <summary>
+            /// Enum UPPER for value: UPPER
+            /// </summary>
+            UPPER = 1,
+
+            /// <summary>
+            /// Enum Lower for value: lower
+            /// </summary>
+            Lower = 2,
+
+            /// <summary>
+            /// Enum Empty for value: 
+            /// </summary>
+            Empty = 3,
+
+            /// <summary>
+            /// Enum ValuewithTab for value: Value\twith tab
+            /// </summary>
+            ValuewithTab = 4,
+
+            /// <summary>
+            /// Enum ValueWithQuote for value: Value with \&quot; quote
+            /// </summary>
+            ValueWithQuote = 5,
+
+            /// <summary>
+            /// Enum ValueWithEscapedQuote for value: Value with escaped \&quot; quote
+            /// </summary>
+            ValueWithEscapedQuote = 6,
+
+            /// <summary>
+            /// Enum Duplicatevalue for value: Duplicate\nvalue
+            /// </summary>
+            Duplicatevalue = 7,
+
+            /// <summary>
+            /// Enum Duplicatevalue2 for value: Duplicate\r\nvalue
+            /// </summary>
+            Duplicatevalue2 = 8
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NotrequiredNotnullableEnumStringEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static NotrequiredNotnullableEnumStringEnum NotrequiredNotnullableEnumStringEnumFromString(string value)
+        {
+            if (value.Equals("UPPER"))
+                return NotrequiredNotnullableEnumStringEnum.UPPER;
+
+            if (value.Equals("lower"))
+                return NotrequiredNotnullableEnumStringEnum.Lower;
+
+            if (value.Equals(""))
+                return NotrequiredNotnullableEnumStringEnum.Empty;
+
+            if (value.Equals("Value\twith tab"))
+                return NotrequiredNotnullableEnumStringEnum.ValuewithTab;
+
+            if (value.Equals("Value with \" quote"))
+                return NotrequiredNotnullableEnumStringEnum.ValueWithQuote;
+
+            if (value.Equals("Value with escaped \" quote"))
+                return NotrequiredNotnullableEnumStringEnum.ValueWithEscapedQuote;
+
+            if (value.Equals("Duplicate\nvalue"))
+                return NotrequiredNotnullableEnumStringEnum.Duplicatevalue;
+
+            if (value.Equals("Duplicate\r\nvalue"))
+                return NotrequiredNotnullableEnumStringEnum.Duplicatevalue2;
+
+            throw new NotImplementedException($"Could not convert value to type NotrequiredNotnullableEnumStringEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NotrequiredNotnullableEnumStringEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static NotrequiredNotnullableEnumStringEnum? NotrequiredNotnullableEnumStringEnumFromStringOrDefault(string value)
+        {
+            if (value.Equals("UPPER"))
+                return NotrequiredNotnullableEnumStringEnum.UPPER;
+
+            if (value.Equals("lower"))
+                return NotrequiredNotnullableEnumStringEnum.Lower;
+
+            if (value.Equals(""))
+                return NotrequiredNotnullableEnumStringEnum.Empty;
+
+            if (value.Equals("Value\twith tab"))
+                return NotrequiredNotnullableEnumStringEnum.ValuewithTab;
+
+            if (value.Equals("Value with \" quote"))
+                return NotrequiredNotnullableEnumStringEnum.ValueWithQuote;
+
+            if (value.Equals("Value with escaped \" quote"))
+                return NotrequiredNotnullableEnumStringEnum.ValueWithEscapedQuote;
+
+            if (value.Equals("Duplicate\nvalue"))
+                return NotrequiredNotnullableEnumStringEnum.Duplicatevalue;
+
+            if (value.Equals("Duplicate\r\nvalue"))
+                return NotrequiredNotnullableEnumStringEnum.Duplicatevalue2;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="NotrequiredNotnullableEnumStringEnum"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string NotrequiredNotnullableEnumStringEnumToJsonValue(NotrequiredNotnullableEnumStringEnum? value)
+        {
+            if (value == NotrequiredNotnullableEnumStringEnum.UPPER)
+                return "UPPER";
+
+            if (value == NotrequiredNotnullableEnumStringEnum.Lower)
+                return "lower";
+
+            if (value == NotrequiredNotnullableEnumStringEnum.Empty)
+                return "";
+
+            if (value == NotrequiredNotnullableEnumStringEnum.ValuewithTab)
+                return "Value\twith tab";
+
+            if (value == NotrequiredNotnullableEnumStringEnum.ValueWithQuote)
+                return "Value with \" quote";
+
+            if (value == NotrequiredNotnullableEnumStringEnum.ValueWithEscapedQuote)
+                return "Value with escaped \" quote";
+
+            if (value == NotrequiredNotnullableEnumStringEnum.Duplicatevalue)
+                return "Duplicate\nvalue";
+
+            if (value == NotrequiredNotnullableEnumStringEnum.Duplicatevalue2)
+                return "Duplicate\r\nvalue";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+        }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNotnullableEnumString
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<NotrequiredNotnullableEnumStringEnum?> NotrequiredNotnullableEnumStringOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNotnullableEnumString
+        /// </summary>
+        [JsonPropertyName("notrequired_notnullable_enum_string")]
+        public NotrequiredNotnullableEnumStringEnum? NotrequiredNotnullableEnumString { get { return this.NotrequiredNotnullableEnumStringOption; } set { this.NotrequiredNotnullableEnumStringOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNotnullableOuterEnumDefaultValue
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<OuterEnumDefaultValue?> NotrequiredNotnullableOuterEnumDefaultValueOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNotnullableOuterEnumDefaultValue
+        /// </summary>
+        [JsonPropertyName("notrequired_notnullable_outerEnumDefaultValue")]
+        public OuterEnumDefaultValue? NotrequiredNotnullableOuterEnumDefaultValue { get { return this.NotrequiredNotnullableOuterEnumDefaultValueOption; } set { this.NotrequiredNotnullableOuterEnumDefaultValueOption = new(value); } }
+
+        /// <summary>
+        /// Defines NotrequiredNullableEnumInteger
+        /// </summary>
+        public enum NotrequiredNullableEnumIntegerEnum
+        {
+            /// <summary>
+            /// Enum NUMBER_1 for value: 1
+            /// </summary>
+            NUMBER_1 = 1,
+
+            /// <summary>
+            /// Enum NUMBER_MINUS_1 for value: -1
+            /// </summary>
+            NUMBER_MINUS_1 = -1
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NotrequiredNullableEnumIntegerEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static NotrequiredNullableEnumIntegerEnum NotrequiredNullableEnumIntegerEnumFromString(string value)
+        {
+            if (value.Equals((1).ToString()))
+                return NotrequiredNullableEnumIntegerEnum.NUMBER_1;
+
+            if (value.Equals((-1).ToString()))
+                return NotrequiredNullableEnumIntegerEnum.NUMBER_MINUS_1;
+
+            throw new NotImplementedException($"Could not convert value to type NotrequiredNullableEnumIntegerEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NotrequiredNullableEnumIntegerEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static NotrequiredNullableEnumIntegerEnum? NotrequiredNullableEnumIntegerEnumFromStringOrDefault(string value)
+        {
+            if (value.Equals((1).ToString()))
+                return NotrequiredNullableEnumIntegerEnum.NUMBER_1;
+
+            if (value.Equals((-1).ToString()))
+                return NotrequiredNullableEnumIntegerEnum.NUMBER_MINUS_1;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="NotrequiredNullableEnumIntegerEnum"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static int NotrequiredNullableEnumIntegerEnumToJsonValue(NotrequiredNullableEnumIntegerEnum value)
+        {
+            return (int) value;
+        }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNullableEnumInteger
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<NotrequiredNullableEnumIntegerEnum?> NotrequiredNullableEnumIntegerOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNullableEnumInteger
+        /// </summary>
+        [JsonPropertyName("notrequired_nullable_enum_integer")]
+        public NotrequiredNullableEnumIntegerEnum? NotrequiredNullableEnumInteger { get { return this.NotrequiredNullableEnumIntegerOption; } set { this.NotrequiredNullableEnumIntegerOption = new(value); } }
+
+        /// <summary>
+        /// Defines NotrequiredNullableEnumIntegerOnly
+        /// </summary>
+        public enum NotrequiredNullableEnumIntegerOnlyEnum
+        {
+            /// <summary>
+            /// Enum NUMBER_2 for value: 2
+            /// </summary>
+            NUMBER_2 = 2,
+
+            /// <summary>
+            /// Enum NUMBER_MINUS_2 for value: -2
+            /// </summary>
+            NUMBER_MINUS_2 = -2
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NotrequiredNullableEnumIntegerOnlyEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static NotrequiredNullableEnumIntegerOnlyEnum NotrequiredNullableEnumIntegerOnlyEnumFromString(string value)
+        {
+            if (value.Equals((2).ToString()))
+                return NotrequiredNullableEnumIntegerOnlyEnum.NUMBER_2;
+
+            if (value.Equals((-2).ToString()))
+                return NotrequiredNullableEnumIntegerOnlyEnum.NUMBER_MINUS_2;
+
+            throw new NotImplementedException($"Could not convert value to type NotrequiredNullableEnumIntegerOnlyEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NotrequiredNullableEnumIntegerOnlyEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static NotrequiredNullableEnumIntegerOnlyEnum? NotrequiredNullableEnumIntegerOnlyEnumFromStringOrDefault(string value)
+        {
+            if (value.Equals((2).ToString()))
+                return NotrequiredNullableEnumIntegerOnlyEnum.NUMBER_2;
+
+            if (value.Equals((-2).ToString()))
+                return NotrequiredNullableEnumIntegerOnlyEnum.NUMBER_MINUS_2;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="NotrequiredNullableEnumIntegerOnlyEnum"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static int NotrequiredNullableEnumIntegerOnlyEnumToJsonValue(NotrequiredNullableEnumIntegerOnlyEnum value)
+        {
+            return (int) value;
+        }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNullableEnumIntegerOnly
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<NotrequiredNullableEnumIntegerOnlyEnum?> NotrequiredNullableEnumIntegerOnlyOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNullableEnumIntegerOnly
+        /// </summary>
+        [JsonPropertyName("notrequired_nullable_enum_integer_only")]
+        public NotrequiredNullableEnumIntegerOnlyEnum? NotrequiredNullableEnumIntegerOnly { get { return this.NotrequiredNullableEnumIntegerOnlyOption; } set { this.NotrequiredNullableEnumIntegerOnlyOption = new(value); } }
+
+        /// <summary>
+        /// Defines NotrequiredNullableEnumString
+        /// </summary>
+        public enum NotrequiredNullableEnumStringEnum
+        {
+            /// <summary>
+            /// Enum UPPER for value: UPPER
+            /// </summary>
+            UPPER = 1,
+
+            /// <summary>
+            /// Enum Lower for value: lower
+            /// </summary>
+            Lower = 2,
+
+            /// <summary>
+            /// Enum Empty for value: 
+            /// </summary>
+            Empty = 3,
+
+            /// <summary>
+            /// Enum ValuewithTab for value: Value\twith tab
+            /// </summary>
+            ValuewithTab = 4,
+
+            /// <summary>
+            /// Enum ValueWithQuote for value: Value with \&quot; quote
+            /// </summary>
+            ValueWithQuote = 5,
+
+            /// <summary>
+            /// Enum ValueWithEscapedQuote for value: Value with escaped \&quot; quote
+            /// </summary>
+            ValueWithEscapedQuote = 6,
+
+            /// <summary>
+            /// Enum Duplicatevalue for value: Duplicate\nvalue
+            /// </summary>
+            Duplicatevalue = 7,
+
+            /// <summary>
+            /// Enum Duplicatevalue2 for value: Duplicate\r\nvalue
+            /// </summary>
+            Duplicatevalue2 = 8
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NotrequiredNullableEnumStringEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static NotrequiredNullableEnumStringEnum NotrequiredNullableEnumStringEnumFromString(string value)
+        {
+            if (value.Equals("UPPER"))
+                return NotrequiredNullableEnumStringEnum.UPPER;
+
+            if (value.Equals("lower"))
+                return NotrequiredNullableEnumStringEnum.Lower;
+
+            if (value.Equals(""))
+                return NotrequiredNullableEnumStringEnum.Empty;
+
+            if (value.Equals("Value\twith tab"))
+                return NotrequiredNullableEnumStringEnum.ValuewithTab;
+
+            if (value.Equals("Value with \" quote"))
+                return NotrequiredNullableEnumStringEnum.ValueWithQuote;
+
+            if (value.Equals("Value with escaped \" quote"))
+                return NotrequiredNullableEnumStringEnum.ValueWithEscapedQuote;
+
+            if (value.Equals("Duplicate\nvalue"))
+                return NotrequiredNullableEnumStringEnum.Duplicatevalue;
+
+            if (value.Equals("Duplicate\r\nvalue"))
+                return NotrequiredNullableEnumStringEnum.Duplicatevalue2;
+
+            throw new NotImplementedException($"Could not convert value to type NotrequiredNullableEnumStringEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NotrequiredNullableEnumStringEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static NotrequiredNullableEnumStringEnum? NotrequiredNullableEnumStringEnumFromStringOrDefault(string value)
+        {
+            if (value.Equals("UPPER"))
+                return NotrequiredNullableEnumStringEnum.UPPER;
+
+            if (value.Equals("lower"))
+                return NotrequiredNullableEnumStringEnum.Lower;
+
+            if (value.Equals(""))
+                return NotrequiredNullableEnumStringEnum.Empty;
+
+            if (value.Equals("Value\twith tab"))
+                return NotrequiredNullableEnumStringEnum.ValuewithTab;
+
+            if (value.Equals("Value with \" quote"))
+                return NotrequiredNullableEnumStringEnum.ValueWithQuote;
+
+            if (value.Equals("Value with escaped \" quote"))
+                return NotrequiredNullableEnumStringEnum.ValueWithEscapedQuote;
+
+            if (value.Equals("Duplicate\nvalue"))
+                return NotrequiredNullableEnumStringEnum.Duplicatevalue;
+
+            if (value.Equals("Duplicate\r\nvalue"))
+                return NotrequiredNullableEnumStringEnum.Duplicatevalue2;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="NotrequiredNullableEnumStringEnum"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string? NotrequiredNullableEnumStringEnumToJsonValue(NotrequiredNullableEnumStringEnum? value)
+        {
+            if (value == null)
+                return null;
+
+            if (value == NotrequiredNullableEnumStringEnum.UPPER)
+                return "UPPER";
+
+            if (value == NotrequiredNullableEnumStringEnum.Lower)
+                return "lower";
+
+            if (value == NotrequiredNullableEnumStringEnum.Empty)
+                return "";
+
+            if (value == NotrequiredNullableEnumStringEnum.ValuewithTab)
+                return "Value\twith tab";
+
+            if (value == NotrequiredNullableEnumStringEnum.ValueWithQuote)
+                return "Value with \" quote";
+
+            if (value == NotrequiredNullableEnumStringEnum.ValueWithEscapedQuote)
+                return "Value with escaped \" quote";
+
+            if (value == NotrequiredNullableEnumStringEnum.Duplicatevalue)
+                return "Duplicate\nvalue";
+
+            if (value == NotrequiredNullableEnumStringEnum.Duplicatevalue2)
+                return "Duplicate\r\nvalue";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
+        }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNullableEnumString
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<NotrequiredNullableEnumStringEnum?> NotrequiredNullableEnumStringOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNullableEnumString
+        /// </summary>
+        [JsonPropertyName("notrequired_nullable_enum_string")]
+        public NotrequiredNullableEnumStringEnum? NotrequiredNullableEnumString { get { return this.NotrequiredNullableEnumStringOption; } set { this.NotrequiredNullableEnumStringOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNullableOuterEnumDefaultValue
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<OuterEnumDefaultValue?> NotrequiredNullableOuterEnumDefaultValueOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNullableOuterEnumDefaultValue
+        /// </summary>
+        [JsonPropertyName("notrequired_nullable_outerEnumDefaultValue")]
+        public OuterEnumDefaultValue? NotrequiredNullableOuterEnumDefaultValue { get { return this.NotrequiredNullableOuterEnumDefaultValueOption; } set { this.NotrequiredNullableOuterEnumDefaultValueOption = new(value); } }
+
+        /// <summary>
         /// Defines RequiredNullableEnumInteger
         /// </summary>
         public enum RequiredNullableEnumIntegerEnum
@@ -719,659 +1362,16 @@ namespace Org.OpenAPITools.Model
         public OuterEnumDefaultValue? RequiredNullableOuterEnumDefaultValue { get; set; }
 
         /// <summary>
-        /// Defines NotrequiredNullableEnumInteger
+        /// Gets or Sets RequiredNotNullableDateProp
         /// </summary>
-        public enum NotrequiredNullableEnumIntegerEnum
-        {
-            /// <summary>
-            /// Enum NUMBER_1 for value: 1
-            /// </summary>
-            NUMBER_1 = 1,
-
-            /// <summary>
-            /// Enum NUMBER_MINUS_1 for value: -1
-            /// </summary>
-            NUMBER_MINUS_1 = -1
-        }
+        [JsonPropertyName("required_not_nullable_date_prop")]
+        public DateOnly RequiredNotNullableDateProp { get; set; }
 
         /// <summary>
-        /// Returns a <see cref="NotrequiredNullableEnumIntegerEnum"/>
+        /// Gets or Sets RequiredNotnullableArrayOfString
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static NotrequiredNullableEnumIntegerEnum NotrequiredNullableEnumIntegerEnumFromString(string value)
-        {
-            if (value.Equals((1).ToString()))
-                return NotrequiredNullableEnumIntegerEnum.NUMBER_1;
-
-            if (value.Equals((-1).ToString()))
-                return NotrequiredNullableEnumIntegerEnum.NUMBER_MINUS_1;
-
-            throw new NotImplementedException($"Could not convert value to type NotrequiredNullableEnumIntegerEnum: '{value}'");
-        }
-
-        /// <summary>
-        /// Returns a <see cref="NotrequiredNullableEnumIntegerEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static NotrequiredNullableEnumIntegerEnum? NotrequiredNullableEnumIntegerEnumFromStringOrDefault(string value)
-        {
-            if (value.Equals((1).ToString()))
-                return NotrequiredNullableEnumIntegerEnum.NUMBER_1;
-
-            if (value.Equals((-1).ToString()))
-                return NotrequiredNullableEnumIntegerEnum.NUMBER_MINUS_1;
-
-            return null;
-        }
-
-        /// <summary>
-        /// Converts the <see cref="NotrequiredNullableEnumIntegerEnum"/> to the json value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static int NotrequiredNullableEnumIntegerEnumToJsonValue(NotrequiredNullableEnumIntegerEnum value)
-        {
-            return (int) value;
-        }
-
-        /// <summary>
-        /// Used to track the state of NotrequiredNullableEnumInteger
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<NotrequiredNullableEnumIntegerEnum?> NotrequiredNullableEnumIntegerOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNullableEnumInteger
-        /// </summary>
-        [JsonPropertyName("notrequired_nullable_enum_integer")]
-        public NotrequiredNullableEnumIntegerEnum? NotrequiredNullableEnumInteger { get { return this.NotrequiredNullableEnumIntegerOption; } set { this.NotrequiredNullableEnumIntegerOption = new(value); } }
-
-        /// <summary>
-        /// Defines NotrequiredNotnullableEnumInteger
-        /// </summary>
-        public enum NotrequiredNotnullableEnumIntegerEnum
-        {
-            /// <summary>
-            /// Enum NUMBER_1 for value: 1
-            /// </summary>
-            NUMBER_1 = 1,
-
-            /// <summary>
-            /// Enum NUMBER_MINUS_1 for value: -1
-            /// </summary>
-            NUMBER_MINUS_1 = -1
-        }
-
-        /// <summary>
-        /// Returns a <see cref="NotrequiredNotnullableEnumIntegerEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static NotrequiredNotnullableEnumIntegerEnum NotrequiredNotnullableEnumIntegerEnumFromString(string value)
-        {
-            if (value.Equals((1).ToString()))
-                return NotrequiredNotnullableEnumIntegerEnum.NUMBER_1;
-
-            if (value.Equals((-1).ToString()))
-                return NotrequiredNotnullableEnumIntegerEnum.NUMBER_MINUS_1;
-
-            throw new NotImplementedException($"Could not convert value to type NotrequiredNotnullableEnumIntegerEnum: '{value}'");
-        }
-
-        /// <summary>
-        /// Returns a <see cref="NotrequiredNotnullableEnumIntegerEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static NotrequiredNotnullableEnumIntegerEnum? NotrequiredNotnullableEnumIntegerEnumFromStringOrDefault(string value)
-        {
-            if (value.Equals((1).ToString()))
-                return NotrequiredNotnullableEnumIntegerEnum.NUMBER_1;
-
-            if (value.Equals((-1).ToString()))
-                return NotrequiredNotnullableEnumIntegerEnum.NUMBER_MINUS_1;
-
-            return null;
-        }
-
-        /// <summary>
-        /// Converts the <see cref="NotrequiredNotnullableEnumIntegerEnum"/> to the json value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static int NotrequiredNotnullableEnumIntegerEnumToJsonValue(NotrequiredNotnullableEnumIntegerEnum value)
-        {
-            return (int) value;
-        }
-
-        /// <summary>
-        /// Used to track the state of NotrequiredNotnullableEnumInteger
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<NotrequiredNotnullableEnumIntegerEnum?> NotrequiredNotnullableEnumIntegerOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNotnullableEnumInteger
-        /// </summary>
-        [JsonPropertyName("notrequired_notnullable_enum_integer")]
-        public NotrequiredNotnullableEnumIntegerEnum? NotrequiredNotnullableEnumInteger { get { return this.NotrequiredNotnullableEnumIntegerOption; } set { this.NotrequiredNotnullableEnumIntegerOption = new(value); } }
-
-        /// <summary>
-        /// Defines NotrequiredNullableEnumIntegerOnly
-        /// </summary>
-        public enum NotrequiredNullableEnumIntegerOnlyEnum
-        {
-            /// <summary>
-            /// Enum NUMBER_2 for value: 2
-            /// </summary>
-            NUMBER_2 = 2,
-
-            /// <summary>
-            /// Enum NUMBER_MINUS_2 for value: -2
-            /// </summary>
-            NUMBER_MINUS_2 = -2
-        }
-
-        /// <summary>
-        /// Returns a <see cref="NotrequiredNullableEnumIntegerOnlyEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static NotrequiredNullableEnumIntegerOnlyEnum NotrequiredNullableEnumIntegerOnlyEnumFromString(string value)
-        {
-            if (value.Equals((2).ToString()))
-                return NotrequiredNullableEnumIntegerOnlyEnum.NUMBER_2;
-
-            if (value.Equals((-2).ToString()))
-                return NotrequiredNullableEnumIntegerOnlyEnum.NUMBER_MINUS_2;
-
-            throw new NotImplementedException($"Could not convert value to type NotrequiredNullableEnumIntegerOnlyEnum: '{value}'");
-        }
-
-        /// <summary>
-        /// Returns a <see cref="NotrequiredNullableEnumIntegerOnlyEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static NotrequiredNullableEnumIntegerOnlyEnum? NotrequiredNullableEnumIntegerOnlyEnumFromStringOrDefault(string value)
-        {
-            if (value.Equals((2).ToString()))
-                return NotrequiredNullableEnumIntegerOnlyEnum.NUMBER_2;
-
-            if (value.Equals((-2).ToString()))
-                return NotrequiredNullableEnumIntegerOnlyEnum.NUMBER_MINUS_2;
-
-            return null;
-        }
-
-        /// <summary>
-        /// Converts the <see cref="NotrequiredNullableEnumIntegerOnlyEnum"/> to the json value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static int NotrequiredNullableEnumIntegerOnlyEnumToJsonValue(NotrequiredNullableEnumIntegerOnlyEnum value)
-        {
-            return (int) value;
-        }
-
-        /// <summary>
-        /// Used to track the state of NotrequiredNullableEnumIntegerOnly
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<NotrequiredNullableEnumIntegerOnlyEnum?> NotrequiredNullableEnumIntegerOnlyOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNullableEnumIntegerOnly
-        /// </summary>
-        [JsonPropertyName("notrequired_nullable_enum_integer_only")]
-        public NotrequiredNullableEnumIntegerOnlyEnum? NotrequiredNullableEnumIntegerOnly { get { return this.NotrequiredNullableEnumIntegerOnlyOption; } set { this.NotrequiredNullableEnumIntegerOnlyOption = new(value); } }
-
-        /// <summary>
-        /// Defines NotrequiredNotnullableEnumIntegerOnly
-        /// </summary>
-        public enum NotrequiredNotnullableEnumIntegerOnlyEnum
-        {
-            /// <summary>
-            /// Enum NUMBER_2 for value: 2
-            /// </summary>
-            NUMBER_2 = 2,
-
-            /// <summary>
-            /// Enum NUMBER_MINUS_2 for value: -2
-            /// </summary>
-            NUMBER_MINUS_2 = -2
-        }
-
-        /// <summary>
-        /// Returns a <see cref="NotrequiredNotnullableEnumIntegerOnlyEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static NotrequiredNotnullableEnumIntegerOnlyEnum NotrequiredNotnullableEnumIntegerOnlyEnumFromString(string value)
-        {
-            if (value.Equals((2).ToString()))
-                return NotrequiredNotnullableEnumIntegerOnlyEnum.NUMBER_2;
-
-            if (value.Equals((-2).ToString()))
-                return NotrequiredNotnullableEnumIntegerOnlyEnum.NUMBER_MINUS_2;
-
-            throw new NotImplementedException($"Could not convert value to type NotrequiredNotnullableEnumIntegerOnlyEnum: '{value}'");
-        }
-
-        /// <summary>
-        /// Returns a <see cref="NotrequiredNotnullableEnumIntegerOnlyEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static NotrequiredNotnullableEnumIntegerOnlyEnum? NotrequiredNotnullableEnumIntegerOnlyEnumFromStringOrDefault(string value)
-        {
-            if (value.Equals((2).ToString()))
-                return NotrequiredNotnullableEnumIntegerOnlyEnum.NUMBER_2;
-
-            if (value.Equals((-2).ToString()))
-                return NotrequiredNotnullableEnumIntegerOnlyEnum.NUMBER_MINUS_2;
-
-            return null;
-        }
-
-        /// <summary>
-        /// Converts the <see cref="NotrequiredNotnullableEnumIntegerOnlyEnum"/> to the json value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static int NotrequiredNotnullableEnumIntegerOnlyEnumToJsonValue(NotrequiredNotnullableEnumIntegerOnlyEnum value)
-        {
-            return (int) value;
-        }
-
-        /// <summary>
-        /// Used to track the state of NotrequiredNotnullableEnumIntegerOnly
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<NotrequiredNotnullableEnumIntegerOnlyEnum?> NotrequiredNotnullableEnumIntegerOnlyOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNotnullableEnumIntegerOnly
-        /// </summary>
-        [JsonPropertyName("notrequired_notnullable_enum_integer_only")]
-        public NotrequiredNotnullableEnumIntegerOnlyEnum? NotrequiredNotnullableEnumIntegerOnly { get { return this.NotrequiredNotnullableEnumIntegerOnlyOption; } set { this.NotrequiredNotnullableEnumIntegerOnlyOption = new(value); } }
-
-        /// <summary>
-        /// Defines NotrequiredNullableEnumString
-        /// </summary>
-        public enum NotrequiredNullableEnumStringEnum
-        {
-            /// <summary>
-            /// Enum UPPER for value: UPPER
-            /// </summary>
-            UPPER = 1,
-
-            /// <summary>
-            /// Enum Lower for value: lower
-            /// </summary>
-            Lower = 2,
-
-            /// <summary>
-            /// Enum Empty for value: 
-            /// </summary>
-            Empty = 3,
-
-            /// <summary>
-            /// Enum ValuewithTab for value: Value\twith tab
-            /// </summary>
-            ValuewithTab = 4,
-
-            /// <summary>
-            /// Enum ValueWithQuote for value: Value with \&quot; quote
-            /// </summary>
-            ValueWithQuote = 5,
-
-            /// <summary>
-            /// Enum ValueWithEscapedQuote for value: Value with escaped \&quot; quote
-            /// </summary>
-            ValueWithEscapedQuote = 6,
-
-            /// <summary>
-            /// Enum Duplicatevalue for value: Duplicate\nvalue
-            /// </summary>
-            Duplicatevalue = 7,
-
-            /// <summary>
-            /// Enum Duplicatevalue2 for value: Duplicate\r\nvalue
-            /// </summary>
-            Duplicatevalue2 = 8
-        }
-
-        /// <summary>
-        /// Returns a <see cref="NotrequiredNullableEnumStringEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static NotrequiredNullableEnumStringEnum NotrequiredNullableEnumStringEnumFromString(string value)
-        {
-            if (value.Equals("UPPER"))
-                return NotrequiredNullableEnumStringEnum.UPPER;
-
-            if (value.Equals("lower"))
-                return NotrequiredNullableEnumStringEnum.Lower;
-
-            if (value.Equals(""))
-                return NotrequiredNullableEnumStringEnum.Empty;
-
-            if (value.Equals("Value\twith tab"))
-                return NotrequiredNullableEnumStringEnum.ValuewithTab;
-
-            if (value.Equals("Value with \" quote"))
-                return NotrequiredNullableEnumStringEnum.ValueWithQuote;
-
-            if (value.Equals("Value with escaped \" quote"))
-                return NotrequiredNullableEnumStringEnum.ValueWithEscapedQuote;
-
-            if (value.Equals("Duplicate\nvalue"))
-                return NotrequiredNullableEnumStringEnum.Duplicatevalue;
-
-            if (value.Equals("Duplicate\r\nvalue"))
-                return NotrequiredNullableEnumStringEnum.Duplicatevalue2;
-
-            throw new NotImplementedException($"Could not convert value to type NotrequiredNullableEnumStringEnum: '{value}'");
-        }
-
-        /// <summary>
-        /// Returns a <see cref="NotrequiredNullableEnumStringEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static NotrequiredNullableEnumStringEnum? NotrequiredNullableEnumStringEnumFromStringOrDefault(string value)
-        {
-            if (value.Equals("UPPER"))
-                return NotrequiredNullableEnumStringEnum.UPPER;
-
-            if (value.Equals("lower"))
-                return NotrequiredNullableEnumStringEnum.Lower;
-
-            if (value.Equals(""))
-                return NotrequiredNullableEnumStringEnum.Empty;
-
-            if (value.Equals("Value\twith tab"))
-                return NotrequiredNullableEnumStringEnum.ValuewithTab;
-
-            if (value.Equals("Value with \" quote"))
-                return NotrequiredNullableEnumStringEnum.ValueWithQuote;
-
-            if (value.Equals("Value with escaped \" quote"))
-                return NotrequiredNullableEnumStringEnum.ValueWithEscapedQuote;
-
-            if (value.Equals("Duplicate\nvalue"))
-                return NotrequiredNullableEnumStringEnum.Duplicatevalue;
-
-            if (value.Equals("Duplicate\r\nvalue"))
-                return NotrequiredNullableEnumStringEnum.Duplicatevalue2;
-
-            return null;
-        }
-
-        /// <summary>
-        /// Converts the <see cref="NotrequiredNullableEnumStringEnum"/> to the json value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static string? NotrequiredNullableEnumStringEnumToJsonValue(NotrequiredNullableEnumStringEnum? value)
-        {
-            if (value == null)
-                return null;
-
-            if (value == NotrequiredNullableEnumStringEnum.UPPER)
-                return "UPPER";
-
-            if (value == NotrequiredNullableEnumStringEnum.Lower)
-                return "lower";
-
-            if (value == NotrequiredNullableEnumStringEnum.Empty)
-                return "";
-
-            if (value == NotrequiredNullableEnumStringEnum.ValuewithTab)
-                return "Value\twith tab";
-
-            if (value == NotrequiredNullableEnumStringEnum.ValueWithQuote)
-                return "Value with \" quote";
-
-            if (value == NotrequiredNullableEnumStringEnum.ValueWithEscapedQuote)
-                return "Value with escaped \" quote";
-
-            if (value == NotrequiredNullableEnumStringEnum.Duplicatevalue)
-                return "Duplicate\nvalue";
-
-            if (value == NotrequiredNullableEnumStringEnum.Duplicatevalue2)
-                return "Duplicate\r\nvalue";
-
-            throw new NotImplementedException($"Value could not be handled: '{value}'");
-        }
-
-        /// <summary>
-        /// Used to track the state of NotrequiredNullableEnumString
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<NotrequiredNullableEnumStringEnum?> NotrequiredNullableEnumStringOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNullableEnumString
-        /// </summary>
-        [JsonPropertyName("notrequired_nullable_enum_string")]
-        public NotrequiredNullableEnumStringEnum? NotrequiredNullableEnumString { get { return this.NotrequiredNullableEnumStringOption; } set { this.NotrequiredNullableEnumStringOption = new(value); } }
-
-        /// <summary>
-        /// Defines NotrequiredNotnullableEnumString
-        /// </summary>
-        public enum NotrequiredNotnullableEnumStringEnum
-        {
-            /// <summary>
-            /// Enum UPPER for value: UPPER
-            /// </summary>
-            UPPER = 1,
-
-            /// <summary>
-            /// Enum Lower for value: lower
-            /// </summary>
-            Lower = 2,
-
-            /// <summary>
-            /// Enum Empty for value: 
-            /// </summary>
-            Empty = 3,
-
-            /// <summary>
-            /// Enum ValuewithTab for value: Value\twith tab
-            /// </summary>
-            ValuewithTab = 4,
-
-            /// <summary>
-            /// Enum ValueWithQuote for value: Value with \&quot; quote
-            /// </summary>
-            ValueWithQuote = 5,
-
-            /// <summary>
-            /// Enum ValueWithEscapedQuote for value: Value with escaped \&quot; quote
-            /// </summary>
-            ValueWithEscapedQuote = 6,
-
-            /// <summary>
-            /// Enum Duplicatevalue for value: Duplicate\nvalue
-            /// </summary>
-            Duplicatevalue = 7,
-
-            /// <summary>
-            /// Enum Duplicatevalue2 for value: Duplicate\r\nvalue
-            /// </summary>
-            Duplicatevalue2 = 8
-        }
-
-        /// <summary>
-        /// Returns a <see cref="NotrequiredNotnullableEnumStringEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static NotrequiredNotnullableEnumStringEnum NotrequiredNotnullableEnumStringEnumFromString(string value)
-        {
-            if (value.Equals("UPPER"))
-                return NotrequiredNotnullableEnumStringEnum.UPPER;
-
-            if (value.Equals("lower"))
-                return NotrequiredNotnullableEnumStringEnum.Lower;
-
-            if (value.Equals(""))
-                return NotrequiredNotnullableEnumStringEnum.Empty;
-
-            if (value.Equals("Value\twith tab"))
-                return NotrequiredNotnullableEnumStringEnum.ValuewithTab;
-
-            if (value.Equals("Value with \" quote"))
-                return NotrequiredNotnullableEnumStringEnum.ValueWithQuote;
-
-            if (value.Equals("Value with escaped \" quote"))
-                return NotrequiredNotnullableEnumStringEnum.ValueWithEscapedQuote;
-
-            if (value.Equals("Duplicate\nvalue"))
-                return NotrequiredNotnullableEnumStringEnum.Duplicatevalue;
-
-            if (value.Equals("Duplicate\r\nvalue"))
-                return NotrequiredNotnullableEnumStringEnum.Duplicatevalue2;
-
-            throw new NotImplementedException($"Could not convert value to type NotrequiredNotnullableEnumStringEnum: '{value}'");
-        }
-
-        /// <summary>
-        /// Returns a <see cref="NotrequiredNotnullableEnumStringEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static NotrequiredNotnullableEnumStringEnum? NotrequiredNotnullableEnumStringEnumFromStringOrDefault(string value)
-        {
-            if (value.Equals("UPPER"))
-                return NotrequiredNotnullableEnumStringEnum.UPPER;
-
-            if (value.Equals("lower"))
-                return NotrequiredNotnullableEnumStringEnum.Lower;
-
-            if (value.Equals(""))
-                return NotrequiredNotnullableEnumStringEnum.Empty;
-
-            if (value.Equals("Value\twith tab"))
-                return NotrequiredNotnullableEnumStringEnum.ValuewithTab;
-
-            if (value.Equals("Value with \" quote"))
-                return NotrequiredNotnullableEnumStringEnum.ValueWithQuote;
-
-            if (value.Equals("Value with escaped \" quote"))
-                return NotrequiredNotnullableEnumStringEnum.ValueWithEscapedQuote;
-
-            if (value.Equals("Duplicate\nvalue"))
-                return NotrequiredNotnullableEnumStringEnum.Duplicatevalue;
-
-            if (value.Equals("Duplicate\r\nvalue"))
-                return NotrequiredNotnullableEnumStringEnum.Duplicatevalue2;
-
-            return null;
-        }
-
-        /// <summary>
-        /// Converts the <see cref="NotrequiredNotnullableEnumStringEnum"/> to the json value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static string NotrequiredNotnullableEnumStringEnumToJsonValue(NotrequiredNotnullableEnumStringEnum? value)
-        {
-            if (value == NotrequiredNotnullableEnumStringEnum.UPPER)
-                return "UPPER";
-
-            if (value == NotrequiredNotnullableEnumStringEnum.Lower)
-                return "lower";
-
-            if (value == NotrequiredNotnullableEnumStringEnum.Empty)
-                return "";
-
-            if (value == NotrequiredNotnullableEnumStringEnum.ValuewithTab)
-                return "Value\twith tab";
-
-            if (value == NotrequiredNotnullableEnumStringEnum.ValueWithQuote)
-                return "Value with \" quote";
-
-            if (value == NotrequiredNotnullableEnumStringEnum.ValueWithEscapedQuote)
-                return "Value with escaped \" quote";
-
-            if (value == NotrequiredNotnullableEnumStringEnum.Duplicatevalue)
-                return "Duplicate\nvalue";
-
-            if (value == NotrequiredNotnullableEnumStringEnum.Duplicatevalue2)
-                return "Duplicate\r\nvalue";
-
-            throw new NotImplementedException($"Value could not be handled: '{value}'");
-        }
-
-        /// <summary>
-        /// Used to track the state of NotrequiredNotnullableEnumString
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<NotrequiredNotnullableEnumStringEnum?> NotrequiredNotnullableEnumStringOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNotnullableEnumString
-        /// </summary>
-        [JsonPropertyName("notrequired_notnullable_enum_string")]
-        public NotrequiredNotnullableEnumStringEnum? NotrequiredNotnullableEnumString { get { return this.NotrequiredNotnullableEnumStringOption; } set { this.NotrequiredNotnullableEnumStringOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of NotrequiredNullableOuterEnumDefaultValue
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<OuterEnumDefaultValue?> NotrequiredNullableOuterEnumDefaultValueOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNullableOuterEnumDefaultValue
-        /// </summary>
-        [JsonPropertyName("notrequired_nullable_outerEnumDefaultValue")]
-        public OuterEnumDefaultValue? NotrequiredNullableOuterEnumDefaultValue { get { return this.NotrequiredNullableOuterEnumDefaultValueOption; } set { this.NotrequiredNullableOuterEnumDefaultValueOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of NotrequiredNotnullableOuterEnumDefaultValue
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<OuterEnumDefaultValue?> NotrequiredNotnullableOuterEnumDefaultValueOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNotnullableOuterEnumDefaultValue
-        /// </summary>
-        [JsonPropertyName("notrequired_notnullable_outerEnumDefaultValue")]
-        public OuterEnumDefaultValue? NotrequiredNotnullableOuterEnumDefaultValue { get { return this.NotrequiredNotnullableOuterEnumDefaultValueOption; } set { this.NotrequiredNotnullableOuterEnumDefaultValueOption = new(value); } }
-
-        /// <summary>
-        /// Gets or Sets RequiredNotnullableintegerProp
-        /// </summary>
-        [JsonPropertyName("required_notnullableinteger_prop")]
-        public int RequiredNotnullableintegerProp { get; set; }
-
-        /// <summary>
-        /// Gets or Sets RequiredNotnullableStringProp
-        /// </summary>
-        [JsonPropertyName("required_notnullable_string_prop")]
-        public string RequiredNotnullableStringProp { get; set; }
+        [JsonPropertyName("required_notnullable_array_of_string")]
+        public List<string> RequiredNotnullableArrayOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableBooleanProp
@@ -1380,16 +1380,16 @@ namespace Org.OpenAPITools.Model
         public bool RequiredNotnullableBooleanProp { get; set; }
 
         /// <summary>
-        /// Gets or Sets RequiredNotNullableDateProp
-        /// </summary>
-        [JsonPropertyName("required_not_nullable_date_prop")]
-        public DateOnly RequiredNotNullableDateProp { get; set; }
-
-        /// <summary>
         /// Gets or Sets RequiredNotnullableDatetimeProp
         /// </summary>
         [JsonPropertyName("required_notnullable_datetime_prop")]
         public DateTime RequiredNotnullableDatetimeProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets RequiredNotnullableStringProp
+        /// </summary>
+        [JsonPropertyName("required_notnullable_string_prop")]
+        public string RequiredNotnullableStringProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableUuid
@@ -1399,144 +1399,10 @@ namespace Org.OpenAPITools.Model
         public Guid RequiredNotnullableUuid { get; set; }
 
         /// <summary>
-        /// Gets or Sets RequiredNotnullableArrayOfString
+        /// Gets or Sets RequiredNotnullableintegerProp
         /// </summary>
-        [JsonPropertyName("required_notnullable_array_of_string")]
-        public List<string> RequiredNotnullableArrayOfString { get; set; }
-
-        /// <summary>
-        /// Gets or Sets RequiredNullableIntegerProp
-        /// </summary>
-        [JsonPropertyName("required_nullable_integer_prop")]
-        public int? RequiredNullableIntegerProp { get; set; }
-
-        /// <summary>
-        /// Gets or Sets RequiredNullableStringProp
-        /// </summary>
-        [JsonPropertyName("required_nullable_string_prop")]
-        public string? RequiredNullableStringProp { get; set; }
-
-        /// <summary>
-        /// Gets or Sets RequiredNullableBooleanProp
-        /// </summary>
-        [JsonPropertyName("required_nullable_boolean_prop")]
-        public bool? RequiredNullableBooleanProp { get; set; }
-
-        /// <summary>
-        /// Gets or Sets RequiredNullableDateProp
-        /// </summary>
-        [JsonPropertyName("required_nullable_date_prop")]
-        public DateOnly? RequiredNullableDateProp { get; set; }
-
-        /// <summary>
-        /// Gets or Sets RequiredNullableDatetimeProp
-        /// </summary>
-        [JsonPropertyName("required_nullable_datetime_prop")]
-        public DateTime? RequiredNullableDatetimeProp { get; set; }
-
-        /// <summary>
-        /// Gets or Sets RequiredNullableUuid
-        /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
-        [JsonPropertyName("required_nullable_uuid")]
-        public Guid? RequiredNullableUuid { get; set; }
-
-        /// <summary>
-        /// Gets or Sets RequiredNullableArrayOfString
-        /// </summary>
-        [JsonPropertyName("required_nullable_array_of_string")]
-        public List<string>? RequiredNullableArrayOfString { get; set; }
-
-        /// <summary>
-        /// Used to track the state of NotRequiredNullableIntegerProp
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<int?> NotRequiredNullableIntegerPropOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotRequiredNullableIntegerProp
-        /// </summary>
-        [JsonPropertyName("not_required_nullable_integer_prop")]
-        public int? NotRequiredNullableIntegerProp { get { return this.NotRequiredNullableIntegerPropOption; } set { this.NotRequiredNullableIntegerPropOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of NotRequiredNotnullableintegerProp
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<int?> NotRequiredNotnullableintegerPropOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotRequiredNotnullableintegerProp
-        /// </summary>
-        [JsonPropertyName("not_required_notnullableinteger_prop")]
-        public int? NotRequiredNotnullableintegerProp { get { return this.NotRequiredNotnullableintegerPropOption; } set { this.NotRequiredNotnullableintegerPropOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of NotrequiredNullableStringProp
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> NotrequiredNullableStringPropOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNullableStringProp
-        /// </summary>
-        [JsonPropertyName("notrequired_nullable_string_prop")]
-        public string? NotrequiredNullableStringProp { get { return this.NotrequiredNullableStringPropOption; } set { this.NotrequiredNullableStringPropOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of NotrequiredNotnullableStringProp
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> NotrequiredNotnullableStringPropOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNotnullableStringProp
-        /// </summary>
-        [JsonPropertyName("notrequired_notnullable_string_prop")]
-        public string? NotrequiredNotnullableStringProp { get { return this.NotrequiredNotnullableStringPropOption; } set { this.NotrequiredNotnullableStringPropOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of NotrequiredNullableBooleanProp
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<bool?> NotrequiredNullableBooleanPropOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNullableBooleanProp
-        /// </summary>
-        [JsonPropertyName("notrequired_nullable_boolean_prop")]
-        public bool? NotrequiredNullableBooleanProp { get { return this.NotrequiredNullableBooleanPropOption; } set { this.NotrequiredNullableBooleanPropOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of NotrequiredNotnullableBooleanProp
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<bool?> NotrequiredNotnullableBooleanPropOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotrequiredNotnullableBooleanProp
-        /// </summary>
-        [JsonPropertyName("notrequired_notnullable_boolean_prop")]
-        public bool? NotrequiredNotnullableBooleanProp { get { return this.NotrequiredNotnullableBooleanPropOption; } set { this.NotrequiredNotnullableBooleanPropOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of NotRequiredNullableDateProp
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<DateOnly?> NotRequiredNullableDatePropOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets NotRequiredNullableDateProp
-        /// </summary>
-        [JsonPropertyName("not_required_nullable_date_prop")]
-        public DateOnly? NotRequiredNullableDateProp { get { return this.NotRequiredNullableDatePropOption; } set { this.NotRequiredNullableDatePropOption = new(value); } }
+        [JsonPropertyName("required_notnullableinteger_prop")]
+        public int RequiredNotnullableintegerProp { get; set; }
 
         /// <summary>
         /// Used to track the state of NotRequiredNotnullableDateProp
@@ -1552,17 +1418,69 @@ namespace Org.OpenAPITools.Model
         public DateOnly? NotRequiredNotnullableDateProp { get { return this.NotRequiredNotnullableDatePropOption; } set { this.NotRequiredNotnullableDatePropOption = new(value); } }
 
         /// <summary>
-        /// Used to track the state of NotrequiredNullableDatetimeProp
+        /// Used to track the state of NotRequiredNotnullableintegerProp
         /// </summary>
         [JsonIgnore]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<DateTime?> NotrequiredNullableDatetimePropOption { get; private set; }
+        public Option<int?> NotRequiredNotnullableintegerPropOption { get; private set; }
 
         /// <summary>
-        /// Gets or Sets NotrequiredNullableDatetimeProp
+        /// Gets or Sets NotRequiredNotnullableintegerProp
         /// </summary>
-        [JsonPropertyName("notrequired_nullable_datetime_prop")]
-        public DateTime? NotrequiredNullableDatetimeProp { get { return this.NotrequiredNullableDatetimePropOption; } set { this.NotrequiredNullableDatetimePropOption = new(value); } }
+        [JsonPropertyName("not_required_notnullableinteger_prop")]
+        public int? NotRequiredNotnullableintegerProp { get { return this.NotRequiredNotnullableintegerPropOption; } set { this.NotRequiredNotnullableintegerPropOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of NotRequiredNullableDateProp
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<DateOnly?> NotRequiredNullableDatePropOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotRequiredNullableDateProp
+        /// </summary>
+        [JsonPropertyName("not_required_nullable_date_prop")]
+        public DateOnly? NotRequiredNullableDateProp { get { return this.NotRequiredNullableDatePropOption; } set { this.NotRequiredNullableDatePropOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of NotRequiredNullableIntegerProp
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<int?> NotRequiredNullableIntegerPropOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotRequiredNullableIntegerProp
+        /// </summary>
+        [JsonPropertyName("not_required_nullable_integer_prop")]
+        public int? NotRequiredNullableIntegerProp { get { return this.NotRequiredNullableIntegerPropOption; } set { this.NotRequiredNullableIntegerPropOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNotnullableArrayOfString
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<List<string>?> NotrequiredNotnullableArrayOfStringOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNotnullableArrayOfString
+        /// </summary>
+        [JsonPropertyName("notrequired_notnullable_array_of_string")]
+        public List<string>? NotrequiredNotnullableArrayOfString { get { return this.NotrequiredNotnullableArrayOfStringOption; } set { this.NotrequiredNotnullableArrayOfStringOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNotnullableBooleanProp
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<bool?> NotrequiredNotnullableBooleanPropOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNotnullableBooleanProp
+        /// </summary>
+        [JsonPropertyName("notrequired_notnullable_boolean_prop")]
+        public bool? NotrequiredNotnullableBooleanProp { get { return this.NotrequiredNotnullableBooleanPropOption; } set { this.NotrequiredNotnullableBooleanPropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableDatetimeProp
@@ -1578,18 +1496,17 @@ namespace Org.OpenAPITools.Model
         public DateTime? NotrequiredNotnullableDatetimeProp { get { return this.NotrequiredNotnullableDatetimePropOption; } set { this.NotrequiredNotnullableDatetimePropOption = new(value); } }
 
         /// <summary>
-        /// Used to track the state of NotrequiredNullableUuid
+        /// Used to track the state of NotrequiredNotnullableStringProp
         /// </summary>
         [JsonIgnore]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Guid?> NotrequiredNullableUuidOption { get; private set; }
+        public Option<string?> NotrequiredNotnullableStringPropOption { get; private set; }
 
         /// <summary>
-        /// Gets or Sets NotrequiredNullableUuid
+        /// Gets or Sets NotrequiredNotnullableStringProp
         /// </summary>
-        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
-        [JsonPropertyName("notrequired_nullable_uuid")]
-        public Guid? NotrequiredNullableUuid { get { return this.NotrequiredNullableUuidOption; } set { this.NotrequiredNullableUuidOption = new(value); } }
+        [JsonPropertyName("notrequired_notnullable_string_prop")]
+        public string? NotrequiredNotnullableStringProp { get { return this.NotrequiredNotnullableStringPropOption; } set { this.NotrequiredNotnullableStringPropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableUuid
@@ -1619,17 +1536,100 @@ namespace Org.OpenAPITools.Model
         public List<string>? NotrequiredNullableArrayOfString { get { return this.NotrequiredNullableArrayOfStringOption; } set { this.NotrequiredNullableArrayOfStringOption = new(value); } }
 
         /// <summary>
-        /// Used to track the state of NotrequiredNotnullableArrayOfString
+        /// Used to track the state of NotrequiredNullableBooleanProp
         /// </summary>
         [JsonIgnore]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<List<string>?> NotrequiredNotnullableArrayOfStringOption { get; private set; }
+        public Option<bool?> NotrequiredNullableBooleanPropOption { get; private set; }
 
         /// <summary>
-        /// Gets or Sets NotrequiredNotnullableArrayOfString
+        /// Gets or Sets NotrequiredNullableBooleanProp
         /// </summary>
-        [JsonPropertyName("notrequired_notnullable_array_of_string")]
-        public List<string>? NotrequiredNotnullableArrayOfString { get { return this.NotrequiredNotnullableArrayOfStringOption; } set { this.NotrequiredNotnullableArrayOfStringOption = new(value); } }
+        [JsonPropertyName("notrequired_nullable_boolean_prop")]
+        public bool? NotrequiredNullableBooleanProp { get { return this.NotrequiredNullableBooleanPropOption; } set { this.NotrequiredNullableBooleanPropOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNullableDatetimeProp
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<DateTime?> NotrequiredNullableDatetimePropOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNullableDatetimeProp
+        /// </summary>
+        [JsonPropertyName("notrequired_nullable_datetime_prop")]
+        public DateTime? NotrequiredNullableDatetimeProp { get { return this.NotrequiredNullableDatetimePropOption; } set { this.NotrequiredNullableDatetimePropOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNullableStringProp
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> NotrequiredNullableStringPropOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNullableStringProp
+        /// </summary>
+        [JsonPropertyName("notrequired_nullable_string_prop")]
+        public string? NotrequiredNullableStringProp { get { return this.NotrequiredNullableStringPropOption; } set { this.NotrequiredNullableStringPropOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of NotrequiredNullableUuid
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<Guid?> NotrequiredNullableUuidOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets NotrequiredNullableUuid
+        /// </summary>
+        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        [JsonPropertyName("notrequired_nullable_uuid")]
+        public Guid? NotrequiredNullableUuid { get { return this.NotrequiredNullableUuidOption; } set { this.NotrequiredNullableUuidOption = new(value); } }
+
+        /// <summary>
+        /// Gets or Sets RequiredNullableArrayOfString
+        /// </summary>
+        [JsonPropertyName("required_nullable_array_of_string")]
+        public List<string>? RequiredNullableArrayOfString { get; set; }
+
+        /// <summary>
+        /// Gets or Sets RequiredNullableBooleanProp
+        /// </summary>
+        [JsonPropertyName("required_nullable_boolean_prop")]
+        public bool? RequiredNullableBooleanProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets RequiredNullableDateProp
+        /// </summary>
+        [JsonPropertyName("required_nullable_date_prop")]
+        public DateOnly? RequiredNullableDateProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets RequiredNullableDatetimeProp
+        /// </summary>
+        [JsonPropertyName("required_nullable_datetime_prop")]
+        public DateTime? RequiredNullableDatetimeProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets RequiredNullableIntegerProp
+        /// </summary>
+        [JsonPropertyName("required_nullable_integer_prop")]
+        public int? RequiredNullableIntegerProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets RequiredNullableStringProp
+        /// </summary>
+        [JsonPropertyName("required_nullable_string_prop")]
+        public string? RequiredNullableStringProp { get; set; }
+
+        /// <summary>
+        /// Gets or Sets RequiredNullableUuid
+        /// </summary>
+        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
+        [JsonPropertyName("required_nullable_uuid")]
+        public Guid? RequiredNullableUuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -1645,50 +1645,50 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class RequiredClass {\n");
-            sb.Append("  RequiredNotnullableintegerProp: ").Append(RequiredNotnullableintegerProp).Append("\n");
-            sb.Append("  RequiredNotnullableStringProp: ").Append(RequiredNotnullableStringProp).Append("\n");
-            sb.Append("  RequiredNotnullableBooleanProp: ").Append(RequiredNotnullableBooleanProp).Append("\n");
             sb.Append("  RequiredNotNullableDateProp: ").Append(RequiredNotNullableDateProp).Append("\n");
+            sb.Append("  RequiredNotnullableArrayOfString: ").Append(RequiredNotnullableArrayOfString).Append("\n");
+            sb.Append("  RequiredNotnullableBooleanProp: ").Append(RequiredNotnullableBooleanProp).Append("\n");
             sb.Append("  RequiredNotnullableDatetimeProp: ").Append(RequiredNotnullableDatetimeProp).Append("\n");
             sb.Append("  RequiredNotnullableEnumInteger: ").Append(RequiredNotnullableEnumInteger).Append("\n");
             sb.Append("  RequiredNotnullableEnumIntegerOnly: ").Append(RequiredNotnullableEnumIntegerOnly).Append("\n");
             sb.Append("  RequiredNotnullableEnumString: ").Append(RequiredNotnullableEnumString).Append("\n");
             sb.Append("  RequiredNotnullableOuterEnumDefaultValue: ").Append(RequiredNotnullableOuterEnumDefaultValue).Append("\n");
+            sb.Append("  RequiredNotnullableStringProp: ").Append(RequiredNotnullableStringProp).Append("\n");
             sb.Append("  RequiredNotnullableUuid: ").Append(RequiredNotnullableUuid).Append("\n");
-            sb.Append("  RequiredNotnullableArrayOfString: ").Append(RequiredNotnullableArrayOfString).Append("\n");
-            sb.Append("  RequiredNullableIntegerProp: ").Append(RequiredNullableIntegerProp).Append("\n");
-            sb.Append("  RequiredNullableStringProp: ").Append(RequiredNullableStringProp).Append("\n");
+            sb.Append("  RequiredNotnullableintegerProp: ").Append(RequiredNotnullableintegerProp).Append("\n");
+            sb.Append("  NotRequiredNotnullableDateProp: ").Append(NotRequiredNotnullableDateProp).Append("\n");
+            sb.Append("  NotRequiredNotnullableintegerProp: ").Append(NotRequiredNotnullableintegerProp).Append("\n");
+            sb.Append("  NotRequiredNullableDateProp: ").Append(NotRequiredNullableDateProp).Append("\n");
+            sb.Append("  NotRequiredNullableIntegerProp: ").Append(NotRequiredNullableIntegerProp).Append("\n");
+            sb.Append("  NotrequiredNotnullableArrayOfString: ").Append(NotrequiredNotnullableArrayOfString).Append("\n");
+            sb.Append("  NotrequiredNotnullableBooleanProp: ").Append(NotrequiredNotnullableBooleanProp).Append("\n");
+            sb.Append("  NotrequiredNotnullableDatetimeProp: ").Append(NotrequiredNotnullableDatetimeProp).Append("\n");
+            sb.Append("  NotrequiredNotnullableEnumInteger: ").Append(NotrequiredNotnullableEnumInteger).Append("\n");
+            sb.Append("  NotrequiredNotnullableEnumIntegerOnly: ").Append(NotrequiredNotnullableEnumIntegerOnly).Append("\n");
+            sb.Append("  NotrequiredNotnullableEnumString: ").Append(NotrequiredNotnullableEnumString).Append("\n");
+            sb.Append("  NotrequiredNotnullableOuterEnumDefaultValue: ").Append(NotrequiredNotnullableOuterEnumDefaultValue).Append("\n");
+            sb.Append("  NotrequiredNotnullableStringProp: ").Append(NotrequiredNotnullableStringProp).Append("\n");
+            sb.Append("  NotrequiredNotnullableUuid: ").Append(NotrequiredNotnullableUuid).Append("\n");
+            sb.Append("  NotrequiredNullableArrayOfString: ").Append(NotrequiredNullableArrayOfString).Append("\n");
+            sb.Append("  NotrequiredNullableBooleanProp: ").Append(NotrequiredNullableBooleanProp).Append("\n");
+            sb.Append("  NotrequiredNullableDatetimeProp: ").Append(NotrequiredNullableDatetimeProp).Append("\n");
+            sb.Append("  NotrequiredNullableEnumInteger: ").Append(NotrequiredNullableEnumInteger).Append("\n");
+            sb.Append("  NotrequiredNullableEnumIntegerOnly: ").Append(NotrequiredNullableEnumIntegerOnly).Append("\n");
+            sb.Append("  NotrequiredNullableEnumString: ").Append(NotrequiredNullableEnumString).Append("\n");
+            sb.Append("  NotrequiredNullableOuterEnumDefaultValue: ").Append(NotrequiredNullableOuterEnumDefaultValue).Append("\n");
+            sb.Append("  NotrequiredNullableStringProp: ").Append(NotrequiredNullableStringProp).Append("\n");
+            sb.Append("  NotrequiredNullableUuid: ").Append(NotrequiredNullableUuid).Append("\n");
+            sb.Append("  RequiredNullableArrayOfString: ").Append(RequiredNullableArrayOfString).Append("\n");
             sb.Append("  RequiredNullableBooleanProp: ").Append(RequiredNullableBooleanProp).Append("\n");
             sb.Append("  RequiredNullableDateProp: ").Append(RequiredNullableDateProp).Append("\n");
             sb.Append("  RequiredNullableDatetimeProp: ").Append(RequiredNullableDatetimeProp).Append("\n");
             sb.Append("  RequiredNullableEnumInteger: ").Append(RequiredNullableEnumInteger).Append("\n");
             sb.Append("  RequiredNullableEnumIntegerOnly: ").Append(RequiredNullableEnumIntegerOnly).Append("\n");
             sb.Append("  RequiredNullableEnumString: ").Append(RequiredNullableEnumString).Append("\n");
+            sb.Append("  RequiredNullableIntegerProp: ").Append(RequiredNullableIntegerProp).Append("\n");
             sb.Append("  RequiredNullableOuterEnumDefaultValue: ").Append(RequiredNullableOuterEnumDefaultValue).Append("\n");
+            sb.Append("  RequiredNullableStringProp: ").Append(RequiredNullableStringProp).Append("\n");
             sb.Append("  RequiredNullableUuid: ").Append(RequiredNullableUuid).Append("\n");
-            sb.Append("  RequiredNullableArrayOfString: ").Append(RequiredNullableArrayOfString).Append("\n");
-            sb.Append("  NotRequiredNullableIntegerProp: ").Append(NotRequiredNullableIntegerProp).Append("\n");
-            sb.Append("  NotRequiredNotnullableintegerProp: ").Append(NotRequiredNotnullableintegerProp).Append("\n");
-            sb.Append("  NotrequiredNullableStringProp: ").Append(NotrequiredNullableStringProp).Append("\n");
-            sb.Append("  NotrequiredNotnullableStringProp: ").Append(NotrequiredNotnullableStringProp).Append("\n");
-            sb.Append("  NotrequiredNullableBooleanProp: ").Append(NotrequiredNullableBooleanProp).Append("\n");
-            sb.Append("  NotrequiredNotnullableBooleanProp: ").Append(NotrequiredNotnullableBooleanProp).Append("\n");
-            sb.Append("  NotRequiredNullableDateProp: ").Append(NotRequiredNullableDateProp).Append("\n");
-            sb.Append("  NotRequiredNotnullableDateProp: ").Append(NotRequiredNotnullableDateProp).Append("\n");
-            sb.Append("  NotrequiredNullableDatetimeProp: ").Append(NotrequiredNullableDatetimeProp).Append("\n");
-            sb.Append("  NotrequiredNotnullableDatetimeProp: ").Append(NotrequiredNotnullableDatetimeProp).Append("\n");
-            sb.Append("  NotrequiredNullableEnumInteger: ").Append(NotrequiredNullableEnumInteger).Append("\n");
-            sb.Append("  NotrequiredNotnullableEnumInteger: ").Append(NotrequiredNotnullableEnumInteger).Append("\n");
-            sb.Append("  NotrequiredNullableEnumIntegerOnly: ").Append(NotrequiredNullableEnumIntegerOnly).Append("\n");
-            sb.Append("  NotrequiredNotnullableEnumIntegerOnly: ").Append(NotrequiredNotnullableEnumIntegerOnly).Append("\n");
-            sb.Append("  NotrequiredNullableEnumString: ").Append(NotrequiredNullableEnumString).Append("\n");
-            sb.Append("  NotrequiredNotnullableEnumString: ").Append(NotrequiredNotnullableEnumString).Append("\n");
-            sb.Append("  NotrequiredNullableOuterEnumDefaultValue: ").Append(NotrequiredNullableOuterEnumDefaultValue).Append("\n");
-            sb.Append("  NotrequiredNotnullableOuterEnumDefaultValue: ").Append(NotrequiredNotnullableOuterEnumDefaultValue).Append("\n");
-            sb.Append("  NotrequiredNullableUuid: ").Append(NotrequiredNullableUuid).Append("\n");
-            sb.Append("  NotrequiredNotnullableUuid: ").Append(NotrequiredNotnullableUuid).Append("\n");
-            sb.Append("  NotrequiredNullableArrayOfString: ").Append(NotrequiredNullableArrayOfString).Append("\n");
-            sb.Append("  NotrequiredNotnullableArrayOfString: ").Append(NotrequiredNotnullableArrayOfString).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -1721,6 +1721,26 @@ namespace Org.OpenAPITools.Model
         public static string RequiredNotnullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
+        /// The format to use to serialize NotRequiredNotnullableDateProp
+        /// </summary>
+        public static string NotRequiredNotnullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
+
+        /// <summary>
+        /// The format to use to serialize NotRequiredNullableDateProp
+        /// </summary>
+        public static string NotRequiredNullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
+
+        /// <summary>
+        /// The format to use to serialize NotrequiredNotnullableDatetimeProp
+        /// </summary>
+        public static string NotrequiredNotnullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+
+        /// <summary>
+        /// The format to use to serialize NotrequiredNullableDatetimeProp
+        /// </summary>
+        public static string NotrequiredNullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+
+        /// <summary>
         /// The format to use to serialize RequiredNullableDateProp
         /// </summary>
         public static string RequiredNullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
@@ -1729,26 +1749,6 @@ namespace Org.OpenAPITools.Model
         /// The format to use to serialize RequiredNullableDatetimeProp
         /// </summary>
         public static string RequiredNullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
-
-        /// <summary>
-        /// The format to use to serialize NotRequiredNullableDateProp
-        /// </summary>
-        public static string NotRequiredNullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
-
-        /// <summary>
-        /// The format to use to serialize NotRequiredNotnullableDateProp
-        /// </summary>
-        public static string NotRequiredNotnullableDatePropFormat { get; set; } = "yyyy'-'MM'-'dd";
-
-        /// <summary>
-        /// The format to use to serialize NotrequiredNullableDatetimeProp
-        /// </summary>
-        public static string NotrequiredNullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
-
-        /// <summary>
-        /// The format to use to serialize NotrequiredNotnullableDatetimeProp
-        /// </summary>
-        public static string NotrequiredNotnullableDatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="RequiredClass" />
@@ -1767,50 +1767,50 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<int?> requiredNotnullableintegerProp = default;
-            Option<string?> requiredNotnullableStringProp = default;
-            Option<bool?> requiredNotnullableBooleanProp = default;
             Option<DateOnly?> requiredNotNullableDateProp = default;
+            Option<List<string>?> requiredNotnullableArrayOfString = default;
+            Option<bool?> requiredNotnullableBooleanProp = default;
             Option<DateTime?> requiredNotnullableDatetimeProp = default;
             Option<RequiredClass.RequiredNotnullableEnumIntegerEnum?> requiredNotnullableEnumInteger = default;
             Option<RequiredClass.RequiredNotnullableEnumIntegerOnlyEnum?> requiredNotnullableEnumIntegerOnly = default;
             Option<RequiredClass.RequiredNotnullableEnumStringEnum?> requiredNotnullableEnumString = default;
             Option<OuterEnumDefaultValue?> requiredNotnullableOuterEnumDefaultValue = default;
+            Option<string?> requiredNotnullableStringProp = default;
             Option<Guid?> requiredNotnullableUuid = default;
-            Option<List<string>?> requiredNotnullableArrayOfString = default;
-            Option<int?> requiredNullableIntegerProp = default;
-            Option<string?> requiredNullableStringProp = default;
+            Option<int?> requiredNotnullableintegerProp = default;
+            Option<DateOnly?> notRequiredNotnullableDateProp = default;
+            Option<int?> notRequiredNotnullableintegerProp = default;
+            Option<DateOnly?> notRequiredNullableDateProp = default;
+            Option<int?> notRequiredNullableIntegerProp = default;
+            Option<List<string>?> notrequiredNotnullableArrayOfString = default;
+            Option<bool?> notrequiredNotnullableBooleanProp = default;
+            Option<DateTime?> notrequiredNotnullableDatetimeProp = default;
+            Option<RequiredClass.NotrequiredNotnullableEnumIntegerEnum?> notrequiredNotnullableEnumInteger = default;
+            Option<RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnum?> notrequiredNotnullableEnumIntegerOnly = default;
+            Option<RequiredClass.NotrequiredNotnullableEnumStringEnum?> notrequiredNotnullableEnumString = default;
+            Option<OuterEnumDefaultValue?> notrequiredNotnullableOuterEnumDefaultValue = default;
+            Option<string?> notrequiredNotnullableStringProp = default;
+            Option<Guid?> notrequiredNotnullableUuid = default;
+            Option<List<string>?> notrequiredNullableArrayOfString = default;
+            Option<bool?> notrequiredNullableBooleanProp = default;
+            Option<DateTime?> notrequiredNullableDatetimeProp = default;
+            Option<RequiredClass.NotrequiredNullableEnumIntegerEnum?> notrequiredNullableEnumInteger = default;
+            Option<RequiredClass.NotrequiredNullableEnumIntegerOnlyEnum?> notrequiredNullableEnumIntegerOnly = default;
+            Option<RequiredClass.NotrequiredNullableEnumStringEnum?> notrequiredNullableEnumString = default;
+            Option<OuterEnumDefaultValue?> notrequiredNullableOuterEnumDefaultValue = default;
+            Option<string?> notrequiredNullableStringProp = default;
+            Option<Guid?> notrequiredNullableUuid = default;
+            Option<List<string>?> requiredNullableArrayOfString = default;
             Option<bool?> requiredNullableBooleanProp = default;
             Option<DateOnly?> requiredNullableDateProp = default;
             Option<DateTime?> requiredNullableDatetimeProp = default;
             Option<RequiredClass.RequiredNullableEnumIntegerEnum?> requiredNullableEnumInteger = default;
             Option<RequiredClass.RequiredNullableEnumIntegerOnlyEnum?> requiredNullableEnumIntegerOnly = default;
             Option<RequiredClass.RequiredNullableEnumStringEnum?> requiredNullableEnumString = default;
+            Option<int?> requiredNullableIntegerProp = default;
             Option<OuterEnumDefaultValue?> requiredNullableOuterEnumDefaultValue = default;
+            Option<string?> requiredNullableStringProp = default;
             Option<Guid?> requiredNullableUuid = default;
-            Option<List<string>?> requiredNullableArrayOfString = default;
-            Option<int?> notRequiredNullableIntegerProp = default;
-            Option<int?> notRequiredNotnullableintegerProp = default;
-            Option<string?> notrequiredNullableStringProp = default;
-            Option<string?> notrequiredNotnullableStringProp = default;
-            Option<bool?> notrequiredNullableBooleanProp = default;
-            Option<bool?> notrequiredNotnullableBooleanProp = default;
-            Option<DateOnly?> notRequiredNullableDateProp = default;
-            Option<DateOnly?> notRequiredNotnullableDateProp = default;
-            Option<DateTime?> notrequiredNullableDatetimeProp = default;
-            Option<DateTime?> notrequiredNotnullableDatetimeProp = default;
-            Option<RequiredClass.NotrequiredNullableEnumIntegerEnum?> notrequiredNullableEnumInteger = default;
-            Option<RequiredClass.NotrequiredNotnullableEnumIntegerEnum?> notrequiredNotnullableEnumInteger = default;
-            Option<RequiredClass.NotrequiredNullableEnumIntegerOnlyEnum?> notrequiredNullableEnumIntegerOnly = default;
-            Option<RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnum?> notrequiredNotnullableEnumIntegerOnly = default;
-            Option<RequiredClass.NotrequiredNullableEnumStringEnum?> notrequiredNullableEnumString = default;
-            Option<RequiredClass.NotrequiredNotnullableEnumStringEnum?> notrequiredNotnullableEnumString = default;
-            Option<OuterEnumDefaultValue?> notrequiredNullableOuterEnumDefaultValue = default;
-            Option<OuterEnumDefaultValue?> notrequiredNotnullableOuterEnumDefaultValue = default;
-            Option<Guid?> notrequiredNullableUuid = default;
-            Option<Guid?> notrequiredNotnullableUuid = default;
-            Option<List<string>?> notrequiredNullableArrayOfString = default;
-            Option<List<string>?> notrequiredNotnullableArrayOfString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -1827,20 +1827,17 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "required_notnullableinteger_prop":
+                        case "required_not_nullable_date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNotnullableintegerProp = new Option<int?>(utf8JsonReader.GetInt32());
+                                requiredNotNullableDateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
-                        case "required_notnullable_string_prop":
-                            requiredNotnullableStringProp = new Option<string?>(utf8JsonReader.GetString()!);
+                        case "required_notnullable_array_of_string":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                requiredNotnullableArrayOfString = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "required_notnullable_boolean_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 requiredNotnullableBooleanProp = new Option<bool?>(utf8JsonReader.GetBoolean());
-                            break;
-                        case "required_not_nullable_date_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNotNullableDateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required_notnullable_datetime_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -1864,20 +1861,110 @@ namespace Org.OpenAPITools.Model
                             if (requiredNotnullableOuterEnumDefaultValueRawValue != null)
                                 requiredNotnullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(OuterEnumDefaultValueValueConverter.FromStringOrDefault(requiredNotnullableOuterEnumDefaultValueRawValue));
                             break;
+                        case "required_notnullable_string_prop":
+                            requiredNotnullableStringProp = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         case "required_notnullable_uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 requiredNotnullableUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
                             break;
-                        case "required_notnullable_array_of_string":
+                        case "required_notnullableinteger_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNotnullableArrayOfString = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                requiredNotnullableintegerProp = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
-                        case "required_nullable_integer_prop":
+                        case "not_required_notnullable_date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNullableIntegerProp = new Option<int?>(utf8JsonReader.GetInt32());
+                                notRequiredNotnullableDateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
-                        case "required_nullable_string_prop":
-                            requiredNullableStringProp = new Option<string?>(utf8JsonReader.GetString());
+                        case "not_required_notnullableinteger_prop":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notRequiredNotnullableintegerProp = new Option<int?>(utf8JsonReader.GetInt32());
+                            break;
+                        case "not_required_nullable_date_prop":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notRequiredNullableDateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly?>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
+                        case "not_required_nullable_integer_prop":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notRequiredNullableIntegerProp = new Option<int?>(utf8JsonReader.GetInt32());
+                            break;
+                        case "notrequired_notnullable_array_of_string":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notrequiredNotnullableArrayOfString = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
+                        case "notrequired_notnullable_boolean_prop":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notrequiredNotnullableBooleanProp = new Option<bool?>(utf8JsonReader.GetBoolean());
+                            break;
+                        case "notrequired_notnullable_datetime_prop":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notrequiredNotnullableDatetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
+                        case "notrequired_notnullable_enum_integer":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notrequiredNotnullableEnumInteger = new Option<RequiredClass.NotrequiredNotnullableEnumIntegerEnum?>((RequiredClass.NotrequiredNotnullableEnumIntegerEnum)utf8JsonReader.GetInt32());
+                            break;
+                        case "notrequired_notnullable_enum_integer_only":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notrequiredNotnullableEnumIntegerOnly = new Option<RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnum?>((RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnum)utf8JsonReader.GetInt32());
+                            break;
+                        case "notrequired_notnullable_enum_string":
+                            string? notrequiredNotnullableEnumStringRawValue = utf8JsonReader.GetString();
+                            if (notrequiredNotnullableEnumStringRawValue != null)
+                                notrequiredNotnullableEnumString = new Option<RequiredClass.NotrequiredNotnullableEnumStringEnum?>(RequiredClass.NotrequiredNotnullableEnumStringEnumFromStringOrDefault(notrequiredNotnullableEnumStringRawValue));
+                            break;
+                        case "notrequired_notnullable_outerEnumDefaultValue":
+                            string? notrequiredNotnullableOuterEnumDefaultValueRawValue = utf8JsonReader.GetString();
+                            if (notrequiredNotnullableOuterEnumDefaultValueRawValue != null)
+                                notrequiredNotnullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(OuterEnumDefaultValueValueConverter.FromStringOrDefault(notrequiredNotnullableOuterEnumDefaultValueRawValue));
+                            break;
+                        case "notrequired_notnullable_string_prop":
+                            notrequiredNotnullableStringProp = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "notrequired_notnullable_uuid":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notrequiredNotnullableUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
+                            break;
+                        case "notrequired_nullable_array_of_string":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notrequiredNullableArrayOfString = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
+                        case "notrequired_nullable_boolean_prop":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notrequiredNullableBooleanProp = new Option<bool?>(utf8JsonReader.GetBoolean());
+                            break;
+                        case "notrequired_nullable_datetime_prop":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notrequiredNullableDatetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
+                        case "notrequired_nullable_enum_integer":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notrequiredNullableEnumInteger = new Option<RequiredClass.NotrequiredNullableEnumIntegerEnum?>((RequiredClass.NotrequiredNullableEnumIntegerEnum)utf8JsonReader.GetInt32());
+                            break;
+                        case "notrequired_nullable_enum_integer_only":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notrequiredNullableEnumIntegerOnly = new Option<RequiredClass.NotrequiredNullableEnumIntegerOnlyEnum?>((RequiredClass.NotrequiredNullableEnumIntegerOnlyEnum)utf8JsonReader.GetInt32());
+                            break;
+                        case "notrequired_nullable_enum_string":
+                            string? notrequiredNullableEnumStringRawValue = utf8JsonReader.GetString();
+                            if (notrequiredNullableEnumStringRawValue != null)
+                                notrequiredNullableEnumString = new Option<RequiredClass.NotrequiredNullableEnumStringEnum?>(RequiredClass.NotrequiredNullableEnumStringEnumFromStringOrDefault(notrequiredNullableEnumStringRawValue));
+                            break;
+                        case "notrequired_nullable_outerEnumDefaultValue":
+                            string? notrequiredNullableOuterEnumDefaultValueRawValue = utf8JsonReader.GetString();
+                            if (notrequiredNullableOuterEnumDefaultValueRawValue != null)
+                                notrequiredNullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(OuterEnumDefaultValueValueConverter.FromStringOrDefault(notrequiredNullableOuterEnumDefaultValueRawValue));
+                            break;
+                        case "notrequired_nullable_string_prop":
+                            notrequiredNullableStringProp = new Option<string?>(utf8JsonReader.GetString());
+                            break;
+                        case "notrequired_nullable_uuid":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                notrequiredNullableUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
+                            break;
+                        case "required_nullable_array_of_string":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                requiredNullableArrayOfString = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required_nullable_boolean_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -1904,108 +1991,21 @@ namespace Org.OpenAPITools.Model
                             if (requiredNullableEnumStringRawValue != null)
                                 requiredNullableEnumString = new Option<RequiredClass.RequiredNullableEnumStringEnum?>(RequiredClass.RequiredNullableEnumStringEnumFromStringOrDefault(requiredNullableEnumStringRawValue));
                             break;
+                        case "required_nullable_integer_prop":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                requiredNullableIntegerProp = new Option<int?>(utf8JsonReader.GetInt32());
+                            break;
                         case "required_nullable_outerEnumDefaultValue":
                             string? requiredNullableOuterEnumDefaultValueRawValue = utf8JsonReader.GetString();
                             if (requiredNullableOuterEnumDefaultValueRawValue != null)
                                 requiredNullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(OuterEnumDefaultValueValueConverter.FromStringOrDefault(requiredNullableOuterEnumDefaultValueRawValue));
                             break;
+                        case "required_nullable_string_prop":
+                            requiredNullableStringProp = new Option<string?>(utf8JsonReader.GetString());
+                            break;
                         case "required_nullable_uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 requiredNullableUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
-                            break;
-                        case "required_nullable_array_of_string":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNullableArrayOfString = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
-                        case "not_required_nullable_integer_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notRequiredNullableIntegerProp = new Option<int?>(utf8JsonReader.GetInt32());
-                            break;
-                        case "not_required_notnullableinteger_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notRequiredNotnullableintegerProp = new Option<int?>(utf8JsonReader.GetInt32());
-                            break;
-                        case "notrequired_nullable_string_prop":
-                            notrequiredNullableStringProp = new Option<string?>(utf8JsonReader.GetString());
-                            break;
-                        case "notrequired_notnullable_string_prop":
-                            notrequiredNotnullableStringProp = new Option<string?>(utf8JsonReader.GetString()!);
-                            break;
-                        case "notrequired_nullable_boolean_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNullableBooleanProp = new Option<bool?>(utf8JsonReader.GetBoolean());
-                            break;
-                        case "notrequired_notnullable_boolean_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNotnullableBooleanProp = new Option<bool?>(utf8JsonReader.GetBoolean());
-                            break;
-                        case "not_required_nullable_date_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notRequiredNullableDateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly?>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
-                        case "not_required_notnullable_date_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notRequiredNotnullableDateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
-                        case "notrequired_nullable_datetime_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNullableDatetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
-                        case "notrequired_notnullable_datetime_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNotnullableDatetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
-                        case "notrequired_nullable_enum_integer":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNullableEnumInteger = new Option<RequiredClass.NotrequiredNullableEnumIntegerEnum?>((RequiredClass.NotrequiredNullableEnumIntegerEnum)utf8JsonReader.GetInt32());
-                            break;
-                        case "notrequired_notnullable_enum_integer":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNotnullableEnumInteger = new Option<RequiredClass.NotrequiredNotnullableEnumIntegerEnum?>((RequiredClass.NotrequiredNotnullableEnumIntegerEnum)utf8JsonReader.GetInt32());
-                            break;
-                        case "notrequired_nullable_enum_integer_only":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNullableEnumIntegerOnly = new Option<RequiredClass.NotrequiredNullableEnumIntegerOnlyEnum?>((RequiredClass.NotrequiredNullableEnumIntegerOnlyEnum)utf8JsonReader.GetInt32());
-                            break;
-                        case "notrequired_notnullable_enum_integer_only":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNotnullableEnumIntegerOnly = new Option<RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnum?>((RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnum)utf8JsonReader.GetInt32());
-                            break;
-                        case "notrequired_nullable_enum_string":
-                            string? notrequiredNullableEnumStringRawValue = utf8JsonReader.GetString();
-                            if (notrequiredNullableEnumStringRawValue != null)
-                                notrequiredNullableEnumString = new Option<RequiredClass.NotrequiredNullableEnumStringEnum?>(RequiredClass.NotrequiredNullableEnumStringEnumFromStringOrDefault(notrequiredNullableEnumStringRawValue));
-                            break;
-                        case "notrequired_notnullable_enum_string":
-                            string? notrequiredNotnullableEnumStringRawValue = utf8JsonReader.GetString();
-                            if (notrequiredNotnullableEnumStringRawValue != null)
-                                notrequiredNotnullableEnumString = new Option<RequiredClass.NotrequiredNotnullableEnumStringEnum?>(RequiredClass.NotrequiredNotnullableEnumStringEnumFromStringOrDefault(notrequiredNotnullableEnumStringRawValue));
-                            break;
-                        case "notrequired_nullable_outerEnumDefaultValue":
-                            string? notrequiredNullableOuterEnumDefaultValueRawValue = utf8JsonReader.GetString();
-                            if (notrequiredNullableOuterEnumDefaultValueRawValue != null)
-                                notrequiredNullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(OuterEnumDefaultValueValueConverter.FromStringOrDefault(notrequiredNullableOuterEnumDefaultValueRawValue));
-                            break;
-                        case "notrequired_notnullable_outerEnumDefaultValue":
-                            string? notrequiredNotnullableOuterEnumDefaultValueRawValue = utf8JsonReader.GetString();
-                            if (notrequiredNotnullableOuterEnumDefaultValueRawValue != null)
-                                notrequiredNotnullableOuterEnumDefaultValue = new Option<OuterEnumDefaultValue?>(OuterEnumDefaultValueValueConverter.FromStringOrDefault(notrequiredNotnullableOuterEnumDefaultValueRawValue));
-                            break;
-                        case "notrequired_nullable_uuid":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNullableUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
-                            break;
-                        case "notrequired_notnullable_uuid":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNotnullableUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
-                            break;
-                        case "notrequired_nullable_array_of_string":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNullableArrayOfString = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
-                        case "notrequired_notnullable_array_of_string":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNotnullableArrayOfString = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -2013,17 +2013,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!requiredNotnullableintegerProp.IsSet)
-                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableintegerProp));
+            if (!requiredNotNullableDateProp.IsSet)
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotNullableDateProp));
 
-            if (!requiredNotnullableStringProp.IsSet)
-                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableStringProp));
+            if (!requiredNotnullableArrayOfString.IsSet)
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableArrayOfString));
 
             if (!requiredNotnullableBooleanProp.IsSet)
                 throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableBooleanProp));
-
-            if (!requiredNotNullableDateProp.IsSet)
-                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotNullableDateProp));
 
             if (!requiredNotnullableDatetimeProp.IsSet)
                 throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableDatetimeProp));
@@ -2040,17 +2037,17 @@ namespace Org.OpenAPITools.Model
             if (!requiredNotnullableOuterEnumDefaultValue.IsSet)
                 throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableOuterEnumDefaultValue));
 
+            if (!requiredNotnullableStringProp.IsSet)
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableStringProp));
+
             if (!requiredNotnullableUuid.IsSet)
                 throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableUuid));
 
-            if (!requiredNotnullableArrayOfString.IsSet)
-                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableArrayOfString));
+            if (!requiredNotnullableintegerProp.IsSet)
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNotnullableintegerProp));
 
-            if (!requiredNullableIntegerProp.IsSet)
-                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableIntegerProp));
-
-            if (!requiredNullableStringProp.IsSet)
-                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableStringProp));
+            if (!requiredNullableArrayOfString.IsSet)
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableArrayOfString));
 
             if (!requiredNullableBooleanProp.IsSet)
                 throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableBooleanProp));
@@ -2070,26 +2067,26 @@ namespace Org.OpenAPITools.Model
             if (!requiredNullableEnumString.IsSet)
                 throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableEnumString));
 
+            if (!requiredNullableIntegerProp.IsSet)
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableIntegerProp));
+
             if (!requiredNullableOuterEnumDefaultValue.IsSet)
                 throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableOuterEnumDefaultValue));
+
+            if (!requiredNullableStringProp.IsSet)
+                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableStringProp));
 
             if (!requiredNullableUuid.IsSet)
                 throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableUuid));
 
-            if (!requiredNullableArrayOfString.IsSet)
-                throw new ArgumentException("Property is required for class RequiredClass.", nameof(requiredNullableArrayOfString));
+            if (requiredNotNullableDateProp.IsSet && requiredNotNullableDateProp.Value == null)
+                throw new ArgumentNullException(nameof(requiredNotNullableDateProp), "Property is not nullable for class RequiredClass.");
 
-            if (requiredNotnullableintegerProp.IsSet && requiredNotnullableintegerProp.Value == null)
-                throw new ArgumentNullException(nameof(requiredNotnullableintegerProp), "Property is not nullable for class RequiredClass.");
-
-            if (requiredNotnullableStringProp.IsSet && requiredNotnullableStringProp.Value == null)
-                throw new ArgumentNullException(nameof(requiredNotnullableStringProp), "Property is not nullable for class RequiredClass.");
+            if (requiredNotnullableArrayOfString.IsSet && requiredNotnullableArrayOfString.Value == null)
+                throw new ArgumentNullException(nameof(requiredNotnullableArrayOfString), "Property is not nullable for class RequiredClass.");
 
             if (requiredNotnullableBooleanProp.IsSet && requiredNotnullableBooleanProp.Value == null)
                 throw new ArgumentNullException(nameof(requiredNotnullableBooleanProp), "Property is not nullable for class RequiredClass.");
-
-            if (requiredNotNullableDateProp.IsSet && requiredNotNullableDateProp.Value == null)
-                throw new ArgumentNullException(nameof(requiredNotNullableDateProp), "Property is not nullable for class RequiredClass.");
 
             if (requiredNotnullableDatetimeProp.IsSet && requiredNotnullableDatetimeProp.Value == null)
                 throw new ArgumentNullException(nameof(requiredNotnullableDatetimeProp), "Property is not nullable for class RequiredClass.");
@@ -2106,23 +2103,26 @@ namespace Org.OpenAPITools.Model
             if (requiredNotnullableOuterEnumDefaultValue.IsSet && requiredNotnullableOuterEnumDefaultValue.Value == null)
                 throw new ArgumentNullException(nameof(requiredNotnullableOuterEnumDefaultValue), "Property is not nullable for class RequiredClass.");
 
+            if (requiredNotnullableStringProp.IsSet && requiredNotnullableStringProp.Value == null)
+                throw new ArgumentNullException(nameof(requiredNotnullableStringProp), "Property is not nullable for class RequiredClass.");
+
             if (requiredNotnullableUuid.IsSet && requiredNotnullableUuid.Value == null)
                 throw new ArgumentNullException(nameof(requiredNotnullableUuid), "Property is not nullable for class RequiredClass.");
 
-            if (requiredNotnullableArrayOfString.IsSet && requiredNotnullableArrayOfString.Value == null)
-                throw new ArgumentNullException(nameof(requiredNotnullableArrayOfString), "Property is not nullable for class RequiredClass.");
+            if (requiredNotnullableintegerProp.IsSet && requiredNotnullableintegerProp.Value == null)
+                throw new ArgumentNullException(nameof(requiredNotnullableintegerProp), "Property is not nullable for class RequiredClass.");
+
+            if (notRequiredNotnullableDateProp.IsSet && notRequiredNotnullableDateProp.Value == null)
+                throw new ArgumentNullException(nameof(notRequiredNotnullableDateProp), "Property is not nullable for class RequiredClass.");
 
             if (notRequiredNotnullableintegerProp.IsSet && notRequiredNotnullableintegerProp.Value == null)
                 throw new ArgumentNullException(nameof(notRequiredNotnullableintegerProp), "Property is not nullable for class RequiredClass.");
 
-            if (notrequiredNotnullableStringProp.IsSet && notrequiredNotnullableStringProp.Value == null)
-                throw new ArgumentNullException(nameof(notrequiredNotnullableStringProp), "Property is not nullable for class RequiredClass.");
+            if (notrequiredNotnullableArrayOfString.IsSet && notrequiredNotnullableArrayOfString.Value == null)
+                throw new ArgumentNullException(nameof(notrequiredNotnullableArrayOfString), "Property is not nullable for class RequiredClass.");
 
             if (notrequiredNotnullableBooleanProp.IsSet && notrequiredNotnullableBooleanProp.Value == null)
                 throw new ArgumentNullException(nameof(notrequiredNotnullableBooleanProp), "Property is not nullable for class RequiredClass.");
-
-            if (notRequiredNotnullableDateProp.IsSet && notRequiredNotnullableDateProp.Value == null)
-                throw new ArgumentNullException(nameof(notRequiredNotnullableDateProp), "Property is not nullable for class RequiredClass.");
 
             if (notrequiredNotnullableDatetimeProp.IsSet && notrequiredNotnullableDatetimeProp.Value == null)
                 throw new ArgumentNullException(nameof(notrequiredNotnullableDatetimeProp), "Property is not nullable for class RequiredClass.");
@@ -2139,13 +2139,13 @@ namespace Org.OpenAPITools.Model
             if (notrequiredNotnullableOuterEnumDefaultValue.IsSet && notrequiredNotnullableOuterEnumDefaultValue.Value == null)
                 throw new ArgumentNullException(nameof(notrequiredNotnullableOuterEnumDefaultValue), "Property is not nullable for class RequiredClass.");
 
+            if (notrequiredNotnullableStringProp.IsSet && notrequiredNotnullableStringProp.Value == null)
+                throw new ArgumentNullException(nameof(notrequiredNotnullableStringProp), "Property is not nullable for class RequiredClass.");
+
             if (notrequiredNotnullableUuid.IsSet && notrequiredNotnullableUuid.Value == null)
                 throw new ArgumentNullException(nameof(notrequiredNotnullableUuid), "Property is not nullable for class RequiredClass.");
 
-            if (notrequiredNotnullableArrayOfString.IsSet && notrequiredNotnullableArrayOfString.Value == null)
-                throw new ArgumentNullException(nameof(notrequiredNotnullableArrayOfString), "Property is not nullable for class RequiredClass.");
-
-            return new RequiredClass(requiredNotnullableintegerProp.Value!.Value!, requiredNotnullableStringProp.Value!, requiredNotnullableBooleanProp.Value!.Value!, requiredNotNullableDateProp.Value!.Value!, requiredNotnullableDatetimeProp.Value!.Value!, requiredNotnullableEnumInteger.Value!.Value!, requiredNotnullableEnumIntegerOnly.Value!.Value!, requiredNotnullableEnumString.Value!.Value!, requiredNotnullableOuterEnumDefaultValue.Value!.Value!, requiredNotnullableUuid.Value!.Value!, requiredNotnullableArrayOfString.Value!, requiredNullableIntegerProp.Value!, requiredNullableStringProp.Value!, requiredNullableBooleanProp.Value!, requiredNullableDateProp.Value!, requiredNullableDatetimeProp.Value!, requiredNullableEnumInteger.Value!, requiredNullableEnumIntegerOnly.Value!, requiredNullableEnumString.Value!, requiredNullableOuterEnumDefaultValue.Value!, requiredNullableUuid.Value!, requiredNullableArrayOfString.Value!, notRequiredNullableIntegerProp, notRequiredNotnullableintegerProp, notrequiredNullableStringProp, notrequiredNotnullableStringProp, notrequiredNullableBooleanProp, notrequiredNotnullableBooleanProp, notRequiredNullableDateProp, notRequiredNotnullableDateProp, notrequiredNullableDatetimeProp, notrequiredNotnullableDatetimeProp, notrequiredNullableEnumInteger, notrequiredNotnullableEnumInteger, notrequiredNullableEnumIntegerOnly, notrequiredNotnullableEnumIntegerOnly, notrequiredNullableEnumString, notrequiredNotnullableEnumString, notrequiredNullableOuterEnumDefaultValue, notrequiredNotnullableOuterEnumDefaultValue, notrequiredNullableUuid, notrequiredNotnullableUuid, notrequiredNullableArrayOfString, notrequiredNotnullableArrayOfString);
+            return new RequiredClass(requiredNotNullableDateProp.Value!.Value!, requiredNotnullableArrayOfString.Value!, requiredNotnullableBooleanProp.Value!.Value!, requiredNotnullableDatetimeProp.Value!.Value!, requiredNotnullableEnumInteger.Value!.Value!, requiredNotnullableEnumIntegerOnly.Value!.Value!, requiredNotnullableEnumString.Value!.Value!, requiredNotnullableOuterEnumDefaultValue.Value!.Value!, requiredNotnullableStringProp.Value!, requiredNotnullableUuid.Value!.Value!, requiredNotnullableintegerProp.Value!.Value!, notRequiredNotnullableDateProp, notRequiredNotnullableintegerProp, notRequiredNullableDateProp, notRequiredNullableIntegerProp, notrequiredNotnullableArrayOfString, notrequiredNotnullableBooleanProp, notrequiredNotnullableDatetimeProp, notrequiredNotnullableEnumInteger, notrequiredNotnullableEnumIntegerOnly, notrequiredNotnullableEnumString, notrequiredNotnullableOuterEnumDefaultValue, notrequiredNotnullableStringProp, notrequiredNotnullableUuid, notrequiredNullableArrayOfString, notrequiredNullableBooleanProp, notrequiredNullableDatetimeProp, notrequiredNullableEnumInteger, notrequiredNullableEnumIntegerOnly, notrequiredNullableEnumString, notrequiredNullableOuterEnumDefaultValue, notrequiredNullableStringProp, notrequiredNullableUuid, requiredNullableArrayOfString.Value!, requiredNullableBooleanProp.Value!, requiredNullableDateProp.Value!, requiredNullableDatetimeProp.Value!, requiredNullableEnumInteger.Value!, requiredNullableEnumIntegerOnly.Value!, requiredNullableEnumString.Value!, requiredNullableIntegerProp.Value!, requiredNullableOuterEnumDefaultValue.Value!, requiredNullableStringProp.Value!, requiredNullableUuid.Value!);
         }
 
         /// <summary>
@@ -2172,25 +2172,23 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, RequiredClass requiredClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (requiredClass.RequiredNotnullableStringProp == null)
-                throw new ArgumentNullException(nameof(requiredClass.RequiredNotnullableStringProp), "Property is required for class RequiredClass.");
-
             if (requiredClass.RequiredNotnullableArrayOfString == null)
                 throw new ArgumentNullException(nameof(requiredClass.RequiredNotnullableArrayOfString), "Property is required for class RequiredClass.");
 
-            if (requiredClass.NotrequiredNotnullableStringPropOption.IsSet && requiredClass.NotrequiredNotnullableStringProp == null)
-                throw new ArgumentNullException(nameof(requiredClass.NotrequiredNotnullableStringProp), "Property is required for class RequiredClass.");
+            if (requiredClass.RequiredNotnullableStringProp == null)
+                throw new ArgumentNullException(nameof(requiredClass.RequiredNotnullableStringProp), "Property is required for class RequiredClass.");
 
             if (requiredClass.NotrequiredNotnullableArrayOfStringOption.IsSet && requiredClass.NotrequiredNotnullableArrayOfString == null)
                 throw new ArgumentNullException(nameof(requiredClass.NotrequiredNotnullableArrayOfString), "Property is required for class RequiredClass.");
 
-            writer.WriteNumber("required_notnullableinteger_prop", requiredClass.RequiredNotnullableintegerProp);
-
-            writer.WriteString("required_notnullable_string_prop", requiredClass.RequiredNotnullableStringProp);
-
-            writer.WriteBoolean("required_notnullable_boolean_prop", requiredClass.RequiredNotnullableBooleanProp);
+            if (requiredClass.NotrequiredNotnullableStringPropOption.IsSet && requiredClass.NotrequiredNotnullableStringProp == null)
+                throw new ArgumentNullException(nameof(requiredClass.NotrequiredNotnullableStringProp), "Property is required for class RequiredClass.");
 
             writer.WriteString("required_not_nullable_date_prop", requiredClass.RequiredNotNullableDateProp.ToString(RequiredNotNullableDatePropFormat));
+
+            writer.WritePropertyName("required_notnullable_array_of_string");
+            JsonSerializer.Serialize(writer, requiredClass.RequiredNotnullableArrayOfString, jsonSerializerOptions);
+            writer.WriteBoolean("required_notnullable_boolean_prop", requiredClass.RequiredNotnullableBooleanProp);
 
             writer.WriteString("required_notnullable_datetime_prop", requiredClass.RequiredNotnullableDatetimeProp.ToString(RequiredNotnullableDatetimePropFormat));
 
@@ -2203,20 +2201,125 @@ namespace Org.OpenAPITools.Model
             var requiredNotnullableOuterEnumDefaultValueRawValue = OuterEnumDefaultValueValueConverter.ToJsonValue(requiredClass.RequiredNotnullableOuterEnumDefaultValue);
             writer.WriteString("required_notnullable_outerEnumDefaultValue", requiredNotnullableOuterEnumDefaultValueRawValue);
 
+            writer.WriteString("required_notnullable_string_prop", requiredClass.RequiredNotnullableStringProp);
+
             writer.WriteString("required_notnullable_uuid", requiredClass.RequiredNotnullableUuid);
 
-            writer.WritePropertyName("required_notnullable_array_of_string");
-            JsonSerializer.Serialize(writer, requiredClass.RequiredNotnullableArrayOfString, jsonSerializerOptions);
-            if (requiredClass.RequiredNullableIntegerProp != null)
-                writer.WriteNumber("required_nullable_integer_prop", requiredClass.RequiredNullableIntegerProp.Value);
-            else
-                writer.WriteNull("required_nullable_integer_prop");
+            writer.WriteNumber("required_notnullableinteger_prop", requiredClass.RequiredNotnullableintegerProp);
 
-            if (requiredClass.RequiredNullableStringProp != null)
-                writer.WriteString("required_nullable_string_prop", requiredClass.RequiredNullableStringProp);
-            else
-                writer.WriteNull("required_nullable_string_prop");
+            if (requiredClass.NotRequiredNotnullableDatePropOption.IsSet)
+                writer.WriteString("not_required_notnullable_date_prop", requiredClass.NotRequiredNotnullableDatePropOption.Value!.Value.ToString(NotRequiredNotnullableDatePropFormat));
 
+            if (requiredClass.NotRequiredNotnullableintegerPropOption.IsSet)
+                writer.WriteNumber("not_required_notnullableinteger_prop", requiredClass.NotRequiredNotnullableintegerPropOption.Value!.Value);
+
+            if (requiredClass.NotRequiredNullableDatePropOption.IsSet)
+                if (requiredClass.NotRequiredNullableDatePropOption.Value != null)
+                    writer.WriteString("not_required_nullable_date_prop", requiredClass.NotRequiredNullableDatePropOption.Value!.Value.ToString(NotRequiredNullableDatePropFormat));
+                else
+                    writer.WriteNull("not_required_nullable_date_prop");
+
+            if (requiredClass.NotRequiredNullableIntegerPropOption.IsSet)
+                if (requiredClass.NotRequiredNullableIntegerPropOption.Value != null)
+                    writer.WriteNumber("not_required_nullable_integer_prop", requiredClass.NotRequiredNullableIntegerPropOption.Value!.Value);
+                else
+                    writer.WriteNull("not_required_nullable_integer_prop");
+
+            if (requiredClass.NotrequiredNotnullableArrayOfStringOption.IsSet)
+            {
+                writer.WritePropertyName("notrequired_notnullable_array_of_string");
+                JsonSerializer.Serialize(writer, requiredClass.NotrequiredNotnullableArrayOfString, jsonSerializerOptions);
+            }
+            if (requiredClass.NotrequiredNotnullableBooleanPropOption.IsSet)
+                writer.WriteBoolean("notrequired_notnullable_boolean_prop", requiredClass.NotrequiredNotnullableBooleanPropOption.Value!.Value);
+
+            if (requiredClass.NotrequiredNotnullableDatetimePropOption.IsSet)
+                writer.WriteString("notrequired_notnullable_datetime_prop", requiredClass.NotrequiredNotnullableDatetimePropOption.Value!.Value.ToString(NotrequiredNotnullableDatetimePropFormat));
+
+            if (requiredClass.NotrequiredNotnullableEnumIntegerOption.IsSet)
+                writer.WriteNumber("notrequired_notnullable_enum_integer", RequiredClass.NotrequiredNotnullableEnumIntegerEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOption.Value!.Value));
+
+            if (requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.IsSet)
+                writer.WriteNumber("notrequired_notnullable_enum_integer_only", RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.Value!.Value));
+
+            var notrequiredNotnullableEnumStringRawValue = RequiredClass.NotrequiredNotnullableEnumStringEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumStringOption.Value!.Value);
+            writer.WriteString("notrequired_notnullable_enum_string", notrequiredNotnullableEnumStringRawValue);
+            if (requiredClass.NotrequiredNotnullableOuterEnumDefaultValueOption.IsSet)
+            {
+                var notrequiredNotnullableOuterEnumDefaultValueRawValue = OuterEnumDefaultValueValueConverter.ToJsonValue(requiredClass.NotrequiredNotnullableOuterEnumDefaultValue!.Value);
+                writer.WriteString("notrequired_notnullable_outerEnumDefaultValue", notrequiredNotnullableOuterEnumDefaultValueRawValue);
+            }
+            if (requiredClass.NotrequiredNotnullableStringPropOption.IsSet)
+                writer.WriteString("notrequired_notnullable_string_prop", requiredClass.NotrequiredNotnullableStringProp);
+
+            if (requiredClass.NotrequiredNotnullableUuidOption.IsSet)
+                writer.WriteString("notrequired_notnullable_uuid", requiredClass.NotrequiredNotnullableUuidOption.Value!.Value);
+
+            if (requiredClass.NotrequiredNullableArrayOfStringOption.IsSet)
+                if (requiredClass.NotrequiredNullableArrayOfStringOption.Value != null)
+                {
+                    writer.WritePropertyName("notrequired_nullable_array_of_string");
+                    JsonSerializer.Serialize(writer, requiredClass.NotrequiredNullableArrayOfString, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("notrequired_nullable_array_of_string");
+            if (requiredClass.NotrequiredNullableBooleanPropOption.IsSet)
+                if (requiredClass.NotrequiredNullableBooleanPropOption.Value != null)
+                    writer.WriteBoolean("notrequired_nullable_boolean_prop", requiredClass.NotrequiredNullableBooleanPropOption.Value!.Value);
+                else
+                    writer.WriteNull("notrequired_nullable_boolean_prop");
+
+            if (requiredClass.NotrequiredNullableDatetimePropOption.IsSet)
+                if (requiredClass.NotrequiredNullableDatetimePropOption.Value != null)
+                    writer.WriteString("notrequired_nullable_datetime_prop", requiredClass.NotrequiredNullableDatetimePropOption.Value!.Value.ToString(NotrequiredNullableDatetimePropFormat));
+                else
+                    writer.WriteNull("notrequired_nullable_datetime_prop");
+
+            if (requiredClass.NotrequiredNullableEnumIntegerOption.IsSet)
+                if (requiredClass.NotrequiredNullableEnumIntegerOption.Value != null)
+                    writer.WriteNumber("notrequired_nullable_enum_integer", RequiredClass.NotrequiredNullableEnumIntegerEnumToJsonValue(requiredClass.NotrequiredNullableEnumIntegerOption.Value!.Value));
+                else
+                    writer.WriteNull("notrequired_nullable_enum_integer");
+
+            if (requiredClass.NotrequiredNullableEnumIntegerOnlyOption.IsSet)
+                if (requiredClass.NotrequiredNullableEnumIntegerOnlyOption.Value != null)
+                    writer.WriteNumber("notrequired_nullable_enum_integer_only", RequiredClass.NotrequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClass.NotrequiredNullableEnumIntegerOnlyOption.Value!.Value));
+                else
+                    writer.WriteNull("notrequired_nullable_enum_integer_only");
+
+            var notrequiredNullableEnumStringRawValue = RequiredClass.NotrequiredNullableEnumStringEnumToJsonValue(requiredClass.NotrequiredNullableEnumStringOption.Value!.Value);
+            if (notrequiredNullableEnumStringRawValue != null)
+                writer.WriteString("notrequired_nullable_enum_string", notrequiredNullableEnumStringRawValue);
+            else
+                writer.WriteNull("notrequired_nullable_enum_string");
+
+            if (requiredClass.NotrequiredNullableOuterEnumDefaultValueOption.IsSet)
+                if (requiredClass.NotrequiredNullableOuterEnumDefaultValueOption!.Value != null)
+                {
+                    var notrequiredNullableOuterEnumDefaultValueRawValue = OuterEnumDefaultValueValueConverter.ToJsonValue(requiredClass.NotrequiredNullableOuterEnumDefaultValueOption.Value!.Value);
+                    writer.WriteString("notrequired_nullable_outerEnumDefaultValue", notrequiredNullableOuterEnumDefaultValueRawValue);
+                }
+                else
+                    writer.WriteNull("notrequired_nullable_outerEnumDefaultValue");
+            if (requiredClass.NotrequiredNullableStringPropOption.IsSet)
+                if (requiredClass.NotrequiredNullableStringPropOption.Value != null)
+                    writer.WriteString("notrequired_nullable_string_prop", requiredClass.NotrequiredNullableStringProp);
+                else
+                    writer.WriteNull("notrequired_nullable_string_prop");
+
+            if (requiredClass.NotrequiredNullableUuidOption.IsSet)
+                if (requiredClass.NotrequiredNullableUuidOption.Value != null)
+                    writer.WriteString("notrequired_nullable_uuid", requiredClass.NotrequiredNullableUuidOption.Value!.Value);
+                else
+                    writer.WriteNull("notrequired_nullable_uuid");
+
+            if (requiredClass.RequiredNullableArrayOfString != null)
+            {
+                writer.WritePropertyName("required_nullable_array_of_string");
+                JsonSerializer.Serialize(writer, requiredClass.RequiredNullableArrayOfString, jsonSerializerOptions);
+            }
+            else
+                writer.WriteNull("required_nullable_array_of_string");
             if (requiredClass.RequiredNullableBooleanProp != null)
                 writer.WriteBoolean("required_nullable_boolean_prop", requiredClass.RequiredNullableBooleanProp.Value);
             else
@@ -2248,6 +2351,11 @@ namespace Org.OpenAPITools.Model
             else
                 writer.WriteNull("required_nullable_enum_string");
 
+            if (requiredClass.RequiredNullableIntegerProp != null)
+                writer.WriteNumber("required_nullable_integer_prop", requiredClass.RequiredNullableIntegerProp.Value);
+            else
+                writer.WriteNull("required_nullable_integer_prop");
+
             if (requiredClass.RequiredNullableOuterEnumDefaultValue == null)
                 writer.WriteNull("required_nullable_outerEnumDefaultValue");
             else
@@ -2259,124 +2367,15 @@ namespace Org.OpenAPITools.Model
                     writer.WriteNull("required_nullable_outerEnumDefaultValue");
             }
 
+            if (requiredClass.RequiredNullableStringProp != null)
+                writer.WriteString("required_nullable_string_prop", requiredClass.RequiredNullableStringProp);
+            else
+                writer.WriteNull("required_nullable_string_prop");
+
             if (requiredClass.RequiredNullableUuid != null)
                 writer.WriteString("required_nullable_uuid", requiredClass.RequiredNullableUuid.Value);
             else
                 writer.WriteNull("required_nullable_uuid");
-
-            if (requiredClass.RequiredNullableArrayOfString != null)
-            {
-                writer.WritePropertyName("required_nullable_array_of_string");
-                JsonSerializer.Serialize(writer, requiredClass.RequiredNullableArrayOfString, jsonSerializerOptions);
-            }
-            else
-                writer.WriteNull("required_nullable_array_of_string");
-            if (requiredClass.NotRequiredNullableIntegerPropOption.IsSet)
-                if (requiredClass.NotRequiredNullableIntegerPropOption.Value != null)
-                    writer.WriteNumber("not_required_nullable_integer_prop", requiredClass.NotRequiredNullableIntegerPropOption.Value!.Value);
-                else
-                    writer.WriteNull("not_required_nullable_integer_prop");
-
-            if (requiredClass.NotRequiredNotnullableintegerPropOption.IsSet)
-                writer.WriteNumber("not_required_notnullableinteger_prop", requiredClass.NotRequiredNotnullableintegerPropOption.Value!.Value);
-
-            if (requiredClass.NotrequiredNullableStringPropOption.IsSet)
-                if (requiredClass.NotrequiredNullableStringPropOption.Value != null)
-                    writer.WriteString("notrequired_nullable_string_prop", requiredClass.NotrequiredNullableStringProp);
-                else
-                    writer.WriteNull("notrequired_nullable_string_prop");
-
-            if (requiredClass.NotrequiredNotnullableStringPropOption.IsSet)
-                writer.WriteString("notrequired_notnullable_string_prop", requiredClass.NotrequiredNotnullableStringProp);
-
-            if (requiredClass.NotrequiredNullableBooleanPropOption.IsSet)
-                if (requiredClass.NotrequiredNullableBooleanPropOption.Value != null)
-                    writer.WriteBoolean("notrequired_nullable_boolean_prop", requiredClass.NotrequiredNullableBooleanPropOption.Value!.Value);
-                else
-                    writer.WriteNull("notrequired_nullable_boolean_prop");
-
-            if (requiredClass.NotrequiredNotnullableBooleanPropOption.IsSet)
-                writer.WriteBoolean("notrequired_notnullable_boolean_prop", requiredClass.NotrequiredNotnullableBooleanPropOption.Value!.Value);
-
-            if (requiredClass.NotRequiredNullableDatePropOption.IsSet)
-                if (requiredClass.NotRequiredNullableDatePropOption.Value != null)
-                    writer.WriteString("not_required_nullable_date_prop", requiredClass.NotRequiredNullableDatePropOption.Value!.Value.ToString(NotRequiredNullableDatePropFormat));
-                else
-                    writer.WriteNull("not_required_nullable_date_prop");
-
-            if (requiredClass.NotRequiredNotnullableDatePropOption.IsSet)
-                writer.WriteString("not_required_notnullable_date_prop", requiredClass.NotRequiredNotnullableDatePropOption.Value!.Value.ToString(NotRequiredNotnullableDatePropFormat));
-
-            if (requiredClass.NotrequiredNullableDatetimePropOption.IsSet)
-                if (requiredClass.NotrequiredNullableDatetimePropOption.Value != null)
-                    writer.WriteString("notrequired_nullable_datetime_prop", requiredClass.NotrequiredNullableDatetimePropOption.Value!.Value.ToString(NotrequiredNullableDatetimePropFormat));
-                else
-                    writer.WriteNull("notrequired_nullable_datetime_prop");
-
-            if (requiredClass.NotrequiredNotnullableDatetimePropOption.IsSet)
-                writer.WriteString("notrequired_notnullable_datetime_prop", requiredClass.NotrequiredNotnullableDatetimePropOption.Value!.Value.ToString(NotrequiredNotnullableDatetimePropFormat));
-
-            if (requiredClass.NotrequiredNullableEnumIntegerOption.IsSet)
-                if (requiredClass.NotrequiredNullableEnumIntegerOption.Value != null)
-                    writer.WriteNumber("notrequired_nullable_enum_integer", RequiredClass.NotrequiredNullableEnumIntegerEnumToJsonValue(requiredClass.NotrequiredNullableEnumIntegerOption.Value!.Value));
-                else
-                    writer.WriteNull("notrequired_nullable_enum_integer");
-
-            if (requiredClass.NotrequiredNotnullableEnumIntegerOption.IsSet)
-                writer.WriteNumber("notrequired_notnullable_enum_integer", RequiredClass.NotrequiredNotnullableEnumIntegerEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOption.Value!.Value));
-
-            if (requiredClass.NotrequiredNullableEnumIntegerOnlyOption.IsSet)
-                if (requiredClass.NotrequiredNullableEnumIntegerOnlyOption.Value != null)
-                    writer.WriteNumber("notrequired_nullable_enum_integer_only", RequiredClass.NotrequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClass.NotrequiredNullableEnumIntegerOnlyOption.Value!.Value));
-                else
-                    writer.WriteNull("notrequired_nullable_enum_integer_only");
-
-            if (requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.IsSet)
-                writer.WriteNumber("notrequired_notnullable_enum_integer_only", RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.Value!.Value));
-
-            var notrequiredNullableEnumStringRawValue = RequiredClass.NotrequiredNullableEnumStringEnumToJsonValue(requiredClass.NotrequiredNullableEnumStringOption.Value!.Value);
-            if (notrequiredNullableEnumStringRawValue != null)
-                writer.WriteString("notrequired_nullable_enum_string", notrequiredNullableEnumStringRawValue);
-            else
-                writer.WriteNull("notrequired_nullable_enum_string");
-
-            var notrequiredNotnullableEnumStringRawValue = RequiredClass.NotrequiredNotnullableEnumStringEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumStringOption.Value!.Value);
-            writer.WriteString("notrequired_notnullable_enum_string", notrequiredNotnullableEnumStringRawValue);
-            if (requiredClass.NotrequiredNullableOuterEnumDefaultValueOption.IsSet)
-                if (requiredClass.NotrequiredNullableOuterEnumDefaultValueOption!.Value != null)
-                {
-                    var notrequiredNullableOuterEnumDefaultValueRawValue = OuterEnumDefaultValueValueConverter.ToJsonValue(requiredClass.NotrequiredNullableOuterEnumDefaultValueOption.Value!.Value);
-                    writer.WriteString("notrequired_nullable_outerEnumDefaultValue", notrequiredNullableOuterEnumDefaultValueRawValue);
-                }
-                else
-                    writer.WriteNull("notrequired_nullable_outerEnumDefaultValue");
-            if (requiredClass.NotrequiredNotnullableOuterEnumDefaultValueOption.IsSet)
-            {
-                var notrequiredNotnullableOuterEnumDefaultValueRawValue = OuterEnumDefaultValueValueConverter.ToJsonValue(requiredClass.NotrequiredNotnullableOuterEnumDefaultValue!.Value);
-                writer.WriteString("notrequired_notnullable_outerEnumDefaultValue", notrequiredNotnullableOuterEnumDefaultValueRawValue);
-            }
-            if (requiredClass.NotrequiredNullableUuidOption.IsSet)
-                if (requiredClass.NotrequiredNullableUuidOption.Value != null)
-                    writer.WriteString("notrequired_nullable_uuid", requiredClass.NotrequiredNullableUuidOption.Value!.Value);
-                else
-                    writer.WriteNull("notrequired_nullable_uuid");
-
-            if (requiredClass.NotrequiredNotnullableUuidOption.IsSet)
-                writer.WriteString("notrequired_notnullable_uuid", requiredClass.NotrequiredNotnullableUuidOption.Value!.Value);
-
-            if (requiredClass.NotrequiredNullableArrayOfStringOption.IsSet)
-                if (requiredClass.NotrequiredNullableArrayOfStringOption.Value != null)
-                {
-                    writer.WritePropertyName("notrequired_nullable_array_of_string");
-                    JsonSerializer.Serialize(writer, requiredClass.NotrequiredNullableArrayOfString, jsonSerializerOptions);
-                }
-                else
-                    writer.WriteNull("notrequired_nullable_array_of_string");
-            if (requiredClass.NotrequiredNotnullableArrayOfStringOption.IsSet)
-            {
-                writer.WritePropertyName("notrequired_notnullable_array_of_string");
-                JsonSerializer.Serialize(writer, requiredClass.NotrequiredNotnullableArrayOfString, jsonSerializerOptions);
-            }
         }
     }
 

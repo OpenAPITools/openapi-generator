@@ -12,5 +12,6 @@ additionalProperties:
   equatable: true
   targetFramework: net48
   skipFormModel: false
+  modelPropertySorting: alphabetical
 inlineSchemaOptions:
   RESOLVE_INLINE_ENUMS: true

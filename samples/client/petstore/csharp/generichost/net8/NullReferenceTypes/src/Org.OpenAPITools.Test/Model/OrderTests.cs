@@ -54,6 +54,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'Complete'
+        /// </summary>
+        [Fact]
+        public void CompleteTest()
+        {
+            // TODO unit test for the property 'Complete'
+        }
+
+        /// <summary>
         /// Test the property 'Id'
         /// </summary>
         [Fact]
@@ -96,15 +105,6 @@ namespace Org.OpenAPITools.Test.Model
         public void StatusTest()
         {
             // TODO unit test for the property 'Status'
-        }
-
-        /// <summary>
-        /// Test the property 'Complete'
-        /// </summary>
-        [Fact]
-        public void CompleteTest()
-        {
-            // TODO unit test for the property 'Complete'
         }
     }
 }

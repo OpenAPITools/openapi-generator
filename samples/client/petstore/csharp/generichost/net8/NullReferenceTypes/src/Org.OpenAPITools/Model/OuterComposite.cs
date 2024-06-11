@@ -34,19 +34,32 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="OuterComposite" /> class.
         /// </summary>
+        /// <param name="myBoolean">myBoolean</param>
         /// <param name="myNumber">myNumber</param>
         /// <param name="myString">myString</param>
-        /// <param name="myBoolean">myBoolean</param>
         [JsonConstructor]
-        public OuterComposite(Option<decimal?> myNumber = default, Option<string?> myString = default, Option<bool?> myBoolean = default)
+        public OuterComposite(Option<bool?> myBoolean = default, Option<decimal?> myNumber = default, Option<string?> myString = default)
         {
+            MyBooleanOption = myBoolean;
             MyNumberOption = myNumber;
             MyStringOption = myString;
-            MyBooleanOption = myBoolean;
             OnCreated();
         }
 
         partial void OnCreated();
+
+        /// <summary>
+        /// Used to track the state of MyBoolean
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<bool?> MyBooleanOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets MyBoolean
+        /// </summary>
+        [JsonPropertyName("my_boolean")]
+        public bool? MyBoolean { get { return this.MyBooleanOption; } set { this.MyBooleanOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MyNumber
@@ -75,19 +88,6 @@ namespace Org.OpenAPITools.Model
         public string? MyString { get { return this.MyStringOption; } set { this.MyStringOption = new(value); } }
 
         /// <summary>
-        /// Used to track the state of MyBoolean
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<bool?> MyBooleanOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets MyBoolean
-        /// </summary>
-        [JsonPropertyName("my_boolean")]
-        public bool? MyBoolean { get { return this.MyBooleanOption; } set { this.MyBooleanOption = new(value); } }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -101,9 +101,9 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class OuterComposite {\n");
+            sb.Append("  MyBoolean: ").Append(MyBoolean).Append("\n");
             sb.Append("  MyNumber: ").Append(MyNumber).Append("\n");
             sb.Append("  MyString: ").Append(MyString).Append("\n");
-            sb.Append("  MyBoolean: ").Append(MyBoolean).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -142,9 +142,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            Option<bool?> myBoolean = default;
             Option<decimal?> myNumber = default;
             Option<string?> myString = default;
-            Option<bool?> myBoolean = default;
 
             while (utf8JsonReader.Read())
             {
@@ -161,6 +161,10 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "my_boolean":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                myBoolean = new Option<bool?>(utf8JsonReader.GetBoolean());
+                            break;
                         case "my_number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 myNumber = new Option<decimal?>(utf8JsonReader.GetDecimal());
@@ -168,15 +172,14 @@ namespace Org.OpenAPITools.Model
                         case "my_string":
                             myString = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
-                        case "my_boolean":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                myBoolean = new Option<bool?>(utf8JsonReader.GetBoolean());
-                            break;
                         default:
                             break;
                     }
                 }
             }
+
+            if (myBoolean.IsSet && myBoolean.Value == null)
+                throw new ArgumentNullException(nameof(myBoolean), "Property is not nullable for class OuterComposite.");
 
             if (myNumber.IsSet && myNumber.Value == null)
                 throw new ArgumentNullException(nameof(myNumber), "Property is not nullable for class OuterComposite.");
@@ -184,10 +187,7 @@ namespace Org.OpenAPITools.Model
             if (myString.IsSet && myString.Value == null)
                 throw new ArgumentNullException(nameof(myString), "Property is not nullable for class OuterComposite.");
 
-            if (myBoolean.IsSet && myBoolean.Value == null)
-                throw new ArgumentNullException(nameof(myBoolean), "Property is not nullable for class OuterComposite.");
-
-            return new OuterComposite(myNumber, myString, myBoolean);
+            return new OuterComposite(myBoolean, myNumber, myString);
         }
 
         /// <summary>
@@ -217,14 +217,14 @@ namespace Org.OpenAPITools.Model
             if (outerComposite.MyStringOption.IsSet && outerComposite.MyString == null)
                 throw new ArgumentNullException(nameof(outerComposite.MyString), "Property is required for class OuterComposite.");
 
+            if (outerComposite.MyBooleanOption.IsSet)
+                writer.WriteBoolean("my_boolean", outerComposite.MyBooleanOption.Value!.Value);
+
             if (outerComposite.MyNumberOption.IsSet)
                 writer.WriteNumber("my_number", outerComposite.MyNumberOption.Value!.Value);
 
             if (outerComposite.MyStringOption.IsSet)
                 writer.WriteString("my_string", outerComposite.MyString);
-
-            if (outerComposite.MyBooleanOption.IsSet)
-                writer.WriteBoolean("my_boolean", outerComposite.MyBooleanOption.Value!.Value);
         }
     }
 }

@@ -4,17 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **Guid** |  | 
 **Description** | **string** |  | 
+**FormulaVersionDate** | **DateTime** |  | 
+**Id** | **Guid** |  | 
 **MixDate** | **DateTime** |  | 
-**TotalRecalculations** | **int** |  | 
 **TotalOverPoors** | **int** |  | 
+**TotalRecalculations** | **int** |  | 
 **TotalSkips** | **int** |  | 
 **TotalUnderPours** | **int** |  | 
-**FormulaVersionDate** | **DateTime** |  | 
-**ShopId** | **Guid** |  | [optional] 
-**TotalPrice** | **float** |  | [optional] 
-**SomeCode** | **string** | SomeCode is only required for color mixes | [optional] 
 **BatchNumber** | **string** |  | [optional] 
 **BrandCode** | **string** | BrandCode is only required for non-color mixes | [optional] 
 **BrandId** | **string** | BrandId is only required for color mixes | [optional] 
@@ -24,7 +21,6 @@ Name | Type | Description | Notes
 **ColorDescription** | **string** |  | [optional] 
 **Comment** | **string** |  | [optional] 
 **CommercialProductCode** | **string** |  | [optional] 
-**ProductLineCode** | **string** | ProductLineCode is only required for color mixes | [optional] 
 **Country** | **string** |  | [optional] 
 **CreatedBy** | **string** |  | [optional] 
 **CreatedByFirstName** | **string** |  | [optional] 
@@ -34,8 +30,12 @@ Name | Type | Description | Notes
 **OwnColorVariantNumber** | **int** |  | [optional] 
 **PrimerProductId** | **string** |  | [optional] 
 **ProductId** | **string** | ProductId is only required for color mixes | [optional] 
+**ProductLineCode** | **string** | ProductLineCode is only required for color mixes | [optional] 
 **ProductName** | **string** | ProductName is only required for color mixes | [optional] 
 **SelectedVersionIndex** | **int** |  | [optional] 
+**ShopId** | **Guid** |  | [optional] 
+**SomeCode** | **string** | SomeCode is only required for color mixes | [optional] 
+**TotalPrice** | **float** |  | [optional] 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

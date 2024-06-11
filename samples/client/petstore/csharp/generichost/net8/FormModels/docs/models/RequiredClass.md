@@ -4,50 +4,50 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**RequiredNotnullableintegerProp** | **int** |  | 
-**RequiredNotnullableStringProp** | **string** |  | 
-**RequiredNotnullableBooleanProp** | **bool** |  | 
 **RequiredNotNullableDateProp** | **DateOnly** |  | 
+**RequiredNotnullableArrayOfString** | **List&lt;string&gt;** |  | 
+**RequiredNotnullableBooleanProp** | **bool** |  | 
 **RequiredNotnullableDatetimeProp** | **DateTime** |  | 
 **RequiredNotnullableEnumInteger** | **RequiredClassRequiredNotnullableEnumInteger** |  | 
 **RequiredNotnullableEnumIntegerOnly** | **RequiredClassRequiredNotnullableEnumIntegerOnly** |  | 
 **RequiredNotnullableEnumString** | **RequiredClassRequiredNotnullableEnumString** |  | 
 **RequiredNotnullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | 
+**RequiredNotnullableStringProp** | **string** |  | 
 **RequiredNotnullableUuid** | **Guid** |  | 
-**RequiredNotnullableArrayOfString** | **List&lt;string&gt;** |  | 
-**RequiredNullableIntegerProp** | **int** |  | 
-**RequiredNullableStringProp** | **string** |  | 
+**RequiredNotnullableintegerProp** | **int** |  | 
+**NotRequiredNotnullableDateProp** | **DateOnly** |  | [optional] 
+**NotRequiredNotnullableintegerProp** | **int** |  | [optional] 
+**NotRequiredNullableDateProp** | **DateOnly** |  | [optional] 
+**NotRequiredNullableIntegerProp** | **int** |  | [optional] 
+**NotrequiredNotnullableArrayOfString** | **List&lt;string&gt;** |  | [optional] 
+**NotrequiredNotnullableBooleanProp** | **bool** |  | [optional] 
+**NotrequiredNotnullableDatetimeProp** | **DateTime** |  | [optional] 
+**NotrequiredNotnullableEnumInteger** | **RequiredClassRequiredNotnullableEnumInteger** |  | [optional] 
+**NotrequiredNotnullableEnumIntegerOnly** | **RequiredClassRequiredNotnullableEnumIntegerOnly** |  | [optional] 
+**NotrequiredNotnullableEnumString** | **RequiredClassRequiredNotnullableEnumString** |  | [optional] 
+**NotrequiredNotnullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
+**NotrequiredNotnullableStringProp** | **string** |  | [optional] 
+**NotrequiredNotnullableUuid** | **Guid** |  | [optional] 
+**NotrequiredNullableArrayOfString** | **List&lt;string&gt;** |  | [optional] 
+**NotrequiredNullableBooleanProp** | **bool** |  | [optional] 
+**NotrequiredNullableDatetimeProp** | **DateTime** |  | [optional] 
+**NotrequiredNullableEnumInteger** | **RequiredClassRequiredNullableEnumInteger** |  | [optional] 
+**NotrequiredNullableEnumIntegerOnly** | **RequiredClassRequiredNullableEnumIntegerOnly** |  | [optional] 
+**NotrequiredNullableEnumString** | **RequiredClassRequiredNullableEnumString** |  | [optional] 
+**NotrequiredNullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
+**NotrequiredNullableStringProp** | **string** |  | [optional] 
+**NotrequiredNullableUuid** | **Guid** |  | [optional] 
+**RequiredNullableArrayOfString** | **List&lt;string&gt;** |  | 
 **RequiredNullableBooleanProp** | **bool** |  | 
 **RequiredNullableDateProp** | **DateOnly** |  | 
 **RequiredNullableDatetimeProp** | **DateTime** |  | 
 **RequiredNullableEnumInteger** | **RequiredClassRequiredNullableEnumInteger** |  | 
 **RequiredNullableEnumIntegerOnly** | **RequiredClassRequiredNullableEnumIntegerOnly** |  | 
 **RequiredNullableEnumString** | **RequiredClassRequiredNullableEnumString** |  | 
+**RequiredNullableIntegerProp** | **int** |  | 
 **RequiredNullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | 
+**RequiredNullableStringProp** | **string** |  | 
 **RequiredNullableUuid** | **Guid** |  | 
-**RequiredNullableArrayOfString** | **List&lt;string&gt;** |  | 
-**NotRequiredNullableIntegerProp** | **int** |  | [optional] 
-**NotRequiredNotnullableintegerProp** | **int** |  | [optional] 
-**NotrequiredNullableStringProp** | **string** |  | [optional] 
-**NotrequiredNotnullableStringProp** | **string** |  | [optional] 
-**NotrequiredNullableBooleanProp** | **bool** |  | [optional] 
-**NotrequiredNotnullableBooleanProp** | **bool** |  | [optional] 
-**NotRequiredNullableDateProp** | **DateOnly** |  | [optional] 
-**NotRequiredNotnullableDateProp** | **DateOnly** |  | [optional] 
-**NotrequiredNullableDatetimeProp** | **DateTime** |  | [optional] 
-**NotrequiredNotnullableDatetimeProp** | **DateTime** |  | [optional] 
-**NotrequiredNullableEnumInteger** | **RequiredClassRequiredNullableEnumInteger** |  | [optional] 
-**NotrequiredNotnullableEnumInteger** | **RequiredClassRequiredNotnullableEnumInteger** |  | [optional] 
-**NotrequiredNullableEnumIntegerOnly** | **RequiredClassRequiredNullableEnumIntegerOnly** |  | [optional] 
-**NotrequiredNotnullableEnumIntegerOnly** | **RequiredClassRequiredNotnullableEnumIntegerOnly** |  | [optional] 
-**NotrequiredNullableEnumString** | **RequiredClassRequiredNullableEnumString** |  | [optional] 
-**NotrequiredNotnullableEnumString** | **RequiredClassRequiredNotnullableEnumString** |  | [optional] 
-**NotrequiredNullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
-**NotrequiredNotnullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
-**NotrequiredNullableUuid** | **Guid** |  | [optional] 
-**NotrequiredNotnullableUuid** | **Guid** |  | [optional] 
-**NotrequiredNullableArrayOfString** | **List&lt;string&gt;** |  | [optional] 
-**NotrequiredNotnullableArrayOfString** | **List&lt;string&gt;** |  | [optional] 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

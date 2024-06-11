@@ -54,24 +54,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'UuidWithPattern'
-        /// </summary>
-        [Fact]
-        public void UuidWithPatternTest()
-        {
-            // TODO unit test for the property 'UuidWithPattern'
-        }
-
-        /// <summary>
-        /// Test the property 'Uuid'
-        /// </summary>
-        [Fact]
-        public void UuidTest()
-        {
-            // TODO unit test for the property 'Uuid'
-        }
-
-        /// <summary>
         /// Test the property 'DateTime'
         /// </summary>
         [Fact]
@@ -87,6 +69,24 @@ namespace Org.OpenAPITools.Test.Model
         public void MapTest()
         {
             // TODO unit test for the property 'Map'
+        }
+
+        /// <summary>
+        /// Test the property 'Uuid'
+        /// </summary>
+        [Fact]
+        public void UuidTest()
+        {
+            // TODO unit test for the property 'Uuid'
+        }
+
+        /// <summary>
+        /// Test the property 'UuidWithPattern'
+        /// </summary>
+        [Fact]
+        public void UuidWithPatternTest()
+        {
+            // TODO unit test for the property 'UuidWithPattern'
         }
     }
 }

@@ -35,30 +35,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>
-        /// <param name="specialPropertyName">specialPropertyName</param>
         /// <param name="varSpecialModelName">varSpecialModelName</param>
+        /// <param name="specialPropertyName">specialPropertyName</param>
         [JsonConstructor]
-        public SpecialModelName(Option<long?> specialPropertyName = default, Option<string?> varSpecialModelName = default)
+        public SpecialModelName(Option<string?> varSpecialModelName = default, Option<long?> specialPropertyName = default)
         {
-            SpecialPropertyNameOption = specialPropertyName;
             VarSpecialModelNameOption = varSpecialModelName;
+            SpecialPropertyNameOption = specialPropertyName;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Used to track the state of SpecialPropertyName
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<long?> SpecialPropertyNameOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets SpecialPropertyName
-        /// </summary>
-        [JsonPropertyName("$special[property.name]")]
-        public long? SpecialPropertyName { get { return this.SpecialPropertyNameOption; } set { this.SpecialPropertyNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of VarSpecialModelName
@@ -74,6 +61,19 @@ namespace Org.OpenAPITools.Model
         public string? VarSpecialModelName { get { return this.VarSpecialModelNameOption; } set { this.VarSpecialModelNameOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of SpecialPropertyName
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<long?> SpecialPropertyNameOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets SpecialPropertyName
+        /// </summary>
+        [JsonPropertyName("$special[property.name]")]
+        public long? SpecialPropertyName { get { return this.SpecialPropertyNameOption; } set { this.SpecialPropertyNameOption = new(value); } }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -87,8 +87,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class SpecialModelName {\n");
-            sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
             sb.Append("  VarSpecialModelName: ").Append(VarSpecialModelName).Append("\n");
+            sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -127,8 +127,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<long?> specialPropertyName = default;
             Option<string?> varSpecialModelName = default;
+            Option<long?> specialPropertyName = default;
 
             while (utf8JsonReader.Read())
             {
@@ -145,12 +145,12 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "_special_model.name_":
+                            varSpecialModelName = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         case "$special[property.name]":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 specialPropertyName = new Option<long?>(utf8JsonReader.GetInt64());
-                            break;
-                        case "_special_model.name_":
-                            varSpecialModelName = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -158,13 +158,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (specialPropertyName.IsSet && specialPropertyName.Value == null)
-                throw new ArgumentNullException(nameof(specialPropertyName), "Property is not nullable for class SpecialModelName.");
-
             if (varSpecialModelName.IsSet && varSpecialModelName.Value == null)
                 throw new ArgumentNullException(nameof(varSpecialModelName), "Property is not nullable for class SpecialModelName.");
 
-            return new SpecialModelName(specialPropertyName, varSpecialModelName);
+            if (specialPropertyName.IsSet && specialPropertyName.Value == null)
+                throw new ArgumentNullException(nameof(specialPropertyName), "Property is not nullable for class SpecialModelName.");
+
+            return new SpecialModelName(varSpecialModelName, specialPropertyName);
         }
 
         /// <summary>
@@ -194,11 +194,11 @@ namespace Org.OpenAPITools.Model
             if (specialModelName.VarSpecialModelNameOption.IsSet && specialModelName.VarSpecialModelName == null)
                 throw new ArgumentNullException(nameof(specialModelName.VarSpecialModelName), "Property is required for class SpecialModelName.");
 
-            if (specialModelName.SpecialPropertyNameOption.IsSet)
-                writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyNameOption.Value!.Value);
-
             if (specialModelName.VarSpecialModelNameOption.IsSet)
                 writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName);
+
+            if (specialModelName.SpecialPropertyNameOption.IsSet)
+                writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyNameOption.Value!.Value);
         }
     }
 

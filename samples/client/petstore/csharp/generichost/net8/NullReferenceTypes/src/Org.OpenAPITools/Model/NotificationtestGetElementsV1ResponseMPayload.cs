@@ -34,29 +34,29 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="NotificationtestGetElementsV1ResponseMPayload" /> class.
         /// </summary>
-        /// <param name="pkiNotificationtestID">pkiNotificationtestID</param>
         /// <param name="aObjVariableobject">aObjVariableobject</param>
+        /// <param name="pkiNotificationtestID">pkiNotificationtestID</param>
         [JsonConstructor]
-        public NotificationtestGetElementsV1ResponseMPayload(int pkiNotificationtestID, List<Dictionary<string, Object>> aObjVariableobject)
+        public NotificationtestGetElementsV1ResponseMPayload(List<Dictionary<string, Object>> aObjVariableobject, int pkiNotificationtestID)
         {
-            PkiNotificationtestID = pkiNotificationtestID;
             AObjVariableobject = aObjVariableobject;
+            PkiNotificationtestID = pkiNotificationtestID;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets PkiNotificationtestID
-        /// </summary>
-        [JsonPropertyName("pkiNotificationtestID")]
-        public int PkiNotificationtestID { get; set; }
-
-        /// <summary>
         /// Gets or Sets AObjVariableobject
         /// </summary>
         [JsonPropertyName("a_objVariableobject")]
         public List<Dictionary<string, Object>> AObjVariableobject { get; set; }
+
+        /// <summary>
+        /// Gets or Sets PkiNotificationtestID
+        /// </summary>
+        [JsonPropertyName("pkiNotificationtestID")]
+        public int PkiNotificationtestID { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -72,8 +72,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class NotificationtestGetElementsV1ResponseMPayload {\n");
-            sb.Append("  PkiNotificationtestID: ").Append(PkiNotificationtestID).Append("\n");
             sb.Append("  AObjVariableobject: ").Append(AObjVariableobject).Append("\n");
+            sb.Append("  PkiNotificationtestID: ").Append(PkiNotificationtestID).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -112,8 +112,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<int?> pkiNotificationtestID = default;
             Option<List<Dictionary<string, Object>>?> aObjVariableobject = default;
+            Option<int?> pkiNotificationtestID = default;
 
             while (utf8JsonReader.Read())
             {
@@ -130,13 +130,13 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "pkiNotificationtestID":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                pkiNotificationtestID = new Option<int?>(utf8JsonReader.GetInt32());
-                            break;
                         case "a_objVariableobject":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 aObjVariableobject = new Option<List<Dictionary<string, Object>>?>(JsonSerializer.Deserialize<List<Dictionary<string, Object>>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
+                        case "pkiNotificationtestID":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                pkiNotificationtestID = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;
@@ -144,19 +144,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!pkiNotificationtestID.IsSet)
-                throw new ArgumentException("Property is required for class NotificationtestGetElementsV1ResponseMPayload.", nameof(pkiNotificationtestID));
-
             if (!aObjVariableobject.IsSet)
                 throw new ArgumentException("Property is required for class NotificationtestGetElementsV1ResponseMPayload.", nameof(aObjVariableobject));
 
-            if (pkiNotificationtestID.IsSet && pkiNotificationtestID.Value == null)
-                throw new ArgumentNullException(nameof(pkiNotificationtestID), "Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload.");
+            if (!pkiNotificationtestID.IsSet)
+                throw new ArgumentException("Property is required for class NotificationtestGetElementsV1ResponseMPayload.", nameof(pkiNotificationtestID));
 
             if (aObjVariableobject.IsSet && aObjVariableobject.Value == null)
                 throw new ArgumentNullException(nameof(aObjVariableobject), "Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload.");
 
-            return new NotificationtestGetElementsV1ResponseMPayload(pkiNotificationtestID.Value!.Value!, aObjVariableobject.Value!);
+            if (pkiNotificationtestID.IsSet && pkiNotificationtestID.Value == null)
+                throw new ArgumentNullException(nameof(pkiNotificationtestID), "Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload.");
+
+            return new NotificationtestGetElementsV1ResponseMPayload(aObjVariableobject.Value!, pkiNotificationtestID.Value!.Value!);
         }
 
         /// <summary>
@@ -186,10 +186,9 @@ namespace Org.OpenAPITools.Model
             if (notificationtestGetElementsV1ResponseMPayload.AObjVariableobject == null)
                 throw new ArgumentNullException(nameof(notificationtestGetElementsV1ResponseMPayload.AObjVariableobject), "Property is required for class NotificationtestGetElementsV1ResponseMPayload.");
 
-            writer.WriteNumber("pkiNotificationtestID", notificationtestGetElementsV1ResponseMPayload.PkiNotificationtestID);
-
             writer.WritePropertyName("a_objVariableobject");
             JsonSerializer.Serialize(writer, notificationtestGetElementsV1ResponseMPayload.AObjVariableobject, jsonSerializerOptions);
+            writer.WriteNumber("pkiNotificationtestID", notificationtestGetElementsV1ResponseMPayload.PkiNotificationtestID);
         }
     }
 }

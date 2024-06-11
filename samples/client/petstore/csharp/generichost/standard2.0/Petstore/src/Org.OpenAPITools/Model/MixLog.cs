@@ -32,17 +32,14 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="MixLog" /> class.
         /// </summary>
-        /// <param name="id">id</param>
         /// <param name="description">description</param>
+        /// <param name="formulaVersionDate">formulaVersionDate</param>
+        /// <param name="id">id</param>
         /// <param name="mixDate">mixDate</param>
-        /// <param name="totalRecalculations">totalRecalculations</param>
         /// <param name="totalOverPoors">totalOverPoors</param>
+        /// <param name="totalRecalculations">totalRecalculations</param>
         /// <param name="totalSkips">totalSkips</param>
         /// <param name="totalUnderPours">totalUnderPours</param>
-        /// <param name="formulaVersionDate">formulaVersionDate</param>
-        /// <param name="shopId">shopId</param>
-        /// <param name="totalPrice">totalPrice</param>
-        /// <param name="someCode">SomeCode is only required for color mixes</param>
         /// <param name="batchNumber">batchNumber</param>
         /// <param name="brandCode">BrandCode is only required for non-color mixes</param>
         /// <param name="brandId">BrandId is only required for color mixes</param>
@@ -52,7 +49,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="colorDescription">colorDescription</param>
         /// <param name="comment">comment</param>
         /// <param name="commercialProductCode">commercialProductCode</param>
-        /// <param name="productLineCode">ProductLineCode is only required for color mixes</param>
         /// <param name="country">country</param>
         /// <param name="createdBy">createdBy</param>
         /// <param name="createdByFirstName">createdByFirstName</param>
@@ -62,22 +58,23 @@ namespace Org.OpenAPITools.Model
         /// <param name="ownColorVariantNumber">ownColorVariantNumber</param>
         /// <param name="primerProductId">primerProductId</param>
         /// <param name="productId">ProductId is only required for color mixes</param>
+        /// <param name="productLineCode">ProductLineCode is only required for color mixes</param>
         /// <param name="productName">ProductName is only required for color mixes</param>
         /// <param name="selectedVersionIndex">selectedVersionIndex</param>
+        /// <param name="shopId">shopId</param>
+        /// <param name="someCode">SomeCode is only required for color mixes</param>
+        /// <param name="totalPrice">totalPrice</param>
         [JsonConstructor]
-        public MixLog(Guid id, string description, DateTime mixDate, int totalRecalculations, int totalOverPoors, int totalSkips, int totalUnderPours, DateTime formulaVersionDate, Option<Guid?> shopId = default, Option<float?> totalPrice = default, Option<string> someCode = default, Option<string> batchNumber = default, Option<string> brandCode = default, Option<string> brandId = default, Option<string> brandName = default, Option<string> categoryCode = default, Option<string> color = default, Option<string> colorDescription = default, Option<string> comment = default, Option<string> commercialProductCode = default, Option<string> productLineCode = default, Option<string> country = default, Option<string> createdBy = default, Option<string> createdByFirstName = default, Option<string> createdByLastName = default, Option<string> deltaECalculationRepaired = default, Option<string> deltaECalculationSprayout = default, Option<int?> ownColorVariantNumber = default, Option<string> primerProductId = default, Option<string> productId = default, Option<string> productName = default, Option<int?> selectedVersionIndex = default)
+        public MixLog(string description, DateTime formulaVersionDate, Guid id, DateTime mixDate, int totalOverPoors, int totalRecalculations, int totalSkips, int totalUnderPours, Option<string> batchNumber = default, Option<string> brandCode = default, Option<string> brandId = default, Option<string> brandName = default, Option<string> categoryCode = default, Option<string> color = default, Option<string> colorDescription = default, Option<string> comment = default, Option<string> commercialProductCode = default, Option<string> country = default, Option<string> createdBy = default, Option<string> createdByFirstName = default, Option<string> createdByLastName = default, Option<string> deltaECalculationRepaired = default, Option<string> deltaECalculationSprayout = default, Option<int?> ownColorVariantNumber = default, Option<string> primerProductId = default, Option<string> productId = default, Option<string> productLineCode = default, Option<string> productName = default, Option<int?> selectedVersionIndex = default, Option<Guid?> shopId = default, Option<string> someCode = default, Option<float?> totalPrice = default)
         {
-            Id = id;
             Description = description;
+            FormulaVersionDate = formulaVersionDate;
+            Id = id;
             MixDate = mixDate;
-            TotalRecalculations = totalRecalculations;
             TotalOverPoors = totalOverPoors;
+            TotalRecalculations = totalRecalculations;
             TotalSkips = totalSkips;
             TotalUnderPours = totalUnderPours;
-            FormulaVersionDate = formulaVersionDate;
-            ShopIdOption = shopId;
-            TotalPriceOption = totalPrice;
-            SomeCodeOption = someCode;
             BatchNumberOption = batchNumber;
             BrandCodeOption = brandCode;
             BrandIdOption = brandId;
@@ -87,7 +84,6 @@ namespace Org.OpenAPITools.Model
             ColorDescriptionOption = colorDescription;
             CommentOption = comment;
             CommercialProductCodeOption = commercialProductCode;
-            ProductLineCodeOption = productLineCode;
             CountryOption = country;
             CreatedByOption = createdBy;
             CreatedByFirstNameOption = createdByFirstName;
@@ -97,18 +93,16 @@ namespace Org.OpenAPITools.Model
             OwnColorVariantNumberOption = ownColorVariantNumber;
             PrimerProductIdOption = primerProductId;
             ProductIdOption = productId;
+            ProductLineCodeOption = productLineCode;
             ProductNameOption = productName;
             SelectedVersionIndexOption = selectedVersionIndex;
+            ShopIdOption = shopId;
+            SomeCodeOption = someCode;
+            TotalPriceOption = totalPrice;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [JsonPropertyName("id")]
-        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Description
@@ -117,22 +111,34 @@ namespace Org.OpenAPITools.Model
         public string Description { get; set; }
 
         /// <summary>
+        /// Gets or Sets FormulaVersionDate
+        /// </summary>
+        [JsonPropertyName("formulaVersionDate")]
+        public DateTime FormulaVersionDate { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [JsonPropertyName("id")]
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// Gets or Sets MixDate
         /// </summary>
         [JsonPropertyName("mixDate")]
         public DateTime MixDate { get; set; }
 
         /// <summary>
-        /// Gets or Sets TotalRecalculations
-        /// </summary>
-        [JsonPropertyName("totalRecalculations")]
-        public int TotalRecalculations { get; set; }
-
-        /// <summary>
         /// Gets or Sets TotalOverPoors
         /// </summary>
         [JsonPropertyName("totalOverPoors")]
         public int TotalOverPoors { get; set; }
+
+        /// <summary>
+        /// Gets or Sets TotalRecalculations
+        /// </summary>
+        [JsonPropertyName("totalRecalculations")]
+        public int TotalRecalculations { get; set; }
 
         /// <summary>
         /// Gets or Sets TotalSkips
@@ -145,52 +151,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("totalUnderPours")]
         public int TotalUnderPours { get; set; }
-
-        /// <summary>
-        /// Gets or Sets FormulaVersionDate
-        /// </summary>
-        [JsonPropertyName("formulaVersionDate")]
-        public DateTime FormulaVersionDate { get; set; }
-
-        /// <summary>
-        /// Used to track the state of ShopId
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Guid?> ShopIdOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets ShopId
-        /// </summary>
-        [JsonPropertyName("shopId")]
-        public Guid? ShopId { get { return this.ShopIdOption; } set { this.ShopIdOption = new Option<Guid?>(value); } }
-
-        /// <summary>
-        /// Used to track the state of TotalPrice
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<float?> TotalPriceOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets TotalPrice
-        /// </summary>
-        [JsonPropertyName("totalPrice")]
-        public float? TotalPrice { get { return this.TotalPriceOption; } set { this.TotalPriceOption = new Option<float?>(value); } }
-
-        /// <summary>
-        /// Used to track the state of SomeCode
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string> SomeCodeOption { get; private set; }
-
-        /// <summary>
-        /// SomeCode is only required for color mixes
-        /// </summary>
-        /// <value>SomeCode is only required for color mixes</value>
-        [JsonPropertyName("someCode")]
-        public string SomeCode { get { return this.SomeCodeOption; } set { this.SomeCodeOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of BatchNumber
@@ -315,20 +275,6 @@ namespace Org.OpenAPITools.Model
         public string CommercialProductCode { get { return this.CommercialProductCodeOption; } set { this.CommercialProductCodeOption = new Option<string>(value); } }
 
         /// <summary>
-        /// Used to track the state of ProductLineCode
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string> ProductLineCodeOption { get; private set; }
-
-        /// <summary>
-        /// ProductLineCode is only required for color mixes
-        /// </summary>
-        /// <value>ProductLineCode is only required for color mixes</value>
-        [JsonPropertyName("productLineCode")]
-        public string ProductLineCode { get { return this.ProductLineCodeOption; } set { this.ProductLineCodeOption = new Option<string>(value); } }
-
-        /// <summary>
         /// Used to track the state of Country
         /// </summary>
         [JsonIgnore]
@@ -447,6 +393,20 @@ namespace Org.OpenAPITools.Model
         public string ProductId { get { return this.ProductIdOption; } set { this.ProductIdOption = new Option<string>(value); } }
 
         /// <summary>
+        /// Used to track the state of ProductLineCode
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> ProductLineCodeOption { get; private set; }
+
+        /// <summary>
+        /// ProductLineCode is only required for color mixes
+        /// </summary>
+        /// <value>ProductLineCode is only required for color mixes</value>
+        [JsonPropertyName("productLineCode")]
+        public string ProductLineCode { get { return this.ProductLineCodeOption; } set { this.ProductLineCodeOption = new Option<string>(value); } }
+
+        /// <summary>
         /// Used to track the state of ProductName
         /// </summary>
         [JsonIgnore]
@@ -474,6 +434,46 @@ namespace Org.OpenAPITools.Model
         public int? SelectedVersionIndex { get { return this.SelectedVersionIndexOption; } set { this.SelectedVersionIndexOption = new Option<int?>(value); } }
 
         /// <summary>
+        /// Used to track the state of ShopId
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<Guid?> ShopIdOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets ShopId
+        /// </summary>
+        [JsonPropertyName("shopId")]
+        public Guid? ShopId { get { return this.ShopIdOption; } set { this.ShopIdOption = new Option<Guid?>(value); } }
+
+        /// <summary>
+        /// Used to track the state of SomeCode
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> SomeCodeOption { get; private set; }
+
+        /// <summary>
+        /// SomeCode is only required for color mixes
+        /// </summary>
+        /// <value>SomeCode is only required for color mixes</value>
+        [JsonPropertyName("someCode")]
+        public string SomeCode { get { return this.SomeCodeOption; } set { this.SomeCodeOption = new Option<string>(value); } }
+
+        /// <summary>
+        /// Used to track the state of TotalPrice
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<float?> TotalPriceOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets TotalPrice
+        /// </summary>
+        [JsonPropertyName("totalPrice")]
+        public float? TotalPrice { get { return this.TotalPriceOption; } set { this.TotalPriceOption = new Option<float?>(value); } }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -487,17 +487,14 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MixLog {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
+            sb.Append("  FormulaVersionDate: ").Append(FormulaVersionDate).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  MixDate: ").Append(MixDate).Append("\n");
-            sb.Append("  TotalRecalculations: ").Append(TotalRecalculations).Append("\n");
             sb.Append("  TotalOverPoors: ").Append(TotalOverPoors).Append("\n");
+            sb.Append("  TotalRecalculations: ").Append(TotalRecalculations).Append("\n");
             sb.Append("  TotalSkips: ").Append(TotalSkips).Append("\n");
             sb.Append("  TotalUnderPours: ").Append(TotalUnderPours).Append("\n");
-            sb.Append("  FormulaVersionDate: ").Append(FormulaVersionDate).Append("\n");
-            sb.Append("  ShopId: ").Append(ShopId).Append("\n");
-            sb.Append("  TotalPrice: ").Append(TotalPrice).Append("\n");
-            sb.Append("  SomeCode: ").Append(SomeCode).Append("\n");
             sb.Append("  BatchNumber: ").Append(BatchNumber).Append("\n");
             sb.Append("  BrandCode: ").Append(BrandCode).Append("\n");
             sb.Append("  BrandId: ").Append(BrandId).Append("\n");
@@ -507,7 +504,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("  ColorDescription: ").Append(ColorDescription).Append("\n");
             sb.Append("  Comment: ").Append(Comment).Append("\n");
             sb.Append("  CommercialProductCode: ").Append(CommercialProductCode).Append("\n");
-            sb.Append("  ProductLineCode: ").Append(ProductLineCode).Append("\n");
             sb.Append("  Country: ").Append(Country).Append("\n");
             sb.Append("  CreatedBy: ").Append(CreatedBy).Append("\n");
             sb.Append("  CreatedByFirstName: ").Append(CreatedByFirstName).Append("\n");
@@ -517,8 +513,12 @@ namespace Org.OpenAPITools.Model
             sb.Append("  OwnColorVariantNumber: ").Append(OwnColorVariantNumber).Append("\n");
             sb.Append("  PrimerProductId: ").Append(PrimerProductId).Append("\n");
             sb.Append("  ProductId: ").Append(ProductId).Append("\n");
+            sb.Append("  ProductLineCode: ").Append(ProductLineCode).Append("\n");
             sb.Append("  ProductName: ").Append(ProductName).Append("\n");
             sb.Append("  SelectedVersionIndex: ").Append(SelectedVersionIndex).Append("\n");
+            sb.Append("  ShopId: ").Append(ShopId).Append("\n");
+            sb.Append("  SomeCode: ").Append(SomeCode).Append("\n");
+            sb.Append("  TotalPrice: ").Append(TotalPrice).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -541,14 +541,14 @@ namespace Org.OpenAPITools.Model
     public class MixLogJsonConverter : JsonConverter<MixLog>
     {
         /// <summary>
-        /// The format to use to serialize MixDate
-        /// </summary>
-        public static string MixDateFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
-
-        /// <summary>
         /// The format to use to serialize FormulaVersionDate
         /// </summary>
         public static string FormulaVersionDateFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+
+        /// <summary>
+        /// The format to use to serialize MixDate
+        /// </summary>
+        public static string MixDateFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="MixLog" />
@@ -567,17 +567,14 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<Guid?> id = default;
             Option<string> description = default;
+            Option<DateTime?> formulaVersionDate = default;
+            Option<Guid?> id = default;
             Option<DateTime?> mixDate = default;
-            Option<int?> totalRecalculations = default;
             Option<int?> totalOverPoors = default;
+            Option<int?> totalRecalculations = default;
             Option<int?> totalSkips = default;
             Option<int?> totalUnderPours = default;
-            Option<DateTime?> formulaVersionDate = default;
-            Option<Guid?> shopId = default;
-            Option<float?> totalPrice = default;
-            Option<string> someCode = default;
             Option<string> batchNumber = default;
             Option<string> brandCode = default;
             Option<string> brandId = default;
@@ -587,7 +584,6 @@ namespace Org.OpenAPITools.Model
             Option<string> colorDescription = default;
             Option<string> comment = default;
             Option<string> commercialProductCode = default;
-            Option<string> productLineCode = default;
             Option<string> country = default;
             Option<string> createdBy = default;
             Option<string> createdByFirstName = default;
@@ -597,8 +593,12 @@ namespace Org.OpenAPITools.Model
             Option<int?> ownColorVariantNumber = default;
             Option<string> primerProductId = default;
             Option<string> productId = default;
+            Option<string> productLineCode = default;
             Option<string> productName = default;
             Option<int?> selectedVersionIndex = default;
+            Option<Guid?> shopId = default;
+            Option<string> someCode = default;
+            Option<float?> totalPrice = default;
 
             while (utf8JsonReader.Read())
             {
@@ -615,24 +615,28 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "description":
+                            description = new Option<string>(utf8JsonReader.GetString());
+                            break;
+                        case "formulaVersionDate":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                formulaVersionDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 id = new Option<Guid?>(utf8JsonReader.GetGuid());
-                            break;
-                        case "description":
-                            description = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "mixDate":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 mixDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
-                        case "totalRecalculations":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                totalRecalculations = new Option<int?>(utf8JsonReader.GetInt32());
-                            break;
                         case "totalOverPoors":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 totalOverPoors = new Option<int?>(utf8JsonReader.GetInt32());
+                            break;
+                        case "totalRecalculations":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                totalRecalculations = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         case "totalSkips":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -641,21 +645,6 @@ namespace Org.OpenAPITools.Model
                         case "totalUnderPours":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 totalUnderPours = new Option<int?>(utf8JsonReader.GetInt32());
-                            break;
-                        case "formulaVersionDate":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                formulaVersionDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
-                        case "shopId":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                shopId = new Option<Guid?>(utf8JsonReader.GetGuid());
-                            break;
-                        case "totalPrice":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                totalPrice = new Option<float?>((float)utf8JsonReader.GetDouble());
-                            break;
-                        case "someCode":
-                            someCode = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "batchNumber":
                             batchNumber = new Option<string>(utf8JsonReader.GetString());
@@ -683,9 +672,6 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "commercialProductCode":
                             commercialProductCode = new Option<string>(utf8JsonReader.GetString());
-                            break;
-                        case "productLineCode":
-                            productLineCode = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "country":
                             country = new Option<string>(utf8JsonReader.GetString());
@@ -715,6 +701,9 @@ namespace Org.OpenAPITools.Model
                         case "productId":
                             productId = new Option<string>(utf8JsonReader.GetString());
                             break;
+                        case "productLineCode":
+                            productLineCode = new Option<string>(utf8JsonReader.GetString());
+                            break;
                         case "productName":
                             productName = new Option<string>(utf8JsonReader.GetString());
                             break;
@@ -722,26 +711,40 @@ namespace Org.OpenAPITools.Model
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 selectedVersionIndex = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
+                        case "shopId":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                shopId = new Option<Guid?>(utf8JsonReader.GetGuid());
+                            break;
+                        case "someCode":
+                            someCode = new Option<string>(utf8JsonReader.GetString());
+                            break;
+                        case "totalPrice":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                totalPrice = new Option<float?>((float)utf8JsonReader.GetDouble());
+                            break;
                         default:
                             break;
                     }
                 }
             }
 
-            if (!id.IsSet)
-                throw new ArgumentException("Property is required for class MixLog.", nameof(id));
-
             if (!description.IsSet)
                 throw new ArgumentException("Property is required for class MixLog.", nameof(description));
+
+            if (!formulaVersionDate.IsSet)
+                throw new ArgumentException("Property is required for class MixLog.", nameof(formulaVersionDate));
+
+            if (!id.IsSet)
+                throw new ArgumentException("Property is required for class MixLog.", nameof(id));
 
             if (!mixDate.IsSet)
                 throw new ArgumentException("Property is required for class MixLog.", nameof(mixDate));
 
-            if (!totalRecalculations.IsSet)
-                throw new ArgumentException("Property is required for class MixLog.", nameof(totalRecalculations));
-
             if (!totalOverPoors.IsSet)
                 throw new ArgumentException("Property is required for class MixLog.", nameof(totalOverPoors));
+
+            if (!totalRecalculations.IsSet)
+                throw new ArgumentException("Property is required for class MixLog.", nameof(totalRecalculations));
 
             if (!totalSkips.IsSet)
                 throw new ArgumentException("Property is required for class MixLog.", nameof(totalSkips));
@@ -749,35 +752,29 @@ namespace Org.OpenAPITools.Model
             if (!totalUnderPours.IsSet)
                 throw new ArgumentException("Property is required for class MixLog.", nameof(totalUnderPours));
 
-            if (!formulaVersionDate.IsSet)
-                throw new ArgumentException("Property is required for class MixLog.", nameof(formulaVersionDate));
+            if (description.IsSet && description.Value == null)
+                throw new ArgumentNullException(nameof(description), "Property is not nullable for class MixLog.");
+
+            if (formulaVersionDate.IsSet && formulaVersionDate.Value == null)
+                throw new ArgumentNullException(nameof(formulaVersionDate), "Property is not nullable for class MixLog.");
 
             if (id.IsSet && id.Value == null)
                 throw new ArgumentNullException(nameof(id), "Property is not nullable for class MixLog.");
 
-            if (description.IsSet && description.Value == null)
-                throw new ArgumentNullException(nameof(description), "Property is not nullable for class MixLog.");
-
             if (mixDate.IsSet && mixDate.Value == null)
                 throw new ArgumentNullException(nameof(mixDate), "Property is not nullable for class MixLog.");
 
-            if (totalRecalculations.IsSet && totalRecalculations.Value == null)
-                throw new ArgumentNullException(nameof(totalRecalculations), "Property is not nullable for class MixLog.");
-
             if (totalOverPoors.IsSet && totalOverPoors.Value == null)
                 throw new ArgumentNullException(nameof(totalOverPoors), "Property is not nullable for class MixLog.");
+
+            if (totalRecalculations.IsSet && totalRecalculations.Value == null)
+                throw new ArgumentNullException(nameof(totalRecalculations), "Property is not nullable for class MixLog.");
 
             if (totalSkips.IsSet && totalSkips.Value == null)
                 throw new ArgumentNullException(nameof(totalSkips), "Property is not nullable for class MixLog.");
 
             if (totalUnderPours.IsSet && totalUnderPours.Value == null)
                 throw new ArgumentNullException(nameof(totalUnderPours), "Property is not nullable for class MixLog.");
-
-            if (formulaVersionDate.IsSet && formulaVersionDate.Value == null)
-                throw new ArgumentNullException(nameof(formulaVersionDate), "Property is not nullable for class MixLog.");
-
-            if (shopId.IsSet && shopId.Value == null)
-                throw new ArgumentNullException(nameof(shopId), "Property is not nullable for class MixLog.");
 
             if (batchNumber.IsSet && batchNumber.Value == null)
                 throw new ArgumentNullException(nameof(batchNumber), "Property is not nullable for class MixLog.");
@@ -806,9 +803,6 @@ namespace Org.OpenAPITools.Model
             if (commercialProductCode.IsSet && commercialProductCode.Value == null)
                 throw new ArgumentNullException(nameof(commercialProductCode), "Property is not nullable for class MixLog.");
 
-            if (productLineCode.IsSet && productLineCode.Value == null)
-                throw new ArgumentNullException(nameof(productLineCode), "Property is not nullable for class MixLog.");
-
             if (country.IsSet && country.Value == null)
                 throw new ArgumentNullException(nameof(country), "Property is not nullable for class MixLog.");
 
@@ -833,13 +827,19 @@ namespace Org.OpenAPITools.Model
             if (productId.IsSet && productId.Value == null)
                 throw new ArgumentNullException(nameof(productId), "Property is not nullable for class MixLog.");
 
+            if (productLineCode.IsSet && productLineCode.Value == null)
+                throw new ArgumentNullException(nameof(productLineCode), "Property is not nullable for class MixLog.");
+
             if (productName.IsSet && productName.Value == null)
                 throw new ArgumentNullException(nameof(productName), "Property is not nullable for class MixLog.");
 
             if (selectedVersionIndex.IsSet && selectedVersionIndex.Value == null)
                 throw new ArgumentNullException(nameof(selectedVersionIndex), "Property is not nullable for class MixLog.");
 
-            return new MixLog(id.Value.Value, description.Value, mixDate.Value.Value, totalRecalculations.Value.Value, totalOverPoors.Value.Value, totalSkips.Value.Value, totalUnderPours.Value.Value, formulaVersionDate.Value.Value, shopId, totalPrice, someCode, batchNumber, brandCode, brandId, brandName, categoryCode, color, colorDescription, comment, commercialProductCode, productLineCode, country, createdBy, createdByFirstName, createdByLastName, deltaECalculationRepaired, deltaECalculationSprayout, ownColorVariantNumber, primerProductId, productId, productName, selectedVersionIndex);
+            if (shopId.IsSet && shopId.Value == null)
+                throw new ArgumentNullException(nameof(shopId), "Property is not nullable for class MixLog.");
+
+            return new MixLog(description.Value, formulaVersionDate.Value.Value, id.Value.Value, mixDate.Value.Value, totalOverPoors.Value.Value, totalRecalculations.Value.Value, totalSkips.Value.Value, totalUnderPours.Value.Value, batchNumber, brandCode, brandId, brandName, categoryCode, color, colorDescription, comment, commercialProductCode, country, createdBy, createdByFirstName, createdByLastName, deltaECalculationRepaired, deltaECalculationSprayout, ownColorVariantNumber, primerProductId, productId, productLineCode, productName, selectedVersionIndex, shopId, someCode, totalPrice);
         }
 
         /// <summary>
@@ -896,9 +896,6 @@ namespace Org.OpenAPITools.Model
             if (mixLog.CommercialProductCodeOption.IsSet && mixLog.CommercialProductCode == null)
                 throw new ArgumentNullException(nameof(mixLog.CommercialProductCode), "Property is required for class MixLog.");
 
-            if (mixLog.ProductLineCodeOption.IsSet && mixLog.ProductLineCode == null)
-                throw new ArgumentNullException(nameof(mixLog.ProductLineCode), "Property is required for class MixLog.");
-
             if (mixLog.CountryOption.IsSet && mixLog.Country == null)
                 throw new ArgumentNullException(nameof(mixLog.Country), "Property is required for class MixLog.");
 
@@ -923,39 +920,27 @@ namespace Org.OpenAPITools.Model
             if (mixLog.ProductIdOption.IsSet && mixLog.ProductId == null)
                 throw new ArgumentNullException(nameof(mixLog.ProductId), "Property is required for class MixLog.");
 
+            if (mixLog.ProductLineCodeOption.IsSet && mixLog.ProductLineCode == null)
+                throw new ArgumentNullException(nameof(mixLog.ProductLineCode), "Property is required for class MixLog.");
+
             if (mixLog.ProductNameOption.IsSet && mixLog.ProductName == null)
                 throw new ArgumentNullException(nameof(mixLog.ProductName), "Property is required for class MixLog.");
 
-            writer.WriteString("id", mixLog.Id);
-
             writer.WriteString("description", mixLog.Description);
+
+            writer.WriteString("formulaVersionDate", mixLog.FormulaVersionDate.ToString(FormulaVersionDateFormat));
+
+            writer.WriteString("id", mixLog.Id);
 
             writer.WriteString("mixDate", mixLog.MixDate.ToString(MixDateFormat));
 
-            writer.WriteNumber("totalRecalculations", mixLog.TotalRecalculations);
-
             writer.WriteNumber("totalOverPoors", mixLog.TotalOverPoors);
+
+            writer.WriteNumber("totalRecalculations", mixLog.TotalRecalculations);
 
             writer.WriteNumber("totalSkips", mixLog.TotalSkips);
 
             writer.WriteNumber("totalUnderPours", mixLog.TotalUnderPours);
-
-            writer.WriteString("formulaVersionDate", mixLog.FormulaVersionDate.ToString(FormulaVersionDateFormat));
-
-            if (mixLog.ShopIdOption.IsSet)
-                writer.WriteString("shopId", mixLog.ShopIdOption.Value.Value);
-
-            if (mixLog.TotalPriceOption.IsSet)
-                if (mixLog.TotalPriceOption.Value != null)
-                    writer.WriteNumber("totalPrice", mixLog.TotalPriceOption.Value.Value);
-                else
-                    writer.WriteNull("totalPrice");
-
-            if (mixLog.SomeCodeOption.IsSet)
-                if (mixLog.SomeCodeOption.Value != null)
-                    writer.WriteString("someCode", mixLog.SomeCode);
-                else
-                    writer.WriteNull("someCode");
 
             if (mixLog.BatchNumberOption.IsSet)
                 writer.WriteString("batchNumber", mixLog.BatchNumber);
@@ -983,9 +968,6 @@ namespace Org.OpenAPITools.Model
 
             if (mixLog.CommercialProductCodeOption.IsSet)
                 writer.WriteString("commercialProductCode", mixLog.CommercialProductCode);
-
-            if (mixLog.ProductLineCodeOption.IsSet)
-                writer.WriteString("productLineCode", mixLog.ProductLineCode);
 
             if (mixLog.CountryOption.IsSet)
                 writer.WriteString("country", mixLog.Country);
@@ -1017,11 +999,29 @@ namespace Org.OpenAPITools.Model
             if (mixLog.ProductIdOption.IsSet)
                 writer.WriteString("productId", mixLog.ProductId);
 
+            if (mixLog.ProductLineCodeOption.IsSet)
+                writer.WriteString("productLineCode", mixLog.ProductLineCode);
+
             if (mixLog.ProductNameOption.IsSet)
                 writer.WriteString("productName", mixLog.ProductName);
 
             if (mixLog.SelectedVersionIndexOption.IsSet)
                 writer.WriteNumber("selectedVersionIndex", mixLog.SelectedVersionIndexOption.Value.Value);
+
+            if (mixLog.ShopIdOption.IsSet)
+                writer.WriteString("shopId", mixLog.ShopIdOption.Value.Value);
+
+            if (mixLog.SomeCodeOption.IsSet)
+                if (mixLog.SomeCodeOption.Value != null)
+                    writer.WriteString("someCode", mixLog.SomeCode);
+                else
+                    writer.WriteNull("someCode");
+
+            if (mixLog.TotalPriceOption.IsSet)
+                if (mixLog.TotalPriceOption.Value != null)
+                    writer.WriteNumber("totalPrice", mixLog.TotalPriceOption.Value.Value);
+                else
+                    writer.WriteNull("totalPrice");
         }
     }
 }

@@ -33,14 +33,14 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ApiResponse" /> class.
         /// </summary>
         /// <param name="code">code</param>
-        /// <param name="type">type</param>
         /// <param name="message">message</param>
+        /// <param name="type">type</param>
         [JsonConstructor]
-        public ApiResponse(Option<int?> code = default, Option<string> type = default, Option<string> message = default)
+        public ApiResponse(Option<int?> code = default, Option<string> message = default, Option<string> type = default)
         {
             CodeOption = code;
-            TypeOption = type;
             MessageOption = message;
+            TypeOption = type;
             OnCreated();
         }
 
@@ -60,19 +60,6 @@ namespace Org.OpenAPITools.Model
         public int? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<int?>(value); } }
 
         /// <summary>
-        /// Used to track the state of Type
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string> TypeOption { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets Type
-        /// </summary>
-        [JsonPropertyName("type")]
-        public string Type { get { return this.TypeOption; } set { this.TypeOption = new Option<string>(value); } }
-
-        /// <summary>
         /// Used to track the state of Message
         /// </summary>
         [JsonIgnore]
@@ -84,6 +71,19 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("message")]
         public string Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string>(value); } }
+
+        /// <summary>
+        /// Used to track the state of Type
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> TypeOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Type
+        /// </summary>
+        [JsonPropertyName("type")]
+        public string Type { get { return this.TypeOption; } set { this.TypeOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -100,8 +100,8 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ApiResponse {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -141,8 +141,8 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<int?> code = default;
-            Option<string> type = default;
             Option<string> message = default;
+            Option<string> type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -163,11 +163,11 @@ namespace Org.OpenAPITools.Model
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 code = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
-                        case "type":
-                            type = new Option<string>(utf8JsonReader.GetString());
-                            break;
                         case "message":
                             message = new Option<string>(utf8JsonReader.GetString());
+                            break;
+                        case "type":
+                            type = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -178,13 +178,13 @@ namespace Org.OpenAPITools.Model
             if (code.IsSet && code.Value == null)
                 throw new ArgumentNullException(nameof(code), "Property is not nullable for class ApiResponse.");
 
-            if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class ApiResponse.");
-
             if (message.IsSet && message.Value == null)
                 throw new ArgumentNullException(nameof(message), "Property is not nullable for class ApiResponse.");
 
-            return new ApiResponse(code, type, message);
+            if (type.IsSet && type.Value == null)
+                throw new ArgumentNullException(nameof(type), "Property is not nullable for class ApiResponse.");
+
+            return new ApiResponse(code, message, type);
         }
 
         /// <summary>
@@ -211,20 +211,20 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ApiResponse apiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (apiResponse.TypeOption.IsSet && apiResponse.Type == null)
-                throw new ArgumentNullException(nameof(apiResponse.Type), "Property is required for class ApiResponse.");
-
             if (apiResponse.MessageOption.IsSet && apiResponse.Message == null)
                 throw new ArgumentNullException(nameof(apiResponse.Message), "Property is required for class ApiResponse.");
+
+            if (apiResponse.TypeOption.IsSet && apiResponse.Type == null)
+                throw new ArgumentNullException(nameof(apiResponse.Type), "Property is required for class ApiResponse.");
 
             if (apiResponse.CodeOption.IsSet)
                 writer.WriteNumber("code", apiResponse.CodeOption.Value.Value);
 
-            if (apiResponse.TypeOption.IsSet)
-                writer.WriteString("type", apiResponse.Type);
-
             if (apiResponse.MessageOption.IsSet)
                 writer.WriteString("message", apiResponse.Message);
+
+            if (apiResponse.TypeOption.IsSet)
+                writer.WriteString("type", apiResponse.Type);
         }
     }
 }

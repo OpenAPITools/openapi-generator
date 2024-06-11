@@ -35,23 +35,17 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
-        /// <param name="name">name (default to &quot;default-name&quot;)</param>
         /// <param name="id">id</param>
+        /// <param name="name">name (default to &quot;default-name&quot;)</param>
         [JsonConstructor]
-        public Category(string name = @"default-name", Option<long?> id = default)
+        public Category(Option<long?> id = default, string name = @"default-name")
         {
-            Name = name;
             IdOption = id;
+            Name = name;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Gets or Sets Name
-        /// </summary>
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
 
         /// <summary>
         /// Used to track the state of Id
@@ -67,6 +61,12 @@ namespace Org.OpenAPITools.Model
         public long? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
+        /// Gets or Sets Name
+        /// </summary>
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -80,8 +80,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Category {\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -120,8 +120,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> name = default;
             Option<long?> id = default;
+            Option<string?> name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -138,12 +138,12 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "name":
-                            name = new Option<string?>(utf8JsonReader.GetString()!);
-                            break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 id = new Option<long?>(utf8JsonReader.GetInt64());
+                            break;
+                        case "name":
+                            name = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -154,13 +154,13 @@ namespace Org.OpenAPITools.Model
             if (!name.IsSet)
                 throw new ArgumentException("Property is required for class Category.", nameof(name));
 
-            if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Category.");
-
             if (id.IsSet && id.Value == null)
                 throw new ArgumentNullException(nameof(id), "Property is not nullable for class Category.");
 
-            return new Category(name.Value!, id);
+            if (name.IsSet && name.Value == null)
+                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Category.");
+
+            return new Category(id, name.Value!);
         }
 
         /// <summary>
@@ -190,10 +190,10 @@ namespace Org.OpenAPITools.Model
             if (category.Name == null)
                 throw new ArgumentNullException(nameof(category.Name), "Property is required for class Category.");
 
-            writer.WriteString("name", category.Name);
-
             if (category.IdOption.IsSet)
                 writer.WriteNumber("id", category.IdOption.Value!.Value);
+
+            writer.WriteString("name", category.Name);
         }
     }
 

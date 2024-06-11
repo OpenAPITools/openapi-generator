@@ -119,14 +119,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean nonPublicApi = Boolean.FALSE;
 
     private static final String OPERATION_PARAMETER_SORTING_KEY = "operationParameterSorting";
-    private static final String MODEL_PROPERTY_SORTING_KEY = "modelPropertySortingKey";
+    private static final String MODEL_PROPERTY_SORTING_KEY = "modelPropertySorting";
     enum SortingMethod {
         DEFAULT,
         ALPHABETICAL,
         LEGACY
     }
     private SortingMethod operationParameterSorting = SortingMethod.LEGACY;
-    private SortingMethod modelPropertySorting = SortingMethod.DEFAULT;
+    private SortingMethod modelPropertySorting = SortingMethod.LEGACY;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
     protected String releaseNote = "Minor update";

@@ -54,21 +54,30 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Id'
-        /// </summary>
-        [Fact]
-        public void IdTest()
-        {
-            // TODO unit test for the property 'Id'
-        }
-
-        /// <summary>
         /// Test the property 'Description'
         /// </summary>
         [Fact]
         public void DescriptionTest()
         {
             // TODO unit test for the property 'Description'
+        }
+
+        /// <summary>
+        /// Test the property 'FormulaVersionDate'
+        /// </summary>
+        [Fact]
+        public void FormulaVersionDateTest()
+        {
+            // TODO unit test for the property 'FormulaVersionDate'
+        }
+
+        /// <summary>
+        /// Test the property 'Id'
+        /// </summary>
+        [Fact]
+        public void IdTest()
+        {
+            // TODO unit test for the property 'Id'
         }
 
         /// <summary>
@@ -81,21 +90,21 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'TotalRecalculations'
-        /// </summary>
-        [Fact]
-        public void TotalRecalculationsTest()
-        {
-            // TODO unit test for the property 'TotalRecalculations'
-        }
-
-        /// <summary>
         /// Test the property 'TotalOverPoors'
         /// </summary>
         [Fact]
         public void TotalOverPoorsTest()
         {
             // TODO unit test for the property 'TotalOverPoors'
+        }
+
+        /// <summary>
+        /// Test the property 'TotalRecalculations'
+        /// </summary>
+        [Fact]
+        public void TotalRecalculationsTest()
+        {
+            // TODO unit test for the property 'TotalRecalculations'
         }
 
         /// <summary>
@@ -114,42 +123,6 @@ namespace Org.OpenAPITools.Test.Model
         public void TotalUnderPoursTest()
         {
             // TODO unit test for the property 'TotalUnderPours'
-        }
-
-        /// <summary>
-        /// Test the property 'FormulaVersionDate'
-        /// </summary>
-        [Fact]
-        public void FormulaVersionDateTest()
-        {
-            // TODO unit test for the property 'FormulaVersionDate'
-        }
-
-        /// <summary>
-        /// Test the property 'ShopId'
-        /// </summary>
-        [Fact]
-        public void ShopIdTest()
-        {
-            // TODO unit test for the property 'ShopId'
-        }
-
-        /// <summary>
-        /// Test the property 'TotalPrice'
-        /// </summary>
-        [Fact]
-        public void TotalPriceTest()
-        {
-            // TODO unit test for the property 'TotalPrice'
-        }
-
-        /// <summary>
-        /// Test the property 'SomeCode'
-        /// </summary>
-        [Fact]
-        public void SomeCodeTest()
-        {
-            // TODO unit test for the property 'SomeCode'
         }
 
         /// <summary>
@@ -234,15 +207,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'ProductLineCode'
-        /// </summary>
-        [Fact]
-        public void ProductLineCodeTest()
-        {
-            // TODO unit test for the property 'ProductLineCode'
-        }
-
-        /// <summary>
         /// Test the property 'Country'
         /// </summary>
         [Fact]
@@ -324,6 +288,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'ProductLineCode'
+        /// </summary>
+        [Fact]
+        public void ProductLineCodeTest()
+        {
+            // TODO unit test for the property 'ProductLineCode'
+        }
+
+        /// <summary>
         /// Test the property 'ProductName'
         /// </summary>
         [Fact]
@@ -339,6 +312,33 @@ namespace Org.OpenAPITools.Test.Model
         public void SelectedVersionIndexTest()
         {
             // TODO unit test for the property 'SelectedVersionIndex'
+        }
+
+        /// <summary>
+        /// Test the property 'ShopId'
+        /// </summary>
+        [Fact]
+        public void ShopIdTest()
+        {
+            // TODO unit test for the property 'ShopId'
+        }
+
+        /// <summary>
+        /// Test the property 'SomeCode'
+        /// </summary>
+        [Fact]
+        public void SomeCodeTest()
+        {
+            // TODO unit test for the property 'SomeCode'
+        }
+
+        /// <summary>
+        /// Test the property 'TotalPrice'
+        /// </summary>
+        [Fact]
+        public void TotalPriceTest()
+        {
+            // TODO unit test for the property 'TotalPrice'
         }
     }
 }
