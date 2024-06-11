@@ -67,6 +67,9 @@ android {
     lintOptions {
         abortOnError false
     }
+    packagingOptions {
+        resources.excludes += "META-INF/DEPENDENCIES"
+    }
 
     // Rename the aar correctly
     libraryVariants.all { variant ->
