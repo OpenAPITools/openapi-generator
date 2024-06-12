@@ -102,7 +102,6 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
     static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
-    public static final String DEFAULT_HELIDON_VERSION = "3.0.1";
     public static final String HELIDON_VERSION = "helidonVersion";
 
     // Helidon 3 featured reactive style; more recent releases feature synchronous.
@@ -487,8 +486,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         private static final String DEFAULT_VERSIONS = "<data>\n" +
                                                        "  <archetypes>\n" +
                                                        "    <version>2.6.5</version>\n" +
-                                                       "    <version>3.2.6</version>\n" +
-                                                       "    <version>4.0.5</version>\n" +
+                                                       "    <version>3.2.7</version>\n" +
+                                                       "    <version>4.0.9</version>\n" +
                                                        "  </archetypes>\n" +
                                                        "</data>";
 
@@ -516,7 +515,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         }
 
         String defaultVersion() {
-            return DEFAULT_HELIDON_VERSION;
+            return versions.get(versions.size() - 1);
         }
 
         static int majorVersion(String fullVersion) {
