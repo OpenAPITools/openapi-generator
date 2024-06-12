@@ -80,6 +80,12 @@
             <groupId>io.helidon.openapi</groupId>
             <artifactId>helidon-openapi</artifactId>
         </dependency>
+        {{#x-helidon-usesMultipart}}
+        <dependency>
+            <groupId>io.helidon.http.media</groupId>
+            <artifactId>helidon-http-media-multipart</artifactId>
+        </dependency>
+        {{/x-helidon-usesMultipart}}
 {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -109,6 +115,13 @@
             <artifactId>helidon-webclient</artifactId>
             <scope>test</scope>
         </dependency>
+{{^x-helidon-v3}}
+        <dependency>
+            <groupId>io.helidon.webserver.testing.junit5</groupId>
+            <artifactId>helidon-webserver-testing-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+{{/x-helidon-v3}}
     </dependencies>
 
     <build>

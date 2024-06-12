@@ -133,6 +133,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             importMapping.put("HeaderNames", "io.helidon.http.HeaderNames");
             importMapping.put("Parameters", "io.helidon.common.parameters.Parameters");
             importMapping.put("Value", "io.helidon.common.mapper.Value");
+            importMapping.put("MultiPart", "io.helidon.http.media.multipart.MultiPart");
         }
         supportingFiles.clear();
         dateLibrary = "java8";
@@ -279,11 +280,13 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             if (codegenOperation.getHasBodyParam() && codegenOperation.bodyParam.isContainer) {
                 codegenOperation.imports.add("GenericType");
             }
-            if (codegenOperation.getHasPathParams()) {
-            }
             if (codegenOperation.getHasHeaderParams()) {
                 codegenOperation.imports.add("Headers");
                 codegenOperation.imports.add("HeaderNames");
+            }
+            if (codegenOperation.isMultipart) {
+                codegenOperation.imports.add("MultiPart");
+                additionalProperties.put(USES_MULTIPART, true);
             }
             if (codegenOperation.getHasFormParams()) {
                 codegenOperation.imports.add("Parameters");

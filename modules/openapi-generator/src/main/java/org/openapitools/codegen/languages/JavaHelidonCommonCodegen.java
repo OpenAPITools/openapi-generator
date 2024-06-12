@@ -108,6 +108,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     // Helidon 3 featured reactive style; more recent releases feature synchronous.
     static final String V3_STYLE = "x-helidon-v3";
 
+    static final String USES_MULTIPART = "x-helidon-usesMultipart";
+
     static final String HELIDON_VERSION_DESC = "Helidon complete version identifier or major version number. "
         + "The specified exact Helidon release or, if specified as a major version the latest release of that major version, "
         + " is used in the generated code.";
