@@ -144,7 +144,7 @@ conf = petstore_api.Configuration(
                  server_operation_index=None, server_operation_variables=None,
                  ssl_ca_cert=None,
                  *,
-                 debug: bool | None = None
+                 debug: Optional[bool] = None
                  ) -> None:
         """Constructor
         """
