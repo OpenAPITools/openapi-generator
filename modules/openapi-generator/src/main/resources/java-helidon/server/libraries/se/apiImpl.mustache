@@ -37,14 +37,24 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
 {{!
 
   If the operation has form parameters we need to generate code to process the request body as form data, creating a Helidon
-  Parameters object we can use to assign the individual form variables.
+  Parameters object we can use to assign the individual form variables. That is, unless the body is multipart in which case
+  we handle things differently.
 
-}}{{#formParams}}{{#-first}}        Parameters formParams = request.content().as(Parameters.class);
-{{/-first}}{{/formParams}}{{!
-}}{{#allParams}}{{!
+}}{{^isMultipart}}{{#formParams}}{{#-first}}        Parameters formParams = request.content().as(Parameters.class);
+{{/-first}}{{/formParams}}{{/isMultipart}}{{!
+}}{{#isMultipart}}        MultiPart multiPart = request.content().as(MultiPart.class);
+        multiPart.forEachRemaining(part -> {
+                // TODO: Insert user-implemented handling of multipart data here.
+        });
+{{/isMultipart}}{{!
+}}{{#allParams}}{{^isFormParam}}{{!
 }}        {{>paramDecl}} = {{#isBodyParam}}{{>bodyParamValue}}{{/isBodyParam}}{{^isBodyParam}}{{>paramValue}}{{/isBodyParam}};
 
-{{/allParams}}
+{{/isFormParam}}{{/allParams}}{{!
+}}{{^isMultipart}}{{#formParams}}{{!
+}}        {{>paramDecl}} = {{>paramValue}};
+{{/formParams}}{{!
+}}{{/isMultipart}}
 {{/x-helidon-v3}}
 {{/useAbstractClass}}
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
