@@ -16,8 +16,12 @@
 
 package org.openapitools.codegen;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.*;
 
+@Getter @Setter
 public class CodegenComposedSchemas {
     private List<CodegenProperty> allOf;
     private List<CodegenProperty> oneOf;
@@ -28,38 +32,6 @@ public class CodegenComposedSchemas {
         this.allOf = allOf;
         this.oneOf = oneOf;
         this.anyOf = anyOf;
-        this.not = not;
-    }
-
-    public List<CodegenProperty> getAllOf() {
-        return allOf;
-    }
-
-    public List<CodegenProperty> getOneOf() {
-        return oneOf;
-    }
-
-    public List<CodegenProperty> getAnyOf() {
-        return anyOf;
-    }
-
-    public CodegenProperty getNot() {
-        return not;
-    }
-
-    public void setAllOf(List<CodegenProperty> allOf) {
-        this.allOf = allOf;
-    }
-
-    public void setOneOf(List<CodegenProperty> oneOf) {
-        this.oneOf = oneOf;
-    }
-
-    public void setAnyOf(List<CodegenProperty> anyOf) {
-        this.anyOf = anyOf;
-    }
-
-    public void setNot(CodegenProperty not) {
         this.not = not;
     }
 

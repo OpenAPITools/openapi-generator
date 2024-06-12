@@ -119,6 +119,9 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     schemaMappings.set(generate.schemaMappings)
                     inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
                     inlineSchemaOptions.set(generate.inlineSchemaOptions)
+                    nameMappings.set(generate.nameMappings)
+                    modelNameMappings.set(generate.modelNameMappings)
+                    parameterNameMappings.set(generate.parameterNameMappings)
                     openapiNormalizer.set(generate.openapiNormalizer)
                     invokerPackage.set(generate.invokerPackage)
                     groupId.set(generate.groupId)
@@ -141,7 +144,6 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     generateModelDocumentation.set(generate.generateModelDocumentation)
                     generateApiTests.set(generate.generateApiTests)
                     generateApiDocumentation.set(generate.generateApiDocumentation)
-                    withXml.set(generate.withXml)
                     configOptions.set(generate.configOptions)
                     logToStderr.set(generate.logToStderr)
                     enablePostProcessFile.set(generate.enablePostProcessFile)
@@ -159,4 +161,6 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
         const val pluginGroup = "OpenAPI Tools"
     }
 }
+
+
 

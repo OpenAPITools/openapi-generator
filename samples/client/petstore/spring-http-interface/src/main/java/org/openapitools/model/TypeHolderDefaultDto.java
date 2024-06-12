@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -21,7 +22,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("TypeHolderDefault")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TypeHolderDefaultDto {
 
   private String stringItem = "what";
@@ -34,6 +35,10 @@ public class TypeHolderDefaultDto {
 
   
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+
+  public TypeHolderDefaultDto() {
+    super();
+  }
 
   public TypeHolderDefaultDto stringItem(String stringItem) {
     this.stringItem = stringItem;

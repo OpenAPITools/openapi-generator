@@ -46,7 +46,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -245,7 +245,6 @@ public class EnumTest {
     this.enumString = enumString;
   }
 
-
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     
     this.enumStringRequired = enumStringRequired;
@@ -271,7 +270,6 @@ public class EnumTest {
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
-
 
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
     
@@ -299,7 +297,6 @@ public class EnumTest {
     this.enumInteger = enumInteger;
   }
 
-
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
     
     this.enumNumber = enumNumber;
@@ -325,7 +322,6 @@ public class EnumTest {
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
-
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
     this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
@@ -361,7 +357,6 @@ public class EnumTest {
     this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
   }
 
-
   public EnumTest outerEnumInteger(OuterEnumInteger outerEnumInteger) {
     
     this.outerEnumInteger = outerEnumInteger;
@@ -388,7 +383,6 @@ public class EnumTest {
     this.outerEnumInteger = outerEnumInteger;
   }
 
-
   public EnumTest outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
     
     this.outerEnumDefaultValue = outerEnumDefaultValue;
@@ -414,7 +408,6 @@ public class EnumTest {
   public void setOuterEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
     this.outerEnumDefaultValue = outerEnumDefaultValue;
   }
-
 
   public EnumTest outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
     

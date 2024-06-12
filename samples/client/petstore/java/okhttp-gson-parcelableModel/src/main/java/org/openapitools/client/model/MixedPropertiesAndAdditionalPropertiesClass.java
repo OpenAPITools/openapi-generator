@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -49,7 +49,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -57,7 +56,7 @@ import org.openapitools.client.JSON;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
@@ -75,7 +74,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    
     this.uuid = uuid;
     return this;
   }
@@ -89,14 +87,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
     return uuid;
   }
 
-
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    
     this.dateTime = dateTime;
     return this;
   }
@@ -110,14 +106,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
     return dateTime;
   }
 
-
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
 
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
-    
     this.map = map;
     return this;
   }
@@ -138,7 +132,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   public Map<String, Animal> getMap() {
     return map;
   }
-
 
   public void setMap(Map<String, Animal> map) {
     this.map = map;
@@ -240,9 +233,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!MixedPropertiesAndAdditionalPropertiesClass.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `MixedPropertiesAndAdditionalPropertiesClass` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }

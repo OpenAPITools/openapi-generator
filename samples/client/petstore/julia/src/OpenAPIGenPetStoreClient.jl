@@ -11,6 +11,7 @@ const API_VERSION = "1.0.0"
 
 include("modelincludes.jl")
 
+include("apis/api_FakeApi.jl")
 include("apis/api_PetApi.jl")
 include("apis/api_StoreApi.jl")
 include("apis/api_UserApi.jl")
@@ -18,12 +19,14 @@ include("apis/api_UserApi.jl")
 # export models
 export ApiResponse
 export Category
+export MappedModel
 export Order
 export Pet
 export Tag
 export User
 
 # export operations
+export FakeApi
 export PetApi
 export StoreApi
 export UserApi

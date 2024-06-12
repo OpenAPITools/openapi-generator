@@ -30,7 +30,9 @@ pub async fn create(addr: &str, https: bool) {
 
     let service = MakeService::new(server);
 
-    let service = MakeAllowAllAuthenticator::new(service, "cosmo");
+    // This pushes a fourth layer of the middleware-stack even though Swagger assumes only three levels.
+    // This fourth layer creates an accept-all policy, hower the example-code already acchieves the same via a Bearer-token with full permissions, so next line is not needed (anymore).  
+    // let service = MakeAllowAllAuthenticator::new(service, "cosmo");
 
     #[allow(unused_mut)]
     let mut service =
@@ -56,6 +58,7 @@ pub async fn create(addr: &str, https: bool) {
             let tls_acceptor = ssl.build();
             let tcp_listener = TcpListener::bind(&addr).await.unwrap();
 
+            info!("Starting a server (with https)");
             loop {
                 if let Ok((tcp, _)) = tcp_listener.accept().await {
                     let ssl = Ssl::new(tls_acceptor.context()).unwrap();
@@ -75,6 +78,7 @@ pub async fn create(addr: &str, https: bool) {
             }
         }
     } else {
+        info!("Starting a server (over http, so no TLS)");
         // Using HTTP
         hyper::server::Server::bind(&addr).serve(service).await.unwrap()
     }
@@ -90,6 +94,12 @@ impl<C> Server<C> {
         Server{marker: PhantomData}
     }
 }
+
+
+use jsonwebtoken::{decode, encode, errors::Error as JwtError, Algorithm, DecodingKey, EncodingKey, Header, TokenData, Validation};
+use serde::{Deserialize, Serialize};
+use swagger::auth::Authorization;
+use crate::server_auth;
 
 
 use petstore_with_fake_endpoints_models_for_testing::{
@@ -143,18 +153,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: models::Client,
         context: &C) -> Result<TestSpecialTagsResponse, ApiError>
     {
-        let context = context.clone();
         info!("test_special_tags({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn call123example(
         &self,
         context: &C) -> Result<Call123exampleResponse, ApiError>
     {
-        let context = context.clone();
         info!("call123example() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn fake_outer_boolean_serialize(
@@ -162,9 +170,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: Option<models::OuterBoolean>,
         context: &C) -> Result<FakeOuterBooleanSerializeResponse, ApiError>
     {
-        let context = context.clone();
         info!("fake_outer_boolean_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn fake_outer_composite_serialize(
@@ -172,9 +179,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: Option<models::OuterComposite>,
         context: &C) -> Result<FakeOuterCompositeSerializeResponse, ApiError>
     {
-        let context = context.clone();
         info!("fake_outer_composite_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn fake_outer_number_serialize(
@@ -182,9 +188,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: Option<models::OuterNumber>,
         context: &C) -> Result<FakeOuterNumberSerializeResponse, ApiError>
     {
-        let context = context.clone();
         info!("fake_outer_number_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn fake_outer_string_serialize(
@@ -192,18 +197,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: Option<models::OuterString>,
         context: &C) -> Result<FakeOuterStringSerializeResponse, ApiError>
     {
-        let context = context.clone();
         info!("fake_outer_string_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn fake_response_with_numerical_description(
         &self,
         context: &C) -> Result<FakeResponseWithNumericalDescriptionResponse, ApiError>
     {
-        let context = context.clone();
         info!("fake_response_with_numerical_description() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn hyphen_param(
@@ -211,9 +214,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         hyphen_param: String,
         context: &C) -> Result<HyphenParamResponse, ApiError>
     {
-        let context = context.clone();
         info!("hyphen_param(\"{}\") - X-Span-ID: {:?}", hyphen_param, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn test_body_with_query_params(
@@ -222,9 +224,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: models::User,
         context: &C) -> Result<TestBodyWithQueryParamsResponse, ApiError>
     {
-        let context = context.clone();
         info!("test_body_with_query_params(\"{}\", {:?}) - X-Span-ID: {:?}", query, body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// To test \"client\" model
@@ -233,9 +234,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: models::Client,
         context: &C) -> Result<TestClientModelResponse, ApiError>
     {
-        let context = context.clone();
         info!("test_client_model({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -251,15 +251,14 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         float: Option<f32>,
         string: Option<String>,
         binary: Option<swagger::ByteArray>,
-        date: Option<chrono::DateTime::<chrono::Utc>>,
+        date: Option<chrono::naive::NaiveDate>,
         date_time: Option<chrono::DateTime::<chrono::Utc>>,
         password: Option<String>,
         callback: Option<String>,
         context: &C) -> Result<TestEndpointParametersResponse, ApiError>
     {
-        let context = context.clone();
         info!("test_endpoint_parameters({}, {}, \"{}\", {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// To test enum parameters
@@ -274,9 +273,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         enum_form_string: Option<String>,
         context: &C) -> Result<TestEnumParametersResponse, ApiError>
     {
-        let context = context.clone();
         info!("test_enum_parameters({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, enum_form_string, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// test inline additionalProperties
@@ -285,9 +283,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         param: std::collections::HashMap<String, String>,
         context: &C) -> Result<TestInlineAdditionalPropertiesResponse, ApiError>
     {
-        let context = context.clone();
         info!("test_inline_additional_properties({:?}) - X-Span-ID: {:?}", param, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// test json serialization of form data
@@ -297,9 +294,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         param2: String,
         context: &C) -> Result<TestJsonFormDataResponse, ApiError>
     {
-        let context = context.clone();
         info!("test_json_form_data(\"{}\", \"{}\") - X-Span-ID: {:?}", param, param2, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// To test class name in snake case
@@ -308,9 +304,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: models::Client,
         context: &C) -> Result<TestClassnameResponse, ApiError>
     {
-        let context = context.clone();
         info!("test_classname({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Add a new pet to the store
@@ -319,9 +314,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: models::Pet,
         context: &C) -> Result<AddPetResponse, ApiError>
     {
-        let context = context.clone();
         info!("add_pet({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Deletes a pet
@@ -331,9 +325,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         api_key: Option<String>,
         context: &C) -> Result<DeletePetResponse, ApiError>
     {
-        let context = context.clone();
         info!("delete_pet({}, {:?}) - X-Span-ID: {:?}", pet_id, api_key, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Finds Pets by status
@@ -342,9 +335,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         status: &Vec<String>,
         context: &C) -> Result<FindPetsByStatusResponse, ApiError>
     {
-        let context = context.clone();
         info!("find_pets_by_status({:?}) - X-Span-ID: {:?}", status, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Finds Pets by tags
@@ -353,9 +345,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         tags: &Vec<String>,
         context: &C) -> Result<FindPetsByTagsResponse, ApiError>
     {
-        let context = context.clone();
         info!("find_pets_by_tags({:?}) - X-Span-ID: {:?}", tags, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Find pet by ID
@@ -364,9 +355,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         pet_id: i64,
         context: &C) -> Result<GetPetByIdResponse, ApiError>
     {
-        let context = context.clone();
         info!("get_pet_by_id({}) - X-Span-ID: {:?}", pet_id, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Update an existing pet
@@ -375,9 +365,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: models::Pet,
         context: &C) -> Result<UpdatePetResponse, ApiError>
     {
-        let context = context.clone();
         info!("update_pet({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Updates a pet in the store with form data
@@ -388,9 +377,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         status: Option<String>,
         context: &C) -> Result<UpdatePetWithFormResponse, ApiError>
     {
-        let context = context.clone();
         info!("update_pet_with_form({}, {:?}, {:?}) - X-Span-ID: {:?}", pet_id, name, status, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// uploads an image
@@ -401,9 +389,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         file: Option<swagger::ByteArray>,
         context: &C) -> Result<UploadFileResponse, ApiError>
     {
-        let context = context.clone();
         info!("upload_file({}, {:?}, {:?}) - X-Span-ID: {:?}", pet_id, additional_metadata, file, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Delete purchase order by ID
@@ -412,9 +399,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         order_id: String,
         context: &C) -> Result<DeleteOrderResponse, ApiError>
     {
-        let context = context.clone();
         info!("delete_order(\"{}\") - X-Span-ID: {:?}", order_id, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Returns pet inventories by status
@@ -422,9 +408,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         &self,
         context: &C) -> Result<GetInventoryResponse, ApiError>
     {
-        let context = context.clone();
         info!("get_inventory() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Find purchase order by ID
@@ -433,9 +418,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         order_id: i64,
         context: &C) -> Result<GetOrderByIdResponse, ApiError>
     {
-        let context = context.clone();
         info!("get_order_by_id({}) - X-Span-ID: {:?}", order_id, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Place an order for a pet
@@ -444,9 +428,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: models::Order,
         context: &C) -> Result<PlaceOrderResponse, ApiError>
     {
-        let context = context.clone();
         info!("place_order({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Create user
@@ -455,9 +438,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: models::User,
         context: &C) -> Result<CreateUserResponse, ApiError>
     {
-        let context = context.clone();
         info!("create_user({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Creates list of users with given input array
@@ -466,9 +448,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: &Vec<models::User>,
         context: &C) -> Result<CreateUsersWithArrayInputResponse, ApiError>
     {
-        let context = context.clone();
         info!("create_users_with_array_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Creates list of users with given input array
@@ -477,9 +458,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: &Vec<models::User>,
         context: &C) -> Result<CreateUsersWithListInputResponse, ApiError>
     {
-        let context = context.clone();
         info!("create_users_with_list_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Delete user
@@ -488,9 +468,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         username: String,
         context: &C) -> Result<DeleteUserResponse, ApiError>
     {
-        let context = context.clone();
         info!("delete_user(\"{}\") - X-Span-ID: {:?}", username, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Get user by user name
@@ -499,9 +478,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         username: String,
         context: &C) -> Result<GetUserByNameResponse, ApiError>
     {
-        let context = context.clone();
         info!("get_user_by_name(\"{}\") - X-Span-ID: {:?}", username, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Logs user into the system
@@ -511,9 +489,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         password: String,
         context: &C) -> Result<LoginUserResponse, ApiError>
     {
-        let context = context.clone();
         info!("login_user(\"{}\", \"{}\") - X-Span-ID: {:?}", username, password, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Logs out current logged in user session
@@ -521,9 +498,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         &self,
         context: &C) -> Result<LogoutUserResponse, ApiError>
     {
-        let context = context.clone();
         info!("logout_user() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     /// Updated user
@@ -533,9 +509,8 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         body: models::User,
         context: &C) -> Result<UpdateUserResponse, ApiError>
     {
-        let context = context.clone();
         info!("update_user(\"{}\", {:?}) - X-Span-ID: {:?}", username, body, context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
 }

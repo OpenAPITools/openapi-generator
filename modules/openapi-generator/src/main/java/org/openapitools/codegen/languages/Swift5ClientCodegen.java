@@ -17,8 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -83,23 +84,24 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected static final String RESPONSE_LIBRARY_COMBINE = "Combine";
     protected static final String RESPONSE_LIBRARY_ASYNC_AWAIT = "AsyncAwait";
     protected static final String[] RESPONSE_LIBRARIES = {RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_ASYNC_AWAIT};
-    protected String projectName = "OpenAPIClient";
-    protected boolean nonPublicApi = false;
-    protected boolean objcCompatible = false;
-    protected boolean lenientTypeCast = false;
-    protected boolean readonlyProperties = false;
-    protected boolean swiftUseApiNamespace = false;
-    protected boolean useSPMFileStructure = false;
-    protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
-    protected boolean useClasses = false;
-    protected boolean useBacktickEscapes = false;
-    protected boolean generateModelAdditionalProperties = true;
-    protected boolean hashableModels = true;
-    protected boolean useJsonEncodable = true;
+    @Setter protected String projectName = "OpenAPIClient";
+    @Setter protected boolean nonPublicApi = false;
+    @Setter protected boolean objcCompatible = false;
+    @Setter protected boolean lenientTypeCast = false;
+    @Setter protected boolean readonlyProperties = false;
+    @Setter protected boolean swiftUseApiNamespace = false;
+    @Setter protected boolean useSPMFileStructure = false;
+    @Setter protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
+    @Setter protected boolean useClasses = false;
+    @Setter protected boolean useBacktickEscapes = false;
+    @Setter protected boolean generateModelAdditionalProperties = true;
+    @Setter protected boolean hashableModels = true;
+    @Setter protected boolean useJsonEncodable = true;
+    @Getter @Setter
     protected boolean mapFileBinaryToData = false;
-    protected boolean useCustomDateWithoutTime = false;
-    protected boolean validatable = true;
-    protected String[] responseAs = new String[0];
+    @Setter protected boolean useCustomDateWithoutTime = false;
+    @Setter protected boolean validatable = true;
+    @Setter protected String[] responseAs = new String[0];
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
     protected String apiDocPath = "docs/";
@@ -394,8 +396,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (additionalProperties != null) {
             Schema inner = null;
             if (ModelUtils.isArraySchema(schema)) {
-                ArraySchema ap = (ArraySchema) schema;
-                inner = ap.getItems();
+                inner = ModelUtils.getSchemaItems(schema);
             } else if (ModelUtils.isMapSchema(schema)) {
                 inner = ModelUtils.getAdditionalProperties(schema);
             }
@@ -636,18 +637,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     }
 
-    public boolean isMapFileBinaryToData() {
-        return mapFileBinaryToData;
-    }
-
-    public void setMapFileBinaryToData(boolean mapFileBinaryToData) {
-        this.mapFileBinaryToData = mapFileBinaryToData;
-    }
-
-    public void setUseCustomDateWithoutTime(boolean useCustomDateWithoutTime) {
-        this.useCustomDateWithoutTime = useCustomDateWithoutTime;
-    }
-
     @Override
     protected boolean isReservedWord(String word) {
         return word != null && reservedWords.contains(word); //don't lowercase as super does
@@ -676,8 +665,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -719,6 +707,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String toModelName(String name) {
+
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // FIXME parameter should not be assigned. Also declare it as "final"
         name = sanitizeName(name);
 
@@ -769,11 +762,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toDefaultValue(Schema p) {
         if (p.getEnum() != null && !p.getEnum().isEmpty()) {
             if (p.getDefault() != null) {
-                if (ModelUtils.isStringSchema(p)) {
-                    return "." + toEnumVarName(escapeText((String) p.getDefault()), p.getType());
-                } else {
-                    return "." + toEnumVarName(escapeText(p.getDefault().toString()), p.getType());
-                }
+                return "." + toEnumVarName(escapeText(String.valueOf(p.getDefault())), p.getType());
             }
         }
         if (p.getDefault() != null) {
@@ -786,7 +775,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + (instant.get(ChronoField.MICRO_OF_SECOND));
                 return "Date(timeIntervalSince1970: " + epochMicro + ".0 / 1_000_000)";
             } else if (ModelUtils.isStringSchema(p)) {
-                return "\"" + escapeText((String) p.getDefault()) + "\"";
+                return "\"" + escapeText(String.valueOf(p.getDefault())) + "\"";
             }
             // TODO: Handle more cases from `ModelUtils`, such as Date
         }
@@ -798,8 +787,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (ModelUtils.isMapSchema(p)) {
             return getSchemaType(ModelUtils.getAdditionalProperties(p));
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             return ModelUtils.isSet(p) ? "Set<" + inner + ">" : "[" + inner + "]";
         }
         return null;
@@ -954,66 +942,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         return codegenModel;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setNonPublicApi(boolean nonPublicApi) {
-        this.nonPublicApi = nonPublicApi;
-    }
-
-    public void setObjcCompatible(boolean objcCompatible) {
-        this.objcCompatible = objcCompatible;
-    }
-
-    public void setLenientTypeCast(boolean lenientTypeCast) {
-        this.lenientTypeCast = lenientTypeCast;
-    }
-
-    public void setReadonlyProperties(boolean readonlyProperties) {
-        this.readonlyProperties = readonlyProperties;
-    }
-
-    public void setResponseAs(String[] responseAs) {
-        this.responseAs = responseAs;
-    }
-
-    public void setSwiftUseApiNamespace(boolean swiftUseApiNamespace) {
-        this.swiftUseApiNamespace = swiftUseApiNamespace;
-    }
-
-    public void setUseSPMFileStructure(boolean useSPMFileStructure) {
-        this.useSPMFileStructure = useSPMFileStructure;
-    }
-
-    public void setSwiftPackagePath(String swiftPackagePath) {
-        this.swiftPackagePath = swiftPackagePath;
-    }
-
-    public void setUseClasses(boolean useClasses) {
-        this.useClasses = useClasses;
-    }
-
-    public void setUseBacktickEscapes(boolean useBacktickEscapes) {
-        this.useBacktickEscapes = useBacktickEscapes;
-    }
-
-    public void setGenerateModelAdditionalProperties(boolean generateModelAdditionalProperties) {
-        this.generateModelAdditionalProperties = generateModelAdditionalProperties;
-    }
-
-    public void setHashableModels(boolean hashableModels) {
-        this.hashableModels = hashableModels;
-    }
-
-    public void setUseJsonEncodable(boolean useJsonEncodable) {
-        this.useJsonEncodable = useJsonEncodable;
-    }
-
-    public void setValidatable(boolean validatable) {
-        this.validatable = validatable;
-    }
-
     @Override
     public String toEnumValue(String value, String datatype) {
         // for string, array of string
@@ -1031,6 +959,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         if (name.length() == 0) {
             return "empty";
         }
@@ -1131,6 +1063,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toEnumName(CodegenProperty property) {
+        if (enumNameMapping.containsKey(property.name)) {
+            return enumNameMapping.get(property.name);
+        }
+
         String enumName = toModelName(property.name);
 
         // Ensure that the enum type doesn't match a reserved word or
@@ -1252,11 +1188,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
 
-        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
-        for (ModelMap modelMap : allModels) {
-            CodegenModel m = modelMap.getModel();
-            modelMaps.put(m.classname, m);
-        }
+        HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
 
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {

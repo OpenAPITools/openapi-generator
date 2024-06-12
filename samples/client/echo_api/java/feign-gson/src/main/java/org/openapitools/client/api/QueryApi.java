@@ -18,34 +18,36 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public interface QueryApi extends ApiClient.Api {
 
 
   /**
    * Test query parameter(s)
    * Test query parameter(s)
+   * @param enumNonrefStringQuery  (optional)
    * @param enumRefStringQuery  (optional)
    * @return String
    */
-  @RequestLine("GET /query/enum_ref_string?enum_ref_string_query={enumRefStringQuery}")
+  @RequestLine("GET /query/enum_ref_string?enum_nonref_string_query={enumNonrefStringQuery}&enum_ref_string_query={enumRefStringQuery}")
   @Headers({
     "Accept: text/plain",
   })
-  String testEnumRefString(@Param("enumRefStringQuery") StringEnumRef enumRefStringQuery);
+  String testEnumRefString(@Param("enumNonrefStringQuery") String enumNonrefStringQuery, @Param("enumRefStringQuery") StringEnumRef enumRefStringQuery);
 
   /**
    * Test query parameter(s)
    * Similar to <code>testEnumRefString</code> but it also returns the http response headers .
    * Test query parameter(s)
+   * @param enumNonrefStringQuery  (optional)
    * @param enumRefStringQuery  (optional)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
-  @RequestLine("GET /query/enum_ref_string?enum_ref_string_query={enumRefStringQuery}")
+  @RequestLine("GET /query/enum_ref_string?enum_nonref_string_query={enumNonrefStringQuery}&enum_ref_string_query={enumRefStringQuery}")
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testEnumRefStringWithHttpInfo(@Param("enumRefStringQuery") StringEnumRef enumRefStringQuery);
+  ApiResponse<String> testEnumRefStringWithHttpInfo(@Param("enumNonrefStringQuery") String enumNonrefStringQuery, @Param("enumRefStringQuery") StringEnumRef enumRefStringQuery);
 
 
   /**
@@ -59,11 +61,12 @@ public interface QueryApi extends ApiClient.Api {
    * @param queryParams Map of query parameters as name-value pairs
    *   <p>The following elements may be specified in the query map:</p>
    *   <ul>
+   *   <li>enumNonrefStringQuery -  (optional)</li>
    *   <li>enumRefStringQuery -  (optional)</li>
    *   </ul>
    * @return String
    */
-  @RequestLine("GET /query/enum_ref_string?enum_ref_string_query={enumRefStringQuery}")
+  @RequestLine("GET /query/enum_ref_string?enum_nonref_string_query={enumNonrefStringQuery}&enum_ref_string_query={enumRefStringQuery}")
   @Headers({
   "Accept: text/plain",
   })
@@ -77,11 +80,12 @@ public interface QueryApi extends ApiClient.Api {
       * @param queryParams Map of query parameters as name-value pairs
       *   <p>The following elements may be specified in the query map:</p>
       *   <ul>
+          *   <li>enumNonrefStringQuery -  (optional)</li>
           *   <li>enumRefStringQuery -  (optional)</li>
       *   </ul>
           * @return String
       */
-      @RequestLine("GET /query/enum_ref_string?enum_ref_string_query={enumRefStringQuery}")
+      @RequestLine("GET /query/enum_ref_string?enum_nonref_string_query={enumNonrefStringQuery}&enum_ref_string_query={enumRefStringQuery}")
       @Headers({
     "Accept: text/plain",
       })
@@ -93,6 +97,10 @@ public interface QueryApi extends ApiClient.Api {
    * <code>testEnumRefString</code> method in a fluent style.
    */
   public static class TestEnumRefStringQueryParams extends HashMap<String, Object> {
+    public TestEnumRefStringQueryParams enumNonrefStringQuery(final String value) {
+      put("enum_nonref_string_query", EncodingUtils.encode(value));
+      return this;
+    }
     public TestEnumRefStringQueryParams enumRefStringQuery(final StringEnumRef value) {
       put("enum_ref_string_query", EncodingUtils.encode(value));
       return this;
@@ -435,6 +443,160 @@ public interface QueryApi extends ApiClient.Api {
   public static class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams extends HashMap<String, Object> {
     public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryParams queryObject(final TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter value) {
       put("query_object", EncodingUtils.encode(value));
+      return this;
+    }
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @return String
+   */
+  @RequestLine("GET /query/style_form/explode_false/array_integer?query_object={queryObject}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  String testQueryStyleFormExplodeFalseArrayInteger(@Param("queryObject") List<Integer> queryObject);
+
+  /**
+   * Test query parameter(s)
+   * Similar to <code>testQueryStyleFormExplodeFalseArrayInteger</code> but it also returns the http response headers .
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /query/style_form/explode_false/array_integer?query_object={queryObject}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(@Param("queryObject") List<Integer> queryObject);
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * Note, this is equivalent to the other <code>testQueryStyleFormExplodeFalseArrayInteger</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link TestQueryStyleFormExplodeFalseArrayIntegerQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>queryObject -  (optional)</li>
+   *   </ul>
+   * @return String
+   */
+  @RequestLine("GET /query/style_form/explode_false/array_integer?query_object={queryObject}")
+  @Headers({
+  "Accept: text/plain",
+  })
+  String testQueryStyleFormExplodeFalseArrayInteger(@QueryMap(encoded=true) TestQueryStyleFormExplodeFalseArrayIntegerQueryParams queryParams);
+
+  /**
+  * Test query parameter(s)
+  * Test query parameter(s)
+  * Note, this is equivalent to the other <code>testQueryStyleFormExplodeFalseArrayInteger</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>queryObject -  (optional)</li>
+      *   </ul>
+          * @return String
+      */
+      @RequestLine("GET /query/style_form/explode_false/array_integer?query_object={queryObject}")
+      @Headers({
+    "Accept: text/plain",
+      })
+   ApiResponse<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(@QueryMap(encoded=true) TestQueryStyleFormExplodeFalseArrayIntegerQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>testQueryStyleFormExplodeFalseArrayInteger</code> method in a fluent style.
+   */
+  public static class TestQueryStyleFormExplodeFalseArrayIntegerQueryParams extends HashMap<String, Object> {
+    public TestQueryStyleFormExplodeFalseArrayIntegerQueryParams queryObject(final List<Integer> value) {
+      put("query_object", EncodingUtils.encodeCollection(value, "csv"));
+      return this;
+    }
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @return String
+   */
+  @RequestLine("GET /query/style_form/explode_false/array_string?query_object={queryObject}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  String testQueryStyleFormExplodeFalseArrayString(@Param("queryObject") List<String> queryObject);
+
+  /**
+   * Test query parameter(s)
+   * Similar to <code>testQueryStyleFormExplodeFalseArrayString</code> but it also returns the http response headers .
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /query/style_form/explode_false/array_string?query_object={queryObject}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(@Param("queryObject") List<String> queryObject);
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * Note, this is equivalent to the other <code>testQueryStyleFormExplodeFalseArrayString</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link TestQueryStyleFormExplodeFalseArrayStringQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>queryObject -  (optional)</li>
+   *   </ul>
+   * @return String
+   */
+  @RequestLine("GET /query/style_form/explode_false/array_string?query_object={queryObject}")
+  @Headers({
+  "Accept: text/plain",
+  })
+  String testQueryStyleFormExplodeFalseArrayString(@QueryMap(encoded=true) TestQueryStyleFormExplodeFalseArrayStringQueryParams queryParams);
+
+  /**
+  * Test query parameter(s)
+  * Test query parameter(s)
+  * Note, this is equivalent to the other <code>testQueryStyleFormExplodeFalseArrayString</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>queryObject -  (optional)</li>
+      *   </ul>
+          * @return String
+      */
+      @RequestLine("GET /query/style_form/explode_false/array_string?query_object={queryObject}")
+      @Headers({
+    "Accept: text/plain",
+      })
+   ApiResponse<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(@QueryMap(encoded=true) TestQueryStyleFormExplodeFalseArrayStringQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>testQueryStyleFormExplodeFalseArrayString</code> method in a fluent style.
+   */
+  public static class TestQueryStyleFormExplodeFalseArrayStringQueryParams extends HashMap<String, Object> {
+    public TestQueryStyleFormExplodeFalseArrayStringQueryParams queryObject(final List<String> value) {
+      put("query_object", EncodingUtils.encodeCollection(value, "csv"));
       return this;
     }
   }

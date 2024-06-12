@@ -520,8 +520,8 @@ testQueryParameterCollectionFormat
   -> OpenAPIPetstoreRequest TestQueryParameterCollectionFormat MimeNoContent NoContent MimeNoContent
 testQueryParameterCollectionFormat (Pipe pipe) (Ioutil ioutil) (Http http) (Url url) (Context context) =
   _mkRequest "PUT" ["/fake/test-query-parameters"]
-    `addQuery` toQueryColl CommaSeparated ("pipe", Just pipe)
-    `addQuery` toQueryColl CommaSeparated ("ioutil", Just ioutil)
+    `addQuery` toQueryColl PipeSeparated ("pipe", Just pipe)
+    `addQuery` toQueryColl MultiParamArray ("ioutil", Just ioutil)
     `addQuery` toQueryColl SpaceSeparated ("http", Just http)
     `addQuery` toQueryColl CommaSeparated ("url", Just url)
     `addQuery` toQueryColl MultiParamArray ("context", Just context)

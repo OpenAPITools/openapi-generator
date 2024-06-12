@@ -323,16 +323,20 @@ func (o ReadOnlyWithDefault) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ReadOnlyWithDefault) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ReadOnlyWithDefault) UnmarshalJSON(data []byte) (err error) {
 	varReadOnlyWithDefault := _ReadOnlyWithDefault{}
 
-	if err = json.Unmarshal(bytes, &varReadOnlyWithDefault); err == nil {
-		*o = ReadOnlyWithDefault(varReadOnlyWithDefault)
+	err = json.Unmarshal(data, &varReadOnlyWithDefault)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ReadOnlyWithDefault(varReadOnlyWithDefault)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "prop1")
 		delete(additionalProperties, "prop2")
 		delete(additionalProperties, "prop3")

@@ -27,7 +27,6 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-
 /**
  * Model tests for MixedPropertiesAndAdditionalPropertiesClass
  */

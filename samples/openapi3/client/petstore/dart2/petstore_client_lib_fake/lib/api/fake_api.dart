@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -438,6 +438,56 @@ class FakeApi {
     
     }
     return null;
+  }
+
+  /// test referenced additionalProperties
+  ///
+  /// 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [Map<String, Object>] requestBody (required):
+  ///   request body
+  Future<Response> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/additionalProperties-reference';
+
+    // ignore: prefer_final_locals
+    Object? postBody = requestBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// test referenced additionalProperties
+  ///
+  /// 
+  ///
+  /// Parameters:
+  ///
+  /// * [Map<String, Object>] requestBody (required):
+  ///   request body
+  Future<void> testAdditionalPropertiesReference(Map<String, Object> requestBody,) async {
+    final response = await testAdditionalPropertiesReferenceWithHttpInfo(requestBody,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
   }
 
   /// For this test, the body has to be a binary file.
@@ -1069,6 +1119,56 @@ class FakeApi {
     }
   }
 
+  /// test inline free-form additionalProperties
+  ///
+  /// 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [TestInlineFreeformAdditionalPropertiesRequest] testInlineFreeformAdditionalPropertiesRequest (required):
+  ///   request body
+  Future<Response> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/inline-freeform-additionalProperties';
+
+    // ignore: prefer_final_locals
+    Object? postBody = testInlineFreeformAdditionalPropertiesRequest;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// test inline free-form additionalProperties
+  ///
+  /// 
+  ///
+  /// Parameters:
+  ///
+  /// * [TestInlineFreeformAdditionalPropertiesRequest] testInlineFreeformAdditionalPropertiesRequest (required):
+  ///   request body
+  Future<void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,) async {
+    final response = await testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
   /// test json serialization of form data
   ///
   /// 
@@ -1126,6 +1226,56 @@ class FakeApi {
   ///   field2
   Future<void> testJsonFormData(String param, String param2,) async {
     final response = await testJsonFormDataWithHttpInfo(param, param2,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// test nullable parent property
+  ///
+  /// 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [ChildWithNullable] childWithNullable (required):
+  ///   request body
+  Future<Response> testNullableWithHttpInfo(ChildWithNullable childWithNullable,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/nullable';
+
+    // ignore: prefer_final_locals
+    Object? postBody = childWithNullable;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// test nullable parent property
+  ///
+  /// 
+  ///
+  /// Parameters:
+  ///
+  /// * [ChildWithNullable] childWithNullable (required):
+  ///   request body
+  Future<void> testNullable(ChildWithNullable childWithNullable,) async {
+    final response = await testNullableWithHttpInfo(childWithNullable,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -1204,6 +1354,56 @@ class FakeApi {
   /// * [Map<String, String>] language:
   Future<void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, { Map<String, String>? language, }) async {
     final response = await testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty,  language: language, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// test referenced string map
+  ///
+  /// 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [Map<String, String>] requestBody (required):
+  ///   request body
+  Future<Response> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/stringMap-reference';
+
+    // ignore: prefer_final_locals
+    Object? postBody = requestBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// test referenced string map
+  ///
+  /// 
+  ///
+  /// Parameters:
+  ///
+  /// * [Map<String, String>] requestBody (required):
+  ///   request body
+  Future<void> testStringMapReference(Map<String, String> requestBody,) async {
+    final response = await testStringMapReferenceWithHttpInfo(requestBody,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

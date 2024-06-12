@@ -76,7 +76,7 @@ class EnumArraysTest extends TestCase
     public function testEnumArrays()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class EnumArraysTest extends TestCase
     public function testPropertyJustSymbol()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,6 +94,6 @@ class EnumArraysTest extends TestCase
     public function testPropertyArrayEnum()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

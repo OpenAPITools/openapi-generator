@@ -18,9 +18,9 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -75,7 +75,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
     );
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
-    protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    @Setter protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Org.OpenAPITools.Client";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -91,16 +91,17 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean netStandard = Boolean.FALSE;
 
-    protected boolean validatable = Boolean.TRUE;
+    @Setter protected boolean validatable = Boolean.TRUE;
     protected Map<Character, String> regexModifiers;
     // By default, generated code is considered public
+    @Getter @Setter
     protected boolean nonPublicApi = Boolean.FALSE;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
     protected String releaseNote = "Minor update";
-    protected String licenseId;
-    protected String packageTags;
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Setter protected String licenseId;
+    @Setter protected String packageTags;
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     protected boolean needsCustomHttpMethod = false;
     protected boolean needsUriBuilder = false;
@@ -484,14 +485,6 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
         return CodegenType.CLIENT;
     }
 
-    public boolean isNonPublicApi() {
-        return nonPublicApi;
-    }
-
-    public void setNonPublicApi(final boolean nonPublicApi) {
-        this.nonPublicApi = nonPublicApi;
-    }
-
     @Override
     public String modelDocFileFolder() {
         return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
@@ -512,49 +505,11 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
-        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        super.postProcessParameter(parameter);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
 
         if (!parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
             parameter.dataType = parameter.dataType + "?";
-        }
-        
-        super.postProcessParameter(parameter);
-    }
-
-    /*
-     * The pattern spec follows the Perl convention and style of modifiers. .NET
-     * does not support this syntax directly so we need to convert the pattern to a .NET compatible
-     * format and apply modifiers in a compatible way.
-     * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
-     */
-    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
-        if (pattern != null) {
-            int i = pattern.lastIndexOf('/');
-
-            //Must follow Perl /pattern/modifiers convention
-            if (pattern.charAt(0) != '/' || i < 2) {
-                throw new IllegalArgumentException("Pattern must follow the Perl "
-                        + "/pattern/modifiers convention. " + pattern + " is not valid.");
-            }
-
-            String regex = pattern.substring(1, i).replace("'", "\'").replace("\"", "\"\"");
-            List<String> modifiers = new ArrayList<String>();
-
-            // perl requires an explicit modifier to be culture specific and .NET is the reverse.
-            modifiers.add("CultureInvariant");
-
-            for (char c : pattern.substring(i).toCharArray()) {
-                if (regexModifiers.containsKey(c)) {
-                    String modifier = regexModifiers.get(c);
-                    modifiers.add(modifier);
-                } else if (c == 'l') {
-                    modifiers.remove("CultureInvariant");
-                }
-            }
-
-            vendorExtensions.put("x-regex", regex);
-            vendorExtensions.put("x-modifiers", modifiers);
         }
     }
 
@@ -791,10 +746,6 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
         this.optionalProjectFileFlag = flag;
     }
 
-    public void setPackageGuid(String packageGuid) {
-        this.packageGuid = packageGuid;
-    }
-
     @Override
     public void setPackageName(String packageName) {
         this.packageName = packageName;
@@ -859,29 +810,13 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
                 .collect(Collectors.joining(";"));
     }
 
-    public void setValidatable(boolean validatable) {
-        this.validatable = validatable;
-    }
-
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
-    }
-
-    public void setLicenseId(String licenseId) {
-        this.licenseId = licenseId;
     }
 
     @Override
     public void setReleaseNote(String releaseNote) {
         this.releaseNote = releaseNote;
-    }
-
-    public void setPackageTags(String packageTags) {
-        this.packageTags = packageTags;
-    }
-
-    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
-        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
     }
 
     public boolean getUseOneOfDiscriminatorLookup() {
@@ -1129,8 +1064,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
             }
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            String inner = getSchemaType(arraySchema.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(schema));
             return instantiationTypes.get("array") + "<" + inner + ">";
         } else {
             return null;
@@ -1180,7 +1114,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
          * ModelUtils.isMapSchema
          * In other generators, isMap is true for all type object schemas
          */
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+        if (schema.getProperties() != null || schema.getRequired() != null && !(ModelUtils.isComposedSchema(schema))) {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
         }

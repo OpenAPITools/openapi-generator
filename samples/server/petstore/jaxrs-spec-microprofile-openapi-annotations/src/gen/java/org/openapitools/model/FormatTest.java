@@ -1,8 +1,6 @@
 package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,7 +11,6 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -24,22 +21,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FormatTest  implements Serializable {
-  private @Valid Integer integer;
-  private @Valid Integer int32;
-  private @Valid Long int64;
-  private @Valid BigDecimal number;
-  private @Valid Float _float;
-  private @Valid Double _double;
-  private @Valid String string;
-  private @Valid byte[] _byte;
-  private @Valid File binary;
-  private @Valid LocalDate date;
-  private @Valid LocalDateTime dateTime;
-  private @Valid UUID uuid;
-  private @Valid String password;
-  private @Valid BigDecimal bigDecimal;
+  private Integer integer;
+  private Integer int32;
+  private Long int64;
+  private BigDecimal number;
+  private Float _float;
+  private Double _double;
+  private String string;
+  private byte[] _byte;
+  private File binary;
+  private LocalDate date;
+  private LocalDateTime dateTime;
+  private UUID uuid;
+  private String password;
+  private BigDecimal bigDecimal;
 
   protected FormatTest(FormatTestBuilder<?, ?> b) {
     this.integer = b.integer;
@@ -71,10 +68,9 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("integer")
- @Min(10) @Max(100)  public Integer getInteger() {
+   @Min(10) @Max(100)public Integer getInteger() {
     return integer;
   }
 
@@ -93,10 +89,9 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("int32")
- @Min(20) @Max(200)  public Integer getInt32() {
+   @Min(20) @Max(200)public Integer getInt32() {
     return int32;
   }
 
@@ -113,7 +108,6 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("int64")
   public Long getInt64() {
@@ -135,11 +129,9 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("number")
-  @NotNull
- @DecimalMin("32.1") @DecimalMax("543.2")  public BigDecimal getNumber() {
+  @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")public BigDecimal getNumber() {
     return number;
   }
 
@@ -158,10 +150,9 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("float")
- @DecimalMin("54.3") @DecimalMax("987.6")  public Float getFloat() {
+   @DecimalMin("54.3") @DecimalMax("987.6")public Float getFloat() {
     return _float;
   }
 
@@ -180,10 +171,9 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("double")
- @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
+   @DecimalMin("67.8") @DecimalMax("123.4")public Double getDouble() {
     return _double;
   }
 
@@ -200,10 +190,9 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("string")
- @Pattern(regexp="/[a-z]/i")  public String getString() {
+   @Pattern(regexp="/[a-z]/i")public String getString() {
     return string;
   }
 
@@ -220,11 +209,9 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("byte")
-  @NotNull
- @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")  public byte[] getByte() {
+  @NotNull  @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")public byte[] getByte() {
     return _byte;
   }
 
@@ -241,7 +228,6 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("binary")
   public File getBinary() {
@@ -261,11 +247,9 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("date")
-  @NotNull
-  public LocalDate getDate() {
+  @NotNull public LocalDate getDate() {
     return date;
   }
 
@@ -282,7 +266,6 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("dateTime")
   public LocalDateTime getDateTime() {
@@ -302,7 +285,6 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", description = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
@@ -322,11 +304,9 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("password")
-  @NotNull
- @Size(min=10,max=64)  public String getPassword() {
+  @NotNull  @Size(min=10,max=64)public String getPassword() {
     return password;
   }
 
@@ -343,10 +323,9 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("BigDecimal")
-  public BigDecimal getBigDecimal() {
+  @Valid public BigDecimal getBigDecimal() {
     return bigDecimal;
   }
 
@@ -403,7 +382,7 @@ public class FormatTest  implements Serializable {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
     sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -425,7 +404,7 @@ public class FormatTest  implements Serializable {
     return new FormatTestBuilderImpl();
   }
 
-  private static final class FormatTestBuilderImpl extends FormatTestBuilder<FormatTest, FormatTestBuilderImpl> {
+  private static class FormatTestBuilderImpl extends FormatTestBuilder<FormatTest, FormatTestBuilderImpl> {
 
     @Override
     protected FormatTestBuilderImpl self() {

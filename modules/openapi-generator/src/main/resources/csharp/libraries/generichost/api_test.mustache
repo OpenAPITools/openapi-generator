@@ -38,7 +38,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
             {{/allParams}}
             {{#returnType}}
             var response = await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-            var model = response.AsModel();
+            var model = response.{{#lambda.first}}{{#responses}}{{vendorExtensions.x-http-status}}  {{/responses}}{{/lambda.first}}();
             Assert.IsType<{{{.}}}>(model);
             {{/returnType}}
             {{^returnType}}

@@ -1,0 +1,83 @@
+## OrdersApi
+
+### Create an order
+## Create an order
+POST https://checkout-test.adyen.com/v71/orders
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "reference": "YOUR_ORDER_REFERENCE",
+ "amount": {
+ "value": 2500,
+ "currency": "EUR"
+},
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+
+### Cancel an order
+## Cancel an order
+POST https://checkout-test.adyen.com/v71/orders/cancel
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "order": {
+ "pspReference": "8815517812932012",
+ "orderData": "823fh892f8f18f4...148f13f9f3f"
+},
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+
+### Get the balance of a gift card
+## Get gift card balance specifying amount of 10 EUR
+POST https://checkout-test.adyen.com/v71/paymentMethods/balance
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "paymentMethod": {
+ "type": "givex",
+ "number": "4126491073027401",
+ "cvc": "737"
+},
+ "amount": {
+ "currency": "EUR",
+ "value": 1000
+},
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+### Get the balance of a gift card
+## Get gift card balance specifying amount of 100 EUR
+POST https://checkout-test.adyen.com/v71/paymentMethods/balance
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "paymentMethod": {
+ "type": "givex",
+ "number": "4126491073027401",
+ "cvc": "737"
+},
+ "amount": {
+ "currency": "EUR",
+ "value": 10000
+},
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+

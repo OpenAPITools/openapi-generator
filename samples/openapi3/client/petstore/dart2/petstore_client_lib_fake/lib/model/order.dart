@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -60,12 +60,12 @@ class Order {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Order &&
-     other.id == id &&
-     other.petId == petId &&
-     other.quantity == quantity &&
-     other.shipDate == shipDate &&
-     other.status == status &&
-     other.complete == complete;
+    other.id == id &&
+    other.petId == petId &&
+    other.quantity == quantity &&
+    other.shipDate == shipDate &&
+    other.status == status &&
+    other.complete == complete;
 
   @override
   int get hashCode =>

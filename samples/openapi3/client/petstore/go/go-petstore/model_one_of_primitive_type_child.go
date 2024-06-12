@@ -95,16 +95,20 @@ func (o OneOfPrimitiveTypeChild) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *OneOfPrimitiveTypeChild) UnmarshalJSON(bytes []byte) (err error) {
+func (o *OneOfPrimitiveTypeChild) UnmarshalJSON(data []byte) (err error) {
 	varOneOfPrimitiveTypeChild := _OneOfPrimitiveTypeChild{}
 
-	if err = json.Unmarshal(bytes, &varOneOfPrimitiveTypeChild); err == nil {
-		*o = OneOfPrimitiveTypeChild(varOneOfPrimitiveTypeChild)
+	err = json.Unmarshal(data, &varOneOfPrimitiveTypeChild)
+
+	if err != nil {
+		return err
 	}
+
+	*o = OneOfPrimitiveTypeChild(varOneOfPrimitiveTypeChild)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "name")
 		o.AdditionalProperties = additionalProperties
 	}

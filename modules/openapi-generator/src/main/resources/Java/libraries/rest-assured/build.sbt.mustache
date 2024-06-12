@@ -30,14 +30,14 @@ lazy val root = (project in file(".")).
 {{/jackson}}
 {{#gson}}
       "com.google.code.gson" % "gson" % "2.8.9",
-      "io.gsonfire" % "gson-fire" % "1.8.5" % "compile",
+      "io.gsonfire" % "gson-fire" % "1.9.0" % "compile",
 {{/gson}}
 {{#joda}}
       "joda-time" % "joda-time" % "2.10.5" % "compile",
 {{/joda}}
       "com.squareup.okio" % "okio" % "1.17.5" % "compile",
 {{#useBeanValidation}}
-      "jakarta.validation" % "jakarta.validation-api" % "2.0.2" % "compile",
+      "jakarta.validation" % "jakarta.validation-api" % "3.0.2" % "compile",
 {{/useBeanValidation}}
 {{#performBeanValidation}}
       "org.hibernate" % "hibernate-validator" % "6.0.19.Final" % "compile",

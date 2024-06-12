@@ -6,12 +6,14 @@ import io.swagger.annotations.ApiModel;
 import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
   * An order for a pets from the pet store
  **/
 @ApiModel(description="An order for a pets from the pet store")
+
 public class Order  {
   
   @ApiModelProperty(value = "")
@@ -177,6 +179,27 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Order order = (Order) o;
+    return Objects.equals(this.id, order.id) &&
+        Objects.equals(this.petId, order.petId) &&
+        Objects.equals(this.quantity, order.quantity) &&
+        Objects.equals(this.shipDate, order.shipDate) &&
+        Objects.equals(this.status, order.status) &&
+        Objects.equals(this.complete, order.complete);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, petId, quantity, shipDate, status, complete);
+  }
 
   @Override
   public String toString() {

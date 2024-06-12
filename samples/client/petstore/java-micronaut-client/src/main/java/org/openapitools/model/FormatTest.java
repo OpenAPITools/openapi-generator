@@ -47,7 +47,7 @@ import javax.annotation.Generated;
   FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
 @JsonTypeName("format_test")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 @Introspected
 public class FormatTest {
     public static final String JSON_PROPERTY_INTEGER = "integer";
@@ -474,7 +474,7 @@ public class FormatTest {
         sb.append("    date: ").append(toIndentedString(date)).append("\n");
         sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
         sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-        sb.append("    password: ").append(toIndentedString(password)).append("\n");
+        sb.append("    password: ").append("*").append("\n");
         sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
         sb.append("}");
         return sb.toString();

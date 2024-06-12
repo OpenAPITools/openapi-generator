@@ -32,12 +32,16 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Animal {
 
   private String className;
 
   private String color = "red";
+
+  public Animal() {
+    super();
+  }
 
   public Animal className(String className) {
     this.className = className;

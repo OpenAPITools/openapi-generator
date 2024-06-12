@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -30,10 +30,8 @@ export interface List {
 /**
  * Check if a given object implements the List interface.
  */
-export function instanceOfList(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfList(value: object): value is List {
+    return true;
 }
 
 export function ListFromJSON(json: any): List {
@@ -41,25 +39,22 @@ export function ListFromJSON(json: any): List {
 }
 
 export function ListFromJSONTyped(json: any, ignoreDiscriminator: boolean): List {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        '_123list': !exists(json, '123-list') ? undefined : json['123-list'],
+        '_123list': json['123-list'] == null ? undefined : json['123-list'],
     };
 }
 
 export function ListToJSON(value?: List | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        '123-list': value._123list,
+        '123-list': value['_123list'],
     };
 }
 

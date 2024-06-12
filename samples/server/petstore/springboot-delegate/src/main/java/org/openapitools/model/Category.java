@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * Category
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Category {
 
   private Long id;
@@ -35,6 +35,14 @@ public class Category {
    */
   public Category(String name) {
     this.name = name;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Category(Long id, String name) {
+      this.id = id;
+      this.name = name;
   }
 
   public Category id(Long id) {

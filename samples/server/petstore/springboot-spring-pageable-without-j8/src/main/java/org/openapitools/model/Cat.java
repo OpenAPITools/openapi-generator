@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Cat extends Animal {
 
   private Boolean declawed;
@@ -62,12 +62,12 @@ public class Cat extends Animal {
 
 
   public Cat className(String className) {
-    super.setClassName(className);
+    super.className(className);
     return this;
   }
 
   public Cat color(String color) {
-    super.setColor(color);
+    super.color(color);
     return this;
   }
   @Override

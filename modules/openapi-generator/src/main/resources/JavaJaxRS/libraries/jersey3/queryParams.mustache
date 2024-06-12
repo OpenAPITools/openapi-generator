@@ -1,0 +1,27 @@
+{{#isQueryParam}}{{!
+
+    }}@Schema(description = "{{{description}}}"{{!
+        }}{{^isContainer}}{{!
+            }}{{#allowableValues}}, {{> allowableValues}}{{/allowableValues}}{{!
+            }}{{#defaultValue}}, defaultValue = "{{{.}}}"{{/defaultValue}}{{!
+        }}{{/isContainer}}{{!
+    }}){{!
+
+    }}{{^isContainer}}{{!
+        }}{{#defaultValue}}{{!
+            }} @DefaultValue("{{{defaultValue}}}"){{!
+        }}{{/defaultValue}}{{!
+    }}{{/isContainer}}{{!
+
+    }}{{^isMap}}{{!
+        }} @QueryParam("{{baseName}}"){{!
+    }}{{/isMap}}{{!
+    }}{{#isMap}}{{!
+        }} @Parameter(description="{{baseName}}"){{!
+    }}{{/isMap}}{{!
+
+    }}{{#useBeanValidation}} {{>beanValidation}}{{/useBeanValidation}}{{!
+
+    }} {{{dataType}}} {{paramName}}{{!
+
+}}{{/isQueryParam}}

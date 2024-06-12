@@ -120,7 +120,7 @@ Declare the class with extends and implements
     }
 
             {{#isArray}}
-    public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
                 {{#vendorExtensions.x-is-jackson-optional-nullable}}
         if (this.{{name}} == null || !this.{{name}}.isPresent()) {
             this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
@@ -145,7 +145,7 @@ Declare the class with extends and implements
 
             {{/isArray}}
             {{#isMap}}
-    public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
                 {{#vendorExtensions.x-is-jackson-optional-nullable}}
         if (this.{{name}} == null || !this.{{name}}.isPresent()) {
             this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});
@@ -293,7 +293,7 @@ Declare the class with extends and implements
         sb.append("    ").append(toIndentedString(super.toString())).append("\n");
         {{/parent}}
         {{#vars}}
-        sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+        sb.append("    {{name}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{name}}){{/isPassword}}).append("\n");
         {{/vars}}
         sb.append("}");
         return sb.toString();

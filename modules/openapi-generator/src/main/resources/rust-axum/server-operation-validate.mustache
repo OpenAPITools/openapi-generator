@@ -1,0 +1,221 @@
+{{^x-consumes-multipart-related}}
+{{^x-consumes-multipart}}
+  {{#bodyParam}}
+  {{#vendorExtensions}}
+    #[derive(validator::Validate)]
+    #[allow(dead_code)]
+    struct {{{operationIdCamelCase}}}BodyValidator<'a> {
+      {{#hasValidation}}
+          #[validate(
+              {{#maxLength}}
+                  {{#minLength}}
+                  length(min = {{minLength}}, max = {{maxLength}}),
+                  {{/minLength}}
+                  {{^minLength}}
+                  length(max = {{maxLength}}),
+                  {{/minLength}}
+              {{/maxLength}}
+              {{^maxLength}}
+                  {{#minLength}}
+                  length(min = {{minLength}}),
+                  {{/minLength}}
+              {{/maxLength}}
+              {{#pattern}}
+                {{#isString}}
+                  regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.uppercase}}),
+                {{/isString}}
+                {{^isString}}
+                  custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.lowercase}}"),
+                {{/isString}}
+              {{/pattern}}
+              {{#maximum}}
+                  {{#minimum}}
+                  range(min = {{minimum}}, max = {{maximum}}),
+                  {{/minimum}}
+                  {{^minimum}}
+                  range(max = {{maximum}}),
+                  {{/minimum}}
+              {{/maximum}}
+              {{#minimum}}
+                  {{^maximum}}
+                  range(min = {{minimum}}),
+                  {{/maximum}}
+              {{/minimum}}
+              {{#maxItems}}
+                  {{#minItems}}
+                  length(min = {{minItems}}, max = {{maxItems}}),
+                  {{/minItems}}
+                  {{^minItems}}
+                  length(max = {{maxItems}}),
+                  {{/minItems}}
+              {{/maxItems}}
+              {{^maxItems}}
+                  {{#minItems}}
+                  length(min = {{minItems}}),
+                  {{/minItems}}
+              {{/maxItems}}
+              )]
+      {{/hasValidation}}
+      {{^x-consumes-plain-text}}
+          {{^hasValidation}}
+          {{^isMap}}
+            #[validate(nested)]
+          {{/isMap}}
+          {{/hasValidation}}
+          body: &'a {{{dataType}}},
+      {{/x-consumes-plain-text}}
+      {{#x-consumes-plain-text}}
+        {{#isString}}
+          body: &'a String,
+        {{/isString}}
+        {{^isString}}
+          body: &'a [u8],
+        {{/isString}}
+      {{/x-consumes-plain-text}}
+    }
+
+    {{#hasValidation}}
+    {{#pattern}}
+    {{#isString}}
+    lazy_static::lazy_static! {
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+    }
+    {{/isString}}
+    {{^isString}}
+    lazy_static::lazy_static! {
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+    }
+    fn validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.lowercase}}(
+        b: &[u8]
+    ) -> std::result::Result<(), validator::ValidationError> {
+        if !RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.uppercase}}.is_match(b) {
+            return Err(validator::ValidationError::new("Character not allowed"));
+        }
+        Ok(())
+    }
+    {{/isString}}
+    {{/pattern}}
+    {{/hasValidation}}
+  {{/vendorExtensions}}
+  {{/bodyParam}}
+{{/x-consumes-multipart}}
+{{/x-consumes-multipart-related}}
+
+#[tracing::instrument(skip_all)]
+fn {{#vendorExtensions}}{{{x-operation-id}}}_validation{{/vendorExtensions}}(
+{{#headerParams.size}}
+  header_params: models::{{{operationIdCamelCase}}}HeaderParams,
+{{/headerParams.size}}
+{{#pathParams.size}}
+  path_params: models::{{{operationIdCamelCase}}}PathParams,
+{{/pathParams.size}}
+{{#queryParams.size}}
+  query_params: models::{{{operationIdCamelCase}}}QueryParams,
+{{/queryParams.size}}
+{{^x-consumes-multipart-related}}
+{{^x-consumes-multipart}}
+  {{#bodyParam}}
+  {{#vendorExtensions}}
+    {{^x-consumes-plain-text}}
+        body: {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
+    {{/x-consumes-plain-text}}
+    {{#x-consumes-plain-text}}
+      {{#isString}}
+        body: String,
+      {{/isString}}
+      {{^isString}}
+        body: Bytes,
+      {{/isString}}
+    {{/x-consumes-plain-text}}
+  {{/vendorExtensions}}
+  {{/bodyParam}}
+{{/x-consumes-multipart}}
+{{/x-consumes-multipart-related}}
+) -> std::result::Result<(
+{{#headerParams.size}}
+  models::{{{operationIdCamelCase}}}HeaderParams,
+{{/headerParams.size}}
+{{#pathParams.size}}
+  models::{{{operationIdCamelCase}}}PathParams,
+{{/pathParams.size}}
+{{#queryParams.size}}
+  models::{{{operationIdCamelCase}}}QueryParams,
+{{/queryParams.size}}
+{{^x-consumes-multipart-related}}
+{{^x-consumes-multipart}}
+  {{#bodyParam}}
+  {{#vendorExtensions}}
+    {{^x-consumes-plain-text}}
+        {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
+    {{/x-consumes-plain-text}}
+    {{#x-consumes-plain-text}}
+      {{#isString}}
+        String,
+      {{/isString}}
+      {{^isString}}
+        Bytes,
+      {{/isString}}
+    {{/x-consumes-plain-text}}
+  {{/vendorExtensions}}
+  {{/bodyParam}}
+{{/x-consumes-multipart}}
+{{/x-consumes-multipart-related}}
+), ValidationErrors>
+{
+{{#headerParams.size}}
+  header_params.validate()?;
+{{/headerParams.size}}
+{{#pathParams.size}}
+  path_params.validate()?;
+{{/pathParams.size}}
+{{#queryParams.size}}
+  query_params.validate()?;
+{{/queryParams.size}}
+{{^x-consumes-multipart-related}}
+{{^x-consumes-multipart}}
+  {{#bodyParam}}
+  {{#vendorExtensions}}
+      {{^x-consumes-plain-text}}
+          {{#required}}
+              let b = {{{operationIdCamelCase}}}BodyValidator { body: &body };
+              b.validate()?;
+          {{/required}}
+          {{^required}}
+            if let Some(body) = &body {
+              let b = {{{operationIdCamelCase}}}BodyValidator { body };
+              b.validate()?;
+            }
+          {{/required}}
+      {{/x-consumes-plain-text}}
+      {{#x-consumes-plain-text}}
+        {{#hasValidation}}
+            let b = {{{operationIdCamelCase}}}BodyValidator { body: &body };
+            b.validate()?;
+        {{/hasValidation}}
+      {{/x-consumes-plain-text}}
+ {{/vendorExtensions}}
+ {{/bodyParam}}
+{{/x-consumes-multipart}}
+{{/x-consumes-multipart-related}}
+
+Ok((
+{{#headerParams.size}}
+  header_params,
+{{/headerParams.size}}
+{{#pathParams.size}}
+  path_params,
+{{/pathParams.size}}
+{{#queryParams.size}}
+  query_params,
+{{/queryParams.size}}
+{{^x-consumes-multipart-related}}
+{{^x-consumes-multipart}}
+  {{#bodyParam}}
+  {{#vendorExtensions}}
+    body,
+  {{/vendorExtensions}}
+  {{/bodyParam}}
+{{/x-consumes-multipart}}
+{{/x-consumes-multipart-related}}
+))
+}

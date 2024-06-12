@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * Model for testing model name same as property name
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -45,7 +45,9 @@ public class Name {
 
   public Name() {
   }
-
+  /**
+  * Constructor with only readonly parameters
+  */
   
   public Name(
      Integer snakeCase, 
@@ -77,7 +79,6 @@ public class Name {
     this.name = name;
   }
 
-
    /**
    * Get snakeCase
    * @return snakeCase
@@ -87,7 +88,6 @@ public class Name {
   public Integer getSnakeCase() {
     return snakeCase;
   }
-
 
 
 
@@ -111,7 +111,6 @@ public class Name {
   public void setProperty(String property) {
     this.property = property;
   }
-
 
    /**
    * Get _123number

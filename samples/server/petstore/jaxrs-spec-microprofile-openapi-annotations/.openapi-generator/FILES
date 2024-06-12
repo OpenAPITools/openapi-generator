@@ -56,5 +56,5 @@ src/gen/java/org/openapitools/model/User.java
 src/gen/java/org/openapitools/model/XmlItem.java
 src/main/docker/Dockerfile.jvm
 src/main/docker/Dockerfile.native
-src/main/openapi/openapi.yaml
+src/main/resources/META-INF/openapi.yaml
 src/main/resources/application.properties

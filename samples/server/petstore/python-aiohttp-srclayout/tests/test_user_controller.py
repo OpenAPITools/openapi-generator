@@ -6,6 +6,7 @@ from aiohttp import web
 
 from openapi_server.models.user import User
 
+pytestmark = pytest.mark.asyncio
 
 @pytest.mark.skip("*/* not supported by Connexion. Use application/json instead. See https://github.com/zalando/connexion/pull/760")
 async def test_create_user(client):

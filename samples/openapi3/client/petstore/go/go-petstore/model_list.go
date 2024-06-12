@@ -95,16 +95,20 @@ func (o List) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *List) UnmarshalJSON(bytes []byte) (err error) {
+func (o *List) UnmarshalJSON(data []byte) (err error) {
 	varList := _List{}
 
-	if err = json.Unmarshal(bytes, &varList); err == nil {
-		*o = List(varList)
+	err = json.Unmarshal(data, &varList)
+
+	if err != nil {
+		return err
 	}
+
+	*o = List(varList)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "123-list")
 		o.AdditionalProperties = additionalProperties
 	}

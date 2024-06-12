@@ -42,7 +42,14 @@ type AnotherFakeAPIService service
 type ApiCall123TestSpecialTagsRequest struct {
 	ctx context.Context
 	ApiService AnotherFakeAPI
+	uuidTest *string
 	body *Client
+}
+
+// to test uuid example value
+func (r ApiCall123TestSpecialTagsRequest) UuidTest(uuidTest string) ApiCall123TestSpecialTagsRequest {
+	r.uuidTest = &uuidTest
+	return r
 }
 
 // client model
@@ -90,6 +97,9 @@ func (a *AnotherFakeAPIService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.uuidTest == nil {
+		return localVarReturnValue, nil, reportError("uuidTest is required and must be specified")
+	}
 	if r.body == nil {
 		return localVarReturnValue, nil, reportError("body is required and must be specified")
 	}
@@ -111,6 +121,7 @@ func (a *AnotherFakeAPIService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "uuid_test", r.uuidTest, "")
 	// body params
 	localVarPostBody = r.body
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)

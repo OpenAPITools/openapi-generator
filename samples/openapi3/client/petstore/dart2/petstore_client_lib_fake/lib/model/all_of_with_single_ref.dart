@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -35,8 +35,8 @@ class AllOfWithSingleRef {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AllOfWithSingleRef &&
-     other.username == username &&
-     other.singleRefType == singleRefType;
+    other.username == username &&
+    other.singleRefType == singleRefType;
 
   @override
   int get hashCode =>

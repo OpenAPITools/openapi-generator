@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM eclipse-temurin:17.0.9_9-jre-focal
 
 WORKDIR /generator
 

@@ -1,0 +1,11 @@
+## RequestApi
+
+### GET /request/{jobId}
+## GET /request/{jobId}
+GET https://api.opendota.com/api/request/{{jobId}}
+Accept: application/json; charset=utf-8
+
+### POST /request/{match_id}
+## POST /request/{match_id}
+POST https://api.opendota.com/api/request/{{match_id}}
+Accept: application/json; charset=utf-8

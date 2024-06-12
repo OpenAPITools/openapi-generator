@@ -24,14 +24,14 @@ feature --Access
     {{^isInherited}}
     {{#isPrimitiveType}}
     {{^isContainer}}
- 	{{name}}: {{{dataType}}}
-    	 {{#description}}-- {{{.}}}{{/description}}
-     {{/isContainer}}
+    {{name}}: {{{dataType}}}
+      {{#description}}-- {{{.}}}{{/description}}
+    {{/isContainer}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isContainer}}
- 	{{name}}: detachable {{{datatypeWithEnum}}}
-    	 {{#description}}-- {{{.}}}{{/description}}
+    {{name}}: detachable {{{datatypeWithEnum}}}
+      {{#description}}-- {{{.}}}{{/description}}
     {{/isContainer}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
@@ -45,7 +45,7 @@ feature --Access
     {{/isContainer}}
     {{/isPrimitiveType}}
     {{/isInherited}}
-  {{/vars}}
+{{/vars}}
 
 feature -- Change Element
 

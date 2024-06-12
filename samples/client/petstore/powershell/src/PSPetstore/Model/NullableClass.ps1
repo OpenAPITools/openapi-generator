@@ -137,12 +137,14 @@ function ConvertFrom-PSJsonToNullableClass {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $JsonParameters = ConvertFrom-Json -InputObject $Json
+        $PSNullableClassAdditionalProperties = @{}
 
         # check if Json contains properties not defined in PSNullableClass
         $AllProperties = ("integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable")
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
+            # store undefined properties in additionalProperties
             if (!($AllProperties.Contains($name))) {
-                throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
+                $PSNullableClassAdditionalProperties[$name] = $JsonParameters.PSobject.Properties[$name].value
             }
         }
 
@@ -231,6 +233,7 @@ function ConvertFrom-PSJsonToNullableClass {
             "object_nullable_prop" = ${ObjectNullableProp}
             "object_and_items_nullable_prop" = ${ObjectAndItemsNullableProp}
             "object_items_nullable" = ${ObjectItemsNullable}
+            "AdditionalProperties" = $PSNullableClassAdditionalProperties
         }
 
         return $PSO

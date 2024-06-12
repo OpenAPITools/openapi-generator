@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Name {
 
   private Integer name;
@@ -40,6 +40,16 @@ public class Name {
    */
   public Name(Integer name) {
     this.name = name;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Name(Integer name, Integer snakeCase, String property, Integer _123number) {
+      this.name = name;
+      this.snakeCase = snakeCase;
+      this.property = property;
+      this._123number = _123number;
   }
 
   public Name name(Integer name) {

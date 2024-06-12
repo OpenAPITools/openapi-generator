@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,7 +42,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -50,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model name same as property name
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -71,7 +70,6 @@ public class Name {
   public Name() {
   }
 
-  
   public Name(
      Integer snakeCase, 
      Integer _123number
@@ -82,7 +80,6 @@ public class Name {
   }
 
   public Name name(Integer name) {
-    
     this.name = name;
     return this;
   }
@@ -95,7 +92,6 @@ public class Name {
   public Integer getName() {
     return name;
   }
-
 
   public void setName(Integer name) {
     this.name = name;
@@ -113,9 +109,7 @@ public class Name {
 
 
 
-
   public Name property(String property) {
-    
     this.property = property;
     return this;
   }
@@ -128,7 +122,6 @@ public class Name {
   public String getProperty() {
     return property;
   }
-
 
   public void setProperty(String property) {
     this.property = property;
@@ -143,7 +136,6 @@ public class Name {
   public Integer get123number() {
     return _123number;
   }
-
 
 
 
@@ -221,9 +213,9 @@ public class Name {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!Name.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Name` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }

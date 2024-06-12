@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * HasOnlyReadOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class HasOnlyReadOnly {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
@@ -40,7 +40,9 @@ public class HasOnlyReadOnly {
 
   public HasOnlyReadOnly() {
   }
-
+  /**
+  * Constructor with only readonly parameters
+  */
   
   public HasOnlyReadOnly(
      String bar, 
@@ -61,7 +63,6 @@ public class HasOnlyReadOnly {
   public String getBar() {
     return bar;
   }
-
 
 
 

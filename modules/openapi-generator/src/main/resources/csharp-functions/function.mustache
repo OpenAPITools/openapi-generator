@@ -22,11 +22,9 @@ namespace {{apiPackage}}
         {{#generateBody}}
         {
             var method = this.GetType().GetMethod("{{operationId}}");
-            if(method == null)
-            {
-                return new StatusCodeResult((int)HttpStatusCode.NotImplemented);
-            }
-            return (await ((Task<{{{returnType}}}>)method.Invoke(this, new object[] { req, context, id })).ConfigureAwait(false));
+            return method != null
+                ? (await ((Task<{{{returnType}}}>)method.Invoke(this, new object[] { req, context{{#allParams}}{{#isPathParam}}, {{>paramName}}{{/isPathParam}}{{/allParams}} })).ConfigureAwait(false))
+                : new StatusCodeResult((int)HttpStatusCode.NotImplemented);
         }
         {{/generateBody}}
         {{/operation}}

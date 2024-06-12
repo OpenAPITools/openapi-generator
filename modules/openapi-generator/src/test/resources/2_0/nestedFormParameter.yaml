@@ -1,0 +1,28 @@
+swagger: "2.0"
+info:
+  title: dummy
+  version: dummy
+paths:
+  /property:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: body
+          name: body
+          schema:
+              $ref: '#/definitions/OuterObject'
+      responses:
+        '200':
+          description: dummy
+definitions:
+  InnerObject:
+    type: object
+    properties:
+      innerProperty:
+        type: string
+  OuterObject:
+    type: object
+    properties:
+      outerProperty:
+        $ref: '#/definitions/InnerObject'

@@ -26,20 +26,20 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("ContainerDefaultValue")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ContainerDefaultValueDto {
 
   @Valid
-  private JsonNullable<List<String>> nullableArray = JsonNullable.undefined();
+  private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
   @Valid
-  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.undefined();
+  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
   @Valid
   private List<String> requiredArray = new ArrayList<>();
 
   @Valid
-  private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.undefined();
+  private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
   public ContainerDefaultValueDto() {
     super();

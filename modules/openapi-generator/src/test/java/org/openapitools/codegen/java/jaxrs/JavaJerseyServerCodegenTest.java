@@ -2,6 +2,7 @@ package org.openapitools.codegen.java.jaxrs;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -31,6 +32,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -47,6 +49,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         Assert.assertEquals(codegen.getName(), "jaxrs-jersey");
         Assert.assertEquals(codegen.getTemplatingEngine().getClass(), MustacheEngineAdapter.class);
         Assert.assertEquals(codegen.getDateLibrary(), "legacy");
+        Assert.assertEquals(codegen.supportedLibraries().keySet(), ImmutableSet.of("jersey2", "jersey3"));
         Assert.assertNull(codegen.getInputSpec());
 
         codegen.processOpts();
@@ -134,10 +137,64 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         return files.stream().collect(Collectors.toMap(e -> e.getName().replace(outputPath, ""), i -> i));
     }
 
+    @Test
+    public void testJersey2Javax() throws Exception {
+        codegen.setLibrary("jersey2");
+        codegen.setDateLibrary("java8");
+        codegen.setUseJakartaEe(false);
+        
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+
+        files.values()
+                .stream()
+                .filter(file -> file.getName().endsWith(".java"))
+                .forEach(file -> {
+                    // Jersey2 uses "javax.ws.rs"
+                    // Let's confirm that "jakarta.ws" is not present
+                    TestUtils.assertFileNotContains(file.toPath(), "jakarta.ws");
+                });
+    }
+    
+    @Test
+    public void testJersey2Jakarta() throws Exception {
+        codegen.setLibrary("jersey2");
+        codegen.setDateLibrary("java8");
+        codegen.setUseJakartaEe(true);
+        
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+
+        files.values()
+                .stream()
+                .filter(file -> file.getName().endsWith(".java"))
+                .forEach(file -> {
+                    // Jersey2 uses "javax.ws.rs"
+                    // Let's confirm that "jakarta.ws" is not present
+                    TestUtils.assertFileNotContains(file.toPath(), "javax.ws");
+                });
+    }
+
+    @Test
+    public void testJersey3() throws Exception {
+        codegen.setLibrary("jersey3");
+        codegen.setDateLibrary("java8");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+
+        files.values()
+            .stream()
+            .filter(file -> file.getName().endsWith(".java"))
+            .forEach(file -> {
+                // Jersey3 uses "jakarta.ws.rs"
+                // Let's confirm that "javax.ws" is not present
+                TestUtils.assertFileNotContains(file.toPath(), "javax.ws");
+        });
+    }
+    
     @DataProvider(name = "codegenParameterMatrix")
     public Object[][] codegenParameterMatrix() {
+        final Set<String> libraries = new JavaJerseyServerCodegen().supportedLibraries().keySet();
         final List<Object[]> rows = new ArrayList<Object[]>();
-        for (final String jerseyLibrary: ImmutableList.of("jersey1", "jersey2")) {
+        for (final String jerseyLibrary: ImmutableList.of("jersey2")) {
             for (final String dateLibrary: ImmutableList.of("joda", "java8")) {
                 rows.add(new Object[] { jerseyLibrary, dateLibrary });
             }

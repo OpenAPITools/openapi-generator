@@ -95,7 +95,7 @@ sub new {
 
     # class/static variables
     $p{http_timeout} //= 180;
-    $p{http_user_agent} //= 'OpenAPI-Generator/1.0.0/perl';
+    $p{http_user_agent} //= 'OpenAPI-Generator/' . VERSION . '/perl';
 
     # authentication setting
     $p{api_key} //= {};

@@ -23,13 +23,14 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Query;
 
 /**
  * DataQuery
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
@@ -112,17 +113,6 @@ public class DataQuery extends Query {
     this.date = date;
   }
 
-  @Override
-  public DataQuery id(Long id) {
-    this.setId(id);
-    return this;
-  }
-
-  @Override
-  public DataQuery outcomes(List<OutcomesEnum> outcomes) {
-    this.setOutcomes(outcomes);
-    return this;
-  }
 
   @Override
   public boolean equals(Object o) {

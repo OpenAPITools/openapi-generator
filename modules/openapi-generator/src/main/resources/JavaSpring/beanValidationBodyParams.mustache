@@ -1,1 +1,1 @@
-{{! RequestBody required param is responsible for optional and nullability }}{{>beanValidationCore}}
+{{^useOptional}}{{>beanValidationCore}}{{/useOptional}}{{#useOptional}}{{#required}}{{>beanValidationCore}}{{/required}}{{/useOptional}}

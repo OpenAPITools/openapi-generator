@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
@@ -32,11 +33,14 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 
 public class GoGinServerCodegen extends AbstractGoCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoGinServerCodegen.class);
+
+    public static final String INTERFACE_ONLY = "interfaceOnly";
+
+    @Setter protected boolean interfaceOnly = false;
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
@@ -114,6 +118,8 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
 
         cliOptions.add(new CliOption("apiPath", "Name of the folder that contains the Go source code")
                 .defaultValue(apiPath));
+        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY,
+                "Whether to generate only API interface stubs without the implementation files.", interfaceOnly));
 
         CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
         optServerPort.setType("int");
@@ -148,6 +154,10 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, this.packageName);
         }
 
+        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
+            this.setInterfaceOnly(Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString()));
+        }
+
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
@@ -179,6 +189,11 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
 
         modelPackage = packageName;
         apiPackage = packageName;
+
+        if (interfaceOnly) {
+            apiTemplateFiles.clear();
+            apiTemplateFiles.put("interface-api.mustache", ".go");
+        }
 
         /*
          * Supporting Files.  You can write single files for the generator with the

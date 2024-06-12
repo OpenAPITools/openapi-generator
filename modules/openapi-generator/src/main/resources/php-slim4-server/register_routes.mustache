@@ -14,6 +14,23 @@ namespace {{appPackage}};
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotImplementedException;
+{{#hasAuthMethods}}
+use Dyorg\TokenAuthentication;
+    {{#authMethods}}
+        {{#isBasicBasic}}
+use {{authPackage}}\BasicAuthenticator;
+        {{/isBasicBasic}}
+        {{#isApiKey}}
+use {{authPackage}}\ApiKeyAuthenticator;
+        {{/isApiKey}}
+        {{#isOAuth}}
+use {{authPackage}}\OAuthAuthenticator;
+        {{/isOAuth}}
+        {{#isBasicBearer}}
+use {{authPackage}}\BearerAuthenticator;
+        {{/isBasicBearer}}
+    {{/authMethods}}
+{{/hasAuthMethods}}
 
 /**
  * RegisterRoutes Class Doc Comment
@@ -60,7 +77,9 @@ class RegisterRoutes
                 {{#isBasicBearer}}
                 [
                     'type' => '{{type}}',
-                    'isBasic' => true,
+                    'scheme' => '{{scheme}}',
+                    'bearerFormat' => '{{bearerFormat}}',
+                    'isBasic' => false,
                     'isBearer' => true,
                     'isApiKey' => false,
                     'isOAuth' => false,
@@ -151,6 +170,93 @@ class RegisterRoutes
                 "{$operation['basePathWithoutHost']}{$operation['path']}",
                 $callback
             )->setName($operation['operationId']);
+
+            {{#hasAuthMethods}}
+            // Add authentication middleware based on the operation's authMethods
+            if ($operation['authMethods']) {
+                foreach ($operation['authMethods'] as $authMethod) {
+                    {{#authMethods}}
+                        {{#isBasicBasic}}
+                    if ($authMethod['isBasic']) {
+                        $route->add(new TokenAuthentication([
+                            'path' => '/',
+                            'authenticator' => new BasicAuthenticator,
+                            'regex' => '/Basic\s+(.*)$/i',
+                            'header' => 'Authorization',
+                            'parameter' => null,
+                            'cookie' => null,
+                            'argument' => null,
+                            'attribute' => 'authorization_token',
+                            'error' => ['{{authPackage}}\BasicAuthenticator', 'handleUnauthorized'],
+                        ]));
+                    }
+                        {{/isBasicBasic}}
+                        {{#isApiKey}}
+                    if ($authMethod['isApiKey']) {
+                        $authenticatorConfig = [
+                            'path' => '/',
+                            'authenticator' => new ApiKeyAuthenticator,
+                            'regex' => '/\s+(.*)$/i',
+                            'argument' => null,
+                            'attribute' => 'authorization_token',
+                            'error' => ['{{authPackage}}\ApiKeyAuthenticator', 'handleUnauthorized'],
+                        ];
+                        if ($authMethod['isKeyInHeader']) {
+                            $authenticatorConfig = [
+                                'header' => $authMethod['keyParamName'],
+                                'parameter' => null,
+                                'cookie' => null,
+                            ];
+                        } else if ($authMethod['isKeyInQuery']) {
+                            $authenticatorConfig = [
+                                'header' => null,
+                                'parameter' => $authMethod['keyParamName'],
+                                'cookie' => null,
+                            ];
+                        } else if ($authMethod['isKeyInCookie']) {
+                            $authenticatorConfig = [
+                                'header' => null,
+                                'parameter' => null,
+                                'cookie' => $authMethod['keyParamName'],
+                            ];
+                        }
+                        $route->add(new TokenAuthentication($authenticatorConfig));
+                    }
+                        {{/isApiKey}}
+                        {{#isBasicBearer}}
+                    if ($authMethod['isBearer']) {
+                        $route->add(new TokenAuthentication([
+                            'path' => '/',
+                            'authenticator' => new BearerAuthenticator,
+                            'regex' => '/Bearer\s+(.*)$/i',
+                            'header' => 'Authorization',
+                            'parameter' => null,
+                            'cookie' => null,
+                            'argument' => null,
+                            'attribute' => 'authorization_token',
+                            'error' => ['{{authPackage}}\BearerAuthenticator', 'handleUnauthorized'],
+                        ]));
+                    }
+                        {{/isBasicBearer}}
+                        {{#isOAuth}}
+                    if ($authMethod['isOAuth']) {
+                        $route->add(new TokenAuthentication([
+                            'path' => '/',
+                            'authenticator' => new OAuthAuthenticator($authMethod['scopes']),
+                            'regex' => '/Bearer\s+(.*)$/i',
+                            'header' => 'Authorization',
+                            'parameter' => null,
+                            'cookie' => null,
+                            'argument' => null,
+                            'attribute' => 'authorization_token',
+                            'error' => ['{{authPackage}}\OAuthAuthenticator', 'handleUnauthorized'],
+                        ]));
+                    }
+                        {{/isOAuth}}
+                    {{/authMethods}}
+                }
+            }
+            {{/hasAuthMethods}}
 
             foreach ($middlewares as $middleware) {
                 $route->add($middleware);

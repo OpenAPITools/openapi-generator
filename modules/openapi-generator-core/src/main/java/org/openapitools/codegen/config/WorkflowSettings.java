@@ -562,8 +562,7 @@ public class WorkflowSettings {
          */
         public WorkflowSettings build() {
             WorkflowSettings instance = new WorkflowSettings(this);
-            //noinspection PlaceholderCountMatchesArgumentCount
-            LOGGER.debug("WorkflowSettings#build: %s", instance.toString());
+            LOGGER.debug("WorkflowSettings#build: {}", instance);
             return instance;
         }
     }

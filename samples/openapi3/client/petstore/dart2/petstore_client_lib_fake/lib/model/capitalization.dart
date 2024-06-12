@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -72,12 +72,12 @@ class Capitalization {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Capitalization &&
-     other.smallCamel == smallCamel &&
-     other.capitalCamel == capitalCamel &&
-     other.smallSnake == smallSnake &&
-     other.capitalSnake == capitalSnake &&
-     other.sCAETHFlowPoints == sCAETHFlowPoints &&
-     other.ATT_NAME == ATT_NAME;
+    other.smallCamel == smallCamel &&
+    other.capitalCamel == capitalCamel &&
+    other.smallSnake == smallSnake &&
+    other.capitalSnake == capitalSnake &&
+    other.sCAETHFlowPoints == sCAETHFlowPoints &&
+    other.ATT_NAME == ATT_NAME;
 
   @override
   int get hashCode =>

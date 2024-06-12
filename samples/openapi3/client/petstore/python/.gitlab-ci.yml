@@ -23,3 +23,9 @@ pytest-3.8:
 pytest-3.9:
   extends: .pytest
   image: python:3.9-alpine
+pytest-3.10:
+  extends: .pytest
+  image: python:3.10-alpine
+pytest-3.11:
+  extends: .pytest
+  image: python:3.11-alpine

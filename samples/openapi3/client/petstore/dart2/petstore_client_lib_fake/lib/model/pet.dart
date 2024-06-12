@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -48,12 +48,12 @@ class Pet {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Pet &&
-     other.id == id &&
-     other.category == category &&
-     other.name == name &&
-     other.photoUrls == photoUrls &&
-     other.tags == tags &&
-     other.status == status;
+    other.id == id &&
+    other.category == category &&
+    other.name == name &&
+    _deepEquality.equals(other.photoUrls, photoUrls) &&
+    _deepEquality.equals(other.tags, tags) &&
+    other.status == status;
 
   @override
   int get hashCode =>

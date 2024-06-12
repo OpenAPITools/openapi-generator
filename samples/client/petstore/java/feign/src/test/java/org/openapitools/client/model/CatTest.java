@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Model tests for Cat
  */

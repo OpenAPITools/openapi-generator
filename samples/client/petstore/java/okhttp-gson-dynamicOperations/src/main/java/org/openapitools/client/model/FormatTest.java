@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -25,6 +24,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.UUID;
 
 import com.google.gson.Gson;
@@ -47,7 +47,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -55,7 +54,7 @@ import org.openapitools.client.JSON;
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
@@ -117,7 +116,6 @@ public class FormatTest {
   }
 
   public FormatTest integer(Integer integer) {
-    
     this.integer = integer;
     return this;
   }
@@ -133,14 +131,12 @@ public class FormatTest {
     return integer;
   }
 
-
   public void setInteger(Integer integer) {
     this.integer = integer;
   }
 
 
   public FormatTest int32(Integer int32) {
-    
     this.int32 = int32;
     return this;
   }
@@ -156,14 +152,12 @@ public class FormatTest {
     return int32;
   }
 
-
   public void setInt32(Integer int32) {
     this.int32 = int32;
   }
 
 
   public FormatTest int64(Long int64) {
-    
     this.int64 = int64;
     return this;
   }
@@ -177,14 +171,12 @@ public class FormatTest {
     return int64;
   }
 
-
   public void setInt64(Long int64) {
     this.int64 = int64;
   }
 
 
   public FormatTest number(BigDecimal number) {
-    
     this.number = number;
     return this;
   }
@@ -200,14 +192,12 @@ public class FormatTest {
     return number;
   }
 
-
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
 
 
   public FormatTest _float(Float _float) {
-    
     this._float = _float;
     return this;
   }
@@ -223,14 +213,12 @@ public class FormatTest {
     return _float;
   }
 
-
   public void setFloat(Float _float) {
     this._float = _float;
   }
 
 
   public FormatTest _double(Double _double) {
-    
     this._double = _double;
     return this;
   }
@@ -246,14 +234,12 @@ public class FormatTest {
     return _double;
   }
 
-
   public void setDouble(Double _double) {
     this._double = _double;
   }
 
 
   public FormatTest string(String string) {
-    
     this.string = string;
     return this;
   }
@@ -267,14 +253,12 @@ public class FormatTest {
     return string;
   }
 
-
   public void setString(String string) {
     this.string = string;
   }
 
 
   public FormatTest _byte(byte[] _byte) {
-    
     this._byte = _byte;
     return this;
   }
@@ -288,14 +272,12 @@ public class FormatTest {
     return _byte;
   }
 
-
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
 
 
   public FormatTest binary(File binary) {
-    
     this.binary = binary;
     return this;
   }
@@ -309,14 +291,12 @@ public class FormatTest {
     return binary;
   }
 
-
   public void setBinary(File binary) {
     this.binary = binary;
   }
 
 
   public FormatTest date(LocalDate date) {
-    
     this.date = date;
     return this;
   }
@@ -330,14 +310,12 @@ public class FormatTest {
     return date;
   }
 
-
   public void setDate(LocalDate date) {
     this.date = date;
   }
 
 
   public FormatTest dateTime(OffsetDateTime dateTime) {
-    
     this.dateTime = dateTime;
     return this;
   }
@@ -351,14 +329,12 @@ public class FormatTest {
     return dateTime;
   }
 
-
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
 
   public FormatTest uuid(UUID uuid) {
-    
     this.uuid = uuid;
     return this;
   }
@@ -372,14 +348,12 @@ public class FormatTest {
     return uuid;
   }
 
-
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
 
   public FormatTest password(String password) {
-    
     this.password = password;
     return this;
   }
@@ -393,14 +367,12 @@ public class FormatTest {
     return password;
   }
 
-
   public void setPassword(String password) {
     this.password = password;
   }
 
 
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    
     this.bigDecimal = bigDecimal;
     return this;
   }
@@ -413,7 +385,6 @@ public class FormatTest {
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }
-
 
   public void setBigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
@@ -467,7 +438,7 @@ public class FormatTest {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
     sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -527,9 +498,9 @@ public class FormatTest {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!FormatTest.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `FormatTest` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }

@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: Foo
+  version: 1.0.0
+paths:
+  /foo:
+    get:
+      responses:
+        '200':
+          description: example
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                 $ref: '#/components/schemas/Payment'
+components:
+  schemas:
+    DateTime:
+      type: string
+      format: date-time
+      example: "2019-01-01T00:00:00"
+    # the following schema shouldn't be generated as model
+    AllOfDatetime:
+      allOf:
+        - $ref: '#/components/schemas/DateTime'
+      example: "2019-01-01 00:00:00" 
+    Payment:
+      type: object
+      properties:
+        date:
+          $ref: '#/components/schemas/AllOfDatetime'
+        amount:
+          type: number
+          format: float
+          example: 625.0

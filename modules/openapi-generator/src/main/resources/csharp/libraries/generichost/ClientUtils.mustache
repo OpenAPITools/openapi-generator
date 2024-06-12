@@ -33,7 +33,11 @@ using System.Runtime.CompilerServices;
         /// </summary>
         static ClientUtils()
         {
-            compareLogic = new CompareLogic();
+            {{#equatable}}
+            ComparisonConfig comparisonConfig = new{{^net70OrLater}} ComparisonConfig{{/net70OrLater}}();
+            comparisonConfig.UseHashCodeIdentifier = true;
+            {{/equatable}}
+            compareLogic = new{{^net70OrLater}} CompareLogic{{/net70OrLater}}({{#equatable}}comparisonConfig{{/equatable}});
         }
         {{/useCompareNetObjects}}
 
@@ -46,6 +50,51 @@ using System.Runtime.CompilerServices;
         /// <returns></returns>
         public delegate void EventHandler<T>(object sender, T e) where T : EventArgs;
 
+        {{#hasApiKeyMethods}}
+        /// <summary>
+        /// An enum of headers
+        /// </summary>
+        public enum ApiKeyHeader
+        {
+            {{#apiKeyMethods}}
+            /// <summary>
+            /// The {{keyParamName}} header
+            /// </summary>
+            {{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}{{^-last}},{{/-last}}
+            {{/apiKeyMethods}}
+        }
+
+        /// <summary>
+        /// Converte an ApiKeyHeader to a string
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException"></exception>
+        {{>visibility}} static string ApiKeyHeaderToString(ApiKeyHeader value)
+        {
+            {{#net80OrLater}}
+            return value switch
+            {
+                {{#apiKeyMethods}}
+                ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}} => "{{keyParamName}}",
+                {{/apiKeyMethods}}
+                _ => throw new System.ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(ApiKeyHeader)),
+            };
+            {{/net80OrLater}}
+            {{^net80OrLater}}
+            switch(value)
+            {
+                {{#apiKeyMethods}}
+                case ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}:
+                    return "{{keyParamName}}";
+                {{/apiKeyMethods}}
+                default:
+                    throw new System.ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(ApiKeyHeader));
+            }
+            {{/net80OrLater}}
+        }
+
+        {{/hasApiKeyMethods}}
         /// <summary>
         /// Returns true when deserialization succeeds.
         /// </summary>
@@ -54,7 +103,7 @@ using System.Runtime.CompilerServices;
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, {{^netStandard}}[System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/netStandard}}out T{{#nrt}}{{^netStandard}}?{{/netStandard}}{{/nrt}} result)
+        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, {{#net60OrLater}}[System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/net60OrLater}}out T{{#nrt}}{{#net60OrLater}}?{{/net60OrLater}}{{/nrt}} result)
         {
             try
             {
@@ -76,7 +125,7 @@ using System.Runtime.CompilerServices;
         /// <param name="options"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, {{^netStandard}}[System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/netStandard}}out T{{#nrt}}{{^netStandard}}?{{/netStandard}}{{/nrt}} result)
+        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, {{#net60OrLater}}[System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/net60OrLater}}out T{{#nrt}}{{#net60OrLater}}?{{/net60OrLater}}{{/nrt}} result)
         {
             try
             {
@@ -109,7 +158,7 @@ using System.Runtime.CompilerServices;
         /// <param name="obj">The parameter (header, path, query, form).</param>
         /// <param name="format">The DateTime serialization format.</param>
         /// <returns>Formatted string.</returns>
-        public static string{{nrt?}} ParameterToString(object obj, string{{nrt?}} format = ISO8601_DATETIME_FORMAT)
+        public static string{{nrt?}} ParameterToString(object{{nrt?}} obj, string{{nrt?}} format = ISO8601_DATETIME_FORMAT)
         {
             if (obj is DateTime dateTime)
                 // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
@@ -130,26 +179,26 @@ using System.Runtime.CompilerServices;
             {{#models}}
             {{#model}}
             {{#isEnum}}
-            if (obj is {{classname}} {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}})
+            if (obj is {{classname}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}})
                 {{! below has #isNumeric as a work around but should probably have ^isString instead https://github.com/OpenAPITools/openapi-generator/issues/15038}}
-                return {{classname}}ValueConverter.{{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}){{#isNumeric}}.ToString(){{/isNumeric}};
+                return {{classname}}ValueConverter.{{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}){{#isNumeric}}.ToString(){{/isNumeric}};
             {{/isEnum}}
             {{^isEnum}}
             {{#vars}}
             {{#items.isEnum}}
             {{#items}}
             {{^complexType}}
-            if (obj is {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}} {{#lambda.camelcase_param}}{{classname}}{{{datatypeWithEnum}}}{{/lambda.camelcase_param}})
+            if (obj is {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{{datatypeWithEnum}}}{{/lambda.camelcase_sanitize_param}})
                 {{! below has #isNumeric as a work around but should probably have ^isString instead https://github.com/OpenAPITools/openapi-generator/issues/15038}}
-                return {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{{datatypeWithEnum}}}{{/lambda.camelcase_param}}){{#isNumeric}}.ToString(){{/isNumeric}};
+                return {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{classname}}{{{datatypeWithEnum}}}{{/lambda.camelcase_sanitize_param}}){{#isNumeric}}.ToString(){{/isNumeric}};
             {{/complexType}}
             {{/items}}
             {{/items.isEnum}}
             {{#isEnum}}
             {{^complexType}}
-            if (obj is {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}} {{#lambda.camelcase_param}}{{classname}}{{{datatypeWithEnum}}}{{/lambda.camelcase_param}})
+            if (obj is {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{{datatypeWithEnum}}}{{/lambda.camelcase_sanitize_param}})
                 {{! below has #isNumeric as a work around but should probably have ^isString instead https://github.com/OpenAPITools/openapi-generator/issues/15038}}
-                return {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{{datatypeWithEnum}}}{{/lambda.camelcase_param}}){{#isNumeric}}.ToString(){{/isNumeric}};
+                return {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{classname}}{{{datatypeWithEnum}}}{{/lambda.camelcase_sanitize_param}}){{#isNumeric}}.ToString(){{/isNumeric}};
             {{/complexType}}
             {{/isEnum}}
             {{/vars}}
@@ -285,6 +334,43 @@ using System.Runtime.CompilerServices;
             if (string.IsNullOrWhiteSpace(mime)) return false;
 
             return JsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json");
+        }
+
+        /// <summary>
+        /// Get the discriminator
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="discriminator"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public static string{{nrt?}} GetDiscriminator(Utf8JsonReader utf8JsonReader, string discriminator)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string{{nrt?}} localVarJsonPropertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    if (localVarJsonPropertyName != null && localVarJsonPropertyName.Equals(discriminator))
+                        return utf8JsonReader.GetString();
+                }
+            }
+
+            throw new JsonException("The specified discriminator was not found.");
         }
 
         /// <summary>

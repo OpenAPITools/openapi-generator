@@ -1,0 +1,13 @@
+openapi: 3.0.3
+info:
+  title: Pull 14359 - Dollar escaping
+  description: "Dollar sign in names"
+  version: "1.0.0"
+components:
+  schemas:
+    $DollarModel$:
+      type: object
+      properties:
+        $dollarValue$:
+          type: integer
+          format: int64

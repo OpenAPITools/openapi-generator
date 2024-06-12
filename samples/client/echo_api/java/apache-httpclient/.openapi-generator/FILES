@@ -5,6 +5,7 @@ README.md
 api/openapi.yaml
 build.gradle
 build.sbt
+docs/AuthApi.md
 docs/Bird.md
 docs/BodyApi.md
 docs/Category.md
@@ -19,6 +20,7 @@ docs/Query.md
 docs/QueryApi.md
 docs/StringEnumRef.md
 docs/Tag.md
+docs/TestFormObjectMultipartRequestMarker.md
 docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
 docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 git_push.sh
@@ -32,6 +34,7 @@ settings.gradle
 src/main/AndroidManifest.xml
 src/main/java/org/openapitools/client/ApiClient.java
 src/main/java/org/openapitools/client/ApiException.java
+src/main/java/org/openapitools/client/BaseApi.java
 src/main/java/org/openapitools/client/Configuration.java
 src/main/java/org/openapitools/client/JavaTimeFormatter.java
 src/main/java/org/openapitools/client/Pair.java
@@ -39,6 +42,7 @@ src/main/java/org/openapitools/client/RFC3339DateFormat.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
 src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/StringUtil.java
+src/main/java/org/openapitools/client/api/AuthApi.java
 src/main/java/org/openapitools/client/api/BodyApi.java
 src/main/java/org/openapitools/client/api/FormApi.java
 src/main/java/org/openapitools/client/api/HeaderApi.java
@@ -57,5 +61,6 @@ src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Query.java
 src/main/java/org/openapitools/client/model/StringEnumRef.java
 src/main/java/org/openapitools/client/model/Tag.java
+src/main/java/org/openapitools/client/model/TestFormObjectMultipartRequestMarker.java
 src/main/java/org/openapitools/client/model/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.java
 src/main/java/org/openapitools/client/model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.java

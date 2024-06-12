@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,7 @@ import javax.validation.Valid;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NullableClass extends HashMap<String, Object>  {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   @JsonProperty(JSON_PROPERTY_INTEGER_PROP)
@@ -81,7 +82,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
-  private List<Object> arrayItemsNullable;
+  private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   @JsonProperty(JSON_PROPERTY_OBJECT_NULLABLE_PROP)
@@ -393,18 +394,18 @@ public class NullableClass extends HashMap<String, Object>  {
       return false;
     }
     NullableClass nullableClass = (NullableClass) o;
-    return super.equals(o) && Objects.equals(integerProp, nullableClass.integerProp) &&
-        Objects.equals(numberProp, nullableClass.numberProp) &&
-        Objects.equals(booleanProp, nullableClass.booleanProp) &&
-        Objects.equals(stringProp, nullableClass.stringProp) &&
-        Objects.equals(dateProp, nullableClass.dateProp) &&
-        Objects.equals(datetimeProp, nullableClass.datetimeProp) &&
-        Objects.equals(arrayNullableProp, nullableClass.arrayNullableProp) &&
-        Objects.equals(arrayAndItemsNullableProp, nullableClass.arrayAndItemsNullableProp) &&
-        Objects.equals(arrayItemsNullable, nullableClass.arrayItemsNullable) &&
-        Objects.equals(objectNullableProp, nullableClass.objectNullableProp) &&
-        Objects.equals(objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
-        Objects.equals(objectItemsNullable, nullableClass.objectItemsNullable);
+    return super.equals(o) && Objects.equals(this.integerProp, nullableClass.integerProp) &&
+        Objects.equals(this.numberProp, nullableClass.numberProp) &&
+        Objects.equals(this.booleanProp, nullableClass.booleanProp) &&
+        Objects.equals(this.stringProp, nullableClass.stringProp) &&
+        Objects.equals(this.dateProp, nullableClass.dateProp) &&
+        Objects.equals(this.datetimeProp, nullableClass.datetimeProp) &&
+        Objects.equals(this.arrayNullableProp, nullableClass.arrayNullableProp) &&
+        Objects.equals(this.arrayAndItemsNullableProp, nullableClass.arrayAndItemsNullableProp) &&
+        Objects.equals(this.arrayItemsNullable, nullableClass.arrayItemsNullable) &&
+        Objects.equals(this.objectNullableProp, nullableClass.objectNullableProp) &&
+        Objects.equals(this.objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
+        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable);
   }
 
   @Override

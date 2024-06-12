@@ -1,0 +1,132 @@
+openapi: 3.0.0
+info:
+  description: test parameters
+  version: 1.0.0
+  title: Test parameters
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /test/parameters/{path_default}/{path_nullable}:
+    get:
+      tags:
+        - default
+      summary: Finds Pets by status
+      description: Multiple status values can be provided with comma separated strings
+      operationId: findPetsByStatus
+      parameters:
+        - name: query_default
+          in: query
+          description: query default
+          style: form
+          explode: false
+          deprecated: true
+          schema:
+            type: string
+            default: available
+        - name: query_default_enum
+          in: query
+          description: query default enum
+          schema:
+            type: string
+            enum:
+              - A
+              - B
+              - C
+            default: B
+        - name: query_default_int
+          in: query
+          description: query default int
+          schema:
+            type: number
+            format: int32
+            default: 3
+        - name: header_default
+          in: header
+          description: header default
+          schema:
+            type: string
+            default: available
+        - name: header_default_enum
+          in: header
+          description: header default enum
+          schema:
+            type: string
+            enum:
+              - A
+              - B
+              - C
+            default: B
+        - name: header_default_int
+          in: header
+          description: header default int
+          schema:
+            type: number
+            format: int32
+            default: 3
+        - name: path_default
+          in: path
+          description: path default
+          required: true
+          schema:
+            type: string
+        - name: cookie_default
+          in: cookie
+          description: cookie default
+          schema:
+            type: string
+            default: available
+        - name: cookie_default_enum
+          in: cookie
+          description: cookie default enum
+          schema:
+            type: string
+            enum:
+              - A
+              - B
+              - C
+            default: B
+        - name: cookie_default_int
+          in: cookie
+          description: cookie default int
+          schema:
+            type: number
+            format: int32
+            default: 3
+        - name: query_nullable
+          in: query
+          description: query nullable
+          style: form
+          explode: false
+          deprecated: true
+          schema:
+            type: string
+            nullable: true
+        - name: header_nullable
+          in: header
+          description: header nullable
+          schema:
+            type: string
+            nullable: true
+        - name: path_nullable
+          in: path
+          required: true
+          description: path_nullable
+          schema:
+            type: string
+        - name: cookie_nullable
+          in: cookie
+          description: cookie_nullable
+          schema:
+            nullable: true
+            type: string
+        - name: $query-$dollar-sign
+          in: query
+          description: query parameter with dollar sign
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid status value

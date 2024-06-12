@@ -148,6 +148,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val languageSpecificPrimitives = project.objects.listProperty<String>()
 
     /**
+     * Specifies .openapi-generator-ignore list in the form of relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml. 
+     */
+    val openapiGeneratorIgnoreList = project.objects.listProperty<String>()
+
+    /**
      * Specifies mappings between a given class and the import that should be used for that class.
      */
     val importMappings = project.objects.mapProperty<String, String>()
@@ -176,6 +181,21 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * Specifies mappings between a parameter name and the new name
      */
     val parameterNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between a model name and the new name
+     */
+    val modelNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between an enum name and the new name
+     */
+    val enumNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between an operation id name and the new name
+     */
+    val operationIdNameMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies mappings (rules) in OpenAPI normalizer
@@ -323,12 +343,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
-     * A special-case setting which configures some generators with XML support. In some cases,
-     * this forces json OR xml, so the default here is false.
-     */
-    val withXml = project.objects.property<Boolean>()
-
-    /**
      * To write all log messages (not just errors) to STDOUT
      */
     val logToStderr = project.objects.property<Boolean>()
@@ -388,7 +402,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         generateModelDocumentation.set(true)
         generateApiTests.set(true)
         generateApiDocumentation.set(true)
-        withXml.set(false)
         configOptions.set(mapOf())
         validateSpec.set(true)
         logToStderr.set(false)

@@ -64,8 +64,8 @@
       <version>${jackson-version}</version>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.jaxrs</groupId>
-      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+      <artifactId>jackson-jakarta-rs-json-provider</artifactId>
       <version>${jackson-version}</version>
     </dependency>
     <dependency>
@@ -123,17 +123,23 @@
         <version>${beanvalidation-version}</version>
         <scope>provided</scope>
     </dependency>
+    <dependency>
+        <groupId>org.openapitools</groupId>
+        <artifactId>jackson-databind-nullable</artifactId>
+        <version>${jackson-databind-nullable-version}</version>
+    </dependency>
   </dependencies>
   <properties>
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jackson-version>2.9.9</jackson-version>
+    <jackson-version>2.17.1</jackson-version>
     <junit-version>4.13.2</junit-version>
     <joda-version>2.10.13</joda-version>
     <javax.annotation-api-version>2.1.1</javax.annotation-api-version>
     <beanvalidation-version>3.0.2</beanvalidation-version>
     <jakarta.ws.rs-version>3.1.0</jakarta.ws.rs-version>
+    <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
   </properties>
 </project>

@@ -76,7 +76,7 @@ class ArrayTestTest extends TestCase
     public function testArrayTest()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class ArrayTestTest extends TestCase
     public function testPropertyArrayOfString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,7 +94,7 @@ class ArrayTestTest extends TestCase
     public function testPropertyArrayArrayOfInteger()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -103,6 +103,6 @@ class ArrayTestTest extends TestCase
     public function testPropertyArrayArrayOfModel()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

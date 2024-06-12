@@ -22,7 +22,7 @@ type OuterEnum string
 const (
 	OUTERENUM_PLACED OuterEnum = "placed"
 	OUTERENUM_APPROVED OuterEnum = "approved"
-	OUTERENUM_DELIVERED OuterEnum = "delivered"
+	OUTERENUM_SHIPPED OuterEnum = "delivered"
 )
 
 // All allowed values of OuterEnum enum

@@ -10,10 +10,6 @@
 package petstoreserver
 
 
-import (
-	"encoding/json"
-)
-
 
 
 // Tag - A tag for a pet
@@ -22,13 +18,6 @@ type Tag struct {
 	Id int64 `json:"id,omitempty"`
 
 	Name string `json:"name,omitempty"`
-}
-
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *Tag) UnmarshalJSON(data []byte) error {
-
-	type Alias Tag // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
 }
 
 // AssertTagRequired checks if the required fields are not zero-ed

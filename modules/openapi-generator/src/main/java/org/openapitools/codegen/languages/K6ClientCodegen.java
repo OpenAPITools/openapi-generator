@@ -45,6 +45,8 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -361,16 +363,17 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     static final String[][] JAVASCRIPT_SUPPORTING_FILES = {
             new String[]{"script.mustache", "script.js"}, new String[]{"README.mustache", "README.md"}};
 
-    protected String projectName;
-    protected String moduleName;
-    protected String projectDescription;
-    protected String projectVersion;
-    protected String licenseName;
+    @Setter protected String projectName;
+    @Setter protected String moduleName;
+    @Setter protected String projectDescription;
+    @Setter protected String projectVersion;
+    @Setter protected String licenseName;
 
+    @Getter @Setter
     protected String invokerPackage;
-    protected String sourceFolder = "";
-    private String modelPropertyNaming = "camelCase";
-    protected boolean preserveLeadingParamChar = false;
+    @Setter protected String sourceFolder = "";
+    @Getter private String modelPropertyNaming = "camelCase";
+    @Setter protected boolean preserveLeadingParamChar = false;
 
     @Override
     public CodegenType getTag() {
@@ -702,10 +705,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "${" + input + "}";
     }
 
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
-    }
-
     private String getNameUsingModelPropertyNaming(String name) {
         switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
             case original:
@@ -797,38 +796,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         return createPath(outputFolder, sourceFolder, invokerPackage, apiPackage());
     }
 
-    public String getInvokerPackage() {
-        return invokerPackage;
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void setProjectDescription(String projectDescription) {
-        this.projectDescription = projectDescription;
-    }
-
-    public void setProjectVersion(String projectVersion) {
-        this.projectVersion = projectVersion;
-    }
-
-    public void setLicenseName(String licenseName) {
-        this.licenseName = licenseName;
-    }
-
     public void setModelPropertyNaming(String naming) {
         if ("original".equals(naming) || "camelCase".equals(naming) || "PascalCase".equals(naming)
                 || "snake_case".equals(naming)) {
@@ -837,10 +804,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             throw new IllegalArgumentException("Invalid model property naming '" + naming
                     + "'. Must be 'original', 'camelCase', " + "'PascalCase' or 'snake_case'");
         }
-    }
-
-    public void setPreserveLeadingParamChar(boolean preserveLeadingParamChar) {
-        this.preserveLeadingParamChar = preserveLeadingParamChar;
     }
 
     @Override

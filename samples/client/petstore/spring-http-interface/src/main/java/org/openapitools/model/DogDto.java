@@ -23,10 +23,14 @@ import jakarta.annotation.Generated;
 
 
 @JsonTypeName("Dog")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class DogDto extends AnimalDto {
 
   private String breed;
+
+  public DogDto() {
+    super();
+  }
 
   public DogDto breed(String breed) {
     this.breed = breed;
@@ -49,12 +53,12 @@ public class DogDto extends AnimalDto {
 
 
   public DogDto className(String className) {
-    super.setClassName(className);
+    super.className(className);
     return this;
   }
 
   public DogDto color(String color) {
-    super.setColor(color);
+    super.color(color);
     return this;
   }
   @Override

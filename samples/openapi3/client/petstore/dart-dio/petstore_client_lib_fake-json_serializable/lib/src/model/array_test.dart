@@ -62,17 +62,19 @@ class ArrayTest {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
-     other.arrayOfString == arrayOfString &&
-     other.arrayArrayOfInteger == arrayArrayOfInteger &&
-     other.arrayArrayOfModel == arrayArrayOfModel;
 
-  @override
-  int get hashCode =>
-    arrayOfString.hashCode +
-    arrayArrayOfInteger.hashCode +
-    arrayArrayOfModel.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
+      other.arrayOfString == arrayOfString &&
+      other.arrayArrayOfInteger == arrayArrayOfInteger &&
+      other.arrayArrayOfModel == arrayArrayOfModel;
+
+    @override
+    int get hashCode =>
+        arrayOfString.hashCode +
+        arrayArrayOfInteger.hashCode +
+        arrayArrayOfModel.hashCode;
 
   factory ArrayTest.fromJson(Map<String, dynamic> json) => _$ArrayTestFromJson(json);
 

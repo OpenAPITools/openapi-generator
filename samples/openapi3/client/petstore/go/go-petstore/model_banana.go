@@ -95,16 +95,20 @@ func (o Banana) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Banana) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Banana) UnmarshalJSON(data []byte) (err error) {
 	varBanana := _Banana{}
 
-	if err = json.Unmarshal(bytes, &varBanana); err == nil {
-		*o = Banana(varBanana)
+	err = json.Unmarshal(data, &varBanana)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Banana(varBanana)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "lengthCm")
 		o.AdditionalProperties = additionalProperties
 	}

@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -149,22 +149,22 @@ class FormatTest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
-     other.integer == integer &&
-     other.int32 == int32 &&
-     other.int64 == int64 &&
-     other.number == number &&
-     other.float == float &&
-     other.double_ == double_ &&
-     other.decimal == decimal &&
-     other.string == string &&
-     other.byte == byte &&
-     other.binary == binary &&
-     other.date == date &&
-     other.dateTime == dateTime &&
-     other.uuid == uuid &&
-     other.password == password &&
-     other.patternWithDigits == patternWithDigits &&
-     other.patternWithDigitsAndDelimiter == patternWithDigitsAndDelimiter;
+    other.integer == integer &&
+    other.int32 == int32 &&
+    other.int64 == int64 &&
+    other.number == number &&
+    other.float == float &&
+    other.double_ == double_ &&
+    other.decimal == decimal &&
+    other.string == string &&
+    other.byte == byte &&
+    other.binary == binary &&
+    other.date == date &&
+    other.dateTime == dateTime &&
+    other.uuid == uuid &&
+    other.password == password &&
+    other.patternWithDigits == patternWithDigits &&
+    other.patternWithDigitsAndDelimiter == patternWithDigitsAndDelimiter;
 
   @override
   int get hashCode =>

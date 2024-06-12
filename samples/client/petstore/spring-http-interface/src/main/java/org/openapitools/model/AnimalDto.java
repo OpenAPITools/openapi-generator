@@ -31,12 +31,16 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = DogDto.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AnimalDto {
 
   private String className;
 
   private String color = "red";
+
+  public AnimalDto() {
+    super();
+  }
 
   public AnimalDto className(String className) {
     this.className = className;

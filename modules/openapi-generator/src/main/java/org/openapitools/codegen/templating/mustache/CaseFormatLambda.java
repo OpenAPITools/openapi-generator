@@ -24,8 +24,8 @@ import java.io.Writer;
 public class CaseFormatLambda implements Mustache.Lambda {
     private CodegenConfig generator = null;
 
-    private CaseFormat initialFormat;
-    private CaseFormat targetFormat;
+    private final CaseFormat initialFormat;
+    private final CaseFormat targetFormat;
 
     public CaseFormatLambda(CaseFormat target, CaseFormat targetFormat) {
         this.initialFormat = target;
@@ -43,6 +43,9 @@ public class CaseFormatLambda implements Mustache.Lambda {
         if (generator != null && generator.reservedWords().contains(text)) {
             text = generator.escapeReservedWord(text);
         }
-        writer.write(text);
+
+        if (text != null) {
+            writer.write(text);
+        }
     }
 }

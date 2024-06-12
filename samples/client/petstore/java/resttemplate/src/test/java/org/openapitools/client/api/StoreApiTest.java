@@ -14,9 +14,12 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.Order;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +28,8 @@ import java.util.Map;
 /**
  * API tests for StoreApi
  */
-@Ignore
-public class StoreApiTest {
+@Disabled
+class StoreApiTest {
 
     private final StoreApi api = new StoreApi();
 
@@ -36,12 +39,13 @@ public class StoreApiTest {
      *
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void deleteOrderTest() {
+    void deleteOrderTest() {
         String orderId = null;
+
         api.deleteOrder(orderId);
 
         // TODO: test validations
@@ -52,11 +56,12 @@ public class StoreApiTest {
      *
      * Returns a map of status codes to quantities
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void getInventoryTest() {
+    void getInventoryTest() {
+
         Map<String, Integer> response = api.getInventory();
 
         // TODO: test validations
@@ -67,12 +72,13 @@ public class StoreApiTest {
      *
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void getOrderByIdTest() {
+    void getOrderByIdTest() {
         Long orderId = null;
+
         Order response = api.getOrderById(orderId);
 
         // TODO: test validations
@@ -83,13 +89,14 @@ public class StoreApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void placeOrderTest() {
-        Order body = null;
-        Order response = api.placeOrder(body);
+    void placeOrderTest() {
+        Order order = null;
+
+        Order response = api.placeOrder(order);
 
         // TODO: test validations
     }

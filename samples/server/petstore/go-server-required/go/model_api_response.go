@@ -10,10 +10,6 @@
 package petstoreserver
 
 
-import (
-	"encoding/json"
-)
-
 
 
 // ApiResponse - Describes the result of uploading an image resource
@@ -24,13 +20,6 @@ type ApiResponse struct {
 	Type string `json:"type,omitempty"`
 
 	Message string `json:"message,omitempty"`
-}
-
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *ApiResponse) UnmarshalJSON(data []byte) error {
-
-	type Alias ApiResponse // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
 }
 
 // AssertApiResponseRequired checks if the required fields are not zero-ed

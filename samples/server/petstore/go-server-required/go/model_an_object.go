@@ -10,10 +10,6 @@
 package petstoreserver
 
 
-import (
-	"encoding/json"
-)
-
 
 
 // AnObject - An array 3-deep.
@@ -23,13 +19,6 @@ type AnObject struct {
 
 	// An array of pet.
 	Pet []Pet `json:"Pet,omitempty"`
-}
-
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *AnObject) UnmarshalJSON(data []byte) error {
-
-	type Alias AnObject // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
 }
 
 // AssertAnObjectRequired checks if the required fields are not zero-ed

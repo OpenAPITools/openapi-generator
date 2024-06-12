@@ -91,7 +91,7 @@ private:
     void primitivesIntegerPostCallback(PFXHttpRequestWorker *worker);
     void primitivesNumberPutCallback(PFXHttpRequestWorker *worker);
 
-signals:
+Q_SIGNALS:
 
     void primitivesIntegerPostSignal();
     void primitivesNumberPutSignal();
@@ -99,18 +99,25 @@ signals:
     void primitivesIntegerPostSignalFull(PFXHttpRequestWorker *worker);
     void primitivesNumberPutSignalFull(PFXHttpRequestWorker *worker);
 
+    Q_DECL_DEPRECATED_X("Use primitivesIntegerPostSignalError() instead")
     void primitivesIntegerPostSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void primitivesIntegerPostSignalError(QNetworkReply::NetworkError error_type, const QString &error_str);
+    Q_DECL_DEPRECATED_X("Use primitivesNumberPutSignalError() instead")
     void primitivesNumberPutSignalE(QNetworkReply::NetworkError error_type, QString error_str);
+    void primitivesNumberPutSignalError(QNetworkReply::NetworkError error_type, const QString &error_str);
 
+    Q_DECL_DEPRECATED_X("Use primitivesIntegerPostSignalErrorFull() instead")
     void primitivesIntegerPostSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void primitivesIntegerPostSignalErrorFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    Q_DECL_DEPRECATED_X("Use primitivesNumberPutSignalErrorFull() instead")
     void primitivesNumberPutSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
+    void primitivesNumberPutSignalErrorFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
-public slots:
+public Q_SLOTS:
     void tokenAvailable();
-    
 };
 
 } // namespace test_namespace

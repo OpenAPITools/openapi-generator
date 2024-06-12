@@ -12,9 +12,11 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
         parent::__construct($data);
 
         {{/parentSchema}}
-        {{#vars}}
-        $this->{{name}} = $data['{{name}}'] ?? null;
-        {{/vars}}
+        if (is_array($data)) {
+            {{#vars}}
+            $this->{{name}} = array_key_exists('{{name}}', $data) ? $data['{{name}}'] : $this->{{name}};
+            {{/vars}}
+        }
     }
     {{#vars}}
 
@@ -27,6 +29,37 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
     {
         return $this->{{name}};
     }
+
+    {{#isEnumRef}}
+    /**
+    * Gets {{name}} for serialization.
+    *
+    * @return string|null
+    */
+    public function getSerialized{{nameInPascalCase}}(): string|null
+    {
+        return $this->{{name}}?->value ? (string) $this->{{name}}->value : null;
+    }
+    {{/isEnumRef}}
+
+    {{#isContainer}}
+    {{#items}}
+    {{#isEnumRef}}
+    /**
+    * Gets {{name}} for serialization.
+    *
+    * @return array
+    */
+    public function getSerialized{{nameInPascalCase}}(): array
+    {
+        return array_map(
+            static fn ($value) => (string) $value->value,
+            $this->test ?? []
+        );
+    }
+    {{/isEnumRef}}
+    {{/items}}
+    {{/isContainer}}
 
     /**
      * Sets {{name}}.

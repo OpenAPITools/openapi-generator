@@ -38,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FormatTest.JSON_PROPERTY_NUMBER,
   FormatTest.JSON_PROPERTY_FLOAT,
   FormatTest.JSON_PROPERTY_DOUBLE,
+  FormatTest.JSON_PROPERTY_DECIMAL,
   FormatTest.JSON_PROPERTY_STRING,
   FormatTest.JSON_PROPERTY_BYTE,
   FormatTest.JSON_PROPERTY_BINARY,
@@ -45,10 +46,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FormatTest.JSON_PROPERTY_DATE_TIME,
   FormatTest.JSON_PROPERTY_UUID,
   FormatTest.JSON_PROPERTY_PASSWORD,
-  FormatTest.JSON_PROPERTY_BIG_DECIMAL
+  FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS,
+  FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
@@ -67,6 +69,9 @@ public class FormatTest {
 
   public static final String JSON_PROPERTY_DOUBLE = "double";
   private Double _double;
+
+  public static final String JSON_PROPERTY_DECIMAL = "decimal";
+  private BigDecimal decimal;
 
   public static final String JSON_PROPERTY_STRING = "string";
   private String string;
@@ -89,10 +94,35 @@ public class FormatTest {
   public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
 
-  public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
-  private BigDecimal bigDecimal;
+  public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS = "pattern_with_digits";
+  private String patternWithDigits;
+
+  public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
+  private String patternWithDigitsAndDelimiter;
 
   public FormatTest() {
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public FormatTest(@JsonProperty(JSON_PROPERTY_INTEGER) Integer integer, @JsonProperty(JSON_PROPERTY_INT32) Integer int32, @JsonProperty(JSON_PROPERTY_INT64) Long int64, @JsonProperty(JSON_PROPERTY_NUMBER) BigDecimal number, @JsonProperty(JSON_PROPERTY_FLOAT) Float _float, @JsonProperty(JSON_PROPERTY_DOUBLE) Double _double, @JsonProperty(JSON_PROPERTY_DECIMAL) BigDecimal decimal, @JsonProperty(JSON_PROPERTY_STRING) String string, @JsonProperty(JSON_PROPERTY_BYTE) byte[] _byte, @JsonProperty(JSON_PROPERTY_BINARY) File binary, @JsonProperty(JSON_PROPERTY_DATE) LocalDate date, @JsonProperty(JSON_PROPERTY_DATE_TIME) OffsetDateTime dateTime, @JsonProperty(JSON_PROPERTY_UUID) UUID uuid, @JsonProperty(JSON_PROPERTY_PASSWORD) String password, @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS) String patternWithDigits, @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER) String patternWithDigitsAndDelimiter) {
+    this.integer = integer;
+    this.int32 = int32;
+    this.int64 = int64;
+    this.number = number;
+    this._float = _float;
+    this._double = _double;
+    this.decimal = decimal;
+    this.string = string;
+    this._byte = _byte;
+    this.binary = binary;
+    this.date = date;
+    this.dateTime = dateTime;
+    this.uuid = uuid;
+    this.password = password;
+    this.patternWithDigits = patternWithDigits;
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
   public FormatTest integer(Integer integer) {
@@ -122,7 +152,6 @@ public class FormatTest {
     this.integer = integer;
   }
 
-
   public FormatTest int32(Integer int32) {
     
     this.int32 = int32;
@@ -150,7 +179,6 @@ public class FormatTest {
     this.int32 = int32;
   }
 
-
   public FormatTest int64(Long int64) {
     
     this.int64 = int64;
@@ -175,7 +203,6 @@ public class FormatTest {
   public void setInt64(Long int64) {
     this.int64 = int64;
   }
-
 
   public FormatTest number(BigDecimal number) {
     
@@ -204,7 +231,6 @@ public class FormatTest {
     this.number = number;
   }
 
-
   public FormatTest _float(Float _float) {
     
     this._float = _float;
@@ -231,7 +257,6 @@ public class FormatTest {
   public void setFloat(Float _float) {
     this._float = _float;
   }
-
 
   public FormatTest _double(Double _double) {
     
@@ -260,6 +285,30 @@ public class FormatTest {
     this._double = _double;
   }
 
+  public FormatTest decimal(BigDecimal decimal) {
+    
+    this.decimal = decimal;
+    return this;
+  }
+
+   /**
+   * Get decimal
+   * @return decimal
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_DECIMAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public BigDecimal getDecimal() {
+    return decimal;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DECIMAL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDecimal(BigDecimal decimal) {
+    this.decimal = decimal;
+  }
 
   public FormatTest string(String string) {
     
@@ -286,7 +335,6 @@ public class FormatTest {
     this.string = string;
   }
 
-
   public FormatTest _byte(byte[] _byte) {
     
     this._byte = _byte;
@@ -311,7 +359,6 @@ public class FormatTest {
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
-
 
   public FormatTest binary(File binary) {
     
@@ -338,7 +385,6 @@ public class FormatTest {
     this.binary = binary;
   }
 
-
   public FormatTest date(LocalDate date) {
     
     this.date = date;
@@ -363,7 +409,6 @@ public class FormatTest {
   public void setDate(LocalDate date) {
     this.date = date;
   }
-
 
   public FormatTest dateTime(OffsetDateTime dateTime) {
     
@@ -390,7 +435,6 @@ public class FormatTest {
     this.dateTime = dateTime;
   }
 
-
   public FormatTest uuid(UUID uuid) {
     
     this.uuid = uuid;
@@ -415,7 +459,6 @@ public class FormatTest {
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
-
 
   public FormatTest password(String password) {
     
@@ -442,30 +485,54 @@ public class FormatTest {
     this.password = password;
   }
 
-
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
+  public FormatTest patternWithDigits(String patternWithDigits) {
     
-    this.bigDecimal = bigDecimal;
+    this.patternWithDigits = patternWithDigits;
     return this;
   }
 
    /**
-   * Get bigDecimal
-   * @return bigDecimal
+   * A string that is a 10 digit number. Can have leading zeros.
+   * @return patternWithDigits
   **/
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public BigDecimal getBigDecimal() {
-    return bigDecimal;
+  public String getPatternWithDigits() {
+    return patternWithDigits;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public void setPatternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
+  }
+
+  public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+    return this;
+  }
+
+   /**
+   * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
+   * @return patternWithDigitsAndDelimiter
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getPatternWithDigitsAndDelimiter() {
+    return patternWithDigitsAndDelimiter;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPatternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
   @Override
@@ -483,6 +550,7 @@ public class FormatTest {
         Objects.equals(this.number, formatTest.number) &&
         Objects.equals(this._float, formatTest._float) &&
         Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.decimal, formatTest.decimal) &&
         Objects.equals(this.string, formatTest.string) &&
         Arrays.equals(this._byte, formatTest._byte) &&
         Objects.equals(this.binary, formatTest.binary) &&
@@ -490,12 +558,13 @@ public class FormatTest {
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
         Objects.equals(this.password, formatTest.password) &&
-        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
+        Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
+        Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
   @Override
@@ -508,14 +577,16 @@ public class FormatTest {
     sb.append("    number: ").append(toIndentedString(number)).append("\n");
     sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
     sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
+    sb.append("    decimal: ").append(toIndentedString(decimal)).append("\n");
     sb.append("    string: ").append(toIndentedString(string)).append("\n");
     sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
+    sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
+    sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -530,6 +601,135 @@ public class FormatTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private FormatTest instance;
+
+    public Builder() {
+      this(new FormatTest());
+    }
+
+    protected Builder(FormatTest instance) {
+      this.instance = instance;
+    }
+
+    public FormatTest.Builder integer(Integer integer) {
+      this.instance.integer = integer;
+      return this;
+    }
+    public FormatTest.Builder int32(Integer int32) {
+      this.instance.int32 = int32;
+      return this;
+    }
+    public FormatTest.Builder int64(Long int64) {
+      this.instance.int64 = int64;
+      return this;
+    }
+    public FormatTest.Builder number(BigDecimal number) {
+      this.instance.number = number;
+      return this;
+    }
+    public FormatTest.Builder _float(Float _float) {
+      this.instance._float = _float;
+      return this;
+    }
+    public FormatTest.Builder _double(Double _double) {
+      this.instance._double = _double;
+      return this;
+    }
+    public FormatTest.Builder decimal(BigDecimal decimal) {
+      this.instance.decimal = decimal;
+      return this;
+    }
+    public FormatTest.Builder string(String string) {
+      this.instance.string = string;
+      return this;
+    }
+    public FormatTest.Builder _byte(byte[] _byte) {
+      this.instance._byte = _byte;
+      return this;
+    }
+    public FormatTest.Builder binary(File binary) {
+      this.instance.binary = binary;
+      return this;
+    }
+    public FormatTest.Builder date(LocalDate date) {
+      this.instance.date = date;
+      return this;
+    }
+    public FormatTest.Builder dateTime(OffsetDateTime dateTime) {
+      this.instance.dateTime = dateTime;
+      return this;
+    }
+    public FormatTest.Builder uuid(UUID uuid) {
+      this.instance.uuid = uuid;
+      return this;
+    }
+    public FormatTest.Builder password(String password) {
+      this.instance.password = password;
+      return this;
+    }
+    public FormatTest.Builder patternWithDigits(String patternWithDigits) {
+      this.instance.patternWithDigits = patternWithDigits;
+      return this;
+    }
+    public FormatTest.Builder patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+      this.instance.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+      return this;
+    }
+
+
+    /**
+    * returns a built FormatTest instance.
+    *
+    * The builder is not reusable.
+    */
+    public FormatTest build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static FormatTest.Builder builder() {
+    return new FormatTest.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public FormatTest.Builder toBuilder() {
+    return new FormatTest.Builder()
+      .integer(getInteger())
+      .int32(getInt32())
+      .int64(getInt64())
+      .number(getNumber())
+      ._float(getFloat())
+      ._double(getDouble())
+      .decimal(getDecimal())
+      .string(getString())
+      ._byte(getByte())
+      .binary(getBinary())
+      .date(getDate())
+      .dateTime(getDateTime())
+      .uuid(getUuid())
+      .password(getPassword())
+      .patternWithDigits(getPatternWithDigits())
+      .patternWithDigitsAndDelimiter(getPatternWithDigitsAndDelimiter());
+  }
+
 
 }
 

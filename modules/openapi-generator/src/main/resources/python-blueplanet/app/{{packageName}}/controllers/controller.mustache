@@ -1,5 +1,4 @@
 import connexion
-import six
 
 {{#imports}}{{import}}  # noqa: E501
 {{/imports}}
@@ -94,15 +93,15 @@ def {{operationId}}({{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{
             {{#items}}
                 {{#isDate}}
     if connexion.request.is_json:
-        {{paramName}} = {k: util.deserialize_date(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
+        {{paramName}} = {k: util.deserialize_date(v) for k, v in connexion.request.get_json().items()}  # noqa: E501
                 {{/isDate}}
                 {{#isDateTime}}
     if connexion.request.is_json:
-        {{paramName}} = {k: util.deserialize_datetime(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
+        {{paramName}} = {k: util.deserialize_datetime(v) for k, v in connexion.request.get_json().items()}  # noqa: E501
                 {{/isDateTime}}
                 {{#complexType}}
     if connexion.request.is_json:
-        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in six.iteritems(connexion.request.get_json())}  # noqa: E501
+        {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in connexion.request.get_json().items()}  # noqa: E501
                 {{/complexType}}
             {{/items}}
         {{/isMap}}

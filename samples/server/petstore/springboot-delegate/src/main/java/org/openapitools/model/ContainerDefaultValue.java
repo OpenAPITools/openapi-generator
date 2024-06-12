@@ -24,20 +24,20 @@ import javax.annotation.Generated;
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
   @Valid
-  private JsonNullable<List<String>> nullableArray = JsonNullable.undefined();
+  private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
   @Valid
-  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.undefined();
+  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
   @Valid
   private List<String> requiredArray = new ArrayList<>();
 
   @Valid
-  private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.undefined();
+  private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
   public ContainerDefaultValue() {
     super();
@@ -49,6 +49,16 @@ public class ContainerDefaultValue {
   public ContainerDefaultValue(List<String> nullableRequiredArray, List<String> requiredArray) {
     this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
     this.requiredArray = requiredArray;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ContainerDefaultValue(List<String> nullableArray, List<String> nullableRequiredArray, List<String> requiredArray, List<String> nullableArrayWithDefault) {
+      this.nullableArray = JsonNullable.of(nullableArray);
+      this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
+      this.requiredArray = requiredArray;
+      this.nullableArrayWithDefault = JsonNullable.of(nullableArrayWithDefault);
   }
 
   public ContainerDefaultValue nullableArray(List<String> nullableArray) {

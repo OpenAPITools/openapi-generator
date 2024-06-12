@@ -59,19 +59,17 @@ import kotlinx.serialization.*
 {{/imports}}
 
 {{#operations}}
+{{#x-kotlin-import-models}}
+import {{{modelPackage}}}.*
+
+{{/x-kotlin-import-models}}
 {{#x-kotlin-multipart-import}}
 {{^isMultipart}}
 import okhttp3.MultipartBody
 
 {{/isMultipart}}
 {{/x-kotlin-multipart-import}}
-{{#operation}}
-{{#isResponseFile}}
-import okhttp3.ResponseBody
-
-{{/isResponseFile}}
-{{/operation}}
-interface {{classname}} {
+{{#nonPublicApi}}internal {{/nonPublicApi}}interface {{classname}} {
     {{#operation}}
     {{#allParams}}
     {{#isEnum}}
@@ -151,9 +149,7 @@ interface {{classname}} {
     {{^formParams}}
     {{#prioritizedContentTypes}}
     {{#-first}}
-    @Headers({
-        "Content-Type:{{{mediaType}}}"
-    })
+    @Headers("Content-Type:{{{mediaType}}}")
     {{/-first}}
     {{/prioritizedContentTypes}}
     {{/formParams}}

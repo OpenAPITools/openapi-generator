@@ -10,8 +10,8 @@ import java.util.*;
 
 public interface AnotherFakeApi {
 
-    void call123testSpecialTags(Client body, Handler<AsyncResult<Client>> handler);
+    void call123testSpecialTags(Client client, Handler<AsyncResult<Client>> handler);
 
-    void call123testSpecialTags(Client body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> handler);
+    void call123testSpecialTags(Client client, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> handler);
 
 }

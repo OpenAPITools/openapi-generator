@@ -2,6 +2,7 @@ package org.openapitools.client;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,7 +18,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ApiClient {
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
@@ -39,7 +40,17 @@ public class ApiClient {
     this();
     for(String authName : authNames) {
       log.log(Level.FINE, "Creating authentication {0}", authName);
-      throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+      RequestInterceptor auth = null;
+      if ("http_auth".equals(authName)) {
+        auth = new HttpBasicAuth();
+      } else if ("http_bearer_auth".equals(authName)) {
+        auth = new HttpBearerAuth("bearer");
+      } else {
+        throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+      }
+      if (auth != null) {
+        addAuthorization(authName, auth);
+      }
     }
   }
 
@@ -143,6 +154,15 @@ public class ApiClient {
   public void setBearerToken(String bearerToken) {
     HttpBearerAuth apiAuthorization =  getAuthorization(HttpBearerAuth.class);
     apiAuthorization.setBearerToken(bearerToken);
+  }
+
+  /**
+   * Helper method to configure the supplier of bearer tokens.
+   * @param tokenSupplier the supplier of bearer tokens.
+   */
+  public void setBearerToken(Supplier<String> tokenSupplier) {
+    HttpBearerAuth apiAuthorization =  getAuthorization(HttpBearerAuth.class);
+    apiAuthorization.setBearerToken(tokenSupplier);
   }
 
   /**

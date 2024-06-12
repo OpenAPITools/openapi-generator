@@ -22,14 +22,13 @@ public class ApiResponseDecoder extends JacksonDecoder {
 
     @Override
     public Object decode(Response response, Type type) throws IOException {
-    Map<String, Collection<String>> responseHeaders = Collections.unmodifiableMap(response.headers());
         //Detects if the type is an instance of the parameterized class ApiResponse
-        Type responseBodyType;
         if (type instanceof ParameterizedType && Types.getRawType(type).isAssignableFrom(ApiResponse.class)) {
             //The ApiResponse class has a single type parameter, the Dto class itself
-            responseBodyType = ((ParameterizedType) type).getActualTypeArguments()[0];
+            Type responseBodyType = ((ParameterizedType) type).getActualTypeArguments()[0];
             Object body = super.decode(response, responseBodyType);
-            return new ApiResponse(response.status(), responseHeaders, body);
+            Map<String, Collection<String>> responseHeaders = Collections.unmodifiableMap(response.headers());
+            return new ApiResponse<>(response.status(), responseHeaders, body);
         } else {
             //The response is not encapsulated in the ApiResponse, decode the Dto as normal
             return super.decode(response, type);

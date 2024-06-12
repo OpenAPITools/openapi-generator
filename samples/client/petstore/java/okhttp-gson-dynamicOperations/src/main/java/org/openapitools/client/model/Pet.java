@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,7 +48,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -56,7 +55,7 @@ import org.openapitools.client.JSON;
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -76,7 +75,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags;
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -125,6 +124,11 @@ public class Pet {
         return StatusEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      StatusEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_STATUS = "status";
@@ -135,7 +139,6 @@ public class Pet {
   }
 
   public Pet id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -149,14 +152,12 @@ public class Pet {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public Pet category(Category category) {
-    
     this.category = category;
     return this;
   }
@@ -170,14 +171,12 @@ public class Pet {
     return category;
   }
 
-
   public void setCategory(Category category) {
     this.category = category;
   }
 
 
   public Pet name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -191,14 +190,12 @@ public class Pet {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public Pet photoUrls(Set<String> photoUrls) {
-    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -220,14 +217,12 @@ public class Pet {
     return photoUrls;
   }
 
-
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
   public Pet tags(List<Tag> tags) {
-    
     this.tags = tags;
     return this;
   }
@@ -249,14 +244,12 @@ public class Pet {
     return tags;
   }
 
-
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
 
   public Pet status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }
@@ -269,7 +262,6 @@ public class Pet {
   public StatusEnum getStatus() {
     return status;
   }
-
 
   public void setStatus(StatusEnum status) {
     this.status = status;
@@ -357,9 +349,9 @@ public class Pet {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!Pet.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Pet` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -401,6 +393,10 @@ public class Pet {
       }
       if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
+      }
+      // validate the optional field `status`
+      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
       }
   }
 

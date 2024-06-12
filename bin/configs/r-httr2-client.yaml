@@ -4,6 +4,12 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/r/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/r
 httpUserAgent: PetstoreAgent
 library: httr2
+modelNameMappings:
+  dummy_model: JustModel
+parameterNameMappings:
+  path_array: path_array_parameter
+nameMappings:
+  percent_description: percent
 additionalProperties:
   packageName: petstore
   exceptionPackage: rlang
@@ -11,3 +17,4 @@ additionalProperties:
   returnExceptionOnFailure: true
   errorObjectType: "ModelApiResponse"
   operationIdNaming: snake_case
+

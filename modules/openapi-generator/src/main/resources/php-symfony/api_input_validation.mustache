@@ -38,10 +38,15 @@
         $asserts[] = new Assert\File();
     {{/isFile}}
     {{^isFile}}
+    {{#isEnumRef}}
+        $asserts[] = new Assert\Type("\{{modelPackage}}\{{dataType}}");
+    {{/isEnumRef}}
+    {{^isEnumRef}}
         $asserts[] = new Assert\Type("{{dataType}}");
         {{^isPrimitiveType}}
         $asserts[] = new Assert\Valid();
         {{/isPrimitiveType}}
+    {{/isEnumRef}}
     {{/isFile}}
     {{/isDateTime}}
     {{/isDate}}

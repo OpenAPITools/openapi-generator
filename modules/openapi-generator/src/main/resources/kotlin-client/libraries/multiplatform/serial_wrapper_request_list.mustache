@@ -1,6 +1,5 @@
-    @Serializable
+    @Serializable({{operationIdCamelCase}}Request.Companion::class)
     private class {{operationIdCamelCase}}Request(val value: List<{{#bodyParam}}{{baseType}}{{/bodyParam}}>) {
-        @Serializer({{operationIdCamelCase}}Request::class)
         {{#nonPublicApi}}internal {{/nonPublicApi}}companion object : KSerializer<{{operationIdCamelCase}}Request> {
             private val serializer: KSerializer<List<{{#bodyParam}}{{baseType}}{{/bodyParam}}>> = serializer<List<{{#bodyParam}}{{baseType}}{{/bodyParam}}>>()
             override val descriptor = serializer.descriptor

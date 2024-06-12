@@ -68,10 +68,12 @@ import qualified Prelude as P
 op123testSpecialTags
   :: (Consumes Op123testSpecialTags MimeJSON, MimeRender MimeJSON Client)
   => Client -- ^ "body" -  client model
+  -> UuidTest -- ^ "uuidTest" -  to test uuid example value
   -> OpenAPIPetstoreRequest Op123testSpecialTags MimeJSON Client MimeJSON
-op123testSpecialTags body =
+op123testSpecialTags body (UuidTest uuidTest) =
   _mkRequest "PATCH" ["/another-fake/dummy"]
     `setBodyParam` body
+    `addHeader` toHeader ("uuid_test", uuidTest)
 
 data Op123testSpecialTags 
 

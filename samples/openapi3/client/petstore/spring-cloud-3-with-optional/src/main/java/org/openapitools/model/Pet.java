@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
@@ -22,12 +23,12 @@ import jakarta.annotation.Generated;
  * A pet for sale in the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Pet {
 
-  private Long id;
+  private Optional<Long> id = Optional.empty();
 
-  private Category category;
+  private Optional<Category> category = Optional.empty();
 
   private String name;
 
@@ -35,7 +36,7 @@ public class Pet {
   private List<String> photoUrls = new ArrayList<>();
 
   @Valid
-  private List<@Valid Tag> tags;
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -74,7 +75,8 @@ public class Pet {
     }
   }
 
-  private StatusEnum status;
+  @Deprecated
+  private Optional<StatusEnum> status = Optional.empty();
 
   public Pet() {
     super();
@@ -89,7 +91,7 @@ public class Pet {
   }
 
   public Pet id(Long id) {
-    this.id = id;
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -99,16 +101,16 @@ public class Pet {
   */
   
   @JsonProperty("id")
-  public Long getId() {
+  public Optional<Long> getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
   public Pet category(Category category) {
-    this.category = category;
+    this.category = Optional.of(category);
     return this;
   }
 
@@ -118,11 +120,11 @@ public class Pet {
   */
   @Valid 
   @JsonProperty("category")
-  public Category getCategory() {
+  public Optional<Category> getCategory() {
     return category;
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(Optional<Category> category) {
     this.category = category;
   }
 
@@ -200,21 +202,27 @@ public class Pet {
   }
 
   public Pet status(StatusEnum status) {
-    this.status = status;
+    this.status = Optional.of(status);
     return this;
   }
 
   /**
    * pet status in the store
    * @return status
+   * @deprecated
   */
   
   @JsonProperty("status")
-  public StatusEnum getStatus() {
+  @Deprecated
+  public Optional<StatusEnum> getStatus() {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  /**
+   * @deprecated
+  */
+  @Deprecated
+  public void setStatus(Optional<StatusEnum> status) {
     this.status = status;
   }
 

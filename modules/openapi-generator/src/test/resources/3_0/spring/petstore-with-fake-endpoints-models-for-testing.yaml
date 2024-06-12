@@ -924,6 +924,23 @@ paths:
       responses:
         "200":
           description: successful operation
+  /fake/nullable:
+    post:
+      tags:
+        - fake
+      summary: test nullable parent property
+      description: ""
+      operationId: testNullable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChildWithNullable'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
   /fake/body-with-query-params:
     put:
       tags:
@@ -1007,6 +1024,20 @@ paths:
         required: true
       responses:
         "200":
+          description: Success
+  /fake/response-with-example:
+    get:
+      tags:
+        - fake
+      description: This endpoint defines an example value for its response schema.
+      operationId: testWithResultExample
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example: 42
+                type: integer
           description: Success
   /fake/test-query-parameters:
     put:
@@ -1729,6 +1760,25 @@ components:
     OuterBoolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
+    ParentWithNullable:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+          enum:
+            - ChildWithNullable
+        nullableProperty:
+          type: string
+          nullable: true
+    ChildWithNullable:
+      allOf:
+        - $ref: '#/components/schemas/ParentWithNullable'
+        - type: object
+          properties:
+            otherProperty:
+              type: string
     StringBooleanMap:
       additionalProperties:
         type: boolean
@@ -2037,3 +2087,11 @@ components:
           type: string
         property name with spaces:
           type: string
+    NullableMapProperty:
+      type: object
+      properties:
+        languageValues:
+          nullable: true
+          type: object
+          additionalProperties:
+            type: string

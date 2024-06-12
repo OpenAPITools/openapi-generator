@@ -38,7 +38,7 @@ import Foo from './model/Foo';
 import FooGetDefaultResponse from './model/FooGetDefaultResponse';
 import FormatTest from './model/FormatTest';
 import HasOnlyReadOnly from './model/HasOnlyReadOnly';
-import HealthCheckResult from './model/HealthCheckResult';
+import HealthCheckStatus from './model/HealthCheckStatus';
 import List from './model/List';
 import MapTest from './model/MapTest';
 import MixedPropertiesAndAdditionalPropertiesClass from './model/MixedPropertiesAndAdditionalPropertiesClass';
@@ -63,6 +63,7 @@ import Return from './model/Return';
 import SpecialModelName from './model/SpecialModelName';
 import StringOrBoolean from './model/StringOrBoolean';
 import Tag from './model/Tag';
+import TestInlineFreeformAdditionalPropertiesRequest from './model/TestInlineFreeformAdditionalPropertiesRequest';
 import User from './model/User';
 import AnotherFakeApi from './api/AnotherFakeApi';
 import DefaultApi from './api/DefaultApi';
@@ -262,10 +263,10 @@ export {
     HasOnlyReadOnly,
 
     /**
-     * The HealthCheckResult model constructor.
-     * @property {module:model/HealthCheckResult}
+     * The HealthCheckStatus model constructor.
+     * @property {module:model/HealthCheckStatus}
      */
-    HealthCheckResult,
+    HealthCheckStatus,
 
     /**
      * The List model constructor.
@@ -410,6 +411,12 @@ export {
      * @property {module:model/Tag}
      */
     Tag,
+
+    /**
+     * The TestInlineFreeformAdditionalPropertiesRequest model constructor.
+     * @property {module:model/TestInlineFreeformAdditionalPropertiesRequest}
+     */
+    TestInlineFreeformAdditionalPropertiesRequest,
 
     /**
      * The User model constructor.

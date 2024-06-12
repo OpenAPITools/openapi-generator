@@ -14,13 +14,14 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.io.Serializable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,7 +43,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -50,14 +50,16 @@ import org.openapitools.client.JSON;
 /**
  * SomeObj
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class SomeObj {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+public class SomeObj implements Serializable {
+  private static final long serialVersionUID = 1L;
+
   /**
    * Gets or Sets $type
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
-    SOMEOBJIDENTIFIER("SomeObjIdentifier");
+    SOME_OBJ_IDENTIFIER("SomeObjIdentifier");
 
     private String value;
 
@@ -95,11 +97,16 @@ public class SomeObj {
         return TypeEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      TypeEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_$_TYPE = "$_type";
   @SerializedName(SERIALIZED_NAME_$_TYPE)
-  private TypeEnum $type = TypeEnum.SOMEOBJIDENTIFIER;
+  private TypeEnum $type = TypeEnum.SOME_OBJ_IDENTIFIER;
 
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -121,7 +128,6 @@ public class SomeObj {
   }
 
   public SomeObj $type(TypeEnum $type) {
-    
     this.$type = $type;
     return this;
   }
@@ -135,14 +141,12 @@ public class SomeObj {
     return $type;
   }
 
-
   public void set$Type(TypeEnum $type) {
     this.$type = $type;
   }
 
 
   public SomeObj id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -156,14 +160,12 @@ public class SomeObj {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public SomeObj name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -177,14 +179,12 @@ public class SomeObj {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public SomeObj active(Boolean active) {
-    
     this.active = active;
     return this;
   }
@@ -198,14 +198,12 @@ public class SomeObj {
     return active;
   }
 
-
   public void setActive(Boolean active) {
     this.active = active;
   }
 
 
   public SomeObj type(String type) {
-    
     this.type = type;
     return this;
   }
@@ -218,7 +216,6 @@ public class SomeObj {
   public String getType() {
     return type;
   }
-
 
   public void setType(String type) {
     this.type = type;
@@ -301,9 +298,9 @@ public class SomeObj {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!SomeObj.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `SomeObj` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -311,6 +308,10 @@ public class SomeObj {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("$_type") != null && !jsonObj.get("$_type").isJsonNull()) && !jsonObj.get("$_type").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `$_type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("$_type").toString()));
+      }
+      // validate the optional field `$_type`
+      if (jsonObj.get("$_type") != null && !jsonObj.get("$_type").isJsonNull()) {
+        TypeEnum.validateJsonElement(jsonObj.get("$_type"));
       }
       if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));

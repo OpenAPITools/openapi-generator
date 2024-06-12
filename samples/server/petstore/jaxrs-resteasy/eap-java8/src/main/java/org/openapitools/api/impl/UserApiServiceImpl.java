@@ -11,20 +11,22 @@ import java.util.List;
 
 import java.io.InputStream;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class UserApiServiceImpl implements UserApi {
       public Response createUser(User body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }
-      public Response createUsersWithArrayInput(List<User> body,SecurityContext securityContext) {
+      public Response createUsersWithArrayInput(List<@Valid User> body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }
-      public Response createUsersWithListInput(List<User> body,SecurityContext securityContext) {
+      public Response createUsersWithListInput(List<@Valid User> body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }

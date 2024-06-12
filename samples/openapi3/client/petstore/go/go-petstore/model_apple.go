@@ -95,16 +95,20 @@ func (o Apple) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Apple) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Apple) UnmarshalJSON(data []byte) (err error) {
 	varApple := _Apple{}
 
-	if err = json.Unmarshal(bytes, &varApple); err == nil {
-		*o = Apple(varApple)
+	err = json.Unmarshal(data, &varApple)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Apple(varApple)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "cultivar")
 		o.AdditionalProperties = additionalProperties
 	}

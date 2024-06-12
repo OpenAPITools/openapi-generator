@@ -10,10 +10,6 @@
 package petstoreserver
 
 
-import (
-	"encoding/json"
-)
-
 
 
 // SpecialInfo - An order info for a pets from the pet store
@@ -22,13 +18,6 @@ type SpecialInfo struct {
 	Promotion bool `json:"promotion,omitempty"`
 
 	Type string `json:"type,omitempty"`
-}
-
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *SpecialInfo) UnmarshalJSON(data []byte) error {
-
-	type Alias SpecialInfo // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
 }
 
 // AssertSpecialInfoRequired checks if the required fields are not zero-ed

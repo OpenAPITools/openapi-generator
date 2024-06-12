@@ -41,7 +41,7 @@ class TestPet(unittest.TestCase):
                     id = 56, 
                     name = 'default-name', ), 
                 name = 'doggie', 
-                photo_urls = [
+                photoUrls = [
                     ''
                     ], 
                 tags = [
@@ -54,7 +54,7 @@ class TestPet(unittest.TestCase):
         else :
             return Pet(
                 name = 'doggie',
-                photo_urls = [
+                photoUrls = [
                     ''
                     ],
         )

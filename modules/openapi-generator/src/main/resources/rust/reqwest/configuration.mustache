@@ -11,7 +11,7 @@ use secrecy::{SecretString, ExposeSecret};
 pub struct Configuration {
     pub base_path: String,
     pub user_agent: Option<String>,
-    pub client: {{#supportMiddleware}}reqwest_middleware::ClientWithMiddleware{{/supportMiddleware}}{{^supportMiddleware}}reqwest::Client{{/supportMiddleware}},
+    pub client: {{#supportMiddleware}}reqwest_middleware::ClientWithMiddleware{{/supportMiddleware}}{{^supportMiddleware}}reqwest{{^supportAsync}}::blocking{{/supportAsync}}::Client{{/supportMiddleware}},
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
     pub bearer_access_token: Option<String>,
@@ -64,7 +64,7 @@ impl AWSv4Key {
 		                         value.to_str().expect("header value should be a string").to_string()));
             }
         }
-	return Ok(additional_headers);
+	Ok(additional_headers)
     }
 }
 {{/withAWSV4Signature}}
@@ -80,7 +80,7 @@ impl Default for Configuration {
         Configuration {
             base_path: "{{{basePath}}}".to_owned(),
             user_agent: {{#httpUserAgent}}Some("{{{.}}}".to_owned()){{/httpUserAgent}}{{^httpUserAgent}}Some("OpenAPI-Generator/{{{version}}}/rust".to_owned()){{/httpUserAgent}},
-            client: {{#supportMiddleware}}reqwest_middleware::ClientBuilder::new(reqwest::Client::new()).build(){{/supportMiddleware}}{{^supportMiddleware}}reqwest::Client::new(){{/supportMiddleware}},
+            client: {{#supportMiddleware}}reqwest_middleware::ClientBuilder::new(reqwest{{^supportAsync}}::blocking{{/supportAsync}}::Client::new()).build(){{/supportMiddleware}}{{^supportMiddleware}}reqwest{{^supportAsync}}::blocking{{/supportAsync}}::Client::new(){{/supportMiddleware}},
             basic_auth: None,
             oauth_access_token: None,
             bearer_access_token: None,

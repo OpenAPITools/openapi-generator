@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -23,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -47,7 +47,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -55,7 +54,7 @@ import org.openapitools.client.JSON;
 /**
  * TypeHolderDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TypeHolderDefault implements Parcelable {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -81,7 +80,6 @@ public class TypeHolderDefault implements Parcelable {
   }
 
   public TypeHolderDefault stringItem(String stringItem) {
-    
     this.stringItem = stringItem;
     return this;
   }
@@ -95,14 +93,12 @@ public class TypeHolderDefault implements Parcelable {
     return stringItem;
   }
 
-
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
 
 
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
-    
     this.numberItem = numberItem;
     return this;
   }
@@ -116,14 +112,12 @@ public class TypeHolderDefault implements Parcelable {
     return numberItem;
   }
 
-
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
 
   public TypeHolderDefault integerItem(Integer integerItem) {
-    
     this.integerItem = integerItem;
     return this;
   }
@@ -137,14 +131,12 @@ public class TypeHolderDefault implements Parcelable {
     return integerItem;
   }
 
-
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
 
 
   public TypeHolderDefault boolItem(Boolean boolItem) {
-    
     this.boolItem = boolItem;
     return this;
   }
@@ -158,14 +150,12 @@ public class TypeHolderDefault implements Parcelable {
     return boolItem;
   }
 
-
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
 
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
-    
     this.arrayItem = arrayItem;
     return this;
   }
@@ -186,7 +176,6 @@ public class TypeHolderDefault implements Parcelable {
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
-
 
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
@@ -250,7 +239,7 @@ public class TypeHolderDefault implements Parcelable {
 
   TypeHolderDefault(Parcel in) {
     stringItem = (String)in.readValue(null);
-    numberItem = (BigDecimal)in.readValue(null);
+    numberItem = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
     integerItem = (Integer)in.readValue(null);
     boolItem = (Boolean)in.readValue(null);
     arrayItem = (List<Integer>)in.readValue(null);
@@ -303,9 +292,9 @@ public class TypeHolderDefault implements Parcelable {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!TypeHolderDefault.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `TypeHolderDefault` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }

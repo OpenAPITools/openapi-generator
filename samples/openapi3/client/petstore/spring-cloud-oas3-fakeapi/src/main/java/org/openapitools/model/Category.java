@@ -18,12 +18,16 @@ import javax.annotation.Generated;
  * Category
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Category {
 
   private Long id;
 
   private String name = "default-name";
+
+  public Category() {
+    super();
+  }
 
   public Category id(Long id) {
     this.id = id;

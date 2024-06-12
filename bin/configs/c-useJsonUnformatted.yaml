@@ -1,0 +1,9 @@
+generatorName: c
+outputDir: samples/client/petstore/c-useJsonUnformatted
+inputSpec: modules/openapi-generator/src/test/resources/2_0/c/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/C-libcurl
+additionalProperties:
+  useJsonUnformatted: true
+modelNameMappings:
+  another_model: MappedModel
+  another_property: mappedProperty

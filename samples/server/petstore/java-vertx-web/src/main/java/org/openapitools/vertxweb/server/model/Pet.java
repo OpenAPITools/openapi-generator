@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.vertxweb.server.model.Category;
 import org.openapitools.vertxweb.server.model.Tag;
@@ -19,7 +20,7 @@ public class Pet   {
   private Category category;
   private String name;
   private List<String> photoUrls = new ArrayList<>();
-  private List<Tag> tags;
+  private List<Tag> tags = new ArrayList<>();
 
 
   public enum StatusEnum {

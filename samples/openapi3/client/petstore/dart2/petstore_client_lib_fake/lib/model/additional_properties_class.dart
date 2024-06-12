@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -23,8 +23,8 @@ class AdditionalPropertiesClass {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
-     other.mapProperty == mapProperty &&
-     other.mapOfMapProperty == mapOfMapProperty;
+    _deepEquality.equals(other.mapProperty, mapProperty) &&
+    _deepEquality.equals(other.mapOfMapProperty, mapOfMapProperty);
 
   @override
   int get hashCode =>

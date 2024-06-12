@@ -1,0 +1,56 @@
+openapi: 3.0.0
+servers:
+  - url: 'localhost:8080'
+info:
+  version: 1.0.0
+  title: OpenAPI Zoo
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /zebras:
+    get:
+      operationId: getZebras
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Zebra'
+
+components:
+  schemas:
+    Animal:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+          enum:
+            - zebra
+        name:
+          type: string
+          example: 'Marty'
+        age:
+          type: integer
+          example: 15
+        alias:
+          type: string
+          nullable: true
+          description: 'The stripy one'
+          example: 'Stripy'
+
+    Zebra:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            stripePattern:
+              type: string
+              enum:
+                - horizontal
+                - vertical

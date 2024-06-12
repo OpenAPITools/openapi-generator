@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
@@ -50,7 +50,9 @@ public class Name {
 
   public Name() {
   }
-
+  /**
+  * Constructor with only readonly parameters
+  */
   @JsonCreator
   public Name(
     @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
@@ -87,7 +89,6 @@ public class Name {
     this.name = name;
   }
 
-
    /**
    * Get snakeCase
    * @return snakeCase
@@ -100,7 +101,6 @@ public class Name {
   public Integer getSnakeCase() {
     return snakeCase;
   }
-
 
 
 
@@ -129,7 +129,6 @@ public class Name {
   public void setProperty(String property) {
     this.property = property;
   }
-
 
    /**
    * Get _123number

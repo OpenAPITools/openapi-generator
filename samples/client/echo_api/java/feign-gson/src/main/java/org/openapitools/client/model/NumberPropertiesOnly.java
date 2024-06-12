@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 /**
  * NumberPropertiesOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NumberPropertiesOnly {
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
@@ -109,6 +109,7 @@ public class NumberPropertiesOnly {
   public void setDouble(Double _double) {
     this._double = _double;
   }
+
 
   @Override
   public boolean equals(Object o) {

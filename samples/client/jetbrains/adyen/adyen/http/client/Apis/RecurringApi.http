@@ -1,0 +1,14 @@
+## RecurringApi
+
+### Delete a token for stored payment details
+## Delete a token for stored payment details
+DELETE https://checkout-test.adyen.com/v71/storedPaymentMethods/{{storedPaymentMethodId}}?shopperReference={{shopperReference}}&merchantAccount={{merchantAccount}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+### Get tokens for stored payment details
+## Get tokens for stored payment details
+GET https://checkout-test.adyen.com/v71/storedPaymentMethods?shopperReference={{shopperReference}}&merchantAccount={{merchantAccount}}
+Accept: application/json
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}

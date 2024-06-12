@@ -1,0 +1,33 @@
+openapi: 3.0.1
+info:
+  title: Buggy Api
+  version: "1.0"
+servers:
+  - url: /
+paths:
+  /foo/bar:
+    post:
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/myresponse'
+          description: ok
+components:
+  schemas:
+    myresponse:
+      additionalProperties: false
+      example:
+        x: A
+      properties:
+        x:
+          $ref: '#/components/schemas/myenum'
+      type: object
+    myenum:
+      enum:
+        - A
+        - B
+        - C
+      type: string
+x-original-swagger-version: "2.0"

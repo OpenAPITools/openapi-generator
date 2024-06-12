@@ -2,6 +2,7 @@
 
 namespace OpenAPI\Client;
 
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/FakeHttpClient.php';
@@ -14,6 +15,7 @@ class HeadersTest extends TestCase
     public function setUp(): void
     {
         $this->fakeHttpClient = new FakeHttpClient();
+        $this->fakeHttpClient->setResponse(new Response(200, [], json_encode([])));
     }
 
     public function testUserAgent()

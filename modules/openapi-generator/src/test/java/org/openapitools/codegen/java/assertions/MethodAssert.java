@@ -54,6 +54,13 @@ public class MethodAssert extends AbstractAssert<MethodAssert, MethodDeclaration
         return this;
     }
 
+    public MethodAssert doesNotHaveParameters() {
+        Assertions.assertThat(actual.getParameters())
+                .withFailMessage("Method %s shouldn't have parameter, but it does", methodSignature)
+                .isEmpty();
+        return this;
+    }
+
     public MethodAssert bodyContainsLines(final String... lines) {
         Assertions.assertThat(isWithImplementation())
             .withFailMessage("Method %s is abstract", methodSignature)

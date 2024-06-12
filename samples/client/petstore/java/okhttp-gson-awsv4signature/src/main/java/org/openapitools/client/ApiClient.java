@@ -49,6 +49,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -550,6 +551,27 @@ public class ApiClient {
         for (Authentication auth : authentications.values()) {
             if (auth instanceof AWS4Auth) {
                 ((AWS4Auth) auth).setCredentials(accessKey, secretKey);
+                ((AWS4Auth) auth).setRegion(region);
+                ((AWS4Auth) auth).setService(service);
+                return;
+            }
+        }
+        throw new RuntimeException("No AWS4 authentication configured!");
+    }
+
+    /**
+     * Helper method to set credentials for AWSV4 Signature
+     *
+     * @param accessKey Access Key
+     * @param secretKey Secret Key
+     * @param sessionToken Session Token
+     * @param region Region
+     * @param service Service to access to
+     */
+    public void setAWS4Configuration(String accessKey, String secretKey, String sessionToken, String region, String service) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof AWS4Auth) {
+                ((AWS4Auth) auth).setCredentials(accessKey, secretKey, sessionToken);
                 ((AWS4Auth) auth).setRegion(region);
                 ((AWS4Auth) auth).setService(service);
                 return;

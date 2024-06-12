@@ -95,15 +95,15 @@ knownRecordFactories.set(PetRecordEntityProps.recType, PetRecordEntity);
 class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
     public normalize(apiObject: Pet, asEntity?: boolean): Pet {
         (apiObject as any).recType = asEntity ? PetRecordEntityProps.recType : PetRecordProps.recType;
-        (apiObject as any).id = apiObject.id.toString();
-        if (apiObject.friendId) { (apiObject as any).friendId = apiObject.friendId.toString(); } 
-        (apiObject as any).otherFriendIds = apiObject.otherFriendIds.map(item => item?.toString());
-        categoryRecordUtils.normalize(apiObject.category);
-        if (apiObject.optionalCategory) { categoryRecordUtils.normalize(apiObject.optionalCategory); } 
-        if (apiObject._entries) { categoryRecordUtils.normalizeArray(apiObject._entries); } 
-        tagRecordUtils.normalizeArray(apiObject.tags);
-        if (apiObject.optionalTags) { tagRecordUtils.normalizeArray(apiObject.optionalTags); } 
-        if (apiObject.regions) { (apiObject as any).regions = apiObject.regions.map(item => item.map(item2 => item2?.toString())); } 
+        (apiObject as any)['id'] = apiObject['id'].toString();
+        if (apiObject['friendId']) { (apiObject as any)['friendId'] = apiObject['friendId'].toString(); } 
+        (apiObject as any)['otherFriendIds'] = apiObject['otherFriendIds'].map(item => item?.toString());
+        categoryRecordUtils.normalize(apiObject['category']);
+        if (apiObject['optionalCategory']) { categoryRecordUtils.normalize(apiObject['optionalCategory']); } 
+        if (apiObject['_entries']) { categoryRecordUtils.normalizeArray(apiObject['_entries']); } 
+        tagRecordUtils.normalizeArray(apiObject['tags']);
+        if (apiObject['optionalTags']) { tagRecordUtils.normalizeArray(apiObject['optionalTags']); } 
+        if (apiObject['regions']) { (apiObject as any)['regions'] = apiObject['regions'].map(item => item.map(item2 => item2?.toString())); } 
         return apiObject;
     }
 
@@ -130,20 +130,20 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
             _entries: _entries_original,
             tags: tags_original,
             optionalTags: optionalTags_original,
-		    ...unchangedProperties
-		} = entity;
+            ...unchangedProperties
+        } = entity;
 
         const entityProperties = {
             // @ts-ignore
-            category: yield call(categoryRecordUtils.toInlined, entity.category),
+            category: yield call(categoryRecordUtils.toInlined, entity['category']),
             // @ts-ignore
-            optionalCategory: entity.optionalCategory ? yield call(categoryRecordUtils.toInlined, entity.optionalCategory) : null,
+            optionalCategory: entity['optionalCategory'] ? yield call(categoryRecordUtils.toInlined, entity['optionalCategory']) : null,
             // @ts-ignore
-            _entries: entity._entries ? yield call(categoryRecordUtils.toInlinedArray, entity._entries) : null,
+            _entries: entity['_entries'] ? yield call(categoryRecordUtils.toInlinedArray, entity['_entries']) : null,
             // @ts-ignore
-            tags: yield call(tagRecordUtils.toInlinedArray, entity.tags),
+            tags: yield call(tagRecordUtils.toInlinedArray, entity['tags']),
             // @ts-ignore
-            optionalTags: entity.optionalTags ? yield call(tagRecordUtils.toInlinedArray, entity.optionalTags) : null,
+            optionalTags: entity['optionalTags'] ? yield call(tagRecordUtils.toInlinedArray, entity['optionalTags']) : null,
         }
 
         return PetRecord({
@@ -167,15 +167,15 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
 
     public toApi(record: PetRecord): Pet {
         const apiObject = super.toApi(record);
-        apiObject.id = parseFloat(record.id);
-        if (record.friendId) { apiObject.friendId = parseFloat(record.friendId); } 
-        apiObject.otherFriendIds = record.otherFriendIds.map(item => (item ? parseFloat(item) : null) as number).toArray();
-        apiObject.category = categoryRecordUtils.toApi(record.category);
-        if (record.optionalCategory) { apiObject.optionalCategory = categoryRecordUtils.toApi(record.optionalCategory); } 
-        if (record._entries) { apiObject._entries = categoryRecordUtils.toApiArray(record._entries); } 
-        apiObject.tags = tagRecordUtils.toApiArray(record.tags);
-        if (record.optionalTags) { apiObject.optionalTags = tagRecordUtils.toApiArray(record.optionalTags); } 
-        if (record.regions) { apiObject.regions = record.regions.map(item => item.toArray().map(item2 => (item2 ? parseFloat(item2) : null) as number)).toArray(); } 
+        apiObject['id'] = parseFloat(record['id']);
+        if (record['friendId']) { apiObject['friendId'] = parseFloat(record['friendId']); } 
+        apiObject['otherFriendIds'] = record['otherFriendIds'].map(item => (item ? parseFloat(item) : null) as number).toArray();
+        apiObject['category'] = categoryRecordUtils.toApi(record['category']);
+        if (record['optionalCategory']) { apiObject['optionalCategory'] = categoryRecordUtils.toApi(record['optionalCategory']); } 
+        if (record['_entries']) { apiObject['_entries'] = categoryRecordUtils.toApiArray(record['_entries']); } 
+        apiObject['tags'] = tagRecordUtils.toApiArray(record['tags']);
+        if (record['optionalTags']) { apiObject['optionalTags'] = tagRecordUtils.toApiArray(record['optionalTags']); } 
+        if (record['regions']) { apiObject['regions'] = record['regions'].map(item => item.toArray().map(item2 => (item2 ? parseFloat(item2) : null) as number)).toArray(); } 
         return apiObject;
     }
 }

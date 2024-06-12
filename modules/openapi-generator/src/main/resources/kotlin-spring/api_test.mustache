@@ -27,9 +27,9 @@ class {{classname}}Test {
     @Test
     fun {{operationId}}Test() {{#reactive}}= runBlockingTest {{/reactive}}{
         {{#allParams}}
-        val {{paramName}}: {{>optionalDataType}} = TODO()
+        val {{{paramName}}}: {{>optionalDataType}} = TODO()
         {{/allParams}}
-        val response: ResponseEntity<{{>returnTypes}}> = api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+        val response: ResponseEntity<{{>returnTypes}}> = api.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
 
         // TODO: test validations
     }

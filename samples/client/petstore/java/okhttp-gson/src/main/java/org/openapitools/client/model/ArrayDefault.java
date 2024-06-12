@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -52,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * ArrayDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ArrayDefault {
   public static final String SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET = "WithDefaultEmptyBracket";
   @SerializedName(SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET)
@@ -60,13 +59,12 @@ public class ArrayDefault {
 
   public static final String SERIALIZED_NAME_WITHOUT_DEFAULT = "WithoutDefault";
   @SerializedName(SERIALIZED_NAME_WITHOUT_DEFAULT)
-  private List<String> withoutDefault;
+  private List<String> withoutDefault = new ArrayList<>();
 
   public ArrayDefault() {
   }
 
   public ArrayDefault withDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
-    
     this.withDefaultEmptyBracket = withDefaultEmptyBracket;
     return this;
   }
@@ -88,14 +86,12 @@ public class ArrayDefault {
     return withDefaultEmptyBracket;
   }
 
-
   public void setWithDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
     this.withDefaultEmptyBracket = withDefaultEmptyBracket;
   }
 
 
   public ArrayDefault withoutDefault(List<String> withoutDefault) {
-    
     this.withoutDefault = withoutDefault;
     return this;
   }
@@ -116,7 +112,6 @@ public class ArrayDefault {
   public List<String> getWithoutDefault() {
     return withoutDefault;
   }
-
 
   public void setWithoutDefault(List<String> withoutDefault) {
     this.withoutDefault = withoutDefault;
@@ -237,11 +232,11 @@ public class ArrayDefault {
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
-      if (jsonObj.get("WithDefaultEmptyBracket") != null && !jsonObj.get("WithDefaultEmptyBracket").isJsonArray()) {
+      if (jsonObj.get("WithDefaultEmptyBracket") != null && !jsonObj.get("WithDefaultEmptyBracket").isJsonNull() && !jsonObj.get("WithDefaultEmptyBracket").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `WithDefaultEmptyBracket` to be an array in the JSON string but got `%s`", jsonObj.get("WithDefaultEmptyBracket").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("WithoutDefault") != null && !jsonObj.get("WithoutDefault").isJsonArray()) {
+      if (jsonObj.get("WithoutDefault") != null && !jsonObj.get("WithoutDefault").isJsonNull() && !jsonObj.get("WithoutDefault").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `WithoutDefault` to be an array in the JSON string but got `%s`", jsonObj.get("WithoutDefault").toString()));
       }
   }
@@ -274,7 +269,12 @@ public class ArrayDefault {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

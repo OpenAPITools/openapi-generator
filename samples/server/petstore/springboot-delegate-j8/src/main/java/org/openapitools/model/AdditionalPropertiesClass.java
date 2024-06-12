@@ -26,7 +26,7 @@ import javax.annotation.Generated;
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
   @Valid
@@ -55,7 +55,7 @@ public class AdditionalPropertiesClass {
 
   private Object anytype1;
 
-  private JsonNullable<Object> anytype2 = JsonNullable.undefined();
+  private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
   private Object anytype3;
 

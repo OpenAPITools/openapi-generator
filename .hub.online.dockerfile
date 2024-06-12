@@ -3,18 +3,18 @@
 ##
 ## You can build _just_ this part with:
 ##     docker --target builder -t container-name:builder -f .hub.online.dockerfile .
-FROM maven:3.6.3-jdk-11-openj9 as builder
+FROM maven:3-eclipse-temurin-17 as builder
 
 ENV GEN_DIR /opt/openapi-generator
 WORKDIR ${GEN_DIR}
 COPY . ${GEN_DIR}
 
 # Pre-compile openapi-generator-online
-RUN mvn -am -pl "modules/openapi-generator-online" package
+RUN mvn -B -am -pl "modules/openapi-generator-online" package
 
 ## The final (release) image
 ## The resulting container here only needs the target jar
-FROM openjdk:11.0.8-jre-slim-buster
+FROM eclipse-temurin:17-jre
 
 ENV GEN_DIR /opt/openapi-generator
 ENV TARGET_DIR /generator

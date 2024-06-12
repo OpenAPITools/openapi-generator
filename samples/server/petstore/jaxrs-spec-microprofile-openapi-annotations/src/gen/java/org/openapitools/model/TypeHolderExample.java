@@ -1,15 +1,13 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -20,13 +18,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("TypeHolderExample")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TypeHolderExample  implements Serializable {
-  private @Valid String stringItem;
-  private @Valid BigDecimal numberItem;
-  private @Valid Float floatItem;
-  private @Valid Integer integerItem;
-  private @Valid Boolean boolItem;
+  private String stringItem;
+  private BigDecimal numberItem;
+  private Float floatItem;
+  private Integer integerItem;
+  private Boolean boolItem;
   private @Valid List<Integer> arrayItem = new ArrayList<>();
 
   protected TypeHolderExample(TypeHolderExampleBuilder<?, ?> b) {
@@ -49,11 +47,9 @@ public class TypeHolderExample  implements Serializable {
   }
 
   
-  @ApiModelProperty(example = "what", required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "what", required = true, description = "")
   @JsonProperty("string_item")
-  @NotNull
-  public String getStringItem() {
+  @NotNull public String getStringItem() {
     return stringItem;
   }
 
@@ -70,11 +66,9 @@ public class TypeHolderExample  implements Serializable {
   }
 
   
-  @ApiModelProperty(example = "1.234", required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "1.234", required = true, description = "")
   @JsonProperty("number_item")
-  @NotNull
-  public BigDecimal getNumberItem() {
+  @NotNull @Valid public BigDecimal getNumberItem() {
     return numberItem;
   }
 
@@ -91,11 +85,9 @@ public class TypeHolderExample  implements Serializable {
   }
 
   
-  @ApiModelProperty(example = "1.234", required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "1.234", required = true, description = "")
   @JsonProperty("float_item")
-  @NotNull
-  public Float getFloatItem() {
+  @NotNull public Float getFloatItem() {
     return floatItem;
   }
 
@@ -112,11 +104,9 @@ public class TypeHolderExample  implements Serializable {
   }
 
   
-  @ApiModelProperty(example = "-2", required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "-2", required = true, description = "")
   @JsonProperty("integer_item")
-  @NotNull
-  public Integer getIntegerItem() {
+  @NotNull public Integer getIntegerItem() {
     return integerItem;
   }
 
@@ -133,11 +123,9 @@ public class TypeHolderExample  implements Serializable {
   }
 
   
-  @ApiModelProperty(example = "true", required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "true", required = true, description = "")
   @JsonProperty("bool_item")
-  @NotNull
-  public Boolean getBoolItem() {
+  @NotNull public Boolean getBoolItem() {
     return boolItem;
   }
 
@@ -154,11 +142,9 @@ public class TypeHolderExample  implements Serializable {
   }
 
   
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "[0, 1, 2, 3]", required = true, description = "")
   @JsonProperty("array_item")
-  @NotNull
-  public List<Integer> getArrayItem() {
+  @NotNull public List<Integer> getArrayItem() {
     return arrayItem;
   }
 
@@ -237,7 +223,7 @@ public class TypeHolderExample  implements Serializable {
     return new TypeHolderExampleBuilderImpl();
   }
 
-  private static final class TypeHolderExampleBuilderImpl extends TypeHolderExampleBuilder<TypeHolderExample, TypeHolderExampleBuilderImpl> {
+  private static class TypeHolderExampleBuilderImpl extends TypeHolderExampleBuilder<TypeHolderExample, TypeHolderExampleBuilderImpl> {
 
     @Override
     protected TypeHolderExampleBuilderImpl self() {

@@ -6,3 +6,5 @@ templateDir: modules/openapi-generator/src/main/resources/rust
 additionalProperties:
   supportAsync: false
   packageName: petstore-reqwest
+enumNameMappings:
+  delivered: shipped

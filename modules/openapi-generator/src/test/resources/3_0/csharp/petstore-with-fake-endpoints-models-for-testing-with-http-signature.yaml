@@ -17,6 +17,17 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /roles/report:
+    get:
+      responses:
+        '200':
+          description: returns report
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RolesReport'
   /hello:
     get:
       summary: Hello
@@ -202,6 +213,7 @@ paths:
           description: Pet not found
       security:
         - api_key: []
+        - api_key_query: []
     post:
       tags:
         - pet
@@ -463,6 +475,13 @@ paths:
         '200':
           description: successful operation
           headers:
+            Set-Cookie:
+              description: >-
+                Cookie authentication key for use with the `api_key`
+                apiKey authentication.
+              schema:
+                type: string
+                example: AUTH_KEY=abcde12345; Path=/; HttpOnly
             X-Rate-Limit:
               description: calls per hour allowed by the user
               schema:
@@ -520,6 +539,14 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+        '598':
+          description: Not a real HTTP status code
+        '599':
+          description: Not a real HTTP status code with a return object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
     put:
       tags:
         - user
@@ -947,6 +974,40 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -964,6 +1025,27 @@ paths:
               type: object
               additionalProperties:
                 type: string
+        description: request body
+        required: true
+  /fake/inline-freeform-additionalProperties:
+    post:
+      tags:
+        - fake
+      summary: test inline free-form additionalProperties
+      description: ''
+      operationId: testInlineFreeformAdditionalProperties
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                someProperty:
+                  type: string
+              additionalProperties: true
         description: request body
         required: true
   /fake/body-with-query-params:
@@ -1168,6 +1250,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/mixed/anyOf:
+    get:
+      tags:
+        - fake
+      summary: Test mixed type anyOf deserialization
+      operationId: getMixedAnyOf
+      responses:
+        200:
+          description: Got mixed anyOf
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedAnyOf'
+  /fake/mixed/oneOf:
+    get:
+      tags:
+        - fake
+      summary: Test mixed type oneOf deserialization
+      operationId: getMixedOneOf
+      responses:
+        200:
+          description: Got mixed oneOf
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedOneOf'
   /country:
     post:
       operationId: getCountry
@@ -1185,6 +1293,17 @@ paths:
       responses:
         '200':
           description: OK
+  /test:
+      get:
+          responses:
+              '200':
+                  content:
+                      application/json:
+                          schema:
+                              $ref: '#/components/schemas/notificationtest-getElements-v1-Response-mPayload'
+                  description: Successful response
+          operationId: Test
+          summary: Retrieve an existing Notificationtest's Elements
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1276,6 +1395,23 @@ components:
       type: http
       scheme: signature
   schemas:
+    RolesReport:
+      description: Roles report
+      type: array
+      items:
+        $ref: '#/components/schemas/RolesReportsHash'
+    RolesReportsHash:
+      description: Role report Hash
+      type: object
+      properties:
+        role_uuid:
+          type: string
+          format: uuid
+        role:
+          type: object
+          properties:
+            name:
+              type: string
     Foo:
       type: object
       properties:
@@ -1445,6 +1581,16 @@ components:
         return:
           type: integer
           format: int32
+        lock:
+          type: string
+        abstract:
+          type: string
+          nullable: true
+        unsafe:
+          type: string
+      required:
+        - lock
+        - abstract
       xml:
         name: Return
     Name:
@@ -1610,6 +1756,17 @@ components:
         - _abc
         - '-efg'
         - (xyz)
+    Outer_Enum_Test:
+      type: string
+      enum:
+        - UPPER
+        - lower
+        - ''
+        - "Value\twith tab"
+        - 'Value with " quote'
+        - 'Value with escaped \" quote'
+        - "Duplicate\nvalue"
+        - "Duplicate\r\nvalue"
     Enum_Test:
       type: object
       required:
@@ -1621,12 +1778,22 @@ components:
             - UPPER
             - lower
             - ''
+            - "Value\twith tab"
+            - 'Value with " quote'
+            - 'Value with escaped \" quote'
+            - "Duplicate\nvalue"
+            - "Duplicate\r\nvalue"
         enum_string_required:
           type: string
           enum:
             - UPPER
             - lower
             - ''
+            - "Value\twith tab"
+            - 'Value with " quote'
+            - 'Value with escaped \" quote'
+            - "Duplicate\nvalue"
+            - "Duplicate\r\nvalue"
         enum_integer:
           type: integer
           format: int32
@@ -1824,6 +1991,15 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -1902,6 +2078,266 @@ components:
           nullable: true
           type: string
       description: Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
+    RequiredClass:
+      type: object
+      properties:
+        required_nullable_integer_prop:
+          type: integer
+          nullable: true
+        required_notnullableinteger_prop:
+          type: integer
+          nullable: false
+        not_required_nullable_integer_prop:
+          type: integer
+          nullable: true
+        not_required_notnullableinteger_prop:
+          type: integer
+          nullable: false
+
+        required_nullable_string_prop:
+          type: string
+          nullable: true
+        required_notnullable_string_prop:
+          type: string
+          nullable: false
+        notrequired_nullable_string_prop:
+          type: string
+          nullable: true
+        notrequired_notnullable_string_prop:
+          type: string
+          nullable: false
+
+        required_nullable_boolean_prop:
+          type: boolean
+          nullable: true
+        required_notnullable_boolean_prop:
+          type: boolean
+          nullable: false
+        notrequired_nullable_boolean_prop:
+          type: boolean
+          nullable: true
+        notrequired_notnullable_boolean_prop:
+          type: boolean
+          nullable: false
+
+        required_nullable_date_prop:
+          type: string
+          format: date
+          nullable: true
+        required_not_nullable_date_prop:
+          type: string
+          format: date
+          nullable: false
+        not_required_nullable_date_prop:
+          type: string
+          format: date
+          nullable: true
+        not_required_notnullable_date_prop:
+          type: string
+          format: date
+          nullable: false
+
+        required_notnullable_datetime_prop:
+          type: string
+          format: date-time
+          nullable: false
+        required_nullable_datetime_prop:
+          type: string
+          format: date-time
+          nullable: true
+        notrequired_nullable_datetime_prop:
+          type: string
+          format: date-time
+          nullable: true
+        notrequired_notnullable_datetime_prop:
+          type: string
+          format: date-time
+          nullable: false
+
+        required_nullable_enum_integer:
+          type: integer
+          format: int32
+          nullable: true
+          enum:
+            - 1
+            - -1
+        required_notnullable_enum_integer:
+          type: integer
+          format: int32
+          nullable: false
+          enum:
+            - 1
+            - -1
+        notrequired_nullable_enum_integer:
+          type: integer
+          format: int32
+          nullable: true
+          enum:
+            - 1
+            - -1
+        notrequired_notnullable_enum_integer:
+          type: integer
+          format: int32
+          nullable: false
+          enum:
+            - 1
+            - -1
+
+        required_nullable_enum_integer_only:
+          type: integer
+          nullable: true
+          enum:
+            - 2
+            - -2
+        required_notnullable_enum_integer_only:
+          type: integer
+          nullable: false
+          enum:
+            - 2
+            - -2
+        notrequired_nullable_enum_integer_only:
+          type: integer
+          nullable: true
+          enum:
+            - 2
+            - -2
+        notrequired_notnullable_enum_integer_only:
+          type: integer
+          nullable: false
+          enum:
+            - 2
+            - -2
+
+        required_notnullable_enum_string:
+          type: string
+          nullable: false
+          enum:
+            - UPPER
+            - lower
+            - ''
+            - "Value\twith tab"
+            - 'Value with " quote'
+            - 'Value with escaped \" quote'
+            - "Duplicate\nvalue"
+            - "Duplicate\r\nvalue"
+        required_nullable_enum_string:
+          type: string
+          nullable: true
+          enum:
+            - UPPER
+            - lower
+            - ''
+            - "Value\twith tab"
+            - 'Value with " quote'
+            - 'Value with escaped \" quote'
+            - "Duplicate\nvalue"
+            - "Duplicate\r\nvalue"
+        notrequired_nullable_enum_string:
+          type: string
+          nullable: true
+          enum:
+            - UPPER
+            - lower
+            - ''
+            - "Value\twith tab"
+            - 'Value with " quote'
+            - 'Value with escaped \" quote'
+            - "Duplicate\nvalue"
+            - "Duplicate\r\nvalue"
+        notrequired_notnullable_enum_string:
+          type: string
+          nullable: false
+          enum:
+            - UPPER
+            - lower
+            - ''
+            - "Value\twith tab"
+            - 'Value with " quote'
+            - 'Value with escaped \" quote'
+            - "Duplicate\nvalue"
+            - "Duplicate\r\nvalue"
+
+        required_nullable_outerEnumDefaultValue:
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/OuterEnumDefaultValue'
+        required_notnullable_outerEnumDefaultValue:
+          nullable: false
+          allOf:
+          - $ref: '#/components/schemas/OuterEnumDefaultValue'
+        notrequired_nullable_outerEnumDefaultValue:
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/OuterEnumDefaultValue'
+        notrequired_notnullable_outerEnumDefaultValue:
+          nullable: false
+          allOf:
+          - $ref: '#/components/schemas/OuterEnumDefaultValue'
+
+        required_nullable_uuid:
+          type: string
+          format: uuid
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          nullable: true
+        required_notnullable_uuid:
+          type: string
+          format: uuid
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          nullable: false
+        notrequired_nullable_uuid:
+          type: string
+          format: uuid
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          nullable: true
+        notrequired_notnullable_uuid:
+          type: string
+          format: uuid
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          nullable: false
+
+        required_nullable_array_of_string:
+          type: array
+          nullable: true
+          items:
+            type: string
+        required_notnullable_array_of_string:
+          type: array
+          nullable: false
+          items:
+            type: string
+        notrequired_nullable_array_of_string:
+          type: array
+          nullable: true
+          items:
+            type: string
+        notrequired_notnullable_array_of_string:
+          type: array
+          nullable: false
+          items:
+            type: string
+      required:
+        - required_nullable_boolean_prop
+        - required_notnullable_boolean_prop
+        - required_nullable_string_prop
+        - required_notnullable_string_prop
+        - required_nullable_integer_prop
+        - required_notnullableinteger_prop
+        - required_nullable_date_prop
+        - required_not_nullable_date_prop
+        - required_notnullable_datetime_prop
+        - required_nullable_datetime_prop
+        - required_nullable_enum_integer
+        - required_notnullable_enum_integer
+        - required_nullable_enum_integer_only
+        - required_notnullable_enum_integer_only
+        - required_notnullable_enum_string
+        - required_nullable_enum_string
+        - required_nullable_outerEnumDefaultValue
+        - required_notnullable_outerEnumDefaultValue
+        - required_nullable_uuid
+        - required_notnullable_uuid
+        - required_nullable_array_of_string
+        - required_notnullable_array_of_string
     NullableClass:
       type: object
       properties:
@@ -1979,6 +2415,9 @@ components:
         origin:
           type: string
           pattern: /^[A-Z\s]*$/i
+        color_code:
+          type: string
+          pattern: ^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$
       nullable: true
     banana:
       type: object
@@ -2205,6 +2644,8 @@ components:
               enum:
               - ChildCat
               default: ChildCat
+          required:
+          - pet_type
     ArrayOfEnums:
       type: array
       items:
@@ -2320,3 +2761,158 @@ components:
           enum:
             - unknown
             - notUnknown
+    Custom-Variableobject-Response:
+        description: A Variable object without predefined property names
+        type: object
+        additionalProperties: true
+    Field-pkiNotificationtestID:
+        type: integer
+    notificationtest-getElements-v1-Response-mPayload:
+        required:
+            - pkiNotificationtestID
+            - a_objVariableobject
+        type: object
+        properties:
+            pkiNotificationtestID:
+                $ref: '#/components/schemas/Field-pkiNotificationtestID'
+            a_objVariableobject:
+                type: array
+                items:
+                    $ref: '#/components/schemas/Custom-Variableobject-Response'
+    MixedOneOf:
+      properties:
+        content:
+          oneOf:
+            - type: string
+            - type: boolean
+            # JsonReader will give back C# System.Int64 regardless of format.
+            - type: integer
+              format: uint8
+            # JsonReader will give back C# System.Double regardless of format.
+            - type: number
+              format: float32
+            - type: object
+              $ref: '#/components/schemas/MixedSubId'
+          description: Mixed oneOf types for testing
+    MixedAnyOf:
+      properties:
+        content:
+          anyOf:
+            - type: string
+            - type: boolean
+            # JsonReader will give back C# System.Int64 regardless of format.
+            - type: integer
+              format: uint8
+            # JsonReader will give back C# System.Double regardless of format.
+            - type: number
+              format: float32
+            - type: object
+              $ref: '#/components/schemas/MixedSubId'
+              
+          description:  Mixed anyOf types for testing
+    MixedSubId:
+      properties:
+        id:
+          type: string
+    # this class ensures that the CodegenProperties are sorted correctly
+    # https://github.com/OpenAPITools/openapi-generator/issues/18607
+    MixLog:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid'
+        description:
+          type: string
+        mixDate:
+          type: string
+          format: date-time
+        shopId:
+          $ref: '#/components/schemas/uuid'
+        totalPrice:
+          type: number
+          format: float
+          nullable: true
+        totalRecalculations:
+          type: integer
+          format: int32
+        totalOverPoors:
+          type: integer
+          format: int32
+        totalSkips:
+          type: integer
+          format: int32
+        totalUnderPours:
+          type: integer
+          format: int32
+        formulaVersionDate:
+          type: string
+          format: date-time
+        someCode:
+          type: string
+          nullable: true
+          description: SomeCode is only required for color mixes
+        batchNumber:
+          type: string
+        brandCode:
+          type: string
+          description: BrandCode is only required for non-color mixes
+        brandId:
+          type: string
+          description: BrandId is only required for color mixes
+        brandName:
+          type: string
+          description: BrandName is only required for color mixes
+        categoryCode:
+          type: string
+          description: CategoryCode is not used anymore
+        color:
+          type: string
+          description: Color is only required for color mixes
+        colorDescription:
+          type: string
+        comment:
+          type: string
+        commercialProductCode:
+          type: string
+        productLineCode:
+          type: string
+          description: ProductLineCode is only required for color mixes
+        country:
+          type: string
+        createdBy:
+          type: string
+        createdByFirstName:
+          type: string
+        createdByLastName:
+          type: string
+        deltaECalculationRepaired:
+          type: string
+        deltaECalculationSprayout:
+          type: string
+        ownColorVariantNumber:
+          nullable: true
+          type: integer
+          format: int32
+        primerProductId:
+          type: string
+        productId:
+          type: string
+          description: ProductId is only required for color mixes
+        productName:
+          type: string
+          description: ProductName is only required for color mixes
+        selectedVersionIndex:
+          type: integer
+          format: int32
+      required:
+        - id
+        - description
+        - mixDate
+        - totalRecalculations
+        - totalOverPoors
+        - totalSkips
+        - totalUnderPours
+        - formulaVersionDate
+    uuid:
+      type: string
+      format: uuid

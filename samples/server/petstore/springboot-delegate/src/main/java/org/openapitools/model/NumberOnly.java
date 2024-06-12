@@ -20,10 +20,21 @@ import javax.annotation.Generated;
  * NumberOnly
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NumberOnly {
 
   private BigDecimal justNumber;
+
+  public NumberOnly() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public NumberOnly(BigDecimal justNumber) {
+      this.justNumber = justNumber;
+  }
 
   public NumberOnly justNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;

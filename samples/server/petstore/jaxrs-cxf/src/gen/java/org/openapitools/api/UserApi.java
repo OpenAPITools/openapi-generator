@@ -52,7 +52,7 @@ public interface UserApi  {
     @ApiOperation(value = "Creates list of users with given input array", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithArrayInput(@Valid @NotNull List<User> body);
+    public void createUsersWithArrayInput(@Valid @NotNull List<@Valid User> body);
 
     /**
      * Creates list of users with given input array
@@ -63,7 +63,7 @@ public interface UserApi  {
     @ApiOperation(value = "Creates list of users with given input array", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void createUsersWithListInput(@Valid @NotNull List<User> body);
+    public void createUsersWithListInput(@Valid @NotNull List<@Valid User> body);
 
     /**
      * Delete user

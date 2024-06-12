@@ -1,4 +1,4 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http';
+import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration} from '../configuration'
 
 import { Response } from '../models/Response';
@@ -14,6 +14,13 @@ export class PromiseDefaultApi {
         responseProcessor?: DefaultApiResponseProcessor
     ) {
         this.api = new ObservableDefaultApi(configuration, requestFactory, responseProcessor);
+    }
+
+    /**
+     */
+    public uniqueItemsWithHttpInfo(_options?: Configuration): Promise<HttpInfo<Response>> {
+        const result = this.api.uniqueItemsWithHttpInfo(_options);
+        return result.toPromise();
     }
 
     /**

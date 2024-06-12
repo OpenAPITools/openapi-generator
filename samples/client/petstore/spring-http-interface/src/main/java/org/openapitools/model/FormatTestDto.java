@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FormatTestDto {
 
   private Integer integer;
@@ -56,6 +56,10 @@ public class FormatTestDto {
   private String password;
 
   private BigDecimal bigDecimal;
+
+  public FormatTestDto() {
+    super();
+  }
 
   public FormatTestDto integer(Integer integer) {
     this.integer = integer;
@@ -379,7 +383,7 @@ public class FormatTestDto {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
     sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();

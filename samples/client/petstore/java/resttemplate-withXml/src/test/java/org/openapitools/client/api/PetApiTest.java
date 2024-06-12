@@ -17,9 +17,12 @@ import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import java.util.Set;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +31,8 @@ import java.util.Map;
 /**
  * API tests for PetApi
  */
-@Ignore
-public class PetApiTest {
+@Disabled
+class PetApiTest {
 
     private final PetApi api = new PetApi();
 
@@ -39,13 +42,14 @@ public class PetApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void addPetTest() {
-        Pet body = null;
-        api.addPet(body);
+    void addPetTest() {
+        Pet pet = null;
+
+        api.addPet(pet);
 
         // TODO: test validations
     }
@@ -55,13 +59,14 @@ public class PetApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void deletePetTest() {
+    void deletePetTest() {
         Long petId = null;
         String apiKey = null;
+
         api.deletePet(petId, apiKey);
 
         // TODO: test validations
@@ -72,12 +77,13 @@ public class PetApiTest {
      *
      * Multiple status values can be provided with comma separated strings
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void findPetsByStatusTest() {
+    void findPetsByStatusTest() {
         List<String> status = null;
+
         List<Pet> response = api.findPetsByStatus(status);
 
         // TODO: test validations
@@ -88,12 +94,13 @@ public class PetApiTest {
      *
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void findPetsByTagsTest() {
+    void findPetsByTagsTest() {
         Set<String> tags = null;
+
         Set<Pet> response = api.findPetsByTags(tags);
 
         // TODO: test validations
@@ -104,12 +111,13 @@ public class PetApiTest {
      *
      * Returns a single pet
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void getPetByIdTest() {
+    void getPetByIdTest() {
         Long petId = null;
+
         Pet response = api.getPetById(petId);
 
         // TODO: test validations
@@ -120,13 +128,14 @@ public class PetApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void updatePetTest() {
-        Pet body = null;
-        api.updatePet(body);
+    void updatePetTest() {
+        Pet pet = null;
+
+        api.updatePet(pet);
 
         // TODO: test validations
     }
@@ -136,14 +145,15 @@ public class PetApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void updatePetWithFormTest() {
+    void updatePetWithFormTest() {
         Long petId = null;
         String name = null;
         String status = null;
+
         api.updatePetWithForm(petId, name, status);
 
         // TODO: test validations
@@ -154,15 +164,16 @@ public class PetApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void uploadFileTest() {
+    void uploadFileTest() {
         Long petId = null;
         String additionalMetadata = null;
-        File file = null;
-        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+        File _file = null;
+
+        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
 
         // TODO: test validations
     }
@@ -172,14 +183,15 @@ public class PetApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void uploadFileWithRequiredFileTest() {
+    void uploadFileWithRequiredFileTest() {
         Long petId = null;
         File requiredFile = null;
         String additionalMetadata = null;
+
         ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
 
         // TODO: test validations

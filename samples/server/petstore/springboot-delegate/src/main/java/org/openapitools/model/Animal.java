@@ -33,7 +33,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Animal {
 
   private String className;
@@ -49,6 +49,14 @@ public class Animal {
    */
   public Animal(String className) {
     this.className = className;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Animal(String className, String color) {
+      this.className = className;
+      this.color = color;
   }
 
   public Animal className(String className) {

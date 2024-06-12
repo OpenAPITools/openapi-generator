@@ -19,15 +19,15 @@ import javax.annotation.Generated;
  * ReadOnlyFirst
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ReadOnlyFirst {
 
-  private String bar;
+  private Optional<String> bar = Optional.empty();
 
-  private String baz;
+  private Optional<String> baz = Optional.empty();
 
   public ReadOnlyFirst bar(String bar) {
-    this.bar = bar;
+    this.bar = Optional.of(bar);
     return this;
   }
 
@@ -38,16 +38,16 @@ public class ReadOnlyFirst {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
-  public String getBar() {
+  public Optional<String> getBar() {
     return bar;
   }
 
-  public void setBar(String bar) {
+  public void setBar(Optional<String> bar) {
     this.bar = bar;
   }
 
   public ReadOnlyFirst baz(String baz) {
-    this.baz = baz;
+    this.baz = Optional.of(baz);
     return this;
   }
 
@@ -58,11 +58,11 @@ public class ReadOnlyFirst {
   
   @ApiModelProperty(value = "")
   @JsonProperty("baz")
-  public String getBaz() {
+  public Optional<String> getBaz() {
     return baz;
   }
 
-  public void setBaz(String baz) {
+  public void setBaz(Optional<String> baz) {
     this.baz = baz;
   }
 
@@ -104,5 +104,69 @@ public class ReadOnlyFirst {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ReadOnlyFirst instance;
+
+    public Builder() {
+      this(new ReadOnlyFirst());
+    }
+
+    protected Builder(ReadOnlyFirst instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(ReadOnlyFirst value) { 
+      this.instance.setBar(value.bar);
+      this.instance.setBaz(value.baz);
+      return this;
+    }
+
+    public ReadOnlyFirst.Builder bar(String bar) {
+      this.instance.bar(bar);
+      return this;
+    }
+    
+    public ReadOnlyFirst.Builder baz(String baz) {
+      this.instance.baz(baz);
+      return this;
+    }
+    
+    /**
+    * returns a built ReadOnlyFirst instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ReadOnlyFirst build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static ReadOnlyFirst.Builder builder() {
+    return new ReadOnlyFirst.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ReadOnlyFirst.Builder toBuilder() {
+    ReadOnlyFirst.Builder builder = new ReadOnlyFirst.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

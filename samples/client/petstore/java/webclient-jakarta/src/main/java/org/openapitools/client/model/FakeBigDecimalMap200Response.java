@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_MAP
 })
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
   private BigDecimal someId;
@@ -69,7 +69,6 @@ public class FakeBigDecimalMap200Response {
   public void setSomeId(BigDecimal someId) {
     this.someId = someId;
   }
-
 
   public FakeBigDecimalMap200Response someMap(Map<String, BigDecimal> someMap) {
     

@@ -140,7 +140,7 @@ No authorization required
 | **200** | successful operation |  -  |
 
 # **fake_path_array**
-> fake_path_array(path_array)
+> fake_path_array(path_array_parameter)
 
 test array parameter in path
 
@@ -153,11 +153,11 @@ library(petstore)
 # test array parameter in path
 #
 # prepare function argument(s)
-var_path_array <- c("inner_example") # array[character] | dummy path parameter
+var_path_array_parameter <- c("inner_example") # array[character] | dummy path parameter
 
 api_instance <- FakeApi$new()
 result <- tryCatch(
-             api_instance$fake_path_array(var_path_array),
+             api_instance$fake_path_array(var_path_array_parameter),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -174,7 +174,7 @@ if (!is.null(result$ApiException)) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **path_array** | list( **character** )| dummy path parameter | 
+ **path_array_parameter** | list( **character** )| dummy path parameter | 
 
 ### Return type
 

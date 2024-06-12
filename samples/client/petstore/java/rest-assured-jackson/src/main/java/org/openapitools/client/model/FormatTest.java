@@ -51,7 +51,7 @@ import org.hibernate.validator.constraints.*;
   FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
@@ -126,7 +126,6 @@ public class FormatTest {
     this.integer = integer;
   }
 
-
   public FormatTest int32(Integer int32) {
     
     this.int32 = int32;
@@ -155,7 +154,6 @@ public class FormatTest {
     this.int32 = int32;
   }
 
-
   public FormatTest int64(Long int64) {
     
     this.int64 = int64;
@@ -182,7 +180,6 @@ public class FormatTest {
     this.int64 = int64;
   }
 
-
   public FormatTest number(BigDecimal number) {
     
     this.number = number;
@@ -197,6 +194,7 @@ public class FormatTest {
   **/
   @javax.annotation.Nonnull
   @NotNull
+  @Valid
  @DecimalMin("32.1") @DecimalMax("543.2")
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -211,7 +209,6 @@ public class FormatTest {
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
-
 
   public FormatTest _float(Float _float) {
     
@@ -241,7 +238,6 @@ public class FormatTest {
     this._float = _float;
   }
 
-
   public FormatTest _double(Double _double) {
     
     this._double = _double;
@@ -270,7 +266,6 @@ public class FormatTest {
     this._double = _double;
   }
 
-
   public FormatTest string(String string) {
     
     this.string = string;
@@ -296,7 +291,6 @@ public class FormatTest {
   public void setString(String string) {
     this.string = string;
   }
-
 
   public FormatTest _byte(byte[] _byte) {
     
@@ -325,7 +319,6 @@ public class FormatTest {
     this._byte = _byte;
   }
 
-
   public FormatTest binary(File binary) {
     
     this.binary = binary;
@@ -352,7 +345,6 @@ public class FormatTest {
   public void setBinary(File binary) {
     this.binary = binary;
   }
-
 
   public FormatTest date(LocalDate date) {
     
@@ -382,7 +374,6 @@ public class FormatTest {
     this.date = date;
   }
 
-
   public FormatTest dateTime(OffsetDateTime dateTime) {
     
     this.dateTime = dateTime;
@@ -409,7 +400,6 @@ public class FormatTest {
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
-
 
   public FormatTest uuid(UUID uuid) {
     
@@ -438,7 +428,6 @@ public class FormatTest {
     this.uuid = uuid;
   }
 
-
   public FormatTest password(String password) {
     
     this.password = password;
@@ -466,7 +455,6 @@ public class FormatTest {
     this.password = password;
   }
 
-
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
     
     this.bigDecimal = bigDecimal;
@@ -478,6 +466,7 @@ public class FormatTest {
    * @return bigDecimal
   **/
   @javax.annotation.Nullable
+  @Valid
 
   @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -539,7 +528,7 @@ public class FormatTest {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
     sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -4,6 +4,7 @@ import groovy.transform.Canonical
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 
@@ -18,7 +19,7 @@ class Pet {
     
     List<String> photoUrls = new ArrayList<>()
     
-    List<Tag> tags
+    List<Tag> tags = new ArrayList<>()
 
     enum StatusEnum {
     

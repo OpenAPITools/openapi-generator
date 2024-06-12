@@ -2,6 +2,9 @@
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 {{/jackson}}
+{{#isUri}}
+import java.net.URI;
+{{/isUri}}
 
 /**
  * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}

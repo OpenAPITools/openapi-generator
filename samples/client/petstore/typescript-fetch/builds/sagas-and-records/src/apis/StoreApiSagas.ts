@@ -67,7 +67,7 @@ export function *deleteOrderSagaImp(_action_: Action<PayloadDeleteOrder>) {
 
         yield put(deleteOrderRequest(_action_.payload));
 
-        const response = yield apiCall(Api.storeApi, Api.storeApi.deleteOrder,
+        const response = yield apiCall(Api.storeApi, Api.storeApi['deleteOrder'],
             orderId,
         );
 
@@ -103,7 +103,7 @@ export function *getInventorySagaImp(_action_: Action<PayloadGetInventory>) {
 
         yield put(getInventoryRequest());
 
-        const response: Required<{ [key: string]: number; }> = yield apiCall(Api.storeApi, Api.storeApi.getInventory,
+        const response: Required<{ [key: string]: number; }> = yield apiCall(Api.storeApi, Api.storeApi['getInventory'],
         );
 
         let successReturnValue: any = undefined;
@@ -147,7 +147,7 @@ export function *getOrderByIdSagaImp(_action_: Action<PayloadGetOrderById>) {
 
         yield put(getOrderByIdRequest(requestPayload));
 
-        const response: Required<Order> = yield apiCall(Api.storeApi, Api.storeApi.getOrderById,
+        const response: Required<Order> = yield apiCall(Api.storeApi, Api.storeApi['getOrderById'],
             parseFloat(orderId),
         );
 
@@ -200,7 +200,7 @@ export function *placeOrderSagaImp(_action_: Action<PayloadPlaceOrder>) {
 
         yield put(placeOrderRequest(requestPayload));
 
-        const response: Required<Order> = yield apiCall(Api.storeApi, Api.storeApi.placeOrder,
+        const response: Required<Order> = yield apiCall(Api.storeApi, Api.storeApi['placeOrder'],
             orderRecordUtils.toApi(body),
         );
 

@@ -13,6 +13,7 @@ doc/ArrayTest.md
 doc/Capitalization.md
 doc/Cat.md
 doc/Category.md
+doc/ChildWithNullable.md
 doc/ClassModel.md
 doc/DefaultApi.md
 doc/DeprecatedObject.md
@@ -47,6 +48,7 @@ doc/OuterEnumDefaultValue.md
 doc/OuterEnumInteger.md
 doc/OuterEnumIntegerDefaultValue.md
 doc/OuterObjectWithEnumProperty.md
+doc/ParentWithNullable.md
 doc/Pet.md
 doc/PetApi.md
 doc/ReadOnlyFirst.md
@@ -54,6 +56,7 @@ doc/SingleRefType.md
 doc/SpecialModelName.md
 doc/StoreApi.md
 doc/Tag.md
+doc/TestInlineFreeformAdditionalPropertiesRequest.md
 doc/User.md
 doc/UserApi.md
 git_push.sh
@@ -83,6 +86,7 @@ lib/model/array_test.dart
 lib/model/capitalization.dart
 lib/model/cat.dart
 lib/model/category.dart
+lib/model/child_with_nullable.dart
 lib/model/class_model.dart
 lib/model/deprecated_object.dart
 lib/model/dog.dart
@@ -114,10 +118,12 @@ lib/model/outer_enum_default_value.dart
 lib/model/outer_enum_integer.dart
 lib/model/outer_enum_integer_default_value.dart
 lib/model/outer_object_with_enum_property.dart
+lib/model/parent_with_nullable.dart
 lib/model/pet.dart
 lib/model/read_only_first.dart
 lib/model/single_ref_type.dart
 lib/model/special_model_name.dart
 lib/model/tag.dart
+lib/model/test_inline_freeform_additional_properties_request.dart
 lib/model/user.dart
 pubspec.yaml

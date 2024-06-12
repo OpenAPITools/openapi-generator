@@ -79,11 +79,20 @@
       <artifactId>jackson-datatype-jsr310</artifactId>
       <version>${jackson-version}</version>
     </dependency>
+    {{^useJakartaEe}}
     <dependency>
       <groupId>com.fasterxml.jackson.jaxrs</groupId>
       <artifactId>jackson-jaxrs-json-provider</artifactId>
       <version>${jackson-version}</version>
     </dependency>
+    {{/useJakartaEe}}
+    {{#useJakartaEe}}
+    <dependency>
+      <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+      <artifactId>jackson-jakarta-rs-json-provider</artifactId>
+      <version>${jackson-version}</version>
+    </dependency>
+    {{/useJakartaEe}}
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
@@ -153,14 +162,21 @@
         <version>${beanvalidation-version}</version>
         <scope>provided</scope>
     </dependency>
-{{/useBeanValidation}}
+    {{/useBeanValidation}}
+    {{#openApiNullable}}
+    <dependency>
+        <groupId>org.openapitools</groupId>
+        <artifactId>jackson-databind-nullable</artifactId>
+        <version>${jackson-databind-nullable-version}</version>
+    </dependency>
+    {{/openApiNullable}}
   </dependencies>
   <properties>
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jackson-version>2.9.9</jackson-version>
+    <jackson-version>2.17.1</jackson-version>
     <junit-version>4.13.2</junit-version>
     <joda-version>2.10.13</joda-version>
 {{#useJakartaEe}}
@@ -183,5 +199,8 @@
 {{^useJakartaEe}}
     <jakarta.ws.rs-version>2.1.6</jakarta.ws.rs-version>
 {{/useJakartaEe}}
+{{#openApiNullable}}
+    <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
+{{/openApiNullable}}
   </properties>
 </project>

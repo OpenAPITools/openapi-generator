@@ -13,7 +13,6 @@
 package org.openapitools.client.model;
 
 import java.util.Date;
-
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;

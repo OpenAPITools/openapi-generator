@@ -107,7 +107,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      * Local root folder with spec files
      */
     @Optional
-    @get:InputFile
+    @get:InputDirectory
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpecRootDirectory = project.objects.property<String>();
 
@@ -245,6 +245,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val languageSpecificPrimitives = project.objects.listProperty<String>()
 
     /**
+     * Specifies .openapi-generator-ignore list in the form of relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml.
+     */
+    @Optional
+    @Input
+    val openapiGeneratorIgnoreList = project.objects.listProperty<String>()
+
+    /**
      * Specifies mappings between a given class and the import that should be used for that class.
      */
     @Optional
@@ -285,6 +292,27 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @Optional
     @Input
     val parameterNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between the model name and the new name
+     */
+    @Optional
+    @Input
+    val modelNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between the enum name and the new name
+     */
+    @Optional
+    @Input
+    val enumNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between the operation id name and the new name
+     */
+    @Optional
+    @Input
+    val operationIdNameMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies mappings (rules) in OpenAPI normalizer
@@ -479,14 +507,6 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
-     * A special-case setting which configures some generators with XML support. In some cases,
-     * this forces json OR xml, so the default here is false.
-     */
-    @Optional
-    @Input
-    val withXml = project.objects.property<Boolean>()
-
-    /**
      * To write all log messages (not just errors) to STDOUT
      */
     @Optional
@@ -578,10 +598,22 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @Suppress("unused")
     @TaskAction
     fun doWork() {
-        inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue -> {
-            inputSpec.set(MergedSpecBuilder(inputSpecRootDirectoryValue, mergedFileName.get()).buildMergedSpec())
-            logger.info("Merge input spec would be used - {}", inputSpec.get())
-        }}
+        var resolvedInputSpec = ""
+
+        inputSpec.ifNotEmpty { value ->
+            resolvedInputSpec = value
+        }
+
+        remoteInputSpec.ifNotEmpty { value ->
+            resolvedInputSpec = value
+        }
+
+        inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue ->
+            run {
+                resolvedInputSpec = MergedSpecBuilder(inputSpecRootDirectoryValue, mergedFileName.getOrElse("merged")).buildMergedSpec()
+                logger.info("Merge input spec would be used - {}", resolvedInputSpec)
+            }
+        }
 
         cleanupOutput.ifNotEmpty { cleanup ->
             if (cleanup) {
@@ -640,13 +672,11 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
                 GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
             }
 
-            if (withXml.isPresent) {
-                GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
-            }
-
             if (inputSpec.isPresent && remoteInputSpec.isPresent) {
                 logger.warn("Both inputSpec and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
             }
+
+            configurator.setInputSpec(resolvedInputSpec)
 
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
@@ -659,14 +689,6 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
 
             skipOverwrite.ifNotEmpty { value ->
                 configurator.setSkipOverwrite(value ?: false)
-            }
-
-            inputSpec.ifNotEmpty { value ->
-                configurator.setInputSpec(value)
-            }
-
-            remoteInputSpec.ifNotEmpty { value ->
-                configurator.setInputSpec(value)
             }
 
             generatorName.ifNotEmpty { value ->
@@ -833,9 +855,27 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
                 }
             }
 
+            if (modelNameMappings.isPresent) {
+                modelNameMappings.get().forEach { entry ->
+                    configurator.addModelNameMapping(entry.key, entry.value)
+                }
+            }
+
+            if (enumNameMappings.isPresent) {
+                enumNameMappings.get().forEach { entry ->
+                    configurator.addEnumNameMapping(entry.key, entry.value)
+                }
+            }
+
+            if (operationIdNameMappings.isPresent) {
+                operationIdNameMappings.get().forEach { entry ->
+                    configurator.addOperationIdNameMapping(entry.key, entry.value)
+                }
+            }
+
             if (openapiNormalizer.isPresent) {
                 openapiNormalizer.get().forEach { entry ->
-                    configurator.addOpenAPINormalizer(entry.key, entry.value)
+                    configurator.addOpenapiNormalizer(entry.key, entry.value)
                 }
             }
 
@@ -860,6 +900,12 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             if (languageSpecificPrimitives.isPresent) {
                 languageSpecificPrimitives.get().forEach {
                     configurator.addLanguageSpecificPrimitive(it)
+                }
+            }
+
+            if (openapiGeneratorIgnoreList.isPresent) {
+                openapiGeneratorIgnoreList.get().forEach {
+                    configurator.addOpenapiGeneratorIgnoreList(it)
                 }
             }
 

@@ -76,7 +76,7 @@ class NumberOnlyTest extends TestCase
     public function testNumberOnly()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class NumberOnlyTest extends TestCase
     public function testPropertyJustNumber()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

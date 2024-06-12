@@ -11,6 +11,9 @@ import okhttp3.MultipartBody;
 
 import org.openapitools.client.model.Client;
 
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

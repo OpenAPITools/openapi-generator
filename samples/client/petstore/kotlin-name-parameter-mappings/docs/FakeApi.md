@@ -2,14 +2,14 @@
 
 All URIs are relative to *http://localhost*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**getParameterNameMapping**](FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**getParameterNameMapping**](FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test |
 
 
 <a id="getParameterNameMapping"></a>
 # **getParameterNameMapping**
-> getParameterNameMapping(underscoreType, type, typeWithUnderscore, httpDebugOption)
+> Environment getParameterNameMapping(underscoreType, type, typeWithUnderscore, httpDebugOption)
 
 parameter name mapping test
 
@@ -25,7 +25,8 @@ val type : kotlin.String = type_example // kotlin.String | type
 val typeWithUnderscore : kotlin.String = typeWithUnderscore_example // kotlin.String | type_
 val httpDebugOption : kotlin.String = httpDebugOption_example // kotlin.String | http debug option (to test parameter naming option)
 try {
-    apiInstance.getParameterNameMapping(underscoreType, type, typeWithUnderscore, httpDebugOption)
+    val result : Environment = apiInstance.getParameterNameMapping(underscoreType, type, typeWithUnderscore, httpDebugOption)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling FakeApi#getParameterNameMapping")
     e.printStackTrace()
@@ -36,17 +37,16 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **underscoreType** | **kotlin.Long**| _type |
- **type** | **kotlin.String**| type |
- **typeWithUnderscore** | **kotlin.String**| type_ |
- **httpDebugOption** | **kotlin.String**| http debug option (to test parameter naming option) |
+| **underscoreType** | **kotlin.Long**| _type | |
+| **type** | **kotlin.String**| type | |
+| **typeWithUnderscore** | **kotlin.String**| type_ | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **httpDebugOption** | **kotlin.String**| http debug option (to test parameter naming option) | |
 
 ### Return type
 
-null (empty response body)
+[**Environment**](Environment.md)
 
 ### Authorization
 
@@ -55,5 +55,5 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 

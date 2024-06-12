@@ -32,10 +32,10 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Cat extends Animal {
 
-  private Boolean declawed;
+  private Optional<Boolean> declawed = Optional.empty();
 
   public Cat() {
     super();
@@ -49,7 +49,7 @@ public class Cat extends Animal {
   }
 
   public Cat declawed(Boolean declawed) {
-    this.declawed = declawed;
+    this.declawed = Optional.of(declawed);
     return this;
   }
 
@@ -60,22 +60,22 @@ public class Cat extends Animal {
   
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
-  public Boolean getDeclawed() {
+  public Optional<Boolean> getDeclawed() {
     return declawed;
   }
 
-  public void setDeclawed(Boolean declawed) {
+  public void setDeclawed(Optional<Boolean> declawed) {
     this.declawed = declawed;
   }
 
 
   public Cat className(String className) {
-    super.setClassName(className);
+    super.className(className);
     return this;
   }
 
   public Cat color(String color) {
-    super.setColor(color);
+    super.color(color);
     return this;
   }
   @Override
@@ -116,5 +116,78 @@ public class Cat extends Animal {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends Animal.Builder {
+
+    private Cat instance;
+
+    public Builder() {
+      this(new Cat());
+    }
+
+    protected Builder(Cat instance) {
+      super(instance); // the parent builder shares the same instance
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Cat value) { 
+      super.copyOf(instance);
+      this.instance.setDeclawed(value.declawed);
+      return this;
+    }
+
+    public Cat.Builder declawed(Boolean declawed) {
+      this.instance.declawed(declawed);
+      return this;
+    }
+    
+    @Override
+    public Cat.Builder className(String className) {
+      this.instance.className(className);
+      return this;
+    }
+    
+    @Override
+    public Cat.Builder color(String color) {
+      this.instance.color(color);
+      return this;
+    }
+    
+    /**
+    * returns a built Cat instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Cat build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Cat.Builder builder() {
+    return new Cat.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Cat.Builder toBuilder() {
+    Cat.Builder builder = new Cat.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

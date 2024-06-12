@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,7 +42,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -50,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -88,7 +87,6 @@ public class User {
   }
 
   public User id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -102,14 +100,12 @@ public class User {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public User username(String username) {
-    
     this.username = username;
     return this;
   }
@@ -123,14 +119,12 @@ public class User {
     return username;
   }
 
-
   public void setUsername(String username) {
     this.username = username;
   }
 
 
   public User firstName(String firstName) {
-    
     this.firstName = firstName;
     return this;
   }
@@ -144,14 +138,12 @@ public class User {
     return firstName;
   }
 
-
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
 
 
   public User lastName(String lastName) {
-    
     this.lastName = lastName;
     return this;
   }
@@ -165,14 +157,12 @@ public class User {
     return lastName;
   }
 
-
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
 
 
   public User email(String email) {
-    
     this.email = email;
     return this;
   }
@@ -186,14 +176,12 @@ public class User {
     return email;
   }
 
-
   public void setEmail(String email) {
     this.email = email;
   }
 
 
   public User password(String password) {
-    
     this.password = password;
     return this;
   }
@@ -207,14 +195,12 @@ public class User {
     return password;
   }
 
-
   public void setPassword(String password) {
     this.password = password;
   }
 
 
   public User phone(String phone) {
-    
     this.phone = phone;
     return this;
   }
@@ -228,14 +214,12 @@ public class User {
     return phone;
   }
 
-
   public void setPhone(String phone) {
     this.phone = phone;
   }
 
 
   public User userStatus(Integer userStatus) {
-    
     this.userStatus = userStatus;
     return this;
   }
@@ -248,7 +232,6 @@ public class User {
   public Integer getUserStatus() {
     return userStatus;
   }
-
 
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
@@ -340,9 +323,9 @@ public class User {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!User.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `User` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }

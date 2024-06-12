@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -52,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * Query
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Query {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -105,6 +104,11 @@ public class Query {
         return OutcomesEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      OutcomesEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_OUTCOMES = "outcomes";
@@ -115,7 +119,6 @@ public class Query {
   }
 
   public Query id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -129,14 +132,12 @@ public class Query {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public Query outcomes(List<OutcomesEnum> outcomes) {
-    
     this.outcomes = outcomes;
     return this;
   }
@@ -157,7 +158,6 @@ public class Query {
   public List<OutcomesEnum> getOutcomes() {
     return outcomes;
   }
-
 
   public void setOutcomes(List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;
@@ -232,7 +232,7 @@ public class Query {
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
-      if (jsonObj.get("outcomes") != null && !jsonObj.get("outcomes").isJsonArray()) {
+      if (jsonObj.get("outcomes") != null && !jsonObj.get("outcomes").isJsonNull() && !jsonObj.get("outcomes").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `outcomes` to be an array in the JSON string but got `%s`", jsonObj.get("outcomes").toString()));
       }
   }

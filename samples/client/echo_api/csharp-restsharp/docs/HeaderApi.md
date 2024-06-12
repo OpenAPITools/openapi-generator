@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost:3000*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**TestHeaderIntegerBooleanString**](HeaderApi.md#testheaderintegerbooleanstring) | **GET** /header/integer/boolean/string | Test header parameter(s) |
+| [**TestHeaderIntegerBooleanStringEnums**](HeaderApi.md#testheaderintegerbooleanstringenums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s) |
 
-<a id="testheaderintegerbooleanstring"></a>
-# **TestHeaderIntegerBooleanString**
-> string TestHeaderIntegerBooleanString (int? integerHeader = null, bool? booleanHeader = null, string? stringHeader = null)
+<a id="testheaderintegerbooleanstringenums"></a>
+# **TestHeaderIntegerBooleanStringEnums**
+> string TestHeaderIntegerBooleanStringEnums (int? integerHeader = null, bool? booleanHeader = null, string? stringHeader = null, string? enumNonrefStringHeader = null, StringEnumRef? enumRefStringHeader = null)
 
 Test header parameter(s)
 
@@ -24,7 +24,7 @@ using Org.OpenAPITools.Model;
 
 namespace Example
 {
-    public class TestHeaderIntegerBooleanStringExample
+    public class TestHeaderIntegerBooleanStringEnumsExample
     {
         public static void Main()
         {
@@ -34,16 +34,18 @@ namespace Example
             var integerHeader = 56;  // int? |  (optional) 
             var booleanHeader = true;  // bool? |  (optional) 
             var stringHeader = "stringHeader_example";  // string? |  (optional) 
+            var enumNonrefStringHeader = "success";  // string? |  (optional) 
+            var enumRefStringHeader = new StringEnumRef?(); // StringEnumRef? |  (optional) 
 
             try
             {
                 // Test header parameter(s)
-                string result = apiInstance.TestHeaderIntegerBooleanString(integerHeader, booleanHeader, stringHeader);
+                string result = apiInstance.TestHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling HeaderApi.TestHeaderIntegerBooleanString: " + e.Message);
+                Debug.Print("Exception when calling HeaderApi.TestHeaderIntegerBooleanStringEnums: " + e.Message);
                 Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -52,21 +54,21 @@ namespace Example
 }
 ```
 
-#### Using the TestHeaderIntegerBooleanStringWithHttpInfo variant
+#### Using the TestHeaderIntegerBooleanStringEnumsWithHttpInfo variant
 This returns an ApiResponse object which contains the response data, status code and headers.
 
 ```csharp
 try
 {
     // Test header parameter(s)
-    ApiResponse<string> response = apiInstance.TestHeaderIntegerBooleanStringWithHttpInfo(integerHeader, booleanHeader, stringHeader);
+    ApiResponse<string> response = apiInstance.TestHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
-    Debug.Print("Exception when calling HeaderApi.TestHeaderIntegerBooleanStringWithHttpInfo: " + e.Message);
+    Debug.Print("Exception when calling HeaderApi.TestHeaderIntegerBooleanStringEnumsWithHttpInfo: " + e.Message);
     Debug.Print("Status Code: " + e.ErrorCode);
     Debug.Print(e.StackTrace);
 }
@@ -79,6 +81,8 @@ catch (ApiException e)
 | **integerHeader** | **int?** |  | [optional]  |
 | **booleanHeader** | **bool?** |  | [optional]  |
 | **stringHeader** | **string?** |  | [optional]  |
+| **enumNonrefStringHeader** | **string?** |  | [optional]  |
+| **enumRefStringHeader** | [**StringEnumRef?**](StringEnumRef?.md) |  | [optional]  |
 
 ### Return type
 

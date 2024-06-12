@@ -167,16 +167,20 @@ func (o ArrayTest) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ArrayTest) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ArrayTest) UnmarshalJSON(data []byte) (err error) {
 	varArrayTest := _ArrayTest{}
 
-	if err = json.Unmarshal(bytes, &varArrayTest); err == nil {
-		*o = ArrayTest(varArrayTest)
+	err = json.Unmarshal(data, &varArrayTest)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ArrayTest(varArrayTest)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "array_of_string")
 		delete(additionalProperties, "array_array_of_integer")
 		delete(additionalProperties, "array_array_of_model")

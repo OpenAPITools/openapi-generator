@@ -4,6 +4,7 @@ import org.openapitools.api.*;
 import org.openapitools.model.Client;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -35,7 +36,7 @@ public class AnotherFakeApiServiceImpl implements AnotherFakeApi {
     {
         try {
             File cacheFile = new File(System.getProperty("jaxrs.test.server.json",
-                    "/Users/williamcheng/Code/openapi-generator2/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
+                    "/Users/williamcheng/Code/openapi-generator7/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
             cache = JsonCache.Factory.instance.get("test-data").load(cacheFile).child("/org.openapitools.api/AnotherFakeApi");
         } catch (CacheException e) {
             e.printStackTrace();
@@ -49,7 +50,7 @@ public class AnotherFakeApiServiceImpl implements AnotherFakeApi {
      *
      */
     @Override
-    public Client call123testSpecialTags(Client body) {
+    public Client call123testSpecialTags(UUID uuidTest, Client body) {
         try {
             Client response = cache.getObject("/call123testSpecialTags/response", Client.class);
             return response;

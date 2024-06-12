@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link UserApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public interface UserApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -46,7 +46,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    default ResponseEntity<Void> createUsersWithArrayInput(List<User> body) {
+    default ResponseEntity<Void> createUsersWithArrayInput(List<@Valid User> body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -58,7 +58,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    default ResponseEntity<Void> createUsersWithListInput(List<User> body) {
+    default ResponseEntity<Void> createUsersWithListInput(List<@Valid User> body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

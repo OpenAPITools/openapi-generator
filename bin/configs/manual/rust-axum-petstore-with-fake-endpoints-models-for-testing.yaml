@@ -1,0 +1,12 @@
+generatorName: rust-axum
+outputDir: samples/server/petstore/rust-axum/output/petstore-with-fake-endpoints-models-for-testing
+inputSpec: modules/openapi-generator/src/test/resources/2_0/rust-server/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-axum
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: petstore-with-fake-endpoints-models-for-testing
+  publishRustRegistry: crates-io
+globalProperties:
+  skipFormModel: false
+enablePostProcessFile: true

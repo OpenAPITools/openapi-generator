@@ -174,7 +174,7 @@ api.fakeOuterNumberSerialize().execute(r -> r.prettyPeek());
 
 ### Return type
 
-**BigDecimal**
+[**BigDecimal**](BigDecimal.md)
 
 ### Authorization
 

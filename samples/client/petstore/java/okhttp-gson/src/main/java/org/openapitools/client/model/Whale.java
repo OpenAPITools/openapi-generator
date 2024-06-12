@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,7 +42,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -50,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Whale
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Whale {
   public static final String SERIALIZED_NAME_HAS_BALEEN = "hasBaleen";
   @SerializedName(SERIALIZED_NAME_HAS_BALEEN)
@@ -68,7 +67,6 @@ public class Whale {
   }
 
   public Whale hasBaleen(Boolean hasBaleen) {
-    
     this.hasBaleen = hasBaleen;
     return this;
   }
@@ -82,14 +80,12 @@ public class Whale {
     return hasBaleen;
   }
 
-
   public void setHasBaleen(Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
   }
 
 
   public Whale hasTeeth(Boolean hasTeeth) {
-    
     this.hasTeeth = hasTeeth;
     return this;
   }
@@ -103,14 +99,12 @@ public class Whale {
     return hasTeeth;
   }
 
-
   public void setHasTeeth(Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
   }
 
 
   public Whale className(String className) {
-    
     this.className = className;
     return this;
   }
@@ -123,7 +117,6 @@ public class Whale {
   public String getClassName() {
     return className;
   }
-
 
   public void setClassName(String className) {
     this.className = className;
@@ -287,7 +280,12 @@ public class Whale {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

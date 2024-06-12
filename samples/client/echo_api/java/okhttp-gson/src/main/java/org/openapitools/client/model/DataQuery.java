@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -23,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Query;
 
@@ -46,7 +46,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -54,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * DataQuery
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
@@ -72,7 +71,6 @@ public class DataQuery extends Query {
   }
 
   public DataQuery suffix(String suffix) {
-    
     this.suffix = suffix;
     return this;
   }
@@ -86,14 +84,12 @@ public class DataQuery extends Query {
     return suffix;
   }
 
-
   public void setSuffix(String suffix) {
     this.suffix = suffix;
   }
 
 
   public DataQuery text(String text) {
-    
     this.text = text;
     return this;
   }
@@ -107,14 +103,12 @@ public class DataQuery extends Query {
     return text;
   }
 
-
   public void setText(String text) {
     this.text = text;
   }
 
 
   public DataQuery date(OffsetDateTime date) {
-    
     this.date = date;
     return this;
   }
@@ -127,7 +121,6 @@ public class DataQuery extends Query {
   public OffsetDateTime getDate() {
     return date;
   }
-
 
   public void setDate(OffsetDateTime date) {
     this.date = date;
@@ -208,9 +201,9 @@ public class DataQuery extends Query {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!DataQuery.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `DataQuery` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }

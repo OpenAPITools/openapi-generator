@@ -36,23 +36,35 @@
      {{/isMap}}
      {{^isMap}}
      {{#items}}
+     {{#isEnumRef}}
+     * @Accessor(getter="getSerialized{{nameInPascalCase}}")
+     * @Type("array<string>")
+     {{/isEnumRef}}
+     {{^isEnumRef}}
      * @Type("array<{{dataType}}>")
+     {{/isEnumRef}}
      {{/items}}
      {{/isMap}}
 {{/isContainer}}
 {{^isContainer}}
     {{#isDate}}
-     * @Assert\Date()
+     * @Assert\Type("\Date")
      * @Type("DateTime<'Y-m-d'>")
     {{/isDate}}
     {{#isDateTime}}
-     * @Assert\DateTime()
+     * @Assert\Type("\DateTime"))
      * @Type("DateTime")
     {{/isDateTime}}
+    {{#isEnumRef}}
+        * @Accessor(getter="getSerialized{{nameInPascalCase}}")
+        * @Type("string")
+    {{/isEnumRef}}
     {{^isDate}}
     {{^isDateTime}}
+    {{^isEnumRef}}
      * @Assert\Type("{{dataType}}")
      * @Type("{{dataType}}")
+    {{/isEnumRef}}
     {{/isDateTime}}
     {{/isDate}}
 {{/isContainer}}
@@ -98,4 +110,4 @@
     {{/minItems}}
 {{/hasValidation}}
      */
-    protected {{{vendorExtensions.x-parameter-type}}} ${{name}} = null;
+    protected {{{vendorExtensions.x-parameter-type}}} ${{name}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}};

@@ -2,7 +2,10 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
+import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -15,6 +18,8 @@ import org.openapitools.client.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +35,19 @@ class FakeApiTest {
     @BeforeEach
     public void setup() {
         api = new ApiClient().buildClient(FakeApi.class);
+    }
+
+    
+    /**
+     * 
+     *
+     * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+     */
+    @Test
+    void fakeBigDecimalMapTest() {
+        // FakeBigDecimalMap200Response response = api.fakeBigDecimalMap();
+
+        // TODO: test validations
     }
 
     
@@ -264,9 +282,10 @@ class FakeApiTest {
         String enumQueryString = null;
         Integer enumQueryInteger = null;
         Double enumQueryDouble = null;
+        List<EnumClass> enumQueryModelArray = null;
         List<String> enumFormStringArray = null;
         String enumFormString = null;
-        // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+        // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
 
         // TODO: test validations
     }
@@ -289,7 +308,8 @@ class FakeApiTest {
             .enumQueryStringArray(null)
             .enumQueryString(null)
             .enumQueryInteger(null)
-            .enumQueryDouble(null);
+            .enumQueryDouble(null)
+            .enumQueryModelArray(null);
         // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumFormStringArray, enumFormString, queryParams);
 
     // TODO: test validations
@@ -359,6 +379,20 @@ class FakeApiTest {
         String param = null;
         String param2 = null;
         // api.testJsonFormData(param, param2);
+
+        // TODO: test validations
+    }
+
+    
+    /**
+     * test nullable parent property
+     *
+     * 
+     */
+    @Test
+    void testNullableTest() {
+        ChildWithNullable childWithNullable = null;
+        // api.testNullable(childWithNullable);
 
         // TODO: test validations
     }

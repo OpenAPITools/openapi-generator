@@ -50,7 +50,7 @@ knownRecordFactories.set(TagRecordEntityProps.recType, TagRecordEntity);
 class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
     public normalize(apiObject: Tag, asEntity?: boolean): Tag {
         (apiObject as any).recType = asEntity ? TagRecordEntityProps.recType : TagRecordProps.recType;
-        if (apiObject.id) { (apiObject as any).id = apiObject.id.toString(); } 
+        if (apiObject['id']) { (apiObject as any)['id'] = apiObject['id'].toString(); } 
         return apiObject;
     }
 
@@ -67,8 +67,8 @@ class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
 
         const {
             recType,
-		    ...unchangedProperties
-		} = entity;
+            ...unchangedProperties
+        } = entity;
 
         const entityProperties = {
         }
@@ -94,7 +94,7 @@ class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
 
     public toApi(record: TagRecord): Tag {
         const apiObject = super.toApi(record);
-        if (record.id) { apiObject.id = parseFloat(record.id); } 
+        if (record['id']) { apiObject['id'] = parseFloat(record['id']); } 
         return apiObject;
     }
 }

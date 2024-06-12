@@ -89,4 +89,29 @@ class ResponseTypesTest extends TestCase
 
         $this->assertNull($result);
     }
+
+    public function invalidJSONResponseProvider()
+    {
+        return [
+            'status 200, content empty' => [200, ''],
+            'status 200, content leading comma' => [200, '{"key": "value",}'],
+            'status 200, content just text' => [200, 'invalid JSON'],
+            'status 200, content null' => [200, null],
+            'status 204, content empty' => [204, ''],
+            'status 204, content leading comma' => [204, '{"key": "value",}'],
+            'status 204, content just text' => [204, 'invalid JSON'],
+            'status 204, content null' => [204, null],
+        ];
+    }
+    /**
+     * @dataProvider invalidJSONResponseProvider
+     */
+    public function testNotJSONResponse($statusCode, $responseBody)
+    {
+        $this->expectExceptionCode($statusCode);
+        $this->expectException(\OpenAPI\Client\ApiException::class);
+
+        $this->fakeHttpClient->setResponse(new Response($statusCode, [], $responseBody));
+        $this->api->getPetById(123);
+    }
 }

@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "dependencies": {
+    "@openapitools/typescript-axios-echo-api": "file:../build",
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^16.6.2",
+    "chai": "^4.3.0",
+    "mocha": "^10.2.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "preinstall": "npm --prefix ../build install && npm run build",
+    "test": "mocha test/*.ts --require ts-node/register --timeout 10000",
+    "build": ""
+  },
+  "name": "typescript-axios-echo-api-test",
+  "version": "1.0.0",
+  "directories": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

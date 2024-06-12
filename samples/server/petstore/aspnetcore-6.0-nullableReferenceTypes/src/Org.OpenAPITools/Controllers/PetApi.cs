@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/pet/{petId}")]
         [ValidateModelState]
         [SwaggerOperation("DeletePet")]
-        public virtual IActionResult DeletePet([FromRoute (Name = "petId")][Required]long petId, [FromHeader]string? apiKey)
+        public virtual IActionResult DeletePet([FromRoute (Name = "petId")][Required]long petId, [FromHeader (Name = "api_key")]string? apiKey)
         {
 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

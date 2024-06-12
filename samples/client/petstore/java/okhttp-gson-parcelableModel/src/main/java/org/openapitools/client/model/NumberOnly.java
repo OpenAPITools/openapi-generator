@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -45,7 +45,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -53,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * NumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NumberOnly implements Parcelable {
   public static final String SERIALIZED_NAME_JUST_NUMBER = "JustNumber";
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
@@ -63,7 +62,6 @@ public class NumberOnly implements Parcelable {
   }
 
   public NumberOnly justNumber(BigDecimal justNumber) {
-    
     this.justNumber = justNumber;
     return this;
   }
@@ -76,7 +74,6 @@ public class NumberOnly implements Parcelable {
   public BigDecimal getJustNumber() {
     return justNumber;
   }
-
 
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
@@ -127,7 +124,7 @@ public class NumberOnly implements Parcelable {
   }
 
   NumberOnly(Parcel in) {
-    justNumber = (BigDecimal)in.readValue(null);
+    justNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
   }
 
   public int describeContents() {
@@ -168,9 +165,9 @@ public class NumberOnly implements Parcelable {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!NumberOnly.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `NumberOnly` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }

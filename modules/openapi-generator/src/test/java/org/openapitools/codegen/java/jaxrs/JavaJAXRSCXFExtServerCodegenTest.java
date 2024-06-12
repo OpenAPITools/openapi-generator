@@ -218,7 +218,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         additionalProperties.put(AbstractJavaCodegen.DATE_LIBRARY, "MyDateLibrary");
         additionalProperties.put(AbstractJavaCodegen.DISABLE_HTML_ESCAPING, "true");
         additionalProperties.put(AbstractJavaCodegen.SUPPORT_ASYNC, "true");
-        additionalProperties.put(AbstractJavaCodegen.SUPPORT_JAVA6, "false");
         additionalProperties.put(AbstractJavaCodegen.WITH_XML, "true");
         additionalProperties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "false");
         // Options processed by AbstractJavaJAXRSServerCodegen
@@ -468,7 +467,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertNull(additionalProperties.get(AbstractJavaCodegen.DATE_LIBRARY));
         assertEquals(additionalProperties.get(AbstractJavaCodegen.DISABLE_HTML_ESCAPING), Boolean.FALSE);
         assertNull(additionalProperties.get(AbstractJavaCodegen.SUPPORT_ASYNC));
-        assertEquals(additionalProperties.get(AbstractJavaCodegen.SUPPORT_JAVA6), Boolean.FALSE);
         assertEquals(additionalProperties.get(AbstractJavaCodegen.WITH_XML), false);
         assertEquals(additionalProperties.get(AbstractJavaCodegen.OPENAPI_NULLABLE), true);
         // Options processed by AbstractJavaJAXRSServerCodegen

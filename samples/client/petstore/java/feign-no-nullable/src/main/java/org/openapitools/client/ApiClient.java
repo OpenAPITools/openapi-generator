@@ -2,6 +2,7 @@ package org.openapitools.client;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,7 +31,7 @@ import org.openapitools.client.auth.OauthPasswordGrant;
 import org.openapitools.client.auth.OauthClientCredentialsGrant;
 import feign.Retryer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ApiClient {
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
@@ -204,6 +205,15 @@ public class ApiClient {
   public void setBearerToken(String bearerToken) {
     HttpBearerAuth apiAuthorization =  getAuthorization(HttpBearerAuth.class);
     apiAuthorization.setBearerToken(bearerToken);
+  }
+
+  /**
+   * Helper method to configure the supplier of bearer tokens.
+   * @param tokenSupplier the supplier of bearer tokens.
+   */
+  public void setBearerToken(Supplier<String> tokenSupplier) {
+    HttpBearerAuth apiAuthorization =  getAuthorization(HttpBearerAuth.class);
+    apiAuthorization.setBearerToken(tokenSupplier);
   }
 
   /**

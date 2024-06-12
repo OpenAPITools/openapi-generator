@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
@@ -38,7 +39,7 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     protected String packageName = "";
     // source folder where to write the files
     protected String sourceFolder = "client";
-    protected boolean optionalProjectFileFlag = true;
+    @Setter protected boolean optionalProjectFileFlag = true;
 
     public CppQtClientCodegen() {
         super();
@@ -120,6 +121,9 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
         typeMapping.put("AnyType", "QJsonValue");
         importMapping.put(PREFIX + "HttpFileElement", "#include \"" + PREFIX + "HttpFileElement.h\"");
         importMapping.put("QJsonValue", "#include <QJsonValue>");
+
+        reservedWords.add("valid");
+        reservedWords.add("set");
     }
 
     @Override
@@ -219,10 +223,6 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     @Override
     public String toApiFilename(String name) {
         return modelNamePrefix + sanitizeName(camelize(name)) + "Api";
-    }
-
-    public void setOptionalProjectFileFlag(boolean flag) {
-        this.optionalProjectFileFlag = flag;
     }
 
     @Override

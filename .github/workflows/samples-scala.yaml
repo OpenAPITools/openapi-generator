@@ -22,21 +22,25 @@ jobs:
           # clients
           - 'samples/client/petstore/java/okhttp-gson'
           - samples/client/petstore/scalaz
+          - samples/client/petstore/scala-pekko
           #- samples/client/petstore/scala-sttp # won't pass while the same tests in circleci pass
           # servers
           - samples/server/petstore/scala-lagom-server
           - samples/server/petstore/scala-play-server
           - samples/server/petstore/scala-akka-http-server
+          - samples/server/petstore/scala-pekko-http-server
           - samples/server/petstore/scalatra
           - samples/server/petstore/scala-finch # cannot be tested with jdk11
+          - samples/server/petstore/scala-http4s-server
+          - samples/server/petstore/scala-cask
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 8
       - name: Cache maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: maven-repository
         with:

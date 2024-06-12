@@ -42,8 +42,16 @@ paths:
       responses:
         200:
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
 components:
   schemas:
+    Environment:
+      properties:
+        dummy:
+          type: string
     PropertyNameMapping:
       properties:
         http_debug_operation:

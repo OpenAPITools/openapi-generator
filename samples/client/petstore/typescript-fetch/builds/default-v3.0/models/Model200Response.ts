@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * Model for testing model name starting with number
  * @export
@@ -36,10 +36,8 @@ export interface Model200Response {
 /**
  * Check if a given object implements the Model200Response interface.
  */
-export function instanceOfModel200Response(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfModel200Response(value: object): value is Model200Response {
+    return true;
 }
 
 export function Model200ResponseFromJSON(json: any): Model200Response {
@@ -47,27 +45,24 @@ export function Model200ResponseFromJSON(json: any): Model200Response {
 }
 
 export function Model200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): Model200Response {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        '_class': !exists(json, 'class') ? undefined : json['class'],
+        'name': json['name'] == null ? undefined : json['name'],
+        '_class': json['class'] == null ? undefined : json['class'],
     };
 }
 
 export function Model200ResponseToJSON(value?: Model200Response | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'name': value.name,
-        'class': value._class,
+        'name': value['name'],
+        'class': value['_class'],
     };
 }
 
