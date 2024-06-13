@@ -2125,6 +2125,12 @@ components:
       type: array
       items:
         type: string
+    AnyOfPrimitiveType:
+      anyOf:
+      - $ref: '#/components/schemas/OneOfPrimitiveTypeChild'
+      - type: integer
+        format: int32
+      - $ref: '#/components/schemas/OneOfArrayOfString'
     # `dup-prop` is defined in both parent and child models
     #  but not identical: optional vs required
     DuplicatedPropChild:
