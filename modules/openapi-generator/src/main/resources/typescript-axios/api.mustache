@@ -6,6 +6,9 @@
 import type { Configuration } from './configuration{{#supportsES6}}.js{{/supportsES6}}';
 import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
+import type { Readable } from 'stream';
+import { randomUUID } from 'crypto';
+export type RequestFile = Readable;
 {{#withNodeImports}}
 // URLSearchParams not necessarily used
 // @ts-ignore
@@ -16,7 +19,7 @@ import FormData from 'form-data'
 {{/withNodeImports}}
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common{{#supportsES6}}.js{{/supportsES6}}';
 import type { RequestArgs } from './base{{#supportsES6}}.js{{/supportsES6}}';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base{{#supportsES6}}.js{{/supportsES6}}';
