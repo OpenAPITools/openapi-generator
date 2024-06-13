@@ -55,6 +55,7 @@ class Configuration:
       values before.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
+    :param retries: Number of retries for API requests.
 
     :Example:
 
@@ -84,6 +85,7 @@ conf = openapi_client.Configuration(
                  server_index=None, server_variables=None,
                  server_operation_index=None, server_operation_variables=None,
                  ssl_ca_cert=None,
+                 retries=None,
                  ) -> None:
         """Constructor
         """
@@ -184,7 +186,7 @@ conf = openapi_client.Configuration(
         self.safe_chars_for_path_param = ''
         """Safe chars for path_param
         """
-        self.retries = None
+        self.retries = retries
         """Adding retries to override urllib3 default value 3
         """
         # Enable client side validation
