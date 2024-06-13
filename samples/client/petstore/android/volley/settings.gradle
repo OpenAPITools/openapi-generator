@@ -14,4 +14,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "openapi-android-client"
+rootProject.name = "petstore-android-volley"
