@@ -28,6 +28,7 @@ using Newtonsoft.Json.Serialization;
 using RestSharp;
 using RestSharp.Serializers;
 using RestSharpMethod = RestSharp.Method;
+using FileIO = System.IO.File;
 using Polly;
 using Org.OpenAPITools.Model;
 
@@ -118,7 +119,7 @@ namespace Org.OpenAPITools.Client
                         if (match.Success)
                         {
                             string fileName = filePath + ClientUtils.SanitizeFilename(match.Groups[1].Value.Replace("\"", "").Replace("'", ""));
-                            File.WriteAllBytes(fileName, bytes);
+                            FileIO.WriteAllBytes(fileName, bytes);
                             return new FileStream(fileName, FileMode.Open);
                         }
                     }
