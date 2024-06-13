@@ -319,4 +319,16 @@ public class TestUtils {
         objs.setModels(modelMaps);
         return objs;
     }
+
+    public static Path newTempFolder() {
+        final Path tempDir;
+        try {
+            tempDir = Files.createTempDirectory("test");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        tempDir.toFile().deleteOnExit();
+
+        return tempDir;
+    }
 }

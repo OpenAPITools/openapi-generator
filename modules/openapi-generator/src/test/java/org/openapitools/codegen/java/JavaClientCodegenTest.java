@@ -60,6 +60,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
+import static org.openapitools.codegen.TestUtils.newTempFolder;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
 import static org.testng.Assert.*;
@@ -2678,16 +2679,6 @@ public class JavaClientCodegenTest {
                 "com.fasterxml.jackson.databind.annotation.JsonDeserialize",
                 "com.fasterxml.jackson.databind.annotation.JsonSerialize"
             );
-    }
-
-    static private Path newTempFolder() {
-        try {
-            var tempDir = Files.createTempDirectory("test");
-            tempDir.toFile().deleteOnExit();
-            return tempDir;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
         
     /**
