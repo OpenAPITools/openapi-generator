@@ -1,5 +1,14 @@
 package org.openapitools.codegen.java.assertions;
 
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.nodeTypes.NodeWithName;
+import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.util.CanIgnoreReturnValue;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -7,19 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
-import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.util.CanIgnoreReturnValue;
-
-import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.nodeTypes.NodeWithName;
-import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
 
 @CanIgnoreReturnValue
 public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUnit> {
@@ -97,6 +93,21 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
             .hasSize(1);
 
         return new MethodAssert(this, methods.get(0));
+    }
+    
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    public InnerClassAssert assertInnerClass(final String className) {
+        Optional<ClassOrInterfaceDeclaration> innerClass = actual.getType(0).getMembers().stream()
+            .filter(BodyDeclaration::isClassOrInterfaceDeclaration)
+            .map(clazz -> (ClassOrInterfaceDeclaration) clazz)
+            .filter(clazz -> clazz.isInnerClass() || clazz.isStatic() && clazz.getNameAsString().equals(className))
+            .findFirst();
+
+        Assertions.assertThat(innerClass)
+            .withFailMessage("No inner class with name %s found", className)
+            .isPresent();
+        
+        return new InnerClassAssert(this, innerClass.get ());
     }
 
     public ConstructorAssert assertConstructor(final String... paramTypes) {
@@ -178,5 +189,4 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
     public TypeAnnotationAssert assertTypeAnnotations() {
         return new TypeAnnotationAssert(this, actual.getType(0).getAnnotations());
     }
-
 }
