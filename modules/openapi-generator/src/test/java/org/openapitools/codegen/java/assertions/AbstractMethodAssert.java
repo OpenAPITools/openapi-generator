@@ -8,6 +8,7 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.util.CanIgnoreReturnValue;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @CanIgnoreReturnValue
@@ -26,6 +27,21 @@ public abstract class AbstractMethodAssert<ACTUAL extends AbstractMethodAssert<A
     public ACTUAL hasReturnType(final String returnType) {
         Assertions.assertThat(actual.getType().toString())
             .isEqualTo(returnType);
+        return myself();
+    }
+
+    public ACTUAL hasAnnotation(String annotation) {
+        assertMethodAnnotations().containsWithName(annotation);
+        return myself();
+    }
+
+    public ACTUAL hasAnnotation(String annotation, final Map<String, String> attributes) {
+        assertMethodAnnotations().containsWithNameAndAttributes(annotation, attributes);
+        return myself();
+    }
+
+    public ACTUAL doesNotHaveAnnotation(String annotation) {
+        assertMethodAnnotations().doesNotContainWithName(annotation);
         return myself();
     }
 
