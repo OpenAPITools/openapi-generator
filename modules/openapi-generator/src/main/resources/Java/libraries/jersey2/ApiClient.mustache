@@ -1,5 +1,6 @@
 package {{invokerPackage}};
 
+import {{javaxPackage}}.ws.rs.client.AsyncInvoker;
 import {{javaxPackage}}.ws.rs.client.Client;
 import {{javaxPackage}}.ws.rs.client.ClientBuilder;
 import {{javaxPackage}}.ws.rs.client.Entity;
@@ -39,6 +40,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Collection;
@@ -1160,7 +1162,46 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   }
 
   /**
-   * Invoke API by sending HTTP request with the given options.
+   * Asynchronously invoke API by sending HTTP request with the given options.
+   *
+   * @param <T> Type
+   * @param operation The qualified name of the operation
+   * @param path The sub-path of the HTTP URL
+   * @param method The request method, one of "GET", "POST", "PUT", "HEAD" and "DELETE"
+   * @param queryParams The query parameters
+   * @param body The request body object
+   * @param headerParams The header parameters
+   * @param cookieParams The cookie parameters
+   * @param formParams The form parameters
+   * @param accept The request's Accept header
+   * @param contentType The request's Content-Type header
+   * @param authNames The authentications to apply
+   * @param returnType The return type into which to deserialize the response
+   * @param isBodyNullable True if the body is nullable
+   * @return The future response body in type of string
+   * @throws ApiException API exception
+   */
+  public <T> Future<Response> invokeAPIAsync(
+          String operation,
+          String path,
+          String method,
+          List<Pair> queryParams,
+          Object body,
+          Map<String, String> headerParams,
+          Map<String, String> cookieParams,
+          Map<String, Object> formParams,
+          String accept,
+          String contentType,
+          String[] authNames,
+          GenericType<T> returnType,
+          boolean isBodyNullable)
+          throws ApiException {
+    BuilderAndEntity builderAndEntity = prepareInvoker(operation, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, isBodyNullable);
+    return sendRequestAsync(method, builderAndEntity.invocationBuilder.async(), builderAndEntity.entity);
+  }
+
+  /**
+   * Invoke API synchronously by sending HTTP request with the given options.
    *
    * @param <T> Type
    * @param operation The qualified name of the operation
@@ -1180,38 +1221,117 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * @throws ApiException API exception
    */
   public <T> ApiResponse<T> invokeAPI(
-      String operation,
-      String path,
-      String method,
-      List<Pair> queryParams,
-      Object body,
-      Map<String, String> headerParams,
-      Map<String, String> cookieParams,
-      Map<String, Object> formParams,
-      String accept,
-      String contentType,
-      String[] authNames,
-      GenericType<T> returnType,
-      boolean isBodyNullable)
-      throws ApiException {
+          String operation,
+          String path,
+          String method,
+          List<Pair> queryParams,
+          Object body,
+          Map<String, String> headerParams,
+          Map<String, String> cookieParams,
+          Map<String, Object> formParams,
+          String accept,
+          String contentType,
+          String[] authNames,
+          GenericType<T> returnType,
+          boolean isBodyNullable)
+          throws ApiException {
+    BuilderAndEntity builderAndEntity = prepareInvoker(operation, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, isBodyNullable);
 
+    Response response = null;
+
+    try {
+      response = sendRequest(method, builderAndEntity.invocationBuilder, builderAndEntity.entity);
+      {{#hasOAuthMethods}}
+      response = renewOauthIfNeeded(method, authNames, response.getStatus(), builderAndEntity.invocationBuilder, builderAndEntity.entity);
+      {{/hasOAuthMethods}}
+      return toApiResponse(returnType, response);
+    } finally {
+      try {
+        response.close();
+      } catch (Exception e) {
+        // it's not critical, since the response object is local in method invokeAPI; that's fine,
+        // just continue
+      }
+    }
+  }
+
+  {{#hasOAuthMethods}}
+  private Response renewOauthIfNeeded(String method, String[] authNames, int statusCode, Invocation.Builder invocationBuilder, Entity<?> entity) {
+    // If OAuth is used and a status 401 is received, renew the access token and retry the request
+    Response response = null;
+    if (authNames != null && statusCode == Status.UNAUTHORIZED.getStatusCode()) {
+      for (String authName : authNames) {
+        Authentication authentication = authentications.get(authName);
+        if (authentication instanceof OAuth) {
+          OAuth2AccessToken accessToken = ((OAuth) authentication).renewAccessToken();
+          if (accessToken != null) {
+            invocationBuilder.header("Authorization", null);
+            invocationBuilder.header("Authorization", "Bearer " + accessToken.getAccessToken());
+            response = sendRequest(method, invocationBuilder, entity);
+          }
+          break;
+        }
+      }
+    }
+    return response;
+  }
+  {{/hasOAuthMethods}}
+
+  /**
+   * Convert the Jax RS Response to ApiResponse.
+   * @param returnType The return type into which to deserialize the response
+   * @param response The response from the jax-rs invocation.
+   * @return The ApiResponse that respresents this Jax RS response.
+   * @param <T> The type into which to deserialize the response
+   * @throws ApiException API Exceptions are thrown in case of failing status codes.
+   */
+  public <T> ApiResponse<T> toApiResponse(GenericType<T> returnType, Response response) throws ApiException {
+    int statusCode = response.getStatusInfo().getStatusCode();
+    Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
+
+    if (response.getStatusInfo() == Status.NO_CONTENT) {
+      return new ApiResponse<T>(statusCode, responseHeaders);
+    } else if (response.getStatusInfo().getFamily() == Status.Family.SUCCESSFUL) {
+      if (returnType == null) {
+        return new ApiResponse<T>(statusCode, responseHeaders);
+      } else {
+        return new ApiResponse<T>(statusCode, responseHeaders, deserialize(response, returnType));
+      }
+    } else {
+      String message = "error";
+      String respBody = null;
+      if (response.hasEntity()) {
+        try {
+          respBody = String.valueOf(response.readEntity(String.class));
+          message = respBody;
+        } catch (RuntimeException e) {
+          // e.printStackTrace();
+        }
+      }
+      throw new ApiException(
+              response.getStatus(), message, buildResponseHeaders(response), respBody);
+    }
+  }
+
+  private BuilderAndEntity prepareInvoker(String operation, String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, boolean isBodyNullable) throws ApiException {
+    // Not using `.target(targetURL).path(path)` below,
+    // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     String targetURL;
-    List<ServerConfiguration> serverConfigurations;
-    if (serverIndex != null && (serverConfigurations = operationServers.get(operation)) != null) {
-      int index = operationServerIndex.getOrDefault(operation, serverIndex).intValue();
-      Map<String, String> variables = operationServerVariables.getOrDefault(operation, serverVariables);
+    if (serverIndex != null && operationServers.containsKey(operation)) {
+      Integer index = operationServerIndex.containsKey(operation) ? operationServerIndex.get(operation) : serverIndex;
+      Map<String, String> variables = operationServerVariables.containsKey(operation) ?
+              operationServerVariables.get(operation) : serverVariables;
+      List<ServerConfiguration> serverConfigurations = operationServers.get(operation);
       if (index < 0 || index >= serverConfigurations.size()) {
         throw new ArrayIndexOutOfBoundsException(
-            String.format(
-                "Invalid index %d when selecting the host settings. Must be less than %d",
-                index, serverConfigurations.size()));
+                String.format(
+                        "Invalid index %d when selecting the host settings. Must be less than %d",
+                        index, serverConfigurations.size()));
       }
       targetURL = serverConfigurations.get(index).URL(variables) + path;
     } else {
       targetURL = this.basePath + path;
     }
-    // Not using `.target(targetURL).path(path)` below,
-    // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     WebTarget target = httpClient.target(targetURL);
 
     if (queryParams != null) {
@@ -1222,10 +1342,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       }
     }
 
-    Invocation.Builder invocationBuilder = target.request();
-
+    Invocation.Builder invocationBuilder;
     if (accept != null) {
-      invocationBuilder = invocationBuilder.accept(accept);
+      invocationBuilder = target.request().accept(accept);
+    } else {
+      invocationBuilder = target.request();
     }
 
     for (Entry<String, String> entry : cookieParams.entrySet()) {
@@ -1248,22 +1369,15 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     Map<String, String> allHeaderParams = new HashMap<>(defaultHeaderMap);
     allHeaderParams.putAll(headerParams);
 
-    if (authNames != null) {
-      // update different parameters (e.g. headers) for authentication
-      updateParamsForAuth(
-          authNames,
-          queryParams,
-          allHeaderParams,
-          cookieParams,
-          {{#hasHttpSignatureMethods}}
-          serializeToString(body, formParams, contentType, isBodyNullable),
-          {{/hasHttpSignatureMethods}}
-          {{^hasHttpSignatureMethods}}
-          null,
-          {{/hasHttpSignatureMethods}}
-          method,
-          target.getUri());
-    }
+    // update different parameters (e.g. headers) for authentication
+    updateParamsForAuth(
+            authNames,
+            queryParams,
+            allHeaderParams,
+            cookieParams,
+            null,
+            method,
+            target.getUri());
 
     for (Entry<String, String> entry : allHeaderParams.entrySet()) {
       String value = entry.getValue();
@@ -1271,63 +1385,16 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         invocationBuilder = invocationBuilder.header(entry.getKey(), value);
       }
     }
+    return new BuilderAndEntity(invocationBuilder, entity);
+  }
 
-    Response response = null;
+  private static class BuilderAndEntity {
+    public final Invocation.Builder invocationBuilder;
+    public final Entity<?> entity;
 
-    try {
-      response = sendRequest(method, invocationBuilder, entity);
-
-      final int statusCode = response.getStatusInfo().getStatusCode();
-
-      {{#hasOAuthMethods}}
-      // If OAuth is used and a status 401 is received, renew the access token and retry the request
-      if (authNames != null && statusCode == Status.UNAUTHORIZED.getStatusCode()) {
-        for (String authName : authNames) {
-          Authentication authentication = authentications.get(authName);
-          if (authentication instanceof OAuth) {
-            OAuth2AccessToken accessToken = ((OAuth) authentication).renewAccessToken();
-            if (accessToken != null) {
-              invocationBuilder.header("Authorization", null);
-              invocationBuilder.header("Authorization", "Bearer " + accessToken.getAccessToken());
-              response = sendRequest(method, invocationBuilder, entity);
-            }
-            break;
-          }
-        }
-      }
-
-      {{/hasOAuthMethods}}
-      Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
-
-      if (statusCode == Status.NO_CONTENT.getStatusCode()) {
-        return new ApiResponse<T>(statusCode, responseHeaders);
-      } else if (response.getStatusInfo().getFamily() == Status.Family.SUCCESSFUL) {
-        if (returnType == null) {
-          return new ApiResponse<T>(statusCode, responseHeaders);
-        } else {
-          return new ApiResponse<T>(statusCode, responseHeaders, deserialize(response, returnType));
-        }
-      } else {
-        String message = "error";
-        String respBody = null;
-        if (response.hasEntity()) {
-          try {
-            respBody = String.valueOf(response.readEntity(String.class));
-            message = respBody;
-          } catch (RuntimeException e) {
-            // e.printStackTrace();
-          }
-        }
-        throw new ApiException(
-            response.getStatus(), message, buildResponseHeaders(response), respBody);
-      }
-    } finally {
-      try {
-        response.close();
-      } catch (Exception e) {
-        // it's not critical, since the response object is local in method invokeAPI; that's fine,
-        // just continue
-      }
+    public BuilderAndEntity(Invocation.Builder invocationBuilder, Entity<?> entity) {
+      this.invocationBuilder = invocationBuilder;
+      this.entity = entity;
     }
   }
 
@@ -1343,6 +1410,22 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       response = invocationBuilder.method("PATCH", entity);
     } else {
       response = invocationBuilder.method(method);
+    }
+    return response;
+  }
+
+  private Future<Response> sendRequestAsync(String method, AsyncInvoker asyncInvoker, Entity<?> entity) {
+    Future<Response> response;
+    if ("POST".equals(method)) {
+      response = asyncInvoker.post(entity);
+    } else if ("PUT".equals(method)) {
+      response = asyncInvoker.put(entity);
+    } else if ("DELETE".equals(method)) {
+      response = asyncInvoker.method("DELETE", entity);
+    } else if ("PATCH".equals(method)) {
+      response = asyncInvoker.method("PATCH", entity);
+    } else {
+      response = asyncInvoker.method(method);
     }
     return response;
   }

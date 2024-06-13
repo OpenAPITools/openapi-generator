@@ -2676,4 +2676,32 @@ public class JavaClientCodegenTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    public void testIssue16841Jersey2Async() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("java")
+                        .setLibrary("jersey2")
+                        .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        validateJavaSourceFiles(new ArrayList<>(files.values()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("ApiClient.java"));
+        javaFileAssert
+                .assertMethod("invokeAPIAsync")
+                .bodyContainsLines("return sendRequestAsync(method, builderAndEntity.invocationBuilder.async(), builderAndEntity.entity);");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUserAsync")
+                .bodyContainsLines("return createUserWithHttpInfoAsync(user);");
+    }
 }

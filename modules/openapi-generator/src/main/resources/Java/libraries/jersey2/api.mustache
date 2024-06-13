@@ -6,6 +6,7 @@ import {{invokerPackage}}.ApiResponse;
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
 
+import {{javaxPackage}}.ws.rs.core.Response;
 import {{javaxPackage}}.ws.rs.core.GenericType;
 
 {{#imports}}import {{import}};
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 {{>generatedAnnotation}}
 {{#operations}}
@@ -97,6 +99,42 @@ public class {{classname}} {
    {{#allParams}}
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
    {{/allParams}}
+   {{#returnType}}
+   * @return {{.}}
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#responses.0}}
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       {{#responses}}
+       <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
+       {{/responses}}
+     </table>
+   {{/responses.0}}
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public Future<Response> {{operationId}}Async({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+    return {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+  }
+  {{/vendorExtensions.x-group-parameters}}
+
+  {{^vendorExtensions.x-group-parameters}}
+  /**
+   * {{summary}}
+   * {{notes}}
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+   {{/allParams}}
    * @return ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;
    * @throws ApiException if fails to make API call
    {{#responses.0}}
@@ -119,7 +157,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}private{{/vendorExtensions.x-group-parameters}} ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
     {{#hasRequiredParams}}
     // Check required parameters
     {{#allParams}}
@@ -199,8 +237,120 @@ public class {{classname}} {
                                {{#headerParams}}{{#-first}}localVarHeaderParams{{/-first}}{{/headerParams}}{{^headerParams}}new LinkedHashMap<>(){{/headerParams}}, {{#cookieParams}}{{#-first}}localVarCookieParams{{/-first}}{{/cookieParams}}{{^cookieParams}}new LinkedHashMap<>(){{/cookieParams}}, {{#formParams}}{{#-first}}localVarFormParams{{/-first}}{{/formParams}}{{^formParams}}new LinkedHashMap<>(){{/formParams}}, localVarAccept, localVarContentType,
                                {{#hasAuthMethods}}localVarAuthNames{{/hasAuthMethods}}{{^hasAuthMethods}}null{{/hasAuthMethods}}, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}, {{#bodyParam}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/bodyParam}}{{^bodyParam}}false{{/bodyParam}});
   }
-  {{#vendorExtensions.x-group-parameters}}
+  {{/vendorExtensions.x-group-parameters}}
 
+  {{^vendorExtensions.x-group-parameters}}
+  /**
+   * {{summary}}
+   * {{notes}}
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+   {{/allParams}}
+   * @return ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;
+   * @throws ApiException if fails to make API call
+   {{#responses.0}}
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       {{#responses}}
+       <tr><td> {{code}} </td><td> {{message}} </td><td> {{#headers}} * {{baseName}} - {{description}} <br> {{/headers}}{{^headers.0}} - {{/headers.0}} </td></tr>
+       {{/responses}}
+     </table>
+   {{/responses.0}}
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public Future<Response> {{operationId}}WithHttpInfoAsync({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+    {{#hasRequiredParams}}
+    // Check required parameters
+    {{#allParams}}
+    {{#required}}
+    if ({{paramName}} == null) {
+      throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}");
+    }
+    {{/required}}
+    {{/allParams}}
+
+    {{/hasRequiredParams}}
+    {{#hasPathParams}}
+    // Path parameters
+    String localVarPath = "{{{path}}}"{{#pathParams}}
+            .replaceAll({{=% %=}}"\\{%baseName%}"%={{ }}=%, apiClient.escapeString({{{paramName}}}{{#isUuid}}.toString(){{/isUuid}}{{^isString}}.toString(){{/isString}})){{/pathParams}};
+
+    {{/hasPathParams}}
+    {{#queryParams}}
+    {{#-first}}
+    // Query parameters
+    List<Pair> localVarQueryParams = new ArrayList<>(
+            apiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}})
+    );
+    {{/-first}}
+    {{^-first}}
+    localVarQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
+    {{/-first}}
+    {{#-last}}
+
+    {{/-last}}
+    {{/queryParams}}
+    {{#headerParams}}
+    {{#-first}}
+    // Header parameters
+    Map<String, String> localVarHeaderParams = new LinkedHashMap<>();
+    {{/-first}}
+    {{^required}}if ({{paramName}} != null) {
+      {{/required}}localVarHeaderParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));{{^required}}
+    }{{/required}}
+    {{#-last}}
+
+    {{/-last}}
+    {{/headerParams}}
+    {{#cookieParams}}
+    {{#-first}}
+    // Cookie parameters
+    Map<String, String> localVarCookieParams = new LinkedHashMap<>();
+    {{/-first}}
+    {{^required}}if ({{paramName}} != null) {
+      {{/required}}localVarCookieParams.put("{{baseName}}", apiClient.parameterToString({{paramName}}));{{^required}}
+    }{{/required}}
+    {{#-last}}
+
+    {{/-last}}
+    {{/cookieParams}}
+    {{#formParams}}
+    {{#-first}}
+    // Form parameters
+    Map<String, Object> localVarFormParams = new LinkedHashMap<>();
+    {{/-first}}
+    {{^required}}if ({{paramName}} != null) {
+      {{/required}}localVarFormParams.put("{{baseName}}", {{paramName}});{{^required}}
+    }{{/required}}
+    {{#-last}}
+
+    {{/-last}}
+    {{/formParams}}
+    String localVarAccept = apiClient.selectHeaderAccept({{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}});
+    String localVarContentType = apiClient.selectHeaderContentType({{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}});
+    {{#hasAuthMethods}}
+    String[] localVarAuthNames = {{=% %=}}new String[] {%#authMethods%"%name%"%^-last%, %/-last%%/authMethods%};%={{ }}=%
+    {{/hasAuthMethods}}
+    {{#returnType}}
+    GenericType<{{{returnType}}}> localVarReturnType = new GenericType<{{{returnType}}}>() {};
+    {{/returnType}}
+    return apiClient.invokeAPIAsync("{{classname}}.{{operationId}}", {{#hasPathParams}}localVarPath{{/hasPathParams}}{{^hasPathParams}}"{{path}}"{{/hasPathParams}}, "{{httpMethod}}", {{#queryParams}}{{#-first}}localVarQueryParams{{/-first}}{{/queryParams}}{{^queryParams}}new ArrayList<>(){{/queryParams}}, {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}},
+                               {{#headerParams}}{{#-first}}localVarHeaderParams{{/-first}}{{/headerParams}}{{^headerParams}}new LinkedHashMap<>(){{/headerParams}}, {{#cookieParams}}{{#-first}}localVarCookieParams{{/-first}}{{/cookieParams}}{{^cookieParams}}new LinkedHashMap<>(){{/cookieParams}}, {{#formParams}}{{#-first}}localVarFormParams{{/-first}}{{/formParams}}{{^formParams}}new LinkedHashMap<>(){{/formParams}}, localVarAccept, localVarContentType,
+                               {{#hasAuthMethods}}localVarAuthNames{{/hasAuthMethods}}{{^hasAuthMethods}}null{{/hasAuthMethods}}, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}, {{#bodyParam}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/bodyParam}}{{^bodyParam}}false{{/bodyParam}});
+  }
+  {{/vendorExtensions.x-group-parameters}}
+
+  {{#vendorExtensions.x-group-parameters}}
   public class API{{operationId}}Request {
     {{#allParams}}
     private {{{dataType}}} {{paramName}};
