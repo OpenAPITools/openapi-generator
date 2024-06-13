@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="lengthCm">lengthCm.</param>
         public Banana(decimal lengthCm = default(decimal))
         {
-            this.LengthCm = lengthCm;
+            LengthCm = lengthCm;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
+                hashCode = (hashCode * 59) + LengthCm.GetHashCode();
                 return hashCode;
             }
         }

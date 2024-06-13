@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayArrayNumber">arrayArrayNumber.</param>
         public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default(List<List<decimal>>))
         {
-            this.ArrayArrayNumber = arrayArrayNumber;
+            ArrayArrayNumber = arrayArrayNumber;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as ArrayOfArrayOfNumberOnly);
+            return Equals(input as ArrayOfArrayOfNumberOnly);
         }
 
         /// <summary>
@@ -90,10 +90,10 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.ArrayArrayNumber == input.ArrayArrayNumber ||
-                    this.ArrayArrayNumber != null &&
+                    ArrayArrayNumber == input.ArrayArrayNumber ||
+                    ArrayArrayNumber != null &&
                     input.ArrayArrayNumber != null &&
-                    this.ArrayArrayNumber.SequenceEqual(input.ArrayArrayNumber)
+                    ArrayArrayNumber.SequenceEqual(input.ArrayArrayNumber)
                 );
         }
 
@@ -106,9 +106,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ArrayArrayNumber != null)
+				if (ArrayArrayNumber != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayArrayNumber.GetHashCode();
+                    hashCode = (hashCode * 59) + ArrayArrayNumber.GetHashCode();
                 }
                 return hashCode;
             }

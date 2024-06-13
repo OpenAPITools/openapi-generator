@@ -40,9 +40,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="varDouble">varDouble.</param>
         public NumberPropertiesOnly(decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double))
         {
-            this.Number = number;
-            this.Float = varFloat;
-            this.Double = varDouble;
+            Number = number;
+            Float = varFloat;
+            Double = varDouble;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as NumberPropertiesOnly);
+            return Equals(input as NumberPropertiesOnly);
         }
 
         /// <summary>
@@ -110,16 +110,16 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Number == input.Number ||
-                    this.Number.Equals(input.Number)
+                    Number == input.Number ||
+                    Number.Equals(input.Number)
                 ) && 
                 (
-                    this.Float == input.Float ||
-                    this.Float.Equals(input.Float)
+                    Float == input.Float ||
+                    Float.Equals(input.Float)
                 ) && 
                 (
-                    this.Double == input.Double ||
-                    this.Double.Equals(input.Double)
+                    Double == input.Double ||
+                    Double.Equals(input.Double)
                 );
         }
 
@@ -132,9 +132,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.Float.GetHashCode();
-                hashCode = (hashCode * 59) + this.Double.GetHashCode();
+                hashCode = (hashCode * 59) + Number.GetHashCode();
+                hashCode = (hashCode * 59) + Float.GetHashCode();
+                hashCode = (hashCode * 59) + Double.GetHashCode();
                 return hashCode;
             }
         }

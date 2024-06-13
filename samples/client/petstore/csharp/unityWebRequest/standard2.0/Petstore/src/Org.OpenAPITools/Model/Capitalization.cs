@@ -41,12 +41,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="aTTNAME">Name of the pet .</param>
         public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string sCAETHFlowPoints = default(string), string aTTNAME = default(string))
         {
-            this.SmallCamel = smallCamel;
-            this.CapitalCamel = capitalCamel;
-            this.SmallSnake = smallSnake;
-            this.CapitalSnake = capitalSnake;
-            this.SCAETHFlowPoints = sCAETHFlowPoints;
-            this.ATT_NAME = aTTNAME;
+            SmallCamel = smallCamel;
+            CapitalCamel = capitalCamel;
+            SmallSnake = smallSnake;
+            CapitalSnake = capitalSnake;
+            SCAETHFlowPoints = sCAETHFlowPoints;
+            ATT_NAME = aTTNAME;
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Capitalization);
+            return Equals(input as Capitalization);
         }
 
         /// <summary>
@@ -136,34 +136,28 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.SmallCamel == input.SmallCamel ||
-                    (this.SmallCamel != null &&
-                    this.SmallCamel.Equals(input.SmallCamel))
+                    SmallCamel == input.SmallCamel ||
+					SmallCamel.Equals(input.SmallCamel)
                 ) && 
                 (
-                    this.CapitalCamel == input.CapitalCamel ||
-                    (this.CapitalCamel != null &&
-                    this.CapitalCamel.Equals(input.CapitalCamel))
+                    CapitalCamel == input.CapitalCamel ||
+					CapitalCamel.Equals(input.CapitalCamel)
                 ) && 
                 (
-                    this.SmallSnake == input.SmallSnake ||
-                    (this.SmallSnake != null &&
-                    this.SmallSnake.Equals(input.SmallSnake))
+                    SmallSnake == input.SmallSnake ||
+					SmallSnake.Equals(input.SmallSnake)
                 ) && 
                 (
-                    this.CapitalSnake == input.CapitalSnake ||
-                    (this.CapitalSnake != null &&
-                    this.CapitalSnake.Equals(input.CapitalSnake))
+                    CapitalSnake == input.CapitalSnake ||
+					CapitalSnake.Equals(input.CapitalSnake)
                 ) && 
                 (
-                    this.SCAETHFlowPoints == input.SCAETHFlowPoints ||
-                    (this.SCAETHFlowPoints != null &&
-                    this.SCAETHFlowPoints.Equals(input.SCAETHFlowPoints))
+                    SCAETHFlowPoints == input.SCAETHFlowPoints ||
+					SCAETHFlowPoints.Equals(input.SCAETHFlowPoints)
                 ) && 
                 (
-                    this.ATT_NAME == input.ATT_NAME ||
-                    (this.ATT_NAME != null &&
-                    this.ATT_NAME.Equals(input.ATT_NAME))
+                    ATT_NAME == input.ATT_NAME ||
+					ATT_NAME.Equals(input.ATT_NAME)
                 );
         }
 
@@ -176,29 +170,29 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.SmallCamel != null)
+				if (SmallCamel != null)
                 {
-                    hashCode = (hashCode * 59) + this.SmallCamel.GetHashCode();
+                    hashCode = (hashCode * 59) + SmallCamel.GetHashCode();
                 }
-                if (this.CapitalCamel != null)
+				if (CapitalCamel != null)
                 {
-                    hashCode = (hashCode * 59) + this.CapitalCamel.GetHashCode();
+                    hashCode = (hashCode * 59) + CapitalCamel.GetHashCode();
                 }
-                if (this.SmallSnake != null)
+				if (SmallSnake != null)
                 {
-                    hashCode = (hashCode * 59) + this.SmallSnake.GetHashCode();
+                    hashCode = (hashCode * 59) + SmallSnake.GetHashCode();
                 }
-                if (this.CapitalSnake != null)
+				if (CapitalSnake != null)
                 {
-                    hashCode = (hashCode * 59) + this.CapitalSnake.GetHashCode();
+                    hashCode = (hashCode * 59) + CapitalSnake.GetHashCode();
                 }
-                if (this.SCAETHFlowPoints != null)
+				if (SCAETHFlowPoints != null)
                 {
-                    hashCode = (hashCode * 59) + this.SCAETHFlowPoints.GetHashCode();
+                    hashCode = (hashCode * 59) + SCAETHFlowPoints.GetHashCode();
                 }
-                if (this.ATT_NAME != null)
+				if (ATT_NAME != null)
                 {
-                    hashCode = (hashCode * 59) + this.ATT_NAME.GetHashCode();
+                    hashCode = (hashCode * 59) + ATT_NAME.GetHashCode();
                 }
                 return hashCode;
             }

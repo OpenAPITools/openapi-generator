@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="baz">baz.</param>
         public ReadOnlyFirst(string baz = default(string))
         {
-            this.Baz = baz;
+            Baz = baz;
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as ReadOnlyFirst);
+            return Equals(input as ReadOnlyFirst);
         }
 
         /// <summary>
@@ -105,14 +105,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Bar == input.Bar ||
-                    (this.Bar != null &&
-                    this.Bar.Equals(input.Bar))
+                    Bar == input.Bar ||
+					Bar.Equals(input.Bar)
                 ) && 
                 (
-                    this.Baz == input.Baz ||
-                    (this.Baz != null &&
-                    this.Baz.Equals(input.Baz))
+                    Baz == input.Baz ||
+					Baz.Equals(input.Baz)
                 );
         }
 
@@ -125,13 +123,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Bar != null)
+				if (Bar != null)
                 {
-                    hashCode = (hashCode * 59) + this.Bar.GetHashCode();
+                    hashCode = (hashCode * 59) + Bar.GetHashCode();
                 }
-                if (this.Baz != null)
+				if (Baz != null)
                 {
-                    hashCode = (hashCode * 59) + this.Baz.GetHashCode();
+                    hashCode = (hashCode * 59) + Baz.GetHashCode();
                 }
                 return hashCode;
             }

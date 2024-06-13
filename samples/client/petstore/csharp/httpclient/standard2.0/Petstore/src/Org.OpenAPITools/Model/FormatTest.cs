@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected FormatTest()
         {
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
@@ -65,36 +65,36 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithBackslash">None.</param>
         public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), FileParameter binary = default(FileParameter), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
-            this.Number = number;
+            Number = number;
             // to ensure "varByte" is required (not null)
             if (varByte == null)
             {
                 throw new ArgumentNullException("varByte is a required property for FormatTest and cannot be null");
             }
-            this.Byte = varByte;
-            this.Date = date;
+            Byte = varByte;
+            Date = date;
             // to ensure "password" is required (not null)
             if (password == null)
             {
                 throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
             }
-            this.Password = password;
-            this.Integer = integer;
-            this.Int32 = int32;
-            this.UnsignedInteger = unsignedInteger;
-            this.Int64 = int64;
-            this.UnsignedLong = unsignedLong;
-            this.Float = varFloat;
-            this.Double = varDouble;
-            this.Decimal = varDecimal;
-            this.String = varString;
-            this.Binary = binary;
-            this.DateTime = dateTime;
-            this.Uuid = uuid;
-            this.PatternWithDigits = patternWithDigits;
-            this.PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
-            this.PatternWithBackslash = patternWithBackslash;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            Password = password;
+            Integer = integer;
+            Int32 = int32;
+            UnsignedInteger = unsignedInteger;
+            Int64 = int64;
+            UnsignedLong = unsignedLong;
+            Float = varFloat;
+            Double = varDouble;
+            Decimal = varDecimal;
+            String = varString;
+            Binary = binary;
+            DateTime = dateTime;
+            Uuid = uuid;
+            PatternWithDigits = patternWithDigits;
+            PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+            PatternWithBackslash = patternWithBackslash;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -294,58 +294,58 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Integer.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int32.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
-                hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.Float.GetHashCode();
-                hashCode = (hashCode * 59) + this.Double.GetHashCode();
-                hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
-                if (this.String != null)
+                hashCode = (hashCode * 59) + Integer.GetHashCode();
+                hashCode = (hashCode * 59) + Int32.GetHashCode();
+                hashCode = (hashCode * 59) + UnsignedInteger.GetHashCode();
+                hashCode = (hashCode * 59) + Int64.GetHashCode();
+                hashCode = (hashCode * 59) + UnsignedLong.GetHashCode();
+                hashCode = (hashCode * 59) + Number.GetHashCode();
+                hashCode = (hashCode * 59) + Float.GetHashCode();
+                hashCode = (hashCode * 59) + Double.GetHashCode();
+                hashCode = (hashCode * 59) + Decimal.GetHashCode();
+				if (String != null)
                 {
-                    hashCode = (hashCode * 59) + this.String.GetHashCode();
+                    hashCode = (hashCode * 59) + String.GetHashCode();
                 }
-                if (this.Byte != null)
+				if (Byte != null)
                 {
-                    hashCode = (hashCode * 59) + this.Byte.GetHashCode();
+                    hashCode = (hashCode * 59) + Byte.GetHashCode();
                 }
-                if (this.Binary != null)
+				if (Binary != null)
                 {
-                    hashCode = (hashCode * 59) + this.Binary.GetHashCode();
+                    hashCode = (hashCode * 59) + Binary.GetHashCode();
                 }
-                if (this.Date != null)
+				if (Date != null)
                 {
-                    hashCode = (hashCode * 59) + this.Date.GetHashCode();
+                    hashCode = (hashCode * 59) + Date.GetHashCode();
                 }
-                if (this.DateTime != null)
+				if (DateTime != null)
                 {
-                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
+                    hashCode = (hashCode * 59) + DateTime.GetHashCode();
                 }
-                if (this.Uuid != null)
+				if (Uuid != null)
                 {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                    hashCode = (hashCode * 59) + Uuid.GetHashCode();
                 }
-                if (this.Password != null)
+				if (Password != null)
                 {
-                    hashCode = (hashCode * 59) + this.Password.GetHashCode();
+                    hashCode = (hashCode * 59) + Password.GetHashCode();
                 }
-                if (this.PatternWithDigits != null)
+				if (PatternWithDigits != null)
                 {
-                    hashCode = (hashCode * 59) + this.PatternWithDigits.GetHashCode();
+                    hashCode = (hashCode * 59) + PatternWithDigits.GetHashCode();
                 }
-                if (this.PatternWithDigitsAndDelimiter != null)
+				if (PatternWithDigitsAndDelimiter != null)
                 {
-                    hashCode = (hashCode * 59) + this.PatternWithDigitsAndDelimiter.GetHashCode();
+                    hashCode = (hashCode * 59) + PatternWithDigitsAndDelimiter.GetHashCode();
                 }
-                if (this.PatternWithBackslash != null)
+				if (PatternWithBackslash != null)
                 {
-                    hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
+                    hashCode = (hashCode * 59) + PatternWithBackslash.GetHashCode();
                 }
-                if (this.AdditionalProperties != null)
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

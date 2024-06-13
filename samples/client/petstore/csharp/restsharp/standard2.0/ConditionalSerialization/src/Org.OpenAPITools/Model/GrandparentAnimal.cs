@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected GrandparentAnimal()
         {
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class.
@@ -55,8 +55,8 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
             }
-            this._PetType = petType;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            _PetType = petType;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -141,13 +141,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.PetType != null)
+				if (PetType != null)
                 {
-                    hashCode = (hashCode * 59) + this.PetType.GetHashCode();
+                    hashCode = (hashCode * 59) + PetType.GetHashCode();
                 }
-                if (this.AdditionalProperties != null)
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

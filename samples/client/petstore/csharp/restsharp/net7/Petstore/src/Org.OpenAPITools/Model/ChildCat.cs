@@ -65,8 +65,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
         public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
         {
-            this.PetType = petType;
-            this.Name = name;
+            PetType = petType;
+            Name = name;
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -128,11 +128,11 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                if (this.Name != null)
+				if (Name != null)
                 {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                    hashCode = (hashCode * 59) + Name.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.PetType.GetHashCode();
+                hashCode = (hashCode * 59) + PetType.GetHashCode();
                 return hashCode;
             }
         }

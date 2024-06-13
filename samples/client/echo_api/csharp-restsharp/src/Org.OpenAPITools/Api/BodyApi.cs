@@ -15,8 +15,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Mime;
+using System.Threading;
+using System.Threading.Tasks;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
+using ConfigurationClient = Org.OpenAPITools.Client.Configuration;
 
 namespace Org.OpenAPITools.Api
 {
@@ -33,7 +36,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test binary (gif) response body
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>System.IO.Stream</returns>
         System.IO.Stream TestBinaryGif(int operationIndex = 0);
@@ -44,7 +47,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test binary (gif) response body
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of System.IO.Stream</returns>
         ApiResponse<System.IO.Stream> TestBinaryGifWithHttpInfo(int operationIndex = 0);
@@ -54,7 +57,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test body parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
@@ -66,7 +69,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test body parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
@@ -77,7 +80,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test array of binary in multipart mime
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="files"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
@@ -89,7 +92,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test array of binary in multipart mime
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="files"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
@@ -100,7 +103,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test single binary in multipart mime
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="myFile"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
@@ -112,7 +115,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test single binary in multipart mime
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="myFile"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
@@ -123,7 +126,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test body parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>Pet</returns>
@@ -135,7 +138,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test body parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Pet</returns>
@@ -146,7 +149,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test free form object
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Free form object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
@@ -158,7 +161,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test free form object
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Free form object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
@@ -169,7 +172,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test body parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>Pet</returns>
@@ -181,7 +184,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test body parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Pet</returns>
@@ -192,7 +195,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test empty response body
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
@@ -204,7 +207,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test empty response body
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
@@ -215,7 +218,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test string enum response body
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>StringEnumRef</returns>
@@ -227,7 +230,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test string enum response body
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of StringEnumRef</returns>
@@ -238,7 +241,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test empty json (request body)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tag">Tag object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
@@ -250,7 +253,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test empty json (request body)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tag">Tag object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
@@ -270,11 +273,11 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test binary (gif) response body
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of System.IO.Stream</returns>
-        System.Threading.Tasks.Task<System.IO.Stream> TestBinaryGifAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<System.IO.Stream> TestBinaryGifAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Test binary (gif) response body
@@ -282,23 +285,23 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test binary (gif) response body
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (System.IO.Stream)</returns>
-        System.Threading.Tasks.Task<ApiResponse<System.IO.Stream>> TestBinaryGifWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ApiResponse<System.IO.Stream>> TestBinaryGifWithHttpInfoAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Test body parameter(s)
         /// </summary>
         /// <remarks>
         /// Test body parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestBodyApplicationOctetstreamBinaryAsync(System.IO.Stream? body = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<string> TestBodyApplicationOctetstreamBinaryAsync(System.IO.Stream? body = default(System.IO.Stream?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Test body parameter(s)
@@ -306,24 +309,24 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test body parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestBodyApplicationOctetstreamBinaryWithHttpInfoAsync(System.IO.Stream? body = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ApiResponse<string>> TestBodyApplicationOctetstreamBinaryWithHttpInfoAsync(System.IO.Stream? body = default(System.IO.Stream?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Test array of binary in multipart mime
         /// </summary>
         /// <remarks>
         /// Test array of binary in multipart mime
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="files"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestBodyMultipartFormdataArrayOfBinaryAsync(List<System.IO.Stream> files, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<string> TestBodyMultipartFormdataArrayOfBinaryAsync(List<System.IO.Stream> files, int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Test array of binary in multipart mime
@@ -331,24 +334,24 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test array of binary in multipart mime
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="files"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestBodyMultipartFormdataArrayOfBinaryWithHttpInfoAsync(List<System.IO.Stream> files, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ApiResponse<string>> TestBodyMultipartFormdataArrayOfBinaryWithHttpInfoAsync(List<System.IO.Stream> files, int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Test single binary in multipart mime
         /// </summary>
         /// <remarks>
         /// Test single binary in multipart mime
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="myFile"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestBodyMultipartFormdataSingleBinaryAsync(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<string> TestBodyMultipartFormdataSingleBinaryAsync(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Test single binary in multipart mime
@@ -356,24 +359,24 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test single binary in multipart mime
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="myFile"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestBodyMultipartFormdataSingleBinaryWithHttpInfoAsync(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ApiResponse<string>> TestBodyMultipartFormdataSingleBinaryWithHttpInfoAsync(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Test body parameter(s)
         /// </summary>
         /// <remarks>
         /// Test body parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Pet</returns>
-        System.Threading.Tasks.Task<Pet> TestEchoBodyAllOfPetAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<Pet> TestEchoBodyAllOfPetAsync(Pet? pet = default(Pet?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Test body parameter(s)
@@ -381,24 +384,24 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test body parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Pet>> TestEchoBodyAllOfPetWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ApiResponse<Pet>> TestEchoBodyAllOfPetWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Test free form object
         /// </summary>
         /// <remarks>
         /// Test free form object
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Free form object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestEchoBodyFreeFormObjectResponseStringAsync(Object? body = default(Object?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<string> TestEchoBodyFreeFormObjectResponseStringAsync(Object? body = default(Object?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Test free form object
@@ -406,24 +409,24 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test free form object
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Free form object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestEchoBodyFreeFormObjectResponseStringWithHttpInfoAsync(Object? body = default(Object?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ApiResponse<string>> TestEchoBodyFreeFormObjectResponseStringWithHttpInfoAsync(Object? body = default(Object?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Test body parameter(s)
         /// </summary>
         /// <remarks>
         /// Test body parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Pet</returns>
-        System.Threading.Tasks.Task<Pet> TestEchoBodyPetAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<Pet> TestEchoBodyPetAsync(Pet? pet = default(Pet?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Test body parameter(s)
@@ -431,24 +434,24 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test body parameter(s)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Pet>> TestEchoBodyPetWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ApiResponse<Pet>> TestEchoBodyPetWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Test empty response body
         /// </summary>
         /// <remarks>
         /// Test empty response body
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestEchoBodyPetResponseStringAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<string> TestEchoBodyPetResponseStringAsync(Pet? pet = default(Pet?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Test empty response body
@@ -456,24 +459,24 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test empty response body
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestEchoBodyPetResponseStringWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ApiResponse<string>> TestEchoBodyPetResponseStringWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Test string enum response body
         /// </summary>
         /// <remarks>
         /// Test string enum response body
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of StringEnumRef</returns>
-        System.Threading.Tasks.Task<StringEnumRef> TestEchoBodyStringEnumAsync(string? body = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<StringEnumRef> TestEchoBodyStringEnumAsync(string? body = default(string?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Test string enum response body
@@ -481,24 +484,24 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test string enum response body
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (StringEnumRef)</returns>
-        System.Threading.Tasks.Task<ApiResponse<StringEnumRef>> TestEchoBodyStringEnumWithHttpInfoAsync(string? body = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ApiResponse<StringEnumRef>> TestEchoBodyStringEnumWithHttpInfoAsync(string? body = default(string?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// Test empty json (request body)
         /// </summary>
         /// <remarks>
         /// Test empty json (request body)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tag">Tag object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestEchoBodyTagResponseStringAsync(Tag? tag = default(Tag?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<string> TestEchoBodyTagResponseStringAsync(Tag? tag = default(Tag?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Test empty json (request body)
@@ -506,12 +509,12 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Test empty json (request body)
         /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tag">Tag object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestEchoBodyTagResponseStringWithHttpInfoAsync(Tag? tag = default(Tag?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        Task<ApiResponse<string>> TestEchoBodyTagResponseStringWithHttpInfoAsync(Tag? tag = default(Tag?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -528,7 +531,7 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public partial class BodyApi : IBodyApi
     {
-        private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
+        private ExceptionFactory _exceptionFactory = (name, response) => null;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BodyApi"/> class.
@@ -542,15 +545,8 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="BodyApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public BodyApi(string basePath)
+        public BodyApi(string basePath) : this(new ConfigurationClient { BasePath = basePath })
         {
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
-                new Org.OpenAPITools.Client.Configuration { BasePath = basePath }
-            );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
 
         /// <summary>
@@ -559,17 +555,17 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public BodyApi(Org.OpenAPITools.Client.Configuration configuration)
+        public BodyApi(ConfigurationClient configuration)
         {
-            if (configuration == null) throw new ArgumentNullException("configuration");
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-            this.Configuration = Org.OpenAPITools.Client.Configuration.MergeConfigurations(
-                Org.OpenAPITools.Client.GlobalConfiguration.Instance,
+            Configuration = ConfigurationClient.MergeConfigurations(
+                GlobalConfiguration.Instance,
                 configuration
             );
-            this.Client = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new Org.OpenAPITools.Client.ApiClient(this.Configuration.BasePath);
-            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+            Client = new ApiClient(Configuration.BasePath);
+            AsynchronousClient = new ApiClient(Configuration.BasePath);
+            ExceptionFactory = ConfigurationClient.DefaultExceptionFactory;
         }
 
         /// <summary>
@@ -579,27 +575,27 @@ namespace Org.OpenAPITools.Api
         /// <param name="client">The client interface for synchronous API access.</param>
         /// <param name="asyncClient">The client interface for asynchronous API access.</param>
         /// <param name="configuration">The configuration object.</param>
-        public BodyApi(Org.OpenAPITools.Client.ISynchronousClient client, Org.OpenAPITools.Client.IAsynchronousClient asyncClient, Org.OpenAPITools.Client.IReadableConfiguration configuration)
+        public BodyApi(ISynchronousClient client, IAsynchronousClient asyncClient, IReadableConfiguration configuration)
         {
-            if (client == null) throw new ArgumentNullException("client");
-            if (asyncClient == null) throw new ArgumentNullException("asyncClient");
-            if (configuration == null) throw new ArgumentNullException("configuration");
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (asyncClient == null) throw new ArgumentNullException(nameof(asyncClient));
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-            this.Client = client;
-            this.AsynchronousClient = asyncClient;
-            this.Configuration = configuration;
-            this.ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+            Client = client;
+            AsynchronousClient = asyncClient;
+            Configuration = configuration;
+            ExceptionFactory = ConfigurationClient.DefaultExceptionFactory;
         }
 
         /// <summary>
         /// The client for accessing this underlying API asynchronously.
         /// </summary>
-        public Org.OpenAPITools.Client.IAsynchronousClient AsynchronousClient { get; set; }
+        public IAsynchronousClient AsynchronousClient { get; set; }
 
         /// <summary>
         /// The client for accessing this underlying API synchronously.
         /// </summary>
-        public Org.OpenAPITools.Client.ISynchronousClient Client { get; set; }
+        public ISynchronousClient Client { get; set; }
 
         /// <summary>
         /// Gets the base path of the API client.
@@ -607,19 +603,19 @@ namespace Org.OpenAPITools.Api
         /// <value>The base path</value>
         public string GetBasePath()
         {
-            return this.Configuration.BasePath;
+            return Configuration.BasePath;
         }
 
         /// <summary>
         /// Gets or sets the configuration object
         /// </summary>
         /// <value>An instance of the Configuration</value>
-        public Org.OpenAPITools.Client.IReadableConfiguration Configuration { get; set; }
+        public IReadableConfiguration Configuration { get; set; }
 
         /// <summary>
         /// Provides a factory method hook for the creation of exceptions.
         /// </summary>
-        public Org.OpenAPITools.Client.ExceptionFactory ExceptionFactory
+        public ExceptionFactory ExceptionFactory
         {
             get
             {
@@ -633,225 +629,231 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Provides a common RequestOptions object for all operations.
+        /// </summary>
+		private RequestOptions GetRequestOptions(string[] _contentTypes, string[] _accepts, string operationId, int operationIndex)
+		{
+            RequestOptions localVarRequestOptions = new RequestOptions();
+            var localVarContentType = ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            localVarRequestOptions.Operation = operationId;
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+            return localVarRequestOptions;
+		}
+
+        /// <summary>
+        /// Sets RequestOptions Authorization headers with bearer or oauth.
+        /// </summary>
+        private RequestOptions SetAuthorization(RequestOptions localVarRequestOptions)
+        {
+			// oauth required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
+                {
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+                }
+            }
+            return localVarRequestOptions;
+		}
+
+        /// <summary>
+        /// Validates if operation has an exception and rethrows it.
+        /// </summary>
+        private void ValidateException(string operationName, IApiResponse localVarResponse)
+        {
+            if (ExceptionFactory != null)
+            {
+                Exception _exception = ExceptionFactory(operationName, localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+		}
+
+        /// <summary>
+        /// Provides a specific RequestOptions object for TestBinaryGif.
+        /// </summary>
+		private RequestOptions GetRequestOptionsTestBinaryGif(int operationIndex = 0)
+		{
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "image/gif"
+            };
+
+            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"BodyApi.TestBinaryGif" ,operationIndex);
+
+
+			return localVarRequestOptions;
+		}
+
+        /// <summary>
         /// Test binary (gif) response body Test binary (gif) response body
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>System.IO.Stream</returns>
         public System.IO.Stream TestBinaryGif(int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<System.IO.Stream> localVarResponse = TestBinaryGifWithHttpInfo();
+            ApiResponse<System.IO.Stream> localVarResponse = TestBinaryGifWithHttpInfo();
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test binary (gif) response body Test binary (gif) response body
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of System.IO.Stream</returns>
-        public Org.OpenAPITools.Client.ApiResponse<System.IO.Stream> TestBinaryGifWithHttpInfo(int operationIndex = 0)
+        public ApiResponse<System.IO.Stream> TestBinaryGifWithHttpInfo(int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "image/gif"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-
-            localVarRequestOptions.Operation = "BodyApi.TestBinaryGif";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestBinaryGif(operationIndex);
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<System.IO.Stream>("/binary/gif", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestBinaryGif", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = Client.Post<System.IO.Stream>("/binary/gif", localVarRequestOptions, Configuration);
+            ValidateException("TestBinaryGif", localVarResponse);
             return localVarResponse;
         }
 
         /// <summary>
         /// Test binary (gif) response body Test binary (gif) response body
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of System.IO.Stream</returns>
-        public async System.Threading.Tasks.Task<System.IO.Stream> TestBinaryGifAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<System.IO.Stream> TestBinaryGifAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<System.IO.Stream> localVarResponse = await TestBinaryGifWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            ApiResponse<System.IO.Stream> localVarResponse = await TestBinaryGifWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test binary (gif) response body Test binary (gif) response body
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (System.IO.Stream)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<System.IO.Stream>> TestBinaryGifWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<ApiResponse<System.IO.Stream>> TestBinaryGifWithHttpInfoAsync(int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestBinaryGif(operationIndex);
+            // make the HTTP request
+            var localVarResponse = await AsynchronousClient.PostAsync<System.IO.Stream>("/binary/gif", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+            ValidateException("TestBinaryGif", localVarResponse);
+            return localVarResponse;
+        }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
+        /// <summary>
+        /// Provides a specific RequestOptions object for TestBodyApplicationOctetstreamBinary.
+        /// </summary>
+		private RequestOptions GetRequestOptionsTestBodyApplicationOctetstreamBinary(System.IO.Stream? body = default(System.IO.Stream?), int operationIndex = 0)
+		{
             string[] _contentTypes = new string[] {
+                "application/octet-stream"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "image/gif"
+                "text/plain"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
+            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"BodyApi.TestBodyApplicationOctetstreamBinary" ,operationIndex);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
+            localVarRequestOptions.Data = body;
 
-
-            localVarRequestOptions.Operation = "BodyApi.TestBinaryGif";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<System.IO.Stream>("/binary/gif", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestBinaryGif", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
-            return localVarResponse;
-        }
+			return localVarRequestOptions;
+		}
 
         /// <summary>
         /// Test body parameter(s) Test body parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
         public string TestBodyApplicationOctetstreamBinary(System.IO.Stream? body = default(System.IO.Stream?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestBodyApplicationOctetstreamBinaryWithHttpInfo(body);
+            ApiResponse<string> localVarResponse = TestBodyApplicationOctetstreamBinaryWithHttpInfo(body);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test body parameter(s) Test body parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestBodyApplicationOctetstreamBinaryWithHttpInfo(System.IO.Stream? body = default(System.IO.Stream?), int operationIndex = 0)
+        public ApiResponse<string> TestBodyApplicationOctetstreamBinaryWithHttpInfo(System.IO.Stream? body = default(System.IO.Stream?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/octet-stream"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "text/plain"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            localVarRequestOptions.Data = body;
-
-            localVarRequestOptions.Operation = "BodyApi.TestBodyApplicationOctetstreamBinary";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestBodyApplicationOctetstreamBinary(body, operationIndex);
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<string>("/body/application/octetstream/binary", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestBodyApplicationOctetstreamBinary", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = Client.Post<string>("/body/application/octetstream/binary", localVarRequestOptions, Configuration);
+            ValidateException("TestBodyApplicationOctetstreamBinary", localVarResponse);
             return localVarResponse;
         }
 
         /// <summary>
         /// Test body parameter(s) Test body parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestBodyApplicationOctetstreamBinaryAsync(System.IO.Stream? body = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<string> TestBodyApplicationOctetstreamBinaryAsync(System.IO.Stream? body = default(System.IO.Stream?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestBodyApplicationOctetstreamBinaryWithHttpInfoAsync(body, operationIndex, cancellationToken).ConfigureAwait(false);
+            ApiResponse<string> localVarResponse = await TestBodyApplicationOctetstreamBinaryWithHttpInfoAsync(body, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test body parameter(s) Test body parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestBodyApplicationOctetstreamBinaryWithHttpInfoAsync(System.IO.Stream? body = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<ApiResponse<string>> TestBodyApplicationOctetstreamBinaryWithHttpInfoAsync(System.IO.Stream? body = default(System.IO.Stream?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestBodyApplicationOctetstreamBinary(body, operationIndex);
+            // make the HTTP request
+            var localVarResponse = await AsynchronousClient.PostAsync<string>("/body/application/octetstream/binary", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+            ValidateException("TestBodyApplicationOctetstreamBinary", localVarResponse);
+            return localVarResponse;
+        }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+        /// <summary>
+        /// Provides a specific RequestOptions object for TestBodyMultipartFormdataArrayOfBinary.
+        /// </summary>
+		private RequestOptions GetRequestOptionsTestBodyMultipartFormdataArrayOfBinary(List<System.IO.Stream> files, int operationIndex = 0)
+		{
+            // verify the required parameter 'files' is set
+            if (files == null)
+            {
+                throw new ApiException(400, "Missing required parameter 'files' when calling BodyApi->TestBodyMultipartFormdataArrayOfBinary");
+            }
 
             string[] _contentTypes = new string[] {
-                "application/octet-stream"
+                "multipart/form-data"
             };
 
             // to determine the Accept header
@@ -859,146 +861,82 @@ namespace Org.OpenAPITools.Api
                 "text/plain"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
+            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"BodyApi.TestBodyMultipartFormdataArrayOfBinary" ,operationIndex);
+
+            foreach (var file in files)
             {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+                localVarRequestOptions.FileParameters.Add("files", file);
             }
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            localVarRequestOptions.Data = body;
-
-            localVarRequestOptions.Operation = "BodyApi.TestBodyApplicationOctetstreamBinary";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/body/application/octetstream/binary", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestBodyApplicationOctetstreamBinary", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
-            return localVarResponse;
-        }
+			return localVarRequestOptions;
+		}
 
         /// <summary>
         /// Test array of binary in multipart mime Test array of binary in multipart mime
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="files"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
         public string TestBodyMultipartFormdataArrayOfBinary(List<System.IO.Stream> files, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files);
+            ApiResponse<string> localVarResponse = TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test array of binary in multipart mime Test array of binary in multipart mime
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="files"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo(List<System.IO.Stream> files, int operationIndex = 0)
+        public ApiResponse<string> TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo(List<System.IO.Stream> files, int operationIndex = 0)
         {
-            // verify the required parameter 'files' is set
-            if (files == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'files' when calling BodyApi->TestBodyMultipartFormdataArrayOfBinary");
-            }
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "text/plain"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            foreach (var file in files)
-            {
-                localVarRequestOptions.FileParameters.Add("files", file);
-            }
-
-            localVarRequestOptions.Operation = "BodyApi.TestBodyMultipartFormdataArrayOfBinary";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestBodyMultipartFormdataArrayOfBinary(files, operationIndex);
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<string>("/body/application/octetstream/array_of_binary", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestBodyMultipartFormdataArrayOfBinary", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = Client.Post<string>("/body/application/octetstream/array_of_binary", localVarRequestOptions, Configuration);
+            ValidateException("TestBodyMultipartFormdataArrayOfBinary", localVarResponse);
             return localVarResponse;
         }
 
         /// <summary>
         /// Test array of binary in multipart mime Test array of binary in multipart mime
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="files"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestBodyMultipartFormdataArrayOfBinaryAsync(List<System.IO.Stream> files, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<string> TestBodyMultipartFormdataArrayOfBinaryAsync(List<System.IO.Stream> files, int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestBodyMultipartFormdataArrayOfBinaryWithHttpInfoAsync(files, operationIndex, cancellationToken).ConfigureAwait(false);
+            ApiResponse<string> localVarResponse = await TestBodyMultipartFormdataArrayOfBinaryWithHttpInfoAsync(files, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test array of binary in multipart mime Test array of binary in multipart mime
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="files"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestBodyMultipartFormdataArrayOfBinaryWithHttpInfoAsync(List<System.IO.Stream> files, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<ApiResponse<string>> TestBodyMultipartFormdataArrayOfBinaryWithHttpInfoAsync(List<System.IO.Stream> files, int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-            // verify the required parameter 'files' is set
-            if (files == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'files' when calling BodyApi->TestBodyMultipartFormdataArrayOfBinary");
-            }
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestBodyMultipartFormdataArrayOfBinary(files, operationIndex);
+            // make the HTTP request
+            var localVarResponse = await AsynchronousClient.PostAsync<string>("/body/application/octetstream/array_of_binary", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+            ValidateException("TestBodyMultipartFormdataArrayOfBinary", localVarResponse);
+            return localVarResponse;
+        }
 
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
+        /// <summary>
+        /// Provides a specific RequestOptions object for TestBodyMultipartFormdataSingleBinary.
+        /// </summary>
+		private RequestOptions GetRequestOptionsTestBodyMultipartFormdataSingleBinary(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0)
+		{
             string[] _contentTypes = new string[] {
                 "multipart/form-data"
             };
@@ -1008,985 +946,567 @@ namespace Org.OpenAPITools.Api
                 "text/plain"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
+            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"BodyApi.TestBodyMultipartFormdataSingleBinary" ,operationIndex);
+
+            if (myFile != null)
             {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+                localVarRequestOptions.FileParameters.Add("my-file", myFile);
             }
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            foreach (var file in files)
-            {
-                localVarRequestOptions.FileParameters.Add("files", file);
-            }
-
-            localVarRequestOptions.Operation = "BodyApi.TestBodyMultipartFormdataArrayOfBinary";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/body/application/octetstream/array_of_binary", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestBodyMultipartFormdataArrayOfBinary", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
-            return localVarResponse;
-        }
+			return localVarRequestOptions;
+		}
 
         /// <summary>
         /// Test single binary in multipart mime Test single binary in multipart mime
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="myFile"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
         public string TestBodyMultipartFormdataSingleBinary(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile);
+            ApiResponse<string> localVarResponse = TestBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test single binary in multipart mime Test single binary in multipart mime
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="myFile"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestBodyMultipartFormdataSingleBinaryWithHttpInfo(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0)
+        public ApiResponse<string> TestBodyMultipartFormdataSingleBinaryWithHttpInfo(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "text/plain"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            if (myFile != null)
-            {
-                localVarRequestOptions.FileParameters.Add("my-file", myFile);
-            }
-
-            localVarRequestOptions.Operation = "BodyApi.TestBodyMultipartFormdataSingleBinary";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestBodyMultipartFormdataSingleBinary(myFile, operationIndex);
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<string>("/body/application/octetstream/single_binary", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestBodyMultipartFormdataSingleBinary", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = Client.Post<string>("/body/application/octetstream/single_binary", localVarRequestOptions, Configuration);
+            ValidateException("TestBodyMultipartFormdataSingleBinary", localVarResponse);
             return localVarResponse;
         }
 
         /// <summary>
         /// Test single binary in multipart mime Test single binary in multipart mime
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="myFile"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestBodyMultipartFormdataSingleBinaryAsync(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<string> TestBodyMultipartFormdataSingleBinaryAsync(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestBodyMultipartFormdataSingleBinaryWithHttpInfoAsync(myFile, operationIndex, cancellationToken).ConfigureAwait(false);
+            ApiResponse<string> localVarResponse = await TestBodyMultipartFormdataSingleBinaryWithHttpInfoAsync(myFile, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test single binary in multipart mime Test single binary in multipart mime
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="myFile"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestBodyMultipartFormdataSingleBinaryWithHttpInfoAsync(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<ApiResponse<string>> TestBodyMultipartFormdataSingleBinaryWithHttpInfoAsync(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "multipart/form-data"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "text/plain"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            if (myFile != null)
-            {
-                localVarRequestOptions.FileParameters.Add("my-file", myFile);
-            }
-
-            localVarRequestOptions.Operation = "BodyApi.TestBodyMultipartFormdataSingleBinary";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestBodyMultipartFormdataSingleBinary(myFile, operationIndex);
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/body/application/octetstream/single_binary", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestBodyMultipartFormdataSingleBinary", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = await AsynchronousClient.PostAsync<string>("/body/application/octetstream/single_binary", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+            ValidateException("TestBodyMultipartFormdataSingleBinary", localVarResponse);
             return localVarResponse;
         }
 
         /// <summary>
+        /// Provides a specific RequestOptions object for TestEchoBodyAllOfPet.
+        /// </summary>
+		private RequestOptions GetRequestOptionsTestEchoBodyAllOfPet(Pet? pet = default(Pet?), int operationIndex = 0)
+		{
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"BodyApi.TestEchoBodyAllOfPet" ,operationIndex);
+
+            localVarRequestOptions.Data = pet;
+
+			return localVarRequestOptions;
+		}
+
+        /// <summary>
         /// Test body parameter(s) Test body parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>Pet</returns>
         public Pet TestEchoBodyAllOfPet(Pet? pet = default(Pet?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = TestEchoBodyAllOfPetWithHttpInfo(pet);
+            ApiResponse<Pet> localVarResponse = TestEchoBodyAllOfPetWithHttpInfo(pet);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test body parameter(s) Test body parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Pet</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Pet> TestEchoBodyAllOfPetWithHttpInfo(Pet? pet = default(Pet?), int operationIndex = 0)
+        public ApiResponse<Pet> TestEchoBodyAllOfPetWithHttpInfo(Pet? pet = default(Pet?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            localVarRequestOptions.Data = pet;
-
-            localVarRequestOptions.Operation = "BodyApi.TestEchoBodyAllOfPet";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestEchoBodyAllOfPet(pet, operationIndex);
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<Pet>("/echo/body/allOf/Pet", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestEchoBodyAllOfPet", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = Client.Post<Pet>("/echo/body/allOf/Pet", localVarRequestOptions, Configuration);
+            ValidateException("TestEchoBodyAllOfPet", localVarResponse);
             return localVarResponse;
         }
 
         /// <summary>
         /// Test body parameter(s) Test body parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Pet</returns>
-        public async System.Threading.Tasks.Task<Pet> TestEchoBodyAllOfPetAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<Pet> TestEchoBodyAllOfPetAsync(Pet? pet = default(Pet?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = await TestEchoBodyAllOfPetWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
+            ApiResponse<Pet> localVarResponse = await TestEchoBodyAllOfPetWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test body parameter(s) Test body parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> TestEchoBodyAllOfPetWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<ApiResponse<Pet>> TestEchoBodyAllOfPetWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestEchoBodyAllOfPet(pet, operationIndex);
+            // make the HTTP request
+            var localVarResponse = await AsynchronousClient.PostAsync<Pet>("/echo/body/allOf/Pet", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+            ValidateException("TestEchoBodyAllOfPet", localVarResponse);
+            return localVarResponse;
+        }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
+        /// <summary>
+        /// Provides a specific RequestOptions object for TestEchoBodyFreeFormObjectResponseString.
+        /// </summary>
+		private RequestOptions GetRequestOptionsTestEchoBodyFreeFormObjectResponseString(Object? body = default(Object?), int operationIndex = 0)
+		{
             string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json"
+                "text/plain"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
+            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"BodyApi.TestEchoBodyFreeFormObjectResponseString" ,operationIndex);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
+            localVarRequestOptions.Data = body;
 
-            localVarRequestOptions.Data = pet;
-
-            localVarRequestOptions.Operation = "BodyApi.TestEchoBodyAllOfPet";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Pet>("/echo/body/allOf/Pet", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestEchoBodyAllOfPet", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
-            return localVarResponse;
-        }
+			return localVarRequestOptions;
+		}
 
         /// <summary>
         /// Test free form object Test free form object
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Free form object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
         public string TestEchoBodyFreeFormObjectResponseString(Object? body = default(Object?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestEchoBodyFreeFormObjectResponseStringWithHttpInfo(body);
+            ApiResponse<string> localVarResponse = TestEchoBodyFreeFormObjectResponseStringWithHttpInfo(body);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test free form object Test free form object
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Free form object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestEchoBodyFreeFormObjectResponseStringWithHttpInfo(Object? body = default(Object?), int operationIndex = 0)
+        public ApiResponse<string> TestEchoBodyFreeFormObjectResponseStringWithHttpInfo(Object? body = default(Object?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "text/plain"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            localVarRequestOptions.Data = body;
-
-            localVarRequestOptions.Operation = "BodyApi.TestEchoBodyFreeFormObjectResponseString";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestEchoBodyFreeFormObjectResponseString(body, operationIndex);
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<string>("/echo/body/FreeFormObject/response_string", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestEchoBodyFreeFormObjectResponseString", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = Client.Post<string>("/echo/body/FreeFormObject/response_string", localVarRequestOptions, Configuration);
+            ValidateException("TestEchoBodyFreeFormObjectResponseString", localVarResponse);
             return localVarResponse;
         }
 
         /// <summary>
         /// Test free form object Test free form object
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Free form object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestEchoBodyFreeFormObjectResponseStringAsync(Object? body = default(Object?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<string> TestEchoBodyFreeFormObjectResponseStringAsync(Object? body = default(Object?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestEchoBodyFreeFormObjectResponseStringWithHttpInfoAsync(body, operationIndex, cancellationToken).ConfigureAwait(false);
+            ApiResponse<string> localVarResponse = await TestEchoBodyFreeFormObjectResponseStringWithHttpInfoAsync(body, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test free form object Test free form object
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Free form object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEchoBodyFreeFormObjectResponseStringWithHttpInfoAsync(Object? body = default(Object?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<ApiResponse<string>> TestEchoBodyFreeFormObjectResponseStringWithHttpInfoAsync(Object? body = default(Object?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestEchoBodyFreeFormObjectResponseString(body, operationIndex);
+            // make the HTTP request
+            var localVarResponse = await AsynchronousClient.PostAsync<string>("/echo/body/FreeFormObject/response_string", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+            ValidateException("TestEchoBodyFreeFormObjectResponseString", localVarResponse);
+            return localVarResponse;
+        }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
+        /// <summary>
+        /// Provides a specific RequestOptions object for TestEchoBodyPet.
+        /// </summary>
+		private RequestOptions GetRequestOptionsTestEchoBodyPet(Pet? pet = default(Pet?), int operationIndex = 0)
+		{
             string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "text/plain"
+                "application/json"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
+            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"BodyApi.TestEchoBodyPet" ,operationIndex);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
+            localVarRequestOptions.Data = pet;
 
-            localVarRequestOptions.Data = body;
-
-            localVarRequestOptions.Operation = "BodyApi.TestEchoBodyFreeFormObjectResponseString";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/echo/body/FreeFormObject/response_string", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestEchoBodyFreeFormObjectResponseString", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
-            return localVarResponse;
-        }
+			return localVarRequestOptions;
+		}
 
         /// <summary>
         /// Test body parameter(s) Test body parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>Pet</returns>
         public Pet TestEchoBodyPet(Pet? pet = default(Pet?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = TestEchoBodyPetWithHttpInfo(pet);
+            ApiResponse<Pet> localVarResponse = TestEchoBodyPetWithHttpInfo(pet);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test body parameter(s) Test body parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Pet</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Pet> TestEchoBodyPetWithHttpInfo(Pet? pet = default(Pet?), int operationIndex = 0)
+        public ApiResponse<Pet> TestEchoBodyPetWithHttpInfo(Pet? pet = default(Pet?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            localVarRequestOptions.Data = pet;
-
-            localVarRequestOptions.Operation = "BodyApi.TestEchoBodyPet";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestEchoBodyPet(pet, operationIndex);
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<Pet>("/echo/body/Pet", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestEchoBodyPet", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = Client.Post<Pet>("/echo/body/Pet", localVarRequestOptions, Configuration);
+            ValidateException("TestEchoBodyPet", localVarResponse);
             return localVarResponse;
         }
 
         /// <summary>
         /// Test body parameter(s) Test body parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Pet</returns>
-        public async System.Threading.Tasks.Task<Pet> TestEchoBodyPetAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<Pet> TestEchoBodyPetAsync(Pet? pet = default(Pet?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = await TestEchoBodyPetWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
+            ApiResponse<Pet> localVarResponse = await TestEchoBodyPetWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test body parameter(s) Test body parameter(s)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> TestEchoBodyPetWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<ApiResponse<Pet>> TestEchoBodyPetWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestEchoBodyPet(pet, operationIndex);
+            // make the HTTP request
+            var localVarResponse = await AsynchronousClient.PostAsync<Pet>("/echo/body/Pet", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+            ValidateException("TestEchoBodyPet", localVarResponse);
+            return localVarResponse;
+        }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
+        /// <summary>
+        /// Provides a specific RequestOptions object for TestEchoBodyPetResponseString.
+        /// </summary>
+		private RequestOptions GetRequestOptionsTestEchoBodyPetResponseString(Pet? pet = default(Pet?), int operationIndex = 0)
+		{
             string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json"
+                "text/plain"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
+            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"BodyApi.TestEchoBodyPetResponseString" ,operationIndex);
 
             localVarRequestOptions.Data = pet;
 
-            localVarRequestOptions.Operation = "BodyApi.TestEchoBodyPet";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Pet>("/echo/body/Pet", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestEchoBodyPet", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
-            return localVarResponse;
-        }
+			return localVarRequestOptions;
+		}
 
         /// <summary>
         /// Test empty response body Test empty response body
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
         public string TestEchoBodyPetResponseString(Pet? pet = default(Pet?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestEchoBodyPetResponseStringWithHttpInfo(pet);
+            ApiResponse<string> localVarResponse = TestEchoBodyPetResponseStringWithHttpInfo(pet);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test empty response body Test empty response body
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestEchoBodyPetResponseStringWithHttpInfo(Pet? pet = default(Pet?), int operationIndex = 0)
+        public ApiResponse<string> TestEchoBodyPetResponseStringWithHttpInfo(Pet? pet = default(Pet?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "text/plain"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            localVarRequestOptions.Data = pet;
-
-            localVarRequestOptions.Operation = "BodyApi.TestEchoBodyPetResponseString";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestEchoBodyPetResponseString(pet, operationIndex);
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<string>("/echo/body/Pet/response_string", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestEchoBodyPetResponseString", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = Client.Post<string>("/echo/body/Pet/response_string", localVarRequestOptions, Configuration);
+            ValidateException("TestEchoBodyPetResponseString", localVarResponse);
             return localVarResponse;
         }
 
         /// <summary>
         /// Test empty response body Test empty response body
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestEchoBodyPetResponseStringAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<string> TestEchoBodyPetResponseStringAsync(Pet? pet = default(Pet?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestEchoBodyPetResponseStringWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
+            ApiResponse<string> localVarResponse = await TestEchoBodyPetResponseStringWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test empty response body Test empty response body
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEchoBodyPetResponseStringWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<ApiResponse<string>> TestEchoBodyPetResponseStringWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestEchoBodyPetResponseString(pet, operationIndex);
+            // make the HTTP request
+            var localVarResponse = await AsynchronousClient.PostAsync<string>("/echo/body/Pet/response_string", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+            ValidateException("TestEchoBodyPetResponseString", localVarResponse);
+            return localVarResponse;
+        }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
+        /// <summary>
+        /// Provides a specific RequestOptions object for TestEchoBodyStringEnum.
+        /// </summary>
+		private RequestOptions GetRequestOptionsTestEchoBodyStringEnum(string? body = default(string?), int operationIndex = 0)
+		{
             string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "text/plain"
+                "application/json"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
+            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"BodyApi.TestEchoBodyStringEnum" ,operationIndex);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
+            localVarRequestOptions.Data = body;
 
-            localVarRequestOptions.Data = pet;
-
-            localVarRequestOptions.Operation = "BodyApi.TestEchoBodyPetResponseString";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/echo/body/Pet/response_string", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestEchoBodyPetResponseString", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
-            return localVarResponse;
-        }
+			return localVarRequestOptions;
+		}
 
         /// <summary>
         /// Test string enum response body Test string enum response body
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>StringEnumRef</returns>
         public StringEnumRef TestEchoBodyStringEnum(string? body = default(string?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<StringEnumRef> localVarResponse = TestEchoBodyStringEnumWithHttpInfo(body);
+            ApiResponse<StringEnumRef> localVarResponse = TestEchoBodyStringEnumWithHttpInfo(body);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test string enum response body Test string enum response body
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of StringEnumRef</returns>
-        public Org.OpenAPITools.Client.ApiResponse<StringEnumRef> TestEchoBodyStringEnumWithHttpInfo(string? body = default(string?), int operationIndex = 0)
+        public ApiResponse<StringEnumRef> TestEchoBodyStringEnumWithHttpInfo(string? body = default(string?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "application/json"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            localVarRequestOptions.Data = body;
-
-            localVarRequestOptions.Operation = "BodyApi.TestEchoBodyStringEnum";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestEchoBodyStringEnum(body, operationIndex);
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<StringEnumRef>("/echo/body/string_enum", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestEchoBodyStringEnum", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = Client.Post<StringEnumRef>("/echo/body/string_enum", localVarRequestOptions, Configuration);
+            ValidateException("TestEchoBodyStringEnum", localVarResponse);
             return localVarResponse;
         }
 
         /// <summary>
         /// Test string enum response body Test string enum response body
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of StringEnumRef</returns>
-        public async System.Threading.Tasks.Task<StringEnumRef> TestEchoBodyStringEnumAsync(string? body = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<StringEnumRef> TestEchoBodyStringEnumAsync(string? body = default(string?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<StringEnumRef> localVarResponse = await TestEchoBodyStringEnumWithHttpInfoAsync(body, operationIndex, cancellationToken).ConfigureAwait(false);
+            ApiResponse<StringEnumRef> localVarResponse = await TestEchoBodyStringEnumWithHttpInfoAsync(body, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test string enum response body Test string enum response body
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (StringEnumRef)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<StringEnumRef>> TestEchoBodyStringEnumWithHttpInfoAsync(string? body = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<ApiResponse<StringEnumRef>> TestEchoBodyStringEnumWithHttpInfoAsync(string? body = default(string?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestEchoBodyStringEnum(body, operationIndex);
+            // make the HTTP request
+            var localVarResponse = await AsynchronousClient.PostAsync<StringEnumRef>("/echo/body/string_enum", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+            ValidateException("TestEchoBodyStringEnum", localVarResponse);
+            return localVarResponse;
+        }
 
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
+        /// <summary>
+        /// Provides a specific RequestOptions object for TestEchoBodyTagResponseString.
+        /// </summary>
+		private RequestOptions GetRequestOptionsTestEchoBodyTagResponseString(Tag? tag = default(Tag?), int operationIndex = 0)
+		{
             string[] _contentTypes = new string[] {
                 "application/json"
             };
 
             // to determine the Accept header
             string[] _accepts = new string[] {
-                "application/json"
+                "text/plain"
             };
 
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
+            RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"BodyApi.TestEchoBodyTagResponseString" ,operationIndex);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
+            localVarRequestOptions.Data = tag;
 
-            localVarRequestOptions.Data = body;
-
-            localVarRequestOptions.Operation = "BodyApi.TestEchoBodyStringEnum";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
-            // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<StringEnumRef>("/echo/body/string_enum", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestEchoBodyStringEnum", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
-            return localVarResponse;
-        }
+			return localVarRequestOptions;
+		}
 
         /// <summary>
         /// Test empty json (request body) Test empty json (request body)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tag">Tag object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
         public string TestEchoBodyTagResponseString(Tag? tag = default(Tag?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestEchoBodyTagResponseStringWithHttpInfo(tag);
+            ApiResponse<string> localVarResponse = TestEchoBodyTagResponseStringWithHttpInfo(tag);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test empty json (request body) Test empty json (request body)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tag">Tag object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestEchoBodyTagResponseStringWithHttpInfo(Tag? tag = default(Tag?), int operationIndex = 0)
+        public ApiResponse<string> TestEchoBodyTagResponseStringWithHttpInfo(Tag? tag = default(Tag?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "text/plain"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            localVarRequestOptions.Data = tag;
-
-            localVarRequestOptions.Operation = "BodyApi.TestEchoBodyTagResponseString";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestEchoBodyTagResponseString(tag, operationIndex);
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<string>("/echo/body/Tag/response_string", localVarRequestOptions, this.Configuration);
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestEchoBodyTagResponseString", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = Client.Post<string>("/echo/body/Tag/response_string", localVarRequestOptions, Configuration);
+            ValidateException("TestEchoBodyTagResponseString", localVarResponse);
             return localVarResponse;
         }
 
         /// <summary>
         /// Test empty json (request body) Test empty json (request body)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tag">Tag object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestEchoBodyTagResponseStringAsync(Tag? tag = default(Tag?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<string> TestEchoBodyTagResponseStringAsync(Tag? tag = default(Tag?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestEchoBodyTagResponseStringWithHttpInfoAsync(tag, operationIndex, cancellationToken).ConfigureAwait(false);
+            ApiResponse<string> localVarResponse = await TestEchoBodyTagResponseStringWithHttpInfoAsync(tag, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
         /// Test empty json (request body) Test empty json (request body)
         /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="tag">Tag object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEchoBodyTagResponseStringWithHttpInfoAsync(Tag? tag = default(Tag?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async Task<ApiResponse<string>> TestEchoBodyTagResponseStringWithHttpInfoAsync(Tag? tag = default(Tag?), int operationIndex = 0, CancellationToken cancellationToken = default(CancellationToken))
         {
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            string[] _contentTypes = new string[] {
-                "application/json"
-            };
-
-            // to determine the Accept header
-            string[] _accepts = new string[] {
-                "text/plain"
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-            }
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            }
-
-            localVarRequestOptions.Data = tag;
-
-            localVarRequestOptions.Operation = "BodyApi.TestEchoBodyTagResponseString";
-            localVarRequestOptions.OperationIndex = operationIndex;
-
-
+            RequestOptions localVarRequestOptions = GetRequestOptionsTestEchoBodyTagResponseString(tag, operationIndex);
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/echo/body/Tag/response_string", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("TestEchoBodyTagResponseString", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            var localVarResponse = await AsynchronousClient.PostAsync<string>("/echo/body/Tag/response_string", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
+            ValidateException("TestEchoBodyTagResponseString", localVarResponse);
             return localVarResponse;
         }
-
     }
 }

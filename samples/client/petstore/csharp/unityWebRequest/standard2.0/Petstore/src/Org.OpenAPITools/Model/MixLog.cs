@@ -72,43 +72,43 @@ namespace Org.OpenAPITools.Model
         /// <param name="selectedVersionIndex">selectedVersionIndex.</param>
         public MixLog(Guid id = default(Guid), string description = default(string), DateTime mixDate = default(DateTime), Guid shopId = default(Guid), float? totalPrice = default(float?), int totalRecalculations = default(int), int totalOverPoors = default(int), int totalSkips = default(int), int totalUnderPours = default(int), DateTime formulaVersionDate = default(DateTime), string someCode = default(string), string batchNumber = default(string), string brandCode = default(string), string brandId = default(string), string brandName = default(string), string categoryCode = default(string), string color = default(string), string colorDescription = default(string), string comment = default(string), string commercialProductCode = default(string), string productLineCode = default(string), string country = default(string), string createdBy = default(string), string createdByFirstName = default(string), string createdByLastName = default(string), string deltaECalculationRepaired = default(string), string deltaECalculationSprayout = default(string), int? ownColorVariantNumber = default(int?), string primerProductId = default(string), string productId = default(string), string productName = default(string), int selectedVersionIndex = default(int))
         {
-            this.Id = id;
+            Id = id;
             // to ensure "description" is required (not null)
             if (description == null)
             {
                 throw new ArgumentNullException("description is a required property for MixLog and cannot be null");
             }
-            this.Description = description;
-            this.MixDate = mixDate;
-            this.TotalRecalculations = totalRecalculations;
-            this.TotalOverPoors = totalOverPoors;
-            this.TotalSkips = totalSkips;
-            this.TotalUnderPours = totalUnderPours;
-            this.FormulaVersionDate = formulaVersionDate;
-            this.ShopId = shopId;
-            this.TotalPrice = totalPrice;
-            this.SomeCode = someCode;
-            this.BatchNumber = batchNumber;
-            this.BrandCode = brandCode;
-            this.BrandId = brandId;
-            this.BrandName = brandName;
-            this.CategoryCode = categoryCode;
-            this.Color = color;
-            this.ColorDescription = colorDescription;
-            this.Comment = comment;
-            this.CommercialProductCode = commercialProductCode;
-            this.ProductLineCode = productLineCode;
-            this.Country = country;
-            this.CreatedBy = createdBy;
-            this.CreatedByFirstName = createdByFirstName;
-            this.CreatedByLastName = createdByLastName;
-            this.DeltaECalculationRepaired = deltaECalculationRepaired;
-            this.DeltaECalculationSprayout = deltaECalculationSprayout;
-            this.OwnColorVariantNumber = ownColorVariantNumber;
-            this.PrimerProductId = primerProductId;
-            this.ProductId = productId;
-            this.ProductName = productName;
-            this.SelectedVersionIndex = selectedVersionIndex;
+            Description = description;
+            MixDate = mixDate;
+            TotalRecalculations = totalRecalculations;
+            TotalOverPoors = totalOverPoors;
+            TotalSkips = totalSkips;
+            TotalUnderPours = totalUnderPours;
+            FormulaVersionDate = formulaVersionDate;
+            ShopId = shopId;
+            TotalPrice = totalPrice;
+            SomeCode = someCode;
+            BatchNumber = batchNumber;
+            BrandCode = brandCode;
+            BrandId = brandId;
+            BrandName = brandName;
+            CategoryCode = categoryCode;
+            Color = color;
+            ColorDescription = colorDescription;
+            Comment = comment;
+            CommercialProductCode = commercialProductCode;
+            ProductLineCode = productLineCode;
+            Country = country;
+            CreatedBy = createdBy;
+            CreatedByFirstName = createdByFirstName;
+            CreatedByLastName = createdByLastName;
+            DeltaECalculationRepaired = deltaECalculationRepaired;
+            DeltaECalculationSprayout = deltaECalculationSprayout;
+            OwnColorVariantNumber = ownColorVariantNumber;
+            PrimerProductId = primerProductId;
+            ProductId = productId;
+            ProductName = productName;
+            SelectedVersionIndex = selectedVersionIndex;
         }
 
         /// <summary>
@@ -362,7 +362,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -372,7 +372,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as MixLog);
+            return Equals(input as MixLog);
         }
 
         /// <summary>
@@ -388,159 +388,135 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
+                    Id == input.Id ||
+					Id.Equals(input.Id)
                 ) && 
                 (
-                    this.Description == input.Description ||
-                    (this.Description != null &&
-                    this.Description.Equals(input.Description))
+                    Description == input.Description ||
+					Description.Equals(input.Description)
                 ) && 
                 (
-                    this.MixDate == input.MixDate ||
-                    (this.MixDate != null &&
-                    this.MixDate.Equals(input.MixDate))
+                    MixDate == input.MixDate ||
+					MixDate.Equals(input.MixDate)
                 ) && 
                 (
-                    this.ShopId == input.ShopId ||
-                    (this.ShopId != null &&
-                    this.ShopId.Equals(input.ShopId))
+                    ShopId == input.ShopId ||
+					ShopId.Equals(input.ShopId)
                 ) && 
                 (
-                    this.TotalPrice == input.TotalPrice ||
-                    (this.TotalPrice != null &&
-                    this.TotalPrice.Equals(input.TotalPrice))
+                    TotalPrice == input.TotalPrice ||
+                    (TotalPrice != null &&
+                    TotalPrice.Equals(input.TotalPrice))
                 ) && 
                 (
-                    this.TotalRecalculations == input.TotalRecalculations ||
-                    this.TotalRecalculations.Equals(input.TotalRecalculations)
+                    TotalRecalculations == input.TotalRecalculations ||
+                    TotalRecalculations.Equals(input.TotalRecalculations)
                 ) && 
                 (
-                    this.TotalOverPoors == input.TotalOverPoors ||
-                    this.TotalOverPoors.Equals(input.TotalOverPoors)
+                    TotalOverPoors == input.TotalOverPoors ||
+                    TotalOverPoors.Equals(input.TotalOverPoors)
                 ) && 
                 (
-                    this.TotalSkips == input.TotalSkips ||
-                    this.TotalSkips.Equals(input.TotalSkips)
+                    TotalSkips == input.TotalSkips ||
+                    TotalSkips.Equals(input.TotalSkips)
                 ) && 
                 (
-                    this.TotalUnderPours == input.TotalUnderPours ||
-                    this.TotalUnderPours.Equals(input.TotalUnderPours)
+                    TotalUnderPours == input.TotalUnderPours ||
+                    TotalUnderPours.Equals(input.TotalUnderPours)
                 ) && 
                 (
-                    this.FormulaVersionDate == input.FormulaVersionDate ||
-                    (this.FormulaVersionDate != null &&
-                    this.FormulaVersionDate.Equals(input.FormulaVersionDate))
+                    FormulaVersionDate == input.FormulaVersionDate ||
+					FormulaVersionDate.Equals(input.FormulaVersionDate)
                 ) && 
                 (
-                    this.SomeCode == input.SomeCode ||
-                    (this.SomeCode != null &&
-                    this.SomeCode.Equals(input.SomeCode))
+                    SomeCode == input.SomeCode ||
+                    (SomeCode != null &&
+                    SomeCode.Equals(input.SomeCode))
                 ) && 
                 (
-                    this.BatchNumber == input.BatchNumber ||
-                    (this.BatchNumber != null &&
-                    this.BatchNumber.Equals(input.BatchNumber))
+                    BatchNumber == input.BatchNumber ||
+					BatchNumber.Equals(input.BatchNumber)
                 ) && 
                 (
-                    this.BrandCode == input.BrandCode ||
-                    (this.BrandCode != null &&
-                    this.BrandCode.Equals(input.BrandCode))
+                    BrandCode == input.BrandCode ||
+					BrandCode.Equals(input.BrandCode)
                 ) && 
                 (
-                    this.BrandId == input.BrandId ||
-                    (this.BrandId != null &&
-                    this.BrandId.Equals(input.BrandId))
+                    BrandId == input.BrandId ||
+					BrandId.Equals(input.BrandId)
                 ) && 
                 (
-                    this.BrandName == input.BrandName ||
-                    (this.BrandName != null &&
-                    this.BrandName.Equals(input.BrandName))
+                    BrandName == input.BrandName ||
+					BrandName.Equals(input.BrandName)
                 ) && 
                 (
-                    this.CategoryCode == input.CategoryCode ||
-                    (this.CategoryCode != null &&
-                    this.CategoryCode.Equals(input.CategoryCode))
+                    CategoryCode == input.CategoryCode ||
+					CategoryCode.Equals(input.CategoryCode)
                 ) && 
                 (
-                    this.Color == input.Color ||
-                    (this.Color != null &&
-                    this.Color.Equals(input.Color))
+                    Color == input.Color ||
+					Color.Equals(input.Color)
                 ) && 
                 (
-                    this.ColorDescription == input.ColorDescription ||
-                    (this.ColorDescription != null &&
-                    this.ColorDescription.Equals(input.ColorDescription))
+                    ColorDescription == input.ColorDescription ||
+					ColorDescription.Equals(input.ColorDescription)
                 ) && 
                 (
-                    this.Comment == input.Comment ||
-                    (this.Comment != null &&
-                    this.Comment.Equals(input.Comment))
+                    Comment == input.Comment ||
+					Comment.Equals(input.Comment)
                 ) && 
                 (
-                    this.CommercialProductCode == input.CommercialProductCode ||
-                    (this.CommercialProductCode != null &&
-                    this.CommercialProductCode.Equals(input.CommercialProductCode))
+                    CommercialProductCode == input.CommercialProductCode ||
+					CommercialProductCode.Equals(input.CommercialProductCode)
                 ) && 
                 (
-                    this.ProductLineCode == input.ProductLineCode ||
-                    (this.ProductLineCode != null &&
-                    this.ProductLineCode.Equals(input.ProductLineCode))
+                    ProductLineCode == input.ProductLineCode ||
+					ProductLineCode.Equals(input.ProductLineCode)
                 ) && 
                 (
-                    this.Country == input.Country ||
-                    (this.Country != null &&
-                    this.Country.Equals(input.Country))
+                    Country == input.Country ||
+					Country.Equals(input.Country)
                 ) && 
                 (
-                    this.CreatedBy == input.CreatedBy ||
-                    (this.CreatedBy != null &&
-                    this.CreatedBy.Equals(input.CreatedBy))
+                    CreatedBy == input.CreatedBy ||
+					CreatedBy.Equals(input.CreatedBy)
                 ) && 
                 (
-                    this.CreatedByFirstName == input.CreatedByFirstName ||
-                    (this.CreatedByFirstName != null &&
-                    this.CreatedByFirstName.Equals(input.CreatedByFirstName))
+                    CreatedByFirstName == input.CreatedByFirstName ||
+					CreatedByFirstName.Equals(input.CreatedByFirstName)
                 ) && 
                 (
-                    this.CreatedByLastName == input.CreatedByLastName ||
-                    (this.CreatedByLastName != null &&
-                    this.CreatedByLastName.Equals(input.CreatedByLastName))
+                    CreatedByLastName == input.CreatedByLastName ||
+					CreatedByLastName.Equals(input.CreatedByLastName)
                 ) && 
                 (
-                    this.DeltaECalculationRepaired == input.DeltaECalculationRepaired ||
-                    (this.DeltaECalculationRepaired != null &&
-                    this.DeltaECalculationRepaired.Equals(input.DeltaECalculationRepaired))
+                    DeltaECalculationRepaired == input.DeltaECalculationRepaired ||
+					DeltaECalculationRepaired.Equals(input.DeltaECalculationRepaired)
                 ) && 
                 (
-                    this.DeltaECalculationSprayout == input.DeltaECalculationSprayout ||
-                    (this.DeltaECalculationSprayout != null &&
-                    this.DeltaECalculationSprayout.Equals(input.DeltaECalculationSprayout))
+                    DeltaECalculationSprayout == input.DeltaECalculationSprayout ||
+					DeltaECalculationSprayout.Equals(input.DeltaECalculationSprayout)
                 ) && 
                 (
-                    this.OwnColorVariantNumber == input.OwnColorVariantNumber ||
-                    (this.OwnColorVariantNumber != null &&
-                    this.OwnColorVariantNumber.Equals(input.OwnColorVariantNumber))
+                    OwnColorVariantNumber == input.OwnColorVariantNumber ||
+                    (OwnColorVariantNumber != null &&
+                    OwnColorVariantNumber.Equals(input.OwnColorVariantNumber))
                 ) && 
                 (
-                    this.PrimerProductId == input.PrimerProductId ||
-                    (this.PrimerProductId != null &&
-                    this.PrimerProductId.Equals(input.PrimerProductId))
+                    PrimerProductId == input.PrimerProductId ||
+					PrimerProductId.Equals(input.PrimerProductId)
                 ) && 
                 (
-                    this.ProductId == input.ProductId ||
-                    (this.ProductId != null &&
-                    this.ProductId.Equals(input.ProductId))
+                    ProductId == input.ProductId ||
+					ProductId.Equals(input.ProductId)
                 ) && 
                 (
-                    this.ProductName == input.ProductName ||
-                    (this.ProductName != null &&
-                    this.ProductName.Equals(input.ProductName))
+                    ProductName == input.ProductName ||
+					ProductName.Equals(input.ProductName)
                 ) && 
                 (
-                    this.SelectedVersionIndex == input.SelectedVersionIndex ||
-                    this.SelectedVersionIndex.Equals(input.SelectedVersionIndex)
+                    SelectedVersionIndex == input.SelectedVersionIndex ||
+                    SelectedVersionIndex.Equals(input.SelectedVersionIndex)
                 );
         }
 
@@ -553,119 +529,119 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Id != null)
+				if (Id != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
                 }
-                if (this.Description != null)
+				if (Description != null)
                 {
-                    hashCode = (hashCode * 59) + this.Description.GetHashCode();
+                    hashCode = (hashCode * 59) + Description.GetHashCode();
                 }
-                if (this.MixDate != null)
+				if (MixDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.MixDate.GetHashCode();
+                    hashCode = (hashCode * 59) + MixDate.GetHashCode();
                 }
-                if (this.ShopId != null)
+				if (ShopId != null)
                 {
-                    hashCode = (hashCode * 59) + this.ShopId.GetHashCode();
+                    hashCode = (hashCode * 59) + ShopId.GetHashCode();
                 }
-                if (this.TotalPrice != null)
+				if (TotalPrice != null)
                 {
-                    hashCode = (hashCode * 59) + this.TotalPrice.GetHashCode();
+                    hashCode = (hashCode * 59) + TotalPrice.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.TotalRecalculations.GetHashCode();
-                hashCode = (hashCode * 59) + this.TotalOverPoors.GetHashCode();
-                hashCode = (hashCode * 59) + this.TotalSkips.GetHashCode();
-                hashCode = (hashCode * 59) + this.TotalUnderPours.GetHashCode();
-                if (this.FormulaVersionDate != null)
+                hashCode = (hashCode * 59) + TotalRecalculations.GetHashCode();
+                hashCode = (hashCode * 59) + TotalOverPoors.GetHashCode();
+                hashCode = (hashCode * 59) + TotalSkips.GetHashCode();
+                hashCode = (hashCode * 59) + TotalUnderPours.GetHashCode();
+				if (FormulaVersionDate != null)
                 {
-                    hashCode = (hashCode * 59) + this.FormulaVersionDate.GetHashCode();
+                    hashCode = (hashCode * 59) + FormulaVersionDate.GetHashCode();
                 }
-                if (this.SomeCode != null)
+				if (SomeCode != null)
                 {
-                    hashCode = (hashCode * 59) + this.SomeCode.GetHashCode();
+                    hashCode = (hashCode * 59) + SomeCode.GetHashCode();
                 }
-                if (this.BatchNumber != null)
+				if (BatchNumber != null)
                 {
-                    hashCode = (hashCode * 59) + this.BatchNumber.GetHashCode();
+                    hashCode = (hashCode * 59) + BatchNumber.GetHashCode();
                 }
-                if (this.BrandCode != null)
+				if (BrandCode != null)
                 {
-                    hashCode = (hashCode * 59) + this.BrandCode.GetHashCode();
+                    hashCode = (hashCode * 59) + BrandCode.GetHashCode();
                 }
-                if (this.BrandId != null)
+				if (BrandId != null)
                 {
-                    hashCode = (hashCode * 59) + this.BrandId.GetHashCode();
+                    hashCode = (hashCode * 59) + BrandId.GetHashCode();
                 }
-                if (this.BrandName != null)
+				if (BrandName != null)
                 {
-                    hashCode = (hashCode * 59) + this.BrandName.GetHashCode();
+                    hashCode = (hashCode * 59) + BrandName.GetHashCode();
                 }
-                if (this.CategoryCode != null)
+				if (CategoryCode != null)
                 {
-                    hashCode = (hashCode * 59) + this.CategoryCode.GetHashCode();
+                    hashCode = (hashCode * 59) + CategoryCode.GetHashCode();
                 }
-                if (this.Color != null)
+				if (Color != null)
                 {
-                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
+                    hashCode = (hashCode * 59) + Color.GetHashCode();
                 }
-                if (this.ColorDescription != null)
+				if (ColorDescription != null)
                 {
-                    hashCode = (hashCode * 59) + this.ColorDescription.GetHashCode();
+                    hashCode = (hashCode * 59) + ColorDescription.GetHashCode();
                 }
-                if (this.Comment != null)
+				if (Comment != null)
                 {
-                    hashCode = (hashCode * 59) + this.Comment.GetHashCode();
+                    hashCode = (hashCode * 59) + Comment.GetHashCode();
                 }
-                if (this.CommercialProductCode != null)
+				if (CommercialProductCode != null)
                 {
-                    hashCode = (hashCode * 59) + this.CommercialProductCode.GetHashCode();
+                    hashCode = (hashCode * 59) + CommercialProductCode.GetHashCode();
                 }
-                if (this.ProductLineCode != null)
+				if (ProductLineCode != null)
                 {
-                    hashCode = (hashCode * 59) + this.ProductLineCode.GetHashCode();
+                    hashCode = (hashCode * 59) + ProductLineCode.GetHashCode();
                 }
-                if (this.Country != null)
+				if (Country != null)
                 {
-                    hashCode = (hashCode * 59) + this.Country.GetHashCode();
+                    hashCode = (hashCode * 59) + Country.GetHashCode();
                 }
-                if (this.CreatedBy != null)
+				if (CreatedBy != null)
                 {
-                    hashCode = (hashCode * 59) + this.CreatedBy.GetHashCode();
+                    hashCode = (hashCode * 59) + CreatedBy.GetHashCode();
                 }
-                if (this.CreatedByFirstName != null)
+				if (CreatedByFirstName != null)
                 {
-                    hashCode = (hashCode * 59) + this.CreatedByFirstName.GetHashCode();
+                    hashCode = (hashCode * 59) + CreatedByFirstName.GetHashCode();
                 }
-                if (this.CreatedByLastName != null)
+				if (CreatedByLastName != null)
                 {
-                    hashCode = (hashCode * 59) + this.CreatedByLastName.GetHashCode();
+                    hashCode = (hashCode * 59) + CreatedByLastName.GetHashCode();
                 }
-                if (this.DeltaECalculationRepaired != null)
+				if (DeltaECalculationRepaired != null)
                 {
-                    hashCode = (hashCode * 59) + this.DeltaECalculationRepaired.GetHashCode();
+                    hashCode = (hashCode * 59) + DeltaECalculationRepaired.GetHashCode();
                 }
-                if (this.DeltaECalculationSprayout != null)
+				if (DeltaECalculationSprayout != null)
                 {
-                    hashCode = (hashCode * 59) + this.DeltaECalculationSprayout.GetHashCode();
+                    hashCode = (hashCode * 59) + DeltaECalculationSprayout.GetHashCode();
                 }
-                if (this.OwnColorVariantNumber != null)
+				if (OwnColorVariantNumber != null)
                 {
-                    hashCode = (hashCode * 59) + this.OwnColorVariantNumber.GetHashCode();
+                    hashCode = (hashCode * 59) + OwnColorVariantNumber.GetHashCode();
                 }
-                if (this.PrimerProductId != null)
+				if (PrimerProductId != null)
                 {
-                    hashCode = (hashCode * 59) + this.PrimerProductId.GetHashCode();
+                    hashCode = (hashCode * 59) + PrimerProductId.GetHashCode();
                 }
-                if (this.ProductId != null)
+				if (ProductId != null)
                 {
-                    hashCode = (hashCode * 59) + this.ProductId.GetHashCode();
+                    hashCode = (hashCode * 59) + ProductId.GetHashCode();
                 }
-                if (this.ProductName != null)
+				if (ProductName != null)
                 {
-                    hashCode = (hashCode * 59) + this.ProductName.GetHashCode();
+                    hashCode = (hashCode * 59) + ProductName.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.SelectedVersionIndex.GetHashCode();
+                hashCode = (hashCode * 59) + SelectedVersionIndex.GetHashCode();
                 return hashCode;
             }
         }

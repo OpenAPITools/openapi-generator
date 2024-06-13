@@ -49,8 +49,8 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("name is a required property for Category and cannot be null");
             }
-            this.Name = name;
-            this.Id = id;
+            Name = name;
+            Id = id;
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -117,10 +117,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Name != null)
+                hashCode = (hashCode * 59) + Id.GetHashCode();
+				if (Name != null)
                 {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                    hashCode = (hashCode * 59) + Name.GetHashCode();
                 }
                 return hashCode;
             }

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="content">content.</param>
         public MixedAnyOf(MixedAnyOfContent content = default(MixedAnyOfContent))
         {
-            this.Content = content;
+            Content = content;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as MixedAnyOf);
+            return Equals(input as MixedAnyOf);
         }
 
         /// <summary>
@@ -90,9 +90,8 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Content == input.Content ||
-                    (this.Content != null &&
-                    this.Content.Equals(input.Content))
+                    Content == input.Content ||
+					Content.Equals(input.Content)
                 );
         }
 
@@ -105,9 +104,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Content != null)
+				if (Content != null)
                 {
-                    hashCode = (hashCode * 59) + this.Content.GetHashCode();
+                    hashCode = (hashCode * 59) + Content.GetHashCode();
                 }
                 return hashCode;
             }

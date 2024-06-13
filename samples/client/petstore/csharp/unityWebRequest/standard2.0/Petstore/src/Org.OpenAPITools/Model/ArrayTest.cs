@@ -38,9 +38,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayArrayOfModel">arrayArrayOfModel.</param>
         public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
         {
-            this.ArrayOfString = arrayOfString;
-            this.ArrayArrayOfInteger = arrayArrayOfInteger;
-            this.ArrayArrayOfModel = arrayArrayOfModel;
+            ArrayOfString = arrayOfString;
+            ArrayArrayOfInteger = arrayArrayOfInteger;
+            ArrayArrayOfModel = arrayArrayOfModel;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as ArrayTest);
+            return Equals(input as ArrayTest);
         }
 
         /// <summary>
@@ -108,22 +108,22 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.ArrayOfString == input.ArrayOfString ||
-                    this.ArrayOfString != null &&
+                    ArrayOfString == input.ArrayOfString ||
+                    ArrayOfString != null &&
                     input.ArrayOfString != null &&
-                    this.ArrayOfString.SequenceEqual(input.ArrayOfString)
+                    ArrayOfString.SequenceEqual(input.ArrayOfString)
                 ) && 
                 (
-                    this.ArrayArrayOfInteger == input.ArrayArrayOfInteger ||
-                    this.ArrayArrayOfInteger != null &&
+                    ArrayArrayOfInteger == input.ArrayArrayOfInteger ||
+                    ArrayArrayOfInteger != null &&
                     input.ArrayArrayOfInteger != null &&
-                    this.ArrayArrayOfInteger.SequenceEqual(input.ArrayArrayOfInteger)
+                    ArrayArrayOfInteger.SequenceEqual(input.ArrayArrayOfInteger)
                 ) && 
                 (
-                    this.ArrayArrayOfModel == input.ArrayArrayOfModel ||
-                    this.ArrayArrayOfModel != null &&
+                    ArrayArrayOfModel == input.ArrayArrayOfModel ||
+                    ArrayArrayOfModel != null &&
                     input.ArrayArrayOfModel != null &&
-                    this.ArrayArrayOfModel.SequenceEqual(input.ArrayArrayOfModel)
+                    ArrayArrayOfModel.SequenceEqual(input.ArrayArrayOfModel)
                 );
         }
 
@@ -136,17 +136,17 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ArrayOfString != null)
+				if (ArrayOfString != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayOfString.GetHashCode();
+                    hashCode = (hashCode * 59) + ArrayOfString.GetHashCode();
                 }
-                if (this.ArrayArrayOfInteger != null)
+				if (ArrayArrayOfInteger != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayArrayOfInteger.GetHashCode();
+                    hashCode = (hashCode * 59) + ArrayArrayOfInteger.GetHashCode();
                 }
-                if (this.ArrayArrayOfModel != null)
+				if (ArrayArrayOfModel != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayArrayOfModel.GetHashCode();
+                    hashCode = (hashCode * 59) + ArrayArrayOfModel.GetHashCode();
                 }
                 return hashCode;
             }
