@@ -170,7 +170,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return this;
     }
 
-    public JavaFileAssert fileDoesNotContains(final String... lines) {
+    public JavaFileAssert fileDoesNotContain(final String... lines) {
         final String actualBody = actual.getTokenRange()
                 .orElseThrow(() -> new IllegalStateException("Empty file"))
                 .toString();

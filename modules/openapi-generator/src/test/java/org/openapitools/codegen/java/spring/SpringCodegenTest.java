@@ -1272,7 +1272,7 @@ public class SpringCodegenTest {
         if (performBeanValidation) javaFileAssert.hasImports("org.hibernate.validator.constraints");
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java"))
             .fileContains(contains)
-            .fileDoesNotContains(notContains);
+            .fileDoesNotContain(notContains);
     }
 
     @Test
@@ -1303,10 +1303,10 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"))
             .fileContains("Mono<Map<String, DummyRequest>>")
-            .fileDoesNotContains("Mono<DummyRequest>");
+            .fileDoesNotContain("Mono<DummyRequest>");
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"))
             .fileContains("Mono<Map<String, DummyRequest>>")
-            .fileDoesNotContains("Mono<DummyRequest>");
+            .fileDoesNotContain("Mono<DummyRequest>");
     }
 
     @Test
@@ -1638,7 +1638,7 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Dummy.java"))
             .fileContains( "status")
-            .fileDoesNotContains("@NotNull");
+            .fileDoesNotContain("@NotNull");
     }
 
     @Test
@@ -1711,7 +1711,7 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRefOrValue.java"), "public interface FooRefOrValue");
         // previous bugs
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"))
-            .fileDoesNotContains( "atTypesuper.hashCode", "private String atBaseType");
+            .fileDoesNotContain("atTypesuper.hashCode", "private String atBaseType");
         // imports for inherited properties
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PizzaSpeziale.java"), "import java.math.BigDecimal");
     }
@@ -2653,7 +2653,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void contractWithoutEnumDoesNotContainsEnumConverter() throws IOException {
+    public void contractWithoutEnumDoesNotContainEnumConverter() throws IOException {
         Map<String, File> output = generateFromContract("src/test/resources/3_0/generic.yaml", SPRING_BOOT);
 
         assertThat(output).doesNotContainKey("EnumConverterConfiguration.java");
@@ -2824,23 +2824,23 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("ResponseObjectWithDifferentFieldNames.java"))
             .hasProperty("normalPropertyName")
                 .assertPropertyAnnotations()
-                .doesNotContainsWithName("JsonProperty")
-                .doesNotContainsWithName("JacksonXmlProperty")
+                .doesNotContainWithName("JsonProperty")
+                .doesNotContainWithName("JacksonXmlProperty")
                 .toProperty().toType()
             .hasProperty("UPPER_CASE_PROPERTY_SNAKE")
                 .assertPropertyAnnotations()
-                .doesNotContainsWithName("JsonProperty")
-                .doesNotContainsWithName("JacksonXmlProperty")
+                .doesNotContainWithName("JsonProperty")
+                .doesNotContainWithName("JacksonXmlProperty")
                 .toProperty().toType()
             .hasProperty("lowerCasePropertyDashes")
                 .assertPropertyAnnotations()
-                .doesNotContainsWithName("JsonProperty")
-                .doesNotContainsWithName("JacksonXmlProperty")
+                .doesNotContainWithName("JsonProperty")
+                .doesNotContainWithName("JacksonXmlProperty")
                 .toProperty().toType()
             .hasProperty("propertyNameWithSpaces")
                 .assertPropertyAnnotations()
-                .doesNotContainsWithName("JsonProperty")
-                .doesNotContainsWithName("JacksonXmlProperty")
+                .doesNotContainWithName("JsonProperty")
+                .doesNotContainWithName("JacksonXmlProperty")
                 .toProperty().toType()
             .assertMethod("getNormalPropertyName")
                 .assertMethodAnnotations()
@@ -3066,7 +3066,7 @@ public class SpringCodegenTest {
                 .hasNoImports("org.springframework.stereotype.Controller")
                 .assertTypeAnnotations()
                 .containsWithName("RestController")
-                .doesNotContainsWithName("Controller");
+                .doesNotContainWithName("Controller");
     }
 
     @Test
@@ -3104,7 +3104,7 @@ public class SpringCodegenTest {
                 .hasNoImports("org.springframework.web.bind.annotation.RestController")
                 .assertTypeAnnotations()
                 .containsWithName("Controller")
-                .doesNotContainsWithName("RestController");
+                .doesNotContainWithName("RestController");
     }
 
     @Test
@@ -4702,7 +4702,7 @@ public class SpringCodegenTest {
                 .fileContains("public SimpleObject.Builder additionalProperties(Map<String, Integer> additionalProperties) {",
                         "SimpleObject.Builder nullableObject(String nullableObject) {",
                         "SimpleObject.Builder nb(BigDecimal nb) {")
-                .fileDoesNotContains("SimpleObject.Builder nullableObject(JsonNullable<String> nullableObject) {");
+                .fileDoesNotContain("SimpleObject.Builder nullableObject(JsonNullable<String> nullableObject) {");
     }
 
     @Test
@@ -4807,10 +4807,10 @@ public class SpringCodegenTest {
                 .fileContains("Set<String> stringSet")
                 .fileContains("private Set<String> stringDefaultSet = new LinkedHashSet<>(Arrays.asList(\"A\", \"B\"));")
                 .fileContains("private Set<String> stringEmptyDefaultSet = new LinkedHashSet<>();")
-                .fileDoesNotContains("private List<@Valid TagDto> tags = new ArrayList<>()")
-                .fileDoesNotContains("private Set<@Valid TagDto> tagsUnique = new LinkedHashSet<>()")
-                .fileDoesNotContains("private List<String> stringList = new ArrayList<>()")
-                .fileDoesNotContains("private Set<String> stringSet = new LinkedHashSet<>()");
+                .fileDoesNotContain("private List<@Valid TagDto> tags = new ArrayList<>()")
+                .fileDoesNotContain("private Set<@Valid TagDto> tagsUnique = new LinkedHashSet<>()")
+                .fileDoesNotContain("private List<String> stringList = new ArrayList<>()")
+                .fileDoesNotContain("private Set<String> stringSet = new LinkedHashSet<>()");
     }
 
     @Test
@@ -4896,7 +4896,7 @@ public class SpringCodegenTest {
 
             // ↓ test custom-name on wrapper element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Use%20xml/name%20to%20give%20different%20names)
             .assertMethod("getTags").assertMethodAnnotations()
-            .doesNotContainsWithName("XmlAttribute")
+            .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Tag\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"TagList\""))
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Tag\""))
@@ -4905,8 +4905,8 @@ public class SpringCodegenTest {
 
             // ↓ custom internal xml-array element name, non-wrapped (1st example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
             .assertMethod("getFriends").assertMethodAnnotations()
-            .doesNotContainsWithName("XmlAttribute")
-            .doesNotContainsWithName("XmlElementWrapper")
+            .doesNotContainWithName("XmlAttribute")
+            .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"friend-pet\""))
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"friend-pet\""))
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("useWrapping", "false"))
@@ -4914,17 +4914,17 @@ public class SpringCodegenTest {
 
             // ↓ test custom element name (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Change%20Element%20Names)    
             .assertMethod("getStatus").assertMethodAnnotations()
-            .doesNotContainsWithName("XmlAttribute")
-            .doesNotContainsWithName("XmlElementWrapper")
+            .doesNotContainWithName("XmlAttribute")
+            .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"PetStatus\""))
-            .doesNotContainsWithName("JacksonXmlElementWrapper")
+            .doesNotContainWithName("JacksonXmlElementWrapper")
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"PetStatus\""))
             .toMethod().toFileAssert()
             
             // ↓ test same-name wrapping element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Wrapping%20Arrays)
             //   maps to 3rd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
             .assertMethod("getPhotoUrls").assertMethodAnnotations()
-            .doesNotContainsWithName("XmlAttribute")
+            .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"photoUrls\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"photoUrls\""))
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"photoUrls\""))
@@ -4933,10 +4933,10 @@ public class SpringCodegenTest {
 
             // ↓ test attribute generation (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Convert%20Property%20to%20an%20Attribute)
             .assertMethod("getName").assertMethodAnnotations()
-            .doesNotContainsWithName("XmlElement")
-            .doesNotContainsWithName("XmlElementWrapper")
+            .doesNotContainWithName("XmlElement")
+            .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlAttribute", Map.of("name", "\"name\""))
-            .doesNotContainsWithName("JacksonXmlElementWrapper")
+            .doesNotContainWithName("JacksonXmlElementWrapper")
             .containsWithNameAndAttributes(
                 "JacksonXmlProperty",
                 Map.of("isAttribute", "true", "localName", "\"name\"")
@@ -4945,16 +4945,16 @@ public class SpringCodegenTest {
 
             // ↓ test XML namespace and prefix (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Prefixes%20and%20Namespaces)
             .assertMethod("getId").assertMethodAnnotations()
-            .doesNotContainsWithName("XmlAttribute")
-            .doesNotContainsWithName("XmlElementWrapper")
+            .doesNotContainWithName("XmlAttribute")
+            .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"id\"", "namespace", "\"http://example.com/schema\""))
-            .doesNotContainsWithName("JacksonXmlElementWrapper")
+            .doesNotContainWithName("JacksonXmlElementWrapper")
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"id\"", "namespace", "\"http://example.com/schema\""))
             .toMethod().toFileAssert()
 
             // ↓ external xml-array element name only (last example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
             .assertMethod("getFoods").assertMethodAnnotations()
-            .doesNotContainsWithName("XmlAttribute")
+            .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"yummy-yummy\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"yummy-yummy\""))
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"yummy-yummy\""))
@@ -4963,7 +4963,7 @@ public class SpringCodegenTest {
             
             // ↓ internal xml-array element name (4th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
             .assertMethod("getColors").assertMethodAnnotations()
-            .doesNotContainsWithName("XmlAttribute")
+            .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"color\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"colors\""))
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"color\""))
@@ -4972,8 +4972,8 @@ public class SpringCodegenTest {
             
             // ↓ ignored external xml-array element name, non-wrapped (2nd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
             .assertMethod("getCategories").assertMethodAnnotations()
-            .doesNotContainsWithName("XmlAttribute")
-            .doesNotContainsWithName("XmlElementWrapper")
+            .doesNotContainWithName("XmlAttribute")
+            .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Category\""))
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Category\""))
             // ↓ specific regression test for #2417: (useWrapping=false) needs to be present
@@ -4983,7 +4983,7 @@ public class SpringCodegenTest {
             // ↓ test custom-name on wrapper AND children (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Use%20xml/name%20to%20give%20different%20names)
             //   maps to 5th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
             .assertMethod("getActivities").assertMethodAnnotations()
-            .doesNotContainsWithName("XmlAttribute")
+            .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"item\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"activities-array\""))
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"item\""))

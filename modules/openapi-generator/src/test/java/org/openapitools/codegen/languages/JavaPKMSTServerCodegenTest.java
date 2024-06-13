@@ -61,7 +61,7 @@ public class JavaPKMSTServerCodegenTest {
 
             // ↓ test custom element name (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Change%20Element%20Names)    
             .hasProperty("status").assertPropertyAnnotations()
-            .doesNotContainsWithName("JacksonXmlElementWrapper")
+            .doesNotContainWithName("JacksonXmlElementWrapper")
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"PetStatus\""))
             .toProperty().toType()
 
@@ -74,13 +74,13 @@ public class JavaPKMSTServerCodegenTest {
 
             // ↓ test attribute generation (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Convert%20Property%20to%20an%20Attribute)
             .hasProperty("name").assertPropertyAnnotations()
-            .doesNotContainsWithName("JacksonXmlElementWrapper")
+            .doesNotContainWithName("JacksonXmlElementWrapper")
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("isAttribute", "true", "localName", "\"name\""))
             .toProperty().toType()
 
             // ↓ test XML namespace and prefix (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Prefixes%20and%20Namespaces)
             .hasProperty("id").assertPropertyAnnotations()
-            .doesNotContainsWithName("JacksonXmlElementWrapper")
+            .doesNotContainWithName("JacksonXmlElementWrapper")
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"id\"", "namespace", "\"http://example.com/schema\""))
             .toProperty().toType()
 

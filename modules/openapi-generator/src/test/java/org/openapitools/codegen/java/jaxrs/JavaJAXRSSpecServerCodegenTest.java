@@ -293,7 +293,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         List<File> files = generator.opts(clientOptInput).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.ensureDoesNotContainsFile(files, output, "src/main/openapi/openapi.yaml");
+        TestUtils.ensureDoesNotContainFile(files, output, "src/main/openapi/openapi.yaml");
 
         output.deleteOnExit();
     }
@@ -731,9 +731,9 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         JavaFileAssert.assertThat(files.get("ComplexObject.java"))
                 .fileContains("private @Valid List<LocalDate> dates")
-                .fileDoesNotContains("private @Valid SymbolTypeEnum symbolType")
-                .fileDoesNotContains("@Valid String")
-                .fileDoesNotContains("@Valid Double");
+                .fileDoesNotContain("private @Valid SymbolTypeEnum symbolType")
+                .fileDoesNotContain("@Valid String")
+                .fileDoesNotContain("@Valid Double");
     }
 
     @Test

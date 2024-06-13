@@ -36,7 +36,7 @@ public abstract class AbstractAnnotationAssert<ACTUAL extends AbstractAnnotation
         return myself();
     }
 
-    public ACTUAL doesNotContainsWithName(final String name) {
+    public ACTUAL doesNotContainWithName(final String name) {
         super
             .withFailMessage("Shouldn't have annotation with name: " + name)
             .noneMatch(annotation -> annotation.getNameAsString().equals(name));

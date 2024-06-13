@@ -98,7 +98,7 @@ public class TestUtils {
         assertTrue(generatedFiles.contains(path.toFile()), "File '" + path.toAbsolutePath() + "' was not found in the list of generated files");
     }
 
-    public static void ensureDoesNotContainsFile(List<File> generatedFiles, File root, String filename) {
+    public static void ensureDoesNotContainFile(List<File> generatedFiles, File root, String filename) {
         Path path = root.toPath().resolve(filename);
         assertFalse(generatedFiles.contains(path.toFile()), "File '" + path.toAbsolutePath() + "' was found in the list of generated files");
     }
