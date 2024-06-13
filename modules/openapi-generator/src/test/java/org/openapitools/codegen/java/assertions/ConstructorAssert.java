@@ -27,8 +27,8 @@ public class ConstructorAssert extends AbstractAssert<ConstructorAssert, Constru
         return fileAssert;
     }
 
-    public MethodAnnotationAssert assertConstructorAnnotations() {
-        return new MethodAnnotationAssert(this, actual.getAnnotations());
+    public MethodAnnotationsAssert assertConstructorAnnotations() {
+        return new MethodAnnotationsAssert(this, actual.getAnnotations());
     }
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")

@@ -45,7 +45,7 @@ public class ParameterAssert extends ObjectAssert<Parameter> {
         return this;
     }
 
-    public ParameterAnnotationAssert assertParameterAnnotations() {
-        return new ParameterAnnotationAssert(this, actual.getAnnotations());
+    public ParameterAnnotationsAssert assertParameterAnnotations() {
+        return new ParameterAnnotationsAssert(this, actual.getAnnotations());
     }
 }

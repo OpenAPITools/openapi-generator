@@ -7,11 +7,11 @@ import org.assertj.core.util.CanIgnoreReturnValue;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 
 @CanIgnoreReturnValue
-public class TypeAnnotationAssert extends AbstractAnnotationAssert<TypeAnnotationAssert> {
+public class TypeAnnotationsAssert extends AbstractAnnotationsAssert<TypeAnnotationsAssert> {
 
     private final JavaFileAssert fileAssert;
 
-    protected TypeAnnotationAssert(final JavaFileAssert fileAssert, final List<AnnotationExpr> annotationExpr) {
+    protected TypeAnnotationsAssert(final JavaFileAssert fileAssert, final List<AnnotationExpr> annotationExpr) {
         super(annotationExpr);
         this.fileAssert = fileAssert;
     }

@@ -21,7 +21,7 @@ public abstract class AbstractMethodAssert<ACTUAL extends AbstractMethodAssert<A
     }
 
     public abstract JavaFileAssert toFileAssert();
-    public abstract AbstractAnnotationAssert<?> assertMethodAnnotations();
+    public abstract AbstractAnnotationsAssert<?> assertMethodAnnotations();
     
     public ACTUAL hasReturnType(final String returnType) {
         Assertions.assertThat(actual.getType().toString())

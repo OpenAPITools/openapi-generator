@@ -184,7 +184,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return this;
     }
 
-    public TypeAnnotationAssert assertTypeAnnotations() {
-        return new TypeAnnotationAssert(this, actual.getType(0).getAnnotations());
+    public TypeAnnotationsAssert assertTypeAnnotations() {
+        return new TypeAnnotationsAssert(this, actual.getType(0).getAnnotations());
     }
 }

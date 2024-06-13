@@ -19,8 +19,8 @@ public class MethodAssert extends AbstractMethodAssert<MethodAssert> {
         return fileAssert;
     }
 
-    public MethodAnnotationAssert assertMethodAnnotations() {
-        return new MethodAnnotationAssert(this, actual.getAnnotations());
+    public MethodAnnotationsAssert assertMethodAnnotations() {
+        return new MethodAnnotationsAssert(this, actual.getAnnotations());
     }
 
     // TODO move into base class so inner class method parameters can be asserted

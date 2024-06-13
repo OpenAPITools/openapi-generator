@@ -17,9 +17,9 @@ import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName;
 import com.google.common.collect.ImmutableMap;
 
 @CanIgnoreReturnValue
-public abstract class AbstractAnnotationAssert<ACTUAL extends AbstractAnnotationAssert<ACTUAL>> extends ListAssert<AnnotationExpr> {
+public abstract class AbstractAnnotationsAssert<ACTUAL extends AbstractAnnotationsAssert<ACTUAL>> extends ListAssert<AnnotationExpr> {
 
-    protected AbstractAnnotationAssert(final List<AnnotationExpr> annotationExpr) {
+    protected AbstractAnnotationsAssert(final List<AnnotationExpr> annotationExpr) {
         super(annotationExpr);
     }
 

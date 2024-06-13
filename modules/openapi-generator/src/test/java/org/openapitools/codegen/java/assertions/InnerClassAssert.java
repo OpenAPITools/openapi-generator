@@ -54,8 +54,8 @@ public class InnerClassAssert extends AbstractAssert<InnerClassAssert, ClassOrIn
             this.innerClassAssert = innerClassAssert;
         }
 
-        public MethodAnnotationAssert assertMethodAnnotations() {
-            return new MethodAnnotationAssert(this, actual.getAnnotations());
+        public MethodAnnotationsAssert assertMethodAnnotations() {
+            return new MethodAnnotationsAssert(this, actual.getAnnotations());
         }
         
         public InnerClassAssert toInnerClassAssert() {
@@ -67,11 +67,11 @@ public class InnerClassAssert extends AbstractAssert<InnerClassAssert, ClassOrIn
         }
     }
     
-    public static class MethodAnnotationAssert extends AbstractAnnotationAssert<MethodAnnotationAssert> {
+    public static class MethodAnnotationsAssert extends AbstractAnnotationsAssert<MethodAnnotationsAssert> {
 
         private final MethodAssert parent;
         
-        protected MethodAnnotationAssert(MethodAssert methodAssert, List<AnnotationExpr> annotationExpr) {
+        protected MethodAnnotationsAssert(MethodAssert methodAssert, List<AnnotationExpr> annotationExpr) {
             super(annotationExpr);
             parent = methodAssert;
         }
