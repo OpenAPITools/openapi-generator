@@ -551,7 +551,7 @@ namespace Org.OpenAPITools.Client
 			return ExecClient(getResponse, setOptions, request, options, configuration);
 		}
 
-        private async Task<ApiResponse<T>> ExecAsync<T>(RestRequest request, RequestOptions options, IReadableConfiguration configuration, CancellationToken cancellationToken = default(CancellationToken))
+        private Task<ApiResponse<T>> ExecAsync<T>(RestRequest request, RequestOptions options, IReadableConfiguration configuration, CancellationToken cancellationToken = default(CancellationToken))
         {
 			Action<RestClientOptions> setOptions = (clientOptions) =>
 			{
