@@ -4865,4 +4865,29 @@ public class SpringCodegenTest {
                 .toMethod()
                 .toFileAssert();
     }
+
+    @Test
+    public void testEnumUnknownDefaultCaseDeserializationTrue_issue13241() throws IOException {
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13241.yaml");
+
+        JavaFileAssert.assertThat(files.get("Color.java"))
+                .assertMethod("fromValue").bodyContainsLines("return UNKNOWN_DEFAULT_OPEN_API");
+    }
+
+    @Test
+    public void testEnumUnknownDefaultCaseDeserializationNotSet_issue13241() throws IOException {
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13241.yaml");
+
+        JavaFileAssert.assertThat(files.get("Color.java"))
+                .assertMethod("fromValue").bodyContainsLines("throw new IllegalArgumentException(\"Unexpected value '\" + value + \"'\");");
+
+    }
 }
