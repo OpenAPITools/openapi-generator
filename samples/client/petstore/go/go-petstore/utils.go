@@ -11,7 +11,9 @@ API version: 1.0.0
 package petstore
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"reflect"
 	"time"
 )

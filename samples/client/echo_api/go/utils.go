@@ -12,7 +12,9 @@ Contact: team@openapitools.org
 package openapi
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"reflect"
 	"time"
 )
