@@ -15,6 +15,7 @@ docs/AdditionalPropertiesClass.md
 docs/AllOfPrimitiveTypes.md
 docs/Animal.md
 docs/AnotherFakeAPI.md
+docs/AnyOfPrimitiveType.md
 docs/ApiResponse.md
 docs/Apple.md
 docs/AppleReq.md
@@ -91,6 +92,7 @@ model__special_model_name_.go
 model_additional_properties_class.go
 model_all_of_primitive_types.go
 model_animal.go
+model_any_of_primitive_type.go
 model_api_response.go
 model_apple.go
 model_apple_req.go
