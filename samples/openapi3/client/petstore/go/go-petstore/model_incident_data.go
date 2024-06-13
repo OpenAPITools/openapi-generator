@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"gopkg.in/validator.v2"
 	"fmt"
 )
 
@@ -52,7 +53,11 @@ func (dst *IncidentData) UnmarshalJSON(data []byte) error {
 		if string(jsonArrayOfMapmapOfStringAny) == "{}" { // empty struct
 			dst.ArrayOfMapmapOfStringAny = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.ArrayOfMapmapOfStringAny); err != nil {
+				dst.ArrayOfMapmapOfStringAny = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.ArrayOfMapmapOfStringAny = nil
@@ -65,7 +70,11 @@ func (dst *IncidentData) UnmarshalJSON(data []byte) error {
 		if string(jsonMapmapOfStringAny) == "{}" { // empty struct
 			dst.MapmapOfStringAny = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.MapmapOfStringAny); err != nil {
+				dst.MapmapOfStringAny = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.MapmapOfStringAny = nil
