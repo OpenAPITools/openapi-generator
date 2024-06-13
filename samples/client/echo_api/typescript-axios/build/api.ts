@@ -615,7 +615,7 @@ export const BodyApiAxiosParamCreator = function (configuration?: Configuration)
 
             if (files) {
                 files.forEach((element) => {
-                  localVarFormParams.append('files', element as any);
+                    localVarFormParams.append('files', element as any);
                 })
             }
 
