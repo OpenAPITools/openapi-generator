@@ -575,25 +575,30 @@ namespace Org.OpenAPITools.Client
 
 			Func<RestClient, RestResponse<T>> getResponse = (client) =>
 			{
-				RestResponse<T> response = null;
-				Action action = async () =>
+				Func<Task<RestResponse<T>>> action = async () =>
 				{
 					if (RetryConfiguration.AsyncRetryPolicy != null)
 					{
 						var policy = RetryConfiguration.AsyncRetryPolicy;
 						var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(request, ct), cancellationToken).ConfigureAwait(false);
-						response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>(request)
-						{
-							ErrorException = policyResult.FinalException
-						};
+						if (policyResult.Outcome == OutcomeType.Successful) 
+                        {
+                            return client.Deserialize<T>(policyResult.Result);
+                        }
+                        else
+                        {
+                            return new RestResponse<T>(request)
+                            {
+                                ErrorException = policyResult.FinalException
+                            };
+                        }
 					}
 					else
 					{
-						response = await client.ExecuteAsync<T>(request, cancellationToken).ConfigureAwait(false);
+						return await client.ExecuteAsync<T>(request, cancellationToken).ConfigureAwait(false);
 					}
 				};
-				action();
-				return response;
+                return action().Result;
 			};
 
 			return Task.FromResult<ApiResponse<T>>(ExecClient(getResponse, setOptions, request, options, configuration));
