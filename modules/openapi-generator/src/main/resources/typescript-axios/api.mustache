@@ -7,6 +7,9 @@
 import type { Configuration } from './configuration{{importFileExtension}}';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
+import type { Readable } from 'stream';
+import { randomUUID } from 'crypto';
+export type RequestFile = Readable;
 {{#withNodeImports}}
 // URLSearchParams not necessarily used
 // @ts-ignore
