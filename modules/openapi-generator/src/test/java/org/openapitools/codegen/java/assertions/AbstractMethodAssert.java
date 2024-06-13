@@ -91,10 +91,12 @@ public abstract class AbstractMethodAssert<ACTUAL extends AbstractMethodAssert<A
         return myself();
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public ACTUAL commentContainsLines(final String... lines) {
         Assertions.assertThat(actual.getJavadocComment())
             .withFailMessage("Method %s should contains comment, but it doesn't", methodSignature)
             .isPresent();
+
         final String actualComment = actual.getJavadocComment().get().getContent();
         Assertions.assertThat(actualComment)
             .withFailMessage(

@@ -110,6 +110,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return new InnerClassAssert(this, innerClass.get ());
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public ConstructorAssert assertConstructor(final String... paramTypes) {
         Optional<ConstructorDeclaration> constructorDeclaration = actual.getType(0).getConstructorByParameterTypes(paramTypes);
         Assertions.assertThat(constructorDeclaration)
@@ -128,6 +129,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return this;
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public PropertyAssert hasProperty(final String propertyName) {
         Optional<FieldDeclaration> fieldOptional = actual.getType(0).getMembers().stream()
             .filter(FieldDeclaration.class::isInstance)

@@ -26,6 +26,7 @@ public class MethodAssert extends AbstractMethodAssert<MethodAssert> {
     // TODO move into base class so inner class method parameters can be asserted
     //  (may need some more Generics Kung-Fu applied to the ParameterAssert class,
     //  alternatively the f)
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public ParameterAssert hasParameter(final String paramName) {
         final Optional<Parameter> parameter = actual.getParameterByName(paramName);
         Assertions.assertThat(parameter)
