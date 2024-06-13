@@ -37,11 +37,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
     }
 
     public static JavaFileAssert assertThat(final File file) {
-        try {
-            return new JavaFileAssert(StaticJavaParser.parse(file));
-        } catch (IOException e) {
-            throw new RuntimeException("Exception while reading file: " + file, e);
-        }
+        return assertThat(file.toPath());
     }
 
     public JavaFileAssert isInterface() {
