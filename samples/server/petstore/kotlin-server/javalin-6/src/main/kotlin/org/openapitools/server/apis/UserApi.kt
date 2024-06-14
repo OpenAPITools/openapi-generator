@@ -65,7 +65,7 @@ class UserApi(private val service: UserApiService) {
      * @param password The password for login in clear text 
      */
     fun loginUser(ctx: Context) {
-        val result = service.loginUser(ctx.queryParamAsClass<String>("username").get(), ctx.queryParamAsClass<String>("password").get(), ctx)
+        val result = service.loginUser(ctx.queryParamAsClass<kotlin.String>("username").get(), ctx.queryParamAsClass<kotlin.String>("password").get(), ctx)
         ctx.status(200).json(result)
     }
 
