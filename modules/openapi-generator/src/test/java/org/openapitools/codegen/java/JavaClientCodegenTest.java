@@ -2,6 +2,10 @@
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
  * Copyright 2018 SmartBear Software
  *
+ * Copyright 2024 András Gábor Kis, Deutsche Telekom AG
+ * This file is made available under the terms of the license Apache-2.0 license
+ * SPDX-License-Identifier: Apache-2.0
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,9 +17,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package org.openapitools.codegen.java;
+
+import org.junit.jupiter.api.Assertions;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.openapitools.codegen.languages.JavaClientCodegen.USE_ENUM_CASE_INSENSITIVE;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
@@ -91,7 +105,7 @@ public class JavaClientCodegenTest {
         Library(String identifier, Serializer defaultSerializer) {
             this(identifier, defaultSerializer, Set.of());
         }
-        
+
         Library(String identifier, Serializer defaultSerializer, Set<Serializer> otherSupportedSerializers) {
             otherSupportedSerializers = new HashSet<>(otherSupportedSerializers);
             otherSupportedSerializers.add(defaultSerializer);
@@ -137,7 +151,7 @@ public class JavaClientCodegenTest {
         RequestBody body2 = new RequestBody();
         body2.setDescription("A list of list of values");
         body2.setContent(new Content().addMediaType(
-            "application/json", 
+            "application/json",
             new MediaType().schema(new ArraySchema().items(new ArraySchema().items(new IntegerSchema())))
         ));
         CodegenParameter codegenParameter2 = codegen.fromRequestBody(body2, new HashSet<>(), null);
@@ -343,7 +357,7 @@ public class JavaClientCodegenTest {
     @Test public void testPackageNamesSetInvokerDerivedFromModel() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.zzzzzzz.mmmmm.model");
-        
+
         codegen.processOpts();
 
         assertThat(codegen)
@@ -527,14 +541,14 @@ public class JavaClientCodegenTest {
         assertThat(files).hasSize(32);
         validateJavaSourceFiles(files);
         assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content().contains(
-            "public class DefaultApi", 
+            "public class DefaultApi",
             "import java.net.http.HttpClient;",
             "import java.net.http.HttpRequest;",
             "import java.net.http.HttpResponse;"
         );
         assertThat(output.resolve("src/main/java/xyz/abcdef/ApiClient.java")).content().contains(
-            "public class ApiClient", 
-            "import java.net.http.HttpClient;", 
+            "public class ApiClient",
+            "import java.net.http.HttpClient;",
             "import java.net.http.HttpRequest;"
         );
     }
@@ -722,7 +736,7 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
         generator.setGenerateMetadata(false);
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        
+
         validateJavaSourceFiles(files);
         File apiClient = files.stream()
                 .filter(f -> f.getName().equals("ApiClient.java"))
@@ -742,7 +756,7 @@ public class JavaClientCodegenTest {
         final ClientOptInput clientOptInput = new ClientOptInput().openAPI(openAPI).config(new JavaClientCodegen());
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
         defaultGenerator.opts(clientOptInput);
-        
+
         final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
 
         final CodegenOperation getCodegenOperation = codegenOperations.stream()
@@ -828,7 +842,7 @@ public class JavaClientCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/pingBearerAuth.yaml");
 
         List<CodegenSecurity> security = new JavaClientCodegen().fromSecurity(openAPI.getComponents().getSecuritySchemes());
-        
+
         assertThat(security).hasSize(1)
             .first()
             .hasFieldOrPropertyWithValue("isBasic", Boolean.TRUE)
@@ -1214,18 +1228,18 @@ public class JavaClientCodegenTest {
         final CodegenOperation getWithBasicAuthAndOauth = getByOperationId(codegenOperations, "getWithBasicAuthAndOauth");
         assertEquals(getWithBasicAuthAndOauth.authMethods.size(), 3);
         assertEquals(getWithBasicAuthAndOauth.authMethods.get(0).name, "basic_auth");
-        
+
         final Map<String, Object> passwordFlowScope = getWithBasicAuthAndOauth.authMethods.get(1).scopes.get(0);
         assertEquals(passwordFlowScope.get("scope"), "something:create");
         assertEquals(passwordFlowScope.get("description"), "create from password flow");
-        
+
         final Map<String, Object> clientCredentialsFlow = getWithBasicAuthAndOauth.authMethods.get(2).scopes.get(0);
         assertEquals(clientCredentialsFlow.get("scope"), "something:create");
         assertEquals(clientCredentialsFlow.get("description"), "create from client credentials flow");
-        
+
         final CodegenOperation getWithOauthAuth = getByOperationId(codegenOperations, "getWithOauthAuth");
         assertEquals(getWithOauthAuth.authMethods.size(), 2);
-        
+
         final Map<String, Object> passwordFlow = getWithOauthAuth.authMethods.get(0).scopes.get(0);
         assertEquals(passwordFlow.get("scope"), "something:create");
         assertEquals(passwordFlow.get("description"), "create from password flow");
@@ -1445,7 +1459,7 @@ public class JavaClientCodegenTest {
 
     @Test(
         expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = 
+        expectedExceptionsMessageRegExp =
             "Version incorrectVersion of MicroProfile Rest Client is not supported or incorrect."
             + " Supported versions are 1.4.1, 2.0, 3.0"
     )
@@ -1459,7 +1473,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-        
+
         fail("Expected an exception that did not occur");
     }
 
@@ -1517,7 +1531,7 @@ public class JavaClientCodegenTest {
             .setAdditionalProperties(Map.of(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0"))
             .setGeneratorName("java")
             .setLibrary(JavaClientCodegen.WEBCLIENT)
-            .setOutputDir(output.toString().replace("\\", "/"))                    
+            .setOutputDir(output.toString().replace("\\", "/"))
             .setInputSpec("src/test/resources/bugs/java-codegen-empty-array-as-default-value/issue_wrong-default.yaml");
 
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
@@ -1758,8 +1772,8 @@ public class JavaClientCodegenTest {
         assertThat(output.resolve("src/main/java/org/openapitools/client/model/Cat.java")).content()
             .contains("mappings.put(\"Cat\", Cat.class)")
             .doesNotContain(
-                "@JsonSubTypes", 
-                "mappings.put(\"cat\", Cat.class);", 
+                "@JsonSubTypes",
+                "mappings.put(\"cat\", Cat.class);",
                 "mappings.put(\"dog\", Dog.class);",
                 "mappings.put(\"lizard\", Lizard.class);"
             );
@@ -1877,10 +1891,10 @@ public class JavaClientCodegenTest {
                 "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property ="
                     + " \"petType\", visible = true)"
             ).doesNotContain(
-                "mappings.put", 
+                "mappings.put",
                 "@JsonSubTypes.Type(value = Cat.class, name = \"cat\")",
                 "@JsonSubTypes.Type(value = Dog.class, name = \"dog\")",
-                "@JsonSubTypes.Type(value = Lizard.class, name = \"lizard\")"                
+                "@JsonSubTypes.Type(value = Lizard.class, name = \"lizard\")"
             );
 
         assertThat(output.resolve("src/main/java/org/openapitools/client/model/Pet.java")).content()
@@ -1904,7 +1918,7 @@ public class JavaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         CodegenModel cm1 = codegen.fromModel("Cat", openAPI.getComponents().getSchemas().get("Cat"));
-        
+
         CodegenProperty cp0 = cm1.getAllVars().get(0);
         Assertions.assertEquals(cp0.getName(), "petType");
         Assertions.assertEquals(cp0.isOverridden, true);
@@ -2251,7 +2265,7 @@ public class JavaClientCodegenTest {
         codegen.setAutosetConstants(true);
         codegen.openapiGeneratorIgnoreList().add("README.md");
         codegen.openapiGeneratorIgnoreList().add("pom.xml");
-        
+
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
             .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -2319,7 +2333,7 @@ public class JavaClientCodegenTest {
                 .setLibrary(library)
                 .setInputSpec("src/test/resources/3_0/enum-and-inner-enum-uri.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
-        
+
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
             .stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -2416,7 +2430,7 @@ public class JavaClientCodegenTest {
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
-        
+
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
@@ -2549,13 +2563,85 @@ public class JavaClientCodegenTest {
         );
     }
 
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/13968
+     */
+    @Test
+    public void callNativeServiceWithEmptyResponseSync() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put("asyncNative", "false");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/native/issue13968.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("DefaultApi.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileContains(
+                //reading the body into a string, then checking if it is blank.
+                "String responseBody = new String(localVarResponse.body().readAllBytes());",
+                "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
+        );
+    }
+
+    /**
+     * This checks that the async client is not affected by this fix.
+     * See https://github.com/OpenAPITools/openapi-generator/issues/13968
+     */
+    @Test
+    public void callNativeServiceWithEmptyResponseAsync() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put("asyncNative", "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/native/issue13968.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("DefaultApi.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileDoesNotContains(
+                //reading the body into a string, then checking if it is blank.
+                "String responseBody = new String(localVarResponse.body().readAllBytes());",
+                "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
+        );
+    }
+
     @Test void testBuilderJavaClient() {
         Map<String, File> files = generateFromContract(
-            "src/test/resources/3_0/java/builder.yaml", 
+            "src/test/resources/3_0/java/builder.yaml",
             JavaClientCodegen.RESTTEMPLATE,
             Map.of(AbstractJavaCodegen.GENERATE_BUILDERS, Boolean.TRUE)
         );
-        
+
         JavaFileAssert.assertThat(files.get("Pet.java"))
             .fileContains(
                 "protected String petReadonlyProperty", "toBuilder()", "builder()", "public static class Builder {"
@@ -2574,12 +2660,12 @@ public class JavaClientCodegenTest {
     @DataProvider Iterator<String> serializationLibraries() {
         return new JavaClientCodegen().supportedLibraries().keySet().iterator();
     }
-    
+
     @Test(dataProvider = "serializationLibraries") void setsDefaultSerializationLibrary(String library) {
         var codegen = new JavaClientCodegen();
         codegen.setLibrary(library);
         codegen.processOpts();
-        
+
         assertThat(codegen.additionalProperties())
             .containsAnyOf(
                 entry(SERIALIZATION_LIBRARY_GSON, "true"),
@@ -2587,7 +2673,7 @@ public class JavaClientCodegenTest {
                 entry(SERIALIZATION_LIBRARY_JSONB, "true")
             );
     }
-    
+
     /**
      * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/18515">#18515</a>:
      * When GSON is selected as serializer, there should not be any jackson references
@@ -2603,14 +2689,14 @@ public class JavaClientCodegenTest {
             .setOutputDir(newTempFolder().toString());
         var generator = new DefaultGenerator();
         generator.setGenerateMetadata(false);
-        
+
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        
+
         assertThat(files).allSatisfy(
             file -> assertThat(file).content().doesNotContainIgnoringCase("jackson")
         );
     }
-    
+
     /**
      * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/6496">#6496</a>
      */
@@ -2637,7 +2723,7 @@ public class JavaClientCodegenTest {
                 "com.fasterxml.jackson.databind.annotation.JsonSerialize"
             );
     }
-    
+
     /**
      * Test that fix for <a href="https://github.com/OpenAPITools/openapi-generator/issues/6496">#6496</a> has
      * no unwanted side effects on the existing feature (Jackson + bigDecimalAsString)
@@ -2654,7 +2740,7 @@ public class JavaClientCodegenTest {
             .addGlobalProperty(CodegenConstants.MODEL_TESTS, "false")
             .setInputSpec("src/test/resources/2_0/java/issue-6496.yaml")
             .setOutputDir(newTempFolder().toString().replace("\\", "/"));
-        
+
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         assertThat(files).hasSize(1).first(FILE).content()

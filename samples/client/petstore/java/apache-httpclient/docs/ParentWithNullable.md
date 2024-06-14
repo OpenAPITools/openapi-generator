@@ -16,7 +16,7 @@
 
 | Name | Value |
 |---- | -----|
-| CHILD_WITH_NULLABLE | &quot;ChildWithNullable&quot; |
+| CHILDWITHNULLABLE | &quot;ChildWithNullable&quot; |
 
 
 
