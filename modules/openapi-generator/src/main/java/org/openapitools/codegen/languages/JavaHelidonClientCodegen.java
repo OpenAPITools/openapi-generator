@@ -68,7 +68,6 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     public static final String CONFIG_KEY = "configKey";
 
     @Setter protected String configKey = null;
-    @Setter protected boolean useBeanValidation = false;
     @Setter protected boolean performBeanValidation = false;
     @Setter protected boolean useGzipFeature = false;
     protected boolean caseInsensitiveResponseHeaders = false;
@@ -174,13 +173,9 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY)) {
-            setSerializationLibrary(additionalProperties.get(SERIALIZATION_LIBRARY).toString());
-        }
+        convertPropertyToStringAndWriteBack(SERIALIZATION_LIBRARY, this::setSerializationLibrary);
 
-        if (additionalProperties.containsKey(CONFIG_KEY)) {
-            setConfigKey(additionalProperties.get(CONFIG_KEY).toString());
-        }
+        convertPropertyToStringAndWriteBack(CONFIG_KEY, this::setConfigKey);
 
         String invokerPath = invokerPackage.replace('.', File.separatorChar);
         invokerFolder = Paths.get(sourceFolder, invokerPath);
@@ -469,8 +464,10 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     public void setSerializationLibrary(String serializationLibrary) {
         if (SERIALIZATION_LIBRARY_JACKSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
+            this.jackson = true;
         } else if (SERIALIZATION_LIBRARY_JSONB.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
+            this.jackson = false;
         } else {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
         }

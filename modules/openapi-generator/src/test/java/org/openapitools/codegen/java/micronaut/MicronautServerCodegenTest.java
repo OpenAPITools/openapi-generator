@@ -7,6 +7,7 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaMicronautServerCodegen;
+import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -35,16 +36,12 @@ public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
         openAPI.addServersItem(new Server().url("https://one.com/v2"));
         openAPI.setInfo(new Info());
         codegen.preprocessOpenAPI(openAPI);
-
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
-        Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
-        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.controller");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.controller");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaMicronautServerCodegen.OPT_CONTROLLER_PACKAGE), "org.openapitools.controller");
-        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.FALSE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "org.openapitools.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "org.openapitools.controller");
+        configAssert.assertValue(JavaMicronautServerCodegen.OPT_CONTROLLER_PACKAGE, "org.openapitools.controller");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "org.openapitools");
     }
 
     @Test

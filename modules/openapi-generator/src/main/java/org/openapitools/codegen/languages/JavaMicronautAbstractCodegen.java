@@ -58,7 +58,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautAbstractCodegen.class);
 
     protected String title;
-    @Getter protected boolean useBeanValidation;
     @Getter protected boolean useOptional;
     @Getter @Setter
     protected boolean visitable;
@@ -226,10 +225,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         }
 
         // Get boolean properties
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
@@ -319,6 +314,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             setSerializationLibrary((String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
         }
         additionalProperties.put(this.serializationLibrary, true);
+        this.jackson = JACKSON.equals(this.serializationLibrary);
 
         // Add all the supporting files
         String resourceFolder = projectFolder + "/resources";
@@ -425,11 +421,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             return toModelName(name) + "Spec";
         }
         return toModelName(name) + "Test";
-    }
-
-    @Override
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
     }
 
     @Override
