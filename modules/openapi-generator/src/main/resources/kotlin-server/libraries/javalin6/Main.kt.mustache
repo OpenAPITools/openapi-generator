@@ -1,0 +1,36 @@
+package {{packageName}}
+
+import io.javalin.Javalin
+import io.javalin.apibuilder.ApiBuilder.*
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}import {{apiPackage}}.{{classname}}
+import {{apiPackage}}.{{classname}}ServiceImpl
+{{/operations}}
+{{/apis}}
+
+fun main() {
+    {{#apis}}
+    {{#operations}}
+    val {{#camelcase}}{{classname}}{{/camelcase}} = {{classname}}({{classname}}ServiceImpl())
+    {{/operations}}
+    {{/apis}}
+
+    val app = Javalin
+        .create { config ->
+            config.router.apiBuilder {
+                {{#apis}}
+                {{#operations}}
+                {{#operation}}
+                path("{{path}}") { {{#lowercase}}{{httpMethod}}{{/lowercase}}({{#camelcase}}{{classname}}{{/camelcase}}::{{operationId}}) }
+                {{/operation}}
+                {{/operations}}
+
+                {{/apis}}
+            }
+        }
+
+    app.start({{serverPort}})
+}
+{{/apiInfo}}

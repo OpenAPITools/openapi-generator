@@ -1,4 +1,4 @@
-name: Samples Kotlin server
+name: Samples Kotlin server (jdk8)
 
 on:
   push:
@@ -41,6 +41,7 @@ jobs:
           - samples/server/petstore/kotlin-server/jaxrs-spec-mutiny
           - samples/server/petstore/kotlin-server-modelMutable
           - samples/server/petstore/kotlin-server/javalin
+          - samples/server/petstore/kotlin-server/javalin-6
           - samples/server/others/kotlin-server/jaxrs-spec
           - samples/server/others/kotlin-server/jaxrs-spec-array-response
           - samples/server/petstore/kotlin-spring-cloud
