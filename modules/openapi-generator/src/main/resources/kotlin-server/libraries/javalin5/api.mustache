@@ -17,7 +17,7 @@ class {{classname}}(private val service: {{classname}}Service) {
      {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
      {{/allParams}}*/
     fun {{operationId}}(ctx: Context) {
-        ctx.status(200).json(service.{{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}))
+        ctx.status(200).json(service.{{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}ctx))
     }
 
     {{/operation}}

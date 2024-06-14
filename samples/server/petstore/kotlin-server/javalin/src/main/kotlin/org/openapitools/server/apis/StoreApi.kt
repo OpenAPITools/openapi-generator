@@ -14,7 +14,7 @@ class StoreApi(private val service: StoreApiService) {
      * @param orderId ID of the order that needs to be deleted 
      */
     fun deleteOrder(ctx: Context) {
-        ctx.status(200).json(service.deleteOrder(ctx.pathParamAsClass<kotlin.String>("orderId").get()))
+        ctx.status(200).json(service.deleteOrder(ctx.pathParamAsClass<kotlin.String>("orderId").get(), ctx))
     }
 
     /**
@@ -22,7 +22,7 @@ class StoreApi(private val service: StoreApiService) {
      * Returns a map of status codes to quantities
      */
     fun getInventory(ctx: Context) {
-        ctx.status(200).json(service.getInventory())
+        ctx.status(200).json(service.getInventory(ctx))
     }
 
     /**
@@ -31,7 +31,7 @@ class StoreApi(private val service: StoreApiService) {
      * @param orderId ID of pet that needs to be fetched 
      */
     fun getOrderById(ctx: Context) {
-        ctx.status(200).json(service.getOrderById(ctx.pathParamAsClass<kotlin.Long>("orderId").get()))
+        ctx.status(200).json(service.getOrderById(ctx.pathParamAsClass<kotlin.Long>("orderId").get(), ctx))
     }
 
     /**
@@ -40,7 +40,7 @@ class StoreApi(private val service: StoreApiService) {
      * @param order order placed for purchasing the pet 
      */
     fun placeOrder(ctx: Context) {
-        ctx.status(200).json(service.placeOrder(ctx.bodyAsClass<Order>()))
+        ctx.status(200).json(service.placeOrder(ctx.bodyAsClass<Order>(), ctx))
     }
 
 }

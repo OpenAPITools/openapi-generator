@@ -14,7 +14,7 @@ class UserApi(private val service: UserApiService) {
      * @param user Created user object 
      */
     fun createUser(ctx: Context) {
-        ctx.status(200).json(service.createUser(ctx.bodyAsClass<User>()))
+        ctx.status(200).json(service.createUser(ctx.bodyAsClass<User>(), ctx))
     }
 
     /**
@@ -23,7 +23,7 @@ class UserApi(private val service: UserApiService) {
      * @param user List of user object 
      */
     fun createUsersWithArrayInput(ctx: Context) {
-        ctx.status(200).json(service.createUsersWithArrayInput(ctx.bodyAsClass<List<User>>()))
+        ctx.status(200).json(service.createUsersWithArrayInput(ctx.bodyAsClass<List<User>>(), ctx))
     }
 
     /**
@@ -32,7 +32,7 @@ class UserApi(private val service: UserApiService) {
      * @param user List of user object 
      */
     fun createUsersWithListInput(ctx: Context) {
-        ctx.status(200).json(service.createUsersWithListInput(ctx.bodyAsClass<List<User>>()))
+        ctx.status(200).json(service.createUsersWithListInput(ctx.bodyAsClass<List<User>>(), ctx))
     }
 
     /**
@@ -41,7 +41,7 @@ class UserApi(private val service: UserApiService) {
      * @param username The name that needs to be deleted 
      */
     fun deleteUser(ctx: Context) {
-        ctx.status(200).json(service.deleteUser(ctx.pathParamAsClass<kotlin.String>("username").get()))
+        ctx.status(200).json(service.deleteUser(ctx.pathParamAsClass<kotlin.String>("username").get(), ctx))
     }
 
     /**
@@ -50,7 +50,7 @@ class UserApi(private val service: UserApiService) {
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
     fun getUserByName(ctx: Context) {
-        ctx.status(200).json(service.getUserByName(ctx.pathParamAsClass<kotlin.String>("username").get()))
+        ctx.status(200).json(service.getUserByName(ctx.pathParamAsClass<kotlin.String>("username").get(), ctx))
     }
 
     /**
@@ -60,7 +60,7 @@ class UserApi(private val service: UserApiService) {
      * @param password The password for login in clear text 
      */
     fun loginUser(ctx: Context) {
-        ctx.status(200).json(service.loginUser(ctx.queryParamAsClass<String>("username").get(), ctx.queryParamAsClass<String>("password").get()))
+        ctx.status(200).json(service.loginUser(ctx.queryParamAsClass<String>("username").get(), ctx.queryParamAsClass<String>("password").get(), ctx))
     }
 
     /**
@@ -68,7 +68,7 @@ class UserApi(private val service: UserApiService) {
      * 
      */
     fun logoutUser(ctx: Context) {
-        ctx.status(200).json(service.logoutUser())
+        ctx.status(200).json(service.logoutUser(ctx))
     }
 
     /**
@@ -78,7 +78,7 @@ class UserApi(private val service: UserApiService) {
      * @param user Updated user object 
      */
     fun updateUser(ctx: Context) {
-        ctx.status(200).json(service.updateUser(ctx.pathParamAsClass<kotlin.String>("username").get(), ctx.bodyAsClass<User>()))
+        ctx.status(200).json(service.updateUser(ctx.pathParamAsClass<kotlin.String>("username").get(), ctx.bodyAsClass<User>(), ctx))
     }
 
 }
