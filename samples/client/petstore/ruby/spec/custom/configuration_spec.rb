@@ -59,7 +59,7 @@ describe Petstore::Configuration do
       config.scheme = 'https'
       config.host = 'api.example.com'
       config.base_path = '/v2'
-      config.ignore_operation_server = true
+      config.ignore_operation_servers = true
       expect(config.base_url).to eq('https://api.example.com/v2')
       expect(config.base_url(:'PetApi.add_pet')).to eq('https://api.example.com/v2')
     end
