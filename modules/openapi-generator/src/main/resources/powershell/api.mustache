@@ -178,15 +178,15 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
         {{#authMethods}}
         {{#isApiKey}}
         {{#isKeyInHeader}}
-        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
-            $LocalVarHeaderParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
-            Write-Verbose ("Using API key '{{{name}}}' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{keyParamName}}}"]) {
+            $LocalVarHeaderParameters['{{{keyParamName}}}'] = $Configuration["ApiKey"]["{{{keyParamName}}}"]
+            Write-Verbose ("Using API key '{{{keyParamName}}}' in the header for authentication in {0}" -f $MyInvocation.MyCommand)
         }
         {{/isKeyInHeader}}
         {{#isKeyInQuery}}
-        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{name}}}"]) {
-            $LocalVarQueryParameters['{{{name}}}'] = $Configuration["ApiKey"]["{{{name}}}"]
-            Write-Verbose ("Using API key `{{{name}}}` in the URL query for authentication in {0}" -f $MyInvocation.MyCommand)
+        if ($Configuration["ApiKey"] -and $Configuration["ApiKey"]["{{{keyParamName}}}"]) {
+            $LocalVarQueryParameters['{{{keyParamName}}}'] = $Configuration["ApiKey"]["{{{keyParamName}}}"]
+            Write-Verbose ("Using API key `{{{keyParamName}}}` in the URL query for authentication in {0}" -f $MyInvocation.MyCommand)
         }
         {{/isKeyInQuery}}
         {{#isKeyInCookie}}

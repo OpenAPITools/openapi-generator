@@ -167,10 +167,10 @@ func (o OuterComposite) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *OuterComposite) UnmarshalJSON(bytes []byte) (err error) {
+func (o *OuterComposite) UnmarshalJSON(data []byte) (err error) {
 	varOuterComposite := _OuterComposite{}
 
-	err = json.Unmarshal(bytes, &varOuterComposite)
+	err = json.Unmarshal(data, &varOuterComposite)
 
 	if err != nil {
 		return err
@@ -180,7 +180,7 @@ func (o *OuterComposite) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "my_number")
 		delete(additionalProperties, "my_string")
 		delete(additionalProperties, "my_boolean")

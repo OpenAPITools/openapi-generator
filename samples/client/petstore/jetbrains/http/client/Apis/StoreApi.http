@@ -1,18 +1,34 @@
 ## StoreApi
 
 ### Delete purchase order by ID
-# @name deleteOrder
+## Delete purchase order by ID
 DELETE http://petstore.swagger.io/v2/store/order/{{orderId}}
 
 ### Returns pet inventories by status
-# @name getInventory
+## Returns pet inventories by status
 GET http://petstore.swagger.io/v2/store/inventory
+Accept: application/json
+api_key: {{apiKey}}
 
 ### Find purchase order by ID
-# @name getOrderById
+## Find purchase order by ID
 GET http://petstore.swagger.io/v2/store/order/{{orderId}}
+Accept: application/xml
+Accept: application/json
 
 ### Place an order for a pet
-# @name placeOrder
+## Place an order for a pet
 POST http://petstore.swagger.io/v2/store/order
 Content-Type: application/json
+Accept: application/xml
+Accept: application/json
+
+{
+ "id": "<number>",
+ "petId": "<number>",
+ "quantity": "<number>",
+ "shipDate": "<string>",
+ "status": "<string>",
+ "complete": "<string>"
+}
+

@@ -2,13 +2,20 @@ package org.openapitools.codegen.validations.oas;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.Getter;
 
 /**
  * Encapsulates an OAS parameter.
  */
 public class SecuritySchemeWrapper {
     OpenAPI specification;
-    private SecurityScheme securityScheme;
+    /**
+     * -- GETTER --
+     *  Return the OAS securityScheme
+     *
+     * @return the OAS securityScheme
+     */
+    @Getter private SecurityScheme securityScheme;
 
     /**
      * Constructs a new instance of {@link SecuritySchemeWrapper}
@@ -22,18 +29,9 @@ public class SecuritySchemeWrapper {
     }
 
     /**
-     * Return the OAS securityScheme
-     *
-     * @return the OAS securityScheme
-     */
-    public SecurityScheme getSecurityScheme() {
-        return securityScheme;
-    }
-
-    /**
      * Returns the OpenAPI specification.
      *
-     * @return The the OpenAPI specification.
+     * @return The OpenAPI specification.
      */
     public OpenAPI getOpenAPI() {
         return specification;

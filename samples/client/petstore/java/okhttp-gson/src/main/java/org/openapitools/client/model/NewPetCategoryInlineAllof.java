@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * NewPetCategoryInlineAllof
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NewPetCategoryInlineAllof {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -68,7 +68,6 @@ public class NewPetCategoryInlineAllof {
   }
 
   public NewPetCategoryInlineAllof id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -82,14 +81,12 @@ public class NewPetCategoryInlineAllof {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public NewPetCategoryInlineAllof name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -103,14 +100,12 @@ public class NewPetCategoryInlineAllof {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public NewPetCategoryInlineAllof categoryTag(NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
-    
     this.categoryTag = categoryTag;
     return this;
   }
@@ -123,7 +118,6 @@ public class NewPetCategoryInlineAllof {
   public NewPetCategoryInlineAllofAllOfCategoryTag getCategoryTag() {
     return categoryTag;
   }
-
 
   public void setCategoryTag(NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
     this.categoryTag = categoryTag;
@@ -291,7 +285,12 @@ public class NewPetCategoryInlineAllof {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

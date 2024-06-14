@@ -174,7 +174,7 @@ class {{declspec}} {{classname}}
 {
 public:
     explicit {{classname}}(std::shared_ptr<restbed::Service> const& restbedService);
-	virtual ~{{classname}}();
+    virtual ~{{classname}}();
 
     {{#operation}}
     virtual void set{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource(std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource> sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource);
@@ -185,9 +185,9 @@ public:
     virtual std::shared_ptr<restbed::Service> service();
 
 protected:
-	{{#operation}}
-	std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource> m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource;
-	{{/operation}}
+    {{#operation}}
+    std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource> m_sp{{classname}}{{vendorExtensions.x-codegen-resource-name}}Resource;
+    {{/operation}}
 
 private:
     std::shared_ptr<restbed::Service> m_service;

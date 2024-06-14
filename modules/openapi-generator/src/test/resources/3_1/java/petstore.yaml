@@ -599,10 +599,86 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/ref'
+  /ref/ref_to_parameter:
+    get:
+      operationId: ref_to_ref_parameter
+      tags:
+        - fake
+      responses:
+        '200':
+          $ref: '#/components/responses/ref'
+    parameters:
+      - $ref: '#/components/parameters/ref_to_uuid'
+  "/fake/api/changeowner":
+    post:
+      summary: op1
+      operationId: op1
+      tags:
+        - fake
+      parameters: []
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  "/fake/api/changename":
+    post:
+      summary: op2
+      operationId: op2
+      tags:
+        - fake
+      parameters: []
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  "/fake/api/query/enum":
+    post:
+      summary: op3
+      operationId: op3
+      tags:
+        - fake
+      parameters:
+        - name: query_enum
+          in: query
+          description: query enum test
+          required: true
+          schema:
+            type: array
+            items:
+              "$ref": "#/components/schemas/CodesEnum"
+      responses:
+        '200':
+          description: Successful Response
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
 components:
+  parameters:
+    ref_to_uuid:
+      description: to test ref to parameter (uuid)
+      name: ref_to_uuid
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: 61864654-6e6b-4152-a62f-795fdd606bc2
   requestBodies:
     UserArray:
       content:
@@ -819,3 +895,89 @@ components:
           default: red
     simple_text:
       type: string
+    any_type_test:
+      properties:
+        any_type_property: {}
+        array_prop:
+          type: array
+          description: test array in 3.1 spec
+          items:
+            type: string
+        ref_array_prefix_items:
+          $ref: '#/components/schemas/ArrayPrefixItems'
+    HTTPValidationError:
+      properties: {}
+      type: object
+      title: HTTPValidationError
+    # okhttp-gson doesnot support array of string
+    #AnyOfArray:
+    #  anyOf:
+    #    - type: array
+    #      items:
+    #        type: string
+    #    - type: array
+    #      items:
+    #        type: integer
+    ArrayPrefixItems:
+      type: array
+      description: |
+        An item that was added to the queue.
+      minItems: 3
+      maxItems: 5
+      prefixItems:
+        - type: number
+          description: Queue priority.
+        - type: string
+          description: The hash id of the prompt object. This should be the the prompt ID.
+        - type: array
+          description: A list of "good output" node IDs in the prompt.
+          items:
+            type: string
+    circular_reference_1:
+      type: object
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_2'
+    circular_reference_2:
+      type: object
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_3'
+    circular_reference_3:
+      type: object
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_1'
+    array_of_same_ref:
+      type: object
+      properties:
+        arrayFooOne:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        arrayFooTwo:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        arrayFooThree:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    CodesEnum:
+      type: string
+      enum:
+        - Code 1
+        - Code 2
+        - Code 3
+    SimpleModelWithArrayProperty:
+      type: object
+      required:
+        - arrayOfStrings
+      properties:
+        arrayOfStrings:
+          type: array
+          items:
+            type: string
+    AllOfSimpleModel:
+      allOf:
+        - $ref: '#/components/schemas/SimpleModelWithArrayProperty'

@@ -54,7 +54,7 @@ class PetApi(baseUrl: String) {
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
       .header("api_key", apiKey.toString)
-      .response(asJson[Unit])
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
    * Multiple status values can be provided with comma separated strings
@@ -142,7 +142,7 @@ class PetApi(baseUrl: String) {
         "name" -> name,
         "status" -> status
       ))
-      .response(asJson[Unit])
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
    * 

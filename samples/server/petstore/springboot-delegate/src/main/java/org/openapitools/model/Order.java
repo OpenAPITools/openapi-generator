@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  * Order
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Order {
 
   private Long id;
@@ -74,6 +74,22 @@ public class Order {
   private StatusEnum status;
 
   private Boolean complete = false;
+
+  public Order() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Order(Long id, Long petId, Integer quantity, OffsetDateTime shipDate, StatusEnum status, Boolean complete) {
+      this.id = id;
+      this.petId = petId;
+      this.quantity = quantity;
+      this.shipDate = shipDate;
+      this.status = status;
+      this.complete = complete;
+  }
 
   public Order id(Long id) {
     this.id = id;

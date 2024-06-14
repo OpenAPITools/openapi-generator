@@ -20,7 +20,7 @@ import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 
 class PetApiVertxProxyHandler(private val vertx: Vertx, private val service: PetApi, topLevel: Boolean, private val timeoutSeconds: Long) : ProxyHandler() {
-    private val timerID: Long
+    private lateinit var timerID: Long
     private var lastAccessed: Long = 0
     init {
         try {

@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -67,6 +68,24 @@ public class HasOnlyReadOnly  {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
+    return Objects.equals(bar, hasOnlyReadOnly.bar) &&
+        Objects.equals(foo, hasOnlyReadOnly.foo);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(bar, foo);
+  }
 
   @Override
   public String toString() {

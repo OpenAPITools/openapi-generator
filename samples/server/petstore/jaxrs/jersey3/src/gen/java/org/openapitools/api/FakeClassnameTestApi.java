@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.openapitools.model.Client;
@@ -33,7 +34,7 @@ import jakarta.validation.Valid;
 
 
 @Tag(description = "the fake_classname_test API", name = "")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FakeClassnameTestApi  {
 
    private final FakeClassnameTestApiService delegate;
@@ -65,7 +66,9 @@ public class FakeClassnameTestApi  {
     @Operation(summary = "To test class name in snake case", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Client.class))),
-            }, tags={ "fake_classname_tags 123#$%^", }) 
+            },security = {
+            @SecurityRequirement(name = "api_key_query")
+        }, tags={ "fake_classname_tags 123#$%^", }) 
     public Response testClassname(@Schema(description = "client model", required = true) @NotNull @Valid  Client client,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClassname(client, securityContext);

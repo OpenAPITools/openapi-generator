@@ -14,11 +14,21 @@ import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+/**
+* Represents a collection of functions to interact with the API endpoints.
+*/
 @Path("/another-fake/dummy")
 @Api(description = "the another-fake API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public interface AnotherFakeApi {
 
+    /**
+     * To test special tags and operation ID starting with number
+     *
+     * @param uuidTest to test uuid example value
+     * @param body client model
+     * @return successful operation
+     */
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })

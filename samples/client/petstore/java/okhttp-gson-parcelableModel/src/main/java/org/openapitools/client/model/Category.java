@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * Category
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Category implements Parcelable {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -65,7 +65,6 @@ public class Category implements Parcelable {
   }
 
   public Category id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -79,14 +78,12 @@ public class Category implements Parcelable {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public Category name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -99,7 +96,6 @@ public class Category implements Parcelable {
   public String getName() {
     return name;
   }
-
 
   public void setName(String name) {
     this.name = name;

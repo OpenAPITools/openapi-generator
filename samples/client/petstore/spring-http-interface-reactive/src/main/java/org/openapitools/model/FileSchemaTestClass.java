@@ -20,13 +20,13 @@ import jakarta.annotation.Generated;
  * FileSchemaTestClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
   private File file;
 
   
-  private List<File> files;
+  private List<File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
     this.file = file;

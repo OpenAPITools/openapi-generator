@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("TypeHolderExample")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TypeHolderExampleDto {
 
   private String stringItem;
@@ -37,6 +37,10 @@ public class TypeHolderExampleDto {
 
   
   private List<Integer> arrayItem = new ArrayList<>();
+
+  public TypeHolderExampleDto() {
+    super();
+  }
 
   public TypeHolderExampleDto stringItem(String stringItem) {
     this.stringItem = stringItem;

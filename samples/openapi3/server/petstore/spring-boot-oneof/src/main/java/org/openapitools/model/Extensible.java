@@ -18,7 +18,7 @@ import javax.annotation.Generated;
  * Extensible
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Extensible {
 
   private String atSchemaLocation;
@@ -138,5 +138,75 @@ public class Extensible {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Extensible instance;
+
+    public Builder() {
+      this(new Extensible());
+    }
+
+    protected Builder(Extensible instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Extensible value) { 
+      this.instance.setAtSchemaLocation(value.atSchemaLocation);
+      this.instance.setAtBaseType(value.atBaseType);
+      this.instance.setAtType(value.atType);
+      return this;
+    }
+
+    public Extensible.Builder atSchemaLocation(String atSchemaLocation) {
+      this.instance.atSchemaLocation(atSchemaLocation);
+      return this;
+    }
+    
+    public Extensible.Builder atBaseType(String atBaseType) {
+      this.instance.atBaseType(atBaseType);
+      return this;
+    }
+    
+    public Extensible.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    
+    /**
+    * returns a built Extensible instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Extensible build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Extensible.Builder builder() {
+    return new Extensible.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Extensible.Builder toBuilder() {
+    Extensible.Builder builder = new Extensible.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

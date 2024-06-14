@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Category.JSON_PROPERTY_ID,
   Category.JSON_PROPERTY_NAME
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Category {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -39,6 +39,14 @@ public class Category {
   private String name;
 
   public Category() {
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Category(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_NAME) String name) {
+    this.id = id;
+    this.name = name;
   }
 
   public Category id(Long id) {
@@ -65,7 +73,6 @@ public class Category {
   public void setId(Long id) {
     this.id = id;
   }
-
 
   public Category name(String name) {
     

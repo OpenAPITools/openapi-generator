@@ -76,7 +76,7 @@ class CatAllOfTest extends TestCase
     public function testCatAllOf()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class CatAllOfTest extends TestCase
     public function testPropertyDeclawed()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

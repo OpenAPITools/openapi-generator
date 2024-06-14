@@ -76,7 +76,7 @@ class ArrayOfArrayOfNumberOnlyTest extends TestCase
     public function testArrayOfArrayOfNumberOnly()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class ArrayOfArrayOfNumberOnlyTest extends TestCase
     public function testPropertyArrayArrayNumber()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

@@ -18,7 +18,7 @@ void StoreApiTests::placeOrderTest() {
         qDebug() << order.getShipDate();
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXStoreApi::placeOrderSignalE, [&](PFXOrder, QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXStoreApi::placeOrderSignalError, [&](PFXOrder, QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -49,7 +49,7 @@ void StoreApiTests::getOrderByIdTest() {
         qDebug() << order.getShipDate();
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXStoreApi::getOrderByIdSignalE, [&](PFXOrder, QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXStoreApi::getOrderByIdSignalError, [&](PFXOrder, QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -73,7 +73,7 @@ void StoreApiTests::getInventoryTest() {
         }
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXStoreApi::getInventorySignalE, [&](QMap<QString, qint32>, QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXStoreApi::getInventorySignalError, [&](QMap<QString, qint32>, QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });

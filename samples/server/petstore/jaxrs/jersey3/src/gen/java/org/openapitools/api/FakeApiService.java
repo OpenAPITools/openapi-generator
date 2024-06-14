@@ -29,7 +29,8 @@ import java.io.InputStream;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.validation.constraints.*;
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+import jakarta.validation.Valid;
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public abstract class FakeApiService {
     public abstract Response fakeBigDecimalMap(SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeHealthGet(SecurityContext securityContext) throws NotFoundException;
@@ -39,6 +40,7 @@ public abstract class FakeApiService {
     public abstract Response fakeOuterNumberSerialize(BigDecimal body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterStringSerialize(String body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response testAdditionalPropertiesReference(Map<String, Object> requestBody,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithBinary(File body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithQueryParams( @NotNull String query,User user,SecurityContext securityContext) throws NotFoundException;
@@ -51,5 +53,6 @@ public abstract class FakeApiService {
     public abstract Response testJsonFormData(String param,String param2,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testNullable(ChildWithNullable childWithNullable,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testQueryParameterCollectionFormat( @NotNull List<String> pipe, @NotNull List<String> ioutil, @NotNull List<String> http, @NotNull List<String> url, @NotNull List<String> context, @NotNull String allowEmpty,Map<String, String> language,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response testStringMapReference(Map<String, String> requestBody,SecurityContext securityContext) throws NotFoundException;
     public abstract Response uploadFileWithRequiredFile(Long petId,FormDataBodyPart requiredFileBodypart,String additionalMetadata,SecurityContext securityContext) throws NotFoundException;
 }

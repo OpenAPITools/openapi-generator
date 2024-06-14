@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * ReadOnlyFirst
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
@@ -62,7 +62,6 @@ public class ReadOnlyFirst {
   public ReadOnlyFirst() {
   }
 
-  
   public ReadOnlyFirst(
      String bar
   ) {
@@ -81,9 +80,7 @@ public class ReadOnlyFirst {
 
 
 
-
   public ReadOnlyFirst baz(String baz) {
-    
     this.baz = baz;
     return this;
   }
@@ -96,7 +93,6 @@ public class ReadOnlyFirst {
   public String getBaz() {
     return baz;
   }
-
 
   public void setBaz(String baz) {
     this.baz = baz;

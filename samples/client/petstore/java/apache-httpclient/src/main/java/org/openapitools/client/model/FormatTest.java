@@ -53,7 +53,7 @@ import java.util.StringJoiner;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
@@ -133,7 +133,6 @@ public class FormatTest {
     this.integer = integer;
   }
 
-
   public FormatTest int32(Integer int32) {
     
     this.int32 = int32;
@@ -161,7 +160,6 @@ public class FormatTest {
     this.int32 = int32;
   }
 
-
   public FormatTest int64(Long int64) {
     
     this.int64 = int64;
@@ -186,7 +184,6 @@ public class FormatTest {
   public void setInt64(Long int64) {
     this.int64 = int64;
   }
-
 
   public FormatTest number(BigDecimal number) {
     
@@ -215,7 +212,6 @@ public class FormatTest {
     this.number = number;
   }
 
-
   public FormatTest _float(Float _float) {
     
     this._float = _float;
@@ -242,7 +238,6 @@ public class FormatTest {
   public void setFloat(Float _float) {
     this._float = _float;
   }
-
 
   public FormatTest _double(Double _double) {
     
@@ -271,7 +266,6 @@ public class FormatTest {
     this._double = _double;
   }
 
-
   public FormatTest decimal(BigDecimal decimal) {
     
     this.decimal = decimal;
@@ -296,7 +290,6 @@ public class FormatTest {
   public void setDecimal(BigDecimal decimal) {
     this.decimal = decimal;
   }
-
 
   public FormatTest string(String string) {
     
@@ -323,7 +316,6 @@ public class FormatTest {
     this.string = string;
   }
 
-
   public FormatTest _byte(byte[] _byte) {
     
     this._byte = _byte;
@@ -348,7 +340,6 @@ public class FormatTest {
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
-
 
   public FormatTest binary(File binary) {
     
@@ -375,7 +366,6 @@ public class FormatTest {
     this.binary = binary;
   }
 
-
   public FormatTest date(LocalDate date) {
     
     this.date = date;
@@ -400,7 +390,6 @@ public class FormatTest {
   public void setDate(LocalDate date) {
     this.date = date;
   }
-
 
   public FormatTest dateTime(OffsetDateTime dateTime) {
     
@@ -427,7 +416,6 @@ public class FormatTest {
     this.dateTime = dateTime;
   }
 
-
   public FormatTest uuid(UUID uuid) {
     
     this.uuid = uuid;
@@ -452,7 +440,6 @@ public class FormatTest {
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
-
 
   public FormatTest password(String password) {
     
@@ -479,7 +466,6 @@ public class FormatTest {
     this.password = password;
   }
 
-
   public FormatTest patternWithDigits(String patternWithDigits) {
     
     this.patternWithDigits = patternWithDigits;
@@ -504,7 +490,6 @@ public class FormatTest {
   public void setPatternWithDigits(String patternWithDigits) {
     this.patternWithDigits = patternWithDigits;
   }
-
 
   public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
     

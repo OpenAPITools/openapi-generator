@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -47,7 +49,7 @@ import org.openapitools.client.JSON;
   User.JSON_PROPERTY_ANY_TYPE_PROP,
   User.JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -98,6 +100,7 @@ public class User {
    * @return id
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -123,6 +126,7 @@ public class User {
    * @return username
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -148,6 +152,7 @@ public class User {
    * @return firstName
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_FIRST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -173,6 +178,7 @@ public class User {
    * @return lastName
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_LAST_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -198,6 +204,7 @@ public class User {
    * @return email
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_EMAIL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -223,6 +230,7 @@ public class User {
    * @return password
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -248,6 +256,7 @@ public class User {
    * @return phone
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_PHONE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -273,6 +282,7 @@ public class User {
    * @return userStatus
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_USER_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -298,6 +308,7 @@ public class User {
    * @return objectWithNoDeclaredProps
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -323,6 +334,7 @@ public class User {
    * @return objectWithNoDeclaredPropsNullable
   **/
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public Object getObjectWithNoDeclaredPropsNullable() {
@@ -356,6 +368,7 @@ public class User {
    * @return anyTypeProp
   **/
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public Object getAnyTypeProp() {
@@ -389,6 +402,7 @@ public class User {
    * @return anyTypePropNullable
   **/
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public Object getAnyTypePropNullable() {

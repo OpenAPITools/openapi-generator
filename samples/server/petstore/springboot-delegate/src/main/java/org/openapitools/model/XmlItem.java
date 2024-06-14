@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * XmlItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class XmlItem {
 
   private String attributeString;
@@ -35,7 +35,7 @@ public class XmlItem {
   private Boolean attributeBoolean;
 
   @Valid
-  private List<Integer> wrappedArray;
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   private String nameString;
 
@@ -46,10 +46,10 @@ public class XmlItem {
   private Boolean nameBoolean;
 
   @Valid
-  private List<Integer> nameArray;
+  private List<Integer> nameArray = new ArrayList<>();
 
   @Valid
-  private List<Integer> nameWrappedArray;
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   private String prefixString;
 
@@ -60,10 +60,10 @@ public class XmlItem {
   private Boolean prefixBoolean;
 
   @Valid
-  private List<Integer> prefixArray;
+  private List<Integer> prefixArray = new ArrayList<>();
 
   @Valid
-  private List<Integer> prefixWrappedArray;
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   private String namespaceString;
 
@@ -74,10 +74,10 @@ public class XmlItem {
   private Boolean namespaceBoolean;
 
   @Valid
-  private List<Integer> namespaceArray;
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   @Valid
-  private List<Integer> namespaceWrappedArray;
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   private String prefixNsString;
 
@@ -88,10 +88,49 @@ public class XmlItem {
   private Boolean prefixNsBoolean;
 
   @Valid
-  private List<Integer> prefixNsArray;
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   @Valid
-  private List<Integer> prefixNsWrappedArray;
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
+
+  public XmlItem() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public XmlItem(String attributeString, BigDecimal attributeNumber, Integer attributeInteger, Boolean attributeBoolean, List<Integer> wrappedArray, String nameString, BigDecimal nameNumber, Integer nameInteger, Boolean nameBoolean, List<Integer> nameArray, List<Integer> nameWrappedArray, String prefixString, BigDecimal prefixNumber, Integer prefixInteger, Boolean prefixBoolean, List<Integer> prefixArray, List<Integer> prefixWrappedArray, String namespaceString, BigDecimal namespaceNumber, Integer namespaceInteger, Boolean namespaceBoolean, List<Integer> namespaceArray, List<Integer> namespaceWrappedArray, String prefixNsString, BigDecimal prefixNsNumber, Integer prefixNsInteger, Boolean prefixNsBoolean, List<Integer> prefixNsArray, List<Integer> prefixNsWrappedArray) {
+      this.attributeString = attributeString;
+      this.attributeNumber = attributeNumber;
+      this.attributeInteger = attributeInteger;
+      this.attributeBoolean = attributeBoolean;
+      this.wrappedArray = wrappedArray;
+      this.nameString = nameString;
+      this.nameNumber = nameNumber;
+      this.nameInteger = nameInteger;
+      this.nameBoolean = nameBoolean;
+      this.nameArray = nameArray;
+      this.nameWrappedArray = nameWrappedArray;
+      this.prefixString = prefixString;
+      this.prefixNumber = prefixNumber;
+      this.prefixInteger = prefixInteger;
+      this.prefixBoolean = prefixBoolean;
+      this.prefixArray = prefixArray;
+      this.prefixWrappedArray = prefixWrappedArray;
+      this.namespaceString = namespaceString;
+      this.namespaceNumber = namespaceNumber;
+      this.namespaceInteger = namespaceInteger;
+      this.namespaceBoolean = namespaceBoolean;
+      this.namespaceArray = namespaceArray;
+      this.namespaceWrappedArray = namespaceWrappedArray;
+      this.prefixNsString = prefixNsString;
+      this.prefixNsNumber = prefixNsNumber;
+      this.prefixNsInteger = prefixNsInteger;
+      this.prefixNsBoolean = prefixNsBoolean;
+      this.prefixNsArray = prefixNsArray;
+      this.prefixNsWrappedArray = prefixNsWrappedArray;
+  }
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;

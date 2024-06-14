@@ -29,6 +29,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Order
  */
@@ -40,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -334,35 +335,114 @@ public class Order {
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `petId` to the URL query string
     if (getPetId() != null) {
-      joiner.add(String.format("%spetId%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spetId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `quantity` to the URL query string
     if (getQuantity() != null) {
-      joiner.add(String.format("%squantity%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getQuantity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%squantity%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuantity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `shipDate` to the URL query string
     if (getShipDate() != null) {
-      joiner.add(String.format("%sshipDate%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getShipDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sshipDate%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getShipDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `status` to the URL query string
     if (getStatus() != null) {
-      joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `complete` to the URL query string
     if (getComplete() != null) {
-      joiner.add(String.format("%scomplete%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getComplete()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scomplete%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getComplete()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private Order instance;
+
+    public Builder() {
+      this(new Order());
+    }
+
+    protected Builder(Order instance) {
+      this.instance = instance;
+    }
+
+    public Order.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+    public Order.Builder petId(Long petId) {
+      this.instance.petId = petId;
+      return this;
+    }
+    public Order.Builder quantity(Integer quantity) {
+      this.instance.quantity = quantity;
+      return this;
+    }
+    public Order.Builder shipDate(OffsetDateTime shipDate) {
+      this.instance.shipDate = shipDate;
+      return this;
+    }
+    public Order.Builder status(StatusEnum status) {
+      this.instance.status = status;
+      return this;
+    }
+    public Order.Builder complete(Boolean complete) {
+      this.instance.complete = complete;
+      return this;
+    }
+
+
+    /**
+    * returns a built Order instance.
+    *
+    * The builder is not reusable.
+    */
+    public Order build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Order.Builder builder() {
+    return new Order.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Order.Builder toBuilder() {
+    return new Order.Builder()
+      .id(getId())
+      .petId(getPetId())
+      .quantity(getQuantity())
+      .shipDate(getShipDate())
+      .status(getStatus())
+      .complete(getComplete());
+  }
+
 }
 

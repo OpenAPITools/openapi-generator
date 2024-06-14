@@ -30,7 +30,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class PetDto {
 
   private Long id;
@@ -43,7 +43,7 @@ public class PetDto {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @Valid
-  private List<@Valid TagDto> tags;
+  private List<@Valid TagDto> tags = new ArrayList<>();
 
   /**
    * pet status in the store

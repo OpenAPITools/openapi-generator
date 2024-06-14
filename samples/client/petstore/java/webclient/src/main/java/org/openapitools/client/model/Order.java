@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -120,7 +120,6 @@ public class Order {
     this.id = id;
   }
 
-
   public Order petId(Long petId) {
     
     this.petId = petId;
@@ -145,7 +144,6 @@ public class Order {
   public void setPetId(Long petId) {
     this.petId = petId;
   }
-
 
   public Order quantity(Integer quantity) {
     
@@ -172,7 +170,6 @@ public class Order {
     this.quantity = quantity;
   }
 
-
   public Order shipDate(OffsetDateTime shipDate) {
     
     this.shipDate = shipDate;
@@ -198,7 +195,6 @@ public class Order {
     this.shipDate = shipDate;
   }
 
-
   public Order status(StatusEnum status) {
     
     this.status = status;
@@ -223,7 +219,6 @@ public class Order {
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
 
   public Order complete(Boolean complete) {
     

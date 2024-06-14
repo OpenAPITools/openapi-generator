@@ -20,7 +20,7 @@ var _ MappedNullable = &Category{}
 // Category A category for a pet
 type Category struct {
 	Id *int64 `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty" validate:"regexp=^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -123,10 +123,10 @@ func (o Category) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Category) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Category) UnmarshalJSON(data []byte) (err error) {
 	varCategory := _Category{}
 
-	err = json.Unmarshal(bytes, &varCategory)
+	err = json.Unmarshal(data, &varCategory)
 
 	if err != nil {
 		return err
@@ -136,7 +136,7 @@ func (o *Category) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "name")
 		o.AdditionalProperties = additionalProperties

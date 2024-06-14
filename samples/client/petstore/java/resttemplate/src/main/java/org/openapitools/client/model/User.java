@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -65,6 +65,20 @@ public class User {
   public User() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public User(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_USERNAME) String username, @JsonProperty(JSON_PROPERTY_FIRST_NAME) String firstName, @JsonProperty(JSON_PROPERTY_LAST_NAME) String lastName, @JsonProperty(JSON_PROPERTY_EMAIL) String email, @JsonProperty(JSON_PROPERTY_PASSWORD) String password, @JsonProperty(JSON_PROPERTY_PHONE) String phone, @JsonProperty(JSON_PROPERTY_USER_STATUS) Integer userStatus) {
+    this.id = id;
+    this.username = username;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.phone = phone;
+    this.userStatus = userStatus;
+  }
+
   public User id(Long id) {
     
     this.id = id;
@@ -89,7 +103,6 @@ public class User {
   public void setId(Long id) {
     this.id = id;
   }
-
 
   public User username(String username) {
     
@@ -116,7 +129,6 @@ public class User {
     this.username = username;
   }
 
-
   public User firstName(String firstName) {
     
     this.firstName = firstName;
@@ -141,7 +153,6 @@ public class User {
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
-
 
   public User lastName(String lastName) {
     
@@ -168,7 +179,6 @@ public class User {
     this.lastName = lastName;
   }
 
-
   public User email(String email) {
     
     this.email = email;
@@ -193,7 +203,6 @@ public class User {
   public void setEmail(String email) {
     this.email = email;
   }
-
 
   public User password(String password) {
     
@@ -220,7 +229,6 @@ public class User {
     this.password = password;
   }
 
-
   public User phone(String phone) {
     
     this.phone = phone;
@@ -245,7 +253,6 @@ public class User {
   public void setPhone(String phone) {
     this.phone = phone;
   }
-
 
   public User userStatus(Integer userStatus) {
     
@@ -322,6 +329,95 @@ public class User {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private User instance;
+
+    public Builder() {
+      this(new User());
+    }
+
+    protected Builder(User instance) {
+      this.instance = instance;
+    }
+
+    public User.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+    public User.Builder username(String username) {
+      this.instance.username = username;
+      return this;
+    }
+    public User.Builder firstName(String firstName) {
+      this.instance.firstName = firstName;
+      return this;
+    }
+    public User.Builder lastName(String lastName) {
+      this.instance.lastName = lastName;
+      return this;
+    }
+    public User.Builder email(String email) {
+      this.instance.email = email;
+      return this;
+    }
+    public User.Builder password(String password) {
+      this.instance.password = password;
+      return this;
+    }
+    public User.Builder phone(String phone) {
+      this.instance.phone = phone;
+      return this;
+    }
+    public User.Builder userStatus(Integer userStatus) {
+      this.instance.userStatus = userStatus;
+      return this;
+    }
+
+
+    /**
+    * returns a built User instance.
+    *
+    * The builder is not reusable.
+    */
+    public User build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static User.Builder builder() {
+    return new User.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public User.Builder toBuilder() {
+    return new User.Builder()
+      .id(getId())
+      .username(getUsername())
+      .firstName(getFirstName())
+      .lastName(getLastName())
+      .email(getEmail())
+      .password(getPassword())
+      .phone(getPhone())
+      .userStatus(getUserStatus());
+  }
+
 
 }
 

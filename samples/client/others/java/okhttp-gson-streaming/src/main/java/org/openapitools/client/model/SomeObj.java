@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * SomeObj
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class SomeObj implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -59,7 +59,7 @@ public class SomeObj implements Serializable {
    */
   @JsonAdapter(TypeEnum.Adapter.class)
   public enum TypeEnum {
-    SOMEOBJIDENTIFIER("SomeObjIdentifier");
+    SOME_OBJ_IDENTIFIER("SomeObjIdentifier");
 
     private String value;
 
@@ -97,11 +97,16 @@ public class SomeObj implements Serializable {
         return TypeEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      TypeEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_$_TYPE = "$_type";
   @SerializedName(SERIALIZED_NAME_$_TYPE)
-  private TypeEnum $type = TypeEnum.SOMEOBJIDENTIFIER;
+  private TypeEnum $type = TypeEnum.SOME_OBJ_IDENTIFIER;
 
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -123,7 +128,6 @@ public class SomeObj implements Serializable {
   }
 
   public SomeObj $type(TypeEnum $type) {
-    
     this.$type = $type;
     return this;
   }
@@ -137,14 +141,12 @@ public class SomeObj implements Serializable {
     return $type;
   }
 
-
   public void set$Type(TypeEnum $type) {
     this.$type = $type;
   }
 
 
   public SomeObj id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -158,14 +160,12 @@ public class SomeObj implements Serializable {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public SomeObj name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -179,14 +179,12 @@ public class SomeObj implements Serializable {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public SomeObj active(Boolean active) {
-    
     this.active = active;
     return this;
   }
@@ -200,14 +198,12 @@ public class SomeObj implements Serializable {
     return active;
   }
 
-
   public void setActive(Boolean active) {
     this.active = active;
   }
 
 
   public SomeObj type(String type) {
-    
     this.type = type;
     return this;
   }
@@ -220,7 +216,6 @@ public class SomeObj implements Serializable {
   public String getType() {
     return type;
   }
-
 
   public void setType(String type) {
     this.type = type;
@@ -313,6 +308,10 @@ public class SomeObj implements Serializable {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("$_type") != null && !jsonObj.get("$_type").isJsonNull()) && !jsonObj.get("$_type").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `$_type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("$_type").toString()));
+      }
+      // validate the optional field `$_type`
+      if (jsonObj.get("$_type") != null && !jsonObj.get("$_type").isJsonNull()) {
+        TypeEnum.validateJsonElement(jsonObj.get("$_type"));
       }
       if ((jsonObj.get("name") != null && !jsonObj.get("name").isJsonNull()) && !jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));

@@ -13,6 +13,8 @@ part 'foo_ref.g.dart';
 ///
 /// Properties:
 /// * [foorefPropA] 
+/// * [name] - Name of the related entity.
+/// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships

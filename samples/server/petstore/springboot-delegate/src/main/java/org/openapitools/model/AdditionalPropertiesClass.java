@@ -26,7 +26,7 @@ import javax.annotation.Generated;
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
   @Valid
@@ -58,6 +58,27 @@ public class AdditionalPropertiesClass {
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
   private Object anytype3;
+
+  public AdditionalPropertiesClass() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesClass(Map<String, String> mapString, Map<String, BigDecimal> mapNumber, Map<String, Integer> mapInteger, Map<String, Boolean> mapBoolean, Map<String, List<Integer>> mapArrayInteger, Map<String, List<Object>> mapArrayAnytype, Map<String, Map<String, String>> mapMapString, Map<String, Map<String, Object>> mapMapAnytype, Object anytype1, Object anytype2, Object anytype3) {
+      this.mapString = mapString;
+      this.mapNumber = mapNumber;
+      this.mapInteger = mapInteger;
+      this.mapBoolean = mapBoolean;
+      this.mapArrayInteger = mapArrayInteger;
+      this.mapArrayAnytype = mapArrayAnytype;
+      this.mapMapString = mapMapString;
+      this.mapMapAnytype = mapMapAnytype;
+      this.anytype1 = anytype1;
+      this.anytype2 = JsonNullable.of(anytype2);
+      this.anytype3 = anytype3;
+  }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;

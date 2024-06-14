@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing reserved words
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ModelReturn implements Parcelable {
   public static final String SERIALIZED_NAME_RETURN = "return";
   @SerializedName(SERIALIZED_NAME_RETURN)
@@ -61,7 +61,6 @@ public class ModelReturn implements Parcelable {
   }
 
   public ModelReturn _return(Integer _return) {
-    
     this._return = _return;
     return this;
   }
@@ -74,7 +73,6 @@ public class ModelReturn implements Parcelable {
   public Integer getReturn() {
     return _return;
   }
-
 
   public void setReturn(Integer _return) {
     this._return = _return;

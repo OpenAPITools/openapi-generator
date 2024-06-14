@@ -19,6 +19,7 @@ docs/Model/Pet.md
 docs/Model/Query.md
 docs/Model/StringEnumRef.md
 docs/Model/Tag.md
+docs/Model/TestFormObjectMultipartRequestMarker.md
 docs/Model/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
 docs/Model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 git_push.sh
@@ -42,6 +43,7 @@ src/Model/Pet.php
 src/Model/Query.php
 src/Model/StringEnumRef.php
 src/Model/Tag.php
+src/Model/TestFormObjectMultipartRequestMarker.php
 src/Model/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.php
 src/Model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.php
 src/ObjectSerializer.php

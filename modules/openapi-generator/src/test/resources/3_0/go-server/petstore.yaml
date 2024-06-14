@@ -82,6 +82,39 @@ paths:
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
       parameters:
+        - name: inlineEnumPath
+          in: path
+          description: Entity type
+          schema:
+            type: string
+            enum:
+              - "OPTION_1"
+              - "OPTION_2"
+              - "OPTION_3"
+        - name: inlineEnum
+          in: query
+          description: Entity type
+          schema:
+            type: string
+            enum:
+              - "OPTION_1"
+              - "OPTION_2"
+              - "OPTION_3"
+        - name: defaultInt
+          in: query
+          schema:
+            default: 1
+            type: integer
+        - name: defaultNum
+          in: query
+          schema:
+            default: 1.5
+            type: number
+        - name: defaultStr
+          in: query
+          schema:
+            default: default
+            type: string
         - name: status
           in: query
           description: Status values that need to be considered for filter
@@ -117,6 +150,53 @@ paths:
       security:
         - petstore_auth:
             - 'read:pets'
+  /pet/searchPetWithManyFilters:
+    get:
+      tags:
+        - pet
+      summary: Search Pets by filters
+      description: >-
+        Search endpoint
+      operationId: searchPet
+      parameters:
+      - name: age
+        in: query
+        description: age of the pet
+        schema:
+          type: integer
+          format: int64
+          nullable: true
+      - name: price
+        in: query
+        description: Price of the pet
+        schema:
+          type: number
+          nullable: true
+      - name: bornAfter
+        in: query
+        description: Find pets born after this date
+        style: form
+        explode: false
+        schema:
+          type: string
+          format: date-time
+          nullable: true
+      - description: Is the pet classified as old
+        in: query
+        name: old
+        schema:
+          type: boolean
+          nullable: true
+        style: form
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
   /pet/findByTags:
     get:
       tags:
@@ -155,6 +235,10 @@ paths:
           schema:
             type: string
             format: date-time
+        - name: colour
+          in: query
+          schema:
+            $ref: '#/components/schemas/Colour'
       responses:
         '200':
           description: successful operation
@@ -346,6 +430,11 @@ paths:
                 additionalMetadata:
                   description: Additional data to pass to server
                   type: string
+                extraOptionalMetadata:
+                  description: More data to pass to server
+                  type: array
+                  items:
+                    type: string
                 file:
                   description: file to upload
                   type: string
@@ -542,9 +631,9 @@ paths:
           required: true
           schema:
             type: string
-        - name: boolean_test
+        - name: remember_me
           in: query
-          description: The password for login in clear text
+          description: Remember Me
           schema:
             type: boolean
       responses:
@@ -657,9 +746,9 @@ paths:
           required: true
           schema:
             type: string
-        - name: boolean_test # to ensure boolean query parameter won't cause compilation errors
+        - name: confirmation # to ensure boolean query parameter won't cause compilation errors
           in: query
-          description: boolean query parameter
+          description: Confirm the deletion
           schema:
             type: boolean
       responses:
@@ -733,6 +822,26 @@ paths:
           schema:
             type: boolean
             default: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /pets/byTime/{createdTime}:
+    get:
+      tags:
+        - pet
+      summary: Get the pets by time
+      operationId: GetPetsByTime
+      parameters:
+        - in: path
+          name: createdTime
+          required: true
+          schema:
+            type: string
+            format: date-time
       responses:
         '200':
           description: successful operation
@@ -985,6 +1094,12 @@ components:
       enum:
         - male
         - female
+    Colour:
+      type: string
+      nullable: true
+      enum:
+        - Blue
+        - White
     ApiResponse:
       title: An uploaded response
       description: Describes the result of uploading an image resource

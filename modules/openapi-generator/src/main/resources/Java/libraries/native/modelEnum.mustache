@@ -9,6 +9,9 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 {{/gson}}
+{{#isUri}}
+import java.net.URI;
+{{/isUri}}
 
 /**
  * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}

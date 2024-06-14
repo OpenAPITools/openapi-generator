@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * ModelApiResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ModelApiResponse implements Parcelable {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -69,7 +69,6 @@ public class ModelApiResponse implements Parcelable {
   }
 
   public ModelApiResponse code(Integer code) {
-    
     this.code = code;
     return this;
   }
@@ -83,14 +82,12 @@ public class ModelApiResponse implements Parcelable {
     return code;
   }
 
-
   public void setCode(Integer code) {
     this.code = code;
   }
 
 
   public ModelApiResponse type(String type) {
-    
     this.type = type;
     return this;
   }
@@ -104,14 +101,12 @@ public class ModelApiResponse implements Parcelable {
     return type;
   }
 
-
   public void setType(String type) {
     this.type = type;
   }
 
 
   public ModelApiResponse message(String message) {
-    
     this.message = message;
     return this;
   }
@@ -124,7 +119,6 @@ public class ModelApiResponse implements Parcelable {
   public String getMessage() {
     return message;
   }
-
 
   public void setMessage(String message) {
     this.message = message;

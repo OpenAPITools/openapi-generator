@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * TriangleInterface
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TriangleInterface {
   public static final String SERIALIZED_NAME_TRIANGLE_TYPE = "triangleType";
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
@@ -59,7 +59,6 @@ public class TriangleInterface {
   }
 
   public TriangleInterface triangleType(String triangleType) {
-    
     this.triangleType = triangleType;
     return this;
   }
@@ -72,7 +71,6 @@ public class TriangleInterface {
   public String getTriangleType() {
     return triangleType;
   }
-
 
   public void setTriangleType(String triangleType) {
     this.triangleType = triangleType;
@@ -230,7 +228,12 @@ public class TriangleInterface {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

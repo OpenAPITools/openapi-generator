@@ -1,5 +1,5 @@
 generatorName: csharp
-outputDir: samples/client/petstore/csharp-restsharp-name-parameter-mappings
+outputDir: samples/client/petstore/csharp/restsharp/net6/ParameterMappings
 inputSpec: modules/openapi-generator/src/test/resources/3_0/name-parameter-mappings.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp
 nameMappings:
@@ -16,3 +16,4 @@ additionalProperties:
   packageGuid: '{321C8C3F-0156-40C1-AE42-D59761FB9B6C}'
   hideGenerationTimestamp: "true"
   targetFramework: net6.0
+  equatable: true

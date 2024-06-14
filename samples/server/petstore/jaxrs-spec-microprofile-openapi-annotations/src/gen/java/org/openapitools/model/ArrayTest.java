@@ -18,11 +18,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("ArrayTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ArrayTest  implements Serializable {
-  private @Valid List<String> arrayOfString;
-  private @Valid List<List<Long>> arrayArrayOfInteger;
-  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel;
+  private @Valid List<String> arrayOfString = new ArrayList<>();
+  private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  private @Valid List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   protected ArrayTest(ArrayTestBuilder<?, ?> b) {
     this.arrayOfString = b.arrayOfString;
@@ -105,7 +105,7 @@ public class ArrayTest  implements Serializable {
   }
   /**
    **/
-  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
@@ -113,16 +113,16 @@ public class ArrayTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("array_array_of_model")
-  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+  @Valid public List<@Valid List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
   @JsonProperty("array_array_of_model")
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
-  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
       this.arrayArrayOfModel = new ArrayList<>();
     }
@@ -131,7 +131,7 @@ public class ArrayTest  implements Serializable {
     return this;
   }
 
-  public ArrayTest removeArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest removeArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
     if (arrayArrayOfModelItem != null && this.arrayArrayOfModel != null) {
       this.arrayArrayOfModel.remove(arrayArrayOfModelItem);
     }
@@ -186,7 +186,7 @@ public class ArrayTest  implements Serializable {
     return new ArrayTestBuilderImpl();
   }
 
-  private static final class ArrayTestBuilderImpl extends ArrayTestBuilder<ArrayTest, ArrayTestBuilderImpl> {
+  private static class ArrayTestBuilderImpl extends ArrayTestBuilder<ArrayTest, ArrayTestBuilderImpl> {
 
     @Override
     protected ArrayTestBuilderImpl self() {
@@ -200,9 +200,9 @@ public class ArrayTest  implements Serializable {
   }
 
   public static abstract class ArrayTestBuilder<C extends ArrayTest, B extends ArrayTestBuilder<C, B>>  {
-    private List<String> arrayOfString;
-    private List<List<Long>> arrayArrayOfInteger;
-    private List<List<ReadOnlyFirst>> arrayArrayOfModel;
+    private List<String> arrayOfString = new ArrayList<>();
+    private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+    private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
     protected abstract B self();
 
     public abstract C build();
@@ -215,7 +215,7 @@ public class ArrayTest  implements Serializable {
       this.arrayArrayOfInteger = arrayArrayOfInteger;
       return self();
     }
-    public B arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+    public B arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
       this.arrayArrayOfModel = arrayArrayOfModel;
       return self();
     }

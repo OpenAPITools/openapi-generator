@@ -20,10 +20,21 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model with \"_class\" property")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ClassModel {
 
   private String propertyClass;
+
+  public ClassModel() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ClassModel(String propertyClass) {
+      this.propertyClass = propertyClass;
+  }
 
   public ClassModel propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

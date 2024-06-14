@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ChildWithNullable.JSON_PROPERTY_OTHER_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ChildWithNullable extends ParentWithNullable  {
   public static final String JSON_PROPERTY_OTHER_PROPERTY = "otherProperty";
   @JsonProperty(JSON_PROPERTY_OTHER_PROPERTY)
@@ -66,7 +66,7 @@ public class ChildWithNullable extends ParentWithNullable  {
       return false;
     }
     ChildWithNullable childWithNullable = (ChildWithNullable) o;
-    return super.equals(o) && Objects.equals(otherProperty, childWithNullable.otherProperty);
+    return super.equals(o) && Objects.equals(this.otherProperty, childWithNullable.otherProperty);
   }
 
   @Override

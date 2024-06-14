@@ -281,10 +281,10 @@ func (o Order) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Order) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Order) UnmarshalJSON(data []byte) (err error) {
 	varOrder := _Order{}
 
-	err = json.Unmarshal(bytes, &varOrder)
+	err = json.Unmarshal(data, &varOrder)
 
 	if err != nil {
 		return err
@@ -294,7 +294,7 @@ func (o *Order) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "petId")
 		delete(additionalProperties, "quantity")

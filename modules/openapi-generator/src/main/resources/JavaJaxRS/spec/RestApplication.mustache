@@ -9,7 +9,7 @@ import {{javaxPackage}}.ws.rs.core.Application;
         {{#appName}},title = "{{{.}}}"{{/appName}}
         {{#appDescription}},description = "{{{.}}}"{{/appDescription}}
         {{#license}},license = @org.eclipse.microprofile.openapi.annotations.info.License(name = "{{{licenseInfo}}}", url = "{{{licenseUrl}}}"){{/license}}
-        {{#contact}},contact = @org.eclipse.microprofile.openapi.annotations.info.Contact(name = "{{{infoName}}}", email = "{{{infoEmail}}}"){{/contact}}
+        {{#contact}},contact = @org.eclipse.microprofile.openapi.annotations.info.Contact(name = "{{{infoName}}}", email = "{{{infoEmail}}}", url = "{{{infoUrl}}}"){{/contact}}
 )){{/info}}{{/openAPI}}{{/useMicroProfileOpenAPIAnnotations}}
 @ApplicationPath(RestResourceRoot.APPLICATION_PATH)
 public class RestApplication extends Application {

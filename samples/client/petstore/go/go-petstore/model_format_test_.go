@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"os"
 	"time"
+	"bytes"
 	"fmt"
 )
 
@@ -28,8 +29,8 @@ type FormatTest struct {
 	Number float32 `json:"number"`
 	Float *float32 `json:"float,omitempty"`
 	Double *float64 `json:"double,omitempty"`
-	String *string `json:"string,omitempty"`
-	Byte string `json:"byte"`
+	String *string `json:"string,omitempty" validate:"regexp=[a-z]/i"`
+	Byte string `json:"byte" validate:"regexp=^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$"`
 	Binary **os.File `json:"binary,omitempty"`
 	Date string `json:"date"`
 	DateTime *time.Time `json:"dateTime,omitempty"`
@@ -524,8 +525,8 @@ func (o FormatTest) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *FormatTest) UnmarshalJSON(bytes []byte) (err error) {
-    // This validates that all required properties are included in the JSON object
+func (o *FormatTest) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
@@ -537,7 +538,7 @@ func (o *FormatTest) UnmarshalJSON(bytes []byte) (err error) {
 
 	allProperties := make(map[string]interface{})
 
-	err = json.Unmarshal(bytes, &allProperties)
+	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
 		return err;
@@ -551,7 +552,9 @@ func (o *FormatTest) UnmarshalJSON(bytes []byte) (err error) {
 
 	varFormatTest := _FormatTest{}
 
-	err = json.Unmarshal(bytes, &varFormatTest)
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varFormatTest)
 
 	if err != nil {
 		return err

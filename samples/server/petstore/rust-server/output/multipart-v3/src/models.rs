@@ -180,7 +180,7 @@ impl std::string::ToString for MultipartRequestObjectField {
 
 
             self.field_b.as_ref().map(|field_b| {
-                vec![
+                [
                     "field_b".to_string(),
                     field_b.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")

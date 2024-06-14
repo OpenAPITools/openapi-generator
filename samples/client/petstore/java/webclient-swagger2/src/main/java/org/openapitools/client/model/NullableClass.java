@@ -53,7 +53,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NullableClass extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
@@ -129,7 +129,6 @@ public class NullableClass extends HashMap<String, Object> {
     this.integerProp = JsonNullable.<Integer>of(integerProp);
   }
 
-
   public NullableClass numberProp(BigDecimal numberProp) {
     this.numberProp = JsonNullable.<BigDecimal>of(numberProp);
     
@@ -163,7 +162,6 @@ public class NullableClass extends HashMap<String, Object> {
   public void setNumberProp(BigDecimal numberProp) {
     this.numberProp = JsonNullable.<BigDecimal>of(numberProp);
   }
-
 
   public NullableClass booleanProp(Boolean booleanProp) {
     this.booleanProp = JsonNullable.<Boolean>of(booleanProp);
@@ -199,7 +197,6 @@ public class NullableClass extends HashMap<String, Object> {
     this.booleanProp = JsonNullable.<Boolean>of(booleanProp);
   }
 
-
   public NullableClass stringProp(String stringProp) {
     this.stringProp = JsonNullable.<String>of(stringProp);
     
@@ -233,7 +230,6 @@ public class NullableClass extends HashMap<String, Object> {
   public void setStringProp(String stringProp) {
     this.stringProp = JsonNullable.<String>of(stringProp);
   }
-
 
   public NullableClass dateProp(LocalDate dateProp) {
     this.dateProp = JsonNullable.<LocalDate>of(dateProp);
@@ -269,7 +265,6 @@ public class NullableClass extends HashMap<String, Object> {
     this.dateProp = JsonNullable.<LocalDate>of(dateProp);
   }
 
-
   public NullableClass datetimeProp(OffsetDateTime datetimeProp) {
     this.datetimeProp = JsonNullable.<OffsetDateTime>of(datetimeProp);
     
@@ -303,7 +298,6 @@ public class NullableClass extends HashMap<String, Object> {
   public void setDatetimeProp(OffsetDateTime datetimeProp) {
     this.datetimeProp = JsonNullable.<OffsetDateTime>of(datetimeProp);
   }
-
 
   public NullableClass arrayNullableProp(List<Object> arrayNullableProp) {
     this.arrayNullableProp = JsonNullable.<List<Object>>of(arrayNullableProp);
@@ -351,7 +345,6 @@ public class NullableClass extends HashMap<String, Object> {
     this.arrayNullableProp = JsonNullable.<List<Object>>of(arrayNullableProp);
   }
 
-
   public NullableClass arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = JsonNullable.<List<Object>>of(arrayAndItemsNullableProp);
     
@@ -398,7 +391,6 @@ public class NullableClass extends HashMap<String, Object> {
     this.arrayAndItemsNullableProp = JsonNullable.<List<Object>>of(arrayAndItemsNullableProp);
   }
 
-
   public NullableClass arrayItemsNullable(List<Object> arrayItemsNullable) {
     
     this.arrayItemsNullable = arrayItemsNullable;
@@ -432,7 +424,6 @@ public class NullableClass extends HashMap<String, Object> {
   public void setArrayItemsNullable(List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
   }
-
 
   public NullableClass objectNullableProp(Map<String, Object> objectNullableProp) {
     this.objectNullableProp = JsonNullable.<Map<String, Object>>of(objectNullableProp);
@@ -480,7 +471,6 @@ public class NullableClass extends HashMap<String, Object> {
     this.objectNullableProp = JsonNullable.<Map<String, Object>>of(objectNullableProp);
   }
 
-
   public NullableClass objectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>of(objectAndItemsNullableProp);
     
@@ -526,7 +516,6 @@ public class NullableClass extends HashMap<String, Object> {
   public void setObjectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>of(objectAndItemsNullableProp);
   }
-
 
   public NullableClass objectItemsNullable(Map<String, Object> objectItemsNullable) {
     

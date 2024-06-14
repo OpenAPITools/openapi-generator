@@ -23,7 +23,7 @@ print AnyOfPig.to_json()
 # convert the object into a dict
 any_of_pig_dict = any_of_pig_instance.to_dict()
 # create an instance of AnyOfPig from a dict
-any_of_pig_form_dict = any_of_pig.from_dict(any_of_pig_dict)
+any_of_pig_from_dict = AnyOfPig.from_dict(any_of_pig_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

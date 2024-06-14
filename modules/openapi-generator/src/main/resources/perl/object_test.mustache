@@ -4,7 +4,7 @@
 # Please update the test cases below to test the model.
 # Ref: https://openapi-generator.tech
 #
-use Test::More tests => 2;
+use Test::More;
 use Test::Exception;
 
 use lib 'lib';
@@ -23,3 +23,5 @@ use_ok('{{moduleName}}::Object::{{classname}}');
 
 {{/model}}
 {{/models}}
+
+done_testing();

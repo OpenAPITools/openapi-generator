@@ -16,6 +16,7 @@
 package org.openapitools.client.models
 
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -38,5 +39,8 @@ data class ModelApiResponse (
     @field:JsonProperty("message")
     val message: kotlin.String? = null
 
-)
+) {
+
+
+}
 

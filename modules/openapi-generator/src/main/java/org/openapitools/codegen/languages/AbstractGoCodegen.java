@@ -17,15 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,16 +40,17 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
 
-    protected boolean withGoCodegenComment = false;
-    protected boolean withAWSV4Signature = false;
-    protected boolean withXml = false;
-    protected boolean enumClassPrefix = false;
-    protected boolean structPrefix = false;
-    protected boolean generateInterfaces = false;
-    protected boolean withGoMod = false;
-    protected boolean generateMarshalJSON = true;
+    @Setter protected boolean withGoCodegenComment = false;
+    @Setter protected boolean withAWSV4Signature = false;
+    @Setter protected boolean withXml = false;
+    @Setter protected boolean enumClassPrefix = false;
+    @Setter protected boolean structPrefix = false;
+    @Setter protected boolean generateInterfaces = false;
+    @Setter protected boolean withGoMod = false;
+    @Setter protected boolean generateMarshalJSON = true;
+    @Setter protected boolean generateUnmarshalJSON = true;
 
-    protected String packageName = "openapi";
+    @Setter protected String packageName = "openapi";
     protected Set<String> numberTypes;
 
     public AbstractGoCodegen() {
@@ -280,6 +278,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toModelFilename(String name) {
+        // Obtain the model name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            name = modelNameMapping.get(name);
+        }
         name = toModel("model_" + name);
 
         if (isReservedFilename(name)) {
@@ -295,6 +297,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     public String toModel(String name, boolean doUnderscore) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -354,8 +361,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             // In OAS 3.0.x, the array "items" attribute is required.
             // In OAS >= 3.1, the array "items" attribute is optional such that the OAS
             // specification is aligned with the JSON schema specification.
@@ -577,6 +583,105 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return objs;
     }
 
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getWebhooks();
+        List<CodegenOperation> operations = objectMap.getOperation();
+
+        for (CodegenOperation operation : operations) {
+            // http method verb conversion (e.g. PUT => Put)
+            operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
+        }
+
+        // remove model imports to avoid error
+        List<Map<String, String>> imports = objs.getImports();
+        if (imports == null)
+            return objs;
+
+        Iterator<Map<String, String>> iterator = imports.iterator();
+        while (iterator.hasNext()) {
+            String _import = iterator.next().get("import");
+            if (_import.startsWith(apiPackage()))
+                iterator.remove();
+        }
+
+        // this will only import "fmt" and "strings" if there are items in pathParams
+        for (CodegenOperation operation : operations) {
+            if (operation.pathParams != null && operation.pathParams.size() > 0) {
+                imports.add(createMapping("import", "strings"));
+                break; //just need to import once
+            }
+        }
+
+        boolean addedTimeImport = false;
+        boolean addedOSImport = false;
+        boolean addedReflectImport = false;
+        for (CodegenOperation operation : operations) {
+            // import "os" if the operation uses files
+            if (!addedOSImport && "*os.File".equals(operation.returnType)) {
+                imports.add(createMapping("import", "os"));
+                addedOSImport = true;
+            }
+            for (CodegenParameter param : operation.allParams) {
+                // import "os" if the operation uses files
+                if (!addedOSImport && "*os.File".equals(param.dataType)) {
+                    imports.add(createMapping("import", "os"));
+                    addedOSImport = true;
+                }
+
+                // import "time" if the operation has a time parameter.
+                if (!addedTimeImport && "time.Time".equals(param.dataType)) {
+                    imports.add(createMapping("import", "time"));
+                    addedTimeImport = true;
+                }
+
+                // import "reflect" package if the parameter is collectionFormat=multi
+                if (!addedReflectImport && param.isCollectionFormatMulti) {
+                    imports.add(createMapping("import", "reflect"));
+                    addedReflectImport = true;
+                }
+
+                // set x-exportParamName
+                char nameFirstChar = param.paramName.charAt(0);
+                if (Character.isUpperCase(nameFirstChar)) {
+                    // First char is already uppercase, just use paramName.
+                    param.vendorExtensions.put("x-export-param-name", param.paramName);
+                } else {
+                    // It's a lowercase first char, let's convert it to uppercase
+                    StringBuilder sb = new StringBuilder(param.paramName);
+                    sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
+                    param.vendorExtensions.put("x-export-param-name", sb.toString());
+                }
+            }
+
+            setExportParameterName(operation.queryParams);
+            setExportParameterName(operation.formParams);
+            setExportParameterName(operation.headerParams);
+            setExportParameterName(operation.bodyParams);
+            setExportParameterName(operation.cookieParams);
+            setExportParameterName(operation.optionalParams);
+            setExportParameterName(operation.requiredParams);
+
+        }
+
+        // recursively add import for mapping one type to multiple imports
+        List<Map<String, String>> recursiveImports = objs.getImports();
+        if (recursiveImports == null)
+            return objs;
+
+        ListIterator<Map<String, String>> listIterator = imports.listIterator();
+        while (listIterator.hasNext()) {
+            String _import = listIterator.next().get("import");
+            // if the import package happens to be found in the importMapping (key)
+            // add the corresponding import package to the list
+            if (importMapping.containsKey(_import)) {
+                listIterator.add(createMapping("import", importMapping.get(_import)));
+            }
+        }
+
+        return objs;
+    }
+
     private void setExportParameterName(List<CodegenParameter> codegenParameters) {
         for (CodegenParameter param : codegenParameters) {
             char nameFirstChar = param.paramName.charAt(0);
@@ -619,6 +724,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         for (ModelMap m : objs.getModels()) {
             boolean addedTimeImport = false;
             boolean addedOSImport = false;
+            boolean addedValidator = false;
             CodegenModel model = m.getModel();
 
             List<CodegenProperty> inheritedProperties = new ArrayList<>();
@@ -643,18 +749,30 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             for (CodegenProperty cp : codegenProperties) {
-                if (!addedTimeImport && ("time.Time".equals(cp.dataType) || (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
+                if (!addedTimeImport && ("time.Time".equals(cp.dataType) || (cp.items != null && "time.Time".equals(cp.items.complexType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
+                
                 if (!addedOSImport && ("*os.File".equals(cp.dataType) ||
                         (cp.items != null && "*os.File".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
+
+                if (cp.pattern != null) {
+                    cp.vendorExtensions.put("x-go-custom-tag", "validate:\"regexp=" +
+                        cp.pattern.replace("\\","\\\\").replaceAll("^/|/$","") +
+                        "\"");
+                }
             }
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
+            }
+
+            if(model.oneOf != null && !model.oneOf.isEmpty() && !addedValidator && generateUnmarshalJSON) {
+                imports.add(createMapping("import", "gopkg.in/validator.v2"));
+                addedValidator = true;
             }
 
             // if oneOf contains "null" type
@@ -670,7 +788,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             if (generateMarshalJSON) {
-                model.vendorExtensions.put("x-go-generate-marshal-json", true);
+                model.vendorExtensions.putIfAbsent("x-go-generate-marshal-json", true);
+            }
+
+            if (generateUnmarshalJSON) {
+                model.vendorExtensions.putIfAbsent("x-go-generate-unmarshal-json", true);
             }
         }
 
@@ -701,10 +823,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     protected boolean needToImport(String type) {
         return !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
     }
 
     @Override
@@ -741,6 +859,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         if (name.length() == 0) {
             return "EMPTY";
         }
@@ -775,6 +897,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toEnumName(CodegenProperty property) {
+        if (enumNameMapping.containsKey(property.name)) {
+            return enumNameMapping.get(property.name);
+        }
+
         String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum
@@ -785,38 +911,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         } else {
             return enumName;
         }
-    }
-
-    public void setWithGoCodegenComment(boolean withGoCodegenComment) {
-        this.withGoCodegenComment = withGoCodegenComment;
-    }
-
-    public void setWithAWSV4Signature(boolean withAWSV4Signature) {
-        this.withAWSV4Signature = withAWSV4Signature;
-    }
-
-    public void setWithXml(boolean withXml) {
-        this.withXml = withXml;
-    }
-
-    public void setEnumClassPrefix(boolean enumClassPrefix) {
-        this.enumClassPrefix = enumClassPrefix;
-    }
-
-    public void setStructPrefix(boolean structPrefix) {
-        this.structPrefix = structPrefix;
-    }
-
-    public void setGenerateInterfaces(boolean generateInterfaces) {
-        this.generateInterfaces = generateInterfaces;
-    }
-
-    public void setWithGoMod(boolean withGoMod) {
-        this.withGoMod = withGoMod;
-    }
-
-    public void setGenerateMarshalJSON(boolean generateMarshalJSON) {
-        this.generateMarshalJSON = generateMarshalJSON;
     }
 
     @Override
@@ -843,7 +937,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // only process the following type (or we can simply rely on the file extension to check if it's a Go file)
         Set<String> supportedFileType = new HashSet<>(
                 Arrays.asList(
-                        "supporting-mustache",
+                        "supporting-file",
                         "model-test",
                         "model",
                         "api-test",

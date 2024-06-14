@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * Order
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Order {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -115,6 +115,11 @@ public class Order {
         return StatusEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      StatusEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_STATUS = "status";
@@ -129,7 +134,6 @@ public class Order {
   }
 
   public Order id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -143,14 +147,12 @@ public class Order {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public Order petId(Long petId) {
-    
     this.petId = petId;
     return this;
   }
@@ -164,14 +166,12 @@ public class Order {
     return petId;
   }
 
-
   public void setPetId(Long petId) {
     this.petId = petId;
   }
 
 
   public Order quantity(Integer quantity) {
-    
     this.quantity = quantity;
     return this;
   }
@@ -185,14 +185,12 @@ public class Order {
     return quantity;
   }
 
-
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 
 
   public Order shipDate(OffsetDateTime shipDate) {
-    
     this.shipDate = shipDate;
     return this;
   }
@@ -206,14 +204,12 @@ public class Order {
     return shipDate;
   }
 
-
   public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 
 
   public Order status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }
@@ -227,14 +223,12 @@ public class Order {
     return status;
   }
 
-
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
 
   public Order complete(Boolean complete) {
-    
     this.complete = complete;
     return this;
   }
@@ -247,7 +241,6 @@ public class Order {
   public Boolean getComplete() {
     return complete;
   }
-
 
   public void setComplete(Boolean complete) {
     this.complete = complete;
@@ -382,6 +375,10 @@ public class Order {
       if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
+      // validate the optional field `status`
+      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -412,7 +409,12 @@ public class Order {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

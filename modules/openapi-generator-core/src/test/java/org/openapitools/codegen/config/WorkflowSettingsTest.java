@@ -120,4 +120,23 @@ public class WorkflowSettingsTest {
         WorkflowSettings defaults = WorkflowSettings.newBuilder().build();
         assertOnChangesToDefaults(defaults);
     }
+    @Test
+    public void customOutputDirIsSet() {
+        WorkflowSettings settings = WorkflowSettings.newBuilder()
+                .withOutputDir("custom/output/directory")
+                .build();
+
+        assertEquals(settings.getOutputDir(), Paths.get("custom/output/directory").toAbsolutePath().toString());
+    }
+
+    @Test
+    public void customGlobalPropertiesAreSet() {
+        WorkflowSettings settings = WorkflowSettings.newBuilder()
+                .withGlobalProperty("customKey", "customValue")
+                .build();
+
+        Map<String, String> properties = settings.getGlobalProperties();
+        assertEquals(properties.size(), 1, "Global Properties map should allow custom entries");
+        assertEquals(properties.getOrDefault("customKey", ""), "customValue");
+    }
 }

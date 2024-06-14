@@ -10,15 +10,15 @@
 
 
 use reqwest;
-
-use crate::apis::ResponseContent;
+use serde::{Deserialize, Serialize};
+use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
 /// struct for passing parameters to the method [`add_pet`]
 #[derive(Clone, Debug)]
 pub struct AddPetParams {
     /// Pet object that needs to be added to the store
-    pub pet: crate::models::Pet
+    pub pet: models::Pet
 }
 
 /// struct for passing parameters to the method [`delete_pet`]
@@ -54,7 +54,7 @@ pub struct GetPetByIdParams {
 #[derive(Clone, Debug)]
 pub struct UpdatePetParams {
     /// Pet object that needs to be added to the store
-    pub pet: crate::models::Pet
+    pub pet: models::Pet
 }
 
 /// struct for passing parameters to the method [`update_pet_with_form`]
@@ -84,7 +84,7 @@ pub struct UploadFileParams {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetSuccess {
-    Status200(crate::models::Pet),
+    Status200(models::Pet),
     UnknownValue(serde_json::Value),
 }
 
@@ -99,7 +99,7 @@ pub enum DeletePetSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByStatusSuccess {
-    Status200(Vec<crate::models::Pet>),
+    Status200(Vec<models::Pet>),
     UnknownValue(serde_json::Value),
 }
 
@@ -107,7 +107,7 @@ pub enum FindPetsByStatusSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByTagsSuccess {
-    Status200(Vec<crate::models::Pet>),
+    Status200(Vec<models::Pet>),
     UnknownValue(serde_json::Value),
 }
 
@@ -115,7 +115,7 @@ pub enum FindPetsByTagsSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPetByIdSuccess {
-    Status200(crate::models::Pet),
+    Status200(models::Pet),
     UnknownValue(serde_json::Value),
 }
 
@@ -123,7 +123,7 @@ pub enum GetPetByIdSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetSuccess {
-    Status200(crate::models::Pet),
+    Status200(models::Pet),
     UnknownValue(serde_json::Value),
 }
 
@@ -138,7 +138,7 @@ pub enum UpdatePetWithFormSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileSuccess {
-    Status200(crate::models::ApiResponse),
+    Status200(models::ApiResponse),
     UnknownValue(serde_json::Value),
 }
 

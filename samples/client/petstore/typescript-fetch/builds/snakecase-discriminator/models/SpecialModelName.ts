@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -30,10 +30,8 @@ export interface SpecialModelName {
 /**
  * Check if a given object implements the SpecialModelName interface.
  */
-export function instanceOfSpecialModelName(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfSpecialModelName(value: object): value is SpecialModelName {
+    return true;
 }
 
 export function SpecialModelNameFromJSON(json: any): SpecialModelName {
@@ -41,25 +39,22 @@ export function SpecialModelNameFromJSON(json: any): SpecialModelName {
 }
 
 export function SpecialModelNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): SpecialModelName {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        '$specialPropertyName': !exists(json, '$special[property.name]') ? undefined : json['$special[property.name]'],
+        '$specialPropertyName': json['$special[property.name]'] == null ? undefined : json['$special[property.name]'],
     };
 }
 
 export function SpecialModelNameToJSON(value?: SpecialModelName | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        '$special[property.name]': value.$specialPropertyName,
+        '$special[property.name]': value['$specialPropertyName'],
     };
 }
 

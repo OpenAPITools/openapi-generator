@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -36,10 +36,8 @@ export interface FileSchemaTestClass {
 /**
  * Check if a given object implements the FileSchemaTestClass interface.
  */
-export function instanceOfFileSchemaTestClass(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfFileSchemaTestClass(value: object): value is FileSchemaTestClass {
+    return true;
 }
 
 export function FileSchemaTestClassFromJSON(json: any): FileSchemaTestClass {
@@ -47,27 +45,24 @@ export function FileSchemaTestClassFromJSON(json: any): FileSchemaTestClass {
 }
 
 export function FileSchemaTestClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileSchemaTestClass {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'file': !exists(json, 'file') ? undefined : json['file'],
-        'files': !exists(json, 'files') ? undefined : json['files'],
+        'file': json['file'] == null ? undefined : json['file'],
+        'files': json['files'] == null ? undefined : json['files'],
     };
 }
 
 export function FileSchemaTestClassToJSON(value?: FileSchemaTestClass | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'file': value.file,
-        'files': value.files,
+        'file': value['file'],
+        'files': value['files'],
     };
 }
 

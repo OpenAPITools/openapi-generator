@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TypeHolderExample {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem;
@@ -86,7 +86,6 @@ public class TypeHolderExample {
     this.stringItem = stringItem;
   }
 
-
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     
     this.numberItem = numberItem;
@@ -111,7 +110,6 @@ public class TypeHolderExample {
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
-
 
   public TypeHolderExample floatItem(Float floatItem) {
     
@@ -138,7 +136,6 @@ public class TypeHolderExample {
     this.floatItem = floatItem;
   }
 
-
   public TypeHolderExample integerItem(Integer integerItem) {
     
     this.integerItem = integerItem;
@@ -164,7 +161,6 @@ public class TypeHolderExample {
     this.integerItem = integerItem;
   }
 
-
   public TypeHolderExample boolItem(Boolean boolItem) {
     
     this.boolItem = boolItem;
@@ -189,7 +185,6 @@ public class TypeHolderExample {
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
-
 
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     

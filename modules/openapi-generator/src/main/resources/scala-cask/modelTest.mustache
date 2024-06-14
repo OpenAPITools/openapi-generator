@@ -1,0 +1,37 @@
+{{>licenseInfo}}
+// this model was generated using modelTest.mustache
+package {{modelPackage}}
+{{#imports}}import {{import}}
+{{/imports}}
+
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
+import scala.util.*
+
+{{#models}}
+{{#model}}
+class {{classname}}Test extends AnyWordSpec with Matchers {
+
+{{#operations}}
+    // operation {{classname}}
+    //
+    {{#examples}}
+    key = {{key}}
+    value= {{value}}
+    {{/examples}}
+{{/operations}}
+    "{{classname}}.fromJson" should {
+        """not parse invalid json""" in {
+           val Failure(err) = Try({{classname}}Data.fromJsonString("invalid jason"))
+           err.getMessage should startWith ("Error parsing json 'invalid jason'")
+        }
+        """parse {{example}}""" ignore {
+           val Failure(err : ValidationErrors) = {{classname}}Data.fromJsonString("""{{example}}""").validated()
+
+           sys.error("TODO")
+        }
+    }
+
+}
+{{/model}}
+{{/models}}

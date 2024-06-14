@@ -3,6 +3,7 @@
 # flake8: noqa
 
 
+from datetime import date
 import os
 import time
 import unittest
@@ -118,6 +119,7 @@ class ModelTests(unittest.TestCase):
 
         nested_json = nested.to_json()
         nested2 = petstore_api.WithNestedOneOf.from_json(nested_json)
+        assert nested2 is not None
         self.assertEqual(nested2.to_json(), nested_json)
 
     def test_anyOf(self):
@@ -172,6 +174,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(dog.to_dict(), {'breed': 'bulldog', 'className':
             'dog', 'color': 'white'})
         dog2 = petstore_api.Dog.from_json(dog.to_json())
+        assert dog2 is not None
         self.assertEqual(dog2.breed, 'bulldog')
         self.assertEqual(dog2.class_name, "dog")
         self.assertEqual(dog2.color, 'white')
@@ -180,7 +183,8 @@ class ModelTests(unittest.TestCase):
     def test_list(self):
         # should throw exception as var_123_list should be string
         try:
-            l3 = petstore_api.List(var_123_list=123)
+            # Don't check the typing, because we are actually testing a typing error.
+            l3 = petstore_api.ListClass(**{"123-list": 123})  # type: ignore
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
             #error_message = (
@@ -189,13 +193,14 @@ class ModelTests(unittest.TestCase):
             #    "  str type expected (type=type_error.str)\n")
             self.assertTrue("str type expected" in str(e))
 
-        l = petstore_api.List(var_123_list="bulldog")
+        l = petstore_api.ListClass(**{"123-list": "bulldog"})
         self.assertEqual(l.to_json(), '{"123-list":"bulldog"}')
         self.assertEqual(l.to_dict(), {'123-list': 'bulldog'})
-        l2 = petstore_api.List.from_json(l.to_json())
-        self.assertEqual(l2.var_123_list, 'bulldog')
 
-        self.assertTrue(isinstance(l2, petstore_api.List))
+        l2 = petstore_api.ListClass.from_json(l.to_json())
+        assert l2 is not None
+        self.assertEqual(l2.var_123_list, 'bulldog')
+        self.assertTrue(isinstance(l2, petstore_api.ListClass))
 
     def test_enum_ref_property(self):
         # test enum ref property
@@ -204,26 +209,28 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(d.to_json(), '{"value": 1}')
         d2 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d2.to_json(), '{"str_value": "delivered", "value": 1}')
+
         # test from_json (round trip)
         d3 = petstore_api.OuterObjectWithEnumProperty.from_json(d2.to_json())
+        assert d3 is not None
         self.assertEqual(d3.str_value, petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d3.value, petstore_api.OuterEnumInteger.NUMBER_1)
         self.assertEqual(d3.to_json(), '{"str_value": "delivered", "value": 1}')
 
-    @unittest.skip("TODO: pydantic v2: 'float' field alias the 'float' type used by 'number'")
     def test_float_strict_type(self):
         # assigning 123 to float shouldn't throw an exception
-        a = petstore_api.FormatTest(number=39.8, float=123, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
-        self.assertEqual(a.float, 123.0)
+        a = petstore_api.FormatTest(number=39.8, float=123, byte=bytes("string", 'utf-8'), date=date(2013, 9, 17), password="testing09876")
+        self.assertEqual(a.var_float, 123.0)
 
         json_str = "{\"number\": 34.5, \"float\": \"456\", \"date\": \"2013-12-08\", \"password\": \"empty1234567\", \"pattern_with_digits\": \"1234567890\", \"pattern_with_digits_and_delimiter\": \"image_123\", \"string_with_double_quote_pattern\": \"this is \\\"something\\\"\", \"string\": \"string\"}"
         # no exception thrown when assigning 456 (integer) to float type since strict is set to false
         f = petstore_api.FormatTest.from_json(json_str)
-        self.assertEqual(f.float, 456.0)
+        assert f is not None
+        self.assertEqual(f.var_float, 456.0)
 
     def test_valdiator(self):
         # test regular expression
-        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
+        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date=date(2013, 9, 17), password="testing09876")
         try:
             a.pattern_with_digits_and_delimiter = "123"
             self.assertTrue(False) # this line shouldn't execute

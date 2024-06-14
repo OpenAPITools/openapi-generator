@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FileSchemaTestClass {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
@@ -60,13 +60,12 @@ public class FileSchemaTestClass {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<ModelFile> files;
+  private List<ModelFile> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
   }
 
   public FileSchemaTestClass _file(ModelFile _file) {
-    
     this._file = _file;
     return this;
   }
@@ -80,14 +79,12 @@ public class FileSchemaTestClass {
     return _file;
   }
 
-
   public void setFile(ModelFile _file) {
     this._file = _file;
   }
 
 
   public FileSchemaTestClass files(List<ModelFile> files) {
-    
     this.files = files;
     return this;
   }
@@ -108,7 +105,6 @@ public class FileSchemaTestClass {
   public List<ModelFile> getFiles() {
     return files;
   }
-
 
   public void setFiles(List<ModelFile> files) {
     this.files = files;

@@ -45,7 +45,9 @@ function Get-FunctionsToExport {
 }
 
 $ScriptDir = Split-Path $script:MyInvocation.MyCommand.Path
-$FunctionPath = 'Api', 'Model', 'Client' | ForEach-Object {Join-Path "$ScriptDir\src\PSPetstore\" $_}
+$FunctionPath = 'Api', 'Model', 'Client' | Where-Object {
+    Join-Path "$ScriptDir\src\PSPetstore\" $_ | Test-Path
+} | ForEach-Object { Join-Path "$ScriptDir\src\PSPetstore\" $_ }
 
 $Manifest = @{
     Path = "$ScriptDir\src\PSPetstore\PSPetstore.psd1"

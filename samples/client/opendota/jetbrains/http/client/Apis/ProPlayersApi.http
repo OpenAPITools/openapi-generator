@@ -1,0 +1,6 @@
+## ProPlayersApi
+
+### GET /proPlayers
+## GET /proPlayers
+GET https://api.opendota.com/api/proPlayers
+Accept: application/json; charset=utf-8

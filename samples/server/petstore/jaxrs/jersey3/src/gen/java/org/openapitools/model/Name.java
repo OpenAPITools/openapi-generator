@@ -31,7 +31,7 @@ import jakarta.validation.Valid;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Name   {
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)
@@ -139,10 +139,10 @@ public class Name   {
       return false;
     }
     Name name = (Name) o;
-    return Objects.equals(name, name.name) &&
-        Objects.equals(snakeCase, name.snakeCase) &&
-        Objects.equals(property, name.property) &&
-        Objects.equals(_123number, name._123number);
+    return Objects.equals(this.name, name.name) &&
+        Objects.equals(this.snakeCase, name.snakeCase) &&
+        Objects.equals(this.property, name.property) &&
+        Objects.equals(this._123number, name._123number);
   }
 
   @Override

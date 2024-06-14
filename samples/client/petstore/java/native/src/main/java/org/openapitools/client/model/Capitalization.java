@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * Capitalization
  */
@@ -39,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   private String smallCamel;
@@ -296,35 +297,114 @@ public class Capitalization {
 
     // add `smallCamel` to the URL query string
     if (getSmallCamel() != null) {
-      joiner.add(String.format("%ssmallCamel%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSmallCamel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssmallCamel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSmallCamel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `CapitalCamel` to the URL query string
     if (getCapitalCamel() != null) {
-      joiner.add(String.format("%sCapitalCamel%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCapitalCamel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sCapitalCamel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCapitalCamel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `small_Snake` to the URL query string
     if (getSmallSnake() != null) {
-      joiner.add(String.format("%ssmall_Snake%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSmallSnake()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssmall_Snake%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSmallSnake()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `Capital_Snake` to the URL query string
     if (getCapitalSnake() != null) {
-      joiner.add(String.format("%sCapital_Snake%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCapitalSnake()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sCapital_Snake%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCapitalSnake()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `SCA_ETH_Flow_Points` to the URL query string
     if (getScAETHFlowPoints() != null) {
-      joiner.add(String.format("%sSCA_ETH_Flow_Points%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getScAETHFlowPoints()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sSCA_ETH_Flow_Points%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getScAETHFlowPoints()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `ATT_NAME` to the URL query string
     if (getATTNAME() != null) {
-      joiner.add(String.format("%sATT_NAME%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getATTNAME()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sATT_NAME%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getATTNAME()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private Capitalization instance;
+
+    public Builder() {
+      this(new Capitalization());
+    }
+
+    protected Builder(Capitalization instance) {
+      this.instance = instance;
+    }
+
+    public Capitalization.Builder smallCamel(String smallCamel) {
+      this.instance.smallCamel = smallCamel;
+      return this;
+    }
+    public Capitalization.Builder capitalCamel(String capitalCamel) {
+      this.instance.capitalCamel = capitalCamel;
+      return this;
+    }
+    public Capitalization.Builder smallSnake(String smallSnake) {
+      this.instance.smallSnake = smallSnake;
+      return this;
+    }
+    public Capitalization.Builder capitalSnake(String capitalSnake) {
+      this.instance.capitalSnake = capitalSnake;
+      return this;
+    }
+    public Capitalization.Builder scAETHFlowPoints(String scAETHFlowPoints) {
+      this.instance.scAETHFlowPoints = scAETHFlowPoints;
+      return this;
+    }
+    public Capitalization.Builder ATT_NAME(String ATT_NAME) {
+      this.instance.ATT_NAME = ATT_NAME;
+      return this;
+    }
+
+
+    /**
+    * returns a built Capitalization instance.
+    *
+    * The builder is not reusable.
+    */
+    public Capitalization build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Capitalization.Builder builder() {
+    return new Capitalization.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Capitalization.Builder toBuilder() {
+    return new Capitalization.Builder()
+      .smallCamel(getSmallCamel())
+      .capitalCamel(getCapitalCamel())
+      .smallSnake(getSmallSnake())
+      .capitalSnake(getCapitalSnake())
+      .scAETHFlowPoints(getScAETHFlowPoints())
+      .ATT_NAME(getATTNAME());
+  }
+
 }
 

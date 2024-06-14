@@ -1,0 +1,161 @@
+openapi: 3.0.3
+info:
+  title: Test Issue
+  version: v1
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Foo'
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        stringPattern:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            pattern: "[a-z]"
+        stringMaxMinLength:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 10
+          maxItems: 10
+        stringMinLength:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          maxItems: 10
+        stringMaxLength:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            maxLength: 1
+          maxItems: 10
+
+
+        stringEmail:
+          type: array
+          items:
+            type: string
+            format: email
+        intMinMax:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+            maximum: 10
+        intMin:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+        intMax:
+          type: array
+          items:
+            type: integer
+            maximum: 10
+        numberMinMax:
+          type: array
+          items:
+            type: number
+            minimum: 1
+            maximum: 10
+        numberMin:
+          type: array
+          items:
+            type: number
+            minimum: 1
+        numberMax:
+          type: array
+          items:
+            type: number
+            maximum: 10
+
+        stringPatternNullable:
+          nullable: true
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            pattern: "[a-z]"
+        stringMaxMinLengthNullable:
+          nullable: true
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 10
+          maxItems: 10
+        stringMinLengthNullable:
+          nullable: true
+          type: array
+          items:
+            type: string
+            minLength: 1
+          maxItems: 10
+        stringMaxLengthNullable:
+          nullable: true
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            maxLength: 1
+          maxItems: 10
+        stringEmailNullable:
+          nullable: true
+          type: array
+          items:
+            type: string
+            format: email
+        intMinMaxNullable:
+          nullable: true
+          type: array
+          items:
+            type: integer
+            minimum: 1
+            maximum: 10
+        intMinNullable:
+          nullable: true
+          type: array
+          items:
+            type: integer
+            minimum: 1
+        intMaxNullable:
+          nullable: true
+          type: array
+          items:
+            type: integer
+            maximum: 10
+        numberMinMaxNullable:
+          nullable: true
+          type: array
+          items:
+            type: number
+            minimum: 1
+            maximum: 10
+        numberMinNullable:
+          nullable: true
+          type: array
+          items:
+            type: number
+            minimum: 1
+        numberMaxNullable:
+          nullable: true
+          type: array
+          items:
+            type: number
+            maximum: 10

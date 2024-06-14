@@ -23,7 +23,7 @@
 namespace OpenAPIServer\Auth;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Dyorg\TokenAuthentication;
+use Psr\Http\Message\ResponseInterface;
 use Dyorg\TokenAuthentication\TokenSearch;
 use Dyorg\TokenAuthentication\Exceptions\UnauthorizedExceptionInterface;
 
@@ -51,6 +51,32 @@ abstract class AbstractAuthenticator
      * @throws UnauthorizedExceptionInterface on invalid token
      */
     abstract protected function getUserByToken(string $token);
+
+    /**
+     * Handles the response for unauthorized access attempts.
+     * 
+     * This method is called when an access token is either not provided, invalid, or expired.
+     * It constructs a response that includes an error message, the status code, and any other relevant information.
+     * 
+     * @param ServerRequestInterface         $request The HTTP request that led to the unauthorized access attempt.
+     * @param ResponseInterface              $response The response object that will be modified to reflect the unauthorized status.
+     * @param UnauthorizedExceptionInterface $exception The exception triggered due to unauthorized access, containing details such as the error message.
+     *
+     * @return ResponseInterface The modified response object with the unauthorized access error information, including a 401 status code and a JSON body with the error message and token information.
+     */
+    public static function handleUnauthorized(ServerRequestInterface $request, ResponseInterface $response, UnauthorizedExceptionInterface $exception)
+    {
+        $output = [
+            'message' => $exception->getMessage(),
+            'token' => $request->getAttribute('authorization_token'),
+            'success' => false
+        ];
+    
+        $response->getBody()->write(json_encode($output));
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(401);
+    }
 
     /**
      * Authenticator constructor

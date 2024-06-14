@@ -1,14 +1,14 @@
 package org.openapitools.codegen.online.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openapitools.codegen.online.model.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasItem;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(GenApiController.class)
 public class GenApiControllerTest {
 
@@ -125,4 +125,12 @@ public class GenApiControllerTest {
                 .andExpect(header().string(HttpHeaders.CONTENT_LENGTH, not(0)));
     }
 
+    @Test
+    public void generateClientWithInvalidOpenAPIUrl() throws Exception {
+        final String invalidOpenAPIUrl = "https://[::1]/invalid_openapi.json";
+        mockMvc.perform(post("http://test.com:1234/api/gen/clients/java")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"openAPIUrl\": \"" + invalidOpenAPIUrl + "\"}"))
+                .andExpect(status().isBadRequest());
+    }
 }

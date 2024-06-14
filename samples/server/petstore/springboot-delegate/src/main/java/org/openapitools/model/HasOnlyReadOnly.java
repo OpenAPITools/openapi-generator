@@ -21,12 +21,24 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class HasOnlyReadOnly {
 
   private String bar;
 
   private String foo;
+
+  public HasOnlyReadOnly() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public HasOnlyReadOnly(String bar, String foo) {
+      this.bar = bar;
+      this.foo = foo;
+  }
 
   public HasOnlyReadOnly bar(String bar) {
     this.bar = bar;

@@ -14,9 +14,12 @@ import java.util.List;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
+/**
+* Represents a collection of functions to interact with the API endpoints.
+*/
 @Path("/user")
 @Api(description = "the user API")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class UserApi {
 
     @POST
@@ -34,7 +37,7 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUsersWithArrayInput(@Valid @NotNull List<User> body) {
+    public Response createUsersWithArrayInput(@Valid @NotNull List<@Valid User> body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -44,7 +47,7 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUsersWithListInput(@Valid @NotNull List<User> body) {
+    public Response createUsersWithListInput(@Valid @NotNull List<@Valid User> body) {
         return Response.ok().entity("magic!").build();
     }
 

@@ -6,6 +6,8 @@ All URIs are relative to *http://localhost:3000*
 |------------- | ------------- | -------------|
 | [**testAuthHttpBasic**](AuthApi.md#testAuthHttpBasic) | **POST** /auth/http/basic | To test HTTP basic authentication |
 | [**testAuthHttpBasicWithHttpInfo**](AuthApi.md#testAuthHttpBasicWithHttpInfo) | **POST** /auth/http/basic | To test HTTP basic authentication |
+| [**testAuthHttpBearer**](AuthApi.md#testAuthHttpBearer) | **POST** /auth/http/bearer | To test HTTP bearer authentication |
+| [**testAuthHttpBearerWithHttpInfo**](AuthApi.md#testAuthHttpBearerWithHttpInfo) | **POST** /auth/http/bearer | To test HTTP bearer authentication |
 
 
 
@@ -135,6 +137,142 @@ ApiResponse<**String**>
 ### Authorization
 
 [http_auth](../README.md#http_auth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+
+## testAuthHttpBearer
+
+> String testAuthHttpBearer()
+
+To test HTTP bearer authentication
+
+To test HTTP bearer authentication
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AuthApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+        
+        // Configure HTTP bearer authorization: http_bearer_auth
+        HttpBearerAuth http_bearer_auth = (HttpBearerAuth) defaultClient.getAuthentication("http_bearer_auth");
+        http_bearer_auth.setBearerToken("BEARER TOKEN");
+
+        AuthApi apiInstance = new AuthApi(defaultClient);
+        try {
+            String result = apiInstance.testAuthHttpBearer();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling AuthApi#testAuthHttpBearer");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+**String**
+
+
+### Authorization
+
+[http_bearer_auth](../README.md#http_bearer_auth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+## testAuthHttpBearerWithHttpInfo
+
+> ApiResponse<String> testAuthHttpBearer testAuthHttpBearerWithHttpInfo()
+
+To test HTTP bearer authentication
+
+To test HTTP bearer authentication
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AuthApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+        
+        // Configure HTTP bearer authorization: http_bearer_auth
+        HttpBearerAuth http_bearer_auth = (HttpBearerAuth) defaultClient.getAuthentication("http_bearer_auth");
+        http_bearer_auth.setBearerToken("BEARER TOKEN");
+
+        AuthApi apiInstance = new AuthApi(defaultClient);
+        try {
+            ApiResponse<String> response = apiInstance.testAuthHttpBearerWithHttpInfo();
+            System.out.println("Status code: " + response.getStatusCode());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
+        } catch (ApiException e) {
+            System.err.println("Exception when calling AuthApi#testAuthHttpBearer");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+ApiResponse<**String**>
+
+
+### Authorization
+
+[http_bearer_auth](../README.md#http_bearer_auth)
 
 ### HTTP request headers
 

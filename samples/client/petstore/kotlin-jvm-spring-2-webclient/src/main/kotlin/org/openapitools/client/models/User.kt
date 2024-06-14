@@ -16,6 +16,7 @@
 package org.openapitools.client.models
 
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -59,5 +60,8 @@ data class User (
     @field:JsonProperty("userStatus")
     val userStatus: kotlin.Int? = null
 
-)
+) {
+
+
+}
 

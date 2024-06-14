@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TypeHolderDefault {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem = "what";
@@ -82,7 +82,6 @@ public class TypeHolderDefault {
     this.stringItem = stringItem;
   }
 
-
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
     
     this.numberItem = numberItem;
@@ -107,7 +106,6 @@ public class TypeHolderDefault {
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
-
 
   public TypeHolderDefault integerItem(Integer integerItem) {
     
@@ -134,7 +132,6 @@ public class TypeHolderDefault {
     this.integerItem = integerItem;
   }
 
-
   public TypeHolderDefault boolItem(Boolean boolItem) {
     
     this.boolItem = boolItem;
@@ -159,7 +156,6 @@ public class TypeHolderDefault {
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
-
 
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
     

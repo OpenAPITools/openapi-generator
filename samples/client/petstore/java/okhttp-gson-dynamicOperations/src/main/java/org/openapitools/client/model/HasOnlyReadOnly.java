@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * HasOnlyReadOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class HasOnlyReadOnly {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
@@ -62,7 +62,6 @@ public class HasOnlyReadOnly {
   public HasOnlyReadOnly() {
   }
 
-  
   public HasOnlyReadOnly(
      String bar, 
      String foo
@@ -83,7 +82,6 @@ public class HasOnlyReadOnly {
 
 
 
-
    /**
    * Get foo
    * @return foo
@@ -92,7 +90,6 @@ public class HasOnlyReadOnly {
   public String getFoo() {
     return foo;
   }
-
 
 
 

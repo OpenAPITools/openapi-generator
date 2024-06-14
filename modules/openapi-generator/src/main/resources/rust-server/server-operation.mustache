@@ -574,27 +574,27 @@
 {{#vendorExtensions}}
 {{#x-produces-xml}}
 {{^x-has-namespace}}
-                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    let body_content = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
 {{/x-has-namespace}}
 {{#x-has-namespace}}
                                                     let mut namespaces = std::collections::BTreeMap::new();
 
                                                     // An empty string is used to indicate a global namespace in xmltree.
                                                     namespaces.insert("".to_string(), {{{dataType}}}::NAMESPACE.to_string());
-                                                    let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
+                                                    let body_content = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
 {{/x-has-namespace}}
 {{/x-produces-xml}}
 {{#x-produces-json}}
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
 {{/x-produces-json}}
 {{#x-produces-bytes}}
-                                                    let body = body.0;
+                                                    let body_content = body.0;
 {{/x-produces-bytes}}
 {{#x-produces-plain-text}}
-                                                    let body = body;
+                                                    let body_content = body;
 {{/x-produces-plain-text}}
 {{/vendorExtensions}}
-                                                    *response.body_mut() = Body::from(body);
+                                                    *response.body_mut() = Body::from(body_content);
 {{/dataType}}
                                                 },
 {{/responses}}

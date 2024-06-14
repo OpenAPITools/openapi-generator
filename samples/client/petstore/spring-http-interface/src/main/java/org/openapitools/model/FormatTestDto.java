@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FormatTestDto {
 
   private Integer integer;
@@ -56,6 +56,10 @@ public class FormatTestDto {
   private String password;
 
   private BigDecimal bigDecimal;
+
+  public FormatTestDto() {
+    super();
+  }
 
   public FormatTestDto integer(Integer integer) {
     this.integer = integer;

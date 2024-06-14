@@ -35,9 +35,6 @@ import okhttp3.Response
 {{#jvm-okhttp3}}
 import okhttp3.internal.Util.EMPTY_REQUEST
 {{/jvm-okhttp3}}
-{{#jvm-okhttp4}}
-import okhttp3.internal.EMPTY_REQUEST
-{{/jvm-okhttp4}}
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -76,6 +73,10 @@ import com.fasterxml.jackson.core.type.TypeReference
 {{#moshi}}
 import com.squareup.moshi.adapter
 {{/moshi}}
+
+{{#jvm-okhttp4}}
+{{#nonPublicApi}}internal {{/nonPublicApi}} val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+{{/jvm-okhttp4}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
@@ -299,7 +300,12 @@ import com.squareup.moshi.adapter
                     {{/isKeyInQuery}}
                 }
             }
+        {{#isKeyInQuery}}
         }
+        {{/isKeyInQuery}}
+        {{#isKeyInHeader}}
+        }
+        {{/isKeyInHeader}}
         {{/isApiKey}}
         {{#isBasic}}
         {{#isBasicBasic}}
@@ -406,6 +412,7 @@ import com.squareup.moshi.adapter
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.US)
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
+        @Suppress("UNNECESSARY_SAFE_CALL")
         return when {
             response.isRedirect -> Redirection(
                 response.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}},

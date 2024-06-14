@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -65,6 +65,20 @@ public class User {
   public User() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public User(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_USERNAME) String username, @JsonProperty(JSON_PROPERTY_FIRST_NAME) String firstName, @JsonProperty(JSON_PROPERTY_LAST_NAME) String lastName, @JsonProperty(JSON_PROPERTY_EMAIL) String email, @JsonProperty(JSON_PROPERTY_PASSWORD) String password, @JsonProperty(JSON_PROPERTY_PHONE) String phone, @JsonProperty(JSON_PROPERTY_USER_STATUS) Integer userStatus) {
+    this.id = id;
+    this.username = username;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.phone = phone;
+    this.userStatus = userStatus;
+  }
+
   public User id(Long id) {
     
     this.id = id;
@@ -89,7 +103,6 @@ public class User {
   public void setId(Long id) {
     this.id = id;
   }
-
 
   public User username(String username) {
     
@@ -116,7 +129,6 @@ public class User {
     this.username = username;
   }
 
-
   public User firstName(String firstName) {
     
     this.firstName = firstName;
@@ -141,7 +153,6 @@ public class User {
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
-
 
   public User lastName(String lastName) {
     
@@ -168,7 +179,6 @@ public class User {
     this.lastName = lastName;
   }
 
-
   public User email(String email) {
     
     this.email = email;
@@ -193,7 +203,6 @@ public class User {
   public void setEmail(String email) {
     this.email = email;
   }
-
 
   public User password(String password) {
     
@@ -220,7 +229,6 @@ public class User {
     this.password = password;
   }
 
-
   public User phone(String phone) {
     
     this.phone = phone;
@@ -245,7 +253,6 @@ public class User {
   public void setPhone(String phone) {
     this.phone = phone;
   }
-
 
   public User userStatus(Integer userStatus) {
     

@@ -41,7 +41,7 @@ import javax.validation.Valid;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE,
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class EnumTest   {
   /**
    * Gets or Sets enumString
@@ -294,7 +294,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnum")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
@@ -314,7 +314,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnumInteger")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
   }
@@ -334,7 +334,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnumDefaultValue")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public OuterEnumDefaultValue getOuterEnumDefaultValue() {
     return outerEnumDefaultValue;
   }
@@ -354,7 +354,7 @@ public class EnumTest   {
    **/
   @JsonProperty(value = "outerEnumIntegerDefaultValue")
   @ApiModelProperty(value = "")
-  @Valid 
+  
   public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;
   }
@@ -373,14 +373,14 @@ public class EnumTest   {
       return false;
     }
     EnumTest enumTest = (EnumTest) o;
-    return Objects.equals(enumString, enumTest.enumString) &&
-        Objects.equals(enumStringRequired, enumTest.enumStringRequired) &&
-        Objects.equals(enumInteger, enumTest.enumInteger) &&
-        Objects.equals(enumNumber, enumTest.enumNumber) &&
-        Objects.equals(outerEnum, enumTest.outerEnum) &&
-        Objects.equals(outerEnumInteger, enumTest.outerEnumInteger) &&
-        Objects.equals(outerEnumDefaultValue, enumTest.outerEnumDefaultValue) &&
-        Objects.equals(outerEnumIntegerDefaultValue, enumTest.outerEnumIntegerDefaultValue);
+    return Objects.equals(this.enumString, enumTest.enumString) &&
+        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
+        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
+        Objects.equals(this.outerEnum, enumTest.outerEnum) &&
+        Objects.equals(this.outerEnumInteger, enumTest.outerEnumInteger) &&
+        Objects.equals(this.outerEnumDefaultValue, enumTest.outerEnumDefaultValue) &&
+        Objects.equals(this.outerEnumIntegerDefaultValue, enumTest.outerEnumIntegerDefaultValue);
   }
 
   @Override

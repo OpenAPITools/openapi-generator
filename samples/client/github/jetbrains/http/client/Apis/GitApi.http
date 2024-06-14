@@ -1,0 +1,127 @@
+## GitApi
+
+### Create a blob
+## Create a blob
+POST https://api.github.com/repos/{{owner}}/{{repo}}/git/blobs
+Content-Type: application/json
+Accept: application/json
+
+{
+  "content" : "Content of the blob",
+  "encoding" : "utf-8"
+}
+
+
+### Create a commit
+## Create a commit
+POST https://api.github.com/repos/{{owner}}/{{repo}}/git/commits
+Content-Type: application/json
+Accept: application/json
+
+{
+  "message" : "my commit message",
+  "author" : {
+    "name" : "Mona Octocat",
+    "email" : "octocat@github.com",
+    "date" : "2008-07-09T16:13:30+12:00"
+  },
+  "parents" : [ "7d1b31e74ee336d15cbd21741bc88a537ed063a0" ],
+  "tree" : "827efc6d56897b048c772eb4087f854f46256132",
+  "signature" : "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABAQAdFiEESn/54jMNIrGSE6Tp6cQjvhfv7nAFAlnT71cACgkQ6cQjvhfv\n7nCWwA//XVqBKWO0zF+bZl6pggvky3Oc2j1pNFuRWZ29LXpNuD5WUGXGG209B0hI\nDkmcGk19ZKUTnEUJV2Xd0R7AW01S/YSub7OYcgBkI7qUE13FVHN5ln1KvH2all2n\n2+JCV1HcJLEoTjqIFZSSu/sMdhkLQ9/NsmMAzpf/iIM0nQOyU4YRex9eD1bYj6nA\nOQPIDdAuaTQj1gFPHYLzM4zJnCqGdRlg0sOM/zC5apBNzIwlgREatOYQSCfCKV7k\nnrU34X8b9BzQaUx48Qa+Dmfn5KQ8dl27RNeWAqlkuWyv3pUauH9UeYW+KyuJeMkU\n+NyHgAsWFaCFl23kCHThbLStMZOYEnGagrd0hnm1TPS4GJkV4wfYMwnI4KuSlHKB\njHl3Js9vNzEUQipQJbgCgTiWvRJoK3ENwBTMVkKHaqT4x9U4Jk/XZB6Q8MA09ezJ\n3QgiTjTAGcum9E9QiJqMYdWQPWkaBIRRz5cET6HPB48YNXAAUsfmuYsGrnVLYbG+\nUpC6I97VybYHTy2O9XSGoaLeMI9CsFn38ycAxxbWagk5mhclNTP5mezIq6wKSwmr\nX11FW3n1J23fWZn5HJMBsRnUCgzqzX3871IqLYHqRJ/bpZ4h20RhTyPj5c/z7QXp\neSakNQMfbbMcljkha+ZMuVQX1K9aRlVqbmv3ZMWh+OijLYVU2bc=\n=5Io4\n-----END PGP SIGNATURE-----\n"
+}
+
+
+### Create a reference
+## Create a reference
+POST https://api.github.com/repos/{{owner}}/{{repo}}/git/refs
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref" : "refs/heads/featureA",
+  "sha" : "aa218f56b14c9653891f9e74264a383fa43fefbd"
+}
+
+
+### Create a tag object
+## Create a tag object
+POST https://api.github.com/repos/{{owner}}/{{repo}}/git/tags
+Content-Type: application/json
+Accept: application/json
+
+{
+  "tag" : "v0.0.1",
+  "message" : "initial version",
+  "object" : "c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c",
+  "type" : "commit",
+  "tagger" : {
+    "name" : "Monalisa Octocat",
+    "email" : "octocat@github.com",
+    "date" : "2011-06-17T14:53:35-07:00"
+  }
+}
+
+
+### Create a tree
+## Create a tree
+POST https://api.github.com/repos/{{owner}}/{{repo}}/git/trees
+Content-Type: application/json
+Accept: application/json
+
+{
+  "base_tree" : "9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
+  "tree" : [ {
+    "path" : "file.rb",
+    "mode" : "100644",
+    "type" : "blob",
+    "sha" : "44b4fc6d56897b048c772eb4087f854f46256132"
+  } ]
+}
+
+
+### Delete a reference
+## Delete a reference
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/git/refs/{{ref}}
+Accept: application/json
+
+### Get a blob
+## Get a blob
+GET https://api.github.com/repos/{{owner}}/{{repo}}/git/blobs/{{file_sha}}
+Accept: application/json
+
+### Get a commit object
+## Get a commit object
+GET https://api.github.com/repos/{{owner}}/{{repo}}/git/commits/{{commit_sha}}
+Accept: application/json
+
+### Get a reference
+## Get a reference
+GET https://api.github.com/repos/{{owner}}/{{repo}}/git/ref/{{ref}}
+Accept: application/json
+
+### Get a tag
+## Get a tag
+GET https://api.github.com/repos/{{owner}}/{{repo}}/git/tags/{{tag_sha}}
+Accept: application/json
+
+### Get a tree
+## Get a tree
+GET https://api.github.com/repos/{{owner}}/{{repo}}/git/trees/{{tree_sha}}?recursive={{recursive}}
+Accept: application/json
+
+### List matching references
+## List matching references
+GET https://api.github.com/repos/{{owner}}/{{repo}}/git/matching-refs/{{ref}}
+Accept: application/json
+
+### Update a reference
+## Update a reference
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/git/refs/{{ref}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "sha" : "aa218f56b14c9653891f9e74264a383fa43fefbd",
+  "force" : true
+}
+

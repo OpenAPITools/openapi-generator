@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
   @Valid
@@ -49,6 +49,16 @@ public class ContainerDefaultValue {
   public ContainerDefaultValue(List<String> nullableRequiredArray, List<String> requiredArray) {
     this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
     this.requiredArray = requiredArray;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ContainerDefaultValue(List<String> nullableArray, List<String> nullableRequiredArray, List<String> requiredArray, List<String> nullableArrayWithDefault) {
+      this.nullableArray = JsonNullable.of(nullableArray);
+      this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
+      this.requiredArray = requiredArray;
+      this.nullableArrayWithDefault = JsonNullable.of(nullableArrayWithDefault);
   }
 
   public ContainerDefaultValue nullableArray(List<String> nullableArray) {

@@ -13,6 +13,8 @@
 
 package org.openapitools.client.api;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.openapitools.client.ApiException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -21,11 +23,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.client.ApiResponse;
 
 /**
  * API tests for AuthApi
  */
-@Disabled
 public class AuthApiTest {
 
     private final AuthApi api = new AuthApi();
@@ -41,6 +43,25 @@ public class AuthApiTest {
     public void testAuthHttpBasicTest() throws ApiException {
         String response = api.testAuthHttpBasic();
         // TODO: test validations
+    }
+
+    /**
+     * To test HTTP bearer authentication
+     *
+     * To test HTTP bearer authentication
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void testAuthHttpBearerTest() throws ApiException {
+        String response;
+        api.getApiClient().setBearerToken("fixed token");
+        response = api.testAuthHttpBearer();
+        Assertions.assertTrue(response.contains("Authorization: Bearer fixed token"));
+
+        api.getApiClient().setBearerToken(() -> "dynamic token");
+        response = api.testAuthHttpBearer();
+        Assertions.assertTrue(response.contains("Authorization: Bearer dynamic token"));
     }
 
 }

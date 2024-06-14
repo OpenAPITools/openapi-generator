@@ -40,7 +40,7 @@ import java.util.StringJoiner;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   private String uuid;
@@ -52,7 +52,7 @@ public class ObjectWithDeprecatedFields {
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
-  private List<String> bars;
+  private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() {
   }
@@ -82,7 +82,6 @@ public class ObjectWithDeprecatedFields {
     this.uuid = uuid;
   }
 
-
   public ObjectWithDeprecatedFields id(BigDecimal id) {
     
     this.id = id;
@@ -110,7 +109,6 @@ public class ObjectWithDeprecatedFields {
     this.id = id;
   }
 
-
   public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
     
     this.deprecatedRef = deprecatedRef;
@@ -137,7 +135,6 @@ public class ObjectWithDeprecatedFields {
   public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
-
 
   public ObjectWithDeprecatedFields bars(List<String> bars) {
     

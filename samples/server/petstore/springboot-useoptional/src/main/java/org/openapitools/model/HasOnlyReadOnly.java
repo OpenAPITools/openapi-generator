@@ -21,15 +21,15 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class HasOnlyReadOnly {
 
-  private String bar;
+  private Optional<String> bar = Optional.empty();
 
-  private String foo;
+  private Optional<String> foo = Optional.empty();
 
   public HasOnlyReadOnly bar(String bar) {
-    this.bar = bar;
+    this.bar = Optional.of(bar);
     return this;
   }
 
@@ -40,16 +40,16 @@ public class HasOnlyReadOnly {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
-  public String getBar() {
+  public Optional<String> getBar() {
     return bar;
   }
 
-  public void setBar(String bar) {
+  public void setBar(Optional<String> bar) {
     this.bar = bar;
   }
 
   public HasOnlyReadOnly foo(String foo) {
-    this.foo = foo;
+    this.foo = Optional.of(foo);
     return this;
   }
 
@@ -60,11 +60,11 @@ public class HasOnlyReadOnly {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("foo")
-  public String getFoo() {
+  public Optional<String> getFoo() {
     return foo;
   }
 
-  public void setFoo(String foo) {
+  public void setFoo(Optional<String> foo) {
     this.foo = foo;
   }
 
@@ -106,5 +106,69 @@ public class HasOnlyReadOnly {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private HasOnlyReadOnly instance;
+
+    public Builder() {
+      this(new HasOnlyReadOnly());
+    }
+
+    protected Builder(HasOnlyReadOnly instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(HasOnlyReadOnly value) { 
+      this.instance.setBar(value.bar);
+      this.instance.setFoo(value.foo);
+      return this;
+    }
+
+    public HasOnlyReadOnly.Builder bar(String bar) {
+      this.instance.bar(bar);
+      return this;
+    }
+    
+    public HasOnlyReadOnly.Builder foo(String foo) {
+      this.instance.foo(foo);
+      return this;
+    }
+    
+    /**
+    * returns a built HasOnlyReadOnly instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public HasOnlyReadOnly build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static HasOnlyReadOnly.Builder builder() {
+    return new HasOnlyReadOnly.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public HasOnlyReadOnly.Builder toBuilder() {
+    HasOnlyReadOnly.Builder builder = new HasOnlyReadOnly.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

@@ -1,0 +1,12 @@
+title: Pet category
+description: A category for a pet
+type: object
+properties:
+  id:
+    type: integer
+    format: int64
+  name:
+    type: string
+    pattern: '^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$'
+xml:
+  name: Category

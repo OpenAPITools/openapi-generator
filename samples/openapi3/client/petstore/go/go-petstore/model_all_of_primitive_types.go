@@ -96,10 +96,10 @@ func (o AllOfPrimitiveTypes) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *AllOfPrimitiveTypes) UnmarshalJSON(bytes []byte) (err error) {
+func (o *AllOfPrimitiveTypes) UnmarshalJSON(data []byte) (err error) {
 	varAllOfPrimitiveTypes := _AllOfPrimitiveTypes{}
 
-	err = json.Unmarshal(bytes, &varAllOfPrimitiveTypes)
+	err = json.Unmarshal(data, &varAllOfPrimitiveTypes)
 
 	if err != nil {
 		return err
@@ -109,7 +109,7 @@ func (o *AllOfPrimitiveTypes) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "test")
 		o.AdditionalProperties = additionalProperties
 	}

@@ -44,6 +44,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
+|useDateTimeForDate|Use DateTime to model date properties even if DateOnly supported. (.net 6.0+ only)| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
 
@@ -67,6 +68,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>Boolean</li>
 <li>Collection</li>
+<li>DateOnly</li>
+<li>DateOnly?</li>
 <li>DateTime</li>
 <li>DateTime?</li>
 <li>DateTimeOffset</li>
@@ -109,6 +112,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>Client</li>
 <li>Configuration</li>
+<li>Environment</li>
+<li>OperatingSystem</li>
+<li>TimeZone</li>
 <li>Version</li>
 <li>abstract</li>
 <li>as</li>
@@ -319,6 +325,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
 |SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

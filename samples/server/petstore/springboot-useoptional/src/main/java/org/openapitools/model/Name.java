@@ -20,16 +20,16 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Name {
 
   private Integer name;
 
-  private Integer snakeCase;
+  private Optional<Integer> snakeCase = Optional.empty();
 
-  private String property;
+  private Optional<String> property = Optional.empty();
 
-  private Integer _123number;
+  private Optional<Integer> _123number = Optional.empty();
 
   public Name() {
     super();
@@ -63,7 +63,7 @@ public class Name {
   }
 
   public Name snakeCase(Integer snakeCase) {
-    this.snakeCase = snakeCase;
+    this.snakeCase = Optional.of(snakeCase);
     return this;
   }
 
@@ -74,16 +74,16 @@ public class Name {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("snake_case")
-  public Integer getSnakeCase() {
+  public Optional<Integer> getSnakeCase() {
     return snakeCase;
   }
 
-  public void setSnakeCase(Integer snakeCase) {
+  public void setSnakeCase(Optional<Integer> snakeCase) {
     this.snakeCase = snakeCase;
   }
 
   public Name property(String property) {
-    this.property = property;
+    this.property = Optional.of(property);
     return this;
   }
 
@@ -94,16 +94,16 @@ public class Name {
   
   @ApiModelProperty(value = "")
   @JsonProperty("property")
-  public String getProperty() {
+  public Optional<String> getProperty() {
     return property;
   }
 
-  public void setProperty(String property) {
+  public void setProperty(Optional<String> property) {
     this.property = property;
   }
 
   public Name _123number(Integer _123number) {
-    this._123number = _123number;
+    this._123number = Optional.of(_123number);
     return this;
   }
 
@@ -114,11 +114,11 @@ public class Name {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("123Number")
-  public Integer get123number() {
+  public Optional<Integer> get123number() {
     return _123number;
   }
 
-  public void set123number(Integer _123number) {
+  public void set123number(Optional<Integer> _123number) {
     this._123number = _123number;
   }
 
@@ -164,5 +164,81 @@ public class Name {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Name instance;
+
+    public Builder() {
+      this(new Name());
+    }
+
+    protected Builder(Name instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Name value) { 
+      this.instance.setName(value.name);
+      this.instance.setSnakeCase(value.snakeCase);
+      this.instance.setProperty(value.property);
+      this.instance.set123number(value._123number);
+      return this;
+    }
+
+    public Name.Builder name(Integer name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    public Name.Builder snakeCase(Integer snakeCase) {
+      this.instance.snakeCase(snakeCase);
+      return this;
+    }
+    
+    public Name.Builder property(String property) {
+      this.instance.property(property);
+      return this;
+    }
+    
+    public Name.Builder _123number(Integer _123number) {
+      this.instance._123number(_123number);
+      return this;
+    }
+    
+    /**
+    * returns a built Name instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Name build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Name.Builder builder() {
+    return new Name.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Name.Builder toBuilder() {
+    Name.Builder builder = new Name.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

@@ -7,10 +7,12 @@ All URIs are relative to http://localhost:3000, except if the operation defines 
 | [**testBinaryGif()**](BodyApi.md#testBinaryGif) | **POST** /binary/gif | Test binary (gif) response body |
 | [**testBodyApplicationOctetstreamBinary()**](BodyApi.md#testBodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s) |
 | [**testBodyMultipartFormdataArrayOfBinary()**](BodyApi.md#testBodyMultipartFormdataArrayOfBinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime |
+| [**testBodyMultipartFormdataSingleBinary()**](BodyApi.md#testBodyMultipartFormdataSingleBinary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime |
 | [**testEchoBodyAllOfPet()**](BodyApi.md#testEchoBodyAllOfPet) | **POST** /echo/body/allOf/Pet | Test body parameter(s) |
 | [**testEchoBodyFreeFormObjectResponseString()**](BodyApi.md#testEchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object |
 | [**testEchoBodyPet()**](BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s) |
 | [**testEchoBodyPetResponseString()**](BodyApi.md#testEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body |
+| [**testEchoBodyStringEnum()**](BodyApi.md#testEchoBodyStringEnum) | **POST** /echo/body/string_enum | Test string enum response body |
 | [**testEchoBodyTagResponseString()**](BodyApi.md#testEchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body) |
 
 
@@ -161,6 +163,62 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **files** | **\SplFileObject[]**|  | |
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `multipart/form-data`
+- **Accept**: `text/plain`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `testBodyMultipartFormdataSingleBinary()`
+
+```php
+testBodyMultipartFormdataSingleBinary($my_file): string
+```
+
+Test single binary in multipart mime
+
+Test single binary in multipart mime
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\BodyApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$my_file = "/path/to/file.txt"; // \SplFileObject
+
+try {
+    $result = $apiInstance->testBodyMultipartFormdataSingleBinary($my_file);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling BodyApi->testBodyMultipartFormdataSingleBinary: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **my_file** | **\SplFileObject****\SplFileObject**|  | [optional] |
 
 ### Return type
 
@@ -398,6 +456,62 @@ No authorization required
 
 - **Content-Type**: `application/json`
 - **Accept**: `text/plain`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `testEchoBodyStringEnum()`
+
+```php
+testEchoBodyStringEnum($body): \OpenAPI\Client\Model\StringEnumRef
+```
+
+Test string enum response body
+
+Test string enum response body
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\BodyApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$body = 'body_example'; // string | String enum
+
+try {
+    $result = $apiInstance->testEchoBodyStringEnum($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling BodyApi->testEchoBodyStringEnum: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **body** | **string**| String enum | [optional] |
+
+### Return type
+
+[**\OpenAPI\Client\Model\StringEnumRef**](../Model/StringEnumRef.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)

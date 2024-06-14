@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Bird
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Bird {
   public static final String SERIALIZED_NAME_SIZE = "size";
   @SerializedName(SERIALIZED_NAME_SIZE)
@@ -63,7 +63,6 @@ public class Bird {
   }
 
   public Bird size(String size) {
-    
     this.size = size;
     return this;
   }
@@ -77,14 +76,12 @@ public class Bird {
     return size;
   }
 
-
   public void setSize(String size) {
     this.size = size;
   }
 
 
   public Bird color(String color) {
-    
     this.color = color;
     return this;
   }
@@ -97,7 +94,6 @@ public class Bird {
   public String getColor() {
     return color;
   }
-
 
   public void setColor(String color) {
     this.color = color;

@@ -103,7 +103,7 @@ ext {
     swagger_annotations_version = "1.5.22"
     junit_version = "4.13.2"
     rx_java_version = "3.0.4"
-    json_fire_version = "1.8.0"
+    json_fire_version = "1.9.0"
 }
 
 dependencies {

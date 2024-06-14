@@ -27,7 +27,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FormatTest {
 
   private Integer integer;
@@ -72,6 +72,26 @@ public class FormatTest {
     this._byte = _byte;
     this.date = date;
     this.password = password;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public FormatTest(Integer integer, Integer int32, Long int64, BigDecimal number, Float _float, Double _double, String string, byte[] _byte, org.springframework.core.io.Resource binary, LocalDate date, OffsetDateTime dateTime, UUID uuid, String password, BigDecimal bigDecimal) {
+      this.integer = integer;
+      this.int32 = int32;
+      this.int64 = int64;
+      this.number = number;
+      this._float = _float;
+      this._double = _double;
+      this.string = string;
+      this._byte = _byte;
+      this.binary = binary;
+      this.date = date;
+      this.dateTime = dateTime;
+      this.uuid = uuid;
+      this.password = password;
+      this.bigDecimal = bigDecimal;
   }
 
   public FormatTest integer(Integer integer) {

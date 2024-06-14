@@ -17,8 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -44,9 +44,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected static int emptyFunctionNameCounter = 0;
     public static final String MODULE_NAME = "moduleName";
     public static final String MODULE_VERSION = "moduleVersion";
-    protected String moduleName = "WWW::OpenAPIClient";
-    protected String modulePathPart = moduleName.replaceAll("::", Matcher.quoteReplacement(File.separator));
-    protected String moduleVersion = "1.0.0";
+    @Setter protected String moduleName = "WWW::OpenAPIClient";
+    @Setter protected String modulePathPart = moduleName.replaceAll("::", Matcher.quoteReplacement(File.separator));
+    @Setter protected String moduleVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
@@ -140,6 +140,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("set", "ARRAY");
         typeMapping.put("map", "HASH");
         typeMapping.put("object", "object");
+        typeMapping.put("AnyType", "object");
         typeMapping.put("binary", "string");
         typeMapping.put("file", "string");
         typeMapping.put("ByteArray", "string");
@@ -158,8 +159,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(
-                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
-                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC)
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
 
     }
@@ -201,6 +202,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("cpanfile.mustache", "", "cpanfile"));
     }
 
     @Override
@@ -259,8 +261,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -462,18 +463,6 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         //return underscore(operationId).replaceAll("[^A-Za-z0-9_]", "");
         return underscore(sanitizeName(operationId));
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void setModulePathPart(String modulePathPart) {
-        this.modulePathPart = modulePathPart;
-    }
-
-    public void setModuleVersion(String moduleVersion) {
-        this.moduleVersion = moduleVersion;
     }
 
     @Override
@@ -699,9 +688,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
      * A custom version is made for this method to ensure that
      * property.format remains empty string
      *
-     * @param name name of the property
-     * @param p OAS property schema
-     * @param required true if the property is required in the next higher object schema, false otherwise
+     * @param name                             name of the property
+     * @param p                                OAS property schema
+     * @param required                         true if the property is required in the next higher object schema, false otherwise
      * @param schemaIsFromAdditionalProperties true if the property is defined by additional properties schema
      * @return Codegen Property object
      */
@@ -713,5 +702,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PERL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.PERL;
+    }
 }

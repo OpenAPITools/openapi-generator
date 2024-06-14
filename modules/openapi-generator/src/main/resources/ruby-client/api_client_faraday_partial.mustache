@@ -6,7 +6,7 @@
       stream = nil
       begin
         response = connection(opts).public_send(http_method.to_sym.downcase) do |req|
-          build_request(http_method, path, req, opts)
+          request = build_request(http_method, path, req, opts)
           stream = download_file(request) if opts[:return_type] == 'File' || opts[:return_type] == 'Binary'
         end
 
@@ -33,7 +33,7 @@
       end
 
       if opts[:return_type] == 'File' || opts[:return_type] == 'Binary'
-        data = deserialize_file(stream)
+        data = deserialize_file(response, stream)
       elsif opts[:return_type]
         data = deserialize(response, opts[:return_type])
       else
@@ -94,8 +94,7 @@
         form_params.each do |key, value|
           case value
           when ::File, ::Tempfile
-            # TODO hardcode to application/octet-stream, need better way to detect content type
-            data[key] = Faraday::FilePart.new(value.path, 'application/octet-stream', value.path)
+            data[key] = Faraday::FilePart.new(value.path, Marcel::MimeType.for(Pathname.new(value.path)))
           when ::Array, nil
             # let Faraday handle Array and nil parameters
             data[key] = value

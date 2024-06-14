@@ -28,7 +28,7 @@ type FormatTest struct {
 	Number float32 `json:"number"`
 	Float *float32 `json:"float,omitempty"`
 	Double *float64 `json:"double,omitempty"`
-	String *string `json:"string,omitempty"`
+	String *string `json:"string,omitempty" validate:"regexp=[a-z]/i"`
 	Byte string `json:"byte"`
 	Binary **os.File `json:"binary,omitempty"`
 	Date string `json:"date"`
@@ -36,9 +36,9 @@ type FormatTest struct {
 	Uuid *string `json:"uuid,omitempty"`
 	Password string `json:"password"`
 	// A string that is a 10 digit number. Can have leading zeros.
-	PatternWithDigits *string `json:"pattern_with_digits,omitempty"`
+	PatternWithDigits *string `json:"pattern_with_digits,omitempty" validate:"regexp=^\\\\d{10}$"`
 	// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
-	PatternWithDigitsAndDelimiter *string `json:"pattern_with_digits_and_delimiter,omitempty"`
+	PatternWithDigitsAndDelimiter *string `json:"pattern_with_digits_and_delimiter,omitempty" validate:"regexp=^image_\\\\d{1,3}$/i"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -568,8 +568,8 @@ func (o FormatTest) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *FormatTest) UnmarshalJSON(bytes []byte) (err error) {
-    // This validates that all required properties are included in the JSON object
+func (o *FormatTest) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
@@ -581,7 +581,7 @@ func (o *FormatTest) UnmarshalJSON(bytes []byte) (err error) {
 
 	allProperties := make(map[string]interface{})
 
-	err = json.Unmarshal(bytes, &allProperties)
+	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
 		return err;
@@ -595,7 +595,7 @@ func (o *FormatTest) UnmarshalJSON(bytes []byte) (err error) {
 
 	varFormatTest := _FormatTest{}
 
-	err = json.Unmarshal(bytes, &varFormatTest)
+	err = json.Unmarshal(data, &varFormatTest)
 
 	if err != nil {
 		return err
@@ -605,7 +605,7 @@ func (o *FormatTest) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "integer")
 		delete(additionalProperties, "int32")
 		delete(additionalProperties, "int64")

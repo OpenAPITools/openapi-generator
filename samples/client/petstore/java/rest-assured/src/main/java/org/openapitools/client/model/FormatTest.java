@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FormatTest {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
@@ -118,7 +118,6 @@ public class FormatTest {
     this.integer = integer;
   }
 
-
   public FormatTest int32(Integer int32) {
     
     this.int32 = int32;
@@ -143,7 +142,6 @@ public class FormatTest {
     this.int32 = int32;
   }
 
-
   public FormatTest int64(Long int64) {
     
     this.int64 = int64;
@@ -165,7 +163,6 @@ public class FormatTest {
   public void setInt64(Long int64) {
     this.int64 = int64;
   }
-
 
   public FormatTest number(BigDecimal number) {
     
@@ -193,7 +190,6 @@ public class FormatTest {
     this.number = number;
   }
 
-
   public FormatTest _float(Float _float) {
     
     this._float = _float;
@@ -217,7 +213,6 @@ public class FormatTest {
   public void setFloat(Float _float) {
     this._float = _float;
   }
-
 
   public FormatTest _double(Double _double) {
     
@@ -243,7 +238,6 @@ public class FormatTest {
     this._double = _double;
   }
 
-
   public FormatTest string(String string) {
     
     this.string = string;
@@ -265,7 +259,6 @@ public class FormatTest {
   public void setString(String string) {
     this.string = string;
   }
-
 
   public FormatTest _byte(byte[] _byte) {
     
@@ -290,7 +283,6 @@ public class FormatTest {
     this._byte = _byte;
   }
 
-
   public FormatTest binary(File binary) {
     
     this.binary = binary;
@@ -313,7 +305,6 @@ public class FormatTest {
   public void setBinary(File binary) {
     this.binary = binary;
   }
-
 
   public FormatTest date(LocalDate date) {
     
@@ -339,7 +330,6 @@ public class FormatTest {
     this.date = date;
   }
 
-
   public FormatTest dateTime(OffsetDateTime dateTime) {
     
     this.dateTime = dateTime;
@@ -362,7 +352,6 @@ public class FormatTest {
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
-
 
   public FormatTest uuid(UUID uuid) {
     
@@ -387,7 +376,6 @@ public class FormatTest {
     this.uuid = uuid;
   }
 
-
   public FormatTest password(String password) {
     
     this.password = password;
@@ -410,7 +398,6 @@ public class FormatTest {
   public void setPassword(String password) {
     this.password = password;
   }
-
 
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
     

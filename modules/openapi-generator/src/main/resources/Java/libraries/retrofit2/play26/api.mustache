@@ -17,6 +17,11 @@ import okhttp3.MultipartBody;
 {{#imports}}import {{import}};
 {{/imports}}
 
+{{#useBeanValidation}}
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+{{/useBeanValidation}}
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -96,6 +96,14 @@
             <artifactId>resteasy-validator-provider-11</artifactId>
             <version>${resteasy-version}</version>
             <scope>provided</scope>
+            <!-- excluded validation-api:1.1.0.Final due to fact that it doesn't support TYPE_USE,
+for this project used jakarta.validation-api -->
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
@@ -120,10 +128,18 @@
             <groupId>io.swagger</groupId>
             <artifactId>swagger-jaxrs</artifactId>
             <version>${swagger-core-version}</version>
+            <!-- excluded validation-api:1.1.0.Final due to fact that it doesn't support TYPE_USE,
+for this project used jakarta.validation-api -->
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
@@ -134,8 +150,8 @@
             <scope>test</scope>
             <exclusions>
                 <exclusion>
-                    <artifactId>junit</artifactId>
-                    <groupId>junit</groupId>
+                    <artifactId>junit-jupiter-api</artifactId>
+                    <groupId>org.junit.jupiter</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>snakeyaml</artifactId>
@@ -182,7 +198,7 @@
         <jetty-version>9.2.9.v20150224</jetty-version>
         <resteasy-version>3.0.11.Final</resteasy-version>
         <slf4j-version>1.6.3</slf4j-version>
-        <junit-version>4.13.2</junit-version>
+        <junit-version>5.10.2</junit-version>
         <servlet-api-version>4.0.4</servlet-api-version>
 {{#useBeanValidation}}
         <beanvalidation-version>2.0.2</beanvalidation-version>

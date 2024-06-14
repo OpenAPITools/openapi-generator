@@ -26,7 +26,7 @@ class Query(BaseModel):
     """
     Query
     """
-    id: Optional[StrictInt] = Field(None, description="Query")
+    id: Optional[StrictInt] = Field(default=None, description="Query")
     outcomes: Optional[conlist(StrictStr)] = None
     __properties = ["id", "outcomes"]
 

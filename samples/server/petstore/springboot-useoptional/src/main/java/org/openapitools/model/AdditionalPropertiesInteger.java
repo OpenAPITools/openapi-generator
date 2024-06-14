@@ -23,13 +23,13 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesInteger
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AdditionalPropertiesInteger {
 
-  private String name;
+  private Optional<String> name = Optional.empty();
 
   public AdditionalPropertiesInteger name(String name) {
-    this.name = name;
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -40,11 +40,11 @@ public class AdditionalPropertiesInteger {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public Optional<String> getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(Optional<String> name) {
     this.name = name;
   }
     /**
@@ -124,5 +124,68 @@ public class AdditionalPropertiesInteger {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private AdditionalPropertiesInteger instance;
+
+    public Builder() {
+      this(new AdditionalPropertiesInteger());
+    }
+
+    protected Builder(AdditionalPropertiesInteger instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(AdditionalPropertiesInteger value) { 
+      this.instance.setName(value.name);
+      return this;
+    }
+
+    public AdditionalPropertiesInteger.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    public AdditionalPropertiesInteger.Builder additionalProperties(Map<String, Integer> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
+    /**
+    * returns a built AdditionalPropertiesInteger instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public AdditionalPropertiesInteger build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static AdditionalPropertiesInteger.Builder builder() {
+    return new AdditionalPropertiesInteger.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AdditionalPropertiesInteger.Builder toBuilder() {
+    AdditionalPropertiesInteger.Builder builder = new AdditionalPropertiesInteger.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

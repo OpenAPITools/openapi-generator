@@ -176,7 +176,8 @@ paths:
                 $ref: '#/components/schemas/Pet'
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                allOf:
+                  - $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid ID supplied
         '404':
@@ -920,6 +921,72 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+  /fake/oneOfWIthSameErasure:
+    get:
+      description: Test route, this shouldn't cause a compiler error
+      responses:
+        200:
+          description: successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: string
+                  - type: array
+                    items:
+                      type: integer
+  /fake/anyOfWIthSameErasure:
+    get:
+      description: Test route, this shouldn't cause a compiler error
+      responses:
+        200:
+          description: successful response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - type: array
+                    items:
+                      type: string
+                  - type: array
+                    items:
+                      type: integer
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1013,6 +1080,18 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
+  /fake/get-free-form-object:
+    get:
+      tags:
+        - fake
+      description: Get a free form object or Json string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreeFormObjectTestClass'
   /fake/test-query-parameters:
     put:
       tags:
@@ -1196,6 +1275,81 @@ paths:
       responses:
         200:
           description: OK
+  /fake/null-request-body:
+    get:
+      tags:
+        - another_fake
+      summary: null request body
+      operationId: null-request-body
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: application/json
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              Generar Orden por External ID:
+                value: |-
+                  {
+                      "external_reference": "{{external_order_ref}}",
+                      "notification_url": "www.yourserver.com/yourendpoint",
+                      "sponsor_id": 446566691,
+                      "items": [
+                          {
+                              "title": "Papas frita",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 6000,
+                              "quantity": 1
+                          },
+                          {
+                              "title": "Gaseosa",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 3000,
+                              "quantity": 1
+                          }
+                      ]/*,
+                      "taxes": [
+                          {
+                              "value": 0,
+                              "type": "IVA"
+                          }
+                      ]*/
+                  }
+      responses:
+        '200':
+          description: ''
+  '/fake/pet/{petId}/uploadImage':
+    post:
+      tags:
+        - fake
+      summary: fake uploads an image with ref request bodies
+      description: ''
+      operationId: fake-upload-ref-request-bodies
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        $ref: '#/components/requestBodies/upload_body'
+
   /values:
     get:
       tags:
@@ -1203,6 +1357,22 @@ paths:
       summary: Get some primitive variable values
       description: ''
       operationId: getSomeValues
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+        '400':
+          description: Invalid Value
+  /internal/only:
+    get:
+      x-internal: true
+      tags:
+        - values
+      summary: internal only
+      description: ''
       responses:
         '200':
           description: successful operation
@@ -1239,6 +1409,19 @@ servers:
     description: The local server without variables
 components:
   requestBodies:
+    upload_body:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              additionalMetadata:
+                description: Additional data to pass to server
+                type: string
+              file:
+                description: file to upload
+                type: string
+                format: binary
     UserArray:
       content:
         application/json:
@@ -1266,7 +1449,8 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            allOf:
+              - $ref: '#/components/schemas/Pet'
         application/xml:
           schema:
             $ref: '#/components/schemas/Pet'
@@ -1829,6 +2013,15 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -1836,6 +2029,8 @@ components:
         - placed
         - approved
         - delivered
+        - s
+        - S
     OuterEnumInteger:
       type: integer
       enum:
@@ -1884,6 +2079,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/File'
+    FreeFormObjectTestClass:
+      type: object
+      properties:
+        name:
+          type: string
+        properties:
+          oneOf:
+            - type: string
+            - type: object
+              additionalProperties: true
     File:
       type: object
       description: Must be named `File` for test.
@@ -2421,6 +2626,7 @@ components:
             - pending
             - sold
     PropertyNameCollision:
+      x-internal: false
       type: object
       properties:
         _type:
@@ -2429,3 +2635,116 @@ components:
           type: string
         type_:
           type: string
+    InteralOnly:
+      type: object
+      x-internal: true
+      properties:
+        type:
+          type: string
+    AllOfModelArrayAnyOf:
+      allOf:
+        - $ref: "#/components/schemas/Category"
+        - type: object
+          properties:
+            linkListColumn1:
+              type: object
+              properties:
+                value:
+                  type: array
+                  items:
+                    anyOf:
+                      - $ref: '#/components/schemas/User'
+                      - $ref: '#/components/schemas/Tag'
+              required:
+                - value
+            attributes:
+              type: object
+              properties:
+                C:
+                  oneOf:
+                  - $ref: '#/components/schemas/Pet'
+                  - $ref: '#/components/schemas/Order'
+    PetUsingAllOf:
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          type: integer
+          format: int64
+          x-is-unique: true
+        category:
+          description: |
+            multi line description
+            2nd line
+            last line
+          allOf:
+            - $ref: '#/components/schemas/Category'
+        name:
+          type: string
+          example: doggie
+        photoUrls:
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+          items:
+            type: string
+        tags:
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+          items:
+            allOf:
+            - $ref: '#/components/schemas/Tag'
+        status:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold
+    PetComposition:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+    PetRef:
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          $ref: '#/components/schemas/Pet/properties/id'
+        category:
+          $ref: '#/components/schemas/Pet/properties/category'
+        name:
+          $ref: '#/components/schemas/Pet/properties/name'
+        photoUrls:
+          $ref: '#/components/schemas/Pet/properties/photoUrls'
+        tags:
+          $ref: '#/components/schemas/Pet/properties/tags'
+        status:
+          $ref: '#/components/schemas/Pet/properties/status'
+      xml:
+        name: Pet
+    ArrayOneOf:
+      oneOf:
+        - type: integer
+        - type: array
+          items:
+            type: string
+    ArrayAnyOf:
+      anyOf:
+        - type: integer
+        - type: array
+          items:
+            type: string
+    ModelWithOneOfAnyOfProperties:
+      type: object
+      properties:
+        oneof_prop:
+          $ref: '#/components/schemas/ArrayOneOf'
+        anyof_prop:
+          $ref: '#/components/schemas/ArrayAnyOf'

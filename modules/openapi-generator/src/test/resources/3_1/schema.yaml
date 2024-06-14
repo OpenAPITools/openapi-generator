@@ -1,0 +1,82 @@
+openapi: 3.1.0
+servers:
+  - url: 'http://petstore.swagger.io/v2'
+info:
+  description: >-
+    This is a sample server Petstore server. For this sample, you can use the api key
+    `special-key` to test the authorization filters.
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: pet
+    description: Everything about your Pets
+  - name: store
+    description: Access to Petstore orders
+  - name: user
+    description: Operations about user
+paths:
+  /dummy:
+    post:
+      tags:
+        - dummy
+      summary: dummy operation
+      description: ''
+      operationId: dummy_operation
+      responses:
+        '200':
+          description: successful operation
+        '405':
+          description: Invalid input
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+components:
+  schemas:
+    Misc:
+      description: Schema tests
+      type: object
+      properties:
+        free_form_object_1:
+          type: object
+        free_form_object_2:
+          type: object
+          additionalProperties: true
+        free_form_object_3:
+          type: object
+          additionalProperties: {}
+        map1:
+          type: object
+          additionalProperties:
+            type: string
+        anyof1:
+          anyOf:
+            - type: string
+            - type: number
+        anyof2:
+          anyOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+        oneof1:
+          oneOf:
+            - type: string
+            - type: integer
+    ObjectSchema:
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+    ComplexComposedSchema:
+      oneOf:
+        - type: string
+        - type: integer
+      anyOf:
+        - type: string
+        - type: number

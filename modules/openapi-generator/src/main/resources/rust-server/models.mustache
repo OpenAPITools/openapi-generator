@@ -296,6 +296,19 @@ pub struct {{{classname}}} {
             range(min = {{minimum}}),
             {{/maximum}}
         {{/minimum}}
+        {{#maxItems}}
+            {{#minItems}}
+            length(min = {{minItems}}, max = {{maxItems}}),
+            {{/minItems}}
+            {{^minItems}}
+            length(max = {{maxItems}}),
+            {{/minItems}}
+        {{/maxItems}}
+        {{^maxItems}}
+            {{#minItems}}
+            length(min = {{minItems}}),
+            {{/minItems}}
+        {{/maxItems}}
         )]
 {{/hasValidation}}
 {{#required}}
@@ -389,7 +402,7 @@ impl std::string::ToString for {{{classname}}} {
 {{/required}}
 {{^required}}
             self.{{{name}}}.as_ref().map(|{{{name}}}| {
-                vec![
+                [
                     "{{{baseName}}}".to_string(),
 {{^isArray}}
 {{#isNullable}}

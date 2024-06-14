@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
 @JsonTypeName("200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
@@ -40,6 +40,14 @@ public class Model200Response {
   private String propertyClass;
 
   public Model200Response() {
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Model200Response(@JsonProperty(JSON_PROPERTY_NAME) Integer name, @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS) String propertyClass) {
+    this.name = name;
+    this.propertyClass = propertyClass;
   }
 
   public Model200Response name(Integer name) {
@@ -66,7 +74,6 @@ public class Model200Response {
   public void setName(Integer name) {
     this.name = name;
   }
-
 
   public Model200Response propertyClass(String propertyClass) {
     
@@ -131,6 +138,65 @@ public class Model200Response {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private Model200Response instance;
+
+    public Builder() {
+      this(new Model200Response());
+    }
+
+    protected Builder(Model200Response instance) {
+      this.instance = instance;
+    }
+
+    public Model200Response.Builder name(Integer name) {
+      this.instance.name = name;
+      return this;
+    }
+    public Model200Response.Builder propertyClass(String propertyClass) {
+      this.instance.propertyClass = propertyClass;
+      return this;
+    }
+
+
+    /**
+    * returns a built Model200Response instance.
+    *
+    * The builder is not reusable.
+    */
+    public Model200Response build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Model200Response.Builder builder() {
+    return new Model200Response.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Model200Response.Builder toBuilder() {
+    return new Model200Response.Builder()
+      .name(getName())
+      .propertyClass(getPropertyClass());
+  }
+
 
 }
 

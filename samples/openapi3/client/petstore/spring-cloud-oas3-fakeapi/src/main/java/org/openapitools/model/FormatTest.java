@@ -26,7 +26,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FormatTest {
 
   private Integer integer;
@@ -58,6 +58,10 @@ public class FormatTest {
   private String password;
 
   private BigDecimal bigDecimal;
+
+  public FormatTest() {
+    super();
+  }
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;

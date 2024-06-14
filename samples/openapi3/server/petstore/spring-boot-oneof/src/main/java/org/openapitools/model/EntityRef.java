@@ -32,7 +32,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = FooRef.class, name = "FooRef")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class EntityRef {
 
   private String name;
@@ -248,5 +248,99 @@ public class EntityRef {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private EntityRef instance;
+
+    public Builder() {
+      this(new EntityRef());
+    }
+
+    protected Builder(EntityRef instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(EntityRef value) { 
+      this.instance.setName(value.name);
+      this.instance.setAtReferredType(value.atReferredType);
+      this.instance.setHref(value.href);
+      this.instance.setId(value.id);
+      this.instance.setAtSchemaLocation(value.atSchemaLocation);
+      this.instance.setAtBaseType(value.atBaseType);
+      this.instance.setAtType(value.atType);
+      return this;
+    }
+
+    public EntityRef.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    public EntityRef.Builder atReferredType(String atReferredType) {
+      this.instance.atReferredType(atReferredType);
+      return this;
+    }
+    
+    public EntityRef.Builder href(String href) {
+      this.instance.href(href);
+      return this;
+    }
+    
+    public EntityRef.Builder id(String id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    public EntityRef.Builder atSchemaLocation(String atSchemaLocation) {
+      this.instance.atSchemaLocation(atSchemaLocation);
+      return this;
+    }
+    
+    public EntityRef.Builder atBaseType(String atBaseType) {
+      this.instance.atBaseType(atBaseType);
+      return this;
+    }
+    
+    public EntityRef.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    
+    /**
+    * returns a built EntityRef instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public EntityRef build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static EntityRef.Builder builder() {
+    return new EntityRef.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public EntityRef.Builder toBuilder() {
+    EntityRef.Builder builder = new EntityRef.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

@@ -1,0 +1,16 @@
+## LicensesApi
+
+### Get a license
+## Get a license
+GET https://api.github.com/licenses/{{license}}
+Accept: application/json
+
+### Get all commonly used licenses
+## Get all commonly used licenses
+GET https://api.github.com/licenses?featured={{featured}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Get the license for a repository
+## Get the license for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/license?ref={{ref}}
+Accept: application/json

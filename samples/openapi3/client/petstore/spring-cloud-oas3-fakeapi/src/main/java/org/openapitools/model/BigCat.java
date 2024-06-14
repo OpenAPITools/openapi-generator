@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class BigCat extends Cat {
 
   /**
@@ -67,6 +67,10 @@ public class BigCat extends Cat {
   }
 
   private KindEnum kind;
+
+  public BigCat() {
+    super();
+  }
 
   public BigCat kind(KindEnum kind) {
     this.kind = kind;

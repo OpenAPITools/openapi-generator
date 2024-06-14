@@ -36,6 +36,7 @@ import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * EnumTest
  */
@@ -50,7 +51,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE,
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -595,50 +596,148 @@ public class EnumTest {
 
     // add `enum_string` to the URL query string
     if (getEnumString() != null) {
-      joiner.add(String.format("%senum_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senum_string%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `enum_string_required` to the URL query string
     if (getEnumStringRequired() != null) {
-      joiner.add(String.format("%senum_string_required%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumStringRequired()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senum_string_required%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumStringRequired()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `enum_integer` to the URL query string
     if (getEnumInteger() != null) {
-      joiner.add(String.format("%senum_integer%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senum_integer%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `enum_integer_only` to the URL query string
     if (getEnumIntegerOnly() != null) {
-      joiner.add(String.format("%senum_integer_only%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumIntegerOnly()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senum_integer_only%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumIntegerOnly()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `enum_number` to the URL query string
     if (getEnumNumber() != null) {
-      joiner.add(String.format("%senum_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%senum_number%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEnumNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `outerEnum` to the URL query string
     if (getOuterEnum() != null) {
-      joiner.add(String.format("%souterEnum%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnum()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%souterEnum%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOuterEnum()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `outerEnumInteger` to the URL query string
     if (getOuterEnumInteger() != null) {
-      joiner.add(String.format("%souterEnumInteger%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%souterEnumInteger%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOuterEnumInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `outerEnumDefaultValue` to the URL query string
     if (getOuterEnumDefaultValue() != null) {
-      joiner.add(String.format("%souterEnumDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumDefaultValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%souterEnumDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOuterEnumDefaultValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     // add `outerEnumIntegerDefaultValue` to the URL query string
     if (getOuterEnumIntegerDefaultValue() != null) {
-      joiner.add(String.format("%souterEnumIntegerDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumIntegerDefaultValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%souterEnumIntegerDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getOuterEnumIntegerDefaultValue()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private EnumTest instance;
+
+    public Builder() {
+      this(new EnumTest());
+    }
+
+    protected Builder(EnumTest instance) {
+      this.instance = instance;
+    }
+
+    public EnumTest.Builder enumString(EnumStringEnum enumString) {
+      this.instance.enumString = enumString;
+      return this;
+    }
+    public EnumTest.Builder enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
+      this.instance.enumStringRequired = enumStringRequired;
+      return this;
+    }
+    public EnumTest.Builder enumInteger(EnumIntegerEnum enumInteger) {
+      this.instance.enumInteger = enumInteger;
+      return this;
+    }
+    public EnumTest.Builder enumIntegerOnly(EnumIntegerOnlyEnum enumIntegerOnly) {
+      this.instance.enumIntegerOnly = enumIntegerOnly;
+      return this;
+    }
+    public EnumTest.Builder enumNumber(EnumNumberEnum enumNumber) {
+      this.instance.enumNumber = enumNumber;
+      return this;
+    }
+    public EnumTest.Builder outerEnum(OuterEnum outerEnum) {
+      this.instance.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
+      return this;
+    }
+    public EnumTest.Builder outerEnum(JsonNullable<OuterEnum> outerEnum) {
+      this.instance.outerEnum = outerEnum;
+      return this;
+    }
+    public EnumTest.Builder outerEnumInteger(OuterEnumInteger outerEnumInteger) {
+      this.instance.outerEnumInteger = outerEnumInteger;
+      return this;
+    }
+    public EnumTest.Builder outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
+      this.instance.outerEnumDefaultValue = outerEnumDefaultValue;
+      return this;
+    }
+    public EnumTest.Builder outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+      this.instance.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+      return this;
+    }
+
+
+    /**
+    * returns a built EnumTest instance.
+    *
+    * The builder is not reusable.
+    */
+    public EnumTest build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static EnumTest.Builder builder() {
+    return new EnumTest.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public EnumTest.Builder toBuilder() {
+    return new EnumTest.Builder()
+      .enumString(getEnumString())
+      .enumStringRequired(getEnumStringRequired())
+      .enumInteger(getEnumInteger())
+      .enumIntegerOnly(getEnumIntegerOnly())
+      .enumNumber(getEnumNumber())
+      .outerEnum(getOuterEnum())
+      .outerEnumInteger(getOuterEnumInteger())
+      .outerEnumDefaultValue(getOuterEnumDefaultValue())
+      .outerEnumIntegerDefaultValue(getOuterEnumIntegerDefaultValue());
+  }
+
 }
 

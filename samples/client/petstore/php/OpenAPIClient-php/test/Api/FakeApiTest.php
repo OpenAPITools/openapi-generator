@@ -80,7 +80,7 @@ class FakeApiTest extends TestCase
     public function testFakeHealthGet()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -92,7 +92,7 @@ class FakeApiTest extends TestCase
     public function testFakeHttpSignatureTest()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -104,7 +104,7 @@ class FakeApiTest extends TestCase
     public function testFakeOuterBooleanSerialize()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -116,7 +116,7 @@ class FakeApiTest extends TestCase
     public function testFakeOuterCompositeSerialize()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -128,7 +128,7 @@ class FakeApiTest extends TestCase
     public function testFakeOuterNumberSerialize()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -140,7 +140,7 @@ class FakeApiTest extends TestCase
     public function testFakeOuterStringSerialize()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -152,7 +152,7 @@ class FakeApiTest extends TestCase
     public function testFakePropertyEnumIntegerSerialize()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -164,7 +164,7 @@ class FakeApiTest extends TestCase
     public function testTestBodyWithBinary()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -176,7 +176,7 @@ class FakeApiTest extends TestCase
     public function testTestBodyWithFileSchema()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -188,7 +188,7 @@ class FakeApiTest extends TestCase
     public function testTestBodyWithQueryParams()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -200,7 +200,7 @@ class FakeApiTest extends TestCase
     public function testTestClientModel()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -212,7 +212,7 @@ class FakeApiTest extends TestCase
     public function testTestEndpointParameters()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -224,7 +224,7 @@ class FakeApiTest extends TestCase
     public function testTestEnumParameters()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -236,7 +236,7 @@ class FakeApiTest extends TestCase
     public function testTestGroupParameters()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -248,7 +248,7 @@ class FakeApiTest extends TestCase
     public function testTestInlineAdditionalProperties()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -260,7 +260,7 @@ class FakeApiTest extends TestCase
     public function testTestJsonFormData()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -272,6 +272,6 @@ class FakeApiTest extends TestCase
     public function testTestQueryParameterCollectionFormat()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

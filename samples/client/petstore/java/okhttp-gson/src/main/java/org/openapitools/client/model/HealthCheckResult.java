@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class HealthCheckResult {
   public static final String SERIALIZED_NAME_NULLABLE_MESSAGE = "NullableMessage";
   @SerializedName(SERIALIZED_NAME_NULLABLE_MESSAGE)
@@ -60,7 +60,6 @@ public class HealthCheckResult {
   }
 
   public HealthCheckResult nullableMessage(String nullableMessage) {
-    
     this.nullableMessage = nullableMessage;
     return this;
   }
@@ -73,7 +72,6 @@ public class HealthCheckResult {
   public String getNullableMessage() {
     return nullableMessage;
   }
-
 
   public void setNullableMessage(String nullableMessage) {
     this.nullableMessage = nullableMessage;
@@ -234,7 +232,12 @@ public class HealthCheckResult {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * Animal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Animal implements Parcelable {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
@@ -66,7 +66,6 @@ public class Animal implements Parcelable {
   }
 
   public Animal className(String className) {
-    
     this.className = className;
     return this;
   }
@@ -80,14 +79,12 @@ public class Animal implements Parcelable {
     return className;
   }
 
-
   public void setClassName(String className) {
     this.className = className;
   }
 
 
   public Animal color(String color) {
-    
     this.color = color;
     return this;
   }
@@ -100,7 +97,6 @@ public class Animal implements Parcelable {
   public String getColor() {
     return color;
   }
-
 
   public void setColor(String color) {
     this.color = color;

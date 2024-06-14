@@ -253,9 +253,9 @@ Returns a single pet
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure API key authorization: api_key
-$Configuration.ApiKey.api_key = "YOUR_API_KEY"
+$Configuration.ApiKey.api_key_name = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration.ApiKeyPrefix.api_key = "Bearer"
+#$Configuration.ApiKeyPrefix.api_key_name = "Bearer"
 
 $PetId = 789 # Int64 | ID of pet to return
 

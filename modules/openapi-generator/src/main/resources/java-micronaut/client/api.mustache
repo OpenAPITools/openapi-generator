@@ -41,7 +41,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 {{/generateSwagger2Annotations}}
 
 {{#additionalClientTypeAnnotations}}
-	{{{.}}}
+    {{{.}}}
 {{/additionalClientTypeAnnotations}}
 {{>common/generatedAnnotation}}
 @Client({{#configureClientId}}

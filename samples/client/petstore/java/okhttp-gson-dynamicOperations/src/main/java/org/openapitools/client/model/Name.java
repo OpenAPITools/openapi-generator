@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model name same as property name
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -70,7 +70,6 @@ public class Name {
   public Name() {
   }
 
-  
   public Name(
      Integer snakeCase, 
      Integer _123number
@@ -81,7 +80,6 @@ public class Name {
   }
 
   public Name name(Integer name) {
-    
     this.name = name;
     return this;
   }
@@ -94,7 +92,6 @@ public class Name {
   public Integer getName() {
     return name;
   }
-
 
   public void setName(Integer name) {
     this.name = name;
@@ -112,9 +109,7 @@ public class Name {
 
 
 
-
   public Name property(String property) {
-    
     this.property = property;
     return this;
   }
@@ -127,7 +122,6 @@ public class Name {
   public String getProperty() {
     return property;
   }
-
 
   public void setProperty(String property) {
     this.property = property;
@@ -142,7 +136,6 @@ public class Name {
   public Integer get123number() {
     return _123number;
   }
-
 
 
 

@@ -41,7 +41,7 @@ import javax.annotation.Generated;
   Pet.JSON_PROPERTY_STATUS
 })
 @JsonTypeName("Pet")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 @Introspected
 public class Pet {
     public static final String JSON_PROPERTY_ID = "id";
@@ -57,7 +57,7 @@ public class Pet {
     private Set<String> photoUrls = new LinkedHashSet<>();
 
     public static final String JSON_PROPERTY_TAGS = "tags";
-    private List<Tag> tags = null;
+    private List<@Valid Tag> tags = null;
 
     /**
      * pet status in the store
@@ -193,7 +193,7 @@ public class Pet {
         this.photoUrls = photoUrls;
     }
 
-    public Pet tags(List<Tag> tags) {
+    public Pet tags(List<@Valid Tag> tags) {
         this.tags = tags;
         return this;
     }
@@ -213,13 +213,13 @@ public class Pet {
     @Nullable
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public List<Tag> getTags() {
+    public List<@Valid Tag> getTags() {
         return tags;
     }
 
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setTags(List<Tag> tags) {
+    public void setTags(List<@Valid Tag> tags) {
         this.tags = tags;
     }
 

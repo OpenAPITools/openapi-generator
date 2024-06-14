@@ -8,8 +8,11 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import jakarta.xml.bind.annotation.*;
 
 import java.util.*;
 import jakarta.annotation.Generated;
@@ -19,7 +22,11 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "User", description = "A User who is purchasing from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@JacksonXmlRootElement(localName = "User")
+@XmlRootElement(name = "User")
+@XmlAccessorType(XmlAccessType.FIELD)
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class User {
 
   private Long id;
@@ -38,6 +45,24 @@ public class User {
 
   private Integer userStatus;
 
+  public User() {
+    super();
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public User(Long id, String username, String firstName, String lastName, String email, String password, String phone, Integer userStatus) {
+      this.id = id;
+      this.username = username;
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.email = email;
+      this.password = password;
+      this.phone = phone;
+      this.userStatus = userStatus;
+  }
+
   public User id(Long id) {
     this.id = id;
     return this;
@@ -50,6 +75,7 @@ public class User {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
   public Long getId() {
     return id;
   }
@@ -70,6 +96,7 @@ public class User {
   
   @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("username")
+  @JacksonXmlProperty(localName = "username")
   public String getUsername() {
     return username;
   }
@@ -90,6 +117,7 @@ public class User {
   
   @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("firstName")
+  @JacksonXmlProperty(localName = "firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -110,6 +138,7 @@ public class User {
   
   @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastName")
+  @JacksonXmlProperty(localName = "lastName")
   public String getLastName() {
     return lastName;
   }
@@ -130,6 +159,7 @@ public class User {
   
   @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("email")
+  @JacksonXmlProperty(localName = "email")
   public String getEmail() {
     return email;
   }
@@ -150,6 +180,7 @@ public class User {
   
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
+  @JacksonXmlProperty(localName = "password")
   public String getPassword() {
     return password;
   }
@@ -170,6 +201,7 @@ public class User {
   
   @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("phone")
+  @JacksonXmlProperty(localName = "phone")
   public String getPhone() {
     return phone;
   }
@@ -190,6 +222,7 @@ public class User {
   
   @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userStatus")
+  @JacksonXmlProperty(localName = "userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }
@@ -248,5 +281,105 @@ public class User {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private User instance;
+
+    public Builder() {
+      this(new User());
+    }
+
+    protected Builder(User instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(User value) { 
+      this.instance.setId(value.id);
+      this.instance.setUsername(value.username);
+      this.instance.setFirstName(value.firstName);
+      this.instance.setLastName(value.lastName);
+      this.instance.setEmail(value.email);
+      this.instance.setPassword(value.password);
+      this.instance.setPhone(value.phone);
+      this.instance.setUserStatus(value.userStatus);
+      return this;
+    }
+
+    public User.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    public User.Builder username(String username) {
+      this.instance.username(username);
+      return this;
+    }
+    
+    public User.Builder firstName(String firstName) {
+      this.instance.firstName(firstName);
+      return this;
+    }
+    
+    public User.Builder lastName(String lastName) {
+      this.instance.lastName(lastName);
+      return this;
+    }
+    
+    public User.Builder email(String email) {
+      this.instance.email(email);
+      return this;
+    }
+    
+    public User.Builder password(String password) {
+      this.instance.password(password);
+      return this;
+    }
+    
+    public User.Builder phone(String phone) {
+      this.instance.phone(phone);
+      return this;
+    }
+    
+    public User.Builder userStatus(Integer userStatus) {
+      this.instance.userStatus(userStatus);
+      return this;
+    }
+    
+    /**
+    * returns a built User instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public User build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static User.Builder builder() {
+    return new User.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public User.Builder toBuilder() {
+    User.Builder builder = new User.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

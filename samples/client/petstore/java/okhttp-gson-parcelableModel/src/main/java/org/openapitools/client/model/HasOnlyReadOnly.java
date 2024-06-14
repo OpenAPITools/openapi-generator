@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * HasOnlyReadOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class HasOnlyReadOnly implements Parcelable {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
@@ -64,7 +64,6 @@ public class HasOnlyReadOnly implements Parcelable {
   public HasOnlyReadOnly() {
   }
 
-  
   public HasOnlyReadOnly(
      String bar, 
      String foo
@@ -85,7 +84,6 @@ public class HasOnlyReadOnly implements Parcelable {
 
 
 
-
    /**
    * Get foo
    * @return foo
@@ -94,7 +92,6 @@ public class HasOnlyReadOnly implements Parcelable {
   public String getFoo() {
     return foo;
   }
-
 
 
 

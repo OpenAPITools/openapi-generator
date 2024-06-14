@@ -12,19 +12,19 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
-import type { Pet } from './Pet';
-import {
-    PetFromJSON,
-    PetFromJSONTyped,
-    PetToJSON,
-} from './Pet';
+import { mapValues } from '../runtime';
 import type { ResponseMeta } from './ResponseMeta';
 import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
 } from './ResponseMeta';
+import type { Pet } from './Pet';
+import {
+    PetFromJSON,
+    PetFromJSONTyped,
+    PetToJSON,
+} from './Pet';
 
 /**
  * 
@@ -49,11 +49,9 @@ export interface FindPetsByStatusResponse {
 /**
  * Check if a given object implements the FindPetsByStatusResponse interface.
  */
-export function instanceOfFindPetsByStatusResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "meta" in value;
-
-    return isInstance;
+export function instanceOfFindPetsByStatusResponse(value: object): value is FindPetsByStatusResponse {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
+    return true;
 }
 
 export function FindPetsByStatusResponseFromJSON(json: any): FindPetsByStatusResponse {
@@ -61,27 +59,24 @@ export function FindPetsByStatusResponseFromJSON(json: any): FindPetsByStatusRes
 }
 
 export function FindPetsByStatusResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FindPetsByStatusResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
         'meta': ResponseMetaFromJSON(json['meta']),
-        'data': !exists(json, 'data') ? undefined : ((json['data'] as Array<any>).map(PetFromJSON)),
+        'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(PetFromJSON)),
     };
 }
 
 export function FindPetsByStatusResponseToJSON(value?: FindPetsByStatusResponse | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': value.data === undefined ? undefined : ((value.data as Array<any>).map(PetToJSON)),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(PetToJSON)),
     };
 }
 

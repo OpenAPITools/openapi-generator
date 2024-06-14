@@ -1,0 +1,6 @@
+## RateLimitApi
+
+### Get rate limit status for the authenticated user
+## Get rate limit status for the authenticated user
+GET https://api.github.com/rate_limit
+Accept: application/json

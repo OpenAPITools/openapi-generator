@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * IsoscelesTriangle
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class IsoscelesTriangle {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
@@ -63,7 +63,6 @@ public class IsoscelesTriangle {
   }
 
   public IsoscelesTriangle shapeType(String shapeType) {
-    
     this.shapeType = shapeType;
     return this;
   }
@@ -77,14 +76,12 @@ public class IsoscelesTriangle {
     return shapeType;
   }
 
-
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
 
 
   public IsoscelesTriangle triangleType(String triangleType) {
-    
     this.triangleType = triangleType;
     return this;
   }
@@ -97,7 +94,6 @@ public class IsoscelesTriangle {
   public String getTriangleType() {
     return triangleType;
   }
-
 
   public void setTriangleType(String triangleType) {
     this.triangleType = triangleType;

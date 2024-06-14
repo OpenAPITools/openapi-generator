@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * ScaleneTriangle
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ScaleneTriangle {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
@@ -63,7 +63,6 @@ public class ScaleneTriangle {
   }
 
   public ScaleneTriangle shapeType(String shapeType) {
-    
     this.shapeType = shapeType;
     return this;
   }
@@ -77,14 +76,12 @@ public class ScaleneTriangle {
     return shapeType;
   }
 
-
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
 
 
   public ScaleneTriangle triangleType(String triangleType) {
-    
     this.triangleType = triangleType;
     return this;
   }
@@ -97,7 +94,6 @@ public class ScaleneTriangle {
   public String getTriangleType() {
     return triangleType;
   }
-
 
   public void setTriangleType(String triangleType) {
     this.triangleType = triangleType;
@@ -262,7 +258,12 @@ public class ScaleneTriangle {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

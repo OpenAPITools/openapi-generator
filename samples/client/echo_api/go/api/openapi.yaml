@@ -96,6 +96,25 @@ paths:
       summary: Test form parameter(s) for oneOf schema
       tags:
       - form
+  /form/object/multipart:
+    post:
+      description: Test form parameter(s) for multipart schema
+      operationId: test/form/object/multipart
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/test_form_object_multipart_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test form parameter(s) for multipart schema
+      tags:
+      - form
   /header/integer/boolean/string/enums:
     get:
       description: Test header parameter(s)
@@ -268,6 +287,54 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/test_query_style_form_explode_true_array_string_query_object_parameter'
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+  /query/style_form/explode_false/array_integer:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_integer
+      parameters:
+      - explode: false
+        in: query
+        name: query_object
+        required: false
+        schema:
+          items:
+            type: integer
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+  /query/style_form/explode_false/array_string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_string
+      parameters:
+      - explode: false
+        in: query
+        name: query_object
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
         style: form
       responses:
         "200":
@@ -471,6 +538,26 @@ paths:
       summary: Test free form object
       tags:
       - body
+  /echo/body/string_enum:
+    post:
+      description: Test string enum response body
+      operationId: test/echo/body/string_enum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StringEnumRef'
+        description: String enum
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringEnumRef'
+          description: Successful operation
+      summary: Test string enum response body
+      tags:
+      - body
   /binary/gif:
     post:
       description: Test binary (gif) response body
@@ -484,6 +571,25 @@ paths:
                 type: string
           description: Successful operation
       summary: Test binary (gif) response body
+      tags:
+      - body
+  /body/application/octetstream/single_binary:
+    post:
+      description: Test single binary in multipart mime
+      operationId: test/body/multipart/formdata/single_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/test_body_multipart_formdata_single_binary_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test single binary in multipart mime
       tags:
       - body
   /body/application/octetstream/array_of_binary:
@@ -519,6 +625,22 @@ paths:
       security:
       - http_auth: []
       summary: To test HTTP basic authentication
+      tags:
+      - auth
+  /auth/http/bearer:
+    post:
+      description: To test HTTP bearer authentication
+      operationId: test/auth/http/bearer
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      security:
+      - http_bearer_auth: []
+      summary: To test HTTP bearer authentication
       tags:
       - auth
 components:
@@ -767,6 +889,18 @@ components:
       - $ref: '#/components/schemas/test_form_oneof_request_oneOf_1'
       - $ref: '#/components/schemas/Tag'
       type: object
+    test_form_object_multipart_request_marker:
+      properties:
+        name:
+          type: string
+      type: object
+    test_form_object_multipart_request:
+      properties:
+        marker:
+          $ref: '#/components/schemas/test_form_object_multipart_request_marker'
+      required:
+      - marker
+      type: object
     test_query_style_form_explode_true_array_string_query_object_parameter:
       properties:
         values:
@@ -778,6 +912,12 @@ components:
       allOf:
       - $ref: '#/components/schemas/Bird'
       - $ref: '#/components/schemas/Category'
+    test_body_multipart_formdata_single_binary_request:
+      properties:
+        my-file:
+          format: binary
+          type: string
+      type: object
     test_body_multipart_formdata_array_of_binary_request:
       properties:
         files:
@@ -791,4 +931,7 @@ components:
   securitySchemes:
     http_auth:
       scheme: basic
+      type: http
+    http_bearer_auth:
+      scheme: bearer
       type: http

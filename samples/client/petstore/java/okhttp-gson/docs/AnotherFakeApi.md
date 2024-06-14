@@ -7,6 +7,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**call123testSpecialTags**](AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags |
 | [**getParameterArrayNumber**](AnotherFakeApi.md#getParameterArrayNumber) | **GET** /fake/parameter-array-number | parameter array number default value |
 | [**getParameterStringNumber**](AnotherFakeApi.md#getParameterStringNumber) | **GET** /fake/parameter-string-number | parameter string number |
+| [**nullRequestBody**](AnotherFakeApi.md#nullRequestBody) | **GET** /fake/null-request-body | null request body |
 
 
 <a id="call123testSpecialTags"></a>
@@ -188,4 +189,63 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | OK |  -  |
+
+<a id="nullRequestBody"></a>
+# **nullRequestBody**
+> nullRequestBody(acceptLanguage)
+
+null request body
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AnotherFakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
+    String acceptLanguage = "application/json"; // String | 
+    try {
+      apiInstance.nullRequestBody(acceptLanguage);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling AnotherFakeApi#nullRequestBody");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **acceptLanguage** | **String**|  | [optional] |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: text/plain
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** |  |  -  |
 

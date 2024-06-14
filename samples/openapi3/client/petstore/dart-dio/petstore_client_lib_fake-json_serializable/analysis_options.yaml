@@ -2,9 +2,7 @@ analyzer:
   language:
     strict-inference: true
     strict-raw-types: true
-  strong-mode:
-    implicit-dynamic: false
-    implicit-casts: false
+    strict-casts: false
   exclude:
     - test/*.dart
     - lib/src/model/*.g.dart

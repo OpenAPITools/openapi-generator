@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * Value object
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Variable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -64,7 +64,6 @@ public class Variable {
   }
 
   public Variable name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -78,14 +77,12 @@ public class Variable {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public Variable value(Value value) {
-    
     this.value = value;
     return this;
   }
@@ -98,7 +95,6 @@ public class Variable {
   public Value getValue() {
     return value;
   }
-
 
   public void setValue(Value value) {
     this.value = value;
@@ -262,7 +258,12 @@ public class Variable {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

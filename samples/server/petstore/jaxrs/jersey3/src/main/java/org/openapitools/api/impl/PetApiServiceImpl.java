@@ -16,7 +16,8 @@ import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.validation.constraints.*;
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+import jakarta.validation.Valid;
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class PetApiServiceImpl extends PetApiService {
     @Override
     public Response addPet(Pet pet, SecurityContext securityContext) throws NotFoundException {

@@ -14,11 +14,21 @@ import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+/**
+* Represents a collection of functions to interact with the API endpoints.
+*/
 @Path("/store")
 @Api(description = "the store API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public interface StoreApi {
 
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     *
+     * @param orderId ID of the order that needs to be deleted
+     * @return Invalid ID supplied
+     * @return Order not found
+     */
     @DELETE
     @Path("/order/{order_id}")
     @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", tags={ "store" })
@@ -28,6 +38,11 @@ public interface StoreApi {
     void deleteOrder(@PathParam("order_id") @ApiParam("ID of the order that needs to be deleted") String orderId);
 
 
+    /**
+     * Returns a map of status codes to quantities
+     *
+     * @return successful operation
+     */
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
@@ -40,6 +55,14 @@ public interface StoreApi {
     Map<String, Integer> getInventory();
 
 
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
+     *
+     * @param orderId ID of pet that needs to be fetched
+     * @return successful operation
+     * @return Invalid ID supplied
+     * @return Order not found
+     */
     @GET
     @Path("/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
@@ -51,6 +74,13 @@ public interface StoreApi {
     Order getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) @ApiParam("ID of pet that needs to be fetched") Long orderId);
 
 
+    /**
+     * 
+     *
+     * @param body order placed for purchasing the pet
+     * @return successful operation
+     * @return Invalid Order
+     */
     @POST
     @Path("/order")
     @Produces({ "application/xml", "application/json" })

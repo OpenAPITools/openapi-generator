@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * OuterComposite
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class OuterComposite {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
@@ -69,7 +69,6 @@ public class OuterComposite {
     this.myNumber = myNumber;
   }
 
-
   public OuterComposite myString(String myString) {
     
     this.myString = myString;
@@ -91,7 +90,6 @@ public class OuterComposite {
   public void setMyString(String myString) {
     this.myString = myString;
   }
-
 
   public OuterComposite myBoolean(Boolean myBoolean) {
     

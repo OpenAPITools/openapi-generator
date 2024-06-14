@@ -17,6 +17,7 @@ use std::option::Option;
 use hyper;
 use futures::Future;
 
+use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
@@ -35,20 +36,20 @@ impl<C: hyper::client::connect::Connect> PetApiClient<C>
 }
 
 pub trait PetApi {
-    fn add_pet(&self, pet: crate::models::Pet) -> Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error>>>>;
+    fn add_pet(&self, pet: models::Pet) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>>>>;
     fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
-    fn find_pets_by_status(&self, status: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error>>>>;
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error>>>>;
-    fn get_pet_by_id(&self, pet_id: i64) -> Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error>>>>;
-    fn update_pet(&self, pet: crate::models::Pet) -> Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error>>>>;
+    fn find_pets_by_status(&self, status: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>>;
+    fn find_pets_by_tags(&self, tags: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>>;
+    fn get_pet_by_id(&self, pet_id: i64) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>>>>;
+    fn update_pet(&self, pet: models::Pet) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>>>>;
     fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Pin<Box<dyn Future<Output = Result<crate::models::ApiResponse, Error>>>>;
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Pin<Box<dyn Future<Output = Result<models::ApiResponse, Error>>>>;
 }
 
 impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
-    fn add_pet(&self, pet: crate::models::Pet) -> Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error>>>> {
+    fn add_pet(&self, pet: models::Pet) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/pet".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
@@ -72,7 +73,7 @@ impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn find_pets_by_status(&self, status: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error>>>> {
+    fn find_pets_by_status(&self, status: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/pet/findByStatus".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
@@ -82,7 +83,7 @@ impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<crate::models::Pet>, Error>>>> {
+    fn find_pets_by_tags(&self, tags: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/pet/findByTags".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
@@ -92,7 +93,7 @@ impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn get_pet_by_id(&self, pet_id: i64) -> Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error>>>> {
+    fn get_pet_by_id(&self, pet_id: i64) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/pet/{petId}".to_string())
             .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
                 in_header: true,
@@ -106,7 +107,7 @@ impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn update_pet(&self, pet: crate::models::Pet) -> Pin<Box<dyn Future<Output = Result<crate::models::Pet, Error>>>> {
+    fn update_pet(&self, pet: models::Pet) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::PUT, "/pet".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
@@ -133,7 +134,7 @@ impl<C: hyper::client::connect::Connect>PetApi for PetApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Pin<Box<dyn Future<Output = Result<crate::models::ApiResponse, Error>>>> {
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Pin<Box<dyn Future<Output = Result<models::ApiResponse, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/pet/{petId}/uploadImage".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;

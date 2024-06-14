@@ -1,0 +1,243 @@
+## AppsApi
+
+### Add a repository to an app installation
+## Add a repository to an app installation
+PUT https://api.github.com/user/installations/{{installation_id}}/repositories/{{repository_id}}
+Accept: application/json
+
+### Check a token
+## Check a token
+POST https://api.github.com/applications/{{client_id}}/token
+Content-Type: application/json
+Accept: application/json
+
+{
+  "access_token" : "e72e16c7e42f292c6912e7710c838347ae178b4a"
+}
+
+
+### Create a GitHub App from a manifest
+## Create a GitHub App from a manifest
+POST https://api.github.com/app-manifests/{{code}}/conversions
+Accept: application/json
+
+### Create an installation access token for an app
+## Create an installation access token for an app
+POST https://api.github.com/app/installations/{{installation_id}}/access_tokens
+Content-Type: application/json
+Accept: application/json
+
+{
+  "repositories" : [ "Hello-World" ],
+  "permissions" : {
+    "issues" : "write",
+    "contents" : "read"
+  }
+}
+
+
+### Delete an app authorization
+## Delete an app authorization
+DELETE https://api.github.com/applications/{{client_id}}/grant
+Content-Type: application/json
+Accept: application/json
+
+{
+  "access_token" : "e72e16c7e42f292c6912e7710c838347ae178b4a"
+}
+
+
+### Delete an installation for the authenticated app
+## Delete an installation for the authenticated app
+DELETE https://api.github.com/app/installations/{{installation_id}}
+Accept: application/json
+
+### Delete an app token
+## Delete an app token
+DELETE https://api.github.com/applications/{{client_id}}/token
+Content-Type: application/json
+Accept: application/json
+
+{
+  "access_token" : "e72e16c7e42f292c6912e7710c838347ae178b4a"
+}
+
+
+### Get the authenticated app
+## Get the authenticated app
+GET https://api.github.com/app
+Accept: application/json
+
+### Get an app
+## Get an app
+GET https://api.github.com/apps/{{app_slug}}
+Accept: application/json
+
+### Get an installation for the authenticated app
+## Get an installation for the authenticated app
+GET https://api.github.com/app/installations/{{installation_id}}
+Accept: application/json
+
+### Get an organization installation for the authenticated app
+## Get an organization installation for the authenticated app
+GET https://api.github.com/orgs/{{org}}/installation
+Accept: application/json
+
+### Get a repository installation for the authenticated app
+## Get a repository installation for the authenticated app
+GET https://api.github.com/repos/{{owner}}/{{repo}}/installation
+Accept: application/json
+
+### Get a subscription plan for an account
+## Get a subscription plan for an account
+GET https://api.github.com/marketplace_listing/accounts/{{account_id}}
+Accept: application/json
+
+### Get a subscription plan for an account (stubbed)
+## Get a subscription plan for an account (stubbed)
+GET https://api.github.com/marketplace_listing/stubbed/accounts/{{account_id}}
+Accept: application/json
+
+### Get a user installation for the authenticated app
+## Get a user installation for the authenticated app
+GET https://api.github.com/users/{{username}}/installation
+Accept: application/json
+
+### Get a webhook configuration for an app
+## Get a webhook configuration for an app
+GET https://api.github.com/app/hook/config
+Accept: application/json
+
+### Get a delivery for an app webhook
+## Get a delivery for an app webhook
+GET https://api.github.com/app/hook/deliveries/{{delivery_id}}
+Accept: application/json
+Accept: application/scim+json
+
+### List accounts for a plan
+## List accounts for a plan
+GET https://api.github.com/marketplace_listing/plans/{{plan_id}}/accounts?sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List accounts for a plan (stubbed)
+## List accounts for a plan (stubbed)
+GET https://api.github.com/marketplace_listing/stubbed/plans/{{plan_id}}/accounts?sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repositories accessible to the user access token
+## List repositories accessible to the user access token
+GET https://api.github.com/user/installations/{{installation_id}}/repositories?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List installation requests for the authenticated app
+## List installation requests for the authenticated app
+GET https://api.github.com/app/installation-requests?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List installations for the authenticated app
+## List installations for the authenticated app
+GET https://api.github.com/app/installations?perPage={{perPage}}&page={{page}}&since={{since}}&outdated={{outdated}}
+Accept: application/json
+
+### List app installations accessible to the user access token
+## List app installations accessible to the user access token
+GET https://api.github.com/user/installations?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List plans
+## List plans
+GET https://api.github.com/marketplace_listing/plans?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List plans (stubbed)
+## List plans (stubbed)
+GET https://api.github.com/marketplace_listing/stubbed/plans?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repositories accessible to the app installation
+## List repositories accessible to the app installation
+GET https://api.github.com/installation/repositories?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List subscriptions for the authenticated user
+## List subscriptions for the authenticated user
+GET https://api.github.com/user/marketplace_purchases?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List subscriptions for the authenticated user (stubbed)
+## List subscriptions for the authenticated user (stubbed)
+GET https://api.github.com/user/marketplace_purchases/stubbed?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List deliveries for an app webhook
+## List deliveries for an app webhook
+GET https://api.github.com/app/hook/deliveries?perPage={{perPage}}&cursor={{cursor}}&redelivery={{redelivery}}
+Accept: application/json
+Accept: application/scim+json
+
+### Redeliver a delivery for an app webhook
+## Redeliver a delivery for an app webhook
+POST https://api.github.com/app/hook/deliveries/{{delivery_id}}/attempts
+Accept: application/json
+Accept: application/scim+json
+
+### Remove a repository from an app installation
+## Remove a repository from an app installation
+DELETE https://api.github.com/user/installations/{{installation_id}}/repositories/{{repository_id}}
+Accept: application/json
+
+### Reset a token
+## Reset a token
+PATCH https://api.github.com/applications/{{client_id}}/token
+Content-Type: application/json
+Accept: application/json
+
+{
+  "access_token" : "e72e16c7e42f292c6912e7710c838347ae178b4a"
+}
+
+
+### Revoke an installation access token
+## Revoke an installation access token
+DELETE https://api.github.com/installation/token
+
+### Create a scoped access token
+## Create a scoped access token
+POST https://api.github.com/applications/{{client_id}}/token/scoped
+Content-Type: application/json
+Accept: application/json
+
+{
+  "access_token" : "e72e16c7e42f292c6912e7710c838347ae178b4a",
+  "target" : "octocat",
+  "permissions" : {
+    "metadata" : "read",
+    "issues" : "write",
+    "contents" : "read"
+  }
+}
+
+
+### Suspend an app installation
+## Suspend an app installation
+PUT https://api.github.com/app/installations/{{installation_id}}/suspended
+Accept: application/json
+
+### Unsuspend an app installation
+## Unsuspend an app installation
+DELETE https://api.github.com/app/installations/{{installation_id}}/suspended
+Accept: application/json
+
+### Update a webhook configuration for an app
+## Update a webhook configuration for an app
+PATCH https://api.github.com/app/hook/config
+Content-Type: application/json
+Accept: application/json
+
+{
+  "content_type" : "json",
+  "insecure_ssl" : "0",
+  "secret" : "********",
+  "url" : "https://example.com/webhook"
+}
+

@@ -81,6 +81,54 @@ paths:
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
       parameters:
+      - description: Entity type
+        explode: false
+        in: path
+        name: inlineEnumPath
+        required: false
+        schema:
+          enum:
+          - OPTION_1
+          - OPTION_2
+          - OPTION_3
+          type: string
+        style: simple
+      - description: Entity type
+        explode: true
+        in: query
+        name: inlineEnum
+        required: false
+        schema:
+          enum:
+          - OPTION_1
+          - OPTION_2
+          - OPTION_3
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: defaultInt
+        required: false
+        schema:
+          default: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: defaultNum
+        required: false
+        schema:
+          default: 1.5
+          type: number
+        style: form
+      - explode: true
+        in: query
+        name: defaultStr
+        required: false
+        schema:
+          default: default
+          type: string
+        style: form
       - deprecated: true
         description: Status values that need to be considered for filter
         explode: false
@@ -119,6 +167,61 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
+  /pet/searchPetWithManyFilters:
+    get:
+      description: Search endpoint
+      operationId: searchPet
+      parameters:
+      - description: age of the pet
+        explode: true
+        in: query
+        name: age
+        required: false
+        schema:
+          format: int64
+          nullable: true
+          type: integer
+        style: form
+      - description: Price of the pet
+        explode: true
+        in: query
+        name: price
+        required: false
+        schema:
+          nullable: true
+          type: number
+        style: form
+      - description: Find pets born after this date
+        explode: false
+        in: query
+        name: bornAfter
+        required: false
+        schema:
+          format: date-time
+          nullable: true
+          type: string
+        style: form
+      - description: Is the pet classified as old
+        explode: true
+        in: query
+        name: old
+        required: false
+        schema:
+          nullable: true
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+          description: successful operation
+      summary: Search Pets by filters
+      tags:
+      - pet
   /pet/findByTags:
     get:
       deprecated: true
@@ -153,6 +256,13 @@ paths:
         schema:
           format: date-time
           type: string
+        style: form
+      - explode: true
+        in: query
+        name: colour
+        required: false
+        schema:
+          $ref: '#/components/schemas/Colour'
         style: form
       responses:
         "200":
@@ -545,10 +655,10 @@ paths:
         schema:
           type: string
         style: form
-      - description: The password for login in clear text
+      - description: Remember Me
         explode: true
         in: query
-        name: boolean_test
+        name: remember_me
         required: false
         schema:
           type: boolean
@@ -616,10 +726,10 @@ paths:
         schema:
           type: string
         style: simple
-      - description: boolean query parameter
+      - description: Confirm the deletion
         explode: true
         in: query
-        name: boolean_test
+        name: confirmation
         required: false
         schema:
           type: boolean
@@ -759,6 +869,28 @@ paths:
                 $ref: '#/components/schemas/ApiResponse'
           description: successful operation
       summary: Get the pets by only using boolean query parameters
+      tags:
+      - pet
+  /pets/byTime/{createdTime}:
+    get:
+      operationId: GetPetsByTime
+      parameters:
+      - explode: false
+        in: path
+        name: createdTime
+        required: true
+        schema:
+          format: date-time
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      summary: Get the pets by time
       tags:
       - pet
 components:
@@ -1164,6 +1296,12 @@ components:
       - male
       - female
       type: string
+    Colour:
+      enum:
+      - Blue
+      - White
+      nullable: true
+      type: string
     ApiResponse:
       description: Describes the result of uploading an image resource
       example:
@@ -1194,6 +1332,11 @@ components:
         additionalMetadata:
           description: Additional data to pass to server
           type: string
+        extraOptionalMetadata:
+          description: More data to pass to server
+          items:
+            type: string
+          type: array
         file:
           description: file to upload
           format: binary

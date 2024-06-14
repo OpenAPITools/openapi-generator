@@ -63,7 +63,7 @@ void OAIUserApiRequest::createUserRequest(){
     ::OpenAPI::fromJsonValue(body, obj);
     
 
-    emit createUser(body);
+    Q_EMIT createUser(body);
 }
 
 
@@ -85,7 +85,7 @@ void OAIUserApiRequest::createUsersWithArrayInputRequest(){
     }
     
 
-    emit createUsersWithArrayInput(body);
+    Q_EMIT createUsersWithArrayInput(body);
 }
 
 
@@ -107,7 +107,7 @@ void OAIUserApiRequest::createUsersWithListInputRequest(){
     }
     
 
-    emit createUsersWithListInput(body);
+    Q_EMIT createUsersWithListInput(body);
 }
 
 
@@ -120,7 +120,7 @@ void OAIUserApiRequest::deleteUserRequest(const QString& usernamestr){
     fromStringValue(usernamestr, username);
     
 
-    emit deleteUser(username);
+    Q_EMIT deleteUser(username);
 }
 
 
@@ -133,7 +133,7 @@ void OAIUserApiRequest::getUserByNameRequest(const QString& usernamestr){
     fromStringValue(usernamestr, username);
     
 
-    emit getUserByName(username);
+    Q_EMIT getUserByName(username);
 }
 
 
@@ -154,7 +154,7 @@ void OAIUserApiRequest::loginUserRequest(){
     
 
 
-    emit loginUser(username, password);
+    Q_EMIT loginUser(username, password);
 }
 
 
@@ -165,7 +165,7 @@ void OAIUserApiRequest::logoutUserRequest(){
     
 
 
-    emit logoutUser();
+    Q_EMIT logoutUser();
 }
 
 
@@ -185,7 +185,7 @@ void OAIUserApiRequest::updateUserRequest(const QString& usernamestr){
     ::OpenAPI::fromJsonValue(body, obj);
     
 
-    emit updateUser(username, body);
+    Q_EMIT updateUser(username, body);
 }
 
 

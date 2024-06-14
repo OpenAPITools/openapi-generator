@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "zapier-platform-core": "15.4.1",
-    "form-data": "2.1.4"
+    "zapier-platform-core": "15.5.1",
+    "form-data": "^4.0.0"
   },
   "devDependencies": {
     "mocha": "^10.2.0",
@@ -22,6 +22,6 @@
   },
   "private": true,
   "zapier": {
-    "convertedByCLIVersion": "15.4.1"
+    "convertedByCLIVersion": "15.5.1"
   }
 }

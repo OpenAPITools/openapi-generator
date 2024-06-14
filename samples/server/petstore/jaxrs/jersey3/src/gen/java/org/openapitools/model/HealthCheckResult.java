@@ -28,7 +28,7 @@ import jakarta.validation.Valid;
 @JsonPropertyOrder({
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class HealthCheckResult   {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
@@ -64,7 +64,7 @@ public class HealthCheckResult   {
       return false;
     }
     HealthCheckResult healthCheckResult = (HealthCheckResult) o;
-    return Objects.equals(nullableMessage, healthCheckResult.nullableMessage);
+    return Objects.equals(this.nullableMessage, healthCheckResult.nullableMessage);
   }
 
   @Override

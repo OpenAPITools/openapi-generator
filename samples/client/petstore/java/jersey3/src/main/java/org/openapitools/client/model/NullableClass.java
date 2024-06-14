@@ -38,6 +38,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -58,7 +60,7 @@ import org.openapitools.client.JSON;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NullableClass {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
@@ -85,7 +87,7 @@ public class NullableClass {
   private JsonNullable<List<Object>> arrayAndItemsNullableProp = JsonNullable.<List<Object>>undefined();
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
-  private List<Object> arrayItemsNullable;
+  private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   private JsonNullable<Map<String, Object>> objectNullableProp = JsonNullable.<Map<String, Object>>undefined();
@@ -109,6 +111,7 @@ public class NullableClass {
    * @return integerProp
   **/
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public Integer getIntegerProp() {
@@ -142,6 +145,8 @@ public class NullableClass {
    * @return numberProp
   **/
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public BigDecimal getNumberProp() {
@@ -175,6 +180,7 @@ public class NullableClass {
    * @return booleanProp
   **/
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public Boolean getBooleanProp() {
@@ -208,6 +214,7 @@ public class NullableClass {
    * @return stringProp
   **/
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public String getStringProp() {
@@ -241,6 +248,8 @@ public class NullableClass {
    * @return dateProp
   **/
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public LocalDate getDateProp() {
@@ -274,6 +283,8 @@ public class NullableClass {
    * @return datetimeProp
   **/
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public OffsetDateTime getDatetimeProp() {
@@ -319,6 +330,7 @@ public class NullableClass {
    * @return arrayNullableProp
   **/
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public List<Object> getArrayNullableProp() {
@@ -364,6 +376,7 @@ public class NullableClass {
    * @return arrayAndItemsNullableProp
   **/
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public List<Object> getArrayAndItemsNullableProp() {
@@ -405,6 +418,7 @@ public class NullableClass {
    * @return arrayItemsNullable
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -442,6 +456,7 @@ public class NullableClass {
    * @return objectNullableProp
   **/
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public Map<String, Object> getObjectNullableProp() {
@@ -487,6 +502,7 @@ public class NullableClass {
    * @return objectAndItemsNullableProp
   **/
   @jakarta.annotation.Nullable
+
   @JsonIgnore
 
   public Map<String, Object> getObjectAndItemsNullableProp() {
@@ -528,6 +544,7 @@ public class NullableClass {
    * @return objectItemsNullable
   **/
   @jakarta.annotation.Nullable
+
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
   @JsonInclude(content = JsonInclude.Include.ALWAYS, value = JsonInclude.Include.USE_DEFAULTS)
 

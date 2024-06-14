@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * Model for testing model name starting with number
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Model200Response implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -65,7 +65,6 @@ public class Model200Response implements Parcelable {
   }
 
   public Model200Response name(Integer name) {
-    
     this.name = name;
     return this;
   }
@@ -79,14 +78,12 @@ public class Model200Response implements Parcelable {
     return name;
   }
 
-
   public void setName(Integer name) {
     this.name = name;
   }
 
 
   public Model200Response propertyClass(String propertyClass) {
-    
     this.propertyClass = propertyClass;
     return this;
   }
@@ -99,7 +96,6 @@ public class Model200Response implements Parcelable {
   public String getPropertyClass() {
     return propertyClass;
   }
-
 
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

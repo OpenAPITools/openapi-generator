@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * OuterComposite
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class OuterComposite {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
@@ -68,7 +68,6 @@ public class OuterComposite {
   }
 
   public OuterComposite myNumber(BigDecimal myNumber) {
-    
     this.myNumber = myNumber;
     return this;
   }
@@ -82,14 +81,12 @@ public class OuterComposite {
     return myNumber;
   }
 
-
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
 
   public OuterComposite myString(String myString) {
-    
     this.myString = myString;
     return this;
   }
@@ -103,14 +100,12 @@ public class OuterComposite {
     return myString;
   }
 
-
   public void setMyString(String myString) {
     this.myString = myString;
   }
 
 
   public OuterComposite myBoolean(Boolean myBoolean) {
-    
     this.myBoolean = myBoolean;
     return this;
   }
@@ -123,7 +118,6 @@ public class OuterComposite {
   public Boolean getMyBoolean() {
     return myBoolean;
   }
-
 
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
@@ -279,7 +273,12 @@ public class OuterComposite {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

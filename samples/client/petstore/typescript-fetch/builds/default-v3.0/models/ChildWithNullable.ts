@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { ParentWithNullable } from './ParentWithNullable';
 import {
     ParentWithNullableFromJSON,
@@ -39,10 +39,8 @@ export interface ChildWithNullable extends ParentWithNullable {
 /**
  * Check if a given object implements the ChildWithNullable interface.
  */
-export function instanceOfChildWithNullable(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfChildWithNullable(value: object): value is ChildWithNullable {
+    return true;
 }
 
 export function ChildWithNullableFromJSON(json: any): ChildWithNullable {
@@ -50,25 +48,22 @@ export function ChildWithNullableFromJSON(json: any): ChildWithNullable {
 }
 
 export function ChildWithNullableFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChildWithNullable {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         ...ParentWithNullableFromJSONTyped(json, ignoreDiscriminator),
-        'otherProperty': !exists(json, 'otherProperty') ? undefined : json['otherProperty'],
+        'otherProperty': json['otherProperty'] == null ? undefined : json['otherProperty'],
     };
 }
 
 export function ChildWithNullableToJSON(value?: ChildWithNullable | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         ...ParentWithNullableToJSON(value),
-        'otherProperty': value.otherProperty,
+        'otherProperty': value['otherProperty'],
     };
 }
 

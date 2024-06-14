@@ -39,7 +39,7 @@ impl std::string::ToString for ANullableContainer {
         let params: Vec<Option<String>> = vec![
 
             self.nullable_thing.as_ref().map(|nullable_thing| {
-                vec![
+                [
                     "NullableThing".to_string(),
                     nullable_thing.as_ref().map_or("null".to_string(), |x| x.to_string()),
                 ].join(",")
@@ -225,7 +225,7 @@ impl std::string::ToString for AllOfObject {
         let params: Vec<Option<String>> = vec![
 
             self.sample_property.as_ref().map(|sample_property| {
-                vec![
+                [
                     "sampleProperty".to_string(),
                     sample_property.to_string(),
                 ].join(",")
@@ -233,7 +233,7 @@ impl std::string::ToString for AllOfObject {
 
 
             self.sample_base_property.as_ref().map(|sample_base_property| {
-                vec![
+                [
                     "sampleBaseProperty".to_string(),
                     sample_base_property.to_string(),
                 ].join(",")
@@ -361,7 +361,7 @@ impl std::string::ToString for BaseAllOf {
         let params: Vec<Option<String>> = vec![
 
             self.sample_base_property.as_ref().map(|sample_base_property| {
-                vec![
+                [
                     "sampleBaseProperty".to_string(),
                     sample_base_property.to_string(),
                 ].join(",")
@@ -493,7 +493,7 @@ impl std::string::ToString for DummyPutRequest {
 
 
             self.password.as_ref().map(|password| {
-                vec![
+                [
                     "password".to_string(),
                     password.to_string(),
                 ].join(",")
@@ -623,7 +623,7 @@ impl std::string::ToString for GetYamlResponse {
         let params: Vec<Option<String>> = vec![
 
             self.value.as_ref().map(|value| {
-                vec![
+                [
                     "value".to_string(),
                     value.to_string(),
                 ].join(",")
@@ -874,7 +874,7 @@ impl std::string::ToString for ObjectOfObjectsInner {
 
 
             self.optional_thing.as_ref().map(|optional_thing| {
-                vec![
+                [
                     "optional_thing".to_string(),
                     optional_thing.to_string(),
                 ].join(",")

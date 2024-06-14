@@ -34,13 +34,14 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * TestInlineFreeformAdditionalPropertiesRequest
  */
 @JsonPropertyOrder({
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   private String someProperty;
@@ -194,10 +195,64 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
 
     // add `someProperty` to the URL query string
     if (getSomeProperty() != null) {
-      joiner.add(String.format("%ssomeProperty%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSomeProperty()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssomeProperty%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSomeProperty()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private TestInlineFreeformAdditionalPropertiesRequest instance;
+
+    public Builder() {
+      this(new TestInlineFreeformAdditionalPropertiesRequest());
+    }
+
+    protected Builder(TestInlineFreeformAdditionalPropertiesRequest instance) {
+      this.instance = instance;
+    }
+
+    public TestInlineFreeformAdditionalPropertiesRequest.Builder someProperty(String someProperty) {
+      this.instance.someProperty = someProperty;
+      return this;
+    }
+
+
+    /**
+    * returns a built TestInlineFreeformAdditionalPropertiesRequest instance.
+    *
+    * The builder is not reusable.
+    */
+    public TestInlineFreeformAdditionalPropertiesRequest build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static TestInlineFreeformAdditionalPropertiesRequest.Builder builder() {
+    return new TestInlineFreeformAdditionalPropertiesRequest.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public TestInlineFreeformAdditionalPropertiesRequest.Builder toBuilder() {
+    return new TestInlineFreeformAdditionalPropertiesRequest.Builder()
+      .someProperty(getSomeProperty());
+  }
+
 }
 

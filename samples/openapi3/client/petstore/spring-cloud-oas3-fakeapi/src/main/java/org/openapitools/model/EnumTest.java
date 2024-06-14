@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class EnumTest {
 
   /**
@@ -178,6 +178,10 @@ public class EnumTest {
   private EnumNumberEnum enumNumber;
 
   private OuterEnum outerEnum;
+
+  public EnumTest() {
+    super();
+  }
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;

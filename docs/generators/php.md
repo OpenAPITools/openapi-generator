@@ -219,7 +219,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ExternalDocumentation|✓|OAS2,OAS3
 |Examples|✓|OAS2,OAS3
 |XMLStructureDefinitions|✗|OAS2,OAS3
-|MultiServer|✗|OAS3
+|MultiServer|✓|OAS3
 |ParameterizedServer|✗|OAS3
 |ParameterStyling|✗|OAS3
 |Callbacks|✗|OAS3
@@ -260,6 +260,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
 |SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

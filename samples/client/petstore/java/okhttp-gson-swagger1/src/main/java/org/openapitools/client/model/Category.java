@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
  * A category for a pet
  */
 @ApiModel(description = "A category for a pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Category {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -66,7 +66,6 @@ public class Category {
   }
 
   public Category id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -81,14 +80,12 @@ public class Category {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public Category name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -102,7 +99,6 @@ public class Category {
   public String getName() {
     return name;
   }
-
 
   public void setName(String name) {
     this.name = name;
@@ -255,7 +251,12 @@ public class Category {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

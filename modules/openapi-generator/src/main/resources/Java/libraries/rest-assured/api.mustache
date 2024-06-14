@@ -32,6 +32,11 @@ import io.swagger.v3.oas.annotations.responses.*;
 import io.swagger.v3.oas.annotations.security.*;
 {{/swagger2AnnotationLibrary}}
 
+{{#useBeanValidation}}
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+{{/useBeanValidation}}
+
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -152,9 +157,7 @@ public class {{classname}} {
             {{#x-content-type}}
             reqSpec.setContentType("{{x-content-type}}");
             {{/x-content-type}}
-            {{#x-accepts}}
-            reqSpec.setAccept("{{x-accepts}}");
-            {{/x-accepts}}
+            reqSpec.setAccept("{{#x-accepts}}{{.}}{{^-last}},{{/-last}}{{/x-accepts}}");
             {{/vendorExtensions}}
             this.respSpec = new ResponseSpecBuilder();
         }

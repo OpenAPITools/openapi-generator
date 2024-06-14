@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * TestInlineFreeformAdditionalPropertiesRequest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String SERIALIZED_NAME_SOME_PROPERTY = "someProperty";
   @SerializedName(SERIALIZED_NAME_SOME_PROPERTY)
@@ -59,7 +59,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
   }
 
   public TestInlineFreeformAdditionalPropertiesRequest someProperty(String someProperty) {
-    
     this.someProperty = someProperty;
     return this;
   }
@@ -72,7 +71,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
   public String getSomeProperty() {
     return someProperty;
   }
-
 
   public void setSomeProperty(String someProperty) {
     this.someProperty = someProperty;
@@ -222,7 +220,12 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

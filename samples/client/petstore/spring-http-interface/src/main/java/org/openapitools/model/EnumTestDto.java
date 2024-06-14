@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class EnumTestDto {
 
   /**
@@ -176,6 +176,10 @@ public class EnumTestDto {
   private EnumNumberEnum enumNumber;
 
   private OuterEnumDto outerEnum;
+
+  public EnumTestDto() {
+    super();
+  }
 
   public EnumTestDto enumString(EnumStringEnum enumString) {
     this.enumString = enumString;

@@ -1,0 +1,332 @@
+## CodespacesApi
+
+### Add a selected repository to a user secret
+## Add a selected repository to a user secret
+PUT https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories/{{repository_id}}
+Accept: application/json
+
+### Add selected repository to an organization secret
+## Add selected repository to an organization secret
+PUT https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repositories/{{repository_id}}
+Accept: application/json
+
+### Check if permissions defined by a devcontainer have been accepted by the authenticated user
+## Check if permissions defined by a devcontainer have been accepted by the authenticated user
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/permissions_check?ref={{ref}}&devcontainerPath={{devcontainerPath}}
+Accept: application/json
+
+### List machine types for a codespace
+## List machine types for a codespace
+GET https://api.github.com/user/codespaces/{{codespace_name}}/machines
+Accept: application/json
+
+### Create a codespace for the authenticated user
+## Create a codespace for the authenticated user
+POST https://api.github.com/user/codespaces
+Content-Type: application/json
+Accept: application/json
+
+{
+  "repository_id" : 1,
+  "ref" : "main",
+  "geo" : "UsWest"
+}
+
+
+### Create or update an organization secret
+## Create or update an organization secret
+PUT https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "encrypted_value" : "c2VjcmV0",
+  "key_id" : "012345678912345678",
+  "visibility" : "selected",
+  "selected_repository_ids" : [ 1296269, 1296280 ]
+}
+
+
+### Create or update a repository secret
+## Create or update a repository secret
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/{{secret_name}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "encrypted_value" : "c2VjcmV0",
+  "key_id" : "012345678912345678"
+}
+
+
+### Create or update a secret for the authenticated user
+## Create or update a secret for the authenticated user
+PUT https://api.github.com/user/codespaces/secrets/{{secret_name}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "encrypted_value" : "c2VjcmV0",
+  "key_id" : "012345678912345678",
+  "selected_repository_ids" : [ "1234567", "2345678" ]
+}
+
+
+### Create a codespace from a pull request
+## Create a codespace from a pull request
+POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/codespaces
+Content-Type: application/json
+Accept: application/json
+
+{
+  "repository_id" : 1,
+  "ref" : "main"
+}
+
+
+### Create a codespace in a repository
+## Create a codespace in a repository
+POST https://api.github.com/repos/{{owner}}/{{repo}}/codespaces
+Content-Type: application/json
+Accept: application/json
+Accept: application/scim+json
+
+{
+  "ref" : "main",
+  "machine" : "standardLinux32gb"
+}
+
+
+### Remove users from Codespaces access for an organization
+## Remove users from Codespaces access for an organization
+DELETE https://api.github.com/orgs/{{org}}/codespaces/access/selected_users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "selected_usernames" : [ "johnDoe", "atomIO" ]
+}
+
+
+### Delete a codespace for the authenticated user
+## Delete a codespace for the authenticated user
+DELETE https://api.github.com/user/codespaces/{{codespace_name}}
+Accept: application/json
+
+### Delete a codespace from the organization
+## Delete a codespace from the organization
+DELETE https://api.github.com/orgs/{{org}}/members/{{username}}/codespaces/{{codespace_name}}
+Accept: application/json
+
+### Delete an organization secret
+## Delete an organization secret
+DELETE https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}
+Accept: application/json
+
+### Delete a repository secret
+## Delete a repository secret
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/{{secret_name}}
+
+### Delete a secret for the authenticated user
+## Delete a secret for the authenticated user
+DELETE https://api.github.com/user/codespaces/secrets/{{secret_name}}
+
+### Export a codespace for the authenticated user
+## Export a codespace for the authenticated user
+POST https://api.github.com/user/codespaces/{{codespace_name}}/exports
+Accept: application/json
+
+### List codespaces for a user in organization
+## List codespaces for a user in organization
+GET https://api.github.com/orgs/{{org}}/members/{{username}}/codespaces?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Get details about a codespace export
+## Get details about a codespace export
+GET https://api.github.com/user/codespaces/{{codespace_name}}/exports/{{export_id}}
+Accept: application/json
+
+### Get a codespace for the authenticated user
+## Get a codespace for the authenticated user
+GET https://api.github.com/user/codespaces/{{codespace_name}}
+Accept: application/json
+
+### Get an organization public key
+## Get an organization public key
+GET https://api.github.com/orgs/{{org}}/codespaces/secrets/public-key
+Accept: application/json
+
+### Get an organization secret
+## Get an organization secret
+GET https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}
+Accept: application/json
+
+### Get public key for the authenticated user
+## Get public key for the authenticated user
+GET https://api.github.com/user/codespaces/secrets/public-key
+Accept: application/json
+
+### Get a repository public key
+## Get a repository public key
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/public-key
+Accept: application/json
+
+### Get a repository secret
+## Get a repository secret
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/{{secret_name}}
+Accept: application/json
+
+### Get a secret for the authenticated user
+## Get a secret for the authenticated user
+GET https://api.github.com/user/codespaces/secrets/{{secret_name}}
+Accept: application/json
+
+### List devcontainer configurations in a repository for the authenticated user
+## List devcontainer configurations in a repository for the authenticated user
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/devcontainers?perPage={{perPage}}&page={{page}}
+Accept: application/json
+Accept: application/scim+json
+
+### List codespaces for the authenticated user
+## List codespaces for the authenticated user
+GET https://api.github.com/user/codespaces?perPage={{perPage}}&page={{page}}&repositoryId={{repositoryId}}
+Accept: application/json
+
+### List codespaces for the organization
+## List codespaces for the organization
+GET https://api.github.com/orgs/{{org}}/codespaces?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List codespaces in a repository for the authenticated user
+## List codespaces in a repository for the authenticated user
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List organization secrets
+## List organization secrets
+GET https://api.github.com/orgs/{{org}}/codespaces/secrets?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository secrets
+## List repository secrets
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List selected repositories for a user secret
+## List selected repositories for a user secret
+GET https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories
+Accept: application/json
+
+### List secrets for the authenticated user
+## List secrets for the authenticated user
+GET https://api.github.com/user/codespaces/secrets?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List selected repositories for an organization secret
+## List selected repositories for an organization secret
+GET https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repositories?page={{page}}&perPage={{perPage}}
+Accept: application/json
+
+### Get default attributes for a codespace
+## Get default attributes for a codespace
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/new?ref={{ref}}&clientIp={{clientIp}}
+Accept: application/json
+
+### Create a repository from an unpublished codespace
+## Create a repository from an unpublished codespace
+POST https://api.github.com/user/codespaces/{{codespace_name}}/publish
+Content-Type: application/json
+Accept: application/json
+
+{
+  "repository" : "monalisa-octocat-hello-world-g4wpq6h95q",
+  "private" : false
+}
+
+
+### Remove a selected repository from a user secret
+## Remove a selected repository from a user secret
+DELETE https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories/{{repository_id}}
+Accept: application/json
+
+### Remove selected repository from an organization secret
+## Remove selected repository from an organization secret
+DELETE https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repositories/{{repository_id}}
+Accept: application/json
+
+### List available machine types for a repository
+## List available machine types for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/machines?location={{location}}&clientIp={{clientIp}}&ref={{ref}}
+Accept: application/json
+
+### Manage access control for organization codespaces
+## Manage access control for organization codespaces
+PUT https://api.github.com/orgs/{{org}}/codespaces/access
+Content-Type: application/json
+Accept: application/json
+
+{
+  "visibility" : "selected_members",
+  "selected_usernames" : [ "johnDoe", "atomIO" ]
+}
+
+
+### Add users to Codespaces access for an organization
+## Add users to Codespaces access for an organization
+POST https://api.github.com/orgs/{{org}}/codespaces/access/selected_users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "selected_usernames" : [ "johnDoe", "atomIO" ]
+}
+
+
+### Set selected repositories for a user secret
+## Set selected repositories for a user secret
+PUT https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories
+Content-Type: application/json
+Accept: application/json
+
+{
+  "selected_repository_ids" : [ "1296269", "1296280" ]
+}
+
+
+### Set selected repositories for an organization secret
+## Set selected repositories for an organization secret
+PUT https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repositories
+Content-Type: application/json
+Accept: application/json
+
+{
+  "selected_repository_ids" : [ 64780797 ]
+}
+
+
+### Start a codespace for the authenticated user
+## Start a codespace for the authenticated user
+POST https://api.github.com/user/codespaces/{{codespace_name}}/start
+Accept: application/json
+Accept: application/scim+json
+
+### Stop a codespace for the authenticated user
+## Stop a codespace for the authenticated user
+POST https://api.github.com/user/codespaces/{{codespace_name}}/stop
+Accept: application/json
+
+### Stop a codespace for an organization user
+## Stop a codespace for an organization user
+POST https://api.github.com/orgs/{{org}}/members/{{username}}/codespaces/{{codespace_name}}/stop
+Accept: application/json
+
+### Update a codespace for the authenticated user
+## Update a codespace for the authenticated user
+PATCH https://api.github.com/user/codespaces/{{codespace_name}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "machine" : "standardLinux"
+}
+
