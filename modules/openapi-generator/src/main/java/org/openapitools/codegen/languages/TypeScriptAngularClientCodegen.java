@@ -233,7 +233,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put(HTTP_CONTEXT_IN_OPTIONS, true);
         }
 
-        if (ngVersion.atLeast("18.0.0")) {
+        if (ngVersion.atLeast("17.0.0")) {
             additionalProperties.put(HTTP_TRANSFER_CACHE_IN_OPTIONS, true);
         }
 
