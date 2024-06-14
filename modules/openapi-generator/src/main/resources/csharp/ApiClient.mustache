@@ -388,12 +388,12 @@ namespace {{packageName}}.Client
         }
 
         /// <summary>
-        /// Transforms a RestResponse<T> instance into a new ApiResponse<T> instance.
+        /// Transforms a RestResponse instance into a new ApiResponse instance.
         /// At this point, we have a concrete http response from the service.
         /// Here, it is simply mapped into the [public] ApiResponse object.
         /// </summary>
         /// <param name="response">The RestSharp response object</param>
-        /// <returns>A new ApiResponse<T> instance.</returns>
+        /// <returns>A new ApiResponse instance.</returns>
         private ApiResponse<T> ToApiResponse<T>(RestResponse<T> response)
         {
             T result = response.Data;
@@ -442,14 +442,13 @@ namespace {{packageName}}.Client
         /// Executes the HTTP request for the current service.
         /// Based on functions received it can be async or sync.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="getResponse">Local function that executes http request and returns http response.</param>
         /// <param name="setOptions">Local function to specify options for the service.</param>        
         /// <param name="request">The RestSharp request object</param>
         /// <param name="options">The RestSharp options object</param>
         /// <param name="configuration">A per-request configuration object.
         /// It is assumed that any merge with GlobalConfiguration has been done before calling this method.</param>
-        /// <returns>A new ApiResponse<T> instance.</returns>
+        /// <returns>A new ApiResponse instance.</returns>
         private ApiResponse<T> ExecClient<T>(Func<RestClient, RestResponse<T>> getResponse, Action<RestClientOptions> setOptions, RestRequest request, RequestOptions options, IReadableConfiguration configuration)
         {
             var baseUrl = configuration.GetOperationServerUrl(options.Operation, options.OperationIndex) ?? _baseUrl;
@@ -551,7 +550,7 @@ namespace {{packageName}}.Client
             }
         }
 
-        private RestResponse<T> DeserializeRestResponseFromPolicy<T>(PolicyResult<RestResponse> policyResult)
+        private RestResponse<T> DeserializeRestResponseFromPolicy<T>(RestClient client, RestRequest request, PolicyResult<RestResponse> policyResult)
         {
             if (policyResult.Outcome == OutcomeType.Successful) 
             {
@@ -588,7 +587,7 @@ namespace {{packageName}}.Client
                 {
                     var policy = RetryConfiguration.RetryPolicy;
                     var policyResult = policy.ExecuteAndCapture(() => client.Execute(request));
-                    return DeserializeRestResponseFromPolicy<T>(policyResult);
+                    return DeserializeRestResponseFromPolicy<T>(client, request, policyResult);
                 }
                 else
                 {
@@ -616,7 +615,7 @@ namespace {{packageName}}.Client
                     {
                         var policy = RetryConfiguration.AsyncRetryPolicy;
                         var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(request, ct), cancellationToken).ConfigureAwait(false);
-                        return DeserializeRestResponseFromPolicy<T>(policyResult);
+                        return DeserializeRestResponseFromPolicy<T>(client, request, policyResult);
                     }
                     else
                     {

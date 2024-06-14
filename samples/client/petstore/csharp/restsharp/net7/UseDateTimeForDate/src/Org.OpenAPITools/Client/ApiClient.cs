@@ -261,14 +261,14 @@ namespace Org.OpenAPITools.Client
 
         /// <summary>
         /// Provides all logic for constructing a new RestSharp <see cref="RestRequest"/>.
-        /// At this point, all information for querying the service is known. Here, it is simply
-        /// mapped into the RestSharp request.
+        /// At this point, all information for querying the service is known. 
+        /// Here, it is simply mapped into the RestSharp request.
         /// </summary>
         /// <param name="method">The http verb.</param>
         /// <param name="path">The target path (or resource).</param>
         /// <param name="options">The additional request options.</param>
-        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
-        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <param name="configuration">A per-request configuration object.
+        /// It is assumed that any merge with GlobalConfiguration has been done before calling this method.</param>
         /// <returns>[private] A new RestRequest instance.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         private RestRequest NewRequest(
@@ -386,6 +386,13 @@ namespace Org.OpenAPITools.Client
             return request;
         }
 
+        /// <summary>
+        /// Transforms a RestResponse instance into a new ApiResponse instance.
+        /// At this point, we have a concrete http response from the service.
+        /// Here, it is simply mapped into the [public] ApiResponse object.
+        /// </summary>
+        /// <param name="response">The RestSharp response object</param>
+        /// <returns>A new ApiResponse instance.</returns>
         private ApiResponse<T> ToApiResponse<T>(RestResponse<T> response)
         {
             T result = response.Data;
@@ -430,164 +437,177 @@ namespace Org.OpenAPITools.Client
             return transformed;
         }
 
+        /// <summary>
+        /// Executes the HTTP request for the current service.
+        /// Based on functions received it can be async or sync.
+        /// </summary>
+        /// <param name="getResponse">Local function that executes http request and returns http response.</param>
+        /// <param name="setOptions">Local function to specify options for the service.</param>        
+        /// <param name="request">The RestSharp request object</param>
+        /// <param name="options">The RestSharp options object</param>
+        /// <param name="configuration">A per-request configuration object.
+        /// It is assumed that any merge with GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A new ApiResponse instance.</returns>
         private ApiResponse<T> ExecClient<T>(Func<RestClient, RestResponse<T>> getResponse, Action<RestClientOptions> setOptions, RestRequest request, RequestOptions options, IReadableConfiguration configuration)
-		{
-			var baseUrl = configuration.GetOperationServerUrl(options.Operation, options.OperationIndex) ?? _baseUrl;
+        {
+            var baseUrl = configuration.GetOperationServerUrl(options.Operation, options.OperationIndex) ?? _baseUrl;
 
-			var clientOptions = new RestClientOptions(baseUrl)
-			{
-				ClientCertificates = configuration.ClientCertificates,
-				MaxTimeout = configuration.Timeout,
-				Proxy = configuration.Proxy,
-				UserAgent = configuration.UserAgent,
-				UseDefaultCredentials = configuration.UseDefaultCredentials,
-				RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
-			};
-			setOptions(clientOptions);
-			
-			using (RestClient client = new RestClient(clientOptions,
-				configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
-			{
-				InterceptRequest(request);
+            var clientOptions = new RestClientOptions(baseUrl)
+            {
+                ClientCertificates = configuration.ClientCertificates,
+                MaxTimeout = configuration.Timeout,
+                Proxy = configuration.Proxy,
+                UserAgent = configuration.UserAgent,
+                UseDefaultCredentials = configuration.UseDefaultCredentials,
+                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
+            };
+            setOptions(clientOptions);
+            
+            using (RestClient client = new RestClient(clientOptions,
+                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
+            {
+                InterceptRequest(request);
 
-				RestResponse<T> response = getResponse(client);
+                RestResponse<T> response = getResponse(client);
 
-				// if the response type is oneOf/anyOf, call FromJSON to deserialize the data
-				if (typeof(AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
-				{
-					try
-					{
-						response.Data = (T)typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
-					}
-					catch (Exception ex)
-					{
-						throw ex.InnerException != null ? ex.InnerException : ex;
-					}
-				}
-				else if (typeof(T).Name == "Stream") // for binary response
-				{
-					response.Data = (T)(object)new MemoryStream(response.RawBytes);
-				}
-				else if (typeof(T).Name == "Byte[]") // for byte response
-				{
-					response.Data = (T)(object)response.RawBytes;
-				}
-				else if (typeof(T).Name == "String") // for string response
-				{
-					response.Data = (T)(object)response.Content;
-				}
+                // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
+                if (typeof(AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+                {
+                    try
+                    {
+                        response.Data = (T)typeof(T).GetMethod("FromJson").Invoke(null, new object[] { response.Content });
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex.InnerException != null ? ex.InnerException : ex;
+                    }
+                }
+                else if (typeof(T).Name == "Stream") // for binary response
+                {
+                    response.Data = (T)(object)new MemoryStream(response.RawBytes);
+                }
+                else if (typeof(T).Name == "Byte[]") // for byte response
+                {
+                    response.Data = (T)(object)response.RawBytes;
+                }
+                else if (typeof(T).Name == "String") // for string response
+                {
+                    response.Data = (T)(object)response.Content;
+                }
 
-				InterceptResponse(request, response);
+                InterceptResponse(request, response);
 
-				var result = ToApiResponse(response);
-				if (response.ErrorMessage != null)
-				{
-					result.ErrorText = response.ErrorMessage;
-				}
+                var result = ToApiResponse(response);
+                if (response.ErrorMessage != null)
+                {
+                    result.ErrorText = response.ErrorMessage;
+                }
 
-				if (response.Cookies != null && response.Cookies.Count > 0)
-				{
-					if (result.Cookies == null) result.Cookies = new List<Cookie>();
-					foreach (var restResponseCookie in response.Cookies.Cast<Cookie>())
-					{
-						var cookie = new Cookie(
-							restResponseCookie.Name,
-							restResponseCookie.Value,
-							restResponseCookie.Path,
-							restResponseCookie.Domain
-						)
-						{
-							Comment = restResponseCookie.Comment,
-							CommentUri = restResponseCookie.CommentUri,
-							Discard = restResponseCookie.Discard,
-							Expired = restResponseCookie.Expired,
-							Expires = restResponseCookie.Expires,
-							HttpOnly = restResponseCookie.HttpOnly,
-							Port = restResponseCookie.Port,
-							Secure = restResponseCookie.Secure,
-							Version = restResponseCookie.Version
-						};
+                if (response.Cookies != null && response.Cookies.Count > 0)
+                {
+                    if (result.Cookies == null) result.Cookies = new List<Cookie>();
+                    foreach (var restResponseCookie in response.Cookies.Cast<Cookie>())
+                    {
+                        var cookie = new Cookie(
+                            restResponseCookie.Name,
+                            restResponseCookie.Value,
+                            restResponseCookie.Path,
+                            restResponseCookie.Domain
+                        )
+                        {
+                            Comment = restResponseCookie.Comment,
+                            CommentUri = restResponseCookie.CommentUri,
+                            Discard = restResponseCookie.Discard,
+                            Expired = restResponseCookie.Expired,
+                            Expires = restResponseCookie.Expires,
+                            HttpOnly = restResponseCookie.HttpOnly,
+                            Port = restResponseCookie.Port,
+                            Secure = restResponseCookie.Secure,
+                            Version = restResponseCookie.Version
+                        };
 
-						result.Cookies.Add(cookie);
-					}
-				}
-				return result;
-			}
-		}
-				
+                        result.Cookies.Add(cookie);
+                    }
+                }
+                return result;
+            }
+        }
+
+        private RestResponse<T> DeserializeRestResponseFromPolicy<T>(RestClient client, RestRequest request, PolicyResult<RestResponse> policyResult)
+        {
+            if (policyResult.Outcome == OutcomeType.Successful) 
+            {
+                return client.Deserialize<T>(policyResult.Result);
+            }
+            else
+            {
+                return new RestResponse<T>(request)
+                {
+                    ErrorException = policyResult.FinalException
+                };
+            }
+        }
+                
         private ApiResponse<T> Exec<T>(RestRequest request, RequestOptions options, IReadableConfiguration configuration)
         {
-			Action<RestClientOptions> setOptions = (clientOptions) =>
-			{
-				var cookies = new CookieContainer();
+            Action<RestClientOptions> setOptions = (clientOptions) =>
+            {
+                var cookies = new CookieContainer();
 
-				if (options.Cookies != null && options.Cookies.Count > 0)
-				{
-					foreach (var cookie in options.Cookies)
-					{
-						cookies.Add(new Cookie(cookie.Name, cookie.Value));
-					}
-				}
-				clientOptions.CookieContainer = cookies;
-			};
+                if (options.Cookies != null && options.Cookies.Count > 0)
+                {
+                    foreach (var cookie in options.Cookies)
+                    {
+                        cookies.Add(new Cookie(cookie.Name, cookie.Value));
+                    }
+                }
+                clientOptions.CookieContainer = cookies;
+            };
 
-			Func<RestClient, RestResponse<T>> getResponse = (client) =>
-			{
-				if (RetryConfiguration.RetryPolicy != null)
-				{
-					var policy = RetryConfiguration.RetryPolicy;
-					var policyResult = policy.ExecuteAndCapture(() => client.Execute(request));
-					return (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>(request)
-					{
-						ErrorException = policyResult.FinalException
-					};
-				}
-				else
-				{
-					return client.Execute<T>(request);
-				}
-			};
+            Func<RestClient, RestResponse<T>> getResponse = (client) =>
+            {
+                if (RetryConfiguration.RetryPolicy != null)
+                {
+                    var policy = RetryConfiguration.RetryPolicy;
+                    var policyResult = policy.ExecuteAndCapture(() => client.Execute(request));
+                    return DeserializeRestResponseFromPolicy<T>(client, request, policyResult);
+                }
+                else
+                {
+                    return client.Execute<T>(request);
+                }
+            };
 
-			return ExecClient(getResponse, setOptions, request, options, configuration);
-		}
+            return ExecClient(getResponse, setOptions, request, options, configuration);
+        }
 
         private Task<ApiResponse<T>> ExecAsync<T>(RestRequest request, RequestOptions options, IReadableConfiguration configuration, CancellationToken cancellationToken = default(CancellationToken))
         {
-			Action<RestClientOptions> setOptions = (clientOptions) =>
-			{
-				//no extra options
-			};
+            Action<RestClientOptions> setOptions = (clientOptions) =>
+            {
+                //no extra options
+            };
 
-			Func<RestClient, RestResponse<T>> getResponse = (client) =>
-			{
-				Func<Task<RestResponse<T>>> action = async () =>
-				{
-					if (RetryConfiguration.AsyncRetryPolicy != null)
-					{
-						var policy = RetryConfiguration.AsyncRetryPolicy;
-						var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(request, ct), cancellationToken).ConfigureAwait(false);
-						if (policyResult.Outcome == OutcomeType.Successful) 
-                        {
-                            return client.Deserialize<T>(policyResult.Result);
-                        }
-                        else
-                        {
-                            return new RestResponse<T>(request)
-                            {
-                                ErrorException = policyResult.FinalException
-                            };
-                        }
-					}
-					else
-					{
-						return await client.ExecuteAsync<T>(request, cancellationToken).ConfigureAwait(false);
-					}
-				};
+            Func<RestClient, RestResponse<T>> getResponse = (client) =>
+            {
+                Func<Task<RestResponse<T>>> action = async () =>
+                {
+                    if (RetryConfiguration.AsyncRetryPolicy != null)
+                    {
+                        var policy = RetryConfiguration.AsyncRetryPolicy;
+                        var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(request, ct), cancellationToken).ConfigureAwait(false);
+                        return DeserializeRestResponseFromPolicy<T>(client, request, policyResult);
+                    }
+                    else
+                    {
+                        return await client.ExecuteAsync<T>(request, cancellationToken).ConfigureAwait(false);
+                    }
+                };
                 return action().Result;
-			};
+            };
 
-			return Task.FromResult<ApiResponse<T>>(ExecClient(getResponse, setOptions, request, options, configuration));
-		}
+            return Task.FromResult<ApiResponse<T>>(ExecClient(getResponse, setOptions, request, options, configuration));
+        }
 
         #region IAsynchronousClient
         /// <summary>
