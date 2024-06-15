@@ -34,6 +34,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.JavaMicronautClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -2689,28 +2690,24 @@ public class JavaClientCodegenTest {
      * - <a href="https://github.com/OpenAPITools/openapi-generator/issues/18869">Microprofile generator missing Jackson annotations and namespaces</a>
      */
     @Test(dataProvider = "librariesSupportingJackson") 
-    void shouldGenerateCorrectXmlAnnotations(Library library) throws IOException {
+    void shouldGenerateCorrectXmlAnnotations(Library library) {
         // Arrange
-        final String TEST_SPEC = "src/test/resources/3_0/java/xml-annotations-test.yaml";
-        final Path output = newTempFolder();
-
-        JavaClientCodegen codegen = new JavaClientCodegen();
-        codegen.setLibrary(library.getValue());
-        codegen.setSerializationLibrary("jackson");
-        codegen.setWithXml(true);
-        codegen.setOutputDir(output.toString());
-
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGenerateMetadata(false);
+        final CodegenConfigurator config = new CodegenConfigurator()
+            .addAdditionalProperty(CodegenConstants.WITH_XML, true)
+            .addAdditionalProperty(SERIALIZATION_LIBRARY, "jackson")
+            .addGlobalProperty(CodegenConstants.MODELS, "Pet")
+            .addGlobalProperty(CodegenConstants.MODEL_DOCS, null)
+            .addGlobalProperty(CodegenConstants.MODEL_TESTS, null)
+            .setGeneratorName("java")
+            .setInputSpec("src/test/resources/3_0/java/xml-annotations-test.yaml")
+            .setLibrary(library.value)
+            .setOutputDir(newTempFolder().toString());
 
         // Act
-        generator.opts(new ClientOptInput().config(codegen).openAPI(TestUtils.parseSpec(TEST_SPEC))).generate();
+        final List<File> files = new DefaultGenerator().opts(config.toClientOptInput()).generate();
 
         // Assert
-        JavaFileAssert.assertThat(output.resolve("src/main/java/org/openapitools/client/model/Pet.java").toFile())
+        JavaFileAssert.assertThat(files.get(0))
             .assertTypeAnnotations()
             .containsWithNameAndAttributes("XmlAccessorType", Map.of("value", "XmlAccessType.FIELD"))
             .containsWithNameAndAttributes("XmlRootElement", Map.of("name", "\"Pet\"", "namespace", "\"urn:jacksonxml\""))
@@ -2836,26 +2833,21 @@ public class JavaClientCodegenTest {
     @Test(dataProvider = "librariesNotSupportingJackson") 
     void shouldGenerateCorrectJaxbAnnotations(Library library) {
         // Arrange
-        final String TEST_SPEC = "src/test/resources/3_0/java/xml-annotations-test.yaml";
-        final Path output = newTempFolder();
-
-        JavaClientCodegen codegen = new JavaClientCodegen();
-        codegen.setLibrary(library.getValue());
-        codegen.setSerializationLibrary("jackson");
-        codegen.setWithXml(true);
-        codegen.setOutputDir(output.toString());
-
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGenerateMetadata(false);
+        final CodegenConfigurator config = new CodegenConfigurator()
+            .addAdditionalProperty(CodegenConstants.WITH_XML, true)
+            .addGlobalProperty(CodegenConstants.MODELS, "Pet")
+            .addGlobalProperty(CodegenConstants.MODEL_DOCS, null)
+            .addGlobalProperty(CodegenConstants.MODEL_TESTS, null)
+            .setGeneratorName("java")
+            .setLibrary(library.value)
+            .setInputSpec("src/test/resources/3_0/java/xml-annotations-test.yaml")
+            .setOutputDir(newTempFolder().toString());
 
         // Act
-        generator.opts(new ClientOptInput().config(codegen).openAPI(TestUtils.parseSpec(TEST_SPEC))).generate();
+        final List<File> files = new DefaultGenerator().opts(config.toClientOptInput()).generate();
 
         // Assert
-        JavaFileAssert.assertThat(output.resolve("src/main/java/org/openapitools/client/model/Pet.java").toFile())
+        JavaFileAssert.assertThat(files.get(0))
             .assertTypeAnnotations()
             .containsWithNameAndAttributes("XmlRootElement", Map.of("name", "\"Pet\"", "namespace", "\"urn:jacksonxml\""))
             .containsWithNameAndAttributes("XmlAccessorType", Map.of("value", "XmlAccessType.FIELD"))

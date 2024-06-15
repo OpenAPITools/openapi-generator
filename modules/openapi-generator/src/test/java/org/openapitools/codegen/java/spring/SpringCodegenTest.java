@@ -57,8 +57,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
 import static org.openapitools.codegen.languages.SpringCodegen.*;
@@ -4868,26 +4867,21 @@ public class SpringCodegenTest {
      * Includes regression tests for:
      * - <a href="https://github.com/OpenAPITools/openapi-generator/issues/2417">Correct Jackson annotation when `wrapped: false`</a>
      */
-    @Test void shouldGenerateCorrectXmlAnnotations() throws IOException {
+    @Test void shouldGenerateCorrectXmlAnnotations() {
         // Arrange
-        final String TEST_SPEC = "src/test/resources/3_0/java/xml-annotations-test.yaml"; 
-        final Path output = Files.createTempDirectory("test-xml-annotations_");
-        output.toFile().deleteOnExit();
-
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setLibrary(SPRING_BOOT);
-        codegen.setWithXml(true);
-        codegen.setOutputDir(output.toString());
-
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGenerateMetadata(false);
+        final CodegenConfigurator config = new CodegenConfigurator()
+            .addAdditionalProperty(CodegenConstants.WITH_XML, true)
+            .addGlobalProperty(CodegenConstants.MODELS, "Pet")
+            .setGeneratorName("spring")
+            .setInputSpec("src/test/resources/3_0/java/xml-annotations-test.yaml")
+            .setLibrary(SPRING_BOOT)
+            .setOutputDir(newTempFolder().toString());
 
         // Act
-        generator.opts(new ClientOptInput().config(codegen).openAPI(TestUtils.parseSpec(TEST_SPEC))).generate();
+        final List<File> files = new DefaultGenerator().opts(config.toClientOptInput()).generate();
 
         // Assert
-        JavaFileAssert.assertThat(output.resolve("src/main/java/org/openapitools/model/Pet.java").toFile())
+        JavaFileAssert.assertThat(files.get(0))
             .assertTypeAnnotations()
             .containsWithNameAndAttributes("JacksonXmlRootElement", Map.of("localName", "\"Pet\"", "namespace", "\"urn:jacksonxml\""))
             .containsWithNameAndAttributes("XmlRootElement", Map.of("name", "\"Pet\"", "namespace", "\"urn:jacksonxml\""))
