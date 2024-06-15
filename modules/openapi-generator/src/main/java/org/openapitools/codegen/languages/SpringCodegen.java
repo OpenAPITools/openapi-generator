@@ -54,6 +54,7 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
+import org.openapitools.codegen.languages.features.JsonIgnoreFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
@@ -76,7 +77,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SpringCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures, JsonIgnoreFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
@@ -114,6 +115,11 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
 
+    @Override
+    public void setUseJsonIgnores(boolean useJsonIgnores) {
+        this.useJsonIgnores = useJsonIgnores;
+    }
+
     @Getter public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
         controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
@@ -149,6 +155,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean skipDefaultInterface = false;
     @Setter protected boolean useTags = false;
     protected boolean useBeanValidation = true;
+    protected boolean useJsonIgnores = true;
     protected boolean performBeanValidation = false;
     @Setter protected boolean apiFirst = false;
     protected boolean useOptional = false;

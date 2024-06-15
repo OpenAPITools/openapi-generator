@@ -27,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipFeatures;
+import org.openapitools.codegen.languages.features.JsonIgnoreFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -52,7 +53,7 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures, JsonIgnoreFeatures {
 
     static final String MEDIA_TYPE = "mediaType";
 
@@ -108,6 +109,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String GENERATE_CLIENT_AS_BEAN = "generateClientAsBean";
 
     protected String gradleWrapperPackage = "gradle.wrapper";
+
+    protected boolean useJsonIgnores = true;
     protected boolean useRxJava = false;
     protected boolean useRxJava2 = false;
     protected boolean useRxJava3 = false;
@@ -413,6 +416,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION));
+        }
+
+        if (additionalProperties.containsKey(USE_JSON_IGNORES)) {
+            this.setUseJsonIgnores(convertPropertyToBooleanAndWriteBack(USE_JSON_IGNORES));
         }
 
         if (additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
@@ -1206,6 +1213,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
+    }
+
+    public void setUseJsonIgnores(boolean useJsonIgnores) {
+        this.useJsonIgnores = useJsonIgnores;
     }
 
     public void setSerializationLibrary(String serializationLibrary) {
