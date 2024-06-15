@@ -63,10 +63,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get smallCamel
    * @return smallCamel
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -85,10 +85,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get capitalCamel
    * @return capitalCamel
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -107,10 +107,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get smallSnake
    * @return smallSnake
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -129,10 +129,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get capitalSnake
    * @return capitalSnake
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -151,10 +151,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -173,10 +173,10 @@ public class Capitalization {
     return this;
   }
 
-   /**
+  /**
    * Name of the pet 
    * @return ATT_NAME
-  **/
+   */
   @javax.annotation.Nullable
 
 

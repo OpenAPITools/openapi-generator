@@ -45,7 +45,7 @@ public class NullableMapPropertyDto {
   /**
    * Get languageValues
    * @return languageValues
-  */
+   */
   
   @JsonProperty("languageValues")
   public JsonNullable<Map<String, String>> getLanguageValues() {

@@ -17,60 +17,17 @@
 
 package org.openapitools.codegen.java.spring;
 
-import static java.util.stream.Collectors.groupingBy;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
-import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
-import static org.openapitools.codegen.languages.SpringCodegen.ASYNC;
-import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
-import static org.openapitools.codegen.languages.SpringCodegen.DocumentationProvider;
-import static org.openapitools.codegen.languages.SpringCodegen.IMPLICIT_HEADERS;
-import static org.openapitools.codegen.languages.SpringCodegen.INTERFACE_ONLY;
-import static org.openapitools.codegen.languages.SpringCodegen.OPENAPI_NULLABLE;
-import static org.openapitools.codegen.languages.SpringCodegen.REACTIVE;
-import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
-import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
-import static org.openapitools.codegen.languages.SpringCodegen.RETURN_SUCCESS_CODE;
-import static org.openapitools.codegen.languages.SpringCodegen.SKIP_DEFAULT_INTERFACE;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_CLOUD_LIBRARY;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_CONTROLLER;
-import static org.openapitools.codegen.languages.SpringCodegen.SSE;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_ENUM_CASE_INSENSITIVE;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_RESPONSE_ENTITY;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_TAGS;
-import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
-import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
-
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import com.google.common.collect.ImmutableMap;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.MapAssert;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
@@ -85,15 +42,30 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-import com.google.common.collect.ImmutableMap;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
+import static java.util.stream.Collectors.groupingBy;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
+import static org.openapitools.codegen.languages.SpringCodegen.*;
+import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
+import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 public class SpringCodegenTest {
 
@@ -4888,6 +4860,133 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("Color.java"))
                 .assertMethod("fromValue").bodyContainsLines("throw new IllegalArgumentException(\"Unexpected value '\" + value + \"'\");");
+    }
 
+    /**
+     * General XML annotations test (both JAXB and Jackson)
+     * <br>
+     * Includes regression tests for:
+     * - <a href="https://github.com/OpenAPITools/openapi-generator/issues/2417">Correct Jackson annotation when `wrapped: false`</a>
+     */
+    @Test void shouldGenerateCorrectXmlAnnotations() throws IOException {
+        // Arrange
+        final String TEST_SPEC = "src/test/resources/3_0/java/xml-annotations-test.yaml"; 
+        final Path output = Files.createTempDirectory("test-xml-annotations_");
+        output.toFile().deleteOnExit();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setWithXml(true);
+        codegen.setOutputDir(output.toString());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGenerateMetadata(false);
+
+        // Act
+        generator.opts(new ClientOptInput().config(codegen).openAPI(TestUtils.parseSpec(TEST_SPEC))).generate();
+
+        // Assert
+        JavaFileAssert.assertThat(output.resolve("src/main/java/org/openapitools/model/Pet.java").toFile())
+            .assertTypeAnnotations()
+            .containsWithNameAndAttributes("JacksonXmlRootElement", Map.of("localName", "\"Pet\"", "namespace", "\"urn:jacksonxml\""))
+            .containsWithNameAndAttributes("XmlRootElement", Map.of("name", "\"Pet\"", "namespace", "\"urn:jacksonxml\""))
+            .containsWithNameAndAttributes("XmlAccessorType", Map.of("value", "XmlAccessType.FIELD"))
+            .toType()
+
+            // ↓ test custom-name on wrapper element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Use%20xml/name%20to%20give%20different%20names)
+            .assertMethod("getTags").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlAttribute")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Tag\""))
+            .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"TagList\""))
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Tag\""))
+            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"TagList\"", "useWrapping", "true"))
+            .toMethod().toFileAssert()
+
+            // ↓ custom internal xml-array element name, non-wrapped (1st example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+            .assertMethod("getFriends").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlAttribute")
+            .doesNotContainsWithName("XmlElementWrapper")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"friend-pet\""))
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"friend-pet\""))
+            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("useWrapping", "false"))
+            .toMethod().toFileAssert()
+
+            // ↓ test custom element name (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Change%20Element%20Names)    
+            .assertMethod("getStatus").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlAttribute")
+            .doesNotContainsWithName("XmlElementWrapper")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"PetStatus\""))
+            .doesNotContainsWithName("JacksonXmlElementWrapper")
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"PetStatus\""))
+            .toMethod().toFileAssert()
+            
+            // ↓ test same-name wrapping element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Wrapping%20Arrays)
+            //   maps to 3rd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
+            .assertMethod("getPhotoUrls").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlAttribute")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"photoUrls\""))
+            .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"photoUrls\""))
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"photoUrls\""))
+            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"photoUrls\"", "useWrapping", "true"))
+            .toMethod().toFileAssert()
+
+            // ↓ test attribute generation (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Convert%20Property%20to%20an%20Attribute)
+            .assertMethod("getName").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlElement")
+            .doesNotContainsWithName("XmlElementWrapper")
+            .containsWithNameAndAttributes("XmlAttribute", Map.of("name", "\"name\""))
+            .doesNotContainsWithName("JacksonXmlElementWrapper")
+            .containsWithNameAndAttributes(
+                "JacksonXmlProperty",
+                Map.of("isAttribute", "true", "localName", "\"name\"")
+            )
+            .toMethod().toFileAssert()
+
+            // ↓ test XML namespace and prefix (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Prefixes%20and%20Namespaces)
+            .assertMethod("getId").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlAttribute")
+            .doesNotContainsWithName("XmlElementWrapper")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"id\"", "namespace", "\"http://example.com/schema\""))
+            .doesNotContainsWithName("JacksonXmlElementWrapper")
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"id\"", "namespace", "\"http://example.com/schema\""))
+            .toMethod().toFileAssert()
+
+            // ↓ external xml-array element name only (last example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+            .assertMethod("getFoods").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlAttribute")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"yummy-yummy\""))
+            .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"yummy-yummy\""))
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"yummy-yummy\""))
+            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"yummy-yummy\""))
+            .toMethod().toFileAssert()
+            
+            // ↓ internal xml-array element name (4th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+            .assertMethod("getColors").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlAttribute")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"color\""))
+            .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"colors\""))
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"color\""))
+            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"colors\""))
+            .toMethod().toFileAssert()
+            
+            // ↓ ignored external xml-array element name, non-wrapped (2nd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+            .assertMethod("getCategories").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlAttribute")
+            .doesNotContainsWithName("XmlElementWrapper")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Category\""))
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Category\""))
+            // ↓ specific regression test for #2417: (useWrapping=false) needs to be present
+            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("useWrapping", "false"))
+            .toMethod().toFileAssert()
+
+            // ↓ test custom-name on wrapper AND children (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Use%20xml/name%20to%20give%20different%20names)
+            //   maps to 5th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
+            .assertMethod("getActivities").assertMethodAnnotations()
+            .doesNotContainsWithName("XmlAttribute")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"item\""))
+            .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"activities-array\""))
+            .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"item\""))
+            .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"activities-array\""));
     }
 }

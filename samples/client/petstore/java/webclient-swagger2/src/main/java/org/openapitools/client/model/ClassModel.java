@@ -45,10 +45,10 @@ public class ClassModel {
     return this;
   }
 
-   /**
+  /**
    * Get propertyClass
    * @return propertyClass
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)

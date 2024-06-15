@@ -56,10 +56,10 @@ public class Dog extends Animal {
     return this;
   }
 
-   /**
+  /**
    * Get breed
    * @return breed
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_BREED)

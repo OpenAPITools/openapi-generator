@@ -44,10 +44,10 @@ public class Animal {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @javax.annotation.Nonnull
 
   public String getClassName() {
@@ -65,10 +65,10 @@ public class Animal {
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getColor() {

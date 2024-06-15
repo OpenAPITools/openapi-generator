@@ -52,10 +52,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get file
    * @return file
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -86,10 +86,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get files
    * @return files
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

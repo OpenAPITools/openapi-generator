@@ -40,8 +40,8 @@ public class DeprecatedObject {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public DeprecatedObject(@JsonProperty(JSON_PROPERTY_NAME) String name) {
     this.name = name;
   }
@@ -52,10 +52,10 @@ public class DeprecatedObject {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

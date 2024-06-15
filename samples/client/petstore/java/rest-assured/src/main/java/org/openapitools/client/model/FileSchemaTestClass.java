@@ -51,10 +51,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get _file
    * @return _file
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -82,10 +82,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get files
    * @return files
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 

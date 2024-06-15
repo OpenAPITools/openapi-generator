@@ -50,7 +50,7 @@ public class ArrayTestDto {
   /**
    * Get arrayOfString
    * @return arrayOfString
-  */
+   */
   
   @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
@@ -77,7 +77,7 @@ public class ArrayTestDto {
   /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  */
+   */
   
   @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -104,7 +104,7 @@ public class ArrayTestDto {
   /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  */
+   */
   
   @JsonProperty("array_array_of_model")
   public List<List<ReadOnlyFirstDto>> getArrayArrayOfModel() {

@@ -102,7 +102,7 @@ public class Pet {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
@@ -122,7 +122,7 @@ public class Pet {
   /**
    * Get category
    * @return category
-  */
+   */
   @Valid 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
@@ -142,7 +142,7 @@ public class Pet {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -170,7 +170,7 @@ public class Pet {
   /**
    * Get photoUrls
    * @return photoUrls
-  */
+   */
   @NotNull 
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
@@ -199,7 +199,7 @@ public class Pet {
   /**
    * Get tags
    * @return tags
-  */
+   */
   @Valid 
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
@@ -220,7 +220,7 @@ public class Pet {
    * pet status in the store
    * @return status
    * @deprecated
-  */
+   */
   
   @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
@@ -231,7 +231,7 @@ public class Pet {
 
   /**
    * @deprecated
-  */
+   */
   @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;

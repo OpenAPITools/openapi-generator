@@ -53,10 +53,10 @@ public class FooGetDefaultResponse {
     return this;
   }
 
-   /**
+  /**
    * Get string
    * @return string
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

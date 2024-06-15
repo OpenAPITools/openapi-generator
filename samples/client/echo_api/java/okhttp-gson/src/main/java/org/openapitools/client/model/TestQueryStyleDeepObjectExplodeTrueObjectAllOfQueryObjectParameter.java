@@ -75,10 +75,10 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     return this;
   }
 
-   /**
+  /**
    * Get size
    * @return size
-  **/
+   */
   @javax.annotation.Nullable
   public String getSize() {
     return size;
@@ -94,10 +94,10 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @javax.annotation.Nullable
   public String getColor() {
     return color;
@@ -113,10 +113,10 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
@@ -132,10 +132,10 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
   public String getName() {
     return name;
@@ -206,12 +206,12 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -267,22 +267,22 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     }
   }
 
- /**
-  * Create an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-  * @throws IOException if the JSON string is invalid with respect to TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-  */
+  /**
+   * Create an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
+   * @throws IOException if the JSON string is invalid with respect to TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
+   */
   public static TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.class);
   }
 
- /**
-  * Convert an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

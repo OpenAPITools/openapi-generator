@@ -44,10 +44,10 @@ public class Category {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
 
   public Long getId() {
@@ -66,10 +66,10 @@ public class Category {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getName() {

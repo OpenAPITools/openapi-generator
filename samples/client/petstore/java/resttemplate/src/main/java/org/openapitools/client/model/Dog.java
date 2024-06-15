@@ -49,8 +49,8 @@ public class Dog extends Animal {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Dog(@JsonProperty(JSON_PROPERTY_BREED) String breed, @JsonProperty(JSON_PROPERTY_CLASS_NAME) String className, @JsonProperty(JSON_PROPERTY_COLOR) String color) {
     super(className, color);
     this.breed = breed;
@@ -62,10 +62,10 @@ public class Dog extends Animal {
     return this;
   }
 
-   /**
+  /**
    * Get breed
    * @return breed
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BREED)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

@@ -1,10 +1,9 @@
 {{#withXml}}
-@XmlAccessorType(XmlAccessType.FIELD)
-{{#hasVars}} @XmlType(name = "{{classname}}", propOrder =
-    { {{#vars}}"{{name}}"{{^-last}}, {{/-last}}{{/vars}}
-}){{/hasVars}}
+{{#hasVars}}@XmlType(name = "{{classname}}", propOrder =
+    { {{#vars}}"{{name}}"{{^-last}}, {{/-last}}{{/vars}} }
+){{/hasVars}}
 {{^hasVars}}@XmlType(name = "{{classname}}"){{/hasVars}}
-{{^parent}}@XmlRootElement(name="{{classname}}"){{/parent}}
+{{> xmlAnnotation }}
 {{/withXml}}
 {{#jackson}}
 @JsonPropertyOrder({
@@ -21,7 +20,7 @@
 {{#description}}
 /**
   * {{{.}}}
- **/
+  */
 {{/description}}
 {{>additionalModelTypeAnnotations}}
 {{#vendorExtensions.x-class-extra-annotation}}
@@ -35,12 +34,15 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
 {{/jackson}}
 {{#withXml}}
-  @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
+  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+  {{#isXmlWrapped}}
+  @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+  {{/isXmlWrapped}}
 {{/withXml}}
 {{#description}}
  /**
-   * {{{.}}}
-  **/
+  * {{{.}}}
+  */
 {{/description}}
   {{^withXml}}
   {{#jsonb}}@JsonbProperty("{{baseName}}"){{/jsonb}}
@@ -71,7 +73,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   }
   {{/withXml}}{{/vendorExtensions.x-has-readonly-properties}}
   {{#vars}}
- /**
+  /**
   {{#description}}
    * {{.}}
   {{/description}}
@@ -88,7 +90,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{#deprecated}}
    * @deprecated
   {{/deprecated}}
-  **/
+   **/
 {{#deprecated}}
   @Deprecated
 {{/deprecated}}
@@ -112,8 +114,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 
   {{^isReadOnly}}
   /**
-    * Set {{name}}
-  **/
+   * Set {{name}}
+   */
 {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
 {{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
@@ -148,8 +150,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{/vars}}
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -52,10 +52,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get _file
    * @return _file
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_FILE)
@@ -86,10 +86,10 @@ public class FileSchemaTestClass {
     return this;
   }
 
-   /**
+  /**
    * Get files
    * @return files
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_FILES)

@@ -37,7 +37,7 @@ public class ChildWithNullable extends ParentWithNullable {
   /**
    * Get otherProperty
    * @return otherProperty
-  */
+   */
   
   @JsonProperty("otherProperty")
   public String getOtherProperty() {

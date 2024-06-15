@@ -52,10 +52,10 @@ public class ArrayOfArrayOfNumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<List<BigDecimal>> getArrayArrayNumber() {

@@ -48,14 +48,13 @@ public class TriangleInterface {
     return this;
   }
 
-   /**
+  /**
    * Get triangleType
    * @return triangleType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getTriangleType() {
     return triangleType;
   }

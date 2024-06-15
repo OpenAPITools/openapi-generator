@@ -58,7 +58,7 @@ public class ContainerDefaultValueDto {
   /**
    * Get nullableArray
    * @return nullableArray
-  */
+   */
   
   @JsonProperty("nullable_array")
   public JsonNullable<List<String>> getNullableArray() {
@@ -85,7 +85,7 @@ public class ContainerDefaultValueDto {
   /**
    * Get nullableRequiredArray
    * @return nullableRequiredArray
-  */
+   */
   @NotNull
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
@@ -112,7 +112,7 @@ public class ContainerDefaultValueDto {
   /**
    * Get requiredArray
    * @return requiredArray
-  */
+   */
   @NotNull
   @JsonProperty("required_array")
   public List<String> getRequiredArray() {
@@ -139,7 +139,7 @@ public class ContainerDefaultValueDto {
   /**
    * Get nullableArrayWithDefault
    * @return nullableArrayWithDefault
-  */
+   */
   
   @JsonProperty("nullable_array_with_default")
   public JsonNullable<List<String>> getNullableArrayWithDefault() {

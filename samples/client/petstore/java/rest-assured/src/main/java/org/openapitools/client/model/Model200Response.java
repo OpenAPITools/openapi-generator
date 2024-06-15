@@ -47,10 +47,10 @@ public class Model200Response {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -69,10 +69,10 @@ public class Model200Response {
     return this;
   }
 
-   /**
+  /**
    * Get propertyClass
    * @return propertyClass
-  **/
+   */
   @javax.annotation.Nullable
 
 

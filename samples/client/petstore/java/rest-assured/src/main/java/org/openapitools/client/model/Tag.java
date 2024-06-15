@@ -47,10 +47,10 @@ public class Tag {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -69,10 +69,10 @@ public class Tag {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
 
 

@@ -128,14 +128,13 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringEnumRefDefault
    * @return arrayStringEnumRefDefault
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<StringEnumRef> getArrayStringEnumRefDefault() {
     return arrayStringEnumRefDefault;
   }
@@ -161,14 +160,13 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringEnumDefault
    * @return arrayStringEnumDefault
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_ENUM_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<ArrayStringEnumDefaultEnum> getArrayStringEnumDefault() {
     return arrayStringEnumDefault;
   }
@@ -194,14 +192,13 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringDefault
    * @return arrayStringDefault
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<String> getArrayStringDefault() {
     return arrayStringDefault;
   }
@@ -227,14 +224,13 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayIntegerDefault
    * @return arrayIntegerDefault
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_INTEGER_DEFAULT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<Integer> getArrayIntegerDefault() {
     return arrayIntegerDefault;
   }
@@ -260,14 +256,13 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayString
    * @return arrayString
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<String> getArrayString() {
     return arrayString;
   }
@@ -297,13 +292,12 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringNullable
    * @return arrayStringNullable
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public List<String> getArrayStringNullable() {
         return arrayStringNullable.orElse(null);
   }
@@ -342,13 +336,12 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get arrayStringExtensionNullable
    * @return arrayStringExtensionNullable
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public List<String> getArrayStringExtensionNullable() {
         return arrayStringExtensionNullable.orElse(null);
   }
@@ -375,13 +368,12 @@ public class DefaultValue {
     return this;
   }
 
-   /**
+  /**
    * Get stringNullable
    * @return stringNullable
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
-
   public String getStringNullable() {
         return stringNullable.orElse(null);
   }

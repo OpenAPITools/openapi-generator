@@ -37,7 +37,7 @@ public class CategoryDto {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Long getId() {
@@ -56,7 +56,7 @@ public class CategoryDto {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull
   @JsonProperty("name")
   public String getName() {

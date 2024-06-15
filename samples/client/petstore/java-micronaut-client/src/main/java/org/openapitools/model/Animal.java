@@ -62,7 +62,7 @@ public class Animal {
     /**
      * Get className
      * @return className
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_CLASS_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -84,7 +84,7 @@ public class Animal {
     /**
      * Get color
      * @return color
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_COLOR)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

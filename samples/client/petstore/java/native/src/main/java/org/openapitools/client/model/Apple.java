@@ -52,14 +52,13 @@ public class Apple {
     return this;
   }
 
-   /**
+  /**
    * Get cultivar
    * @return cultivar
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getCultivar() {
     return cultivar;
   }
@@ -77,14 +76,13 @@ public class Apple {
     return this;
   }
 
-   /**
+  /**
    * Get origin
    * @return origin
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ORIGIN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public String getOrigin() {
     return origin;
   }

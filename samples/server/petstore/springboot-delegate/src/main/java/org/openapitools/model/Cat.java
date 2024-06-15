@@ -49,8 +49,8 @@ public class Cat extends Animal {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Cat(Boolean declawed, String className, String color) {
       super(className, color);
       this.declawed = declawed;
@@ -64,7 +64,7 @@ public class Cat extends Animal {
   /**
    * Get declawed
    * @return declawed
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")

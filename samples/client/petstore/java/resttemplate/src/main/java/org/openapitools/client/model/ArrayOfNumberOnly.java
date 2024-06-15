@@ -42,8 +42,8 @@ public class ArrayOfNumberOnly {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ArrayOfNumberOnly(@JsonProperty(JSON_PROPERTY_ARRAY_NUMBER) List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
@@ -62,10 +62,10 @@ public class ArrayOfNumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNumber
    * @return arrayNumber
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

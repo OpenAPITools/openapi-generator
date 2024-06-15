@@ -48,14 +48,13 @@ public class ModelReturn {
     return this;
   }
 
-   /**
+  /**
    * Get _return
    * @return _return
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_RETURN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Integer getReturn() {
     return _return;
   }
