@@ -108,23 +108,23 @@ namespace Org.OpenAPITools.Model
             }
             set
             {
-                if (value.GetType() == typeof(MixedSubId))
+                if (value.GetType() == typeof(MixedSubId) || value is MixedSubId)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(bool))
+                else if (value.GetType() == typeof(bool) || value is bool)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(decimal))
+                else if (value.GetType() == typeof(decimal) || value is decimal)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(int))
+                else if (value.GetType() == typeof(int) || value is int)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(string))
+                else if (value.GetType() == typeof(string) || value is string)
                 {
                     this._actualInstance = value;
                 }
