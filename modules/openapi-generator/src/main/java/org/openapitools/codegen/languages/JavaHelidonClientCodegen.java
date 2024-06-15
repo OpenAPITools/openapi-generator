@@ -202,7 +202,12 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
         } else if (isLibrary(HELIDON_SE)) {
             apiTemplateFiles.put("api_impl.mustache", ".java");
             importMapping.put("StringJoiner", "java.util.StringJoiner");
-            importMapping.put("WebClientRequestHeaders", "io.helidon.webclient.WebClientRequestHeaders");
+            if (helidonMajorVersion == 3) {
+                importMapping.put("WebClientRequestHeaders", "io.helidon.webclient.WebClientRequestHeaders");
+            } else {
+                importMapping.put("ClientRequestHeaders", "io.helidon.http.ClientRequestHeaders");
+                importMapping.put("HeaderNames", "io.helidon.http.HeaderNames");
+            }
             importMapping.put("Pair", invokerPackage + ".Pair");
 
 
@@ -312,7 +317,10 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
             requiredImplImports.add("Pair");
         }
         if (op.getHasHeaderParams()) {
-            requiredImplImports.add("WebClientRequestHeaders");
+            requiredImplImports.add(helidonMajorVersion == 3 ? "WebClientRequestHeaders" : "ClientRequestHeaders");
+            if (helidonMajorVersion > 3) {
+                requiredImplImports.add("HeaderNames");
+            }
         }
         if (op.getHasFormParams()) {
             requiredImplImports.add("StringJoiner");

@@ -159,6 +159,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         super.processOpts();
 
         importMapping.put("Headers", helidonMajorVersion == 3 ? "io.helidon.http.common.Headers" : "io.helidon.http.Headers");
+        importMapping.put("Optional", "java.util.Optional");
 
         String userHelidonVersion = "";
         String userParentVersion = "";
