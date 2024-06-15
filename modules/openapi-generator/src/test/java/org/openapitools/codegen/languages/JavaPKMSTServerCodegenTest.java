@@ -43,56 +43,56 @@ public class JavaPKMSTServerCodegenTest {
             .toType()
 
             // ↓ test custom-name on wrapper element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Use%20xml/name%20to%20give%20different%20names)
-            .hasProperty("tags").assertPropertyAnnotations()
+            .assertProperty("tags").assertPropertyAnnotations()
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Tag\""))
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"TagList\"", "useWrapping", "true"))
             .toProperty().toType()
 
             // ↓ custom internal xml-array element name, non-wrapped (1st example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
-            .hasProperty("friends").assertPropertyAnnotations()
+            .assertProperty("friends").assertPropertyAnnotations()
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"friend-pet\""))
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("useWrapping", "false"))
             .toProperty().toType()
 
             // ↓ test custom element name (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Change%20Element%20Names)    
-            .hasProperty("status").assertPropertyAnnotations()
+            .assertProperty("status").assertPropertyAnnotations()
             .doesNotContainWithName("JacksonXmlElementWrapper")
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"PetStatus\""))
             .toProperty().toType()
 
             // ↓ test same-name wrapping element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Wrapping%20Arrays)
             //   maps to 3rd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
-            .hasProperty("photoUrls").assertPropertyAnnotations()
+            .assertProperty("photoUrls").assertPropertyAnnotations()
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"photoUrls\""))
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"photoUrls\"", "useWrapping", "true"))
             .toProperty().toType()
 
             // ↓ test attribute generation (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Convert%20Property%20to%20an%20Attribute)
-            .hasProperty("name").assertPropertyAnnotations()
+            .assertProperty("name").assertPropertyAnnotations()
             .doesNotContainWithName("JacksonXmlElementWrapper")
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("isAttribute", "true", "localName", "\"name\""))
             .toProperty().toType()
 
             // ↓ test XML namespace and prefix (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Prefixes%20and%20Namespaces)
-            .hasProperty("id").assertPropertyAnnotations()
+            .assertProperty("id").assertPropertyAnnotations()
             .doesNotContainWithName("JacksonXmlElementWrapper")
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"id\"", "namespace", "\"http://example.com/schema\""))
             .toProperty().toType()
 
             // ↓ external xml-array element name only (last example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
-            .hasProperty("foods").assertPropertyAnnotations()
+            .assertProperty("foods").assertPropertyAnnotations()
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"yummy-yummy\""))
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"yummy-yummy\""))
             .toProperty().toType()
 
             // ↓ internal xml-array element name (4th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
-            .hasProperty("colors").assertPropertyAnnotations()
+            .assertProperty("colors").assertPropertyAnnotations()
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"color\""))
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"colors\""))
             .toProperty().toType()
 
             // ↓ ignored external xml-array element name, non-wrapped (2nd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
-            .hasProperty("categories").assertPropertyAnnotations()
+            .assertProperty("categories").assertPropertyAnnotations()
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"Category\""))
             // ↓ specific regression test for #2417: (useWrapping=false) needs to be present
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("useWrapping", "false"))
@@ -100,7 +100,7 @@ public class JavaPKMSTServerCodegenTest {
 
             // ↓ test custom-name on wrapper AND children (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Use%20xml/name%20to%20give%20different%20names)
             //   maps to 5th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
-            .hasProperty("activities").assertPropertyAnnotations()
+            .assertProperty("activities").assertPropertyAnnotations()
             .containsWithNameAndAttributes("JacksonXmlProperty", Map.of("localName", "\"item\""))
             .containsWithNameAndAttributes("JacksonXmlElementWrapper", Map.of("localName", "\"activities-array\""));
     }

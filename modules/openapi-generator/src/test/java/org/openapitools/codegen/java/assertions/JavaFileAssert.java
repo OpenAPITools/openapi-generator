@@ -64,7 +64,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return this;
     }
 
-    public JavaFileAssert assertNoMethod(final String methodName, final String... paramTypes) {
+    public JavaFileAssert hasNoMethod(final String methodName, final String... paramTypes) {
         List<MethodDeclaration> methods = paramTypes.length == 0
             ? actual.getType(0).getMethodsByName(methodName)
             : actual.getType(0).getMethodsBySignature(methodName, paramTypes);
@@ -116,7 +116,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return new ConstructorAssert(this, constructorDeclaration.get());
     }
 
-    public JavaFileAssert assertNoConstructor(final String... paramTypes) {
+    public JavaFileAssert hasNoConstructor(final String... paramTypes) {
         Optional<ConstructorDeclaration> constructorDeclaration = actual.getType(0).getConstructorByParameterTypes(paramTypes);
         Assertions.assertThat(constructorDeclaration)
                 .withFailMessage("Found constructor with parameter(s) %s", Arrays.toString(paramTypes))
@@ -126,7 +126,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
     }
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
-    public PropertyAssert hasProperty(final String propertyName) {
+    public PropertyAssert assertProperty(final String propertyName) {
         Optional<FieldDeclaration> fieldOptional = actual.getType(0).getMembers().stream()
             .filter(FieldDeclaration.class::isInstance)
             .map(FieldDeclaration.class::cast)

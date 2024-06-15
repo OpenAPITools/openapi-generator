@@ -27,7 +27,7 @@ public class MethodAssert extends AbstractMethodAssert<MethodAssert> {
     //  (may need some more Generics Kung-Fu applied to the ParameterAssert class,
     //  alternatively the f)
     @SuppressWarnings("OptionalGetWithoutIsPresent")
-    public ParameterAssert hasParameter(final String paramName) {
+    public ParameterAssert assertParameter(final String paramName) {
         final Optional<Parameter> parameter = actual.getParameterByName(paramName);
         Assertions.assertThat(parameter)
             .withFailMessage("Method %s should have parameter %s, but it doesn't", methodSignature, paramName)

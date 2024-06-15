@@ -38,7 +38,7 @@ public class ParameterAssert extends ObjectAssert<Parameter> {
         return constructorAssert;
     }
 
-    public ParameterAssert withType(final String expectedType) {
+    public ParameterAssert hasType(final String expectedType) {
         Assertions.assertThat(actual.getTypeAsString())
             .withFailMessage("Expected parameter to have type %s, but was %s", expectedType, actual.getTypeAsString())
             .isEqualTo(expectedType);

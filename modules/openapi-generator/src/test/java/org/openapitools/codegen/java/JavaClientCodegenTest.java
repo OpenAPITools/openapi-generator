@@ -34,7 +34,6 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
-import org.openapitools.codegen.languages.JavaMicronautClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -1539,13 +1538,13 @@ public class JavaClientCodegenTest {
             .stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
-                .hasProperty("stringDefault")
+                .assertProperty("stringDefault")
                 .asString().endsWith("= new ArrayList<>();");
         JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
-                .hasProperty("stringDefault2")
+                .assertProperty("stringDefault2")
                 .asString().endsWith("= new ArrayList<>(Arrays.asList(\"Hallo\", \"Huhu\"));");
         JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
-                .hasProperty("objectDefault")
+                .assertProperty("objectDefault")
                 .asString().endsWith("= new ArrayList<>();");
     }
 
@@ -1626,11 +1625,11 @@ public class JavaClientCodegenTest {
 
         JavaFileAssert.assertThat(files.get("DefaultApi.java"))
                 .assertMethod("operationWithHttpInfo")
-                .hasParameter("requestBody")
+                .assertParameter("requestBody")
                 .assertParameterAnnotations()
                 .containsWithName("NotNull")
                 .toParameter().toMethod()
-                .hasParameter("xNonNullHeaderParameter")
+                .assertParameter("xNonNullHeaderParameter")
                 .assertParameterAnnotations()
                 .containsWithName("NotNull");
     }
@@ -2715,7 +2714,7 @@ public class JavaClientCodegenTest {
             .toType()
 
             // ↓ test custom-name on wrapper element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Use%20xml/name%20to%20give%20different%20names)
-            .hasProperty("tags").assertPropertyAnnotations()
+            .assertProperty("tags").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Tag\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"TagList\""))
@@ -2726,7 +2725,7 @@ public class JavaClientCodegenTest {
             .toMethod().toFileAssert()
 
             // ↓ custom internal xml-array element name, non-wrapped (1st example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
-            .hasProperty("friends").assertPropertyAnnotations()
+            .assertProperty("friends").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"friend-pet\""))
@@ -2737,7 +2736,7 @@ public class JavaClientCodegenTest {
             .toMethod().toFileAssert()
 
             // ↓ test custom element name (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Change%20Element%20Names)    
-            .hasProperty("status").assertPropertyAnnotations()
+            .assertProperty("status").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"PetStatus\""))
@@ -2749,7 +2748,7 @@ public class JavaClientCodegenTest {
 
             // ↓ test same-name wrapping element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Wrapping%20Arrays)
             //   maps to 3rd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
-            .hasProperty("photoUrls").assertPropertyAnnotations()
+            .assertProperty("photoUrls").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"photoUrls\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"photoUrls\""))
@@ -2760,7 +2759,7 @@ public class JavaClientCodegenTest {
             .toMethod().toFileAssert()
 
             // ↓ test attribute generation (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Convert%20Property%20to%20an%20Attribute)
-            .hasProperty("name").assertPropertyAnnotations()
+            .assertProperty("name").assertPropertyAnnotations()
             .doesNotContainWithName("XmlElement")
             .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlAttribute", Map.of("name", "\"name\""))
@@ -2771,7 +2770,7 @@ public class JavaClientCodegenTest {
             .toMethod().toFileAssert()
 
             // ↓ test XML namespace and prefix (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Prefixes%20and%20Namespaces)
-            .hasProperty("id").assertPropertyAnnotations()
+            .assertProperty("id").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"id\"", "namespace", "\"http://example.com/schema\""))
@@ -2782,7 +2781,7 @@ public class JavaClientCodegenTest {
             .toMethod().toFileAssert()
 
             // ↓ external xml-array element name only (last example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
-            .hasProperty("foods").assertPropertyAnnotations()
+            .assertProperty("foods").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"yummy-yummy\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"yummy-yummy\""))
@@ -2793,7 +2792,7 @@ public class JavaClientCodegenTest {
             .toMethod().toFileAssert()
 
             // ↓ internal xml-array element name (4th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
-            .hasProperty("colors").assertPropertyAnnotations()
+            .assertProperty("colors").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"color\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"colors\""))
@@ -2804,7 +2803,7 @@ public class JavaClientCodegenTest {
             .toMethod().toFileAssert()
 
             // ↓ ignored external xml-array element name, non-wrapped (2nd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
-            .hasProperty("categories").assertPropertyAnnotations()
+            .assertProperty("categories").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Category\""))
@@ -2817,7 +2816,7 @@ public class JavaClientCodegenTest {
 
             // ↓ test custom-name on wrapper AND children (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Use%20xml/name%20to%20give%20different%20names)
             //   maps to 5th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
-            .hasProperty("activities").assertPropertyAnnotations()
+            .assertProperty("activities").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"item\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"activities-array\""))
@@ -2854,21 +2853,21 @@ public class JavaClientCodegenTest {
             .toType()
 
             // ↓ test custom-name on wrapper element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Use%20xml/name%20to%20give%20different%20names)
-            .hasProperty("tags").assertPropertyAnnotations()
+            .assertProperty("tags").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Tag\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"TagList\""))
             .toProperty().toType()
 
             // ↓ custom internal xml-array element name, non-wrapped (1st example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
-            .hasProperty("friends").assertPropertyAnnotations()
+            .assertProperty("friends").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"friend-pet\""))
             .toProperty().toType()
 
             // ↓ test custom element name (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Change%20Element%20Names)    
-            .hasProperty("status").assertPropertyAnnotations()
+            .assertProperty("status").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"PetStatus\""))
@@ -2876,42 +2875,42 @@ public class JavaClientCodegenTest {
 
             // ↓ test same-name wrapping element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Wrapping%20Arrays)
             //   maps to 3rd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
-            .hasProperty("photoUrls").assertPropertyAnnotations()
+            .assertProperty("photoUrls").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"photoUrls\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"photoUrls\""))
             .toProperty().toType()
 
             // ↓ test attribute generation (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Convert%20Property%20to%20an%20Attribute)
-            .hasProperty("name").assertPropertyAnnotations()
+            .assertProperty("name").assertPropertyAnnotations()
             .doesNotContainWithName("XmlElement")
             .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlAttribute", Map.of("name", "\"name\""))
             .toProperty().toType()
 
             // ↓ test XML namespace and prefix (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Prefixes%20and%20Namespaces)
-            .hasProperty("id").assertPropertyAnnotations()
+            .assertProperty("id").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"id\"", "namespace", "\"http://example.com/schema\""))
             .toProperty().toType()
 
             // ↓ external xml-array element name only (last example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
-            .hasProperty("foods").assertPropertyAnnotations()
+            .assertProperty("foods").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"yummy-yummy\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"yummy-yummy\""))
             .toProperty().toType()
 
             // ↓ internal xml-array element name (4th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
-            .hasProperty("colors").assertPropertyAnnotations()
+            .assertProperty("colors").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"color\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"colors\""))
             .toProperty().toType()
 
             // ↓ ignored external xml-array element name, non-wrapped (2nd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
-            .hasProperty("categories").assertPropertyAnnotations()
+            .assertProperty("categories").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .doesNotContainWithName("XmlElementWrapper")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Category\""))
@@ -2919,7 +2918,7 @@ public class JavaClientCodegenTest {
 
             // ↓ test custom-name on wrapper AND children (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Use%20xml/name%20to%20give%20different%20names)
             //   maps to 5th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
-            .hasProperty("activities").assertPropertyAnnotations()
+            .assertProperty("activities").assertPropertyAnnotations()
             .doesNotContainWithName("XmlAttribute")
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"item\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"activities-array\""));
