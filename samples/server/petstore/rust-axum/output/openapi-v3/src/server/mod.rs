@@ -809,7 +809,6 @@ where
                                             Ok(rsp) => match rsp {
                                                 apis::default::MultipleAuthSchemeGetResponse::Status200_CheckThatLimitingToMultipleRequiredAuthSchemesWorks
                                                 => {
-
                                                   let mut response = response.status(200);
                                                   response.body(Body::empty())
                                                 },
@@ -1059,7 +1058,6 @@ where
                                             Ok(rsp) => match rsp {
                                                 apis::default::ReadonlyAuthSchemeGetResponse::Status200_CheckThatLimitingToASingleRequiredAuthSchemeWorks
                                                 => {
-
                                                   let mut response = response.status(200);
                                                   response.body(Body::empty())
                                                 },
@@ -1278,7 +1276,6 @@ where
                         response_headers.insert(HeaderName::from_static(""), object_header);
                     }
                 }
-
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1335,7 +1332,6 @@ where
                         response_headers.insert(HeaderName::from_static(""), failure_info);
                     }
                 }
-
                 let mut response = response.status(412);
                 response.body(Body::empty())
             }
@@ -1511,7 +1507,6 @@ where
                                             Ok(rsp) => match rsp {
                                                 apis::default::UntypedPropertyGetResponse::Status200_CheckThatUntypedPropertiesWorks
                                                 => {
-
                                                   let mut response = response.status(200);
                                                   response.body(Body::empty())
                                                 },
