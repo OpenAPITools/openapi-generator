@@ -29,7 +29,7 @@ public interface ApiResponse<T> {
   /**
    * @returns reactive access to the {@link {{#x-helidon-v3}}Web{{/x-helidon-v3}}{{^x-helidon-v3}}Http{{/x-helidon-v3}}ClientResponse} describing the response from the server
    */
-        {{#x-helidon-v3}}Single<WebClientResponse>{{/x-helidon-v3}}{{^x-helidon-v3}}HttpClientResponse{{/x-helidon-v3}} webClientResponse();
+  {{#x-helidon-v3}}Single<WebClientResponse>{{/x-helidon-v3}}{{^x-helidon-v3}}HttpClientResponse{{/x-helidon-v3}} webClientResponse();
 
   /**
    * @return {{#x-helidon-v3}}reactive {{/x-helidon-v3}}access to the value returned in the response from the server

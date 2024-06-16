@@ -95,7 +95,7 @@ public class {{classname}}Impl implements {{classname}} {
    */
   protected {{#x-helidon-v3}}WebClientRequestBuilder{{/x-helidon-v3}}{{^x-helidon-v3}}HttpClientRequest{{/x-helidon-v3}} {{operationId}}RequestBuilder({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
     {{#x-helidon-v3}}WebClientRequestBuilder{{/x-helidon-v3}}{{^x-helidon-v3}}HttpClientRequest{{/x-helidon-v3}} webClientRequestBuilder = apiClient.webClient()
-            .method(Method.{{#x-helidon-v3}}"{{/x-helidon-v3}}{{httpMethod}}{{#x-helidon-v3}}"{{/x-helidon-v3}});
+            .method({{#x-helidon-v3}}"{{/x-helidon-v3}}{{^x-helidon-v3}}Method.{{/x-helidon-v3}}{{httpMethod}}{{#x-helidon-v3}}"{{/x-helidon-v3}});
 
     {{#hasQueryParams}}
     List<Pair> queryParams = new ArrayList<>();
@@ -135,7 +135,7 @@ public class {{classname}}Impl implements {{classname}} {
     {{#x-helidon-v3}}Web{{/x-helidon-v3}}ClientRequestHeaders headers = webClientRequestBuilder.headers();
         {{#headerParams}}
     if ({{paramName}} != null) {
-        headers.{{#x-helidon-v3}}put{{/x-helidon-v3}}{{^x-helidon-v3}}add(HeaderNames.create{{/x-helidon-v3}}("{{baseName}}"{{^x-helidon-v3}}){{/x-helidon-v3}}, {{paramName}}{{^isString}}.toString(){{/isString}});
+      headers.{{#x-helidon-v3}}put{{/x-helidon-v3}}{{^x-helidon-v3}}add(HeaderNames.create{{/x-helidon-v3}}("{{baseName}}"{{^x-helidon-v3}}){{/x-helidon-v3}}, {{paramName}}{{^isString}}.toString(){{/isString}});
     }
         {{/headerParams}}
 
@@ -146,7 +146,7 @@ public class {{classname}}Impl implements {{classname}} {
             .add("{{{baseName}}}=" + {{{paramName}}})
         {{/cookieParams}}
             .toString();
-            webClientRequestBuilder.headers().add({{^x-helidon-v3}}HeaderNames.create({{/x-helidon-v3}}"Cookie"{{^x-helidon-v3}}){{/x-helidon-v3}}, cookies);
+    webClientRequestBuilder.headers().add({{^x-helidon-v3}}HeaderNames.create({{/x-helidon-v3}}"Cookie"{{^x-helidon-v3}}){{/x-helidon-v3}}, cookies);
 
     {{/hasCookieParams}}
     {{#hasPathParams}}

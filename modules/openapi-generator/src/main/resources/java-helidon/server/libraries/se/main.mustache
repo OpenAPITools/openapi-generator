@@ -57,6 +57,7 @@ public final class Main {
     * @return the created {@link WebServer} instance
     */
     static {{#x-helidon-v3}}Single<{{/x-helidon-v3}}WebServer{{#x-helidon-v3}}>{{/x-helidon-v3}} startServer() {
+
         // load logging configuration
         LogConfig.configureRuntime();
 
@@ -100,8 +101,10 @@ public final class Main {
 
         System.out.println("WEB server is up! {{{basePath}}}");
 {{/x-helidon-v3}}
+
         return webserver;
     }
+
 {{#x-helidon-v3}}
     /**
     * Creates new {@link Routing}.

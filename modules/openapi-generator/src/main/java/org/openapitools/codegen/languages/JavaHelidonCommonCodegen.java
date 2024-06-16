@@ -209,7 +209,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     @Override
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter result = super.fromParameter(parameter, imports);
-        if (!result.required) {
+        if (!result.required && helidonMajorVersion > 3) {
             imports.add("Optional");
         }
         return result;

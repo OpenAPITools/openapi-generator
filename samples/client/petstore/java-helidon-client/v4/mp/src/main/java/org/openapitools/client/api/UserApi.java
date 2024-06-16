@@ -26,6 +26,7 @@ import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import org.openapitools.client.model.User;
 
 /**

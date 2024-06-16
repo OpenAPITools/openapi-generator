@@ -37,11 +37,19 @@
             <groupId>io.helidon.{{^x-helidon-v3}}http.{{/x-helidon-v3}}media</groupId>
             <artifactId>helidon-{{^x-helidon-v3}}http-{{/x-helidon-v3}}media-jsonp</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.helidon.{{^x-helidon-v3}}http.{{/x-helidon-v3}}media</groupId>
-            <artifactId>helidon-{{^x-helidon-v3}}http-{{/x-helidon-v3}}media-multipart</artifactId>
+{{^x-helidon-v3}}{{#x-helidon-usesMultipart}}{{!
+}}        <dependency>
+            <groupId>io.helidon.http.media</groupId>
+            <artifactId>helidon-http-media-multipart</artifactId>
         </dependency>
-        <dependency>
+{{/x-helidon-usesMultipart}}{{/x-helidon-v3}}{{!
+}}{{#x-helidon-v3}}{{!
+}}        <dependency>
+            <groupId>io.helidon.media</groupId>
+            <artifactId>helidon-media-multipart</artifactId>
+        </dependency>
+{{/x-helidon-v3}}{{!
+}}        <dependency>
             <groupId>io.helidon.config</groupId>
             <artifactId>helidon-config-yaml</artifactId>
         </dependency>
@@ -80,12 +88,6 @@
             <groupId>io.helidon.openapi</groupId>
             <artifactId>helidon-openapi</artifactId>
         </dependency>
-        {{#x-helidon-usesMultipart}}
-        <dependency>
-            <groupId>io.helidon.http.media</groupId>
-            <artifactId>helidon-http-media-multipart</artifactId>
-        </dependency>
-        {{/x-helidon-usesMultipart}}
 {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -101,8 +103,8 @@
 {{/jackson}}
 {{#jsonb}}
         <dependency>
-            <groupId>io.helidon.{{^x-helidon-v3}}http.{{/x-helidon-v3}}media</groupId>
-            <artifactId>helidon-{{^x-helidon-v3}}http-{{/x-helidon-v3}}media-jsonb</artifactId>
+            <groupId>io.helidon.{{#x-helidon-v3}}http.{{/x-helidon-v3}}media</groupId>
+            <artifactId>helidon-{{#x-helidon-v3}}http-{{/x-helidon-v3}}media-jsonb</artifactId>
         </dependency>
 {{/jsonb}}
         <dependency>

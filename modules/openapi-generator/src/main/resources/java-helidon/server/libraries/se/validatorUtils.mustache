@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 {{^x-helidon-v3}}
+import java.util.Optional;
 import io.helidon.common.mapper.OptionalValue;
 {{/x-helidon-v3}}
 
@@ -113,7 +113,8 @@ public final class ValidatorUtils {
             throw new ValidationException(e);
         }
     }
-
+{{^x-helidon-v3}}{{!
+}}
     public static <T> T nonEmpty(T arg) {
         try {
             return Objects.requireNonNull(arg, "Required value is missing");
@@ -129,7 +130,6 @@ public final class ValidatorUtils {
         return opt.get();
     }
 
-{{^x-helidon-v3}}
     public static <T> T nonEmpty(OptionalValue<T> ov) {
         if (ov.isEmpty()) {
             throw new ValidationException("Required value is missing");
@@ -137,7 +137,6 @@ public final class ValidatorUtils {
         return ov.get();
     }
 
-{{/x-helidon-v3}}
     public static <M extends Map<?, ?>> M nonEmpty(M map) {
         if (map.isEmpty()) {
             throw new ValidationException("Required value is missing");
@@ -151,4 +150,5 @@ public final class ValidatorUtils {
         }
         return coll;
     }
-}
+{{/x-helidon-v3}}{{!
+}}}

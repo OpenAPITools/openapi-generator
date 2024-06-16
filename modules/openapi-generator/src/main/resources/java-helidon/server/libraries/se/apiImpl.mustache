@@ -7,11 +7,12 @@ import java.util.logging.Logger;{{/useAbstractClass}}
 
 import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerRequest;
 import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerResponse;
-
-{{#useBeanValidation}}import {{rootJavaEEPackage}}.validation.constraints.*;
-import {{rootJavaEEPackage}}.validation.Valid;{{/useBeanValidation}}
-{{#x-helidon-hasGenericTypeDeclarations}}import {{modelPackage}}.GenericTypes;{{/x-helidon-hasGenericTypeDeclarations}}
-
+{{#useBeanValidation}}{{^x-helidon-v3}}import {{rootJavaEEPackage}}.validation.constraints.*;
+import {{rootJavaEEPackage}}.validation.Valid;
+{{/x-helidon-v3}}{{/useBeanValidation}}{{!
+}}{{#x-helidon-hasGenericTypeDeclarations}}import {{modelPackage}}.GenericTypes;
+{{/x-helidon-hasGenericTypeDeclarations}}{{!
+}}
 {{#operations}}
 public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClass}}{{#useAbstractClass}}extends{{/useAbstractClass}} {{classname}} {
 
