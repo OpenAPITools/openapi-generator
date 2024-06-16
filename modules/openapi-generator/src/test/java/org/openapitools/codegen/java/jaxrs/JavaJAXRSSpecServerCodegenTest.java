@@ -293,7 +293,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         List<File> files = generator.opts(clientOptInput).generate();
 
         validateJavaSourceFiles(files);
-        TestUtils.ensureDoesNotContainsFile(files, output, "src/main/openapi/openapi.yaml");
+        TestUtils.ensureDoesNotContainFile(files, output, "src/main/openapi/openapi.yaml");
 
         output.deleteOnExit();
     }
@@ -660,53 +660,53 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
                 .assertMethod("headersTest")
-                .hasParameter("headerNumber").withType("BigDecimal")
+                .assertParameter("headerNumber").hasType("BigDecimal")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"11.2\""))
                 .toParameter().toMethod()
-                .hasParameter("headerString").withType("String")
+                .assertParameter("headerString").hasType("String")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
                 .toParameter().toMethod()
-                .hasParameter("headerStringWrapped").withType("String")
+                .assertParameter("headerStringWrapped").hasType("String")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
                 .toParameter().toMethod()
-                .hasParameter("headerStringQuotes").withType("String")
+                .assertParameter("headerStringQuotes").hasType("String")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
                 .toParameter().toMethod()
-                .hasParameter("headerStringQuotesWrapped").withType("String")
+                .assertParameter("headerStringQuotesWrapped").hasType("String")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
                 .toParameter().toMethod()
-                .hasParameter("headerBoolean").withType("Boolean")
+                .assertParameter("headerBoolean").hasType("Boolean")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"true\""));
 
         JavaFileAssert.assertThat(files.get("TestQueryParamsApi.java"))
                 .assertMethod("queryParamsTest")
-                .hasParameter("queryNumber").withType("BigDecimal")
+                .assertParameter("queryNumber").hasType("BigDecimal")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"11.2\""))
                 .toParameter().toMethod()
-                .hasParameter("queryString").withType("String")
+                .assertParameter("queryString").hasType("String")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
                 .toParameter().toMethod()
-                .hasParameter("queryStringWrapped").withType("String")
+                .assertParameter("queryStringWrapped").hasType("String")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
                 .toParameter().toMethod()
-                .hasParameter("queryStringQuotes").withType("String")
+                .assertParameter("queryStringQuotes").hasType("String")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
                 .toParameter().toMethod()
-                .hasParameter("queryStringQuotesWrapped").withType("String")
+                .assertParameter("queryStringQuotesWrapped").hasType("String")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
                 .toParameter().toMethod()
-                .hasParameter("queryBoolean").withType("Boolean")
+                .assertParameter("queryBoolean").hasType("Boolean")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"true\""));
     }
@@ -731,9 +731,9 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         JavaFileAssert.assertThat(files.get("ComplexObject.java"))
                 .fileContains("private @Valid List<LocalDate> dates")
-                .fileDoesNotContains("private @Valid SymbolTypeEnum symbolType")
-                .fileDoesNotContains("@Valid String")
-                .fileDoesNotContains("@Valid Double");
+                .fileDoesNotContain("private @Valid SymbolTypeEnum symbolType")
+                .fileDoesNotContain("@Valid String")
+                .fileDoesNotContain("@Valid Double");
     }
 
     @Test
@@ -921,7 +921,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("ReadonlyAndRequiredProperties.java"))
-                .hasProperty("requiredYesReadonlyYes")
+                .assertProperty("requiredYesReadonlyYes")
                 .toType()
                 .assertMethod("getRequiredYesReadonlyYes")
                 .assertMethodAnnotations()
@@ -931,7 +931,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"requiredYesReadonlyYes\""))
                 .toMethod()
                 .toFileAssert()
-                .hasProperty("requiredYesReadonlyNo")
+                .assertProperty("requiredYesReadonlyNo")
                 .toType()
                 .assertMethod("getRequiredYesReadonlyNo")
                 .assertMethodAnnotations()

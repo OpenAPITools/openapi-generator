@@ -86,29 +86,29 @@ public class DefaultGeneratorTest {
             TestUtils.ensureContainsFile(files, output, "build.gradle");
             Assert.assertTrue(new File(output, "build.gradle").exists());
 
-            TestUtils.ensureDoesNotContainsFile(files, output, "api/openapi.yaml");
+            TestUtils.ensureDoesNotContainFile(files, output, "api/openapi.yaml");
             Assert.assertFalse(new File(output, "api").exists());
 
-            TestUtils.ensureDoesNotContainsFile(files, output, ".github/workflows/");
+            TestUtils.ensureDoesNotContainFile(files, output, ".github/workflows/");
             Assert.assertFalse(new File(output, ".github").exists());
 
             // Check excluded files
-            TestUtils.ensureDoesNotContainsFile(files, output, ".travis.yml");
+            TestUtils.ensureDoesNotContainFile(files, output, ".travis.yml");
             Assert.assertFalse(new File(output, ".travis.yml").exists());
 
-            TestUtils.ensureDoesNotContainsFile(files, output, "build.sbt");
+            TestUtils.ensureDoesNotContainFile(files, output, "build.sbt");
             Assert.assertFalse(new File(output, "build.sbt").exists());
 
-            TestUtils.ensureDoesNotContainsFile(files, output, "src/main/AndroidManifest.xml");
+            TestUtils.ensureDoesNotContainFile(files, output, "src/main/AndroidManifest.xml");
             Assert.assertFalse(new File(output, "src/main/AndroidManifest.xml").exists());
 
-            TestUtils.ensureDoesNotContainsFile(files, output, "pom.xml");
+            TestUtils.ensureDoesNotContainFile(files, output, "pom.xml");
             Assert.assertFalse(new File(output, "pom.xml").exists());
 
-            TestUtils.ensureDoesNotContainsFile(files, output, "src/test/java/org/openapitools/client/model/CategoryTest.java");
+            TestUtils.ensureDoesNotContainFile(files, output, "src/test/java/org/openapitools/client/model/CategoryTest.java");
             Assert.assertFalse(new File(output, "src/test/java/org/openapitools/client/model/CategoryTest.java").exists());
 
-            TestUtils.ensureDoesNotContainsFile(files, output, "src/main/java/org/openapitools/client/api/UserApi.java");
+            TestUtils.ensureDoesNotContainFile(files, output, "src/main/java/org/openapitools/client/api/UserApi.java");
             Assert.assertFalse(new File(output, "src/main/java/org/openapitools/client/api/UserApi.java").exists());
         } finally {
             output.deleteOnExit();
@@ -162,7 +162,7 @@ public class DefaultGeneratorTest {
             TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/api/PetApi.java");
             Assert.assertTrue(new File(output, "src/main/java/org/openapitools/client/api/PetApi.java").exists());
 
-            TestUtils.ensureDoesNotContainsFile(files, output, apiTestRelativePath);
+            TestUtils.ensureDoesNotContainFile(files, output, apiTestRelativePath);
             Assert.assertTrue(apiTestFile.exists());
             String apiTestContents = Files.readAllLines(apiTestFile.toPath()).get(0);
             Assert.assertEquals(apiTestContents, "empty", "Expected test file to retain original contents.");
@@ -171,7 +171,7 @@ public class DefaultGeneratorTest {
             TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/Category.java");
             Assert.assertTrue(new File(output, "src/test/java/org/openapitools/client/model/CategoryTest.java").exists());
 
-            TestUtils.ensureDoesNotContainsFile(files, output, modelTestRelativePath);
+            TestUtils.ensureDoesNotContainFile(files, output, modelTestRelativePath);
             Assert.assertTrue(modelTestFile.exists());
             String modelTestContents = Files.readAllLines(modelTestFile.toPath()).get(0);
             Assert.assertEquals(modelTestContents, "empty", "Expected test file to retain original contents.");
@@ -827,19 +827,19 @@ public class DefaultGeneratorTest {
 
             // Check not generated cause backwards compatibility files
             String ft1FileName = "src/main/java/org/openapitools/model/FT1.java";
-            TestUtils.ensureDoesNotContainsFile(files, output, ft1FileName);
+            TestUtils.ensureDoesNotContainFile(files, output, ft1FileName);
             Assert.assertFalse(new File(output, ft1FileName).exists());
 
             String ft2FileName = "src/main/java/org/openapitools/model/FT2.java";
-            TestUtils.ensureDoesNotContainsFile(files, output, ft2FileName);
+            TestUtils.ensureDoesNotContainFile(files, output, ft2FileName);
             Assert.assertFalse(new File(output, ft2FileName).exists());
 
             String ft3FileName = "src/main/java/org/openapitools/model/FT3.java";
-            TestUtils.ensureDoesNotContainsFile(files, output, ft3FileName);
+            TestUtils.ensureDoesNotContainFile(files, output, ft3FileName);
             Assert.assertFalse(new File(output, ft3FileName).exists());
 
             String bttFileName = "src/main/java/org/openapitools/model/BTT.java";
-            TestUtils.ensureDoesNotContainsFile(files, output, bttFileName);
+            TestUtils.ensureDoesNotContainFile(files, output, bttFileName);
             Assert.assertFalse(new File(output, bttFileName).exists());
 
         } finally {
