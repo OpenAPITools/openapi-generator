@@ -4980,4 +4980,26 @@ public class SpringCodegenTest {
             .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"item\""))
             .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"activities-array\""));
     }
+    
+    /**
+     * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/12804">#12804</a>
+     */
+    @Test public void shouldGenerateSingleDeprecatedAnnotation() {
+        final var tempDir = TestUtils.newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .addAdditionalProperty(GENERATE_BUILDERS, true)
+            .addGlobalProperty(CodegenConstants.MODELS, "Pet")
+            .setInputSpec("src/test/resources/3_0/petstore.yaml")
+            .setGeneratorName("spring")
+            .setOutputDir(tempDir.toString());
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        JavaFileAssert.assertThat(tempDir.resolve("src/main/java/org/openapitools/model/Pet.java"))
+            .assertInnerClass("Builder")
+            .assertMethod("status").hasAnnotation("Deprecated")
+            .toInnerClassAssert()
+            .assertMethod("build")
+            .doesNotHaveAnnotation("Deprecated");
+    }
 }

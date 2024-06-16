@@ -337,7 +337,6 @@ public class Pet {
       this.instance.status(status);
       return this;
     }
-    @Deprecated
     
     /**
     * returns a built Pet instance.
