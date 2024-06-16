@@ -3,10 +3,9 @@ package com.samskivert.mustache;
 import java.io.StringReader;
 import java.util.Map;
 
-/*
-Allow unit test to evaluate if a value is available from additionalProperties or from the codegenerator
- */
-
+/**
+* Evaluate a mustache variable using the same mustache context as MustacheEngineAdapter.
+*/
 public class MustacheEvaluator {
     private final Template template;
     private final Template.Context context;
@@ -16,9 +15,22 @@ public class MustacheEvaluator {
         this.template = Mustache.compiler().compile(new StringReader(""));
     }
 
+    /**
+     * Create a mustache context from the additionalProperties.
+     *
+     * @param additionalProperties
+     * @return a mustache evaluator with the context constructed as in MustacheEngineAdapter.
+     */
     public static MustacheEvaluator create(Map<String, Object> additionalProperties) {
         return new MustacheEvaluator(new MustacheTemplateContext(additionalProperties));
     }
+
+    /**
+     * Compute the value from the mustache context.
+     *
+     * @param name variable name
+     * @return the value as mustache would see
+     */
     public Object getValue(String name) {
         return template.getValue(context, name, 0, false);
     }
