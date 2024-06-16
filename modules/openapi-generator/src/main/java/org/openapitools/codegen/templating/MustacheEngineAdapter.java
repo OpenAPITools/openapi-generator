@@ -68,9 +68,12 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
                 .compile(executor.getFullTemplateContents(templateFile));
         StringWriter out = new StringWriter();
 
-        Object parent = bundle.get(CodegenConstants.CONFIG);
+        // the value of bundle[MUSTACHE_PARENT_CONTEXT] is used a parent content in mustache.
+        // See description in https://mustache.github.io/mustache.5.html#TAG-TYPES
+        // See DefaultCodegen.processOpts() and DefaultCodegen.useCodegenAsMustacheParentContext
+        Object parent = bundle.get(CodegenConstants.MUSTACHE_PARENT_CONTEXT);
         if (parent == null) {
-            LOGGER.warn("{} not found. super.processOpts needs to be called in processOpts()", CodegenConstants.CONFIG);
+            LOGGER.warn("{} not found. super.processOpts needs to be called in processOpts()", CodegenConstants.MUSTACHE_PARENT_CONTEXT);
             // avoid NPE
             parent = new Object();
         }

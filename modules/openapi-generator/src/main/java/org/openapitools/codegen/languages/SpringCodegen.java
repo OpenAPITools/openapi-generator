@@ -454,10 +454,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             importMapping.put("ParameterObject", "org.springdoc.core.annotations.ParameterObject");
         }
 
-//        if (useOptional) {
-//            writePropertyBack(USE_OPTIONAL, useOptional);
-//        }
-
         if (interfaceOnly && delegatePattern) {
             delegateMethod = true;
             additionalProperties.put("delegate-method", true);

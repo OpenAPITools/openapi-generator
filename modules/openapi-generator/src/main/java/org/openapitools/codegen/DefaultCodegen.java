@@ -347,14 +347,15 @@ public class DefaultCodegen implements CodegenConfig {
      *
      */
     protected void useCodegenAsMustacheParentContext() {
-        additionalProperties.put(CodegenConstants.CONFIG, this);
+        additionalProperties.put(CodegenConstants.MUSTACHE_PARENT_CONTEXT, this);
     }
 
     @Override
     public void processOpts() {
 
-        if (!additionalProperties.containsKey(CodegenConstants.CONFIG)) {
-            additionalProperties.put(CodegenConstants.CONFIG, new Object());
+        if (!additionalProperties.containsKey(CodegenConstants.MUSTACHE_PARENT_CONTEXT)) {
+            // by default empty parent context
+            additionalProperties.put(CodegenConstants.MUSTACHE_PARENT_CONTEXT, new Object());
         }
         convertPropertyToStringAndWriteBack(CodegenConstants.TEMPLATE_DIR, this::setTemplateDir);
         convertPropertyToStringAndWriteBack(CodegenConstants.MODEL_PACKAGE, this::setModelPackage);
