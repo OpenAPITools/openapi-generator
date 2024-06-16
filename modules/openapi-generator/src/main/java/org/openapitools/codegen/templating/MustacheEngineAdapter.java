@@ -69,7 +69,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
         StringWriter out = new StringWriter();
 
         // the value of bundle[MUSTACHE_PARENT_CONTEXT] is used a parent content in mustache.
-        // See description in https://mustache.github.io/mustache.5.html#TAG-TYPES
+        // See description in https://mustache.github.io/mustache.5.html#Variables
         // See DefaultCodegen.processOpts() and DefaultCodegen.useCodegenAsMustacheParentContext
         Object parent = bundle.get(CodegenConstants.MUSTACHE_PARENT_CONTEXT);
         if (parent == null) {
