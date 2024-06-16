@@ -34,8 +34,8 @@ public class ArrayOfNumberOnly {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ArrayOfNumberOnly(List<BigDecimal> arrayNumber) {
       this.arrayNumber = arrayNumber;
   }
@@ -56,7 +56,7 @@ public class ArrayOfNumberOnly {
   /**
    * Get arrayNumber
    * @return arrayNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayNumber")

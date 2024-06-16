@@ -77,8 +77,8 @@ public class MergedSpecBuilderTest {
                 .assertMethodAnnotations()
                 .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of("value", "\"/spec1/complex/{param1}/path\""))
             .toMethod()
-            .hasParameter("param1")
-                .withType("String")
+            .assertParameter("param1")
+                .hasType("String")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("PathVariable", ImmutableMap.of("value", "\"param1\""));
 

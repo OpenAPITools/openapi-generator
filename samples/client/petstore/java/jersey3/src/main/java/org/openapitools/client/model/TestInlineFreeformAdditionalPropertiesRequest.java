@@ -52,10 +52,10 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     return this;
   }
 
-   /**
+  /**
    * Get someProperty
    * @return someProperty
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)

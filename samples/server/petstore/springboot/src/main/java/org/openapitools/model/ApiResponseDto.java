@@ -38,7 +38,7 @@ public class ApiResponseDto {
   /**
    * Get code
    * @return code
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("code")
@@ -58,7 +58,7 @@ public class ApiResponseDto {
   /**
    * Get type
    * @return type
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("type")
@@ -78,7 +78,7 @@ public class ApiResponseDto {
   /**
    * Get message
    * @return message
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("message")

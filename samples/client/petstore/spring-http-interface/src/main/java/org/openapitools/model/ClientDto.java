@@ -31,7 +31,7 @@ public class ClientDto {
   /**
    * Get client
    * @return client
-  */
+   */
   
   @JsonProperty("client")
   public String getClient() {

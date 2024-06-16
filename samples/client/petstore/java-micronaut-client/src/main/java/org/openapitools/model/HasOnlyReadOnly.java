@@ -44,7 +44,7 @@ public class HasOnlyReadOnly {
     /**
      * Get bar
      * @return bar
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_BAR)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -55,7 +55,7 @@ public class HasOnlyReadOnly {
     /**
      * Get foo
      * @return foo
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_FOO)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

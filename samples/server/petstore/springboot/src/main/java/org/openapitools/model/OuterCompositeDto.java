@@ -39,7 +39,7 @@ public class OuterCompositeDto {
   /**
    * Get myNumber
    * @return myNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
@@ -59,7 +59,7 @@ public class OuterCompositeDto {
   /**
    * Get myString
    * @return myString
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_string")
@@ -79,7 +79,7 @@ public class OuterCompositeDto {
   /**
    * Get myBoolean
    * @return myBoolean
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_boolean")

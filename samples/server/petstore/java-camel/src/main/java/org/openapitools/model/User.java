@@ -11,6 +11,7 @@ import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.xml.bind.annotation.*;
@@ -26,7 +27,6 @@ import javax.annotation.Generated;
 @JacksonXmlRootElement(localName = "User")
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
-
 @Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class User {
 
@@ -54,11 +54,12 @@ public class User {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
+  @XmlElement(name = "id")
   public Long getId() {
     return id;
   }
@@ -75,11 +76,12 @@ public class User {
   /**
    * Get username
    * @return username
-  */
+   */
   
   @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("username")
   @JacksonXmlProperty(localName = "username")
+  @XmlElement(name = "username")
   public String getUsername() {
     return username;
   }
@@ -96,11 +98,12 @@ public class User {
   /**
    * Get firstName
    * @return firstName
-  */
+   */
   
   @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("firstName")
   @JacksonXmlProperty(localName = "firstName")
+  @XmlElement(name = "firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -117,11 +120,12 @@ public class User {
   /**
    * Get lastName
    * @return lastName
-  */
+   */
   
   @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastName")
   @JacksonXmlProperty(localName = "lastName")
+  @XmlElement(name = "lastName")
   public String getLastName() {
     return lastName;
   }
@@ -138,11 +142,12 @@ public class User {
   /**
    * Get email
    * @return email
-  */
+   */
   
   @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("email")
   @JacksonXmlProperty(localName = "email")
+  @XmlElement(name = "email")
   public String getEmail() {
     return email;
   }
@@ -159,11 +164,12 @@ public class User {
   /**
    * Get password
    * @return password
-  */
+   */
   
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
   @JacksonXmlProperty(localName = "password")
+  @XmlElement(name = "password")
   public String getPassword() {
     return password;
   }
@@ -180,11 +186,12 @@ public class User {
   /**
    * Get phone
    * @return phone
-  */
+   */
   
   @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("phone")
   @JacksonXmlProperty(localName = "phone")
+  @XmlElement(name = "phone")
   public String getPhone() {
     return phone;
   }
@@ -201,11 +208,12 @@ public class User {
   /**
    * User Status
    * @return userStatus
-  */
+   */
   
   @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userStatus")
   @JacksonXmlProperty(localName = "userStatus")
+  @XmlElement(name = "userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }

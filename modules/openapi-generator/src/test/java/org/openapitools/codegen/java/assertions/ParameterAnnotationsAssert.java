@@ -7,11 +7,11 @@ import org.assertj.core.util.CanIgnoreReturnValue;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 
 @CanIgnoreReturnValue
-public class ParameterAnnotationAssert extends AbstractAnnotationAssert<ParameterAnnotationAssert> {
+public class ParameterAnnotationsAssert extends AbstractAnnotationsAssert<ParameterAnnotationsAssert> {
 
     private final ParameterAssert parameterAssert;
 
-    protected ParameterAnnotationAssert(final ParameterAssert parameterAssert, final List<AnnotationExpr> annotationExpr) {
+    protected ParameterAnnotationsAssert(final ParameterAssert parameterAssert, final List<AnnotationExpr> annotationExpr) {
         super(annotationExpr);
         this.parameterAssert = parameterAssert;
     }

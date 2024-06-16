@@ -56,7 +56,7 @@ public class ModelApiResponse {
     /**
      * Get code
      * @return code
-     **/
+     */
     @Nullable
     @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_CODE)
@@ -79,7 +79,7 @@ public class ModelApiResponse {
     /**
      * Get type
      * @return type
-     **/
+     */
     @Nullable
     @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_TYPE)
@@ -102,7 +102,7 @@ public class ModelApiResponse {
     /**
      * Get message
      * @return message
-     **/
+     */
     @Nullable
     @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_MESSAGE)

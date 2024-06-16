@@ -32,7 +32,7 @@ public class NumberOnlyDto {
   /**
    * Get justNumber
    * @return justNumber
-  */
+   */
   
   @JsonProperty("JustNumber")
   public BigDecimal getJustNumber() {
