@@ -1311,13 +1311,10 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(GENERATE_SPRING_APPLICATION)) {
-            this.setSupportMultipleSpringServices(
-                    convertPropertyToBooleanAndWriteBack(SUPPORT_MULTIPLE_SPRING_SERVICES));
-        }
-        if (additionalProperties.containsKey(GENERATE_OPERATION_BODY)) {
-            boolean generateOperationBody = convertPropertyToBooleanAndWriteBack(GENERATE_OPERATION_BODY);
-            this.setGenerateOperationBody(generateOperationBody);
+        convertPropertyToBooleanAndWriteBack(GENERATE_SPRING_APPLICATION, this::setSupportMultipleSpringServices);
+
+        convertPropertyToBooleanAndWriteBack(GENERATE_OPERATION_BODY, this::setGenerateOperationBody);
+        if (generateOperationBody) {
 
             boolean loadTestDataFromFile = convertPropertyToBooleanAndWriteBack(LOAD_TEST_DATA_FROM_FILE);
             this.setLoadTestDataFromFile(loadTestDataFromFile);

@@ -19,6 +19,7 @@ package org.openapitools.codegen.config;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -31,8 +32,8 @@ import java.util.Map;
 import static org.testng.Assert.*;
 
 public class CodegenConfiguratorTest {
-    private void want(Map<String, Object> additionalProperties, String key, Object expected) {
-        assertEquals(additionalProperties.getOrDefault(key, null), expected);
+    private void want(ConfigAssert configAssert, String key, Object expected) {
+        configAssert.assertValue(key, expected);
     }
 
     @Test
@@ -90,7 +91,7 @@ public class CodegenConfiguratorTest {
         CodegenConfig config = clientOptInput.getConfig();
         config.processOpts();
 
-        Map<String, Object> props = config.additionalProperties();
+        ConfigAssert props = new ConfigAssert(config.additionalProperties());
 
         // This verifies that things we expect to make it into the template will, as a result of this CodegenConfigurator.
         want(props, CodegenConstants.MODEL_PACKAGE, "model_package"); // * mutated by codegen
