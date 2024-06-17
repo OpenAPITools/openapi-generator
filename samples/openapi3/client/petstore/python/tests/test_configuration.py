@@ -76,5 +76,14 @@ class TestConfiguration(unittest.TestCase):
         self.assertEqual("http://petstore.swagger.io:8080/v2", self.config.get_host_from_settings(0, {'port': '8080'}))
         self.assertEqual("http://dev-petstore.swagger.io:8080/v2", self.config.get_host_from_settings(0, {'server': 'dev-petstore', 'port': '8080'}))
 
+    def testConfigurationDebug(self):
+        for debug, expected in [(True, True), (False, False), (None, False)]:
+            with self.subTest(debug=debug, expected=expected):
+                c = petstore_api.Configuration(debug=debug)
+                self.assertEqual(expected, c.debug)
+        with self.subTest(expected=False):
+            c = petstore_api.Configuration()
+            self.assertEqual(expected, c.debug)
+
 if __name__ == '__main__':
     unittest.main()
