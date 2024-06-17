@@ -78,12 +78,12 @@ class TestConfiguration(unittest.TestCase):
 
     def testConfigurationDebug(self):
         for debug, expected in [(True, True), (False, False), (None, False)]:
-            with self.subTest(debug=debug, expected=expected):
+            with self.subTest('expicitly passing debug parameter', debug=debug, expected=expected):
                 c = petstore_api.Configuration(debug=debug)
                 self.assertEqual(expected, c.debug)
-        with self.subTest(expected=False):
+        with self.subTest('not passing debug parameter'):
             c = petstore_api.Configuration()
-            self.assertEqual(expected, c.debug)
+            self.assertFalse(c.debug)
 
 if __name__ == '__main__':
     unittest.main()
