@@ -40,24 +40,24 @@ public interface FakeService extends HttpService {
     default void routing(HttpRules rules) {
         rules.get("/fake/BigDecimalMap", this::fakeBigDecimalMap);
         rules.get("/fake/health", this::fakeHealthGet);
-        rules.get("/fake/http-signature-test", Handler.create(Pet.class, this::fakeHttpSignatureTest);
+        rules.get("/fake/http-signature-test", this::fakeHttpSignatureTest);
         rules.post("/fake/outer/boolean", this::fakeOuterBooleanSerialize);
-        rules.post("/fake/outer/composite", Handler.create(OuterComposite.class, this::fakeOuterCompositeSerialize);
+        rules.post("/fake/outer/composite", this::fakeOuterCompositeSerialize);
         rules.post("/fake/outer/number", this::fakeOuterNumberSerialize);
         rules.post("/fake/outer/string", this::fakeOuterStringSerialize);
-        rules.post("/fake/property/enum-int", Handler.create(OuterObjectWithEnumProperty.class, this::fakePropertyEnumIntegerSerialize);
+        rules.post("/fake/property/enum-int", this::fakePropertyEnumIntegerSerialize);
         rules.post("/fake/additionalProperties-reference", this::testAdditionalPropertiesReference);
         rules.put("/fake/body-with-binary", this::testBodyWithBinary);
-        rules.put("/fake/body-with-file-schema", Handler.create(FileSchemaTestClass.class, this::testBodyWithFileSchema);
-        rules.put("/fake/body-with-query-params", Handler.create(User.class, this::testBodyWithQueryParams);
-        rules.patch("/fake", Handler.create(Client.class, this::testClientModel);
+        rules.put("/fake/body-with-file-schema", this::testBodyWithFileSchema);
+        rules.put("/fake/body-with-query-params", this::testBodyWithQueryParams);
+        rules.patch("/fake", this::testClientModel);
         rules.post("/fake", this::testEndpointParameters);
         rules.get("/fake", this::testEnumParameters);
         rules.delete("/fake", this::testGroupParameters);
         rules.post("/fake/inline-additionalProperties", this::testInlineAdditionalProperties);
-        rules.post("/fake/inline-freeform-additionalProperties", Handler.create(TestInlineFreeformAdditionalPropertiesRequest.class, this::testInlineFreeformAdditionalProperties);
+        rules.post("/fake/inline-freeform-additionalProperties", this::testInlineFreeformAdditionalProperties);
         rules.get("/fake/jsonFormData", this::testJsonFormData);
-        rules.post("/fake/nullable", Handler.create(ChildWithNullable.class, this::testNullable);
+        rules.post("/fake/nullable", this::testNullable);
         rules.put("/fake/test-query-parameters", this::testQueryParameterCollectionFormat);
         rules.post("/fake/stringMap-reference", this::testStringMapReference);
     }

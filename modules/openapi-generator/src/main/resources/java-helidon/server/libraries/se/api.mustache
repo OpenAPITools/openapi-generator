@@ -41,7 +41,7 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
     {{#useAbstractClass}}public{{/useAbstractClass}}{{^useAbstractClass}}default{{/useAbstractClass}} void {{#x-helidon-v3}}update{{/x-helidon-v3}}{{^x-helidon-v3}}routing{{/x-helidon-v3}}({{#x-helidon-v3}}Routing.{{/x-helidon-v3}}{{^x-helidon-v3}}Http{{/x-helidon-v3}}Rules rules) {
 {{#operation}}
         rules.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{{path}}}", {{!
-}}{{#bodyParam}}{{#isModel}}Handler.create({{{dataType}}}.class, {{/isModel}}this::{{{operationId}}}){{#x-helidon-v3}}{{#isModel}}){{/isModel}}{{/x-helidon-v3}}{{/bodyParam}}{{!
+}}{{#bodyParam}}{{#x-helidon-v3}}{{#isModel}}Handler.create({{{dataType}}}.class, {{/isModel}}{{/x-helidon-v3}}this::{{{operationId}}}){{#isModel}}{{#x-helidon-v3}}){{/x-helidon-v3}}{{/isModel}}{{/bodyParam}}{{!
 }}{{^bodyParam}}this::{{{operationId}}}){{/bodyParam}};
 {{/operation}}
     }

@@ -16,7 +16,7 @@ public interface AnotherFakeService extends HttpService {
      */
     @Override
     default void routing(HttpRules rules) {
-        rules.patch("/another-fake/dummy", Handler.create(Client.class, this::call123testSpecialTags);
+        rules.patch("/another-fake/dummy", this::call123testSpecialTags);
     }
 
 

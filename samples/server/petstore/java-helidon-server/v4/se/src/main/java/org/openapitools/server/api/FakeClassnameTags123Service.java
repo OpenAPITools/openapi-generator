@@ -16,7 +16,7 @@ public interface FakeClassnameTags123Service extends HttpService {
      */
     @Override
     default void routing(HttpRules rules) {
-        rules.patch("/fake_classname_test", Handler.create(Client.class, this::testClassname);
+        rules.patch("/fake_classname_test", this::testClassname);
     }
 
 

@@ -26,12 +26,12 @@ public interface PetService extends HttpService {
      */
     @Override
     default void routing(HttpRules rules) {
-        rules.post("/pet", Handler.create(Pet.class, this::addPet);
+        rules.post("/pet", this::addPet);
         rules.delete("/pet/{petId}", this::deletePet);
         rules.get("/pet/findByStatus", this::findPetsByStatus);
         rules.get("/pet/findByTags", this::findPetsByTags);
         rules.get("/pet/{petId}", this::getPetById);
-        rules.put("/pet", Handler.create(Pet.class, this::updatePet);
+        rules.put("/pet", this::updatePet);
         rules.post("/pet/{petId}", this::updatePetWithForm);
         rules.post("/pet/{petId}/uploadImage", this::uploadFile);
         rules.post("/fake/{petId}/uploadImageWithRequiredFile", this::uploadFileWithRequiredFile);

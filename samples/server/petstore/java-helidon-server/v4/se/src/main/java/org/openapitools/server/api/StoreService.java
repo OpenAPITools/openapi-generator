@@ -20,7 +20,7 @@ public interface StoreService extends HttpService {
         rules.delete("/store/order/{order_id}", this::deleteOrder);
         rules.get("/store/inventory", this::getInventory);
         rules.get("/store/order/{order_id}", this::getOrderById);
-        rules.post("/store/order", Handler.create(Order.class, this::placeOrder);
+        rules.post("/store/order", this::placeOrder);
     }
 
 

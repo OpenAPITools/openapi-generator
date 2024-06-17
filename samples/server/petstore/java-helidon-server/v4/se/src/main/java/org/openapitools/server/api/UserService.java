@@ -20,14 +20,14 @@ public interface UserService extends HttpService {
      */
     @Override
     default void routing(HttpRules rules) {
-        rules.post("/user", Handler.create(User.class, this::createUser);
+        rules.post("/user", this::createUser);
         rules.post("/user/createWithArray", this::createUsersWithArrayInput);
         rules.post("/user/createWithList", this::createUsersWithListInput);
         rules.delete("/user/{username}", this::deleteUser);
         rules.get("/user/{username}", this::getUserByName);
         rules.get("/user/login", this::loginUser);
         rules.get("/user/logout", this::logoutUser);
-        rules.put("/user/{username}", Handler.create(User.class, this::updateUser);
+        rules.put("/user/{username}", this::updateUser);
     }
 
 
