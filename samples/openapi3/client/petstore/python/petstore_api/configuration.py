@@ -135,6 +135,7 @@ conf = petstore_api.Configuration(
     """
 
     _default = None
+    __debug = False
 
     def __init__(self, host=None,
                  api_key=None, api_key_prefix=None,
