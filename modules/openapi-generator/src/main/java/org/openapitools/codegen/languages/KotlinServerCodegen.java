@@ -27,6 +27,7 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
 import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,6 +129,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         supportedLibraries.put(Constants.KTOR, "ktor framework");
         supportedLibraries.put(Constants.JAXRS_SPEC, "JAX-RS spec only");
         supportedLibraries.put(Constants.JAVALIN5, "Javalin 5");
+        supportedLibraries.put(Constants.JAVALIN6, "Javalin 6");
 
         // TODO: Configurable server engine. Defaults to netty in build.gradle.
         addOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC, DEFAULT_LIBRARY, supportedLibraries);
@@ -276,7 +278,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
         String gradleBuildFile = "build.gradle";
 
-        if (library.equals(Constants.JAVALIN5)) {
+        if (isJavalin()) {
             gradleBuildFile = "build.gradle.kts";
         }
 
@@ -298,11 +300,12 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", File.separator);
 
             supportingFiles.add(new SupportingFile("ApiKeyAuth.kt.mustache", infrastructureFolder, "ApiKeyAuth.kt"));
-        } else if (library.equals(Constants.JAVALIN5)) {
+        } else if (isJavalin()) {
             supportingFiles.add(new SupportingFile("Main.kt.mustache", packageFolder, "Main.kt"));
             apiTemplateFiles.put("service.mustache", "Service.kt");
             apiTemplateFiles.put("serviceImpl.mustache", "ServiceImpl.kt");
             additionalProperties.put("lowercase", new LowercaseLambda());
+            additionalProperties.put("camelcase", new CamelCaseLambda());
             typeMapping.put("file", "io.javalin.http.UploadedFile");
             importMapping.put("io.javalin.http.UploadedFile", "io.javalin.http.UploadedFile");
         }
@@ -318,6 +321,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public final static String JAXRS_SPEC = "jaxrs-spec";
 
         public final static String JAVALIN5 = "javalin5";
+        public final static String JAVALIN6 = "javalin6";
         public final static String AUTOMATIC_HEAD_REQUESTS = "featureAutoHead";
         public final static String AUTOMATIC_HEAD_REQUESTS_DESC = "Automatically provide responses to HEAD requests for existing routes that have the GET verb defined.";
         public final static String CONDITIONAL_HEADERS = "featureConditionalHeaders";
@@ -403,5 +407,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         }
 
         return objs;
+    }
+
+    private boolean isJavalin() {
+        return Constants.JAVALIN5.equals(library) || Constants.JAVALIN6.equals(library);
     }
 }

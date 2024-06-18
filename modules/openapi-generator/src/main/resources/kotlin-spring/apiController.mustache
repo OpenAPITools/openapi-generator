@@ -6,9 +6,11 @@ import java.util.Optional
 
 {{>generatedAnnotation}}
 @Controller{{#beanQualifiers}}("{{package}}.{{classname}}Controller"){{/beanQualifiers}}
+{{#useRequestMappingOnController}}
 {{=<% %>=}}
 @RequestMapping("\${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
 <%={{ }}=%>
+{{/useRequestMappingOnController}}
 {{#operations}}
 class {{classname}}Controller(
         @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: {{classname}}Delegate?

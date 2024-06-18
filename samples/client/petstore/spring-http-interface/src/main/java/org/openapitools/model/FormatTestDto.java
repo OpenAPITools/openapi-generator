@@ -71,7 +71,7 @@ public class FormatTestDto {
    * minimum: 10
    * maximum: 100
    * @return integer
-  */
+   */
   
   @JsonProperty("integer")
   public Integer getInteger() {
@@ -92,7 +92,7 @@ public class FormatTestDto {
    * minimum: 20
    * maximum: 200
    * @return int32
-  */
+   */
   
   @JsonProperty("int32")
   public Integer getInt32() {
@@ -111,7 +111,7 @@ public class FormatTestDto {
   /**
    * Get int64
    * @return int64
-  */
+   */
   
   @JsonProperty("int64")
   public Long getInt64() {
@@ -132,7 +132,7 @@ public class FormatTestDto {
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  */
+   */
   @NotNull
   @JsonProperty("number")
   public BigDecimal getNumber() {
@@ -153,7 +153,7 @@ public class FormatTestDto {
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  */
+   */
   
   @JsonProperty("float")
   public Float getFloat() {
@@ -174,7 +174,7 @@ public class FormatTestDto {
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  */
+   */
   
   @JsonProperty("double")
   public Double getDouble() {
@@ -193,7 +193,7 @@ public class FormatTestDto {
   /**
    * Get string
    * @return string
-  */
+   */
   
   @JsonProperty("string")
   public String getString() {
@@ -212,7 +212,7 @@ public class FormatTestDto {
   /**
    * Get _byte
    * @return _byte
-  */
+   */
   @NotNull
   @JsonProperty("byte")
   public byte[] getByte() {
@@ -231,7 +231,7 @@ public class FormatTestDto {
   /**
    * Get binary
    * @return binary
-  */
+   */
   
   @JsonProperty("binary")
   public org.springframework.core.io.Resource getBinary() {
@@ -250,7 +250,7 @@ public class FormatTestDto {
   /**
    * Get date
    * @return date
-  */
+   */
   @NotNull
   @JsonProperty("date")
   public LocalDate getDate() {
@@ -269,7 +269,7 @@ public class FormatTestDto {
   /**
    * Get dateTime
    * @return dateTime
-  */
+   */
   
   @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
@@ -288,7 +288,7 @@ public class FormatTestDto {
   /**
    * Get uuid
    * @return uuid
-  */
+   */
   
   @JsonProperty("uuid")
   public UUID getUuid() {
@@ -307,7 +307,7 @@ public class FormatTestDto {
   /**
    * Get password
    * @return password
-  */
+   */
   @NotNull
   @JsonProperty("password")
   public String getPassword() {
@@ -326,7 +326,7 @@ public class FormatTestDto {
   /**
    * Get bigDecimal
    * @return bigDecimal
-  */
+   */
   
   @JsonProperty("BigDecimal")
   public BigDecimal getBigDecimal() {

@@ -64,10 +64,10 @@ public class ByteArrayObject {
     return this;
   }
 
-   /**
+  /**
    * byte array.
    * @return nullableArray
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -97,10 +97,10 @@ public class ByteArrayObject {
     return this;
   }
 
-   /**
+  /**
    * byte array.
    * @return normalArray
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NORMAL_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -122,10 +122,10 @@ public class ByteArrayObject {
     return this;
   }
 
-   /**
+  /**
    * Get nullableString
    * @return nullableString
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 
@@ -155,10 +155,10 @@ public class ByteArrayObject {
     return this;
   }
 
-   /**
+  /**
    * Get stringField
    * @return stringField
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STRING_FIELD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -180,10 +180,10 @@ public class ByteArrayObject {
     return this;
   }
 
-   /**
+  /**
    * Get intField
    * @return intField
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INT_FIELD)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

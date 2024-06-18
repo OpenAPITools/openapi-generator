@@ -44,7 +44,7 @@ public class ArrayOfNumberOnlyDto {
   /**
    * Get arrayNumber
    * @return arrayNumber
-  */
+   */
   
   @JsonProperty("ArrayNumber")
   public List<BigDecimal> getArrayNumber() {

@@ -41,8 +41,8 @@ public class ReadOnlyFirst {
   public ReadOnlyFirst() {
   }
   /**
-  * Constructor with only readonly parameters
-  */
+   * Constructor with only readonly parameters
+   */
   
   public ReadOnlyFirst(
      String bar
@@ -51,10 +51,10 @@ public class ReadOnlyFirst {
     this.bar = bar;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -70,10 +70,10 @@ public class ReadOnlyFirst {
     return this;
   }
 
-   /**
+  /**
    * Get baz
    * @return baz
-  **/
+   */
   @javax.annotation.Nullable
 
 

@@ -56,8 +56,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean useMicroProfileOpenAPIAnnotations = false;
     private boolean useMutiny = false;
 
+    @Setter
     protected boolean useGzipFeature = false;
-    private boolean useJackson = false;
     /**
      * -- SETTER --
      * Location where the file containing the spec will be generated in the output folder.
@@ -133,54 +133,26 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     @Override
     public void processOpts() {
-        if (additionalProperties.containsKey(GENERATE_POM)) {
-            generatePom = Boolean.parseBoolean(additionalProperties.get(GENERATE_POM).toString());
-        }
-        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
-            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString());
-            if (!interfaceOnly) {
-                additionalProperties.remove(INTERFACE_ONLY);
-            }
-        }
-        if (additionalProperties.containsKey(RETURN_RESPONSE)) {
-            returnResponse = Boolean.parseBoolean(additionalProperties.get(RETURN_RESPONSE).toString());
-            if (!returnResponse) {
-                additionalProperties.remove(RETURN_RESPONSE);
-            }
-        }
-        if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
-            supportAsync = Boolean.parseBoolean(additionalProperties.get(SUPPORT_ASYNC).toString());
-            if (!supportAsync) {
-                additionalProperties.remove(SUPPORT_ASYNC);
-            } else {
-                // java8 tag has been deprecated
-                //setJava8ModeAndAdditionalProperties(true);
-            }
-        }
+        convertPropertyToBooleanAndWriteBack(GENERATE_POM, value -> generatePom = value);
+
+        convertPropertyToBooleanAndWriteBack(INTERFACE_ONLY, value -> interfaceOnly = value);
+        convertPropertyToBooleanAndWriteBack(RETURN_RESPONSE, value -> returnResponse = value);
+        convertPropertyToBooleanAndWriteBack(SUPPORT_ASYNC, this::setSupportAsync);
         if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
             useSwaggerAnnotations = false;
         } else {
-            if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
-                useSwaggerAnnotations = Boolean.parseBoolean(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
-            }
+            convertPropertyToBooleanAndWriteBack(USE_SWAGGER_ANNOTATIONS, value -> useSwaggerAnnotations = value);
         }
         if (KUMULUZEE_LIBRARY.equals(library)){
             super.setSourceFolder("src/main/java");
         }
-        writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
 
         if (QUARKUS_LIBRARY.equals(library)) {
-            if (additionalProperties.containsKey(USE_MICROPROFILE_OPENAPI_ANNOTATIONS)) {
-                useMicroProfileOpenAPIAnnotations = Boolean.parseBoolean(additionalProperties.get(USE_MICROPROFILE_OPENAPI_ANNOTATIONS).toString());
-            }
-            writePropertyBack(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, useMicroProfileOpenAPIAnnotations);
+            convertPropertyToBooleanAndWriteBack(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, value -> useMicroProfileOpenAPIAnnotations = value);
         }
 
         if (QUARKUS_LIBRARY.equals(library)) {
-            if (additionalProperties.containsKey(USE_MUTINY)) {
-                useMutiny = Boolean.parseBoolean(additionalProperties.get(USE_MUTINY).toString());
-            }
-            writePropertyBack(USE_MUTINY, useMutiny);
+            convertPropertyToBooleanAndWriteBack(USE_MUTINY, value -> useMutiny = value);
         }
 
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
@@ -192,8 +164,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         additionalProperties.put(OPEN_API_SPEC_FILE_LOCATION, openApiSpecFileLocation);
-
-        useJackson = convertPropertyToBoolean(JACKSON);
 
         if (interfaceOnly) {
             // Change default artifactId if generating interfaces only, before command line options are applied in base class.
@@ -264,12 +234,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             supportingFiles.add(new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));
         }
 
-        if (additionalProperties.containsKey(USE_GZIP_FEATURE)) {
-            useGzipFeature = Boolean.parseBoolean(additionalProperties.get(USE_GZIP_FEATURE).toString());
-            if (!useGzipFeature) {
-                additionalProperties.remove(USE_GZIP_FEATURE);
-            }
-        }
+        convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE, this::setUseGzipFeature);
     }
 
     @Override
@@ -284,7 +249,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             codegenModel.imports.remove("ApiModelProperty");
             codegenModel.imports.remove("ApiModel");
         }
-        if (!useJackson) {
+        if (!jackson) {
             codegenModel.imports.remove("JsonSerialize");
             codegenModel.imports.remove("ToStringSerializer");
             codegenModel.imports.remove("JsonValue");

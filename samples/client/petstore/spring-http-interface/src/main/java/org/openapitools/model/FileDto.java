@@ -31,7 +31,7 @@ public class FileDto {
   /**
    * Test capitalization
    * @return sourceURI
-  */
+   */
   
   @JsonProperty("sourceURI")
   public String getSourceURI() {

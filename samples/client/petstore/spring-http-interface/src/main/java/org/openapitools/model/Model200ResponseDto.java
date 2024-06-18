@@ -33,7 +33,7 @@ public class Model200ResponseDto {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @JsonProperty("name")
   public Integer getName() {
@@ -52,7 +52,7 @@ public class Model200ResponseDto {
   /**
    * Get propertyClass
    * @return propertyClass
-  */
+   */
   
   @JsonProperty("class")
   public String getPropertyClass() {

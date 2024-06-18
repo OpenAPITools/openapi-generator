@@ -724,6 +724,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         for (ModelMap m : objs.getModels()) {
             boolean addedTimeImport = false;
             boolean addedOSImport = false;
+            boolean addedValidator = false;
             CodegenModel model = m.getModel();
 
             List<CodegenProperty> inheritedProperties = new ArrayList<>();
@@ -758,9 +759,20 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
+
+                if (cp.pattern != null) {
+                    cp.vendorExtensions.put("x-go-custom-tag", "validate:\"regexp=" +
+                        cp.pattern.replace("\\","\\\\").replaceAll("^/|/$","") +
+                        "\"");
+                }
             }
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
+            }
+
+            if(model.oneOf != null && !model.oneOf.isEmpty() && !addedValidator && generateUnmarshalJSON) {
+                imports.add(createMapping("import", "gopkg.in/validator.v2"));
+                addedValidator = true;
             }
 
             // if oneOf contains "null" type

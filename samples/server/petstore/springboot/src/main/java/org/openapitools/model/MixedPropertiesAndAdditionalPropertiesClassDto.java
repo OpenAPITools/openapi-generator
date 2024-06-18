@@ -46,7 +46,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   /**
    * Get uuid
    * @return uuid
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
@@ -66,7 +66,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   /**
    * Get dateTime
    * @return dateTime
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
@@ -94,7 +94,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   /**
    * Get map
    * @return map
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map")

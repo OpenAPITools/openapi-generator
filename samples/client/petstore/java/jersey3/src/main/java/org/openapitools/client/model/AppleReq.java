@@ -52,10 +52,10 @@ public class AppleReq {
     return this;
   }
 
-   /**
+  /**
    * Get cultivar
    * @return cultivar
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -79,10 +79,10 @@ public class AppleReq {
     return this;
   }
 
-   /**
+  /**
    * Get mealy
    * @return mealy
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_MEALY)

@@ -50,7 +50,7 @@ public class TypeHolderExampleDto {
   /**
    * Get stringItem
    * @return stringItem
-  */
+   */
   @NotNull
   @JsonProperty("string_item")
   public String getStringItem() {
@@ -69,7 +69,7 @@ public class TypeHolderExampleDto {
   /**
    * Get numberItem
    * @return numberItem
-  */
+   */
   @NotNull
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
@@ -88,7 +88,7 @@ public class TypeHolderExampleDto {
   /**
    * Get floatItem
    * @return floatItem
-  */
+   */
   @NotNull
   @JsonProperty("float_item")
   public Float getFloatItem() {
@@ -107,7 +107,7 @@ public class TypeHolderExampleDto {
   /**
    * Get integerItem
    * @return integerItem
-  */
+   */
   @NotNull
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
@@ -126,7 +126,7 @@ public class TypeHolderExampleDto {
   /**
    * Get boolItem
    * @return boolItem
-  */
+   */
   @NotNull
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
@@ -153,7 +153,7 @@ public class TypeHolderExampleDto {
   /**
    * Get arrayItem
    * @return arrayItem
-  */
+   */
   @NotNull
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {

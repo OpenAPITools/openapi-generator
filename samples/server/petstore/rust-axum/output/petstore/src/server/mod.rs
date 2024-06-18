@@ -1456,7 +1456,6 @@ where
                         response_headers.insert(HeaderName::from_static(""), x_expires_after);
                     }
                 }
-
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();

@@ -106,7 +106,7 @@ public class Pet {
     /**
      * Get id
      * @return id
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -128,7 +128,7 @@ public class Pet {
     /**
      * Get category
      * @return category
-     **/
+     */
     @Valid
     @Nullable
     @JsonProperty(JSON_PROPERTY_CATEGORY)
@@ -151,7 +151,7 @@ public class Pet {
     /**
      * Get name
      * @return name
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -178,7 +178,7 @@ public class Pet {
     /**
      * Get photoUrls
      * @return photoUrls
-     **/
+     */
     @NotNull
     @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -209,7 +209,7 @@ public class Pet {
     /**
      * Get tags
      * @return tags
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -231,7 +231,7 @@ public class Pet {
     /**
      * pet status in the store
      * @return status
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

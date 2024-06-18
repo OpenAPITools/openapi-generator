@@ -63,10 +63,10 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     return this;
   }
 
-   /**
+  /**
    * Get someProperty
    * @return someProperty
-  **/
+   */
   @javax.annotation.Nullable
   public String getSomeProperty() {
     return someProperty;
@@ -174,12 +174,12 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to TestInlineFreeformAdditionalPropertiesRequest
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to TestInlineFreeformAdditionalPropertiesRequest
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!TestInlineFreeformAdditionalPropertiesRequest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -264,22 +264,22 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     }
   }
 
- /**
-  * Create an instance of TestInlineFreeformAdditionalPropertiesRequest given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of TestInlineFreeformAdditionalPropertiesRequest
-  * @throws IOException if the JSON string is invalid with respect to TestInlineFreeformAdditionalPropertiesRequest
-  */
+  /**
+   * Create an instance of TestInlineFreeformAdditionalPropertiesRequest given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of TestInlineFreeformAdditionalPropertiesRequest
+   * @throws IOException if the JSON string is invalid with respect to TestInlineFreeformAdditionalPropertiesRequest
+   */
   public static TestInlineFreeformAdditionalPropertiesRequest fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, TestInlineFreeformAdditionalPropertiesRequest.class);
   }
 
- /**
-  * Convert an instance of TestInlineFreeformAdditionalPropertiesRequest to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of TestInlineFreeformAdditionalPropertiesRequest to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

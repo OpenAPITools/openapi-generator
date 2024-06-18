@@ -27,10 +27,11 @@ public class ConstructorAssert extends AbstractAssert<ConstructorAssert, Constru
         return fileAssert;
     }
 
-    public MethodAnnotationAssert assertConstructorAnnotations() {
-        return new MethodAnnotationAssert(this, actual.getAnnotations());
+    public MethodAnnotationsAssert assertConstructorAnnotations() {
+        return new MethodAnnotationsAssert(this, actual.getAnnotations());
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public ParameterAssert hasParameter(final String paramName) {
         final Optional<Parameter> parameter = actual.getParameterByName(paramName);
         Assertions.assertThat(parameter)
@@ -67,6 +68,7 @@ public class ConstructorAssert extends AbstractAssert<ConstructorAssert, Constru
         return this;
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public ConstructorAssert commentContainsLines(final String... lines) {
         Assertions.assertThat(actual.getJavadocComment())
             .withFailMessage("Constructor %s should contains comment, but it doesn't", signature)
