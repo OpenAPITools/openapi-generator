@@ -250,7 +250,7 @@ void PFXUserApi::createUser(const PFXUser &pfx_user) {
     }
 #endif
 
-    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::downloadProgress);
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::createUserDownloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -329,7 +329,7 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &pfx_user) {
     }
 #endif
 
-    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::downloadProgress);
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::createUsersWithArrayInputDownloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithArrayInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -408,7 +408,7 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &pfx_user) {
     }
 #endif
 
-    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::downloadProgress);
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::createUsersWithListInputDownloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::createUsersWithListInputCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -497,7 +497,7 @@ void PFXUserApi::deleteUser(const QString &username) {
     }
 #endif
 
-    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::downloadProgress);
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::deleteUserDownloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::deleteUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -586,7 +586,7 @@ void PFXUserApi::getUserByName(const QString &username) {
     }
 #endif
 
-    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::downloadProgress);
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::getUserByNameDownloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::getUserByNameCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -693,7 +693,7 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
     }
 #endif
 
-    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::downloadProgress);
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::loginUserDownloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::loginUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -770,7 +770,7 @@ void PFXUserApi::logoutUser() {
     }
 #endif
 
-    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::downloadProgress);
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::logoutUserDownloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::logoutUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -864,7 +864,7 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &pfx_user) {
     }
 #endif
 
-    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::downloadProgress);
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXUserApi::updateUserDownloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXUserApi::updateUserCallback);
     connect(this, &PFXUserApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {

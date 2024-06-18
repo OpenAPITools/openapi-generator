@@ -237,7 +237,7 @@ void PFXPrimitivesApi::primitivesIntegerPost(const ::test_namespace::OptionalPar
     }
 #endif
 
-    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPrimitivesApi::downloadProgress);
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPrimitivesApi::primitivesIntegerPostDownloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPrimitivesApi::primitivesIntegerPostCallback);
     connect(this, &PFXPrimitivesApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -316,7 +316,7 @@ void PFXPrimitivesApi::primitivesNumberPut(const ::test_namespace::OptionalParam
     }
 #endif
 
-    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPrimitivesApi::downloadProgress);
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPrimitivesApi::primitivesNumberPutDownloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPrimitivesApi::primitivesNumberPutCallback);
     connect(this, &PFXPrimitivesApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {

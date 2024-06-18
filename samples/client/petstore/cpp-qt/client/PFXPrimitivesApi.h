@@ -94,7 +94,9 @@ private:
 Q_SIGNALS:
 
     void primitivesIntegerPostSignal();
+	void primitivesIntegerPostDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void primitivesNumberPutSignal();
+	void primitivesNumberPutDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
     void primitivesIntegerPostSignalFull(PFXHttpRequestWorker *worker);
     void primitivesNumberPutSignalFull(PFXHttpRequestWorker *worker);
@@ -113,7 +115,6 @@ Q_SIGNALS:
     void primitivesNumberPutSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void primitivesNumberPutSignalErrorFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
 
-    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
