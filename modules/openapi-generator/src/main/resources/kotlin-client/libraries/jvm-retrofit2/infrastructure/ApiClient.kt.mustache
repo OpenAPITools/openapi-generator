@@ -64,7 +64,7 @@ import okhttp3.MediaType.Companion.toMediaType
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
     {{^kotlinx_serialization}}
-    private val serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = {{#generateOneOfAnyOfWrappers}}registerTypeAdapterFactoryForAllModels({{/generateOneOfAnyOfWrappers}}Serializer.{{#gson}}gsonBuilder{{/gson}}{{#generateOneOfAnyOfWrappers}}){{/generateOneOfAnyOfWrappers}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},
+    private val serializerBuilder: {{#gson}}GsonBuilder{{/gson}}{{#moshi}}Moshi.Builder{{/moshi}}{{#jackson}}ObjectMapper{{/jackson}} = {{#generateOneOfAnyOfWrappers}}{{#gson}}registerTypeAdapterFactoryForAllModels({{/gson}}{{/generateOneOfAnyOfWrappers}}Serializer.{{#gson}}gsonBuilder{{/gson}}{{#generateOneOfAnyOfWrappers}}{{#gson}}){{/gson}}{{/generateOneOfAnyOfWrappers}}{{#moshi}}moshiBuilder{{/moshi}}{{#jackson}}jacksonObjectMapper{{/jackson}},
     {{/kotlinx_serialization}}
     private val callFactory: Call.Factory? = null,
     private val callAdapterFactories: List<CallAdapter.Factory> = listOf(
