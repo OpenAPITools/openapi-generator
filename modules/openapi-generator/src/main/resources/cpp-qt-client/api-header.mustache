@@ -99,6 +99,7 @@ Q_SIGNALS:
     void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void {{nickname}}SignalErrorFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);{{/operation}}{{/operations}}
 
+	void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
