@@ -88,7 +88,7 @@ private:
 Q_SIGNALS:
 {{#operations}}{{#operation}}
     void {{nickname}}Signal({{#returnType}}{{{.}}} summary{{/returnType}});
-	void {{nickname}}DownloadProgress(qint64 bytesReceived, qint64 bytesTotal);{{/operation}}{{/operations}}
+    void {{nickname}}DownloadProgress(qint64 bytesReceived, qint64 bytesTotal);{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
     void {{nickname}}SignalFull({{prefix}}HttpRequestWorker *worker{{#returnType}}, {{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
