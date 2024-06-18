@@ -7,18 +7,18 @@ import org.assertj.core.util.CanIgnoreReturnValue;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 
 @CanIgnoreReturnValue
-public class MethodAnnotationAssert extends AbstractAnnotationAssert<MethodAnnotationAssert> {
+public class MethodAnnotationsAssert extends AbstractAnnotationsAssert<MethodAnnotationsAssert> {
 
     private final MethodAssert methodAssert;
     private final ConstructorAssert constructorAssert;
 
-    protected MethodAnnotationAssert(final MethodAssert methodAssert, final List<AnnotationExpr> annotationExpr) {
+    protected MethodAnnotationsAssert(final MethodAssert methodAssert, final List<AnnotationExpr> annotationExpr) {
         super(annotationExpr);
         this.methodAssert = methodAssert;
         this.constructorAssert = null;
     }
 
-    protected MethodAnnotationAssert(final ConstructorAssert constructorAssert, final List<AnnotationExpr> annotationExpr) {
+    protected MethodAnnotationsAssert(final ConstructorAssert constructorAssert, final List<AnnotationExpr> annotationExpr) {
         super(annotationExpr);
         this.constructorAssert = constructorAssert;
         this.methodAssert = null;

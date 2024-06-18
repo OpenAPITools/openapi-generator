@@ -30,8 +30,8 @@ public class ClassModel {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ClassModel(String propertyClass) {
       this.propertyClass = propertyClass;
   }
@@ -44,7 +44,7 @@ public class ClassModel {
   /**
    * Get propertyClass
    * @return propertyClass
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("_class")

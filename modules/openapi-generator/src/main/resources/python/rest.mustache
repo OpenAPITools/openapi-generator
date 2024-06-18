@@ -168,7 +168,7 @@ class RESTClientObject:
                 ):
                     request_body = None
                     if body is not None:
-                        request_body = json.dumps(body)
+                        request_body = json.dumps(body{{#setEnsureAsciiToFalse}}, ensure_ascii=False{{/setEnsureAsciiToFalse}})
                     r = self.pool_manager.request(
                         method,
                         url,

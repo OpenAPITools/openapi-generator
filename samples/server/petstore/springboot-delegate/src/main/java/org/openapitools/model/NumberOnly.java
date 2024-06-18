@@ -30,8 +30,8 @@ public class NumberOnly {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public NumberOnly(BigDecimal justNumber) {
       this.justNumber = justNumber;
   }
@@ -44,7 +44,7 @@ public class NumberOnly {
   /**
    * Get justNumber
    * @return justNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("JustNumber")

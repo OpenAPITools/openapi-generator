@@ -29,8 +29,8 @@ public class Client {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Client(String client) {
       this.client = client;
   }
@@ -43,7 +43,7 @@ public class Client {
   /**
    * Get client
    * @return client
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("client")

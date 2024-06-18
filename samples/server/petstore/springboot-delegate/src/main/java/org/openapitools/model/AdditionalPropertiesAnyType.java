@@ -33,8 +33,8 @@ public class AdditionalPropertiesAnyType {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public AdditionalPropertiesAnyType(String name) {
       this.name = name;
   }
@@ -47,7 +47,7 @@ public class AdditionalPropertiesAnyType {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")

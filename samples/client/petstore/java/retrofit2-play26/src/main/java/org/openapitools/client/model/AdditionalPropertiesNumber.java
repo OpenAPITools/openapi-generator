@@ -49,10 +49,10 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME)

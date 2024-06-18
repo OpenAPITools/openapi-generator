@@ -82,10 +82,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @javax.annotation.Nonnull
   public String getStringItem() {
     return stringItem;
@@ -101,10 +101,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @javax.annotation.Nonnull
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -120,10 +120,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @javax.annotation.Nonnull
   public Integer getIntegerItem() {
     return integerItem;
@@ -139,10 +139,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @javax.annotation.Nonnull
   public Boolean getBoolItem() {
     return boolItem;
@@ -166,10 +166,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @javax.annotation.Nonnull
   public List<Integer> getArrayItem() {
     return arrayItem;
@@ -248,12 +248,12 @@ public class TypeHolderDefault {
     openapiRequiredFields.add("array_item");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to TypeHolderDefault
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to TypeHolderDefault
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!TypeHolderDefault.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -316,22 +316,22 @@ public class TypeHolderDefault {
     }
   }
 
- /**
-  * Create an instance of TypeHolderDefault given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of TypeHolderDefault
-  * @throws IOException if the JSON string is invalid with respect to TypeHolderDefault
-  */
+  /**
+   * Create an instance of TypeHolderDefault given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of TypeHolderDefault
+   * @throws IOException if the JSON string is invalid with respect to TypeHolderDefault
+   */
   public static TypeHolderDefault fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, TypeHolderDefault.class);
   }
 
- /**
-  * Convert an instance of TypeHolderDefault to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of TypeHolderDefault to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -33,7 +33,7 @@ public class AdditionalPropertiesAnyType {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @JsonProperty("name")
   public String getName() {

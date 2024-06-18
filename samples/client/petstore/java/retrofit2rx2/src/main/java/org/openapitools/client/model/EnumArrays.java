@@ -141,10 +141,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get justSymbol
    * @return justSymbol
-  **/
+   */
   @javax.annotation.Nullable
 
   public JustSymbolEnum getJustSymbol() {
@@ -170,10 +170,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get arrayEnum
    * @return arrayEnum
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<ArrayEnumEnum> getArrayEnum() {

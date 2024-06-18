@@ -36,7 +36,7 @@ public class OuterCompositeDto {
   /**
    * Get myNumber
    * @return myNumber
-  */
+   */
   
   @JsonProperty("my_number")
   public BigDecimal getMyNumber() {
@@ -55,7 +55,7 @@ public class OuterCompositeDto {
   /**
    * Get myString
    * @return myString
-  */
+   */
   
   @JsonProperty("my_string")
   public String getMyString() {
@@ -74,7 +74,7 @@ public class OuterCompositeDto {
   /**
    * Get myBoolean
    * @return myBoolean
-  */
+   */
   
   @JsonProperty("my_boolean")
   public Boolean getMyBoolean() {

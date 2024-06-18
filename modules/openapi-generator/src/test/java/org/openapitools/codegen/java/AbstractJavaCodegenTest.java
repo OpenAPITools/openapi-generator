@@ -36,6 +36,7 @@ import org.mockito.Answers;
 import org.mockito.Mockito;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.testutils.ConfigAssert;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -182,17 +183,13 @@ public class AbstractJavaCodegenTest {
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertFalse(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "invalidPackageName");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "invalidPackageName");
-        Assert.assertEquals(codegen.apiPackage(), "invalidPackageName");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "invalidPackageName");
-        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "get");
-        Assert.assertEquals(codegen.getArtifactVersion(), openAPI.getInfo().getVersion());
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), openAPI.getInfo().getVersion());
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.FALSE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "invalidPackageName");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "invalidPackageName");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "org.openapitools");
+        configAssert.assertValue(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "get");
+        configAssert.assertValue(CodegenConstants.ARTIFACT_VERSION, codegen::getArtifactVersion, openAPI.getInfo().getVersion());
     }
 
     @Test
@@ -209,18 +206,13 @@ public class AbstractJavaCodegenTest {
 
         codegen.processOpts();
         codegen.preprocessOpenAPI(openAPI);
-
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertTrue(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.zzzzzzz.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.zzzzzzz.model");
-        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.zzzzzzz.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.zzzzzzz.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "is");
-        Assert.assertEquals(codegen.getArtifactVersion(), "0.9.0-SNAPSHOT");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), "0.9.0-SNAPSHOT");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.TRUE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xyz.yyyyy.zzzzzzz.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xyz.yyyyy.zzzzzzz.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xyz.yyyyy.zzzzzzz.invoker");
+        configAssert.assertValue(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "is");
+        configAssert.assertValue(CodegenConstants.ARTIFACT_VERSION, codegen::getArtifactVersion, "0.9.0-SNAPSHOT");
     }
 
     @Test
@@ -234,18 +226,13 @@ public class AbstractJavaCodegenTest {
 
         codegen.processOpts();
         codegen.preprocessOpenAPI(TestUtils.createOpenAPI());
-
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertFalse(codegen.isHideGenerationTimestamp());
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.model.oooooo");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.model.oooooo");
-        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.api.oooooo");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.api.oooooo");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.invoker.oooooo");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.invoker.oooooo");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "getBoolean");
-        Assert.assertEquals(codegen.getArtifactVersion(), "0.8.0-SNAPSHOT");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.ARTIFACT_VERSION), "0.8.0-SNAPSHOT");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.FALSE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xyz.yyyyy.model.oooooo");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xyz.yyyyy.api.oooooo");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xyz.yyyyy.invoker.oooooo");
+        configAssert.assertValue(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "getBoolean");
+        configAssert.assertValue(CodegenConstants.ARTIFACT_VERSION, codegen::getArtifactVersion, "0.8.0-SNAPSHOT");
     }
 
     @Test
@@ -885,7 +872,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void AnnotationsContainerTest() {
-        codegen.additionalProperties().put("useBeanValidation", true);
+        codegen.setUseBeanValidation(true);
 
         // 1. string type
         Schema<?> schema = new ArraySchema().items(new Schema<>().type("string").pattern("^[a-z]$").minLength(0).maxLength(36));

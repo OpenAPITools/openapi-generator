@@ -5,15 +5,24 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.JavaMicronautServerCodegen;
+import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+
 import static java.util.stream.Collectors.groupingBy;
+import static org.openapitools.codegen.TestUtils.newTempFolder;
 import static org.testng.Assert.assertEquals;
 
-public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
+public class JavaMicronautServerCodegenTest extends AbstractMicronautCodegenTest {
     protected static String ROLES_EXTENSION_TEST_PATH = "src/test/resources/3_0/micronaut/roles-extension-test.yaml";
     protected static String MULTI_TAGS_TEST_PATH = "src/test/resources/3_0/micronaut/multi-tags-test.yaml";
 
@@ -35,16 +44,12 @@ public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
         openAPI.addServersItem(new Server().url("https://one.com/v2"));
         openAPI.setInfo(new Info());
         codegen.preprocessOpenAPI(openAPI);
-
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
-        Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
-        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.controller");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.controller");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaMicronautServerCodegen.OPT_CONTROLLER_PACKAGE), "org.openapitools.controller");
-        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.FALSE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "org.openapitools.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "org.openapitools.controller");
+        configAssert.assertValue(JavaMicronautServerCodegen.OPT_CONTROLLER_PACKAGE, "org.openapitools.controller");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "org.openapitools");
     }
 
     @Test
@@ -340,5 +345,146 @@ public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
                 "bookCreateEntryPost", "bookSearchGet", "bookSendReviewPost", "getBook", "isBookAvailable", "getAuthorBooks");
         assertFileContains(controllerPath + "SearchController.java",
                 "authorSearchGet", "bookSearchGet");
+    }
+
+    /**
+     * General XML annotations test (both JAXB and Jackson)
+     * <br>
+     * Includes regression tests for:
+     * - <a href="https://github.com/OpenAPITools/openapi-generator/issues/2417">Correct Jackson annotation when `wrapped: false`</a>
+     */
+    @Test public void shouldGenerateCorrectXmlAnnotations() {
+        // Arrange
+        final CodegenConfigurator config = new CodegenConfigurator()
+            .addAdditionalProperty(CodegenConstants.WITH_XML, true)
+            .addGlobalProperty(CodegenConstants.MODELS, "Pet")
+            .addGlobalProperty(CodegenConstants.MODEL_DOCS, null)
+            .addGlobalProperty(CodegenConstants.MODEL_TESTS, null)
+            .setGeneratorName(JavaMicronautServerCodegen.NAME)
+            .setInputSpec("src/test/resources/3_0/java/xml-annotations-test.yaml")
+            .setOutputDir(newTempFolder().toString());
+
+        // Act
+        final List<File> files = new DefaultGenerator().opts(config.toClientOptInput()).generate();
+
+        // Assert
+        JavaFileAssert.assertThat(files.get(0))
+            .assertTypeAnnotations()
+            .containsWithNameAndAttributes("JacksonXmlRootElement", Map.of("localName", "\"Pet\"", "namespace", "\"urn:jacksonxml\""))
+            .containsWithNameAndAttributes("XmlRootElement", Map.of("name", "\"Pet\"", "namespace", "\"urn:jacksonxml\""))
+            .containsWithNameAndAttributes("XmlAccessorType", Map.of("value", "XmlAccessType.FIELD"))
+            .toType()
+
+            // ↓ test custom-name on wrapper element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Use%20xml/name%20to%20give%20different%20names)
+            .assertProperty("tags").assertPropertyAnnotations()
+            .doesNotContainWithName("XmlAttribute")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Tag\""))
+            .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"TagList\""))
+            .toProperty().toType()
+            .assertMethod("getTags")
+            .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"Tag\""))
+            .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"TagList\"", "useWrapping", "true"))
+            .toFileAssert()
+
+            // ↓ custom internal xml-array element name, non-wrapped (1st example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+            .assertProperty("friends").assertPropertyAnnotations()
+            .doesNotContainWithName("XmlAttribute")
+            .doesNotContainWithName("XmlElementWrapper")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"friend-pet\""))
+            .toProperty().toType()
+            .assertMethod("getFriends")
+            .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"friend-pet\""))
+            .hasAnnotation("JacksonXmlElementWrapper", Map.of("useWrapping", "false"))
+            .toFileAssert()
+
+            // ↓ test custom element name (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Change%20Element%20Names)    
+            .assertProperty("status").assertPropertyAnnotations()
+            .doesNotContainWithName("XmlAttribute")
+            .doesNotContainWithName("XmlElementWrapper")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"PetStatus\""))
+            .toProperty().toType()
+            .assertMethod("getStatus")
+            .doesNotHaveAnnotation("JacksonXmlElementWrapper")
+            .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"PetStatus\""))
+            .toFileAssert()
+
+            // ↓ test same-name wrapping element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Wrapping%20Arrays)
+            //   maps to 3rd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
+            .assertProperty("photoUrls").assertPropertyAnnotations()
+            .doesNotContainWithName("XmlAttribute")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"photoUrls\""))
+            .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"photoUrls\""))
+            .toProperty().toType()
+            .assertMethod("getPhotoUrls")
+            .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"photoUrls\""))
+            .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"photoUrls\"", "useWrapping", "true"))
+            .toFileAssert()
+
+            // ↓ test attribute generation (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Convert%20Property%20to%20an%20Attribute)
+            .assertProperty("name").assertPropertyAnnotations()
+            .doesNotContainWithName("XmlElement")
+            .doesNotContainWithName("XmlElementWrapper")
+            .containsWithNameAndAttributes("XmlAttribute", Map.of("name", "\"name\""))
+            .toProperty().toType()
+            .assertMethod("getName")
+            .doesNotHaveAnnotation("JacksonXmlElementWrapper")
+            .hasAnnotation("JacksonXmlProperty", Map.of("isAttribute", "true", "localName", "\"name\""))
+            .toFileAssert()
+
+            // ↓ test XML namespace and prefix (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Prefixes%20and%20Namespaces)
+            .assertProperty("id").assertPropertyAnnotations()
+            .doesNotContainWithName("XmlAttribute")
+            .doesNotContainWithName("XmlElementWrapper")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"id\"", "namespace", "\"http://example.com/schema\""))
+            .toProperty().toType()
+            .assertMethod("getId")
+            .doesNotHaveAnnotation("JacksonXmlElementWrapper")
+            .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"id\"", "namespace", "\"http://example.com/schema\""))
+            .toFileAssert()
+
+            // ↓ external xml-array element name only (last example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+            .assertProperty("foods").assertPropertyAnnotations()
+            .doesNotContainWithName("XmlAttribute")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"yummy-yummy\""))
+            .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"yummy-yummy\""))
+            .toProperty().toType()
+            .assertMethod("getFoods")
+            .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"yummy-yummy\""))
+            .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"yummy-yummy\""))
+            .toFileAssert()
+
+            // ↓ internal xml-array element name (4th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+            .assertProperty("colors").assertPropertyAnnotations()
+            .doesNotContainWithName("XmlAttribute")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"color\""))
+            .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"colors\""))
+            .toProperty().toType()
+            .assertMethod("getColors")
+            .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"color\""))
+            .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"colors\""))
+            .toFileAssert()
+
+            // ↓ ignored external xml-array element name, non-wrapped (2nd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
+            .assertProperty("categories").assertPropertyAnnotations()
+            .doesNotContainWithName("XmlAttribute")
+            .doesNotContainWithName("XmlElementWrapper")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"Category\""))
+            .toProperty().toType()
+            .assertMethod("getCategories")
+            .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"Category\""))
+            // ↓ specific regression test for #2417: (useWrapping=false) needs to be present
+            .hasAnnotation("JacksonXmlElementWrapper", Map.of("useWrapping", "false"))
+            .toFileAssert()
+
+            // ↓ test custom-name on wrapper AND children (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Use%20xml/name%20to%20give%20different%20names)
+            //   maps to 5th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
+            .assertProperty("activities").assertPropertyAnnotations()
+            .doesNotContainWithName("XmlAttribute")
+            .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"item\""))
+            .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"activities-array\""))
+            .toProperty().toType()
+            .assertMethod("getActivities")
+            .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"item\""))
+            .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"activities-array\""));
     }
 }

@@ -107,22 +107,20 @@ import java.io.IOException
                     {{^vendorExtensions.x-duplicated-data-type}}
                     // check if the actual instance is of the type `{{{dataType}}}`
                     if (value.actualInstance is {{#isArray}}List<*>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
-                    {{#isPrimitiveType}}
-                        val primitive = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(value.actualInstance as {{{dataType}}}?).getAsJsonPrimitive()
-                        elementAdapter.write(out, primitive)
-                        return
-                    {{/isPrimitiveType}}
-                    {{^isPrimitiveType}}
                     {{#isArray}}
-                        List<?> list = (List<?>) value.actualInstance
+                        val list = value.actualInstance as List<Any>
                         if (list.get(0) is {{{items.dataType}}}) {
                             val array = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(value.actualInstance as {{{dataType}}}?).getAsJsonArray()
                             elementAdapter.write(out, array)
                             return
                         }
                     {{/isArray}}
-                    {{/isPrimitiveType}}
                     {{^isArray}}
+                    {{#isPrimitiveType}}
+                        val primitive = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}.toJsonTree(value.actualInstance as {{{dataType}}}?).getAsJsonPrimitive()
+                        elementAdapter.write(out, primitive)
+                        return
+                    {{/isPrimitiveType}}
                     {{^isPrimitiveType}}
                         val element = adapter{{{dataType}}}.toJsonTree(value.actualInstance as {{{dataType}}}?)
                         elementAdapter.write(out, element)

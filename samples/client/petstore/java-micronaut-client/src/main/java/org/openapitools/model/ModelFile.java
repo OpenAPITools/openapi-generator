@@ -45,7 +45,7 @@ public class ModelFile {
     /**
      * Test capitalization
      * @return sourceURI
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

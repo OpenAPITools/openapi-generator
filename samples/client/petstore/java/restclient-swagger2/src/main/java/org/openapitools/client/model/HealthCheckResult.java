@@ -49,10 +49,10 @@ public class HealthCheckResult {
     return this;
   }
 
-   /**
+  /**
    * Get nullableMessage
    * @return nullableMessage
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonIgnore

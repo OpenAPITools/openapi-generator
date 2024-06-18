@@ -108,7 +108,7 @@ public class EnumArrays {
   /**
    * Get justSymbol
    * @return justSymbol
-  */
+   */
   
   @Schema(name = "just_symbol", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("just_symbol")
@@ -136,7 +136,7 @@ public class EnumArrays {
   /**
    * Get arrayEnum
    * @return arrayEnum
-  */
+   */
   
   @Schema(name = "array_enum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_enum")

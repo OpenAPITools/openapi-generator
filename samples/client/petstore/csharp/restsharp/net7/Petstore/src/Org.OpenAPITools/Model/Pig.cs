@@ -73,11 +73,11 @@ namespace Org.OpenAPITools.Model
             }
             set
             {
-                if (value.GetType() == typeof(BasquePig))
+                if (value.GetType() == typeof(BasquePig) || value is BasquePig)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(DanishPig))
+                else if (value.GetType() == typeof(DanishPig) || value is DanishPig)
                 {
                     this._actualInstance = value;
                 }

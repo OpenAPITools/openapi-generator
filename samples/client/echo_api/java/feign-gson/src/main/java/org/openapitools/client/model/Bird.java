@@ -44,10 +44,10 @@ public class Bird {
     return this;
   }
 
-   /**
+  /**
    * Get size
    * @return size
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getSize() {
@@ -66,10 +66,10 @@ public class Bird {
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getColor() {

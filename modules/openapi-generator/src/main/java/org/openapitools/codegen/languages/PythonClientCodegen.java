@@ -43,6 +43,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String RECURSION_LIMIT = "recursionLimit";
     public static final String DATETIME_FORMAT = "datetimeFormat";
     public static final String DATE_FORMAT = "dateFormat";
+    public static final String SET_ENSURE_ASCII_TO_FALSE = "setEnsureAsciiToFalse";
 
     @Setter protected String packageUrl;
     protected String apiDocPath = "docs/";
@@ -50,7 +51,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     @Setter protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
     @Setter protected String dateFormat = "%Y-%m-%d";
-
+    @Setter protected boolean setEnsureAsciiToFalse = false;
 
     private String testFolder;
 
@@ -134,6 +135,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(SET_ENSURE_ASCII_TO_FALSE, "When set to true, add `ensure_ascii=False` in json.dumps when creating the HTTP request body.")
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
         cliOptions.add(new CliOption(MAP_NUMBER_TO, "Map number to Union[StrictFloat, StrictInt], StrictStr or float.")
@@ -221,6 +224,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+
+        if (additionalProperties.containsKey(SET_ENSURE_ASCII_TO_FALSE)) {
+            additionalProperties.put(SET_ENSURE_ASCII_TO_FALSE, Boolean.valueOf(additionalProperties.get(SET_ENSURE_ASCII_TO_FALSE).toString()));
+        }
 
         if (additionalProperties.containsKey(PACKAGE_URL)) {
             setPackageUrl((String) additionalProperties.get(PACKAGE_URL));

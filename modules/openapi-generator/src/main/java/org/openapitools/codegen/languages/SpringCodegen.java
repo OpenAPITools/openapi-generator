@@ -145,10 +145,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean async = false;
     @Setter protected boolean reactive = false;
     @Setter protected boolean sse = false;
-    @Setter protected String responseWrapper = "";
+    @Setter protected String responseWrapper = null;
     @Setter protected boolean skipDefaultInterface = false;
     @Setter protected boolean useTags = false;
-    protected boolean useBeanValidation = true;
     protected boolean performBeanValidation = false;
     @Setter protected boolean apiFirst = false;
     protected boolean useOptional = false;
@@ -181,6 +180,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .includeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
                 .excludeParameterFeatures(ParameterFeature.Cookie));
 
+        useBeanValidation = true;
         outputFolder = "generated-code/javaSpring";
         embeddedTemplateDir = templateDir = "JavaSpring";
         apiPackage = "org.openapitools.api";
@@ -197,7 +197,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         apiTestTemplateFiles.clear(); // TODO: add test template
 
         // spring uses the jackson lib
-        additionalProperties.put(JACKSON, "true");
+        jackson = true;
         additionalProperties.put("openbrace", OPEN_BRACE);
         additionalProperties.put("closebrace", CLOSE_BRACE);
 
@@ -352,16 +352,10 @@ public class SpringCodegen extends AbstractJavaCodegen
                 && additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             // set invokerPackage as basePackage:
             this.setBasePackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
-            additionalProperties.put(BASE_PACKAGE, basePackage);
             LOGGER.info("Set base package to invoker package ({})", basePackage);
         }
 
-        if (additionalProperties.containsKey(REQUEST_MAPPING_OPTION)) {
-            RequestMappingMode optValue = RequestMappingMode.valueOf(
-                String.valueOf(additionalProperties.get(REQUEST_MAPPING_OPTION)));
-            setRequestMappingMode(optValue);
-            additionalProperties.remove(REQUEST_MAPPING_OPTION);
-        }
+        convertPropertyToTypeAndWriteBack(REQUEST_MAPPING_OPTION, RequestMappingMode::valueOf, this::setRequestMappingMode);
 
         useOneOfInterfaces = true;
         legacyDiscriminatorBehavior = false;
@@ -400,139 +394,45 @@ public class SpringCodegen extends AbstractJavaCodegen
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        if (additionalProperties.containsKey(TITLE)) {
-            this.setTitle((String) additionalProperties.get(TITLE));
-        }
-
-        if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
-            this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
-        } else {
-            additionalProperties.put(CONFIG_PACKAGE, configPackage);
-        }
-
-        if (additionalProperties.containsKey(BASE_PACKAGE)) {
-            this.setBasePackage((String) additionalProperties.get(BASE_PACKAGE));
-        } else {
-            additionalProperties.put(BASE_PACKAGE, basePackage);
-        }
-
-        if (additionalProperties.containsKey(VIRTUAL_SERVICE)) {
-            this.setVirtualService(Boolean.parseBoolean(additionalProperties.get(VIRTUAL_SERVICE).toString()));
-        }
-
-        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
-            this.setInterfaceOnly(Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString()));
-        }
-
-        if (additionalProperties.containsKey(USE_FEIGN_CLIENT_URL)) {
-            this.setUseFeignClientUrl(Boolean.parseBoolean(additionalProperties.get(USE_FEIGN_CLIENT_URL).toString()));
-        }
-        writePropertyBack(USE_FEIGN_CLIENT_URL, useFeignClientUrl);
-
-        if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
-            this.setDelegatePattern(Boolean.parseBoolean(additionalProperties.get(DELEGATE_PATTERN).toString()));
-        }
-
-        if (additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
-            this.setSingleContentTypes(Boolean.parseBoolean(additionalProperties.get(SINGLE_CONTENT_TYPES).toString()));
-        }
-
-        if (additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)) {
-            this.setSkipDefaultInterface(
-                    Boolean.parseBoolean(additionalProperties.get(SKIP_DEFAULT_INTERFACE).toString()));
-        }
-
-        if (additionalProperties.containsKey(ASYNC)) {
-            this.setAsync(Boolean.parseBoolean(additionalProperties.get(ASYNC).toString()));
-            // fix for issue/1164
-            convertPropertyToBooleanAndWriteBack(ASYNC);
-        }
-
+        convertPropertyToStringAndWriteBack(TITLE, this::setTitle);
+        convertPropertyToStringAndWriteBack(CONFIG_PACKAGE, this::setConfigPackage);
+        convertPropertyToStringAndWriteBack(BASE_PACKAGE, this::setBasePackage);
+        convertPropertyToBooleanAndWriteBack(VIRTUAL_SERVICE, this::setVirtualService);
+        convertPropertyToBooleanAndWriteBack(INTERFACE_ONLY, this::setInterfaceOnly);
+        convertPropertyToBooleanAndWriteBack(USE_FEIGN_CLIENT_URL, this::setUseFeignClientUrl);
+        convertPropertyToBooleanAndWriteBack(DELEGATE_PATTERN, this::setDelegatePattern);
+        convertPropertyToBooleanAndWriteBack(SINGLE_CONTENT_TYPES, this:: setSingleContentTypes);
+        convertPropertyToBooleanAndWriteBack(SKIP_DEFAULT_INTERFACE, this::setSkipDefaultInterface);
+        convertPropertyToBooleanAndWriteBack(ASYNC, this::setAsync);
         if (additionalProperties.containsKey(REACTIVE)) {
             if (SPRING_CLOUD_LIBRARY.equals(library)) {
                 throw new IllegalArgumentException("Currently, reactive option doesn't supported by Spring Cloud");
             }
-            this.setReactive(Boolean.parseBoolean(additionalProperties.get(REACTIVE).toString()));
-            if (additionalProperties.containsKey(SSE)) {
-                this.setSse(Boolean.parseBoolean(additionalProperties.get(SSE).toString()));
-            }
+            convertPropertyToBooleanAndWriteBack(REACTIVE, this::setReactive);
+            convertPropertyToBooleanAndWriteBack(SSE, this::setSse);
         }
 
-        if (additionalProperties.containsKey(RESPONSE_WRAPPER)) {
-            this.setResponseWrapper((String) additionalProperties.get(RESPONSE_WRAPPER));
-        }
-
-        if (additionalProperties.containsKey(USE_TAGS)) {
-            this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
-        }
-
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
-        }
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
-
-        if (additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
-            this.setPerformBeanValidation(convertPropertyToBoolean(PERFORM_BEANVALIDATION));
-        }
-        writePropertyBack(PERFORM_BEANVALIDATION, performBeanValidation);
-
-        if (additionalProperties.containsKey(USE_OPTIONAL)) {
-            this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
-        }
-
-        if (additionalProperties.containsKey(API_FIRST)) {
-            this.setApiFirst(Boolean.parseBoolean(additionalProperties.get(API_FIRST).toString()));
-        }
-
-        if (additionalProperties.containsKey(HATEOAS)) {
-            this.setHateoas(Boolean.parseBoolean(additionalProperties.get(HATEOAS).toString()));
-        }
-
-        if (additionalProperties.containsKey(SPRING_CONTROLLER)) {
-            this.setUseSpringController(convertPropertyToBoolean(SPRING_CONTROLLER));
-        }
-        writePropertyBack(SPRING_CONTROLLER, useSpringController);
-
-        if (additionalProperties.containsKey(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS)) {
-            this.generatedConstructorWithRequiredArgs = convertPropertyToBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS);
-        }
-        writePropertyBack(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, generatedConstructorWithRequiredArgs);
-
-        if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
-            this.setReturnSuccessCode(Boolean.parseBoolean(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
-        }
-
-        if (additionalProperties.containsKey(USE_SWAGGER_UI)) {
-            this.setUseSwaggerUI(convertPropertyToBoolean(USE_SWAGGER_UI));
-        }
-
+        convertPropertyToStringAndWriteBack(RESPONSE_WRAPPER, this::setResponseWrapper);
+        convertPropertyToBooleanAndWriteBack(USE_TAGS, this::setUseTags);
+        convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION, this::setUseBeanValidation);
+        convertPropertyToBooleanAndWriteBack(PERFORM_BEANVALIDATION, this::setPerformBeanValidation);
+        convertPropertyToBooleanAndWriteBack(USE_OPTIONAL, this::setUseOptional);
+        convertPropertyToBooleanAndWriteBack(API_FIRST, this::setApiFirst);
+        convertPropertyToBooleanAndWriteBack(HATEOAS, this::setHateoas);
+        convertPropertyToBooleanAndWriteBack(SPRING_CONTROLLER, this::setUseSpringController);
+        convertPropertyToBooleanAndWriteBack(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, value -> this.generatedConstructorWithRequiredArgs=value);
+        convertPropertyToBooleanAndWriteBack(RETURN_SUCCESS_CODE, this::setReturnSuccessCode);
+        convertPropertyToBooleanAndWriteBack(USE_SWAGGER_UI, this::setUseSwaggerUI);
         if (getDocumentationProvider().equals(DocumentationProvider.NONE)) {
             this.setUseSwaggerUI(false);
         }
 
-        writePropertyBack(USE_SWAGGER_UI, useSwaggerUI);
-
-        if (additionalProperties.containsKey(UNHANDLED_EXCEPTION_HANDLING)) {
-            this.setUnhandledException(
-                    Boolean.parseBoolean(additionalProperties.get(UNHANDLED_EXCEPTION_HANDLING).toString()));
-        }
-        additionalProperties.put(UNHANDLED_EXCEPTION_HANDLING, this.isUnhandledException());
-
-        if (additionalProperties.containsKey(USE_RESPONSE_ENTITY)) {
-            this.setUseResponseEntity(
-                    Boolean.parseBoolean(additionalProperties.get(USE_RESPONSE_ENTITY).toString()));
-        }
-        writePropertyBack(USE_RESPONSE_ENTITY, useResponseEntity);
+        convertPropertyToBooleanAndWriteBack(UNHANDLED_EXCEPTION_HANDLING, this::setUnhandledException);
+        convertPropertyToBooleanAndWriteBack(USE_RESPONSE_ENTITY, this::setUseResponseEntity);
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
-        if (additionalProperties.containsKey(USE_ENUM_CASE_INSENSITIVE)) {
-            this.setUseEnumCaseInsensitive(Boolean.parseBoolean(additionalProperties.get(USE_ENUM_CASE_INSENSITIVE).toString()));
-        }
-        writePropertyBack(USE_ENUM_CASE_INSENSITIVE, useEnumCaseInsensitive);
-
-        if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
-            this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
-        }
+        convertPropertyToBooleanAndWriteBack(USE_ENUM_CASE_INSENSITIVE, this::setUseEnumCaseInsensitive);
+        convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT3, this::setUseSpringBoot3);
         if (isUseSpringBoot3()) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
@@ -541,16 +441,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
             useJakartaEe=true;
-            additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
             applyJakartaPackage();
         }
-        writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
-
-        if (additionalProperties.containsKey(RESOURCE_FOLDER)) {
-            this.setResourceFolder((String) additionalProperties.get(RESOURCE_FOLDER));
-        }
-        additionalProperties.put(RESOURCE_FOLDER, resourceFolder);
-
+        convertPropertyToStringAndWriteBack(RESOURCE_FOLDER, this::setResourceFolder);
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
@@ -559,10 +452,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
         if (isUseSpringBoot3()) {
             importMapping.put("ParameterObject", "org.springdoc.core.annotations.ParameterObject");
-        }
-
-        if (useOptional) {
-            writePropertyBack(USE_OPTIONAL, useOptional);
         }
 
         if (interfaceOnly && delegatePattern) {
@@ -1257,11 +1146,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         return objs;
-    }
-
-    @Override
-    public void setUseBeanValidation(boolean useBeanValidation) {
-        this.useBeanValidation = useBeanValidation;
     }
 
     @Override

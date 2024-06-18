@@ -40,10 +40,10 @@ public class ModelFile {
     return this;
   }
 
-   /**
+  /**
    * Test capitalization
    * @return sourceURI
-  **/
+   */
   @javax.annotation.Nullable
 
   public String getSourceURI() {

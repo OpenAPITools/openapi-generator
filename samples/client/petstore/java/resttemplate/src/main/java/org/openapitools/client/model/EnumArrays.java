@@ -115,8 +115,8 @@ public class EnumArrays {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public EnumArrays(@JsonProperty(JSON_PROPERTY_JUST_SYMBOL) JustSymbolEnum justSymbol, @JsonProperty(JSON_PROPERTY_ARRAY_ENUM) List<ArrayEnumEnum> arrayEnum) {
     this.justSymbol = justSymbol;
     this.arrayEnum = arrayEnum;
@@ -128,10 +128,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get justSymbol
    * @return justSymbol
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -161,10 +161,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get arrayEnum
    * @return arrayEnum
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

@@ -49,10 +49,10 @@ public class NumberPropertiesOnly {
     return this;
   }
 
-   /**
+  /**
    * Get number
    * @return number
-  **/
+   */
   @javax.annotation.Nullable
 
   public BigDecimal getNumber() {
@@ -71,10 +71,10 @@ public class NumberPropertiesOnly {
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * @return _float
-  **/
+   */
   @javax.annotation.Nullable
 
   public Float getFloat() {
@@ -93,12 +93,12 @@ public class NumberPropertiesOnly {
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 0.8
    * maximum: 50.2
    * @return _double
-  **/
+   */
   @javax.annotation.Nullable
 
   public Double getDouble() {

@@ -87,10 +87,10 @@ public class Query {
     return this;
   }
 
-   /**
+  /**
    * Query
    * @return id
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -120,10 +120,10 @@ public class Query {
     return this;
   }
 
-   /**
+  /**
    * Get outcomes
    * @return outcomes
-  **/
+   */
   @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OUTCOMES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

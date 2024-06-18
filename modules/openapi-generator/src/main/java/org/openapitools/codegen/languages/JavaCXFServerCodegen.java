@@ -37,7 +37,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
 
-    @Setter protected boolean addConsumesProducesJson = true;
+    @Setter protected boolean addConsumesProducesJson = false;
 
     @Setter protected boolean generateSpringApplication = false;
 
@@ -137,21 +137,10 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(ADD_CONSUMES_PRODUCES_JSON)) {
-            this.setAddConsumesProducesJson(convertPropertyToBooleanAndWriteBack(ADD_CONSUMES_PRODUCES_JSON));
-        }
-
-        if (additionalProperties.containsKey(USE_GENERIC_RESPONSE)) {
-            this.setUseGenericResponse(convertPropertyToBoolean(USE_GENERIC_RESPONSE));
-        }
-
-        if (useGenericResponse) {
-            writePropertyBack(USE_GENERIC_RESPONSE, useGenericResponse);
-        }
-
-        if (additionalProperties.containsKey(GENERATE_SPRING_APPLICATION)) {
-            this.setGenerateSpringApplication(convertPropertyToBooleanAndWriteBack(GENERATE_SPRING_APPLICATION));
-
+        convertPropertyToBooleanAndWriteBack(ADD_CONSUMES_PRODUCES_JSON, this::setAddConsumesProducesJson);
+        convertPropertyToBooleanAndWriteBack(USE_GENERIC_RESPONSE, this::setUseGenericResponse);
+        convertPropertyToBooleanAndWriteBack(GENERATE_SPRING_APPLICATION, this::setGenerateSpringApplication);
+        if (generateSpringApplication) {
             this.setUseSwaggerFeature(convertPropertyToBooleanAndWriteBack(USE_SWAGGER_FEATURE));
             this.setUseSwaggerUI(convertPropertyToBooleanAndWriteBack(USE_SWAGGER_UI));
 
@@ -172,25 +161,13 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
             this.setGenerateSpringBootApplication(convertPropertyToBooleanAndWriteBack(GENERATE_SPRING_BOOT_APPLICATION));
         }
 
-        if (additionalProperties.containsKey(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR)) {
-            boolean generateJbossDeploymentDescriptorProp = convertPropertyToBooleanAndWriteBack(
-                    GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
-            this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
-        }
+        convertPropertyToBooleanAndWriteBack(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, this::setGenerateJbossDeploymentDescriptor);
 
-        if (additionalProperties.containsKey(USE_ANNOTATED_BASE_PATH)) {
-            boolean useAnnotatedBasePathProp = convertPropertyToBooleanAndWriteBack(USE_ANNOTATED_BASE_PATH);
-            this.setUseAnnotatedBasePath(useAnnotatedBasePathProp);
-        }
+        convertPropertyToBooleanAndWriteBack(USE_ANNOTATED_BASE_PATH, this::setUseAnnotatedBasePath);
 
-        if (additionalProperties.containsKey(GENERATE_NON_SPRING_APPLICATION)) {
-            boolean generateNonSpringApplication = convertPropertyToBooleanAndWriteBack(GENERATE_NON_SPRING_APPLICATION);
-            this.setGenerateNonSpringApplication(generateNonSpringApplication);
-        }
+        convertPropertyToBooleanAndWriteBack(GENERATE_NON_SPRING_APPLICATION, this::setGenerateNonSpringApplication);
 
-        if (additionalProperties.containsKey(USE_ABSTRACTION_FOR_FILES)) {
-            this.setUseAbstractionForFiles(convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES));
-        }
+        convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES, this::setUseAbstractionForFiles);
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
@@ -254,7 +231,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         model.imports.remove("ToStringSerializer");
 
         //Add imports for Jackson when model has inner enum
-        if (additionalProperties.containsKey(JACKSON)) {
+        if (isJackson()) {
             if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonCreator");
                 model.imports.add("JsonValue");

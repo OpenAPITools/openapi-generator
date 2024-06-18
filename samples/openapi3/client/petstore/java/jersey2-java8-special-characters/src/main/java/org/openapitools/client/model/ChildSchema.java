@@ -59,10 +59,10 @@ public class ChildSchema extends Parent {
     return this;
   }
 
-   /**
+  /**
    * Get prop1
    * @return prop1
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PROP1)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

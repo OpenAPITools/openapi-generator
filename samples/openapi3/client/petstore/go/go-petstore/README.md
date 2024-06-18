@@ -130,6 +130,7 @@ Class | Method | HTTP request | Description
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [AllOfPrimitiveTypes](docs/AllOfPrimitiveTypes.md)
  - [Animal](docs/Animal.md)
+ - [AnyOfPrimitiveType](docs/AnyOfPrimitiveType.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)

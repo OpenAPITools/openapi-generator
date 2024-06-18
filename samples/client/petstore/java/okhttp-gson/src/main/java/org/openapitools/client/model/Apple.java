@@ -67,10 +67,10 @@ public class Apple {
     return this;
   }
 
-   /**
+  /**
    * Get cultivar
    * @return cultivar
-  **/
+   */
   @javax.annotation.Nullable
   public String getCultivar() {
     return cultivar;
@@ -86,10 +86,10 @@ public class Apple {
     return this;
   }
 
-   /**
+  /**
    * Get origin
    * @return origin
-  **/
+   */
   @javax.annotation.Nullable
   public String getOrigin() {
     return origin;
@@ -200,12 +200,12 @@ public class Apple {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Apple
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Apple
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Apple.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -293,22 +293,22 @@ public class Apple {
     }
   }
 
- /**
-  * Create an instance of Apple given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Apple
-  * @throws IOException if the JSON string is invalid with respect to Apple
-  */
+  /**
+   * Create an instance of Apple given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Apple
+   * @throws IOException if the JSON string is invalid with respect to Apple
+   */
   public static Apple fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Apple.class);
   }
 
- /**
-  * Convert an instance of Apple to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Apple to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }
