@@ -251,6 +251,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXStoreApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -329,6 +330,7 @@ void PFXStoreApi::getInventory() {
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXStoreApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -427,6 +429,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXStoreApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -507,6 +510,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &pfx_order) {
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXStoreApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {

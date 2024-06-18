@@ -252,6 +252,7 @@ void PFXPetApi::addPet(const PFXPet &pfx_pet) {
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPetApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::addPetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -366,6 +367,7 @@ void PFXPetApi::allPets() {
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPetApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::allPetsCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -470,6 +472,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPetApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::deletePetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -670,6 +673,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPetApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByStatusCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -880,6 +884,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPetApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByTagsCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -1022,6 +1027,7 @@ void PFXPetApi::getPetById(const qint64 &pet_id) {
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPetApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::getPetByIdCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -1102,6 +1108,7 @@ void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPetApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -1238,6 +1245,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPetApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::updatePetWithFormCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -1374,6 +1382,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
     }
 #endif
 
+    connect(worker, &PFXHttpRequestWorker::downloadProgress, this, &PFXPetApi::downloadProgress);
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::uploadFileCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
