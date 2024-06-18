@@ -42,10 +42,10 @@ public class Cat extends Animal {
     return this;
   }
 
-   /**
+  /**
    * Get declawed
    * @return declawed
-  **/
+   */
   @javax.annotation.Nullable
 
   public Boolean getDeclawed() {

@@ -134,6 +134,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val templateDir = project.objects.property<String?>()
 
     /**
+     * Resource path containing template files.
+     */
+    @Optional
+    @Input
+    val templateResourcePath = project.objects.property<String?>()
+
+    /**
      * Adds authorization headers when fetching the OpenAPI definitions remotely.
      * Pass in a URL-encoded string of name:header with a comma separating multiple values
      */
@@ -704,6 +711,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             }
 
             templateDir.ifNotEmpty { value ->
+                configurator.setTemplateDir(value)
+            }
+
+            templateResourcePath.ifNotEmpty { value ->
+                templateDir.ifNotEmpty {
+                    logger.warn("Both templateDir and templateResourcePath were configured. templateResourcePath overwrites templateDir.")
+                }
                 configurator.setTemplateDir(value)
             }
 

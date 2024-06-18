@@ -101,12 +101,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get integer
    * minimum: 10
    * maximum: 100
    * @return integer
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -128,12 +128,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get int32
    * minimum: 20
    * maximum: 200
    * @return int32
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -155,10 +155,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get int64
    * @return int64
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -180,12 +180,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get number
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -207,12 +207,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -234,12 +234,12 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -261,10 +261,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get string
    * @return string
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -286,10 +286,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get _byte
    * @return _byte
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_BYTE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -311,10 +311,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get binary
    * @return binary
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BINARY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -336,10 +336,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get date
    * @return date
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -361,10 +361,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -386,10 +386,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -411,10 +411,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get password
    * @return password
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PASSWORD)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -436,10 +436,10 @@ public class FormatTest {
     return this;
   }
 
-   /**
+  /**
    * Get bigDecimal
    * @return bigDecimal
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

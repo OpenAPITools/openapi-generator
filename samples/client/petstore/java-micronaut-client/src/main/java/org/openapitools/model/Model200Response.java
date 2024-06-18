@@ -49,7 +49,7 @@ public class Model200Response {
     /**
      * Get name
      * @return name
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -71,7 +71,7 @@ public class Model200Response {
     /**
      * Get propertyClass
      * @return propertyClass
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

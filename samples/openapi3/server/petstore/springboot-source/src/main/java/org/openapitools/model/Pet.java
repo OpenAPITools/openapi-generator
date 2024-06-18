@@ -98,7 +98,7 @@ public class Pet {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Long getId() {
@@ -117,7 +117,7 @@ public class Pet {
   /**
    * Get category
    * @return category
-  */
+   */
   @Valid 
   @JsonProperty("category")
   public Category getCategory() {
@@ -136,7 +136,7 @@ public class Pet {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @JsonProperty("name")
   public String getName() {
@@ -163,7 +163,7 @@ public class Pet {
   /**
    * Get photoUrls
    * @return photoUrls
-  */
+   */
   @NotNull 
   @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
@@ -190,7 +190,7 @@ public class Pet {
   /**
    * Get tags
    * @return tags
-  */
+   */
   @Valid 
   @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
@@ -210,7 +210,7 @@ public class Pet {
    * pet status in the store
    * @return status
    * @deprecated
-  */
+   */
   
   @JsonProperty("status")
   @Deprecated
@@ -220,7 +220,7 @@ public class Pet {
 
   /**
    * @deprecated
-  */
+   */
   @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;

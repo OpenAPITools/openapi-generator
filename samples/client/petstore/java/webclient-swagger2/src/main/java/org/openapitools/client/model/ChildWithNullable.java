@@ -56,10 +56,10 @@ public class ChildWithNullable extends ParentWithNullable {
     return this;
   }
 
-   /**
+  /**
    * Get otherProperty
    * @return otherProperty
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_OTHER_PROPERTY)

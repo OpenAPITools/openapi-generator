@@ -64,7 +64,7 @@ public class ArrayTest {
     /**
      * Get arrayOfString
      * @return arrayOfString
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -94,7 +94,7 @@ public class ArrayTest {
     /**
      * Get arrayArrayOfInteger
      * @return arrayArrayOfInteger
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -124,7 +124,7 @@ public class ArrayTest {
     /**
      * Get arrayArrayOfModel
      * @return arrayArrayOfModel
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

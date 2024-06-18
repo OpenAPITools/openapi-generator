@@ -40,8 +40,8 @@ public class ArrayTest {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ArrayTest(List<String> arrayOfString, List<List<Long>> arrayArrayOfInteger, List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
       this.arrayOfString = arrayOfString;
       this.arrayArrayOfInteger = arrayArrayOfInteger;
@@ -64,7 +64,7 @@ public class ArrayTest {
   /**
    * Get arrayOfString
    * @return arrayOfString
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_of_string")
@@ -92,7 +92,7 @@ public class ArrayTest {
   /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
@@ -120,7 +120,7 @@ public class ArrayTest {
   /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")

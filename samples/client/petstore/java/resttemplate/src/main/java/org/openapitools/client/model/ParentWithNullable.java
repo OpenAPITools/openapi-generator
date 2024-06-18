@@ -91,8 +91,8 @@ public class ParentWithNullable {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ParentWithNullable(@JsonProperty(JSON_PROPERTY_TYPE) TypeEnum type, @JsonProperty(JSON_PROPERTY_NULLABLE_PROPERTY) String nullableProperty) {
     this.type = type;
     this.nullableProperty = nullableProperty == null ? JsonNullable.<String>undefined() : JsonNullable.of(nullableProperty);
@@ -104,10 +104,10 @@ public class ParentWithNullable {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -129,10 +129,10 @@ public class ParentWithNullable {
     return this;
   }
 
-   /**
+  /**
    * Get nullableProperty
    * @return nullableProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonIgnore
 

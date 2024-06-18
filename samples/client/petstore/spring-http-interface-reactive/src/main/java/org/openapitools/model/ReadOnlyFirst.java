@@ -31,7 +31,7 @@ public class ReadOnlyFirst {
   /**
    * Get bar
    * @return bar
-  */
+   */
   
   @JsonProperty("bar")
   public String getBar() {
@@ -50,7 +50,7 @@ public class ReadOnlyFirst {
   /**
    * Get baz
    * @return baz
-  */
+   */
   
   @JsonProperty("baz")
   public String getBaz() {

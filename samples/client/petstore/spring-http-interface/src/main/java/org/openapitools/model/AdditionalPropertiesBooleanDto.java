@@ -35,7 +35,7 @@ public class AdditionalPropertiesBooleanDto {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @JsonProperty("name")
   public String getName() {

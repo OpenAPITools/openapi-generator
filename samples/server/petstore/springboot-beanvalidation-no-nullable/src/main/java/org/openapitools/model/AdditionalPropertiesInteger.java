@@ -35,7 +35,7 @@ public class AdditionalPropertiesInteger {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")

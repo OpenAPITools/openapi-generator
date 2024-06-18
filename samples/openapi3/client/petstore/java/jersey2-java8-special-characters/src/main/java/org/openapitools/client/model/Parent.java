@@ -58,10 +58,10 @@ public class Parent {
     return this;
   }
 
-   /**
+  /**
    * Get objectType
    * @return objectType
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_OBJECT_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

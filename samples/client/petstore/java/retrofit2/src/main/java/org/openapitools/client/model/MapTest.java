@@ -109,10 +109,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, Map<String, String>> getMapMapOfString() {
@@ -138,10 +138,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -167,10 +167,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get directMap
    * @return directMap
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, Boolean> getDirectMap() {
@@ -196,10 +196,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get indirectMap
    * @return indirectMap
-  **/
+   */
   @javax.annotation.Nullable
 
   public Map<String, Boolean> getIndirectMap() {

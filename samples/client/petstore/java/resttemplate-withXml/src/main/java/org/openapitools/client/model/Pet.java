@@ -64,17 +64,11 @@ public class Pet {
   private String name;
 
   public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
-  // Is a container wrapped=true
-  // items.name=photoUrls items.baseName=photoUrls items.xmlName= items.xmlNamespace=
-  // items.example= items.type=String
-  @XmlElement(name = "photoUrls")
-  @XmlElementWrapper(name = "photoUrl")
+  @XmlElement(name = "photoUrl")
+  @XmlElementWrapper(name = "photoUrls")
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   public static final String JSON_PROPERTY_TAGS = "tags";
-  // Is a container wrapped=true
-  // items.name=tags items.baseName=tags items.xmlName=Tag items.xmlNamespace=
-  // items.example= items.type=Tag
   @XmlElement(name = "Tag")
   @XmlElementWrapper(name = "tag")
   private List<Tag> tags = new ArrayList<>();
@@ -134,10 +128,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -161,10 +155,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_CATEGORY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -188,10 +182,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -223,16 +217,15 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  // xmlName=photoUrl
   @JacksonXmlProperty(localName = "photoUrl")
-  @JacksonXmlElementWrapper(useWrapping = true, localName = "photoUrl")
+  @JacksonXmlElementWrapper(localName = "photoUrls", useWrapping = true)
 
   public Set<String> getPhotoUrls() {
     return photoUrls;
@@ -242,9 +235,8 @@ public class Pet {
   @JsonDeserialize(as = LinkedHashSet.class)
   @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  // xmlName=photoUrl
   @JacksonXmlProperty(localName = "photoUrl")
-  @JacksonXmlElementWrapper(useWrapping = true, localName = "photoUrl")
+  @JacksonXmlElementWrapper(localName = "photoUrls", useWrapping = true)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -263,16 +255,15 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=tag
-  @JacksonXmlProperty(localName = "tag")
-  @JacksonXmlElementWrapper(useWrapping = true, localName = "tag")
+  @JacksonXmlProperty(localName = "Tag")
+  @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
 
   public List<Tag> getTags() {
     return tags;
@@ -281,9 +272,8 @@ public class Pet {
 
   @JsonProperty(JSON_PROPERTY_TAGS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  // xmlName=tag
-  @JacksonXmlProperty(localName = "tag")
-  @JacksonXmlElementWrapper(useWrapping = true, localName = "tag")
+  @JacksonXmlProperty(localName = "Tag")
+  @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -294,10 +284,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

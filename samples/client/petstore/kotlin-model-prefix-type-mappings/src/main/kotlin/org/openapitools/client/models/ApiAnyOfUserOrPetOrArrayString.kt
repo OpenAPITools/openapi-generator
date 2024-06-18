@@ -73,9 +73,12 @@ data class ApiAnyOfUserOrPetOrArrayString(var actualInstance: Any? = null) {
                     }
                     // check if the actual instance is of the type `kotlin.collections.List<kotlin.String>`
                     if (value.actualInstance is List<*>) {
-                        val primitive = adapterkotlincollectionsListkotlinString.toJsonTree(value.actualInstance as kotlin.collections.List<kotlin.String>?).getAsJsonPrimitive()
-                        elementAdapter.write(out, primitive)
-                        return
+                        val list = value.actualInstance as List<Any>
+                        if (list.get(0) is kotlin.String) {
+                            val array = adapterkotlincollectionsListkotlinString.toJsonTree(value.actualInstance as kotlin.collections.List<kotlin.String>?).getAsJsonArray()
+                            elementAdapter.write(out, array)
+                            return
+                        }
                     }
                     throw IOException("Failed to serialize as the type doesn't match anyOf schemas: ApiPet, ApiUser, kotlin.collections.List<kotlin.String>")
                 }

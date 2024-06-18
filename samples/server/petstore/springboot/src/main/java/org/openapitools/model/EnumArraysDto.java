@@ -111,7 +111,7 @@ public class EnumArraysDto {
   /**
    * Get justSymbol
    * @return justSymbol
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
@@ -139,7 +139,7 @@ public class EnumArraysDto {
   /**
    * Get arrayEnum
    * @return arrayEnum
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("array_enum")

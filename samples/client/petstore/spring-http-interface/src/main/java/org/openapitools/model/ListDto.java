@@ -31,7 +31,7 @@ public class ListDto {
   /**
    * Get _123list
    * @return _123list
-  */
+   */
   
   @JsonProperty("123-list")
   public String get123list() {

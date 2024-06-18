@@ -27,7 +27,7 @@ public class PropertyAssert extends ObjectAssert<FieldDeclaration> {
         return this;
     }
 
-    public PropertyAnnotationAssert assertPropertyAnnotations() {
-        return new PropertyAnnotationAssert(this, actual.getAnnotations());
+    public PropertyAnnotationsAssert assertPropertyAnnotations() {
+        return new PropertyAnnotationsAssert(this, actual.getAnnotations());
     }
 }

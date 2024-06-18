@@ -71,10 +71,10 @@ public class PropertyNameCollision {
     return this;
   }
 
-   /**
+  /**
    * Get underscoreType
    * @return underscoreType
-  **/
+   */
   @javax.annotation.Nullable
   public String getUnderscoreType() {
     return underscoreType;
@@ -90,10 +90,10 @@ public class PropertyNameCollision {
     return this;
   }
 
-   /**
+  /**
    * Get type
    * @return type
-  **/
+   */
   @javax.annotation.Nullable
   public String getType() {
     return type;
@@ -109,10 +109,10 @@ public class PropertyNameCollision {
     return this;
   }
 
-   /**
+  /**
    * Get typeWithUnderscore
    * @return typeWithUnderscore
-  **/
+   */
   @javax.annotation.Nullable
   public String getTypeWithUnderscore() {
     return typeWithUnderscore;
@@ -226,12 +226,12 @@ public class PropertyNameCollision {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to PropertyNameCollision
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to PropertyNameCollision
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!PropertyNameCollision.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -322,22 +322,22 @@ public class PropertyNameCollision {
     }
   }
 
- /**
-  * Create an instance of PropertyNameCollision given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of PropertyNameCollision
-  * @throws IOException if the JSON string is invalid with respect to PropertyNameCollision
-  */
+  /**
+   * Create an instance of PropertyNameCollision given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of PropertyNameCollision
+   * @throws IOException if the JSON string is invalid with respect to PropertyNameCollision
+   */
   public static PropertyNameCollision fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, PropertyNameCollision.class);
   }
 
- /**
-  * Convert an instance of PropertyNameCollision to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of PropertyNameCollision to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }
