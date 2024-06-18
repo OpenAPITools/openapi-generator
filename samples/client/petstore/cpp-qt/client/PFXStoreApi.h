@@ -106,13 +106,13 @@ private:
 Q_SIGNALS:
 
     void deleteOrderSignal();
-	void deleteOrderDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void deleteOrderDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void getInventorySignal(QMap<QString, qint32> summary);
-	void getInventoryDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void getInventoryDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void getOrderByIdSignal(PFXOrder summary);
-	void getOrderByIdDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void getOrderByIdDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void placeOrderSignal(PFXOrder summary);
-	void placeOrderDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void placeOrderDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
     void deleteOrderSignalFull(PFXHttpRequestWorker *worker);
     void getInventorySignalFull(PFXHttpRequestWorker *worker, QMap<QString, qint32> summary);

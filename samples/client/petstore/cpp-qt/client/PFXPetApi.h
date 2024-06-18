@@ -143,23 +143,23 @@ private:
 Q_SIGNALS:
 
     void addPetSignal();
-	void addPetDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void addPetDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void allPetsSignal(QSet<PFXPet> summary);
-	void allPetsDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void allPetsDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void deletePetSignal();
-	void deletePetDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void deletePetDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void findPetsByStatusSignal(QList<PFXPet> summary);
-	void findPetsByStatusDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void findPetsByStatusDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void findPetsByTagsSignal(QList<PFXPet> summary);
-	void findPetsByTagsDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void findPetsByTagsDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void getPetByIdSignal(PFXPet summary);
-	void getPetByIdDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void getPetByIdDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void updatePetSignal();
-	void updatePetDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void updatePetDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void updatePetWithFormSignal();
-	void updatePetWithFormDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void updatePetWithFormDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void uploadFileSignal(PFXApiResponse summary);
-	void uploadFileDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    void uploadFileDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
     void addPetSignalFull(PFXHttpRequestWorker *worker);
     void allPetsSignalFull(PFXHttpRequestWorker *worker, QSet<PFXPet> summary);
