@@ -1012,6 +1012,23 @@ paths:
               $ref: '#/components/schemas/FreeFormObject'
         description: request body
         required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1643,6 +1660,8 @@ components:
           description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
           type: string
           pattern: '/^image_\d{1,3}$/i'
+        array_ref:
+          $ref: '#/components/schemas/ArrayRef'
     EnumClass:
       type: string
       default: '-efg'
@@ -1841,6 +1860,11 @@ components:
       type: object
       description: A schema consisting only of additional properties
       additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -2039,3 +2063,7 @@ components:
       enum:
         - admin
         - user
+    ArrayRef:
+      type: array
+      items:
+        type: string

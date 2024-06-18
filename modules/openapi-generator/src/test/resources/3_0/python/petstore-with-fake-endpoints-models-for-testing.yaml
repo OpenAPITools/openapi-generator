@@ -894,6 +894,13 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/OuterObjectWithEnumProperty'
+      parameters:
+        - in: query
+          name: param
+          schema:
+            type: array
+            items:
+                $ref: '#/components/schemas/OuterEnumInteger'
       requestBody:
         required: true
         content:
@@ -998,6 +1005,23 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
         description: request body
         required: true
   /fake/inline-additionalProperties:
@@ -1123,6 +1147,27 @@ paths:
                 properties:
                   reason404:
                     type: string
+  /fake/object_for_multipart_requests: 
+    post:
+      tags:
+        - fake
+      operationId: testObjectForMultipartRequests
+      responses:
+        "200":
+          description: Success
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - marker
+              properties:
+                marker:
+                  type: object
+                  properties:
+                    name:
+                      type: string
   /another-fake/dummy:
     patch:
       tags:
@@ -1367,6 +1412,75 @@ paths:
       responses:
         "200":
           description: Get successful
+  /fake/return_string:
+    get:
+      tags:
+        - fake
+      summary: test returning string
+      operationId: fake_return_string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /fake/return_int:
+    get:
+      tags:
+        - fake
+      summary: test returning int
+      operationId: fake_return_int
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+  /fake/return_float:
+    get:
+      tags:
+        - fake
+      summary: test returning float
+      operationId: fake_return_float
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: number
+                format: float
+  /fake/return_boolean:
+    get:
+      tags:
+        - fake
+      summary: test returning boolean
+      operationId: fake_return_boolean
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+  /fake/return_enum:
+    get:
+      tags:
+        - fake
+      summary: test returning enum
+      operationId: fake_return_enum
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                enum:
+                  - a
+                  - b
   /fake/return_list_of_object:
     get:
       tags:
@@ -1395,6 +1509,63 @@ paths:
             plain/text:
               schema:
                 $ref: "#/components/schemas/EnumClass"
+  /fake/return_str_like_json:
+    get:
+      tags:
+        - fake
+      summary: test str like json
+      operationId: fake_return_str_like_json
+      responses:
+        200:
+          description: OK
+          content:
+            plain/text:
+              schema:
+                type: string
+  /fake/return_enum_like_json:
+    get:
+      tags:
+        - fake
+      summary: test enum like json
+      operationId: fake_return_enum_like_json
+      responses:
+        200:
+          description: OK
+          content:
+            plain/text:
+              schema:
+                type: string
+                enum:
+                  - '{"a": "a"}'
+                  - '{"b": "b"}'
+  /fake/return_byte_like_json:
+    get:
+      tags:
+        - fake
+      summary: test byte like json
+      operationId: fake_return_byte_like_json
+      responses:
+        200:
+          description: OK
+          content:
+            plain/text:
+              schema:
+                type: string
+                format: byte
+  /import_test/return_datetime:
+    get:
+      tags:
+        - import-test-datetime
+      summary: test date time
+      operationId: import_test_return_datetime
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                format: date-time
+                type: string
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1562,6 +1733,81 @@ components:
           type: string
       xml:
         name: Tag
+    PoopCleaning:
+      type: object
+      properties:
+        task_name:
+          type: string
+          enum: [cleaning]
+        function_name:
+          type: string
+          enum: [care]
+        content:
+          type: string
+      required:
+        - task_name
+        - function_name
+        - content
+    Feeding:
+      type: object
+      properties:
+        task_name:
+          type: string
+          enum: [cleaning]
+        function_name:
+          type: string
+          enum: [care_nourish]
+        content:
+          type: string
+      required:
+        - task_name
+        - function_name
+        - content
+    Bathing:
+      type: object
+      properties:
+        task_name:
+          type: string
+          enum: [cleaning_deep]
+        function_name:
+          type: string
+          enum: [care_nourish]
+        content:
+          type: string
+      required:
+        - task_name
+        - function_name
+        - content
+    Task:
+      title: Task
+      type: object
+      description: Used to test oneOf enums with only one string value.
+      properties:
+        id:
+          type: string
+          format: uuid
+        activity:
+          oneOf:
+            - $ref: '#/components/schemas/PoopCleaning'
+            - $ref: '#/components/schemas/Feeding'
+            - $ref: '#/components/schemas/Bathing'
+      required:
+        - id
+        - activity
+    DiscriminatorAllOfSuper:
+      type: object
+      required:
+        - elementType
+      discriminator:
+        propertyName: elementType
+      properties:
+        elementType:
+          type: string
+    DiscriminatorAllOfSub:
+      allOf:
+        - $ref: '#/components/schemas/DiscriminatorAllOfSuper'
+        - type: object
+          properties: {}
     Pet:
       type: object
       required:
@@ -1814,6 +2060,35 @@ components:
           enum:
             - 1.1
             - -1.2
+        enum_number_vendor_ext:
+          type: integer
+          format: int32
+          enum:
+            - 42
+            - 18
+            - 56
+          x-enum-descriptions:
+            - 'Description for 42'
+            - 'Description for 18'
+            - 'Description for 56'
+          x-enum-varnames:
+            - FortyTwo
+            - Eigtheen
+            - FiftySix
+        enum_string_vendor_ext:
+          type: string
+          enum:
+            - FOO
+            - Bar
+            - baz
+          x-enum-descriptions:
+            - 'Description for FOO'
+            - 'Description for Bar'
+            - 'Description for baz'
+          x-enum-varnames:
+            - FOOVar
+            - BarVar
+            - bazVar
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
         outerEnumInteger:
@@ -1982,6 +2257,11 @@ components:
       type: object
       description: A schema consisting only of additional properties
       additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -2402,6 +2682,16 @@ components:
       properties:
         name:
           type: string
+    InputAllOf:
+      allOf:
+        - $ref: '#/components/schemas/PropertyMap'
+    PropertyMap:
+      type: object
+      properties:
+        some_data:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Tag'
     Tiger:
       allOf:
         - $ref: "#/components/schemas/Tiger"
@@ -2452,3 +2742,91 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/CreatureInfo"
+    field:
+      type: object
+      properties:
+        field:
+          type: string
+    CircularAllOfRef:
+      allOf:
+        - $ref: '#/components/schemas/AllOfSuperModel'
+        - properties:
+            secondCircularAllOfRef:
+              items:
+                $ref: '#/components/schemas/SecondCircularAllOfRef'
+              type: array
+      type: object
+    SecondCircularAllOfRef:
+      allOf:
+        - $ref: '#/components/schemas/AllOfSuperModel'
+        - properties:
+            circularAllOfRef:
+              items:
+                $ref: '#/components/schemas/CircularAllOfRef'
+              type: array
+      type: object
+    AllOfSuperModel:
+      properties:
+        _name:
+          type: string
+      type: object
+    Info:
+      allOf:
+        - $ref: '#/components/schemas/BaseDiscriminator'
+        - properties:
+            val:
+              $ref: '#/components/schemas/BaseDiscriminator'
+      type: object
+    BaseDiscriminator:
+      discriminator:
+        mapping:
+          string: '#/components/schemas/PrimitiveString'
+        propertyName: _typeName
+      properties:
+        _typeName:
+          type: string
+      type: object
+    PrimitiveString:
+      allOf:
+        - $ref: '#/components/schemas/BaseDiscriminator'
+        - properties:
+            _value:
+              type: string
+      type: object
+    TestEnum:
+      type: string
+      enum:
+        - ONE
+        - TWO
+        - THREE
+        - foUr
+    TestEnumWithDefault:
+      type: string
+      enum:
+        - EIN
+        - ZWEI
+        - DREI
+      default: ZWEI
+    TestModelWithEnumDefault:
+      type: object
+      required:
+        - test_enum
+      properties:
+        test_enum:
+          $ref: "#/components/schemas/TestEnum"
+        test_string:
+          type: string
+          example: "Just some string"
+        test_enum_with_default:
+          $ref: "#/components/schemas/TestEnumWithDefault"
+        test_string_with_default:
+          type: string
+          example: "More string"
+          default: "ahoy matey"
+        test_inline_defined_enum_with_default:
+          type: string
+          enum:
+            - A
+            - B
+            - C
+          default: B

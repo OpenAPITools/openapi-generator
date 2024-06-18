@@ -1,6 +1,9 @@
 {{#discriminator}}
 import {{invokerPackage}}.JSON;
 {{/discriminator}}
+{{#supportUrlQuery}}
+import {{invokerPackage}}.ApiClient;
+{{/supportUrlQuery}}
 /**
  * {{description}}{{^description}}{{classname}}{{/description}}{{#isDeprecated}}
  * @deprecated{{/isDeprecated}}
@@ -52,25 +55,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
   {{/jackson}}
   {{#withXml}}
-  {{#isXmlAttribute}}
-  @XmlAttribute(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-  {{/isXmlAttribute}}
-  {{^isXmlAttribute}}
-    {{^isContainer}}
-  @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-    {{/isContainer}}
-    {{#isContainer}}
-  // Is a container wrapped={{isXmlWrapped}}
-      {{#items}}
-  // items.name={{name}} items.baseName={{baseName}} items.xmlName={{xmlName}} items.xmlNamespace={{xmlNamespace}}
-  // items.example={{example}} items.type={{dataType}}
-  @XmlElement({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-      {{/items}}
-      {{#isXmlWrapped}}
-  @XmlElementWrapper({{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-      {{/isXmlWrapped}}
-    {{/isContainer}}
-  {{/isXmlAttribute}}
+  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{#isXmlWrapped}}
+  @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{/isXmlWrapped}}
   {{/withXml}}
   {{#gson}}
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
@@ -133,7 +121,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   }
   {{#isArray}}
 
-  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+  public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
       this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
@@ -156,7 +144,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/isArray}}
   {{#isMap}}
 
-  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+  public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
       this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});
@@ -179,7 +167,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/isMap}}
 
   {{/isReadOnly}}
-   /**
+  /**
   {{#description}}
    * {{.}}
   {{/description}}
@@ -196,7 +184,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
    {{#deprecated}}
    * @deprecated
    {{/deprecated}}
-  **/
+   */
 {{#deprecated}}
   @Deprecated
 {{/deprecated}}
@@ -227,8 +215,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{!unannotated, Jackson would pick this up automatically and add it *in addition* to the _JsonNullable getter field}}
   @JsonIgnore
 {{/vendorExtensions.x-is-jackson-optional-nullable}}
-{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}
-  public {{{datatypeWithEnum}}} {{getter}}() {
+{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}  public {{{datatypeWithEnum}}} {{getter}}() {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     {{#isReadOnly}}{{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}
     if ({{name}} == null) {
@@ -408,7 +395,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for ({{{items.dataType}}} _item : {{getter}}()) {
         joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            URLEncoder.encode(ApiClient.valueToString(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
       i++;
     }
@@ -418,7 +405,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for (int i = 0; i < {{getter}}().size(); i++) {
         joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf({{getter}}().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            URLEncoder.encode(ApiClient.valueToString({{getter}}().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
     {{/uniqueItems}}
@@ -456,7 +443,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         if (_item != null) {
           joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+              URLEncoder.encode(ApiClient.valueToString(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
         i++;
       }
@@ -468,7 +455,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         if ({{getter}}().get(i) != null) {
           joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(String.valueOf({{getter}}().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+              URLEncoder.encode(ApiClient.valueToString({{getter}}().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
         }
       }
     }
@@ -483,7 +470,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for (String _key : {{getter}}().keySet()) {
         joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            {{getter}}().get(_key), URLEncoder.encode(String.valueOf({{getter}}().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            {{getter}}().get(_key), URLEncoder.encode(ApiClient.valueToString({{getter}}().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
     {{/items.isModel}}
@@ -501,7 +488,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{^isMap}}
     {{#isPrimitiveType}}
     if ({{getter}}() != null) {
-      joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf({{{getter}}}()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString({{{getter}}}()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
@@ -512,7 +499,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/isModel}}
     {{^isModel}}
     if ({{getter}}() != null) {
-      joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf({{{getter}}}()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString({{{getter}}}()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
     {{/isModel}}
     {{/isPrimitiveType}}
@@ -593,4 +580,8 @@ static {
   JSON.registerDiscriminator({{classname}}.class, "{{propertyBaseName}}", mappings);
 }
 {{/discriminator}}
+{{#generateBuilders}}
+
+    {{>javaBuilder}}
+{{/generateBuilders}}
 }

@@ -39,7 +39,7 @@ import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -1779,5 +1779,74 @@ public class FakeApi {
      */
     public ResponseSpec testQueryParameterCollectionFormatWithResponseSpec(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws WebClientResponseException {
         return testQueryParameterCollectionFormatRequestCreation(pipe, ioutil, http, url, context, allowEmpty, language);
+    }
+    /**
+     * test referenced string map
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec testStringMapReferenceRequestCreation(Map<String, String> requestBody) throws WebClientResponseException {
+        Object postBody = requestBody;
+        // verify the required parameter 'requestBody' is set
+        if (requestBody == null) {
+            throw new WebClientResponseException("Missing the required parameter 'requestBody' when calling testStringMapReference", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/stringMap-reference", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * test referenced string map
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testStringMapReference(Map<String, String> requestBody) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return testStringMapReferenceRequestCreation(requestBody).bodyToMono(localVarReturnType);
+    }
+
+    /**
+     * test referenced string map
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return testStringMapReferenceRequestCreation(requestBody).toEntity(localVarReturnType);
+    }
+
+    /**
+     * test referenced string map
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testStringMapReferenceWithResponseSpec(Map<String, String> requestBody) throws WebClientResponseException {
+        return testStringMapReferenceRequestCreation(requestBody);
     }
 }

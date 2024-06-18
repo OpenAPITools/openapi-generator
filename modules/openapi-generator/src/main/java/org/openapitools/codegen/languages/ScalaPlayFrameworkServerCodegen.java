@@ -19,8 +19,8 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ApiInfoMap;
@@ -55,12 +55,12 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
 
      final Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
 
-    protected boolean skipStubs = false;
-    protected boolean supportAsync = false;
-    protected boolean generateCustomExceptions = true;
-    protected boolean useSwaggerUI = true;
-    protected String routesFileName = "routes";
-    protected String basePackage = "org.openapitools";
+    @Setter protected boolean skipStubs = false;
+    @Setter protected boolean supportAsync = false;
+    @Setter protected boolean generateCustomExceptions = true;
+    @Setter protected boolean useSwaggerUI = true;
+    @Setter protected String routesFileName = "routes";
+    @Setter protected String basePackage = "org.openapitools";
 
     public ScalaPlayFrameworkServerCodegen() {
         super();
@@ -119,40 +119,19 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         addCliOptionWithDefault(USE_SWAGGER_UI, "Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies", useSwaggerUI);
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "scala-play-server";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Scala server application (beta) with Play Framework.";
-    }
-
-    public void setSupportAsync(boolean supportAsync) {
-        this.supportAsync = supportAsync;
-    }
-
-    public void setSkipStubs(boolean skipStubs) {
-        this.skipStubs = skipStubs;
-    }
-
-    public void setGenerateCustomExceptions(boolean generateCustomExceptions) {
-        this.generateCustomExceptions = generateCustomExceptions;
-    }
-
-    public void setRoutesFileName(String routesFileName) {
-        this.routesFileName = routesFileName;
-    }
-
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
-
-    public void setUseSwaggerUI(boolean useSwaggerUI) {
-        this.useSwaggerUI = useSwaggerUI;
     }
 
     @Override
@@ -369,7 +348,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         }
 
         if (ModelUtils.isArraySchema(p)) {
-            Schema items = ((ArraySchema) p).getItems();
+            Schema items = ModelUtils.getSchemaItems(p);
             String inner = getSchemaType(items);
             if (ModelUtils.isSet(p)) {
                 return "Set.empty[" + inner + "]";

@@ -524,7 +524,7 @@ class ApiClient:
             else:
                 new_params.append((k, quote(str(v))))
 
-        return "&".join(["=".join(item) for item in new_params])
+        return "&".join(["=".join(map(str, item)) for item in new_params])
 
     def files_parameters(self, files=None):
         """Builds form parameters.

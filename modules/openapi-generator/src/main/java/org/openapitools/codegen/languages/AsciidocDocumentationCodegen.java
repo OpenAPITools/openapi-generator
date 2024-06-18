@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 
 import java.io.File;
@@ -153,10 +155,15 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
+    @Getter @Setter
     protected boolean headerAttributes = true;
+    @Getter @Setter
     protected boolean useIntroduction = false;
+    @Getter @Setter
     protected boolean skipExamples = false;
+    @Getter @Setter
     protected boolean useMethodAndPath = false;
+    @Getter @Setter
     protected boolean useTableTitles = false;
 
     private IncludeMarkupLambda includeSpecMarkupLambda;
@@ -279,46 +286,6 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input; // just return the original string
-    }
-
-    public boolean isHeaderAttributes() {
-        return headerAttributes;
-    }
-
-    public void setHeaderAttributes(boolean headerAttributes) {
-        this.headerAttributes = headerAttributes;
-    }
-
-    public boolean isUseIntroduction() {
-        return useIntroduction;
-    }
-
-    public void setUseIntroduction(boolean useIntroduction) {
-        this.useIntroduction = useIntroduction;
-    }
-
-    public boolean isSkipExamples() {
-        return skipExamples;
-    }
-
-    public void setSkipExamples(boolean skipExamples) {
-        this.skipExamples = skipExamples;
-    }
-
-    public boolean isUseMethodAndPath() {
-        return useMethodAndPath;
-    }
-
-    public void setUseMethodAndPath(boolean useMethodAndPath) {
-        this.useMethodAndPath = useMethodAndPath;
-    }
-
-    public boolean isUseTableTitles() {
-        return useTableTitles;
-    }
-
-    public void setUseTableTitles(boolean useTableTitles) {
-        this.useTableTitles = useTableTitles;
     }
 
     @Override

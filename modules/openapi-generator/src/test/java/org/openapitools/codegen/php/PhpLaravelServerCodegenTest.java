@@ -24,33 +24,29 @@ import org.testng.annotations.Test;
 
 public class PhpLaravelServerCodegenTest {
 
-    @Test
-    public void testInitialConfigValues() throws Exception {
+    @Test public void testInitialConfigValues() throws Exception {
         final PhpLaravelServerCodegen codegen = new PhpLaravelServerCodegen();
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
+        Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 
-    @Test
-    public void testSettersForConfigValues() throws Exception {
+    @Test public void testSettersForConfigValues() throws Exception {
         final PhpLaravelServerCodegen codegen = new PhpLaravelServerCodegen();
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
-    @Test
-    public void testAdditionalPropertiesPutForConfigValues() throws Exception {
+    @Test public void testAdditionalPropertiesPutForConfigValues() throws Exception {
         final PhpLaravelServerCodegen codegen = new PhpLaravelServerCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+        Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
-
 }

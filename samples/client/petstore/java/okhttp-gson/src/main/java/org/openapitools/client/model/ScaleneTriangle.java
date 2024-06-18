@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * ScaleneTriangle
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ScaleneTriangle {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
@@ -67,10 +67,10 @@ public class ScaleneTriangle {
     return this;
   }
 
-   /**
+  /**
    * Get shapeType
    * @return shapeType
-  **/
+   */
   @javax.annotation.Nonnull
   public String getShapeType() {
     return shapeType;
@@ -86,10 +86,10 @@ public class ScaleneTriangle {
     return this;
   }
 
-   /**
+  /**
    * Get triangleType
    * @return triangleType
-  **/
+   */
   @javax.annotation.Nonnull
   public String getTriangleType() {
     return triangleType;
@@ -202,12 +202,12 @@ public class ScaleneTriangle {
     openapiRequiredFields.add("triangleType");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ScaleneTriangle
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ScaleneTriangle
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ScaleneTriangle.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -258,7 +258,12 @@ public class ScaleneTriangle {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -297,22 +302,22 @@ public class ScaleneTriangle {
     }
   }
 
- /**
-  * Create an instance of ScaleneTriangle given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ScaleneTriangle
-  * @throws IOException if the JSON string is invalid with respect to ScaleneTriangle
-  */
+  /**
+   * Create an instance of ScaleneTriangle given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ScaleneTriangle
+   * @throws IOException if the JSON string is invalid with respect to ScaleneTriangle
+   */
   public static ScaleneTriangle fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ScaleneTriangle.class);
   }
 
- /**
-  * Convert an instance of ScaleneTriangle to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ScaleneTriangle to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

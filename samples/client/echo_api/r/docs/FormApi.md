@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost:3000*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**TestFormIntegerBooleanString**](FormApi.md#TestFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
+[**TestFormObjectMultipart**](FormApi.md#TestFormObjectMultipart) | **POST** /form/object/multipart | Test form parameter(s) for multipart schema
 [**TestFormOneof**](FormApi.md#TestFormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
 
 
@@ -52,6 +53,53 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+# **TestFormObjectMultipart**
+> character TestFormObjectMultipart(marker)
+
+Test form parameter(s) for multipart schema
+
+Test form parameter(s) for multipart schema
+
+### Example
+```R
+library(openapi)
+
+# Test form parameter(s) for multipart schema
+#
+# prepare function argument(s)
+var_marker <- test_form_object_multipart_request_marker$new("name_example") # TestFormObjectMultipartRequestMarker | 
+
+api_instance <- FormApi$new()
+# to save the result into a file, simply add the optional `data_file` parameter, e.g.
+# result <- api_instance$TestFormObjectMultipart(var_markerdata_file = "result.txt")
+result <- api_instance$TestFormObjectMultipart(var_marker)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **marker** | [**TestFormObjectMultipartRequestMarker**](test_form_object_multipart_request_marker.md)|  | 
+
+### Return type
+
+**character**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
  - **Accept**: text/plain
 
 ### HTTP response details

@@ -65,12 +65,12 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
                 <configuration>
-                    <systemProperties>
+                    <systemPropertyVariables>
                         <property>
                             <name>loggerPath</name>
                             <value>conf/log4j.properties</value>
                         </property>
-                    </systemProperties>
+                    </systemPropertyVariables>
                     <argLine>-Xms512m -Xmx1500m</argLine>
                     <parallel>methods</parallel>
                     <threadCount>10</threadCount>
@@ -396,12 +396,12 @@
         <swagger-annotations-version>2.2.15</swagger-annotations-version>
         {{/swagger2AnnotationLibrary}}
         <jersey-version>3.1.1</jersey-version>
-        <jackson-version>2.15.2</jackson-version>
-        <jackson-databind-version>2.15.2</jackson-databind-version>
+        <jackson-version>2.17.1</jackson-version>
+        <jackson-databind-version>2.17.1</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         {{#useBeanValidation}}
-        <beanvalidation-version>2.0.2</beanvalidation-version>
+        <beanvalidation-version>3.0.2</beanvalidation-version>
         {{/useBeanValidation}}
         <junit-version>5.10.0</junit-version>
         {{#hasHttpSignatureMethods}}

@@ -1,0 +1,46 @@
+get:
+  description: Test path parameter(s)
+  operationId: "tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}"
+  parameters:
+    - explode: false
+      in: path
+      name: path_string
+      required: true
+      schema:
+        type: string
+      style: simple
+    - explode: false
+      in: path
+      name: path_integer
+      required: true
+      schema:
+        type: integer
+      style: simple
+    - explode: false
+      in: path
+      name: enum_nonref_string_path
+      required: true
+      schema:
+        enum:
+          - success
+          - failure
+          - unclassified
+        type: string
+      style: simple
+    - explode: false
+      in: path
+      name: enum_ref_string_path
+      required: true
+      schema:
+        $ref: "../schemas/StringEnumRef.yaml"
+      style: simple
+  responses:
+    "200":
+      content:
+        text/plain:
+          schema:
+            type: string
+      description: Successful operation
+  summary: Test path parameter(s)
+  tags:
+    - path

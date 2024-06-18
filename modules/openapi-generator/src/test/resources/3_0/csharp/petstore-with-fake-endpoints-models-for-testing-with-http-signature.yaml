@@ -991,6 +991,23 @@ paths:
               $ref: '#/components/schemas/FreeFormObject'
         description: request body
         required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1233,6 +1250,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/mixed/anyOf:
+    get:
+      tags:
+        - fake
+      summary: Test mixed type anyOf deserialization
+      operationId: getMixedAnyOf
+      responses:
+        200:
+          description: Got mixed anyOf
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedAnyOf'
+  /fake/mixed/oneOf:
+    get:
+      tags:
+        - fake
+      summary: Test mixed type oneOf deserialization
+      operationId: getMixedOneOf
+      responses:
+        200:
+          description: Got mixed oneOf
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedOneOf'
   /country:
     post:
       operationId: getCountry
@@ -1538,6 +1581,16 @@ components:
         return:
           type: integer
           format: int32
+        lock:
+          type: string
+        abstract:
+          type: string
+          nullable: true
+        unsafe:
+          type: string
+      required:
+        - lock
+        - abstract
       xml:
         name: Return
     Name:
@@ -1942,6 +1995,11 @@ components:
       type: object
       description: A schema consisting only of additional properties
       additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -2721,3 +2779,140 @@ components:
                 type: array
                 items:
                     $ref: '#/components/schemas/Custom-Variableobject-Response'
+    MixedOneOf:
+      properties:
+        content:
+          oneOf:
+            - type: string
+            - type: boolean
+            # JsonReader will give back C# System.Int64 regardless of format.
+            - type: integer
+              format: uint8
+            # JsonReader will give back C# System.Double regardless of format.
+            - type: number
+              format: float32
+            - type: object
+              $ref: '#/components/schemas/MixedSubId'
+          description: Mixed oneOf types for testing
+    MixedAnyOf:
+      properties:
+        content:
+          anyOf:
+            - type: string
+            - type: boolean
+            # JsonReader will give back C# System.Int64 regardless of format.
+            - type: integer
+              format: uint8
+            # JsonReader will give back C# System.Double regardless of format.
+            - type: number
+              format: float32
+            - type: object
+              $ref: '#/components/schemas/MixedSubId'
+              
+          description:  Mixed anyOf types for testing
+    MixedSubId:
+      properties:
+        id:
+          type: string
+    # this class ensures that the CodegenProperties are sorted correctly
+    # https://github.com/OpenAPITools/openapi-generator/issues/18607
+    MixLog:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid'
+        description:
+          type: string
+        mixDate:
+          type: string
+          format: date-time
+        shopId:
+          $ref: '#/components/schemas/uuid'
+        totalPrice:
+          type: number
+          format: float
+          nullable: true
+        totalRecalculations:
+          type: integer
+          format: int32
+        totalOverPoors:
+          type: integer
+          format: int32
+        totalSkips:
+          type: integer
+          format: int32
+        totalUnderPours:
+          type: integer
+          format: int32
+        formulaVersionDate:
+          type: string
+          format: date-time
+        someCode:
+          type: string
+          nullable: true
+          description: SomeCode is only required for color mixes
+        batchNumber:
+          type: string
+        brandCode:
+          type: string
+          description: BrandCode is only required for non-color mixes
+        brandId:
+          type: string
+          description: BrandId is only required for color mixes
+        brandName:
+          type: string
+          description: BrandName is only required for color mixes
+        categoryCode:
+          type: string
+          description: CategoryCode is not used anymore
+        color:
+          type: string
+          description: Color is only required for color mixes
+        colorDescription:
+          type: string
+        comment:
+          type: string
+        commercialProductCode:
+          type: string
+        productLineCode:
+          type: string
+          description: ProductLineCode is only required for color mixes
+        country:
+          type: string
+        createdBy:
+          type: string
+        createdByFirstName:
+          type: string
+        createdByLastName:
+          type: string
+        deltaECalculationRepaired:
+          type: string
+        deltaECalculationSprayout:
+          type: string
+        ownColorVariantNumber:
+          nullable: true
+          type: integer
+          format: int32
+        primerProductId:
+          type: string
+        productId:
+          type: string
+          description: ProductId is only required for color mixes
+        productName:
+          type: string
+          description: ProductName is only required for color mixes
+        selectedVersionIndex:
+          type: integer
+          format: int32
+      required:
+        - id
+        - description
+        - mixDate
+        - totalRecalculations
+        - totalOverPoors
+        - totalSkips
+        - totalUnderPours
+        - formulaVersionDate
+    uuid:
+      type: string
+      format: uuid

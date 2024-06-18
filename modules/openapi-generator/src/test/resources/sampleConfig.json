@@ -1,7 +1,7 @@
 {
-    "lang" : "java",
-    "inputSpec" : "swagger.yaml",
-    "outputDir" : "src/gen/java",
+    "generatorName" : "java",
+    "inputSpec" : "module/openapi-generator/src/test/resources/3_0/petstore.yaml",
+    "outputDir" : "output/src/gen/java",
     "verbose" : true,
     "skipOverwrite" : true,
     "templateDir" : "src/main/resources",
@@ -16,6 +16,12 @@
     "ignoreFileOverride": "/path/to/override/.openapi-generator-ignore",
     "globalProperties" : {
         "systemProp1" : "value1"
+    },
+    "modelNameMappings" : {
+        "Tag": "Label"
+    },
+    "openapiNormalizer" : {
+        "REFACTOR_ALLOF_WITH_PROPERTIES_ONLY": true
     },
     "instantiationTypes" : {
         "hello" : "world"

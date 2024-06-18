@@ -4,6 +4,8 @@ OpenAPI Petstore
 
 - API version: 1.0.0
 
+- Generator version: 7.7.0-SNAPSHOT
+
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
 
@@ -136,6 +138,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testNullable**](docs/FakeApi.md#testNullable) | **POST** /fake/nullable | test nullable parent property
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+*FakeApi* | [**testStringMapReference**](docs/FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet

@@ -99,6 +99,38 @@
 #' }
 #' }
 #'
+#' \strong{ TestQueryStyleFormExplodeFalseArrayInteger } \emph{ Test query parameter(s) }
+#' Test query parameter(s)
+#'
+#' \itemize{
+#' \item \emph{ @param } query_object list( integer )
+#'
+#'
+#' \item status code : 200 | Successful operation
+#'
+#' \item return type : character
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' }
+#'
+#' \strong{ TestQueryStyleFormExplodeFalseArrayString } \emph{ Test query parameter(s) }
+#' Test query parameter(s)
+#'
+#' \itemize{
+#' \item \emph{ @param } query_object list( character )
+#'
+#'
+#' \item status code : 200 | Successful operation
+#'
+#' \item return type : character
+#' \item response headers :
+#'
+#' \tabular{ll}{
+#' }
+#' }
+#'
 #' \strong{ TestQueryStyleFormExplodeTrueArrayString } \emph{ Test query parameter(s) }
 #' Test query parameter(s)
 #'
@@ -224,6 +256,34 @@
 #' # to save the result into a file, simply add the optional `data_file` parameter, e.g.
 #' # result <- api_instance$TestQueryStyleDeepObjectExplodeTrueObjectAllOf(query_object = var_query_objectdata_file = "result.txt")
 #' result <- api_instance$TestQueryStyleDeepObjectExplodeTrueObjectAllOf(query_object = var_query_object)
+#' dput(result)
+#'
+#'
+#' ####################  TestQueryStyleFormExplodeFalseArrayInteger  ####################
+#'
+#' library(openapi)
+#' var_query_object <- c(123) # array[integer] |  (Optional)
+#'
+#' #Test query parameter(s)
+#' api_instance <- QueryApi$new()
+#'
+#' # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#' # result <- api_instance$TestQueryStyleFormExplodeFalseArrayInteger(query_object = var_query_objectdata_file = "result.txt")
+#' result <- api_instance$TestQueryStyleFormExplodeFalseArrayInteger(query_object = var_query_object)
+#' dput(result)
+#'
+#'
+#' ####################  TestQueryStyleFormExplodeFalseArrayString  ####################
+#'
+#' library(openapi)
+#' var_query_object <- c("inner_example") # array[character] |  (Optional)
+#'
+#' #Test query parameter(s)
+#' api_instance <- QueryApi$new()
+#'
+#' # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#' # result <- api_instance$TestQueryStyleFormExplodeFalseArrayString(query_object = var_query_objectdata_file = "result.txt")
+#' result <- api_instance$TestQueryStyleFormExplodeFalseArrayString(query_object = var_query_object)
 #' dput(result)
 #'
 #'
@@ -372,7 +432,7 @@ QueryApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -473,7 +533,7 @@ QueryApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -574,7 +634,7 @@ QueryApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -665,7 +725,7 @@ QueryApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -756,7 +816,191 @@ QueryApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
+          error = function(e) {
+            stop("Failed to deserialize response")
+          }
+        )
+        local_var_resp$content <- deserialized_resp_obj
+        local_var_resp
+      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+      } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
+        ApiResponse$new("API client error", local_var_resp)
+      } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
+        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+          local_var_resp$response <- "API server error"
+        }
+        local_var_resp
+      }
+    },
+    #' Test query parameter(s)
+    #'
+    #' @description
+    #' Test query parameter(s)
+    #'
+    #' @param query_object (optional) No description
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return character
+    #' @export
+    TestQueryStyleFormExplodeFalseArrayInteger = function(query_object = NULL, data_file = NULL, ...) {
+      local_var_response <- self$TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(query_object, data_file = data_file, ...)
+      if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
+        local_var_response$content
+      } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
+        local_var_response
+      } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
+        local_var_response
+      } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
+        local_var_response
+      }
+    },
+    #' Test query parameter(s)
+    #'
+    #' @description
+    #' Test query parameter(s)
+    #'
+    #' @param query_object (optional) No description
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return API response (character) with additional information such as HTTP status code, headers
+    #' @export
+    TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo = function(query_object = NULL, data_file = NULL, ...) {
+      args <- list(...)
+      query_params <- list()
+      header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
+
+
+      # no explore
+      query_params[["query_object"]] <- I(paste(lapply(`query_object`, URLencode, reserved = TRUE), collapse = ","))
+
+      local_var_url_path <- "/query/style_form/explode_false/array_integer"
+
+      # The Accept request HTTP header
+      local_var_accepts <- list("text/plain")
+
+      # The Content-Type representation header
+      local_var_content_types <- list()
+
+      local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
+                                 method = "GET",
+                                 query_params = query_params,
+                                 header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
+                                 accepts = local_var_accepts,
+                                 content_types = local_var_content_types,
+                                 body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
+                                 ...)
+
+      if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+          write(local_var_resp$response, data_file)
+        }
+
+        deserialized_resp_obj <- tryCatch(
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
+          error = function(e) {
+            stop("Failed to deserialize response")
+          }
+        )
+        local_var_resp$content <- deserialized_resp_obj
+        local_var_resp
+      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
+        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+      } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
+        ApiResponse$new("API client error", local_var_resp)
+      } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
+        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+          local_var_resp$response <- "API server error"
+        }
+        local_var_resp
+      }
+    },
+    #' Test query parameter(s)
+    #'
+    #' @description
+    #' Test query parameter(s)
+    #'
+    #' @param query_object (optional) No description
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return character
+    #' @export
+    TestQueryStyleFormExplodeFalseArrayString = function(query_object = NULL, data_file = NULL, ...) {
+      local_var_response <- self$TestQueryStyleFormExplodeFalseArrayStringWithHttpInfo(query_object, data_file = data_file, ...)
+      if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
+        local_var_response$content
+      } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
+        local_var_response
+      } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
+        local_var_response
+      } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
+        local_var_response
+      }
+    },
+    #' Test query parameter(s)
+    #'
+    #' @description
+    #' Test query parameter(s)
+    #'
+    #' @param query_object (optional) No description
+    #' @param data_file (optional) name of the data file to save the result
+    #' @param ... Other optional arguments
+    #' @return API response (character) with additional information such as HTTP status code, headers
+    #' @export
+    TestQueryStyleFormExplodeFalseArrayStringWithHttpInfo = function(query_object = NULL, data_file = NULL, ...) {
+      args <- list(...)
+      query_params <- list()
+      header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
+
+
+      # no explore
+      query_params[["query_object"]] <- I(paste(lapply(`query_object`, URLencode, reserved = TRUE), collapse = ","))
+
+      local_var_url_path <- "/query/style_form/explode_false/array_string"
+
+      # The Accept request HTTP header
+      local_var_accepts <- list("text/plain")
+
+      # The Content-Type representation header
+      local_var_content_types <- list()
+
+      local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
+                                 method = "GET",
+                                 query_params = query_params,
+                                 header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
+                                 accepts = local_var_accepts,
+                                 content_types = local_var_content_types,
+                                 body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
+                                 ...)
+
+      if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
+        # save response in a file
+        if (!is.null(data_file)) {
+          write(local_var_resp$response, data_file)
+        }
+
+        deserialized_resp_obj <- tryCatch(
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -847,7 +1091,7 @@ QueryApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -938,7 +1182,7 @@ QueryApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }
@@ -1029,7 +1273,7 @@ QueryApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "character", loadNamespace("openapi")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "character", loadNamespace("openapi")),
           error = function(e) {
             stop("Failed to deserialize response")
           }

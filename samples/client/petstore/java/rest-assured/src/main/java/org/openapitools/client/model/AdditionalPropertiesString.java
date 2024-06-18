@@ -30,7 +30,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * AdditionalPropertiesString
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AdditionalPropertiesString extends HashMap<String, String> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -46,10 +46,10 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
 
 

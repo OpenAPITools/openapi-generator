@@ -30,7 +30,9 @@ pub async fn create(addr: &str, https: bool) {
 
     let service = MakeService::new(server);
 
-    let service = MakeAllowAllAuthenticator::new(service, "cosmo");
+    // This pushes a fourth layer of the middleware-stack even though Swagger assumes only three levels.
+    // This fourth layer creates an accept-all policy, hower the example-code already acchieves the same via a Bearer-token with full permissions, so next line is not needed (anymore).  
+    // let service = MakeAllowAllAuthenticator::new(service, "cosmo");
 
     #[allow(unused_mut)]
     let mut service =
@@ -56,6 +58,7 @@ pub async fn create(addr: &str, https: bool) {
             let tls_acceptor = ssl.build();
             let tcp_listener = TcpListener::bind(&addr).await.unwrap();
 
+            info!("Starting a server (with https)");
             loop {
                 if let Ok((tcp, _)) = tcp_listener.accept().await {
                     let ssl = Ssl::new(tls_acceptor.context()).unwrap();
@@ -75,6 +78,7 @@ pub async fn create(addr: &str, https: bool) {
             }
         }
     } else {
+        info!("Starting a server (over http, so no TLS)");
         // Using HTTP
         hyper::server::Server::bind(&addr).serve(service).await.unwrap()
     }
@@ -90,6 +94,12 @@ impl<C> Server<C> {
         Server{marker: PhantomData}
     }
 }
+
+
+use jsonwebtoken::{decode, encode, errors::Error as JwtError, Algorithm, DecodingKey, EncodingKey, Header, TokenData, Validation};
+use serde::{Deserialize, Serialize};
+use swagger::auth::Authorization;
+use crate::server_auth;
 
 
 use ops_v3::{
@@ -144,7 +154,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op10GetResponse, ApiError>
     {
         info!("op10_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op11_get(
@@ -152,7 +162,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op11GetResponse, ApiError>
     {
         info!("op11_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op12_get(
@@ -160,7 +170,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op12GetResponse, ApiError>
     {
         info!("op12_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op13_get(
@@ -168,7 +178,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op13GetResponse, ApiError>
     {
         info!("op13_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op14_get(
@@ -176,7 +186,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op14GetResponse, ApiError>
     {
         info!("op14_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op15_get(
@@ -184,7 +194,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op15GetResponse, ApiError>
     {
         info!("op15_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op16_get(
@@ -192,7 +202,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op16GetResponse, ApiError>
     {
         info!("op16_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op17_get(
@@ -200,7 +210,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op17GetResponse, ApiError>
     {
         info!("op17_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op18_get(
@@ -208,7 +218,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op18GetResponse, ApiError>
     {
         info!("op18_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op19_get(
@@ -216,7 +226,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op19GetResponse, ApiError>
     {
         info!("op19_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op1_get(
@@ -224,7 +234,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op1GetResponse, ApiError>
     {
         info!("op1_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op20_get(
@@ -232,7 +242,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op20GetResponse, ApiError>
     {
         info!("op20_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op21_get(
@@ -240,7 +250,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op21GetResponse, ApiError>
     {
         info!("op21_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op22_get(
@@ -248,7 +258,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op22GetResponse, ApiError>
     {
         info!("op22_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op23_get(
@@ -256,7 +266,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op23GetResponse, ApiError>
     {
         info!("op23_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op24_get(
@@ -264,7 +274,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op24GetResponse, ApiError>
     {
         info!("op24_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op25_get(
@@ -272,7 +282,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op25GetResponse, ApiError>
     {
         info!("op25_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op26_get(
@@ -280,7 +290,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op26GetResponse, ApiError>
     {
         info!("op26_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op27_get(
@@ -288,7 +298,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op27GetResponse, ApiError>
     {
         info!("op27_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op28_get(
@@ -296,7 +306,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op28GetResponse, ApiError>
     {
         info!("op28_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op29_get(
@@ -304,7 +314,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op29GetResponse, ApiError>
     {
         info!("op29_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op2_get(
@@ -312,7 +322,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op2GetResponse, ApiError>
     {
         info!("op2_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op30_get(
@@ -320,7 +330,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op30GetResponse, ApiError>
     {
         info!("op30_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op31_get(
@@ -328,7 +338,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op31GetResponse, ApiError>
     {
         info!("op31_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op32_get(
@@ -336,7 +346,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op32GetResponse, ApiError>
     {
         info!("op32_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op33_get(
@@ -344,7 +354,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op33GetResponse, ApiError>
     {
         info!("op33_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op34_get(
@@ -352,7 +362,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op34GetResponse, ApiError>
     {
         info!("op34_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op35_get(
@@ -360,7 +370,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op35GetResponse, ApiError>
     {
         info!("op35_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op36_get(
@@ -368,7 +378,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op36GetResponse, ApiError>
     {
         info!("op36_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op37_get(
@@ -376,7 +386,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op37GetResponse, ApiError>
     {
         info!("op37_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op3_get(
@@ -384,7 +394,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op3GetResponse, ApiError>
     {
         info!("op3_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op4_get(
@@ -392,7 +402,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op4GetResponse, ApiError>
     {
         info!("op4_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op5_get(
@@ -400,7 +410,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op5GetResponse, ApiError>
     {
         info!("op5_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op6_get(
@@ -408,7 +418,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op6GetResponse, ApiError>
     {
         info!("op6_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op7_get(
@@ -416,7 +426,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op7GetResponse, ApiError>
     {
         info!("op7_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op8_get(
@@ -424,7 +434,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op8GetResponse, ApiError>
     {
         info!("op8_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
     async fn op9_get(
@@ -432,7 +442,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         context: &C) -> Result<Op9GetResponse, ApiError>
     {
         info!("op9_get() - X-Span-ID: {:?}", context.get().0.clone());
-        Err(ApiError("Generic failure".into()))
+        Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
 }

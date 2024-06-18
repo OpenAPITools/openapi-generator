@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Category } from './Category';
 import {
     CategoryFromJSON,
@@ -85,12 +85,10 @@ export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 /**
  * Check if a given object implements the Pet interface.
  */
-export function instanceOfPet(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "photoUrls" in value;
-
-    return isInstance;
+export function instanceOfPet(value: object): value is Pet {
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('photoUrls' in value) || value['photoUrls'] === undefined) return false;
+    return true;
 }
 
 export function PetFromJSON(json: any): Pet {
@@ -98,35 +96,32 @@ export function PetFromJSON(json: any): Pet {
 }
 
 export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'category': !exists(json, 'category') ? undefined : CategoryFromJSON(json['category']),
+        'id': json['id'] == null ? undefined : json['id'],
+        'category': json['category'] == null ? undefined : CategoryFromJSON(json['category']),
         'name': json['name'],
         'photoUrls': json['photoUrls'],
-        'tags': !exists(json, 'tags') ? undefined : ((json['tags'] as Array<any>).map(TagFromJSON)),
-        'status': !exists(json, 'status') ? undefined : json['status'],
+        'tags': json['tags'] == null ? undefined : ((json['tags'] as Array<any>).map(TagFromJSON)),
+        'status': json['status'] == null ? undefined : json['status'],
     };
 }
 
 export function PetToJSON(value?: Pet | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'id': value.id,
-        'category': CategoryToJSON(value.category),
-        'name': value.name,
-        'photoUrls': value.photoUrls,
-        'tags': value.tags === undefined ? undefined : ((value.tags as Array<any>).map(TagToJSON)),
-        'status': value.status,
+        'id': value['id'],
+        'category': CategoryToJSON(value['category']),
+        'name': value['name'],
+        'photoUrls': value['photoUrls'],
+        'tags': value['tags'] == null ? undefined : ((value['tags'] as Array<any>).map(TagToJSON)),
+        'status': value['status'],
     };
 }
 

@@ -13,16 +13,16 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class JSON {
   private ObjectMapper mapper;
 
   public JSON() {
     mapper = JsonMapper.builder()
         .serializationInclusion(JsonInclude.Include.NON_NULL)
-        .configure(MapperFeature.ALLOW_COERCION_OF_SCALARS, false)
-        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true)
-        .configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, true)
+        .disable(MapperFeature.ALLOW_COERCION_OF_SCALARS)
+        .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
         .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         .enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
         .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
@@ -69,6 +69,7 @@ public class JSON {
   /**
    * Helper class to register the discriminator mappings.
    */
+  @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
   private static class ClassDiscriminatorMapping {
     // The model class name.
     Class<?> modelClass;

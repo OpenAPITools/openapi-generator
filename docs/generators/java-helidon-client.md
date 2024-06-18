@@ -26,7 +26,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-java-client|
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
-|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
+|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename. If not provided, uses the version from the OpenAPI specification file. If that's also not present, uses the default value of the artifactVersion option.| |1.0.0|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
@@ -38,8 +38,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |fullProject|If set to true, it will generate all files; if set to false, it will only generate API files. If unspecified, the behavior depends on whether a project exists or not: if it does not, same as true; if it does, same as false. Note that test files are never overwritten.| ||
+|generateBuilders|Whether to generate builders for models| |false|
+|generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
 |groupId|groupId in generated pom.xml| |org.openapitools|
-|helidonVersion|Helidon version for generated code| |3.0.1|
+|helidonVersion|Helidon complete version identifier or major version number. The specified exact Helidon release or, if specified as a major version the latest release of that major version,  is used in the generated code.| |Highest released version.|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
@@ -128,6 +130,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>_</li>
 <li>abstract</li>
 <li>apiclient</li>
 <li>apiexception</li>

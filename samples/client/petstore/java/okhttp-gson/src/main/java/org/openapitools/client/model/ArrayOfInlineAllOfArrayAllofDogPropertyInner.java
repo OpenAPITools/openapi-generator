@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfInlineAllOfArrayAllofDogPropertyInner
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
@@ -67,10 +67,10 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
     return this;
   }
 
-   /**
+  /**
    * Get breed
    * @return breed
-  **/
+   */
   @javax.annotation.Nullable
   public String getBreed() {
     return breed;
@@ -86,10 +86,10 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
     return this;
   }
 
-   /**
+  /**
    * Get color
    * @return color
-  **/
+   */
   @javax.annotation.Nullable
   public String getColor() {
     return color;
@@ -200,12 +200,12 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ArrayOfInlineAllOfArrayAllofDogPropertyInner
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ArrayOfInlineAllOfArrayAllofDogPropertyInner
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ArrayOfInlineAllOfArrayAllofDogPropertyInner.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -249,7 +249,12 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -288,22 +293,22 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
     }
   }
 
- /**
-  * Create an instance of ArrayOfInlineAllOfArrayAllofDogPropertyInner given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ArrayOfInlineAllOfArrayAllofDogPropertyInner
-  * @throws IOException if the JSON string is invalid with respect to ArrayOfInlineAllOfArrayAllofDogPropertyInner
-  */
+  /**
+   * Create an instance of ArrayOfInlineAllOfArrayAllofDogPropertyInner given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ArrayOfInlineAllOfArrayAllofDogPropertyInner
+   * @throws IOException if the JSON string is invalid with respect to ArrayOfInlineAllOfArrayAllofDogPropertyInner
+   */
   public static ArrayOfInlineAllOfArrayAllofDogPropertyInner fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ArrayOfInlineAllOfArrayAllofDogPropertyInner.class);
   }
 
- /**
-  * Convert an instance of ArrayOfInlineAllOfArrayAllofDogPropertyInner to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ArrayOfInlineAllOfArrayAllofDogPropertyInner to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

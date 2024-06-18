@@ -34,5 +34,8 @@ data class Tag (
     @field:JsonProperty("name")
     val name: kotlin.String? = null
 
-)
+) {
+
+
+}
 

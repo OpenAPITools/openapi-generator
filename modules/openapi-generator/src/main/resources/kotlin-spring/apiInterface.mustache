@@ -61,11 +61,11 @@ import kotlin.collections.Map
 {{#swagger1AnnotationLibrary}}
 @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
 {{/swagger1AnnotationLibrary}}
-{{^useFeignClient}}
+{{#useRequestMappingOnInterface}}
 {{=<% %>=}}
 @RequestMapping("\${api.base-path:<%contextPath%>}")
 <%={{ }}=%>
-{{/useFeignClient}}
+{{/useRequestMappingOnInterface}}
 {{#operations}}
 interface {{classname}} {
 {{#isDelegate}}
@@ -97,17 +97,17 @@ interface {{classname}} {
     @RequestMapping(
             method = [RequestMethod.{{httpMethod}}],
             value = ["{{#lambdaEscapeInNormalString}}{{path}}{{/lambdaEscapeInNormalString}}"]{{#singleContentTypes}}{{#hasProduces}},
-            produces = "{{{vendorExtensions.x-accepts}}}"{{/hasProduces}}{{#hasConsumes}},
+            produces = [{{#vendorExtensions.x-accepts}}"{{.}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}}]{{/hasProduces}}{{#hasConsumes}},
             consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
             produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
             consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
     )
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>requesObject}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}>{{^skipDefaultInterface}} {
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{>requesObject}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}>{{^skipDefaultInterface}} {
         {{^isDelegate}}
         return {{>returnValue}}
         {{/isDelegate}}
         {{#isDelegate}}
-        return getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+        return getDelegate().{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
         {{/isDelegate}}
     }{{/skipDefaultInterface}}
 {{/operation}}

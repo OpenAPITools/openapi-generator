@@ -13,6 +13,11 @@ import {{import}};
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+{{#useBeanValidation}}
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
+{{/useBeanValidation}}
 {{#hasFormParamsInSpec}}
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -158,7 +163,7 @@ public class {{classname}} {
    * {{summary}}
    * {{notes}}
    {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
    {{/allParams}}
    {{#returnType}}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
@@ -221,7 +226,7 @@ public class {{classname}} {
    * {{summary}}
    * {{notes}}
    {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
    {{/allParams}}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;{{#asyncNative}}&gt;{{/asyncNative}}
    * @throws ApiException if fails to make API call
@@ -367,7 +372,10 @@ public class {{classname}} {
       }
             {{/isArray}}
             {{^isArray}}
-      localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString("{{baseName}}"));
+      String queryString = {{paramName}}.toUrlQueryString("{{baseName}}");
+      if (!queryString.isBlank()) {
+        localVarQueryStringJoiner.add(queryString);
+      }
             {{/isArray}}
     }
         {{/isDeepObject}}
@@ -420,9 +428,9 @@ public class {{classname}} {
     }
     {{/headerParams}}
     {{#bodyParam}}
-    localVarRequestBuilder.header("Content-Type", "{{#hasConsumes}}{{#consumes}}{{#-first}}{{mediaType}}{{/-first}}{{/consumes}}{{/hasConsumes}}{{#hasConsumes}}{{^consumes}}application/json{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}application/json{{/hasConsumes}}");
+    localVarRequestBuilder.header("Content-Type", "{{#hasConsumes}}{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{/hasConsumes}}{{#hasConsumes}}{{^consumes}}application/json{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}application/json{{/hasConsumes}}");
     {{/bodyParam}}
-    localVarRequestBuilder.header("Accept", "{{#hasProduces}}{{#produces}}{{mediaType}}{{^-last}}, {{/-last}}{{/produces}}{{/hasProduces}}{{#hasProduces}}{{^produces}}application/json{{/produces}}{{/hasProduces}}{{^hasProduces}}application/json{{/hasProduces}}");
+    localVarRequestBuilder.header("Accept", "{{#hasProduces}}{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{/hasProduces}}{{#hasProduces}}{{^produces}}application/json{{/produces}}{{/hasProduces}}{{^hasProduces}}application/json{{/hasProduces}}");
 
     {{#bodyParam}}
     {{#isString}}
@@ -536,6 +544,7 @@ public class {{classname}} {
     }
     return localVarRequestBuilder;
   }
+
   {{#vendorExtensions.x-group-parameters}}
   {{#hasParams}}
 
@@ -544,7 +553,7 @@ public class {{classname}} {
     private {{{dataType}}} {{paramName}}; // {{description}} (required)
     {{/requiredParams}}
     {{#optionalParams}}
-    private {{{dataType}}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}
+    private {{{dataType}}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}})
     {{/optionalParams}}
 
     private API{{operationId}}Request(Builder builder) {

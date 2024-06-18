@@ -52,11 +52,11 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfNumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_NUMBER = "ArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
-  private List<BigDecimal> arrayNumber;
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly() {
   }
@@ -74,10 +74,10 @@ public class ArrayOfNumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNumber
    * @return arrayNumber
-  **/
+   */
   @javax.annotation.Nullable
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
@@ -185,12 +185,12 @@ public class ArrayOfNumberOnly {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ArrayOfNumberOnly
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ArrayOfNumberOnly
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ArrayOfNumberOnly.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -232,7 +232,12 @@ public class ArrayOfNumberOnly {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -271,22 +276,22 @@ public class ArrayOfNumberOnly {
     }
   }
 
- /**
-  * Create an instance of ArrayOfNumberOnly given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ArrayOfNumberOnly
-  * @throws IOException if the JSON string is invalid with respect to ArrayOfNumberOnly
-  */
+  /**
+   * Create an instance of ArrayOfNumberOnly given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ArrayOfNumberOnly
+   * @throws IOException if the JSON string is invalid with respect to ArrayOfNumberOnly
+   */
   public static ArrayOfNumberOnly fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ArrayOfNumberOnly.class);
   }
 
- /**
-  * Convert an instance of ArrayOfNumberOnly to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ArrayOfNumberOnly to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

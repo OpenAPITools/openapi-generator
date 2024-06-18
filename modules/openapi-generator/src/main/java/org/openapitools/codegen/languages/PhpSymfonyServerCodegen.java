@@ -17,8 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -48,10 +49,10 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     protected String testsPackage;
     protected String apiTestsPackage;
     protected String modelTestsPackage;
-    protected String composerVendorName = "openapi";
-    protected String composerProjectName = "server-bundle";
+    @Setter protected String composerVendorName = "openapi";
+    @Setter protected String composerProjectName = "server-bundle";
     protected String testsDirName = "Tests";
-    protected String bundleName;
+    @Getter protected String bundleName;
     protected String bundleClassName;
     protected String bundleExtensionName;
     protected String bundleAlias;
@@ -60,7 +61,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     protected String controllerPackage;
     protected String controllerTestsPackage;
     protected String servicePackage;
-    protected Boolean phpLegacySupport = Boolean.TRUE;
+    @Setter protected Boolean phpLegacySupport = Boolean.TRUE;
 
     protected HashSet<String> typeHintable;
 
@@ -212,10 +213,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         cliOptions.add(new CliOption(PHP_LEGACY_SUPPORT, "Should the generated code be compatible with PHP 5.x?").defaultValue(Boolean.TRUE.toString()));
     }
 
-    public String getBundleName() {
-        return bundleName;
-    }
-
     public void setBundleName(String bundleName) {
         this.bundleName = bundleName;
         this.bundleClassName = bundleName + "Bundle";
@@ -228,10 +225,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         } else {
             this.bundleAlias = lowerCamelCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase(Locale.ROOT);
         }
-    }
-
-    public void setPhpLegacySupport(Boolean support) {
-        this.phpLegacySupport = support;
     }
 
     public String controllerFileFolder() {
@@ -492,6 +485,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
      * @param name the name of the property
      * @return getter name based on naming convention
      */
+    @Override
     public String toBooleanGetter(String name) {
         return "is" + getterAndSetterCapitalize(name);
     }
@@ -514,14 +508,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         return (outputFolder + File.separator + toSrcPath(modelTestsPackage, srcBasePath));
     }
 
-    public void setComposerVendorName(String composerVendorName) {
-        this.composerVendorName = composerVendorName;
-    }
-
-    public void setComposerProjectName(String composerProjectName) {
-        this.composerProjectName = composerProjectName;
-    }
-
     @Override
     public void setInvokerPackage(String invokerPackage) {
         super.setInvokerPackage(invokerPackage);
@@ -538,8 +524,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getTypeDeclaration(inner);
         }
 
@@ -612,6 +597,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         return escapeText(pattern);
     }
 
+    @Override
     public String toApiName(String name) {
         if (name.isEmpty()) {
             return "DefaultApiInterface";

@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * AnyTypeTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AnyTypeTest {
   public static final String SERIALIZED_NAME_ANY_TYPE_PROPERTY = "any_type_property";
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROPERTY)
@@ -60,7 +60,11 @@ public class AnyTypeTest {
 
   public static final String SERIALIZED_NAME_ARRAY_PROP = "array_prop";
   @SerializedName(SERIALIZED_NAME_ARRAY_PROP)
-  private List<String> arrayProp;
+  private List<String> arrayProp = new ArrayList<>();
+
+  public static final String SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS = "ref_array_prefix_items";
+  @SerializedName(SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS)
+  private List<String> refArrayPrefixItems = new ArrayList<>();
 
   public AnyTypeTest() {
   }
@@ -70,10 +74,10 @@ public class AnyTypeTest {
     return this;
   }
 
-   /**
+  /**
    * Get anyTypeProperty
    * @return anyTypeProperty
-  **/
+   */
   @javax.annotation.Nullable
   public Object getAnyTypeProperty() {
     return anyTypeProperty;
@@ -97,10 +101,10 @@ public class AnyTypeTest {
     return this;
   }
 
-   /**
+  /**
    * test array in 3.1 spec
    * @return arrayProp
-  **/
+   */
   @javax.annotation.Nullable
   public List<String> getArrayProp() {
     return arrayProp;
@@ -108,6 +112,33 @@ public class AnyTypeTest {
 
   public void setArrayProp(List<String> arrayProp) {
     this.arrayProp = arrayProp;
+  }
+
+
+  public AnyTypeTest refArrayPrefixItems(List<String> refArrayPrefixItems) {
+    this.refArrayPrefixItems = refArrayPrefixItems;
+    return this;
+  }
+
+  public AnyTypeTest addRefArrayPrefixItemsItem(String refArrayPrefixItemsItem) {
+    if (this.refArrayPrefixItems == null) {
+      this.refArrayPrefixItems = new ArrayList<>();
+    }
+    this.refArrayPrefixItems.add(refArrayPrefixItemsItem);
+    return this;
+  }
+
+  /**
+   * An item that was added to the queue. 
+   * @return refArrayPrefixItems
+   */
+  @javax.annotation.Nullable
+  public List<String> getRefArrayPrefixItems() {
+    return refArrayPrefixItems;
+  }
+
+  public void setRefArrayPrefixItems(List<String> refArrayPrefixItems) {
+    this.refArrayPrefixItems = refArrayPrefixItems;
   }
 
   /**
@@ -166,7 +197,8 @@ public class AnyTypeTest {
     }
     AnyTypeTest anyTypeTest = (AnyTypeTest) o;
     return Objects.equals(this.anyTypeProperty, anyTypeTest.anyTypeProperty) &&
-        Objects.equals(this.arrayProp, anyTypeTest.arrayProp)&&
+        Objects.equals(this.arrayProp, anyTypeTest.arrayProp) &&
+        Objects.equals(this.refArrayPrefixItems, anyTypeTest.refArrayPrefixItems)&&
         Objects.equals(this.additionalProperties, anyTypeTest.additionalProperties);
   }
 
@@ -176,7 +208,7 @@ public class AnyTypeTest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(anyTypeProperty, arrayProp, additionalProperties);
+    return Objects.hash(anyTypeProperty, arrayProp, refArrayPrefixItems, additionalProperties);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -192,6 +224,7 @@ public class AnyTypeTest {
     sb.append("class AnyTypeTest {\n");
     sb.append("    anyTypeProperty: ").append(toIndentedString(anyTypeProperty)).append("\n");
     sb.append("    arrayProp: ").append(toIndentedString(arrayProp)).append("\n");
+    sb.append("    refArrayPrefixItems: ").append(toIndentedString(refArrayPrefixItems)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -217,17 +250,18 @@ public class AnyTypeTest {
     openapiFields = new HashSet<String>();
     openapiFields.add("any_type_property");
     openapiFields.add("array_prop");
+    openapiFields.add("ref_array_prefix_items");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AnyTypeTest
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AnyTypeTest
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AnyTypeTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -238,6 +272,10 @@ public class AnyTypeTest {
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_prop") != null && !jsonObj.get("array_prop").isJsonNull() && !jsonObj.get("array_prop").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_prop").toString()));
+      }
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("ref_array_prefix_items") != null && !jsonObj.get("ref_array_prefix_items").isJsonNull() && !jsonObj.get("ref_array_prefix_items").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `ref_array_prefix_items` to be an array in the JSON string but got `%s`", jsonObj.get("ref_array_prefix_items").toString()));
       }
   }
 
@@ -269,7 +307,12 @@ public class AnyTypeTest {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -308,22 +351,22 @@ public class AnyTypeTest {
     }
   }
 
- /**
-  * Create an instance of AnyTypeTest given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AnyTypeTest
-  * @throws IOException if the JSON string is invalid with respect to AnyTypeTest
-  */
+  /**
+   * Create an instance of AnyTypeTest given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AnyTypeTest
+   * @throws IOException if the JSON string is invalid with respect to AnyTypeTest
+   */
   public static AnyTypeTest fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AnyTypeTest.class);
   }
 
- /**
-  * Convert an instance of AnyTypeTest to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AnyTypeTest to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

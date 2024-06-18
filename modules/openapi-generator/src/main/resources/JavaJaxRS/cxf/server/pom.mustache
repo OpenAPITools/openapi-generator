@@ -108,6 +108,17 @@
     </plugin>
     </plugins>
   </build>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${jackson-jaxrs-version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>io.swagger</groupId>
@@ -189,12 +200,22 @@ for this project used jakarta.validation-api -->
         <version>${cxf-version}</version>
         <scope>compile</scope>
     </dependency>
+    {{^useJakartaEe}}
     <dependency>
         <groupId>com.fasterxml.jackson.jaxrs</groupId>
         <artifactId>jackson-jaxrs-json-provider</artifactId>
         <version>${jackson-jaxrs-version}</version>
         <scope>compile</scope>
     </dependency>
+    {{/useJakartaEe}}
+    {{#useJakartaEe}}
+    <dependency>
+        <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+        <artifactId>jackson-jakarta-rs-json-provider</artifactId>
+        <version>${jackson-jaxrs-version}</version>
+        <scope>compile</scope>
+    </dependency>
+    {{/useJakartaEe}}
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-jsr310</artifactId>
@@ -282,7 +303,7 @@ for this project used jakarta.validation-api -->
     <spring.boot-version>1.5.9.RELEASE</spring.boot-version>
 {{/generateSpringBootApplication}}
     <cxf-version>3.3.0</cxf-version>
-    <jackson-jaxrs-version>2.15.2</jackson-jaxrs-version>
+    <jackson-jaxrs-version>2.17.1</jackson-jaxrs-version>
         {{#useJakartaEe}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         {{/useJakartaEe}}

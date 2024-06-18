@@ -32,7 +32,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * TypeHolderDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TypeHolderDefault {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -63,10 +63,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 
@@ -80,17 +80,16 @@ public class TypeHolderDefault {
     this.stringItem = stringItem;
   }
 
-
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
     
     this.numberItem = numberItem;
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
   @Valid
@@ -105,17 +104,16 @@ public class TypeHolderDefault {
     this.numberItem = numberItem;
   }
 
-
   public TypeHolderDefault integerItem(Integer integerItem) {
     
     this.integerItem = integerItem;
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 
@@ -129,17 +127,16 @@ public class TypeHolderDefault {
     this.integerItem = integerItem;
   }
 
-
   public TypeHolderDefault boolItem(Boolean boolItem) {
     
     this.boolItem = boolItem;
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 
@@ -152,7 +149,6 @@ public class TypeHolderDefault {
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
-
 
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
     
@@ -168,10 +164,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 

@@ -9,6 +9,7 @@ import javax.ws.rs.core.GenericType;
 
 import java.io.File;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.Tag;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class BodyApi {
   private ApiClient apiClient;
 
@@ -346,6 +347,44 @@ public class BodyApi {
     String[] localVarAuthNames = new String[] {  };
 
     GenericType<String> localVarReturnType = new GenericType<String>() {};
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
+  /**
+   * Test string enum response body
+   * Test string enum response body
+   * @param body String enum (optional)
+   * @return a {@code StringEnumRef}
+   * @throws ApiException if fails to make API call
+   */
+  public StringEnumRef testEchoBodyStringEnum(String body) throws ApiException {
+    Object localVarPostBody = body;
+    
+    // create path and map variables
+    String localVarPath = "/echo/body/string_enum".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    GenericType<StringEnumRef> localVarReturnType = new GenericType<StringEnumRef>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**

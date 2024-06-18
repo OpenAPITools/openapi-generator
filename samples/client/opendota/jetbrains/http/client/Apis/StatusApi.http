@@ -1,0 +1,6 @@
+## StatusApi
+
+### GET /status
+## GET /status
+GET https://api.opendota.com/api/status
+Accept: application/json; charset=utf-8

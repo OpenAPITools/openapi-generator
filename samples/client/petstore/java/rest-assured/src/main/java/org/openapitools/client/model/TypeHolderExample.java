@@ -32,7 +32,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * TypeHolderExample
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TypeHolderExample {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -67,10 +67,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 
@@ -84,17 +84,16 @@ public class TypeHolderExample {
     this.stringItem = stringItem;
   }
 
-
   public TypeHolderExample numberItem(BigDecimal numberItem) {
     
     this.numberItem = numberItem;
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
   @Valid
@@ -109,17 +108,16 @@ public class TypeHolderExample {
     this.numberItem = numberItem;
   }
 
-
   public TypeHolderExample floatItem(Float floatItem) {
     
     this.floatItem = floatItem;
     return this;
   }
 
-   /**
+  /**
    * Get floatItem
    * @return floatItem
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 
@@ -133,17 +131,16 @@ public class TypeHolderExample {
     this.floatItem = floatItem;
   }
 
-
   public TypeHolderExample integerItem(Integer integerItem) {
     
     this.integerItem = integerItem;
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 
@@ -157,17 +154,16 @@ public class TypeHolderExample {
     this.integerItem = integerItem;
   }
 
-
   public TypeHolderExample boolItem(Boolean boolItem) {
     
     this.boolItem = boolItem;
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 
@@ -180,7 +176,6 @@ public class TypeHolderExample {
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
-
 
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     
@@ -196,10 +191,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 

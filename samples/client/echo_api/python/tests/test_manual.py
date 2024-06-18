@@ -18,6 +18,7 @@ import base64
 import os
 
 import openapi_client
+from openapi_client import StringEnumRef
 from openapi_client.api.query_api import QueryApi # noqa: E501
 from openapi_client.rest import ApiException
 
@@ -79,6 +80,17 @@ class TestManual(unittest.TestCase):
             "/query/enum_ref_string?enum_nonref_string_query=success&enum_ref_string_query=unclassified",
         )
 
+    def test_query_style_form_explode_false_array_integer_test(self):
+        api_instance = openapi_client.QueryApi()
+        api_response = api_instance.test_query_style_form_explode_false_array_integer([1,2,3])
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/query/style_form/explode_false/array_integer?query_object=1,2,3")
+
+    def test_query_style_form_explode_false_array_string_test(self):
+        api_instance = openapi_client.QueryApi()
+        api_response = api_instance.test_query_style_form_explode_false_array_string(["Oh, hello world","abc","DEF"])
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/query/style_form/explode_false/array_string?query_object=Oh%2C%20hello%20world,abc,DEF")
 
     def testDateTimeQueryWithDateTimeFormat(self):
         api_instance = openapi_client.QueryApi()
@@ -106,6 +118,13 @@ class TestManual(unittest.TestCase):
         api_response = api_instance.test_query_datetime_date_string(datetime_query=datetime_query, date_query=date_query, string_query=string_query)
         e = EchoServerResponseParser(api_response)
         self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=2013-10-20T19%3A20%3A30.000000-0500&date_query=2013-10-20&string_query=string_query_example")
+
+    def testStringEnum(self):
+        api_instance = openapi_client.BodyApi()
+
+        # Test string enum response
+        api_response = api_instance.test_echo_body_string_enum(StringEnumRef.SUCCESS)
+        self.assertEqual(api_response, StringEnumRef.SUCCESS)
 
     def testBinaryGif(self):
         api_instance = openapi_client.BodyApi()
@@ -161,11 +180,11 @@ class TestManual(unittest.TestCase):
         api_response = api_instance.test_echo_body_tag_response_string(t)
         self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
 
-        api_response = api_instance.test_echo_body_tag_response_string(None)
-        self.assertEqual(api_response, "") # assertion to ensure emtpy string is sent in the body
-
         api_response = api_instance.test_echo_body_free_form_object_response_string({})
         self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
+        
+        api_response = api_instance.test_echo_body_tag_response_string(None)
+        self.assertEqual(api_response, "") # assertion to ensure emtpy string is sent in the body
 
     def testAuthHttpBasic(self):
         api_instance = openapi_client.AuthApi()
@@ -245,6 +264,19 @@ User-Agent: OpenAPI-Generator/1.0.0/python
         self.assertEqual(e.path, '/echo/body/Pet/response_string')
         self.assertEqual(e.headers["Accept"], 'text/plain')
         self.assertEqual(e.method, 'POST')
+
+    def test_form_object_multipart(self):
+        api_instance = openapi_client.FormApi()
+        marker = openapi_client.TestFormObjectMultipartRequestMarker(
+            name="name",
+        )
+        api_response = api_instance.test_form_object_multipart(
+            marker=marker,
+        )
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/form/object/multipart")
+        self.assertTrue(e.headers["Content-Type"].startswith("multipart/form-data"))
+        self.assertTrue("boundary=" in e.headers["Content-Type"])
 
 class EchoServerResponseParser():
     def __init__(self, http_response):

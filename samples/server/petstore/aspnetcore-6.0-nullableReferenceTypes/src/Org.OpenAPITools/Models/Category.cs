@@ -30,14 +30,14 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=true)]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [RegularExpression("^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")]
         [DataMember(Name="name", EmitDefaultValue=false)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -17,5 +17,5 @@
   These must match the expectations made by your contribution. 
   You may regenerate an individual generator by passing the relevant config(s) as an argument to the script, for example `./bin/generate-samples.sh bin/configs/java*`. 
   IMPORTANT: Do **NOT** purge/delete any folders/files (e.g. tests) when regenerating the samples as manually written tests may be removed.
-- [ ] File the PR against the [correct branch](https://github.com/OpenAPITools/openapi-generator/wiki/Git-Branches): `master` (upcoming 7.1.0 minor release - breaking changes with fallbacks), `8.0.x` (breaking changes without fallbacks)
+- [ ] File the PR against the [correct branch](https://github.com/OpenAPITools/openapi-generator/wiki/Git-Branches): `master` (upcoming 7.6.0 minor release - breaking changes with fallbacks), `8.0.x` (breaking changes without fallbacks)
 - [ ] If your PR is targeting a particular programming language, @mention the [technical committee](https://github.com/openapitools/openapi-generator/#62---openapi-generator-technical-committee) members, so they are more likely to review the pull request.

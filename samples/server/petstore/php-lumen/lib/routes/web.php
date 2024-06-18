@@ -192,6 +192,13 @@ $router->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
 $router->post('/v2/fake/property/enum-int', 'FakeApi@fakePropertyEnumIntegerSerialize');
 
 /**
+ * post testStringMapReference
+ * Summary: test referenced string map
+ * Notes: 
+ */
+$router->post('/v2/fake/stringMap-reference', 'FakeApi@testStringMapReference');
+
+/**
  * put testQueryParameterCollectionFormat
  * Summary: 
  * Notes: To test the collection format in query parameters

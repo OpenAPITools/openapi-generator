@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -90,18 +89,17 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         super();
 
         modifyFeatureSet(features -> features.includeSecurityFeatures(
-                SecurityFeature.OAuth2_AuthorizationCode,
-                SecurityFeature.OAuth2_Password
+            SecurityFeature.OAuth2_AuthorizationCode, 
+            SecurityFeature.OAuth2_Password
         ));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
-        SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addKeySerializer(String.class, new SnakeCaseKeySerializer());
-        simpleModule.addSerializer(Boolean.class, new PythonBooleanSerializer());
-        MAPPER.registerModule(simpleModule);
+        MAPPER.registerModule(
+            new SimpleModule()
+                .addKeySerializer(String.class, new SnakeCaseKeySerializer())
+                .addSerializer(Boolean.class, new PythonBooleanSerializer())
+        );
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -126,7 +124,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         apiPackage = "apis";
         modelPackage = "models";
         testPackage = "tests";
-        implPackage = DEFAULT_PACKAGE_NAME.concat(".impl");
+        implPackage = "impl";
         apiTestTemplateFiles().put("api_test.mustache", ".py");
 
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
@@ -138,8 +136,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "directory for generated python source code")
                 .defaultValue(DEFAULT_SOURCE_FOLDER));
         cliOptions.add(new CliOption(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, "python package name for the implementation code (convention: snake_case).")
-                .defaultValue(DEFAULT_PACKAGE_NAME.concat(".impl")));
-
+                .defaultValue(implPackage));
     }
 
     @Override
@@ -178,6 +175,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         }
         supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(modelFileFolder(), outputFolder), "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiFileFolder(), outputFolder), "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiImplFileFolder(), outputFolder), "__init__.py"));
 
         supportingFiles.add(new SupportingFile("conftest.mustache", testPackage.replace('.', File.separatorChar), "conftest.py"));
 
@@ -210,8 +208,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -304,6 +301,10 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         return String.join(File.separator, new String[]{outputFolder, sourceFolder, apiPackage().replace('.', File.separatorChar)});
     }
 
+    public String apiImplFileFolder() {
+        return String.join(File.separator, new String[]{outputFolder, sourceFolder, implPackage.replace('.', File.separatorChar)});
+    }
+
     @Override
     public String modelFileFolder() {
         return String.join(File.separator, new String[]{outputFolder, sourceFolder, modelPackage().replace('.', File.separatorChar)});
@@ -322,5 +323,5 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     }
 
     @Override
-    public String generatorLanguageVersion() { return "3.7"; };
+    public String generatorLanguageVersion() { return "3.7"; }
 }

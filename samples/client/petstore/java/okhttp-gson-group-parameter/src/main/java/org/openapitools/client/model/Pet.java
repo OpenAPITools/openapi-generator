@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * A pet for sale in the pet store
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -73,7 +73,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags;
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -142,10 +142,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
@@ -161,10 +161,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
   public Category getCategory() {
     return category;
@@ -180,10 +180,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
@@ -207,10 +207,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -234,10 +234,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
   public List<Tag> getTags() {
     return tags;
@@ -254,11 +254,11 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   public StatusEnum getStatus() {
@@ -385,12 +385,12 @@ public class Pet {
     openapiRequiredFields.add("photoUrls");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Pet
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Pet
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Pet.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -469,7 +469,12 @@ public class Pet {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -508,22 +513,22 @@ public class Pet {
     }
   }
 
- /**
-  * Create an instance of Pet given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Pet
-  * @throws IOException if the JSON string is invalid with respect to Pet
-  */
+  /**
+   * Create an instance of Pet given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Pet
+   * @throws IOException if the JSON string is invalid with respect to Pet
+   */
   public static Pet fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Pet.class);
   }
 
- /**
-  * Convert an instance of Pet to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Pet to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

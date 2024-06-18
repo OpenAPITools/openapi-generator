@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * SimpleQuadrilateral
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class SimpleQuadrilateral {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
@@ -67,10 +67,10 @@ public class SimpleQuadrilateral {
     return this;
   }
 
-   /**
+  /**
    * Get shapeType
    * @return shapeType
-  **/
+   */
   @javax.annotation.Nonnull
   public String getShapeType() {
     return shapeType;
@@ -86,10 +86,10 @@ public class SimpleQuadrilateral {
     return this;
   }
 
-   /**
+  /**
    * Get quadrilateralType
    * @return quadrilateralType
-  **/
+   */
   @javax.annotation.Nonnull
   public String getQuadrilateralType() {
     return quadrilateralType;
@@ -202,12 +202,12 @@ public class SimpleQuadrilateral {
     openapiRequiredFields.add("quadrilateralType");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to SimpleQuadrilateral
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to SimpleQuadrilateral
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!SimpleQuadrilateral.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -258,7 +258,12 @@ public class SimpleQuadrilateral {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -297,22 +302,22 @@ public class SimpleQuadrilateral {
     }
   }
 
- /**
-  * Create an instance of SimpleQuadrilateral given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of SimpleQuadrilateral
-  * @throws IOException if the JSON string is invalid with respect to SimpleQuadrilateral
-  */
+  /**
+   * Create an instance of SimpleQuadrilateral given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of SimpleQuadrilateral
+   * @throws IOException if the JSON string is invalid with respect to SimpleQuadrilateral
+   */
   public static SimpleQuadrilateral fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, SimpleQuadrilateral.class);
   }
 
- /**
-  * Convert an instance of SimpleQuadrilateral to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of SimpleQuadrilateral to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

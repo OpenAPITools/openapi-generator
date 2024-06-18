@@ -1,9 +1,11 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.BaseApi;
 
 import java.io.File;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.Tag;
 
 import java.util.Collections;
@@ -27,24 +29,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class BodyApi {
-    private ApiClient apiClient;
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+public class BodyApi extends BaseApi {
 
     public BodyApi() {
-        this(new ApiClient());
+        super(new ApiClient());
     }
 
     public BodyApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    public ApiClient getApiClient() {
-        return apiClient;
-    }
-
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        super(apiClient);
     }
 
     /**
@@ -399,6 +392,49 @@ public class BodyApi {
         return apiClient.invokeAPI("/echo/body/Pet/response_string", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
+     * Test string enum response body
+     * Test string enum response body
+     * <p><b>200</b> - Successful operation
+     * @param body String enum (optional)
+     * @return StringEnumRef
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public StringEnumRef testEchoBodyStringEnum(String body) throws RestClientException {
+        return testEchoBodyStringEnumWithHttpInfo(body).getBody();
+    }
+
+    /**
+     * Test string enum response body
+     * Test string enum response body
+     * <p><b>200</b> - Successful operation
+     * @param body String enum (optional)
+     * @return ResponseEntity&lt;StringEnumRef&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(String body) throws RestClientException {
+        Object localVarPostBody = body;
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "application/json"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<StringEnumRef> localReturnType = new ParameterizedTypeReference<StringEnumRef>() {};
+        return apiClient.invokeAPI("/echo/body/string_enum", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
      * Test empty json (request body)
      * Test empty json (request body)
      * <p><b>200</b> - Successful operation
@@ -440,5 +476,30 @@ public class BodyApi {
 
         ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
         return apiClient.invokeAPI("/echo/body/Tag/response_string", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+
+    @Override
+    public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
+        String localVarPath = url.replace(apiClient.getBasePath(), "");
+        Object localVarPostBody = request;
+
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "text/plain"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        return apiClient.invokeAPI(localVarPath, method, uriVariables, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
     }
 }

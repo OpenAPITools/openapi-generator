@@ -73,7 +73,7 @@ import org.openapitools.client.auth.OAuth;
 /**
  * <p>ApiClient class.</p>
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   private static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
@@ -132,7 +132,7 @@ public class ApiClient extends JavaTimeFormatter {
   protected Map<String, List<ServerConfiguration>> operationServers;
 
   {
-    Map<String, List<ServerConfiguration>> operationServers = new LinkedHashMap<>();
+    Map<String, List<ServerConfiguration>> operationServers = new HashMap<>();
     operationServers.put("PetApi.addPet", new ArrayList<>(Arrays.asList(
             new ServerConfiguration(
                     "http://petstore.swagger.io/v2",
@@ -983,14 +983,14 @@ public class ApiClient extends JavaTimeFormatter {
               .fileName(file.getName()).size(file.length()).build();
 
           // Attempt to probe the content type for the file so that the form part is more correctly
-          // and precisely identified, but fall back to application/octet-stream if that fails.      
+          // and precisely identified, but fall back to application/octet-stream if that fails.
           MediaType type;
           try {
             type = MediaType.valueOf(Files.probeContentType(file.toPath()));
           } catch (IOException | IllegalArgumentException e) {
             type = MediaType.APPLICATION_OCTET_STREAM_TYPE;
           }
-        
+
           multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, type));
         } else {
           FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey()).build();

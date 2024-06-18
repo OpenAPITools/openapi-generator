@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * Model for testing model name same as property name
  * @export
@@ -48,11 +48,9 @@ export interface Name {
 /**
  * Check if a given object implements the Name interface.
  */
-export function instanceOfName(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "name" in value;
-
-    return isInstance;
+export function instanceOfName(value: object): value is Name {
+    if (!('name' in value) || value['name'] === undefined) return false;
+    return true;
 }
 
 export function NameFromJSON(json: any): Name {
@@ -60,29 +58,26 @@ export function NameFromJSON(json: any): Name {
 }
 
 export function NameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Name {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
         'name': json['name'],
-        'snakeCase': !exists(json, 'snake_case') ? undefined : json['snake_case'],
-        'property': !exists(json, 'property') ? undefined : json['property'],
-        '_123number': !exists(json, '123Number') ? undefined : json['123Number'],
+        'snakeCase': json['snake_case'] == null ? undefined : json['snake_case'],
+        'property': json['property'] == null ? undefined : json['property'],
+        '_123number': json['123Number'] == null ? undefined : json['123Number'],
     };
 }
 
-export function NameToJSON(value?: Name | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+export function NameToJSON(value?: Omit<Name, 'snake_case'|'123Number'> | null): any {
+    if (value == null) {
+        return value;
     }
     return {
         
-        'name': value.name,
-        'property': value.property,
+        'name': value['name'],
+        'property': value['property'],
     };
 }
 

@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Color
         /// </summary>
         [DataMember(Name="color", EmitDefaultValue=false)]
-        public string Color { get; set; } = "red";
+        public string? Color { get; set; } = "red";
 
         /// <summary>
         /// Returns the string presentation of the object

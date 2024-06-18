@@ -4,12 +4,14 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
+| [**fakeGetFreeFormObjectGet**](FakeApi.md#fakeGetFreeFormObjectGet) | **GET** /fake/get-free-form-object |  |
 | [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
 | [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
 | [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
-| [**getArrayOfEnums**](FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums |
+| [**fakeUploadRefRequestBodies**](FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake uploads an image with ref request bodies |
+| [**getFakeArrayofenums**](FakeApi.md#getFakeArrayofenums) | **GET** /fake/array-of-enums | Array of Enums |
+| [**getFakeHealth**](FakeApi.md#getFakeHealth) | **GET** /fake/health | Health check endpoint |
 | [**getParameterNameMapping**](FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test |
 | [**testAdditionalPropertiesReference**](FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties |
 | [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
@@ -22,13 +24,16 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**testInlineFreeformAdditionalProperties**](FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties |
 | [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data |
 | [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
+| [**testStringMapReference**](FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map |
 
 
-<a id="fakeHealthGet"></a>
-# **fakeHealthGet**
-> HealthCheckResult fakeHealthGet()
+<a id="fakeGetFreeFormObjectGet"></a>
+# **fakeGetFreeFormObjectGet**
+> FreeFormObjectTestClass fakeGetFreeFormObjectGet()
 
-Health check endpoint
+
+
+Get a free form object or Json string
 
 ### Example
 ```java
@@ -46,10 +51,10 @@ public class Example {
 
     FakeApi apiInstance = new FakeApi(defaultClient);
     try {
-      HealthCheckResult result = apiInstance.fakeHealthGet();
+      FreeFormObjectTestClass result = apiInstance.fakeGetFreeFormObjectGet();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#fakeHealthGet");
+      System.err.println("Exception when calling FakeApi#fakeGetFreeFormObjectGet");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -64,7 +69,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**HealthCheckResult**](HealthCheckResult.md)
+[**FreeFormObjectTestClass**](FreeFormObjectTestClass.md)
 
 ### Authorization
 
@@ -78,7 +83,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | The instance started successfully |  -  |
+| **200** | Success |  -  |
 
 <a id="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
@@ -328,9 +333,80 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Output string |  -  |
 
-<a id="getArrayOfEnums"></a>
-# **getArrayOfEnums**
-> List&lt;OuterEnum&gt; getArrayOfEnums()
+<a id="fakeUploadRefRequestBodies"></a>
+# **fakeUploadRefRequestBodies**
+> ModelApiResponse fakeUploadRefRequestBodies(petId, additionalMetadata, _file)
+
+fake uploads an image with ref request bodies
+
+
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+    
+    // Configure OAuth2 access token for authorization: petstore_auth
+    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    Long petId = 56L; // Long | ID of pet to update
+    String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
+    File _file = new File("/path/to/file"); // File | file to upload
+    try {
+      ModelApiResponse result = apiInstance.fakeUploadRefRequestBodies(petId, additionalMetadata, _file);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#fakeUploadRefRequestBodies");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to update | |
+| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
+| **_file** | **File**| file to upload | [optional] |
+
+### Return type
+
+[**ModelApiResponse**](ModelApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
+<a id="getFakeArrayofenums"></a>
+# **getFakeArrayofenums**
+> List&lt;OuterEnum&gt; getFakeArrayofenums()
 
 Array of Enums
 
@@ -350,10 +426,10 @@ public class Example {
 
     FakeApi apiInstance = new FakeApi(defaultClient);
     try {
-      List<OuterEnum> result = apiInstance.getArrayOfEnums();
+      List<OuterEnum> result = apiInstance.getFakeArrayofenums();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#getArrayOfEnums");
+      System.err.println("Exception when calling FakeApi#getFakeArrayofenums");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -383,6 +459,62 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Got named array of enums |  -  |
+
+<a id="getFakeHealth"></a>
+# **getFakeHealth**
+> HealthCheckResult getFakeHealth()
+
+Health check endpoint
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    try {
+      HealthCheckResult result = apiInstance.getFakeHealth();
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#getFakeHealth");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**HealthCheckResult**](HealthCheckResult.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The instance started successfully |  -  |
 
 <a id="getParameterNameMapping"></a>
 # **getParameterNameMapping**
@@ -1195,4 +1327,65 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Success |  -  |
+
+<a id="testStringMapReference"></a>
+# **testStringMapReference**
+> testStringMapReference(requestBody)
+
+test referenced string map
+
+
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    Map<String, String> requestBody = new HashMap(); // Map<String, String> | request body
+    try {
+      apiInstance.testStringMapReference(requestBody);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#testStringMapReference");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 

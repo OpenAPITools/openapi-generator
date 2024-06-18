@@ -20,8 +20,9 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
 
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -49,33 +50,35 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
     protected boolean useDateTimeOffsetFlag = false;
     protected boolean useCollection = false;
-    protected boolean returnICollection = false;
-    protected boolean netCoreProjectFileFlag = false;
+    @Setter protected boolean returnICollection = false;
+    @Setter protected boolean netCoreProjectFileFlag = false;
 
-    protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
+    @Getter protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
-    protected String licenseUrl = "http://localhost";
-    protected String licenseName = "NoLicense";
+    @Setter protected String licenseUrl = "http://localhost";
+    @Setter protected String licenseName = "NoLicense";
 
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageVersion = "1.0.0";
     protected String packageName = "OpenAPI";
-    protected String packageTitle = "OpenAPI Library";
-    protected String packageProductName = "OpenAPILibrary";
-    protected String packageDescription = "A library generated from a OpenAPI doc";
-    protected String packageCompany = "OpenAPI";
-    protected String packageCopyright = "No Copyright";
-    protected String packageAuthors = "OpenAPI";
+    @Setter protected String packageTitle = "OpenAPI Library";
+    @Setter protected String packageProductName = "OpenAPILibrary";
+    @Setter protected String packageDescription = "A library generated from a OpenAPI doc";
+    @Setter protected String packageCompany = "OpenAPI";
+    @Setter protected String packageCopyright = "No Copyright";
+    @Setter protected String packageAuthors = "OpenAPI";
 
+    @Getter @Setter
     protected String interfacePrefix = "I";
 
     protected String projectFolder = packageName;
-    protected String sourceFolder = projectFolder + File.separator + "src";
+    @Setter protected String sourceFolder = projectFolder + File.separator + "src";
     protected String testFolder = projectFolder + ".Tests";
 
     protected Set<String> collectionTypes;
     protected Set<String> mapTypes;
 
     // true if nullable types will be supported (as option)
+    @Getter @Setter
     protected boolean supportNullable = Boolean.TRUE;
 
     protected Set<String> nullableType = new HashSet<>();
@@ -187,10 +190,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         );
     }
 
-    public void setReturnICollection(boolean returnICollection) {
-        this.returnICollection = returnICollection;
-    }
-
     public void setUseCollection(boolean useCollection) {
         this.useCollection = useCollection;
         if (useCollection) {
@@ -200,10 +199,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             instantiationTypes.put("array", "seq");
             instantiationTypes.put("list", "seq");
         }
-    }
-
-    public void setNetCoreProjectFileFlag(boolean flag) {
-        this.netCoreProjectFileFlag = flag;
     }
 
     public void useDateTimeOffset(boolean flag) {
@@ -313,7 +308,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true));
+                .put("camelcase_param", new CamelCaseAndSanitizeLambda().generator(this).escapeAsParamName(true));
     }
 
     @Override
@@ -641,10 +636,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         return camelize(sanitizeName(operationId));
     }
 
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
-    }
-
     public void setModelPropertyNaming(String naming) {
         if ("original".equals(naming) || "camelCase".equals(naming) ||
                 "PascalCase".equals(naming) || "snake_case".equals(naming)) {
@@ -855,12 +846,12 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
      * @param arr The input array property
      * @return The type declaration when the type is an array of arrays.
      */
-    private String getArrayTypeDeclaration(ArraySchema arr) {
+    private String getArrayTypeDeclaration(Schema arr) {
         // TODO: collection type here should be fully qualified namespace to avoid model conflicts
         // This supports arrays of arrays.
         String arrayType = typeMapping.get("array");
         StringBuilder instantiationType = new StringBuilder(arrayType);
-        Schema items = arr.getItems();
+        Schema items = ModelUtils.getSchemaItems(arr);
         String nestedType = getTypeDeclaration(items);
         // TODO: We may want to differentiate here between generics and primitive arrays.
         return nestedType + "[]";
@@ -869,7 +860,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            return getArrayTypeDeclaration((ArraySchema) p);
+            return getArrayTypeDeclaration(p);
         }
         return super.toInstantiationType(p);
     }
@@ -877,7 +868,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            return getArrayTypeDeclaration((ArraySchema) p);
+            return getArrayTypeDeclaration(p);
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -936,67 +927,11 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         return toModelName(name) + "Tests";
     }
 
-    public void setLicenseUrl(String licenseUrl) {
-        this.licenseUrl = licenseUrl;
-    }
-
-    public void setLicenseName(String licenseName) {
-        this.licenseName = licenseName;
-    }
-
     public void setPackageName(String packageName) {
         this.packageName = packageName;
         this.projectFolder = packageName;
         this.sourceFolder = projectFolder + File.separator + "src";
         this.testFolder = projectFolder + ".Tests";
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
-    public void setPackageTitle(String packageTitle) {
-        this.packageTitle = packageTitle;
-    }
-
-    public void setPackageProductName(String packageProductName) {
-        this.packageProductName = packageProductName;
-    }
-
-    public void setPackageDescription(String packageDescription) {
-        this.packageDescription = packageDescription;
-    }
-
-    public void setPackageCompany(String packageCompany) {
-        this.packageCompany = packageCompany;
-    }
-
-    public void setPackageCopyright(String packageCopyright) {
-        this.packageCopyright = packageCopyright;
-    }
-
-    public void setPackageAuthors(String packageAuthors) {
-        this.packageAuthors = packageAuthors;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public String getInterfacePrefix() {
-        return interfacePrefix;
-    }
-
-    public void setInterfacePrefix(final String interfacePrefix) {
-        this.interfacePrefix = interfacePrefix;
-    }
-
-    public boolean isSupportNullable() {
-        return supportNullable;
-    }
-
-    public void setSupportNullable(final boolean supportNullable) {
-        this.supportNullable = supportNullable;
     }
 
     @Override

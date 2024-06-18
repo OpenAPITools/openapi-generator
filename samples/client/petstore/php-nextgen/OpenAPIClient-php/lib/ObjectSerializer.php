@@ -30,6 +30,12 @@ namespace OpenAPI\Client;
 
 use GuzzleHttp\Psr7\Utils;
 use OpenAPI\Client\Model\ModelInterface;
+use function GuzzleHttp\Psr7\;
+use function is_array;
+use function is_bool;
+use function substr;
+use const PHP_QUERY_RFC1738;
+use const PHP_QUERY_RFC3986;
 
 /**
  * ObjectSerializer Class Doc Comment
@@ -396,7 +402,6 @@ class ObjectSerializer
      * @param mixed    $data          object or primitive to be deserialized
      * @param string   $class         class name is passed as a string
      * @param string[] $httpHeaders   HTTP headers
-     * @param string   $discriminator discriminator if polymorphism is used
      *
      * @return object|array|null a single or an array of $class instances
      */
@@ -546,22 +551,66 @@ class ObjectSerializer
     }
 
     /**
-     * Native `http_build_query` wrapper.
-     * @see https://www.php.net/manual/en/function.http-build-query
+     * Build a query string from an array of key value pairs.
      *
-     * @param array|object $data           May be an array or object containing properties.
-     * @param string       $numeric_prefix If numeric indices are used in the base array and this parameter is provided, it will be prepended to the numeric index for elements in the base array only.
-     * @param string|null  $arg_separator  arg_separator.output is used to separate arguments but may be overridden by specifying this parameter.
-     * @param int          $encoding_type  Encoding type. By default, PHP_QUERY_RFC1738.
+     * This function can use the return value of `parse()` to build a query
+     * string. This function does not modify the provided keys when an array is
+     * encountered (like `http_build_query()` would).
      *
-     * @return string
+     * The function is copied from https://github.com/guzzle/psr7/blob/a243f80a1ca7fe8ceed4deee17f12c1930efe662/src/Query.php#L59-L112
+     * with a modification which is described in https://github.com/guzzle/psr7/pull/603
+     *
+     * @param array     $params              Query string parameters.
+     * @param int|false $encoding            Set to false to not encode, PHP_QUERY_RFC3986
+     *                                       to encode using RFC3986, or PHP_QUERY_RFC1738
+     *                                       to encode using RFC1738.
+     * @param bool      $treatBooleansAsInts When `true` values are cast to int (e.g. ['foo' => false] gives `foo=0`).
+     *                                       When `false` values are cast to strings (e.g. ['foo' => false] gives `foo=false`).
      */
-    public static function buildQuery(
-        $data,
-        string $numeric_prefix = '',
-        ?string $arg_separator = null,
-        int $encoding_type = \PHP_QUERY_RFC3986
-    ): string {
-        return \GuzzleHttp\Psr7\Query::build($data, $encoding_type);
+    public static function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986, bool $treatBooleansAsInts = true): string
+    {
+        if (!$params) {
+            return '';
+        }
+
+        if ($encoding === false) {
+            $encoder = function (string $str): string {
+                return $str;
+            };
+        } elseif ($encoding === PHP_QUERY_RFC3986) {
+            $encoder = 'rawurlencode';
+        } elseif ($encoding === PHP_QUERY_RFC1738) {
+            $encoder = 'urlencode';
+        } else {
+            throw new \InvalidArgumentException('Invalid type');
+        }
+
+        $castBool = $treatBooleansAsInts
+            ? function ($v) { return (int) $v; }
+            : function ($v) { return $v ? 'true' : 'false'; };
+
+        $qs = '';
+        foreach ($params as $k => $v) {
+            $k = $encoder((string) $k);
+            if (!is_array($v)) {
+                $qs .= $k;
+                $v = is_bool($v) ? $castBool($v) : $v;
+                if ($v !== null) {
+                    $qs .= '='.$encoder((string) $v);
+                }
+                $qs .= '&';
+            } else {
+                foreach ($v as $vv) {
+                    $qs .= $k;
+                    $vv = is_bool($vv) ? $castBool($vv) : $vv;
+                    if ($vv !== null) {
+                        $qs .= '='.$encoder((string) $vv);
+                    }
+                    $qs .= '&';
+                }
+            }
+        }
+
+        return $qs ? (string) substr($qs, 0, -1) : '';
     }
 }

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -30,10 +30,8 @@ export interface ArrayOfNumberOnly {
 /**
  * Check if a given object implements the ArrayOfNumberOnly interface.
  */
-export function instanceOfArrayOfNumberOnly(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfArrayOfNumberOnly(value: object): value is ArrayOfNumberOnly {
+    return true;
 }
 
 export function ArrayOfNumberOnlyFromJSON(json: any): ArrayOfNumberOnly {
@@ -41,25 +39,22 @@ export function ArrayOfNumberOnlyFromJSON(json: any): ArrayOfNumberOnly {
 }
 
 export function ArrayOfNumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArrayOfNumberOnly {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'arrayNumber': !exists(json, 'ArrayNumber') ? undefined : json['ArrayNumber'],
+        'arrayNumber': json['ArrayNumber'] == null ? undefined : json['ArrayNumber'],
     };
 }
 
 export function ArrayOfNumberOnlyToJSON(value?: ArrayOfNumberOnly | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'ArrayNumber': value.arrayNumber,
+        'ArrayNumber': value['arrayNumber'],
     };
 }
 

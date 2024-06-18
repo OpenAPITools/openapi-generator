@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Client
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Client {
   public static final String SERIALIZED_NAME_CLIENT = "client";
   @SerializedName(SERIALIZED_NAME_CLIENT)
@@ -63,10 +63,10 @@ public class Client {
     return this;
   }
 
-   /**
+  /**
    * Get client
    * @return client
-  **/
+   */
   @javax.annotation.Nullable
   public String getClient() {
     return client;
@@ -174,12 +174,12 @@ public class Client {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Client
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Client
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Client.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -220,7 +220,12 @@ public class Client {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -259,22 +264,22 @@ public class Client {
     }
   }
 
- /**
-  * Create an instance of Client given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Client
-  * @throws IOException if the JSON string is invalid with respect to Client
-  */
+  /**
+   * Create an instance of Client given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Client
+   * @throws IOException if the JSON string is invalid with respect to Client
+   */
   public static Client fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Client.class);
   }
 
- /**
-  * Convert an instance of Client to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Client to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

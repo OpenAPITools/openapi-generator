@@ -54,7 +54,7 @@ import org.openapitools.client.JSON;
 /**
  * NewPet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class NewPet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -78,7 +78,7 @@ public class NewPet {
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags;
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -146,10 +146,10 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
@@ -165,10 +165,10 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * Get categoryInlineAllof
    * @return categoryInlineAllof
-  **/
+   */
   @javax.annotation.Nullable
   public NewPetCategoryInlineAllof getCategoryInlineAllof() {
     return categoryInlineAllof;
@@ -184,10 +184,10 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * Get categoryAllOfRef
    * @return categoryAllOfRef
-  **/
+   */
   @javax.annotation.Nullable
   public Category getCategoryAllOfRef() {
     return categoryAllOfRef;
@@ -203,10 +203,10 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
@@ -230,10 +230,10 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -257,10 +257,10 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
   public List<Tag> getTags() {
     return tags;
@@ -276,10 +276,10 @@ public class NewPet {
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
   public StatusEnum getStatus() {
     return status;
@@ -407,12 +407,12 @@ public class NewPet {
     openapiRequiredFields.add("photoUrls");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to NewPet
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to NewPet
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!NewPet.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -495,7 +495,12 @@ public class NewPet {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -534,22 +539,22 @@ public class NewPet {
     }
   }
 
- /**
-  * Create an instance of NewPet given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of NewPet
-  * @throws IOException if the JSON string is invalid with respect to NewPet
-  */
+  /**
+   * Create an instance of NewPet given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of NewPet
+   * @throws IOException if the JSON string is invalid with respect to NewPet
+   */
   public static NewPet fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, NewPet.class);
   }
 
- /**
-  * Convert an instance of NewPet to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of NewPet to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

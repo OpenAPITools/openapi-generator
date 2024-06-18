@@ -35,7 +35,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -55,7 +55,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<@Valid Tag> tags;
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -119,10 +119,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -135,17 +135,16 @@ public class Pet {
     this.id = id;
   }
 
-
   public Pet category(Category category) {
     
     this.category = category;
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -159,17 +158,16 @@ public class Pet {
     this.category = category;
   }
 
-
   public Pet name(String name) {
     
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 
@@ -182,7 +180,6 @@ public class Pet {
   public void setName(String name) {
     this.name = name;
   }
-
 
   public Pet photoUrls(Set<String> photoUrls) {
     
@@ -198,10 +195,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
   @NotNull
 
@@ -214,7 +211,6 @@ public class Pet {
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
-
 
   public Pet tags(List<@Valid Tag> tags) {
     
@@ -230,10 +226,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -247,17 +243,16 @@ public class Pet {
     this.tags = tags;
   }
 
-
   public Pet status(StatusEnum status) {
     
     this.status = status;
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
 
 

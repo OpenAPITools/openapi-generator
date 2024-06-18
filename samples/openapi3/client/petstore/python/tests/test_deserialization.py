@@ -39,7 +39,7 @@ class DeserializationTests(unittest.TestCase):
        }
        response = json.dumps(data)
 
-       deserialized = self.deserialize(response, 'Dict[str, EnumTest]')
+       deserialized = self.deserialize(response, 'Dict[str, EnumTest]', 'application/json')
        self.assertTrue(isinstance(deserialized, dict))
        self.assertTrue(isinstance(deserialized['enum_test'], petstore_api.EnumTest))
        self.assertEqual(deserialized['enum_test'],
@@ -73,7 +73,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = json.dumps(data)
 
-        deserialized = self.deserialize(response, 'Dict[str, Pet]')
+        deserialized = self.deserialize(response, 'Dict[str, Pet]', 'application/json')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['pet'], petstore_api.Pet))
 
@@ -90,7 +90,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = json.dumps(data)
 
-        deserialized = self.deserialize(response, 'Dict[str, Animal]')
+        deserialized = self.deserialize(response, 'Dict[str, Animal]', 'application/json')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['dog'], petstore_api.Dog))
 
@@ -102,7 +102,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = json.dumps(data)
 
-        deserialized = self.deserialize(response, 'Dict[str, int]')
+        deserialized = self.deserialize(response, 'Dict[str, int]', 'application/json')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['integer'], int))
 
@@ -111,7 +111,7 @@ class DeserializationTests(unittest.TestCase):
         data = "test str"
         response = data=json.dumps(data)
 
-        deserialized = self.deserialize(response, "str")
+        deserialized = self.deserialize(response, "str", 'application/json')
         self.assertTrue(isinstance(deserialized, str))
 
     def test_deserialize_date(self):
@@ -119,7 +119,7 @@ class DeserializationTests(unittest.TestCase):
         data = "1997-07-16"
         response = data=json.dumps(data)
 
-        deserialized = self.deserialize(response, "date")
+        deserialized = self.deserialize(response, "date", 'application/json')
         self.assertTrue(isinstance(deserialized, datetime.date))
 
     def test_deserialize_datetime(self):
@@ -127,7 +127,7 @@ class DeserializationTests(unittest.TestCase):
         data = "1997-07-16T19:20:30.45+01:00"
         response = json.dumps(data)
 
-        deserialized = self.deserialize(response, "datetime")
+        deserialized = self.deserialize(response, "datetime", 'application/json')
         self.assertTrue(isinstance(deserialized, datetime.datetime))
 
     def test_deserialize_pet(self):
@@ -152,7 +152,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = json.dumps(data)
 
-        deserialized = self.deserialize(response, "Pet")
+        deserialized = self.deserialize(response, "Pet", 'application/json')
         self.assertTrue(isinstance(deserialized, petstore_api.Pet))
         self.assertEqual(deserialized.id, 0)
         self.assertEqual(deserialized.name, "doggie")
@@ -202,7 +202,7 @@ class DeserializationTests(unittest.TestCase):
             }]
         response = json.dumps(data)
 
-        deserialized = self.deserialize(response, "List[Pet]")
+        deserialized = self.deserialize(response, "List[Pet]", 'application/json')
         self.assertTrue(isinstance(deserialized, list))
         self.assertTrue(isinstance(deserialized[0], petstore_api.Pet))
         self.assertEqual(deserialized[0].id, 0)
@@ -219,7 +219,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = json.dumps(data)
 
-        deserialized = self.deserialize(response, "Dict[str, Dict[str, int]]")
+        deserialized = self.deserialize(response, "Dict[str, Dict[str, int]]", 'application/json')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized["foo"], dict))
         self.assertTrue(isinstance(deserialized["foo"]["bar"], int))
@@ -229,7 +229,7 @@ class DeserializationTests(unittest.TestCase):
         data = [["foo"]]
         response = json.dumps(data)
 
-        deserialized = self.deserialize(response, "List[List[str]]")
+        deserialized = self.deserialize(response, "List[List[str]]", 'application/json')
         self.assertTrue(isinstance(deserialized, list))
         self.assertTrue(isinstance(deserialized[0], list))
         self.assertTrue(isinstance(deserialized[0][0], str))
@@ -238,7 +238,7 @@ class DeserializationTests(unittest.TestCase):
         """ deserialize None """
         response = json.dumps(None)
 
-        deserialized = self.deserialize(response, "datetime")
+        deserialized = self.deserialize(response, "datetime", 'application/json')
         self.assertIsNone(deserialized)
 
     def test_deserialize_pig(self):
@@ -249,7 +249,7 @@ class DeserializationTests(unittest.TestCase):
         }
 
         response = json.dumps(data)
-        deserialized = self.deserialize(response, "Pig")
+        deserialized = self.deserialize(response, "Pig", 'application/json')
         self.assertTrue(isinstance(deserialized.actual_instance,
                                    petstore_api.BasquePig))
         self.assertEqual(deserialized.actual_instance.class_name, "BasqueBig")
@@ -265,7 +265,7 @@ class DeserializationTests(unittest.TestCase):
         response = json.dumps(data)
 
         with pytest.raises(ValueError) as ex:
-            deserialized = self.deserialize(response, "Animal")
+            deserialized = self.deserialize(response, "Animal", 'application/json')
         assert str(
             ex.value) == 'Animal failed to lookup discriminator value from {"declawed": true, "className": ' \
                          '"Cat2222"}. Discriminator property name: className, mapping: {"Cat": "Cat", "Dog": "Dog"}'
@@ -277,7 +277,7 @@ class DeserializationTests(unittest.TestCase):
 
         response = json.dumps(data)
 
-        deserialized = self.deserialize(response, "Animal")
+        deserialized = self.deserialize(response, "Animal", 'application/json')
         self.assertTrue(isinstance(deserialized, petstore_api.Cat))
         self.assertEqual(deserialized.class_name, "Cat")
         self.assertEqual(deserialized.declawed, True)

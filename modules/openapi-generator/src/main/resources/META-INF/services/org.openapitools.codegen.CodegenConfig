@@ -43,6 +43,7 @@ org.openapitools.codegen.languages.KotlinClientCodegen
 org.openapitools.codegen.languages.KotlinServerCodegen
 org.openapitools.codegen.languages.KotlinSpringServerCodegen
 org.openapitools.codegen.languages.KotlinVertxServerCodegen
+org.openapitools.codegen.languages.KotlinWiremockServerCodegen
 org.openapitools.codegen.languages.KtormSchemaCodegen
 org.openapitools.codegen.languages.HaskellHttpClientCodegen
 org.openapitools.codegen.languages.HaskellServantCodegen
@@ -80,6 +81,7 @@ org.openapitools.codegen.languages.JuliaServerCodegen
 org.openapitools.codegen.languages.K6ClientCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.MarkdownDocumentationCodegen
+org.openapitools.codegen.languages.JavaMicroprofileServerCodegen
 org.openapitools.codegen.languages.MysqlSchemaCodegen
 org.openapitools.codegen.languages.N4jsClientCodegen
 org.openapitools.codegen.languages.NimClientCodegen
@@ -91,6 +93,7 @@ org.openapitools.codegen.languages.OpenAPIYamlGenerator
 org.openapitools.codegen.languages.PlantumlDocumentationCodegen
 org.openapitools.codegen.languages.PerlClientCodegen
 org.openapitools.codegen.languages.PhpClientCodegen
+org.openapitools.codegen.languages.PhpFlightServerCodegen
 org.openapitools.codegen.languages.PhpNextgenClientCodegen
 org.openapitools.codegen.languages.PhpLaravelServerCodegen
 org.openapitools.codegen.languages.PhpLumenServerCodegen
@@ -115,6 +118,7 @@ org.openapitools.codegen.languages.RustClientCodegen
 org.openapitools.codegen.languages.RustServerCodegen
 org.openapitools.codegen.languages.ScalatraServerCodegen
 org.openapitools.codegen.languages.ScalaAkkaClientCodegen
+org.openapitools.codegen.languages.ScalaCaskServerCodegen
 org.openapitools.codegen.languages.ScalaPekkoClientCodegen
 org.openapitools.codegen.languages.ScalaAkkaHttpServerCodegen
 org.openapitools.codegen.languages.ScalaFinchServerCodegen

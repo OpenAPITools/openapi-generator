@@ -10,8 +10,8 @@
 
 
 use reqwest;
-
-use crate::apis::ResponseContent;
+use serde::{Deserialize, Serialize};
+use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
 
@@ -83,7 +83,7 @@ pub enum UploadFileError {
 
 
 /// 
-pub fn add_pet(configuration: &configuration::Configuration, pet: crate::models::Pet) -> Result<crate::models::Pet, Error<AddPetError>> {
+pub fn add_pet(configuration: &configuration::Configuration, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -100,7 +100,7 @@ pub fn add_pet(configuration: &configuration::Configuration, pet: crate::models:
     local_var_req_builder = local_var_req_builder.json(&pet);
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
@@ -134,7 +134,7 @@ pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
@@ -149,7 +149,7 @@ pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api
 }
 
 /// Multiple status values can be provided with comma separated strings
-pub fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<FindPetsByStatusError>> {
+pub fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -169,7 +169,7 @@ pub fn find_pets_by_status(configuration: &configuration::Configuration, status:
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
@@ -184,7 +184,7 @@ pub fn find_pets_by_status(configuration: &configuration::Configuration, status:
 }
 
 /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<FindPetsByTagsError>> {
+pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByTagsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -204,7 +204,7 @@ pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
@@ -219,7 +219,7 @@ pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec
 }
 
 /// Returns a single pet
-pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<crate::models::Pet, Error<GetPetByIdError>> {
+pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<models::Pet, Error<GetPetByIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -240,7 +240,7 @@ pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) 
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
@@ -255,7 +255,7 @@ pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) 
 }
 
 /// 
-pub fn update_pet(configuration: &configuration::Configuration, pet: crate::models::Pet) -> Result<crate::models::Pet, Error<UpdatePetError>> {
+pub fn update_pet(configuration: &configuration::Configuration, pet: models::Pet) -> Result<models::Pet, Error<UpdatePetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -272,7 +272,7 @@ pub fn update_pet(configuration: &configuration::Configuration, pet: crate::mode
     local_var_req_builder = local_var_req_builder.json(&pet);
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
@@ -311,7 +311,7 @@ pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id
     local_var_req_builder = local_var_req_builder.form(&local_var_form_params);
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
@@ -326,7 +326,7 @@ pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id
 }
 
 /// 
-pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error<UploadFileError>> {
+pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<models::ApiResponse, Error<UploadFileError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -350,7 +350,7 @@ pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, ad
     local_var_req_builder = local_var_req_builder.multipart(local_var_form);
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;

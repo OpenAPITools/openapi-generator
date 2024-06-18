@@ -1,0 +1,55 @@
+## DonationsApi
+
+### Start a transaction for donations
+## Start a donation transaction
+POST https://checkout-test.adyen.com/v71/donations
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "EUR",
+ "value": 1000
+},
+ "reference": "YOUR_DONATION_REFERENCE",
+ "paymentMethod": {
+ "type": "scheme"
+},
+ "donationToken": "YOUR_DONATION_TOKEN",
+ "donationOriginalPspReference": "991559660454807J",
+ "donationAccount": "CHARITY_ACCOUNT",
+ "returnUrl": "https://your-company.com/...",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "shopperInteraction": "ContAuth"
+}
+
+### Start a transaction for donations
+## Start a donation transaction with a token
+POST https://checkout-test.adyen.com/v71/donations
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "EUR",
+ "value": 1000
+},
+ "reference": "YOUR_DONATION_REFERENCE",
+ "paymentMethod": {
+ "type": "scheme",
+ "recurringDetailReference": "7219687191761347"
+},
+ "returnUrl": "https://your-company.com/...",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "donationAccount": "CHARITY_ACCOUNT",
+ "shopperInteraction": "ContAuth",
+ "shopperReference": "YOUR_SHOPPER_REFERENCE",
+ "recurringProcessingModel": "CardOnFile"
+}
+

@@ -33,7 +33,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FakeApiImpl implements FakeApi {
 
     private ApiClient apiClient;
@@ -1205,6 +1205,54 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
+    }
+    /**
+    * test referenced string map
+    * 
+        * @param requestBody request body (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testStringMapReference(Map<String, String> requestBody, Handler<AsyncResult<Void>> resultHandler) {
+        testStringMapReference(requestBody, null, resultHandler);
+    }
+
+    /**
+    * test referenced string map
+    * 
+    * @param requestBody request body (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testStringMapReference(Map<String, String> requestBody, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = requestBody;
+        
+        // verify the required parameter 'requestBody' is set
+        if (requestBody == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requestBody' when calling testStringMapReference"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/stringMap-reference";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = { "application/json" };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
 
     private String encodeParameter(String parameter) {

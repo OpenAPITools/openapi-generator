@@ -17,11 +17,13 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -81,24 +83,25 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             new String[]{"gitignore.mustache", ".gitignore"}
     };
 
-    protected String projectName;
-    protected String moduleName;
-    protected String projectDescription;
-    protected String projectVersion;
-    protected String licenseName;
+    @Setter protected String projectName;
+    @Setter protected String moduleName;
+    @Setter protected String projectDescription;
+    @Setter protected String projectVersion;
+    @Setter protected String licenseName;
 
+    @Getter @Setter
     protected String invokerPackage;
-    protected String sourceFolder = "src";
-    protected boolean usePromises;
-    protected boolean emitModelMethods;
-    protected boolean emitJSDoc = true;
+    @Setter protected String sourceFolder = "src";
+    @Setter protected boolean usePromises;
+    @Setter protected boolean emitModelMethods;
+    @Setter protected boolean emitJSDoc = true;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiTestPath = "api/";
     protected String modelTestPath = "model/";
     protected boolean useES6 = true; // default is ES6
-    protected String npmRepository = null;
-    private String modelPropertyNaming = "camelCase";
+    @Setter protected String npmRepository = null;
+    @Getter private String modelPropertyNaming = "camelCase";
 
     public JavascriptApolloClientCodegen() {
         super();
@@ -416,57 +419,9 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
         return createPath(outputFolder, sourceFolder, invokerPackage, modelPackage());
     }
 
-    public String getInvokerPackage() {
-        return invokerPackage;
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void setProjectDescription(String projectDescription) {
-        this.projectDescription = projectDescription;
-    }
-
-    public void setProjectVersion(String projectVersion) {
-        this.projectVersion = projectVersion;
-    }
-
-    public void setLicenseName(String licenseName) {
-        this.licenseName = licenseName;
-    }
-
-    public void setUsePromises(boolean usePromises) {
-        this.usePromises = usePromises;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
     public void setUseInheritance(boolean useInheritance) {
         this.supportsInheritance = useInheritance;
         this.supportsMixins = useInheritance;
-    }
-
-    public void setEmitModelMethods(boolean emitModelMethods) {
-        this.emitModelMethods = emitModelMethods;
-    }
-
-    public void setEmitJSDoc(boolean emitJSDoc) {
-        this.emitJSDoc = emitJSDoc;
     }
 
     @Override
@@ -497,10 +452,6 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     @Override
     public String toModelTestFilename(String name) {
         return toModelName(name) + ".spec";
-    }
-
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
     }
 
     private String getNameUsingModelPropertyNaming(String name) {
@@ -610,8 +561,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -672,10 +622,10 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     public void setParameterExampleValue(CodegenParameter p) {
         String example;
 
-        if (p.defaultValue == null) {
-            example = p.example;
-        } else {
+        if (p.example == null) {
             example = p.defaultValue;
+        } else {
+            example = p.example;
         }
 
         String type = p.baseType;
@@ -739,6 +689,24 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
         }
 
         p.example = example;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        Schema schema = parameter.getSchema();
+
+        if (parameter.getExample() != null) {
+            codegenParameter.example = parameter.getExample().toString();
+        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example example = parameter.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+            }
+        } else if (schema != null && schema.getExample() != null) {
+            codegenParameter.example = schema.getExample().toString();
+        }
+
+        setParameterExampleValue(codegenParameter);
     }
 
     protected String setPropertyExampleValue(CodegenProperty p) {
@@ -872,9 +840,9 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             codegenModel = JavascriptApolloClientCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
         if (ModelUtils.isArraySchema(model)) {
-            ArraySchema am = (ArraySchema) model;
-            if (codegenModel != null && am.getItems() != null) {
-                String itemType = getSchemaType(am.getItems());
+            Schema inner = ModelUtils.getSchemaItems(model);
+            if (codegenModel != null && inner != null) {
+                String itemType = getSchemaType(inner);
                 codegenModel.vendorExtensions.put("x-is-array", true);
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             }

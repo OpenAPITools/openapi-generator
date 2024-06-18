@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -61,10 +61,8 @@ export interface Capitalization {
 /**
  * Check if a given object implements the Capitalization interface.
  */
-export function instanceOfCapitalization(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfCapitalization(value: object): value is Capitalization {
+    return true;
 }
 
 export function CapitalizationFromJSON(json: any): Capitalization {
@@ -72,35 +70,32 @@ export function CapitalizationFromJSON(json: any): Capitalization {
 }
 
 export function CapitalizationFromJSONTyped(json: any, ignoreDiscriminator: boolean): Capitalization {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'smallCamel': !exists(json, 'smallCamel') ? undefined : json['smallCamel'],
-        'capitalCamel': !exists(json, 'CapitalCamel') ? undefined : json['CapitalCamel'],
-        'smallSnake': !exists(json, 'small_Snake') ? undefined : json['small_Snake'],
-        'capitalSnake': !exists(json, 'Capital_Snake') ? undefined : json['Capital_Snake'],
-        'sCAETHFlowPoints': !exists(json, 'SCA_ETH_Flow_Points') ? undefined : json['SCA_ETH_Flow_Points'],
-        'aTTNAME': !exists(json, 'ATT_NAME') ? undefined : json['ATT_NAME'],
+        'smallCamel': json['smallCamel'] == null ? undefined : json['smallCamel'],
+        'capitalCamel': json['CapitalCamel'] == null ? undefined : json['CapitalCamel'],
+        'smallSnake': json['small_Snake'] == null ? undefined : json['small_Snake'],
+        'capitalSnake': json['Capital_Snake'] == null ? undefined : json['Capital_Snake'],
+        'sCAETHFlowPoints': json['SCA_ETH_Flow_Points'] == null ? undefined : json['SCA_ETH_Flow_Points'],
+        'aTTNAME': json['ATT_NAME'] == null ? undefined : json['ATT_NAME'],
     };
 }
 
 export function CapitalizationToJSON(value?: Capitalization | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'smallCamel': value.smallCamel,
-        'CapitalCamel': value.capitalCamel,
-        'small_Snake': value.smallSnake,
-        'Capital_Snake': value.capitalSnake,
-        'SCA_ETH_Flow_Points': value.sCAETHFlowPoints,
-        'ATT_NAME': value.aTTNAME,
+        'smallCamel': value['smallCamel'],
+        'CapitalCamel': value['capitalCamel'],
+        'small_Snake': value['smallSnake'],
+        'Capital_Snake': value['capitalSnake'],
+        'SCA_ETH_Flow_Points': value['sCAETHFlowPoints'],
+        'ATT_NAME': value['aTTNAME'],
     };
 }
 

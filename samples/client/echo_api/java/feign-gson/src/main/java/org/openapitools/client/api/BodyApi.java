@@ -6,6 +6,7 @@ import org.openapitools.client.model.ApiResponse;
 
 import java.io.File;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.Tag;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public interface BodyApi extends ApiClient.Api {
 
 
@@ -243,6 +244,35 @@ public interface BodyApi extends ApiClient.Api {
     "Accept: text/plain",
   })
   ApiResponse<String> testEchoBodyPetResponseStringWithHttpInfo(Pet pet);
+
+
+
+  /**
+   * Test string enum response body
+   * Test string enum response body
+   * @param body String enum (optional)
+   * @return StringEnumRef
+   */
+  @RequestLine("POST /echo/body/string_enum")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  StringEnumRef testEchoBodyStringEnum(String body);
+
+  /**
+   * Test string enum response body
+   * Similar to <code>testEchoBodyStringEnum</code> but it also returns the http response headers .
+   * Test string enum response body
+   * @param body String enum (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /echo/body/string_enum")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(String body);
 
 
 

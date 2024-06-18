@@ -1,0 +1,402 @@
+## TeamsApi
+
+### Add team member (Legacy)
+## Add team member (Legacy)
+PUT https://api.github.com/teams/{{team_id}}/members/{{username}}
+Accept: application/json
+
+### Add or update team membership for a user
+## Add or update team membership for a user
+PUT https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/memberships/{{username}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "role" : "maintainer"
+}
+
+
+### Add or update team membership for a user (Legacy)
+## Add or update team membership for a user (Legacy)
+PUT https://api.github.com/teams/{{team_id}}/memberships/{{username}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "role" : "member"
+}
+
+
+### Add or update team project permissions
+## Add or update team project permissions
+PUT https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/projects/{{project_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "permission" : "write"
+}
+
+
+### Add or update team project permissions (Legacy)
+## Add or update team project permissions (Legacy)
+PUT https://api.github.com/teams/{{team_id}}/projects/{{project_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "permission" : "read"
+}
+
+
+### Add or update team repository permissions
+## Add or update team repository permissions
+PUT https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/repos/{{owner}}/{{repo}}
+Content-Type: application/json
+
+{
+  "permission" : "push"
+}
+
+
+### Add or update team repository permissions (Legacy)
+## Add or update team repository permissions (Legacy)
+PUT https://api.github.com/teams/{{team_id}}/repos/{{owner}}/{{repo}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "permission" : "push"
+}
+
+
+### Check team permissions for a project
+## Check team permissions for a project
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/projects/{{project_id}}
+Accept: application/json
+
+### Check team permissions for a project (Legacy)
+## Check team permissions for a project (Legacy)
+GET https://api.github.com/teams/{{team_id}}/projects/{{project_id}}
+Accept: application/json
+
+### Check team permissions for a repository
+## Check team permissions for a repository
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/repos/{{owner}}/{{repo}}
+Accept: application/json
+
+### Check team permissions for a repository (Legacy)
+## Check team permissions for a repository (Legacy)
+GET https://api.github.com/teams/{{team_id}}/repos/{{owner}}/{{repo}}
+Accept: application/json
+
+### Create a team
+## Create a team
+POST https://api.github.com/orgs/{{org}}/teams
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "Justice League",
+  "description" : "A great team",
+  "permission" : "push",
+  "notification_setting" : "notifications_enabled",
+  "privacy" : "closed"
+}
+
+
+### Create a discussion comment
+## Create a discussion comment
+POST https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "body" : "Do you like apples?"
+}
+
+
+### Create a discussion comment (Legacy)
+## Create a discussion comment (Legacy)
+POST https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "body" : "Do you like apples?"
+}
+
+
+### Create a discussion
+## Create a discussion
+POST https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title" : "Our first team post",
+  "body" : "Hi! This is an area for us to collaborate as a team."
+}
+
+
+### Create a discussion (Legacy)
+## Create a discussion (Legacy)
+POST https://api.github.com/teams/{{team_id}}/discussions
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title" : "Our first team post",
+  "body" : "Hi! This is an area for us to collaborate as a team."
+}
+
+
+### Delete a discussion comment
+## Delete a discussion comment
+DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}
+
+### Delete a discussion comment (Legacy)
+## Delete a discussion comment (Legacy)
+DELETE https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments/{{comment_number}}
+
+### Delete a discussion
+## Delete a discussion
+DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}
+
+### Delete a discussion (Legacy)
+## Delete a discussion (Legacy)
+DELETE https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}
+
+### Delete a team
+## Delete a team
+DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}
+
+### Delete a team (Legacy)
+## Delete a team (Legacy)
+DELETE https://api.github.com/teams/{{team_id}}
+Accept: application/json
+
+### Get a team by name
+## Get a team by name
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}
+Accept: application/json
+
+### Get a discussion comment
+## Get a discussion comment
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}
+Accept: application/json
+
+### Get a discussion comment (Legacy)
+## Get a discussion comment (Legacy)
+GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments/{{comment_number}}
+Accept: application/json
+
+### Get a discussion
+## Get a discussion
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}
+Accept: application/json
+
+### Get a discussion (Legacy)
+## Get a discussion (Legacy)
+GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}
+Accept: application/json
+
+### Get a team (Legacy)
+## Get a team (Legacy)
+GET https://api.github.com/teams/{{team_id}}
+Accept: application/json
+
+### Get team member (Legacy)
+## Get team member (Legacy)
+GET https://api.github.com/teams/{{team_id}}/members/{{username}}
+
+### Get team membership for a user
+## Get team membership for a user
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/memberships/{{username}}
+Accept: application/json
+
+### Get team membership for a user (Legacy)
+## Get team membership for a user (Legacy)
+GET https://api.github.com/teams/{{team_id}}/memberships/{{username}}
+Accept: application/json
+
+### List teams
+## List teams
+GET https://api.github.com/orgs/{{org}}/teams?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List child teams
+## List child teams
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/teams?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List child teams (Legacy)
+## List child teams (Legacy)
+GET https://api.github.com/teams/{{team_id}}/teams?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List discussion comments
+## List discussion comments
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments?direction={{direction}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List discussion comments (Legacy)
+## List discussion comments (Legacy)
+GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments?direction={{direction}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List discussions
+## List discussions
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions?direction={{direction}}&perPage={{perPage}}&page={{page}}&pinned={{pinned}}
+Accept: application/json
+
+### List discussions (Legacy)
+## List discussions (Legacy)
+GET https://api.github.com/teams/{{team_id}}/discussions?direction={{direction}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List teams for the authenticated user
+## List teams for the authenticated user
+GET https://api.github.com/user/teams?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List team members
+## List team members
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/members?role={{role}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List team members (Legacy)
+## List team members (Legacy)
+GET https://api.github.com/teams/{{team_id}}/members?role={{role}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List pending team invitations
+## List pending team invitations
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/invitations?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List pending team invitations (Legacy)
+## List pending team invitations (Legacy)
+GET https://api.github.com/teams/{{team_id}}/invitations?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List team projects
+## List team projects
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/projects?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List team projects (Legacy)
+## List team projects (Legacy)
+GET https://api.github.com/teams/{{team_id}}/projects?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List team repositories
+## List team repositories
+GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/repos?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List team repositories (Legacy)
+## List team repositories (Legacy)
+GET https://api.github.com/teams/{{team_id}}/repos?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Remove team member (Legacy)
+## Remove team member (Legacy)
+DELETE https://api.github.com/teams/{{team_id}}/members/{{username}}
+
+### Remove team membership for a user
+## Remove team membership for a user
+DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/memberships/{{username}}
+
+### Remove team membership for a user (Legacy)
+## Remove team membership for a user (Legacy)
+DELETE https://api.github.com/teams/{{team_id}}/memberships/{{username}}
+
+### Remove a project from a team
+## Remove a project from a team
+DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/projects/{{project_id}}
+
+### Remove a project from a team (Legacy)
+## Remove a project from a team (Legacy)
+DELETE https://api.github.com/teams/{{team_id}}/projects/{{project_id}}
+Accept: application/json
+
+### Remove a repository from a team
+## Remove a repository from a team
+DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/repos/{{owner}}/{{repo}}
+
+### Remove a repository from a team (Legacy)
+## Remove a repository from a team (Legacy)
+DELETE https://api.github.com/teams/{{team_id}}/repos/{{owner}}/{{repo}}
+
+### Update a discussion comment
+## Update a discussion comment
+PATCH https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "body" : "Do you like pineapples?"
+}
+
+
+### Update a discussion comment (Legacy)
+## Update a discussion comment (Legacy)
+PATCH https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments/{{comment_number}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "body" : "Do you like pineapples?"
+}
+
+
+### Update a discussion
+## Update a discussion
+PATCH https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title" : "Welcome to our first team post"
+}
+
+
+### Update a discussion (Legacy)
+## Update a discussion (Legacy)
+PATCH https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title" : "Welcome to our first team post"
+}
+
+
+### Update a team
+## Update a team
+PATCH https://api.github.com/orgs/{{org}}/teams/{{team_slug}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "new team name",
+  "description" : "new team description",
+  "privacy" : "closed",
+  "notification_setting" : "notifications_enabled"
+}
+
+
+### Update a team (Legacy)
+## Update a team (Legacy)
+PATCH https://api.github.com/teams/{{team_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "new team name",
+  "description" : "new team description",
+  "privacy" : "closed",
+  "notification_setting" : "notifications_enabled"
+}
+

@@ -20,6 +20,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
@@ -51,12 +52,7 @@ public class KotlinTestUtils {
         CompilerConfiguration configuration = new CompilerConfiguration();
         configuration.put(CommonConfigurationKeys.MODULE_NAME, moduleName);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = null;
-        try {
-            ps = new PrintStream(baos, true, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        PrintStream ps = new PrintStream(baos, true, StandardCharsets.UTF_8);
         configuration.put(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, new PrintingMessageCollector(ps, MessageRenderer.PLAIN_FULL_PATHS, true));
         configuration.put(JVMConfigurationKeys.OUTPUT_DIRECTORY, saveClassesDir);
 //        configuration.put(JVMConfigurationKeys.RETAIN_OUTPUT_IN_MEMORY, true)

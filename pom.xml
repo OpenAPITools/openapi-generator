@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>5</version>
-        <relativePath/>
-    <!-- lookup parent from repository -->
+        <relativePath />
+        <!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
@@ -13,7 +15,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>7.3.0-SNAPSHOT</version>
+    <version>7.7.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -410,11 +412,25 @@
                     <artifactId>git-commit-id-plugin</artifactId>
                     <version>${git-commit-id-plugin.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>com.gradle</groupId>
+                    <artifactId>gradle-enterprise-maven-extension</artifactId>
+                    <configuration>
+                        <gradleEnterprise>
+                            <normalization>
+                                <runtimeClassPath>
+                                    <ignoredFiles>
+                                        <ignoredFile>**/_merged_spec.yaml</ignoredFile>
+                                    </ignoredFiles>
+                                </runtimeClassPath>
+                            </normalization>
+                        </gradleEnterprise>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
     <profiles>
-
         <profile>
             <id>release</id>
             <build>
@@ -447,7 +463,6 @@
                 </plugins>
             </build>
         </profile>
-
         <profile>
             <id>release-sign-artifacts</id>
             <activation>
@@ -492,7 +507,8 @@
                             <failOnError>false</failOnError>
                             <!-- https://spotbugs.readthedocs.io/en/stable/effort.html -->
                             <effort>min</effort>
-                            <excludeFilterFile>${project.basedir}${file.separator}spotbugs-exclude.xml</excludeFilterFile>
+                            <excludeFilterFile>
+                                ${project.basedir}${file.separator}spotbugs-exclude.xml</excludeFilterFile>
                         </configuration>
                         <executions>
                             <execution>
@@ -1170,21 +1186,16 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
                 <version>${junit.version}</version>
-                <scope>test</scope>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
                 <version>${testng.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.openrewrite</groupId>
-                <artifactId>rewrite-maven</artifactId>
-                <version>${openrewrite.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -1201,7 +1212,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <archunit.version>0.23.1</archunit.version>
+        <archunit.version>1.3.0</archunit.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
         <commons-cli.version>1.5.0</commons-cli.version>
         <commons-io.version>2.11.0</commons-io.version>
@@ -1214,11 +1225,10 @@
         <guava.version>32.1.3-jre</guava.version>
         <handlebars-java.version>4.3.1</handlebars-java.version>
         <jackson-threetenbp.version>2.15.2</jackson-threetenbp.version>
-        <jackson-databind.version>2.15.3</jackson-databind.version>
-        <jackson.version>2.15.3</jackson.version>
+        <jackson.version>2.17.1</jackson.version>
         <jacoco.version>0.8.10</jacoco.version>
         <jmustache.version>1.15</jmustache.version>
-        <junit.version>4.13.2</junit.version>
+        <junit.version>5.10.2</junit.version>
         <kotlin.version>1.6.21</kotlin.version>
         <kotlin-compiler-embeddable.version>1.6.21</kotlin-compiler-embeddable.version>
         <lombok.version>1.18.30</lombok.version>
@@ -1229,18 +1239,17 @@
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-site-plugin.version>4.0.0-M8</maven-site-plugin.version>
-        <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <mockito.version>4.10.0</mockito.version>
-        <openrewrite.version>8.8.3</openrewrite.version>
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
-        <reflections.version>0.10.2</reflections.version>
+        <resolver-util-version>1.9.18</resolver-util-version>
         <rxgen.version>1.4</rxgen.version>
         <scala-maven-plugin.version>4.6.1</scala-maven-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
-        <swagger-parser.version>2.1.19</swagger-parser.version>
-        <testng.version>7.5</testng.version>
+        <swagger-parser.version>2.1.22</swagger-parser.version>
+        <testng.version>7.10.2</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>
         <wagon-svn.version>1.12</wagon-svn.version>

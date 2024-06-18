@@ -22,6 +22,7 @@ export(Pet)
 export(Query)
 export(StringEnumRef)
 export(Tag)
+export(TestFormObjectMultipartRequestMarker)
 export(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter)
 export(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter)
 

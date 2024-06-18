@@ -22,7 +22,7 @@ print EnumArrays.to_json()
 # convert the object into a dict
 enum_arrays_dict = enum_arrays_instance.to_dict()
 # create an instance of EnumArrays from a dict
-enum_arrays_form_dict = enum_arrays.from_dict(enum_arrays_dict)
+enum_arrays_from_dict = EnumArrays.from_dict(enum_arrays_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public interface FakeApi extends ApiClient.Api {
 
 
@@ -1042,4 +1042,31 @@ public interface FakeApi extends ApiClient.Api {
       return this;
     }
   }
+
+  /**
+   * test referenced string map
+   * 
+   * @param requestBody request body (required)
+   */
+  @RequestLine("POST /fake/stringMap-reference")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testStringMapReference(Map<String, String> requestBody);
+
+  /**
+   * test referenced string map
+   * Similar to <code>testStringMapReference</code> but it also returns the http response headers .
+   * 
+   * @param requestBody request body (required)
+   */
+  @RequestLine("POST /fake/stringMap-reference")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Void> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody);
+
+
 }

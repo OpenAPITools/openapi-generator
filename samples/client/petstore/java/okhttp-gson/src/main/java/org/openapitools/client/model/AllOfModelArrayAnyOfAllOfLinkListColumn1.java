@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * AllOfModelArrayAnyOfAllOfLinkListColumn1
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
   public static final String SERIALIZED_NAME_VALUE = "value";
   @SerializedName(SERIALIZED_NAME_VALUE)
@@ -74,10 +74,10 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
     return this;
   }
 
-   /**
+  /**
    * Get value
    * @return value
-  **/
+   */
   @javax.annotation.Nonnull
   public List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> getValue() {
     return value;
@@ -186,12 +186,12 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
     openapiRequiredFields.add("value");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOfAllOfLinkListColumn1
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOfAllOfLinkListColumn1
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AllOfModelArrayAnyOfAllOfLinkListColumn1.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -246,7 +246,12 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -285,22 +290,22 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
     }
   }
 
- /**
-  * Create an instance of AllOfModelArrayAnyOfAllOfLinkListColumn1 given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AllOfModelArrayAnyOfAllOfLinkListColumn1
-  * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOfAllOfLinkListColumn1
-  */
+  /**
+   * Create an instance of AllOfModelArrayAnyOfAllOfLinkListColumn1 given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AllOfModelArrayAnyOfAllOfLinkListColumn1
+   * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOfAllOfLinkListColumn1
+   */
   public static AllOfModelArrayAnyOfAllOfLinkListColumn1 fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AllOfModelArrayAnyOfAllOfLinkListColumn1.class);
   }
 
- /**
-  * Convert an instance of AllOfModelArrayAnyOfAllOfLinkListColumn1 to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AllOfModelArrayAnyOfAllOfLinkListColumn1 to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

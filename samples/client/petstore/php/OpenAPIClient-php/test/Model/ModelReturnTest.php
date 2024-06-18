@@ -76,7 +76,7 @@ class ModelReturnTest extends TestCase
     public function testModelReturn()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class ModelReturnTest extends TestCase
     public function testPropertyReturn()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

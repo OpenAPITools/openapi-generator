@@ -76,7 +76,7 @@ class FooGetDefaultResponseTest extends TestCase
     public function testFooGetDefaultResponse()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class FooGetDefaultResponseTest extends TestCase
     public function testPropertyString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

@@ -25,7 +25,7 @@ import javax.json.bind.annotation.JsonbProperty;
 
 /**
   * A category for a pet
- **/
+  */
 
 public class Category  {
   
@@ -35,17 +35,17 @@ public class Category  {
   @JsonbProperty("name")
   private String name;
 
- /**
+  /**
    * Get id
    * @return id
-  **/
+   **/
   public Long getId() {
     return id;
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -55,17 +55,17 @@ public class Category  {
     return this;
   }
 
- /**
+  /**
    * Get name
    * @return name
-  **/
+   **/
   public String getName() {
     return name;
   }
 
   /**
-    * Set name
-  **/
+   * Set name
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -77,8 +77,8 @@ public class Category  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -101,3 +101,4 @@ public class Category  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

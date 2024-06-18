@@ -13,7 +13,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>7.3.0-SNAPSHOT</version>
+                <version>7.7.0-SNAPSHOT</version>
                 <!-- /RELEASE_VERSION -->
                 <executions>
                     <execution>
@@ -68,6 +68,30 @@
                             <modelPackage>remote.org.openapitools.client.model</modelPackage>
                             <invokerPackage>remote.org.openapitools.client</invokerPackage>
                             <cleanupOutput>true</cleanupOutput>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>jar</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <!-- specify the swagger yaml -->
+                            <inputSpec>jar:file:${project.basedir}/../src/test/resources/default/local-repo/petstore/schema/1/schema-1.jar!/petstore.yaml</inputSpec>
+
+                            <!-- target to generate java client code -->
+                            <generatorName>java</generatorName>
+
+                            <!-- hint: if you want to generate java server code, e.g. based on Spring Boot,
+                                 you can use the following target: <generatorName>spring</generatorName> -->
+
+                            <!-- pass any necessary config options -->
+                            <configOptions>
+                                <dateLibrary>joda</dateLibrary>
+                            </configOptions>
+
+                            <!-- override the default library to jersey2 -->
+                            <library>jersey2</library>
                         </configuration>
                     </execution>
                 </executions>

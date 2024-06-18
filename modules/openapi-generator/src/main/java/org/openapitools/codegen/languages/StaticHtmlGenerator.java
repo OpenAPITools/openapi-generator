@@ -21,7 +21,6 @@ import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache.Compiler;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -116,8 +115,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
@@ -206,6 +204,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         }
     }
 
+    @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         Info info = openAPI.getInfo();
         info.setDescription(toHtml(info.getDescription()));
@@ -218,6 +217,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     }
 
     // override to post-process any parameters
+    @Override
     public void postProcessParameter(CodegenParameter parameter) {
         parameter.description = toHtml(parameter.description);
         parameter.unescapedDescription = toHtml(
@@ -225,6 +225,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     }
 
     // override to post-process any model properties
+    @Override
     public void postProcessModelProperty(CodegenModel model,
                                          CodegenProperty property) {
         property.description = toHtml(property.description);

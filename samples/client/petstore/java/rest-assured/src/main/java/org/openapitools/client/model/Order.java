@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Order
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Order {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -113,10 +113,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -129,17 +129,16 @@ public class Order {
     this.id = id;
   }
 
-
   public Order petId(Long petId) {
     
     this.petId = petId;
     return this;
   }
 
-   /**
+  /**
    * Get petId
    * @return petId
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -152,17 +151,16 @@ public class Order {
     this.petId = petId;
   }
 
-
   public Order quantity(Integer quantity) {
     
     this.quantity = quantity;
     return this;
   }
 
-   /**
+  /**
    * Get quantity
    * @return quantity
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -175,17 +173,16 @@ public class Order {
     this.quantity = quantity;
   }
 
-
   public Order shipDate(OffsetDateTime shipDate) {
     
     this.shipDate = shipDate;
     return this;
   }
 
-   /**
+  /**
    * Get shipDate
    * @return shipDate
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -199,17 +196,16 @@ public class Order {
     this.shipDate = shipDate;
   }
 
-
   public Order status(StatusEnum status) {
     
     this.status = status;
     return this;
   }
 
-   /**
+  /**
    * Order Status
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -222,17 +218,16 @@ public class Order {
     this.status = status;
   }
 
-
   public Order complete(Boolean complete) {
     
     this.complete = complete;
     return this;
   }
 
-   /**
+  /**
    * Get complete
    * @return complete
-  **/
+   */
   @javax.annotation.Nullable
 
 

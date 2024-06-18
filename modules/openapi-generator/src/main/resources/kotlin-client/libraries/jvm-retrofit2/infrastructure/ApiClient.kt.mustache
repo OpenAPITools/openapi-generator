@@ -55,7 +55,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 {{/jackson}}
 
 {{#kotlinx_serialization}}
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import {{packageName}}.infrastructure.Serializer.kotlinxSerializationJson
 import okhttp3.MediaType.Companion.toMediaType
 {{/kotlinx_serialization}}
@@ -90,7 +90,7 @@ import okhttp3.MediaType.Companion.toMediaType
         kotlinxSerializationJson.asConverterFactory("application/json".toMediaType()),
         {{/kotlinx_serialization}}
         {{#jackson}}
-        JacksonConverterFactory.create(),
+        JacksonConverterFactory.create(serializerBuilder),
         {{/jackson}}
     )
 ) {
@@ -148,6 +148,21 @@ import okhttp3.MediaType.Companion.toMediaType
                 addAuthorization(authName, auth)
             }
         }
+	{{#generateOneOfAnyOfWrappers}}
+        {{^kotlinx_serialization}}
+        {{#gson}}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^hasChildren}}
+        serializerBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+        {{/hasChildren}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{/gson}}
+        {{/kotlinx_serialization}}
+	{{/generateOneOfAnyOfWrappers}}
     }
 
     {{#authMethods}}
@@ -162,6 +177,21 @@ import okhttp3.MediaType.Companion.toMediaType
         password: String
     ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
         setCredentials(username, password)
+	{{#generateOneOfAnyOfWrappers}}
+        {{^kotlinx_serialization}}
+        {{#gson}}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^hasChildren}}
+        serializerBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+        {{/hasChildren}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{/gson}}
+        {{/kotlinx_serialization}}
+	{{/generateOneOfAnyOfWrappers}}
     }
 
     {{/isBasicBasic}}
@@ -174,6 +204,21 @@ import okhttp3.MediaType.Companion.toMediaType
         bearerToken: String
     ) : this(baseUrl, okHttpClientBuilder, {{^kotlinx_serialization}}serializerBuilder, {{/kotlinx_serialization}}arrayOf(authName)) {
         setBearerToken(bearerToken)
+	{{#generateOneOfAnyOfWrappers}}
+        {{^kotlinx_serialization}}
+        {{#gson}}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^hasChildren}}
+        serializerBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+        {{/hasChildren}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{/gson}}
+        {{/kotlinx_serialization}}
+	{{/generateOneOfAnyOfWrappers}}
     }
 
     {{/isBasicBearer}}
@@ -195,6 +240,21 @@ import okhttp3.MediaType.Companion.toMediaType
             ?.setClientSecret(secret)
             ?.setUsername(username)
             ?.setPassword(password)
+	{{#generateOneOfAnyOfWrappers}}
+        {{^kotlinx_serialization}}
+        {{#gson}}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^hasChildren}}
+        serializerBuilder.registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+        {{/hasChildren}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{/gson}}
+        {{/kotlinx_serialization}}
+	{{/generateOneOfAnyOfWrappers}}
     }
 
     {{/hasOAuthMethods}}

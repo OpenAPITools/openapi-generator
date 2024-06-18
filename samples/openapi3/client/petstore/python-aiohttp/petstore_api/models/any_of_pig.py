@@ -17,11 +17,11 @@ from inspect import getfullargspec
 import json
 import pprint
 import re  # noqa: F401
-from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
 from typing import Optional
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
-from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
+from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
 from typing_extensions import Literal, Self
 from pydantic import Field
 
@@ -40,7 +40,7 @@ class AnyOfPig(BaseModel):
         actual_instance: Optional[Union[BasquePig, DanishPig]] = None
     else:
         actual_instance: Any = None
-    any_of_schemas: List[str] = Field(default=Literal["BasquePig", "DanishPig"])
+    any_of_schemas: Set[str] = { "BasquePig", "DanishPig" }
 
     model_config = {
         "validate_assignment": True,

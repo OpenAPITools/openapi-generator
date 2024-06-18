@@ -1,10 +1,9 @@
 {{#withXml}}
-@XmlAccessorType(XmlAccessType.FIELD)
-{{#hasVars}} @XmlType(name = "{{classname}}", propOrder =
-    { {{#vars}}"{{name}}"{{^-last}}, {{/-last}}{{/vars}}
-}){{/hasVars}}
+{{#hasVars}}@XmlType(name = "{{classname}}", propOrder =
+    { {{#vars}}"{{name}}"{{^-last}}, {{/-last}}{{/vars}} }
+){{/hasVars}}
 {{^hasVars}}@XmlType(name = "{{classname}}"){{/hasVars}}
-{{^parent}}@XmlRootElement(name="{{classname}}"){{/parent}}
+{{> xmlAnnotation }}
 {{/withXml}}
 {{#jackson}}
 @JsonPropertyOrder({
@@ -21,7 +20,7 @@
 {{#description}}
 /**
   * {{{.}}}
- **/
+  */
 {{/description}}
 {{>additionalModelTypeAnnotations}}
 {{#vendorExtensions.x-class-extra-annotation}}
@@ -35,12 +34,15 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   public static final String JSON_PROPERTY_{{nameInSnakeCase}} = "{{baseName}}";
 {{/jackson}}
 {{#withXml}}
-  @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
+  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+  {{#isXmlWrapped}}
+  @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+  {{/isXmlWrapped}}
 {{/withXml}}
 {{#description}}
  /**
-   * {{{.}}}
-  **/
+  * {{{.}}}
+  */
 {{/description}}
   {{^withXml}}
   {{#jsonb}}@JsonbProperty("{{baseName}}"){{/jsonb}}
@@ -62,7 +64,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
  {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
   public {{classname}}(
   {{#readOnlyVars}}
-    {{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nillable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}}{{#required}}, required = true{{/required}}){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+    {{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nillable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(value = JSON_PROPERTY_{{nameInSnakeCase}}{{#required}}, required = true{{/required}}){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
   {{/readOnlyVars}}
   ) {
   {{#readOnlyVars}}
@@ -71,7 +73,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   }
   {{/withXml}}{{/vendorExtensions.x-has-readonly-properties}}
   {{#vars}}
- /**
+  /**
   {{#description}}
    * {{.}}
   {{/description}}
@@ -88,7 +90,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{#deprecated}}
    * @deprecated
   {{/deprecated}}
-  **/
+   **/
 {{#deprecated}}
   @Deprecated
 {{/deprecated}}
@@ -112,8 +114,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 
   {{^isReadOnly}}
   /**
-    * Set {{name}}
-  **/
+   * Set {{name}}
+   */
 {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
 {{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
@@ -125,7 +127,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   }
   {{#isArray}}
 
-  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+  public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
     }
@@ -135,7 +137,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{/isArray}}
   {{#isMap}}
 
-  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+  public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
       this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
     }
@@ -148,8 +150,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{/vars}}
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -30,6 +30,7 @@ Method | HTTP request | Description
 [**testJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 [**testNullable**](FakeApi.md#testnullable) | **POST** /fake/nullable | test nullable parent property
 [**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
+[**testStringMapReference**](FakeApi.md#teststringmapreference) | **POST** /fake/stringMap-reference | test referenced string map
 
 
 # **fakeBigDecimalMap**
@@ -985,6 +986,48 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **testStringMapReference**
+> testStringMapReference(requestBody)
+
+test referenced string map
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api_instance = FakeApi();
+final requestBody = Map<String, String>(); // Map<String, String> | request body
+
+try {
+    api_instance.testStringMapReference(requestBody);
+} catch (e) {
+    print('Exception when calling FakeApi->testStringMapReference: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **requestBody** | [**Map<String, String>**](String.md)| request body | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

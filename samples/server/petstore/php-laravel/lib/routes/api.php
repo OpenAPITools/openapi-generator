@@ -176,6 +176,13 @@ Route::post('/v2/fake/outer/string', 'FakeController@fakeOuterStringSerialize');
  */
 Route::post('/v2/fake/property/enum-int', 'FakeController@fakePropertyEnumIntegerSerialize');
 /**
+ * post testStringMapReference
+ * Summary: test referenced string map
+ * Notes: 
+
+ */
+Route::post('/v2/fake/stringMap-reference', 'FakeController@testStringMapReference');
+/**
  * put testQueryParameterCollectionFormat
  * Summary: 
  * Notes: To test the collection format in query parameters

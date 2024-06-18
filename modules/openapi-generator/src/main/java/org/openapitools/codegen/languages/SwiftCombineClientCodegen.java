@@ -16,10 +16,10 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -54,7 +54,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
 
     public static final String PROJECT_NAME = "projectName";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
-    protected String projectName = "OpenAPIClient";
+    @Setter protected String projectName = "OpenAPIClient";
     protected String privateFolder = "Sources/Private";
     protected String sourceFolder = "Sources";
     protected String transportFolder = "OpenAPITransport";
@@ -289,7 +289,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            Schema<?> items = ModelUtils.getSchemaItems(schema);
             return ModelUtils.isSet(target) && ModelUtils.isObjectSchema(items) ? "Set<" + getTypeDeclaration(items) + ">" : "[" + getTypeDeclaration(items) + "]";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
@@ -422,8 +422,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         if (ModelUtils.isMapSchema(p)) {
             return getSchemaType(ModelUtils.getAdditionalProperties(p));
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
             return ModelUtils.isSet(p) ? "Set<" + inner + ">" : "[" + inner + "]";
         }
         return null;
@@ -552,10 +551,6 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
                 .filter(p -> allVarsMap.containsKey(p.baseName))
                 .forEach(p -> p.isInherited = true);
         return m;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
     }
 
     @Override
@@ -729,12 +724,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
 
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
-            modelMaps.put(m.classname, m);
-        }
+        HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
 
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
