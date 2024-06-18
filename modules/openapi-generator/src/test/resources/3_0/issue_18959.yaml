@@ -1,0 +1,63 @@
+openapi: 3.0.3
+info:
+  title: sample spec
+  version: 1.0.0
+paths:
+  /test/{groupObj}:
+    post:
+      summary: Post to test
+      description: ''
+      operationId: postToTest
+      parameters:
+        - $ref: '#/components/parameters/groupObj'
+        - $ref: '#/components/parameters/token'
+        - $ref: '#/components/parameters/clientId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjTest'
+      responses:
+        201:
+          description: success
+components:
+  parameters:
+    groupObj:
+      in: path
+      name: groupObj
+      required: true
+      schema:
+        type: string
+        pattern: "[a-zA-Z]"
+        x-pattern-message: "Only letters"
+    token:
+      in: query
+      name: token
+      required: true
+      schema:
+        type: string
+        pattern: "[0-9a-fA-F]"
+        x-pattern-message: "Only numbers and letters a-f"
+    clientId:
+      in: header
+      name: clientId
+      required: true
+      schema:
+        type: string
+        pattern: "\\d"
+        x-pattern-message: "Only numbers"
+  schemas:
+    ObjTest:
+      description: A model to return
+      type: object
+      properties:
+        field1:
+          type: integer
+          format: int64
+        field2:
+          type: string
+          pattern: "\\w"
+          x-pattern-message: "Only letters, numbers and underscore"
+        field3:
+          type: string
+          pattern: "\\w"
