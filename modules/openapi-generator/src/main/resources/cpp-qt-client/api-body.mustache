@@ -672,7 +672,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     }
 #endif
 
-    connect(worker, &{{prefix}}HttpRequestWorker::downloadProgress, this, &{{classname}}::downloadProgress);
+    connect(worker, &{{prefix}}HttpRequestWorker::downloadProgress, this, &{{classname}}::{{nickname}}DownloadProgress);
     connect(worker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -699,6 +699,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
 
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::downloadProgress, this, &{{classname}}::{{nickname}}DownloadProgress);
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -729,6 +730,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
 
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::downloadProgress, this, &{{classname}}::{{nickname}}DownloadProgress);
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -759,6 +761,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
 
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::downloadProgress, this, &{{classname}}::{{nickname}}DownloadProgress);
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -789,6 +792,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
 
+    connect(_latestWorker, &{{prefix}}HttpRequestWorker::downloadProgress, this, &{{classname}}::{{nickname}}DownloadProgress);
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
