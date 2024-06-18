@@ -198,6 +198,7 @@ Q_SIGNALS:
     void updateUserSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void updateUserSignalErrorFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
 
+    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
