@@ -150,3 +150,4 @@ org.openapitools.codegen.languages.WsdlSchemaCodegen
 org.openapitools.codegen.languages.XojoClientCodegen
 org.openapitools.codegen.languages.ZapierClientCodegen
 org.openapitools.codegen.languages.RustAxumServerCodegen
+org.openapitools.codegen.languages.DartNextClientCodegen

@@ -1,0 +1,33 @@
+//class serialization
+
+Map<String, dynamic> _${{classname}}ToJson({{classname}} instance) => <String, dynamic>{
+
+};
+
+{{classname}} _${{classname}}FromJson(Map<String, dynamic> src) {
+  return {{classname}}.$all(
+
+  );
+}
+
+XmlElement _${{classname}}ToXml({{classname}} instance) {
+  final reflection = {{classname}}XmlReflection.instance;
+  final result = XmlElement(
+    XmlName(reflection.oasName, reflection.oasNamespace),
+    //attributes
+    [
+
+    ],
+    //elements
+    [
+    ],
+  );
+  return result;
+}
+
+{{classname}} _${{classname}}FromXml(XmlElement src) {
+  final reflection = {{classname}}XmlReflection.instance;
+  return {{classname}}.$all(
+
+  );
+}

@@ -1,0 +1,17 @@
+// Model def
+
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:{{pubName}}/_internal.dart';
+import 'package:xml/xml.dart';
+
+{{#models}}{{#model}}part '{{classFilename}}.reflection.dart';
+part '{{classFilename}}.serialization.dart';
+{{/model}}{{/models}}
+
+{{#models}}{{#model}}{{#isEnum}}{{>lib/src/models/enum}}{{/isEnum}}{{^isEnum}}{{>lib/src/models/class}}
+{{/isEnum}}{{/model}}{{/models}}
+
+/*
+{{{this}}}
+*/
