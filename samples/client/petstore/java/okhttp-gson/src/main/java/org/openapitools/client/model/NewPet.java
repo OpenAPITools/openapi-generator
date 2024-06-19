@@ -68,6 +68,14 @@ public class NewPet {
   @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF)
   private Category categoryAllOfRef;
 
+  public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION = "category_allOf_ref_description";
+  @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION)
+  private Category categoryAllOfRefDescription;
+
+  public static final String SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY = "category_allOf_ref_description_readonly";
+  @SerializedName(SERIALIZED_NAME_CATEGORY_ALL_OF_REF_DESCRIPTION_READONLY)
+  private Category categoryAllOfRefDescriptionReadonly;
+
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
@@ -141,6 +149,13 @@ public class NewPet {
   public NewPet() {
   }
 
+  public NewPet(
+     Category categoryAllOfRefDescriptionReadonly
+  ) {
+    this();
+    this.categoryAllOfRefDescriptionReadonly = categoryAllOfRefDescriptionReadonly;
+  }
+
   public NewPet id(Long id) {
     this.id = id;
     return this;
@@ -196,6 +211,36 @@ public class NewPet {
   public void setCategoryAllOfRef(Category categoryAllOfRef) {
     this.categoryAllOfRef = categoryAllOfRef;
   }
+
+
+  public NewPet categoryAllOfRefDescription(Category categoryAllOfRefDescription) {
+    this.categoryAllOfRefDescription = categoryAllOfRefDescription;
+    return this;
+  }
+
+  /**
+   * Adding description to property using allOf 
+   * @return categoryAllOfRefDescription
+   */
+  @javax.annotation.Nullable
+  public Category getCategoryAllOfRefDescription() {
+    return categoryAllOfRefDescription;
+  }
+
+  public void setCategoryAllOfRefDescription(Category categoryAllOfRefDescription) {
+    this.categoryAllOfRefDescription = categoryAllOfRefDescription;
+  }
+
+
+  /**
+   * Adding description to readonly property using allOf 
+   * @return categoryAllOfRefDescriptionReadonly
+   */
+  @javax.annotation.Nullable
+  public Category getCategoryAllOfRefDescriptionReadonly() {
+    return categoryAllOfRefDescriptionReadonly;
+  }
+
 
 
   public NewPet name(String name) {
@@ -347,6 +392,8 @@ public class NewPet {
     return Objects.equals(this.id, newPet.id) &&
         Objects.equals(this.categoryInlineAllof, newPet.categoryInlineAllof) &&
         Objects.equals(this.categoryAllOfRef, newPet.categoryAllOfRef) &&
+        Objects.equals(this.categoryAllOfRefDescription, newPet.categoryAllOfRefDescription) &&
+        Objects.equals(this.categoryAllOfRefDescriptionReadonly, newPet.categoryAllOfRefDescriptionReadonly) &&
         Objects.equals(this.name, newPet.name) &&
         Objects.equals(this.photoUrls, newPet.photoUrls) &&
         Objects.equals(this.tags, newPet.tags) &&
@@ -356,7 +403,7 @@ public class NewPet {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, categoryInlineAllof, categoryAllOfRef, name, photoUrls, tags, status, additionalProperties);
+    return Objects.hash(id, categoryInlineAllof, categoryAllOfRef, categoryAllOfRefDescription, categoryAllOfRefDescriptionReadonly, name, photoUrls, tags, status, additionalProperties);
   }
 
   @Override
@@ -366,6 +413,8 @@ public class NewPet {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    categoryInlineAllof: ").append(toIndentedString(categoryInlineAllof)).append("\n");
     sb.append("    categoryAllOfRef: ").append(toIndentedString(categoryAllOfRef)).append("\n");
+    sb.append("    categoryAllOfRefDescription: ").append(toIndentedString(categoryAllOfRefDescription)).append("\n");
+    sb.append("    categoryAllOfRefDescriptionReadonly: ").append(toIndentedString(categoryAllOfRefDescriptionReadonly)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
     sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
@@ -396,6 +445,8 @@ public class NewPet {
     openapiFields.add("id");
     openapiFields.add("category_inline_allof");
     openapiFields.add("category_allOf_ref");
+    openapiFields.add("category_allOf_ref_description");
+    openapiFields.add("category_allOf_ref_description_readonly");
     openapiFields.add("name");
     openapiFields.add("photoUrls");
     openapiFields.add("tags");
@@ -434,6 +485,14 @@ public class NewPet {
       // validate the optional field `category_allOf_ref`
       if (jsonObj.get("category_allOf_ref") != null && !jsonObj.get("category_allOf_ref").isJsonNull()) {
         Category.validateJsonElement(jsonObj.get("category_allOf_ref"));
+      }
+      // validate the optional field `category_allOf_ref_description`
+      if (jsonObj.get("category_allOf_ref_description") != null && !jsonObj.get("category_allOf_ref_description").isJsonNull()) {
+        Category.validateJsonElement(jsonObj.get("category_allOf_ref_description"));
+      }
+      // validate the optional field `category_allOf_ref_description_readonly`
+      if (jsonObj.get("category_allOf_ref_description_readonly") != null && !jsonObj.get("category_allOf_ref_description_readonly").isJsonNull()) {
+        Category.validateJsonElement(jsonObj.get("category_allOf_ref_description_readonly"));
       }
       if (!jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
