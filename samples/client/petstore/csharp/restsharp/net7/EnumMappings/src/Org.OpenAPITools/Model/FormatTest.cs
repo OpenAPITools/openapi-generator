@@ -178,7 +178,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = true)]
-        [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateOnly Date { get; set; }
 
         /// <summary>
