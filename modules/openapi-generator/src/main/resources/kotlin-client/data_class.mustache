@@ -163,6 +163,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
 {{/vars}}
 {{/hasEnums}}
 {{#generateOneOfAnyOfWrappers}}
+    {{#gson}}
 
     class CustomTypeAdapterFactory : TypeAdapterFactory {
         override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
@@ -249,24 +250,22 @@ import {{packageName}}.infrastructure.ITransformForStorage
               throw IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString()))
             }
       
-            val jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}")
             // validate the required field `{{{baseName}}}` (array)
-            for (i in 0 until jsonArray{{name}}.size()) {
-              {{{items.dataType}}}.validateJsonElement(jsonArray{{name}}.get(i))
+            for (i in 0 until jsonObj.getAsJsonArray("{{{baseName}}}").size()) {
+              {{{items.dataType}}}.validateJsonElement(jsonObj.getAsJsonArray("{{{baseName}}}").get(i))
             }
             {{/required}}
             {{^required}}
             if (jsonObj["{{{baseName}}}"] != null && !jsonObj["{{{baseName}}}"].isJsonNull) {
-              val jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}")
-              if (jsonArray{{name}} != null) {
+              if (jsonObj.getAsJsonArray("{{{baseName}}}") != null) {
                 // ensure the json data is an array
                 require(jsonObj["{{{baseName}}}"].isJsonArray) {
                   String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj["{{{baseName}}}"].toString())
                 }
       
                 // validate the optional field `{{{baseName}}}` (array)
-                for (i in 0 until jsonArray{{name}}.size()) {
-                  {{{items.dataType}}}.validateJsonElement(jsonArray{{name}}[i])
+                for (i in 0 until jsonObj.getAsJsonArray("{{{baseName}}}").size()) {
+                  {{{items.dataType}}}.validateJsonElement(jsonObj.getAsJsonArray("{{{baseName}}}").get(i))
                 }
               }
             }
@@ -356,6 +355,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
             {{/discriminator}}
         }
     }
+    {{/gson}}
 {{/generateOneOfAnyOfWrappers}}
 
 {{#vendorExtensions.x-has-data-class-body}}
