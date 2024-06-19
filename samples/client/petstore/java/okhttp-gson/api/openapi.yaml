@@ -2640,6 +2640,17 @@ components:
         category_allOf_ref:
           allOf:
           - $ref: '#/components/schemas/Category'
+        category_allOf_ref_description:
+          allOf:
+          - $ref: '#/components/schemas/Category'
+          description: |
+            Adding description to property using allOf
+        category_allOf_ref_description_readonly:
+          allOf:
+          - $ref: '#/components/schemas/Category'
+          description: |
+            Adding description to readonly property using allOf
+          readOnly: true
         name:
           example: doggie
           type: string
