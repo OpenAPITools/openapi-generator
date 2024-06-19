@@ -11,7 +11,7 @@ mkdir -p "${maven_cache_repo}"
 # !! but using this also means we either need to setup a user with the same id, or we execute without a username and home directory.
 # !! This means we can't bind the .m2 directory to any user's directory (like /root/.m2).
 # !! We _must_ define $MAVEN_CONFIG explicitly as a location that is not /root/.m2; the user executing this may not have access to the container's user's directory.
-docker run --rm -it \
+docker run --rm \
         -w /gen \
         -e GEN_DIR=/gen \
         -e MAVEN_CONFIG=/var/maven/.m2 \
@@ -21,4 +21,4 @@ docker run --rm -it \
         -v "${PWD}/CI/run-in-docker-settings.xml:/var/maven/.m2/settings.xml" \
         -v "${maven_cache_repo}:/var/maven/.m2/repository" \
         --entrypoint /gen/docker-entrypoint.sh \
-        maven:3.6.3-jdk-8 "$@"
+        maven:3.6.3-jdk-11 "$@"
