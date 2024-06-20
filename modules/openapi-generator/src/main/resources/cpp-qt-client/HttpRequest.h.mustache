@@ -74,9 +74,7 @@ public:
 
 Q_SIGNALS:
     void on_execution_finished({{prefix}}HttpRequestWorker *worker);
-{{#addDownloadProgress}} 
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
-{{/addDownloadProgress}}
 
 private:
     enum {{prefix}}CompressionType{
