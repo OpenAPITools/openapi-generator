@@ -96,7 +96,7 @@ defmodule {{moduleName}}.Connection do
     of the function call, will be set as a bearer token in the
     `authorization` header.
   {{/hasOAuthMethods}}
-  - `options`: a keyword list of OpenAPIPetstore.Connection.options.
+  - `options`: a keyword list of {{moduleName}}.Connection.options.
 
   ### Returns
 
@@ -133,7 +133,7 @@ defmodule {{moduleName}}.Connection do
     that returns a bearer token.
   - `scopes_or_password`: a list of Strings represenging OAuth2 scopes, or
     a single string that is the password for the username provided.
-  - `options`: a keyword list of OpenAPIPetstore.Connection.options.
+  - `options`: a keyword list of {{moduleName}}.Connection.options.
 
   ### Returns
 
@@ -155,7 +155,7 @@ defmodule {{moduleName}}.Connection do
     of the function call, will be set as a bearer token in the
     `authorization` header.
   - `scopes`: a list of Strings represenging OAuth2 scopes.
-  - `options`: a keyword list of OpenAPIPetstore.Connection.options.
+  - `options`: a keyword list of {{moduleName}}.Connection.options.
 
   ### Returns
 
@@ -179,7 +179,7 @@ defmodule {{moduleName}}.Connection do
 
   Tesla.Env.client
   """
-  @spec new(String.t(), String.t()), options) :: Tesla.Env.client()
+  @spec new(String.t(), String.t(), options) :: Tesla.Env.client()
   {{/hasHttpBasicMethods}}
   {{/hasOAuthMethods}}
 
