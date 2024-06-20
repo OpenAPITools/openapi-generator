@@ -82,7 +82,6 @@ public:
 
 Q_SIGNALS:
     void on_execution_finished(PFXHttpRequestWorker *worker);
-    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
 private:
     enum PFXCompressionType{

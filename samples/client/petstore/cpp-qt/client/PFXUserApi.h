@@ -131,21 +131,14 @@ private:
 Q_SIGNALS:
 
     void createUserSignal();
-    void createUserDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void createUsersWithArrayInputSignal();
-    void createUsersWithArrayInputDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void createUsersWithListInputSignal();
-    void createUsersWithListInputDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void deleteUserSignal();
-    void deleteUserDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void getUserByNameSignal(PFXUser summary);
-    void getUserByNameDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void loginUserSignal(QString summary);
-    void loginUserDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void logoutUserSignal();
-    void logoutUserDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void updateUserSignal();
-    void updateUserDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+
 
     void createUserSignalFull(PFXHttpRequestWorker *worker);
     void createUsersWithArrayInputSignalFull(PFXHttpRequestWorker *worker);
