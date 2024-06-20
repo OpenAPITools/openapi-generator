@@ -35,7 +35,7 @@ public class ApiResponseDto {
   /**
    * Get code
    * @return code
-  */
+   */
   
   @JsonProperty("code")
   public Integer getCode() {
@@ -54,7 +54,7 @@ public class ApiResponseDto {
   /**
    * Get type
    * @return type
-  */
+   */
   
   @JsonProperty("type")
   public String getType() {
@@ -73,7 +73,7 @@ public class ApiResponseDto {
   /**
    * Get message
    * @return message
-  */
+   */
   
   @JsonProperty("message")
   public String getMessage() {

@@ -63,10 +63,10 @@ public class TestFormObjectMultipartRequestMarker {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
   public String getName() {
     return name;
@@ -128,12 +128,12 @@ public class TestFormObjectMultipartRequestMarker {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to TestFormObjectMultipartRequestMarker
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to TestFormObjectMultipartRequestMarker
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!TestFormObjectMultipartRequestMarker.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -183,22 +183,22 @@ public class TestFormObjectMultipartRequestMarker {
     }
   }
 
- /**
-  * Create an instance of TestFormObjectMultipartRequestMarker given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of TestFormObjectMultipartRequestMarker
-  * @throws IOException if the JSON string is invalid with respect to TestFormObjectMultipartRequestMarker
-  */
+  /**
+   * Create an instance of TestFormObjectMultipartRequestMarker given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of TestFormObjectMultipartRequestMarker
+   * @throws IOException if the JSON string is invalid with respect to TestFormObjectMultipartRequestMarker
+   */
   public static TestFormObjectMultipartRequestMarker fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, TestFormObjectMultipartRequestMarker.class);
   }
 
- /**
-  * Convert an instance of TestFormObjectMultipartRequestMarker to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of TestFormObjectMultipartRequestMarker to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

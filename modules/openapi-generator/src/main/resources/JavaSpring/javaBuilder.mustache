@@ -28,9 +28,6 @@
       this.instance.{{name}}({{name}});
       return this;
     }
-    {{#deprecated}}
-    @Deprecated
-    {{/deprecated}}
     {{#openApiNullable}}{{#isNullable}}
     public {{classname}}.Builder {{name}}(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
       this.instance.{{name}} = {{name}};

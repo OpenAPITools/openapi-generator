@@ -46,7 +46,7 @@ public class Dog extends Animal {
     /**
      * Get breed
      * @return breed
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_BREED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

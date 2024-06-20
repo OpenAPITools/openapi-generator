@@ -43,7 +43,7 @@ public class ReadOnlyFirst {
     /**
      * Get bar
      * @return bar
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_BAR)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -59,7 +59,7 @@ public class ReadOnlyFirst {
     /**
      * Get baz
      * @return baz
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_BAZ)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

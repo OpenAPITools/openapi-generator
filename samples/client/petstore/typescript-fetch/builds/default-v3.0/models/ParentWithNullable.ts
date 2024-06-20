@@ -31,7 +31,7 @@ export interface ParentWithNullable {
      * @type {string}
      * @memberof ParentWithNullable
      */
-    nullableProperty?: string;
+    nullableProperty?: string | null;
 }
 
 

@@ -32,7 +32,7 @@ public class Tag {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Optional<Long> getId() {
@@ -51,7 +51,7 @@ public class Tag {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @JsonProperty("name")
   public Optional<String> getName() {

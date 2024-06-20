@@ -76,10 +76,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   public UUID getUuid() {
     return uuid;
@@ -95,10 +95,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @javax.annotation.Nullable
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -122,10 +122,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get map
    * @return map
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Animal> getMap() {
     return map;
@@ -239,12 +239,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to MixedPropertiesAndAdditionalPropertiesClass
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to MixedPropertiesAndAdditionalPropertiesClass
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -329,22 +329,22 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     }
   }
 
- /**
-  * Create an instance of MixedPropertiesAndAdditionalPropertiesClass given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of MixedPropertiesAndAdditionalPropertiesClass
-  * @throws IOException if the JSON string is invalid with respect to MixedPropertiesAndAdditionalPropertiesClass
-  */
+  /**
+   * Create an instance of MixedPropertiesAndAdditionalPropertiesClass given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of MixedPropertiesAndAdditionalPropertiesClass
+   * @throws IOException if the JSON string is invalid with respect to MixedPropertiesAndAdditionalPropertiesClass
+   */
   public static MixedPropertiesAndAdditionalPropertiesClass fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, MixedPropertiesAndAdditionalPropertiesClass.class);
   }
 
- /**
-  * Convert an instance of MixedPropertiesAndAdditionalPropertiesClass to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of MixedPropertiesAndAdditionalPropertiesClass to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

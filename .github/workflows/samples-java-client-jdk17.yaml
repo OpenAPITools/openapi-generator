@@ -42,7 +42,7 @@ jobs:
 
       - name: Build with Maven
         working-directory: ${{ matrix.sample }}
-        run: mvn clean package
+        run: mvn clean package --no-transfer-progress
 
       - name: Cache gradle dependencies
         uses: actions/cache@v4

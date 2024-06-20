@@ -23,6 +23,13 @@ const searchMiddleware = (action) => {
     return action
 }
 
+const requestOptionsMiddleware = (z, bundle, requestOptions) => {
+  // TODO: modify the request options for all outgoing request to your api
+  //       if you are using session authentication without a Bearer token.
+  //       This may be true if your API uses basic authentication or api keys.
+  return requestOptions
+}
+
 module.exports = {
     replacePathParameters: replacePathParameters,
     childMapping: childMapping,
@@ -31,4 +38,5 @@ module.exports = {
     hasSearchRequisites: hasSearchRequisites,
     isSearchAction: isSearchAction,
     searchMiddleware: searchMiddleware,
+    requestOptionsMiddleware: requestOptionsMiddleware,
 }

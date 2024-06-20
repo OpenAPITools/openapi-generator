@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - samples/openapi3/client/petstore/spring-cloud-3-with-optional
+      - samples/openapi3/server/petstore/springboot-3
   pull_request:
     paths:
       - samples/openapi3/client/petstore/spring-cloud-3-with-optional
+      - samples/openapi3/server/petstore/springboot-3
       - samples/server/petstore/springboot-lombok-data
       - samples/server/petstore/springboot-lombok-tostring
 jobs:
@@ -20,6 +22,7 @@ jobs:
           # clients
           - samples/openapi3/client/petstore/spring-cloud-3-with-optional
           # servers
+          - samples/openapi3/server/petstore/springboot-3
           - samples/server/petstore/springboot-lombok-data
           - samples/server/petstore/springboot-lombok-tostring
     steps:
@@ -38,4 +41,4 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: mvn clean package
+        run: mvn clean package --no-transfer-progress

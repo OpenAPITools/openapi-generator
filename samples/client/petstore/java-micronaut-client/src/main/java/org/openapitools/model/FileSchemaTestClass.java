@@ -52,7 +52,7 @@ public class FileSchemaTestClass {
     /**
      * Get _file
      * @return _file
-     **/
+     */
     @Valid
     @Nullable
     @JsonProperty(JSON_PROPERTY_FILE)
@@ -83,7 +83,7 @@ public class FileSchemaTestClass {
     /**
      * Get files
      * @return files
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_FILES)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

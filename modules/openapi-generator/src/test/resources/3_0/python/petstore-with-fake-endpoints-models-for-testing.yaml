@@ -2793,3 +2793,40 @@ components:
             _value:
               type: string
       type: object
+    TestEnum:
+      type: string
+      enum:
+        - ONE
+        - TWO
+        - THREE
+        - foUr
+    TestEnumWithDefault:
+      type: string
+      enum:
+        - EIN
+        - ZWEI
+        - DREI
+      default: ZWEI
+    TestModelWithEnumDefault:
+      type: object
+      required:
+        - test_enum
+      properties:
+        test_enum:
+          $ref: "#/components/schemas/TestEnum"
+        test_string:
+          type: string
+          example: "Just some string"
+        test_enum_with_default:
+          $ref: "#/components/schemas/TestEnumWithDefault"
+        test_string_with_default:
+          type: string
+          example: "More string"
+          default: "ahoy matey"
+        test_inline_defined_enum_with_default:
+          type: string
+          enum:
+            - A
+            - B
+            - C
+          default: B

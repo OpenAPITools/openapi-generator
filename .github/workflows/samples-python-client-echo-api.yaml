@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - samples/client/echo_api/python/**
+      - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent/**
       - .github/workflows/samples-python-client-echo-api.yaml
 jobs:
   build:

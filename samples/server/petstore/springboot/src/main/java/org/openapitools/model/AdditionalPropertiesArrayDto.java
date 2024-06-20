@@ -39,7 +39,7 @@ public class AdditionalPropertiesArrayDto {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")

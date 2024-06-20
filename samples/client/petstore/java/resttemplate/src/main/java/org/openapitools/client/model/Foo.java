@@ -38,8 +38,8 @@ public class Foo {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Foo(@JsonProperty(JSON_PROPERTY_BAR) String bar) {
     this.bar = bar;
   }
@@ -50,10 +50,10 @@ public class Foo {
     return this;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

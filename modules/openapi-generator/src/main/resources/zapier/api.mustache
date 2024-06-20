@@ -103,7 +103,7 @@ module.exports = {
                     {{/allParams}}
                     },{{/isMultipart}}
                 }
-                return z.request(options).then((response) => {
+                return z.request(utils.requestOptionsMiddleware(z, bundle, options)).then((response) => {
                     response.throwForStatus();
                     const results = response.json;
                     return {{#returnType}}{{#returnTypeIsPrimitive}}{ data: results }{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}results{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}results{{/returnType}};

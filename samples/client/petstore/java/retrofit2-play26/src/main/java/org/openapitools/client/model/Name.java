@@ -51,8 +51,8 @@ public class Name {
   public Name() {
   }
   /**
-  * Constructor with only readonly parameters
-  */
+   * Constructor with only readonly parameters
+   */
   @JsonCreator
   public Name(
     @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
@@ -69,10 +69,10 @@ public class Name {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -90,10 +90,10 @@ public class Name {
     this.name = name;
   }
 
-   /**
+  /**
    * Get snakeCase
    * @return snakeCase
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
@@ -111,10 +111,10 @@ public class Name {
     return this;
   }
 
-   /**
+  /**
    * Get property
    * @return property
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PROPERTY)
@@ -131,10 +131,10 @@ public class Name {
     this.property = property;
   }
 
-   /**
+  /**
    * Get _123number
    * @return _123number
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_123NUMBER)

@@ -49,10 +49,10 @@ public class FooGetDefaultResponse {
     return this;
   }
 
-   /**
+  /**
    * Get string
    * @return string
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
