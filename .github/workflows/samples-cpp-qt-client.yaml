@@ -33,4 +33,4 @@ jobs:
           tools: ${{ matrix.tools }}
       - name: Build
         working-directory: "samples/client/petstore/cpp-qt"
-        run: cmake . && cmake --build .
+        run: cmake . && cmake --build --trace .
