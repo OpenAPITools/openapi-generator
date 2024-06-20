@@ -122,10 +122,10 @@ class RESTClientObject:
             elif headers['Content-Type'] == 'multipart/form-data':
                 multipart = encode_multipart_formdata(post_params)
                 request.body, headers['Content-Type'] = multipart
-            # Pass a `bytes` parameter directly in the body to support
-            # other content types than Json when `body` argument is provided
-            # in serialized form
-            elif isinstance(body, bytes):
+            # Pass a `string` parameter directly in the body to support
+            # other content types than JSON when `body` argument is
+            # provided in serialized form.
+            elif isinstance(body, str) or isinstance(body, bytes):
                 request.body = body
             else:
                 # Cannot generate the request from given parameters
