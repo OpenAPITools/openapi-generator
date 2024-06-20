@@ -6662,6 +6662,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+     /**
+     * Update codegen property's enum by adding "enumVars" (with name and value),
+     * This method also has access to the parent CodegenModel.
+     *
+     * @param var list of CodegenProperty
+     * @param model parent CodegenModel
+     */
     public void updateCodegenPropertyEnum(CodegenProperty var, CodegenModel model) {
         updateCodegenPropertyEnum(var);
     }
