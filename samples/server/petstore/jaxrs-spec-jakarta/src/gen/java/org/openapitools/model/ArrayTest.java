@@ -22,9 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ArrayTest")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class ArrayTest  implements Serializable {
-  private @Valid List<String> arrayOfString = new ArrayList<>();
-  private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
-  private @Valid List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  private @Valid List<String> arrayOfString;
+  private @Valid List<List<Long>> arrayArrayOfInteger;
+  private @Valid List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
 
   protected ArrayTest(ArrayTestBuilder<?, ?> b) {
     this.arrayOfString = b.arrayOfString;
@@ -202,9 +202,9 @@ public class ArrayTest  implements Serializable {
   }
 
   public static abstract class ArrayTestBuilder<C extends ArrayTest, B extends ArrayTestBuilder<C, B>>  {
-    private List<String> arrayOfString = new ArrayList<>();
-    private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
-    private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+    private List<String> arrayOfString;
+    private List<List<Long>> arrayArrayOfInteger;
+    private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
     protected abstract B self();
 
     public abstract C build();

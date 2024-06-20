@@ -31,7 +31,7 @@ public class Pet   {
 
   private List<String> photoUrls = new ArrayList<>();
 
-  private List<@Valid Tag> tags = new ArrayList<>();
+  private List<@Valid Tag> tags;
 
 
 public enum StatusEnum {

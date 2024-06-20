@@ -42,7 +42,7 @@ public class FileSchemaTestClass  implements Serializable {
 
   public static final String JSON_PROPERTY_FILES = "files";
   @JsonProperty(JSON_PROPERTY_FILES)
-  private List<@Valid ModelFile> files = new ArrayList<>();
+  private List<@Valid ModelFile> files;
 
   public FileSchemaTestClass _file(ModelFile _file) {
     this._file = _file;

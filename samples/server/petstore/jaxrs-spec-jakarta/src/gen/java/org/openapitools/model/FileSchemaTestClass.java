@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class FileSchemaTestClass  implements Serializable {
   private ModelFile _file;
-  private @Valid List<@Valid ModelFile> files = new ArrayList<>();
+  private @Valid List<@Valid ModelFile> files;
 
   protected FileSchemaTestClass(FileSchemaTestClassBuilder<?, ?> b) {
     this._file = b._file;
@@ -148,7 +148,7 @@ public class FileSchemaTestClass  implements Serializable {
 
   public static abstract class FileSchemaTestClassBuilder<C extends FileSchemaTestClass, B extends FileSchemaTestClassBuilder<C, B>>  {
     private ModelFile _file;
-    private List<@Valid ModelFile> files = new ArrayList<>();
+    private List<@Valid ModelFile> files;
     protected abstract B self();
 
     public abstract C build();
