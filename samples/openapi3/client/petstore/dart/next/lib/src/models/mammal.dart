@@ -8,19 +8,32 @@ import 'package:xml/xml.dart';
 part 'mammal.reflection.dart';
 part 'mammal.serialization.dart';
 
-//class defination
 
+/// MammalMixin
 ///
-mixin MammalMixin on $OpenApiObjectMixin {
+/// Properties:
+mixin MammalMixin on 
+  
+  $OpenApiObjectMixin
+ {
+
   UndefinedWrapper<Whale> get oneOf0;
-
   UndefinedWrapper<Zebra> get oneOf1;
-
   UndefinedWrapper<Pig> get oneOf2;
 }
 
+/// Mammal
 ///
-class Mammal with $OpenApiObjectMixin, MammalMixin {
+/// Properties:
+class Mammal with
+$OpenApiObjectMixin,
+
+
+MammalMixin {
+
+
+
+
   @override
   UndefinedWrapper<Whale> oneOf0;
 
@@ -30,15 +43,24 @@ class Mammal with $OpenApiObjectMixin, MammalMixin {
   @override
   UndefinedWrapper<Pig> oneOf2;
 
+
   Mammal.$all({
+    
+    
     required this.oneOf0,
     required this.oneOf1,
     required this.oneOf2,
   });
 
   Mammal({
+    
+    
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),
     this.oneOf2 = const UndefinedWrapper.undefined(),
   });
 }
+
+
+
+

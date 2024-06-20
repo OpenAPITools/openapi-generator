@@ -8,28 +8,55 @@ import 'package:xml/xml.dart';
 part 'special_model_name.reflection.dart';
 part 'special_model_name.serialization.dart';
 
-//class defination
 
+/// SpecialModelNameMixin
 ///
-mixin SpecialModelNameMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [$specialPropertyName] 
+/// * [specialModelName] 
+mixin SpecialModelNameMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<int> get $specialPropertyName;
   UndefinedWrapper<String> get specialModelName;
+
 }
 
+/// SpecialModelName
 ///
-class SpecialModelName with $OpenApiObjectMixin, SpecialModelNameMixin {
+/// Properties:
+/// * [$specialPropertyName] 
+/// * [specialModelName] 
+class SpecialModelName with
+$OpenApiObjectMixin,
+
+
+SpecialModelNameMixin {
   @override
   UndefinedWrapper<int> $specialPropertyName;
   @override
   UndefinedWrapper<String> specialModelName;
 
+
+
+
+
   SpecialModelName.$all({
     required this.$specialPropertyName,
     required this.specialModelName,
+    
+    
   });
 
   SpecialModelName({
     this.$specialPropertyName = const UndefinedWrapper.undefined(),
     this.specialModelName = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

@@ -8,20 +8,43 @@ import 'package:xml/xml.dart';
 part 'pet.reflection.dart';
 part 'pet.serialization.dart';
 
-//class defination
 
+/// PetMixin
 ///
-mixin PetMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [id] 
+/// * [category] 
+/// * [name] 
+/// * [photoUrls] 
+/// * [tags] 
+/// * [status] - pet status in the store
+mixin PetMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<int> get id;
   UndefinedWrapper<Category> get category;
   String get name;
   List<String> get photoUrls;
   UndefinedWrapper<List<Tag>> get tags;
   UndefinedWrapper<PetStatusEnum> get status;
+
 }
 
+/// Pet
 ///
-class Pet with $OpenApiObjectMixin, PetMixin {
+/// Properties:
+/// * [id] 
+/// * [category] 
+/// * [name] 
+/// * [photoUrls] 
+/// * [tags] 
+/// * [status] - pet status in the store
+class Pet with
+$OpenApiObjectMixin,
+
+
+PetMixin {
   @override
   UndefinedWrapper<int> id;
   @override
@@ -35,6 +58,10 @@ class Pet with $OpenApiObjectMixin, PetMixin {
   @override
   UndefinedWrapper<PetStatusEnum> status;
 
+
+
+
+
   Pet.$all({
     required this.id,
     required this.category,
@@ -42,29 +69,32 @@ class Pet with $OpenApiObjectMixin, PetMixin {
     required this.photoUrls,
     required this.tags,
     required this.status,
+    
+    
   });
 
   Pet({
     this.id = const UndefinedWrapper.undefined(),
     this.category = const UndefinedWrapper.undefined(),
-    required this.name,
-    required this.photoUrls,
+  required  this.name ,
+  required  this.photoUrls ,
     this.tags = const UndefinedWrapper.undefined(),
     this.status = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
 
-//inline enum def
+
+
 
 extension type const PetStatusEnum._(String value) {
   /// pet status in the store
-  const PetStatusEnum.available() : this._(r'available');
-
+      const PetStatusEnum.available() : this._(r'available');
   /// pet status in the store
-  const PetStatusEnum.pending() : this._(r'pending');
-
+      const PetStatusEnum.pending() : this._(r'pending');
   /// pet status in the store
-  const PetStatusEnum.sold() : this._(r'sold');
+      const PetStatusEnum.sold() : this._(r'sold');
 
   /// Creates a [PetStatusEnum] enum from a value and safely checking if it exists.
   factory PetStatusEnum.$safe(String value) {
@@ -83,5 +113,7 @@ extension type const PetStatusEnum._(String value) {
     PetStatusEnum.available(),
     PetStatusEnum.pending(),
     PetStatusEnum.sold(),
+    
   ];
 }
+

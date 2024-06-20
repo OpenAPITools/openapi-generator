@@ -8,10 +8,26 @@ import 'package:xml/xml.dart';
 part 'user.reflection.dart';
 part 'user.serialization.dart';
 
-//class defination
 
+/// UserMixin
 ///
-mixin UserMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [id] 
+/// * [username] 
+/// * [firstName] 
+/// * [lastName] 
+/// * [email] 
+/// * [password] 
+/// * [phone] 
+/// * [userStatus] - User Status
+/// * [objectWithNoDeclaredProps] - test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.
+/// * [objectWithNoDeclaredPropsNullable] - test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.
+/// * [anyTypeProp] - test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
+/// * [anyTypePropNullable] - test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.
+mixin UserMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<int> get id;
   UndefinedWrapper<String> get username;
   UndefinedWrapper<String> get firstName;
@@ -24,10 +40,29 @@ mixin UserMixin on $OpenApiObjectMixin {
   UndefinedWrapper<$OpenApiObjectMixin?> get objectWithNoDeclaredPropsNullable;
   UndefinedWrapper<Object?> get anyTypeProp;
   UndefinedWrapper<Object?> get anyTypePropNullable;
+
 }
 
+/// User
 ///
-class User with $OpenApiObjectMixin, UserMixin {
+/// Properties:
+/// * [id] 
+/// * [username] 
+/// * [firstName] 
+/// * [lastName] 
+/// * [email] 
+/// * [password] 
+/// * [phone] 
+/// * [userStatus] - User Status
+/// * [objectWithNoDeclaredProps] - test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.
+/// * [objectWithNoDeclaredPropsNullable] - test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.
+/// * [anyTypeProp] - test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
+/// * [anyTypePropNullable] - test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.
+class User with
+$OpenApiObjectMixin,
+
+
+UserMixin {
   @override
   UndefinedWrapper<int> id;
   @override
@@ -53,6 +88,10 @@ class User with $OpenApiObjectMixin, UserMixin {
   @override
   UndefinedWrapper<Object?> anyTypePropNullable;
 
+
+
+
+
   User.$all({
     required this.id,
     required this.username,
@@ -66,6 +105,8 @@ class User with $OpenApiObjectMixin, UserMixin {
     required this.objectWithNoDeclaredPropsNullable,
     required this.anyTypeProp,
     required this.anyTypePropNullable,
+    
+    
   });
 
   User({
@@ -81,5 +122,11 @@ class User with $OpenApiObjectMixin, UserMixin {
     this.objectWithNoDeclaredPropsNullable = const UndefinedWrapper.undefined(),
     this.anyTypeProp = const UndefinedWrapper.undefined(),
     this.anyTypePropNullable = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

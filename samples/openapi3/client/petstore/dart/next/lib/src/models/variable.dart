@@ -8,28 +8,55 @@ import 'package:xml/xml.dart';
 part 'variable.reflection.dart';
 part 'variable.serialization.dart';
 
-//class defination
 
+/// Value object
 ///
-mixin VariableMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [name] 
+/// * [value] 
+mixin VariableMixin on 
+  
+  $OpenApiObjectMixin
+ {
   String get name;
   Value get value;
+
 }
 
+/// Value object
 ///
-class Variable with $OpenApiObjectMixin, VariableMixin {
+/// Properties:
+/// * [name] 
+/// * [value] 
+class Variable with
+$OpenApiObjectMixin,
+
+
+VariableMixin {
   @override
   String name;
   @override
   Value value;
 
+
+
+
+
   Variable.$all({
     required this.name,
     required this.value,
+    
+    
   });
 
   Variable({
-    required this.name,
-    required this.value,
+  required  this.name ,
+  required  this.value ,
+    
+    
   });
 }
+
+
+
+

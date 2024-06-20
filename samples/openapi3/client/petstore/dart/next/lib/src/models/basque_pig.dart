@@ -8,23 +8,48 @@ import 'package:xml/xml.dart';
 part 'basque_pig.reflection.dart';
 part 'basque_pig.serialization.dart';
 
-//class defination
 
+/// BasquePigMixin
 ///
-mixin BasquePigMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [className] 
+mixin BasquePigMixin on 
+  
+  $OpenApiObjectMixin
+ {
   String get className;
+
 }
 
+/// BasquePig
 ///
-class BasquePig with $OpenApiObjectMixin, BasquePigMixin {
+/// Properties:
+/// * [className] 
+class BasquePig with
+$OpenApiObjectMixin,
+
+
+BasquePigMixin {
   @override
   String className;
 
+
+
+
+
   BasquePig.$all({
     required this.className,
+    
+    
   });
 
   BasquePig({
-    required this.className,
+  required  this.className ,
+    
+    
   });
 }
+
+
+
+

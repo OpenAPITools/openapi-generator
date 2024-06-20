@@ -1,21 +1,36 @@
-//class defination
-
+/// {{{description}}}{{^description}}{{classname}}Mixin{{/description}}
+{{#hasVars}}
 ///
+/// Properties:
+{{#vars}}
+/// * [{{{name}}}] {{#description}}- {{{.}}}{{/description}}
+{{/vars}}
+{{/hasVars}}
+{{#isDeprecated}}
+@Deprecated('{{{classname}}}Mixin has been deprecated')
+{{/isDeprecated}}
 mixin {{classname}}Mixin on {{#additionalProperties}} AdditionalPropertiesMixin<{{>types/variable_recursive}}>,{{/additionalProperties}}
   {{#allOf}}{{.}}Mixin,{{/allOf}}
   $OpenApiObjectMixin
  {
 {{#vars}}  {{>types/variable}} get {{name}};
 {{/vars}}
-
 {{#composedSchemas}}{{#oneOf}}
-UndefinedWrapper<{{>types/variable_recursive}}> get {{name}};
-{{/oneOf}}{{#anyOf}}
-UndefinedWrapper<{{>types/variable_recursive}}> get {{name}};
-{{/anyOf}}{{/composedSchemas}}
+  UndefinedWrapper<{{>types/variable_recursive}}> get {{name}};{{/oneOf}}{{#anyOf}}
+  UndefinedWrapper<{{>types/variable_recursive}}> get {{name}};{{/anyOf}}{{/composedSchemas}}
 }
 
+/// {{{description}}}{{^description}}{{classname}}{{/description}}
+{{#hasVars}}
 ///
+/// Properties:
+{{#allVars}}
+/// * [{{{name}}}] {{#description}}- {{{.}}}{{/description}}
+{{/allVars}}
+{{/hasVars}}
+{{#isDeprecated}}
+@Deprecated('{{{classname}}}Mixin has been deprecated')
+{{/isDeprecated}}
 class {{classname}} with
 $OpenApiObjectMixin,
 {{#additionalProperties}}AdditionalPropertiesMixin<{{>types/variable_recursive}}>,{{/additionalProperties}}
@@ -31,10 +46,10 @@ $OpenApiObjectMixin,
 
 {{#composedSchemas}}{{#oneOf}}
   @override
-UndefinedWrapper<{{>types/variable_recursive}}> {{name}};
+  UndefinedWrapper<{{>types/variable_recursive}}> {{name}};
 {{/oneOf}}{{#anyOf}}
   @override
-UndefinedWrapper<{{>types/variable_recursive}}> {{name}};
+  UndefinedWrapper<{{>types/variable_recursive}}> {{name}};
 {{/anyOf}}{{/composedSchemas}}
 
   {{classname}}.$all({
@@ -42,10 +57,8 @@ UndefinedWrapper<{{>types/variable_recursive}}> {{name}};
 {{/allVars}}
     {{#additionalProperties}}required this.additionalProperties,{{/additionalProperties}}
     {{#composedSchemas}}{{#oneOf}}
-    required this.{{name}},
-    {{/oneOf}}{{#anyOf}}
-    required this.{{name}},
-    {{/anyOf}}{{/composedSchemas}}
+    required this.{{name}},{{/oneOf}}{{#anyOf}}
+    required this.{{name}},{{/anyOf}}{{/composedSchemas}}
   });
 
   {{classname}}({
@@ -53,8 +66,7 @@ UndefinedWrapper<{{>types/variable_recursive}}> {{name}};
 {{/allVars}}
     {{#additionalProperties}}this.additionalProperties = const AdditionalProperties(),{{/additionalProperties}}
     {{#composedSchemas}}{{#oneOf}}
-    this.{{name}} = const UndefinedWrapper.undefined(),
-    {{/oneOf}}{{#anyOf}}
+    this.{{name}} = const UndefinedWrapper.undefined(),{{/oneOf}}{{#anyOf}}
     this.{{name}} = const UndefinedWrapper.undefined(),
     {{/anyOf}}{{/composedSchemas}}
   });

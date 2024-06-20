@@ -8,12 +8,13 @@ import 'package:xml/xml.dart';
 part 'enum_class.reflection.dart';
 part 'enum_class.serialization.dart';
 
+
 //enum def
 
 extension type const EnumClass._(String value) {
-  const EnumClass.abc() : this._(r'_abc');
-  const EnumClass.efg() : this._(r'-efg');
-  const EnumClass.xyz() : this._(r'(xyz)');
+      const EnumClass.abc() : this._(r'_abc');
+      const EnumClass.efg() : this._(r'-efg');
+      const EnumClass.xyz() : this._(r'(xyz)');
 
   /// Creates a [EnumClass] enum from a value and safely checking if it exists.
   factory EnumClass.$safe(String value) {
@@ -32,5 +33,6 @@ extension type const EnumClass._(String value) {
     EnumClass.abc(),
     EnumClass.efg(),
     EnumClass.xyz(),
+    
   ];
 }

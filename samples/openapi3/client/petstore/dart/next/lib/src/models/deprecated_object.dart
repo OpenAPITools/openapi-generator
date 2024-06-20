@@ -8,23 +8,50 @@ import 'package:xml/xml.dart';
 part 'deprecated_object.reflection.dart';
 part 'deprecated_object.serialization.dart';
 
-//class defination
 
+/// DeprecatedObjectMixin
 ///
-mixin DeprecatedObjectMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [name] 
+@Deprecated('DeprecatedObjectMixin has been deprecated')
+mixin DeprecatedObjectMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<String> get name;
+
 }
 
+/// DeprecatedObject
 ///
-class DeprecatedObject with $OpenApiObjectMixin, DeprecatedObjectMixin {
+/// Properties:
+/// * [name] 
+@Deprecated('DeprecatedObjectMixin has been deprecated')
+class DeprecatedObject with
+$OpenApiObjectMixin,
+
+
+DeprecatedObjectMixin {
   @override
   UndefinedWrapper<String> name;
 
+
+
+
+
   DeprecatedObject.$all({
     required this.name,
+    
+    
   });
 
   DeprecatedObject({
     this.name = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

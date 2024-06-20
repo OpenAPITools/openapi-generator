@@ -8,17 +8,31 @@ import 'package:xml/xml.dart';
 part 'zebra.reflection.dart';
 part 'zebra.serialization.dart';
 
-//class defination
 
+/// ZebraMixin
 ///
-mixin ZebraMixin on AdditionalPropertiesMixin<Object?>, $OpenApiObjectMixin {
+/// Properties:
+/// * [type] 
+/// * [className] 
+mixin ZebraMixin on  AdditionalPropertiesMixin<Object?>,
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<ZebraTypeEnum> get type;
   String get className;
+
 }
 
+/// Zebra
 ///
-class Zebra
-    with $OpenApiObjectMixin, AdditionalPropertiesMixin<Object?>, ZebraMixin {
+/// Properties:
+/// * [type] 
+/// * [className] 
+class Zebra with
+$OpenApiObjectMixin,
+AdditionalPropertiesMixin<Object?>,
+
+ZebraMixin {
   @override
   UndefinedWrapper<ZebraTypeEnum> type;
   @override
@@ -27,25 +41,30 @@ class Zebra
   @override
   AdditionalProperties<Object?> additionalProperties;
 
+
+
   Zebra.$all({
     required this.type,
     required this.className,
     required this.additionalProperties,
+    
   });
 
   Zebra({
     this.type = const UndefinedWrapper.undefined(),
-    required this.className,
+  required  this.className ,
     this.additionalProperties = const AdditionalProperties(),
+    
   });
 }
 
-//inline enum def
+
+
 
 extension type const ZebraTypeEnum._(String value) {
-  const ZebraTypeEnum.plains() : this._(r'plains');
-  const ZebraTypeEnum.mountain() : this._(r'mountain');
-  const ZebraTypeEnum.grevys() : this._(r'grevys');
+      const ZebraTypeEnum.plains() : this._(r'plains');
+      const ZebraTypeEnum.mountain() : this._(r'mountain');
+      const ZebraTypeEnum.grevys() : this._(r'grevys');
 
   /// Creates a [ZebraTypeEnum] enum from a value and safely checking if it exists.
   factory ZebraTypeEnum.$safe(String value) {
@@ -64,5 +83,7 @@ extension type const ZebraTypeEnum._(String value) {
     ZebraTypeEnum.plains(),
     ZebraTypeEnum.mountain(),
     ZebraTypeEnum.grevys(),
+    
   ];
 }
+

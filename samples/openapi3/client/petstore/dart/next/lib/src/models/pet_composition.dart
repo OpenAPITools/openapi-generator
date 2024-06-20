@@ -8,13 +8,31 @@ import 'package:xml/xml.dart';
 part 'pet_composition.reflection.dart';
 part 'pet_composition.serialization.dart';
 
-//class defination
 
+/// PetCompositionMixin
 ///
-mixin PetCompositionMixin on PetMixin, $OpenApiObjectMixin {}
+/// Properties:
+mixin PetCompositionMixin on 
+  PetMixin,
+  $OpenApiObjectMixin
+ {
 
+}
+
+/// PetComposition
 ///
-class PetComposition with $OpenApiObjectMixin, PetMixin, PetCompositionMixin {
+/// Properties:
+/// * [photoUrls] 
+/// * [name] 
+/// * [id] 
+/// * [category] 
+/// * [tags] 
+/// * [status] - pet status in the store
+class PetComposition with
+$OpenApiObjectMixin,
+
+PetMixin,
+PetCompositionMixin {
   @override
   List<String> photoUrls;
   @override
@@ -28,6 +46,10 @@ class PetComposition with $OpenApiObjectMixin, PetMixin, PetCompositionMixin {
   @override
   UndefinedWrapper<PetStatusEnum> status;
 
+
+
+
+
   PetComposition.$all({
     required this.photoUrls,
     required this.name,
@@ -35,14 +57,22 @@ class PetComposition with $OpenApiObjectMixin, PetMixin, PetCompositionMixin {
     required this.category,
     required this.tags,
     required this.status,
+    
+    
   });
 
   PetComposition({
-    required this.photoUrls,
-    required this.name,
+  required  this.photoUrls ,
+  required  this.name ,
     this.id = const UndefinedWrapper.undefined(),
     this.category = const UndefinedWrapper.undefined(),
     this.tags = const UndefinedWrapper.undefined(),
     this.status = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

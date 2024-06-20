@@ -8,28 +8,55 @@ import 'package:xml/xml.dart';
 part 'apple_req.reflection.dart';
 part 'apple_req.serialization.dart';
 
-//class defination
 
+/// AppleReqMixin
 ///
-mixin AppleReqMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [cultivar] 
+/// * [mealy] 
+mixin AppleReqMixin on 
+  
+  $OpenApiObjectMixin
+ {
   String get cultivar;
   UndefinedWrapper<bool> get mealy;
+
 }
 
+/// AppleReq
 ///
-class AppleReq with $OpenApiObjectMixin, AppleReqMixin {
+/// Properties:
+/// * [cultivar] 
+/// * [mealy] 
+class AppleReq with
+$OpenApiObjectMixin,
+
+
+AppleReqMixin {
   @override
   String cultivar;
   @override
   UndefinedWrapper<bool> mealy;
 
+
+
+
+
   AppleReq.$all({
     required this.cultivar,
     required this.mealy,
+    
+    
   });
 
   AppleReq({
-    required this.cultivar,
+  required  this.cultivar ,
     this.mealy = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

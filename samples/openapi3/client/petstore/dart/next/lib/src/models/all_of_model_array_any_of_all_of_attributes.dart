@@ -8,24 +8,48 @@ import 'package:xml/xml.dart';
 part 'all_of_model_array_any_of_all_of_attributes.reflection.dart';
 part 'all_of_model_array_any_of_all_of_attributes.serialization.dart';
 
-//class defination
 
+/// AllOfModelArrayAnyOfAllOfAttributesMixin
 ///
-mixin AllOfModelArrayAnyOfAllOfAttributesMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [C] 
+mixin AllOfModelArrayAnyOfAllOfAttributesMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<AllOfModelArrayAnyOfAllOfAttributesC> get C;
+
 }
 
+/// AllOfModelArrayAnyOfAllOfAttributes
 ///
-class AllOfModelArrayAnyOfAllOfAttributes
-    with $OpenApiObjectMixin, AllOfModelArrayAnyOfAllOfAttributesMixin {
+/// Properties:
+/// * [C] 
+class AllOfModelArrayAnyOfAllOfAttributes with
+$OpenApiObjectMixin,
+
+
+AllOfModelArrayAnyOfAllOfAttributesMixin {
   @override
   UndefinedWrapper<AllOfModelArrayAnyOfAllOfAttributesC> C;
 
+
+
+
+
   AllOfModelArrayAnyOfAllOfAttributes.$all({
     required this.C,
+    
+    
   });
 
   AllOfModelArrayAnyOfAllOfAttributes({
     this.C = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

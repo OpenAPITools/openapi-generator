@@ -8,17 +8,34 @@ import 'package:xml/xml.dart';
 part 'api_response.reflection.dart';
 part 'api_response.serialization.dart';
 
-//class defination
 
+/// ApiResponseMixin
 ///
-mixin ApiResponseMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [code] 
+/// * [type] 
+/// * [message] 
+mixin ApiResponseMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<int> get code;
   UndefinedWrapper<String> get type;
   UndefinedWrapper<String> get message;
+
 }
 
+/// ApiResponse
 ///
-class ApiResponse with $OpenApiObjectMixin, ApiResponseMixin {
+/// Properties:
+/// * [code] 
+/// * [type] 
+/// * [message] 
+class ApiResponse with
+$OpenApiObjectMixin,
+
+
+ApiResponseMixin {
   @override
   UndefinedWrapper<int> code;
   @override
@@ -26,15 +43,27 @@ class ApiResponse with $OpenApiObjectMixin, ApiResponseMixin {
   @override
   UndefinedWrapper<String> message;
 
+
+
+
+
   ApiResponse.$all({
     required this.code,
     required this.type,
     required this.message,
+    
+    
   });
 
   ApiResponse({
     this.code = const UndefinedWrapper.undefined(),
     this.type = const UndefinedWrapper.undefined(),
     this.message = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

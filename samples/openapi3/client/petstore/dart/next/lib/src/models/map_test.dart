@@ -8,18 +8,37 @@ import 'package:xml/xml.dart';
 part 'map_test.reflection.dart';
 part 'map_test.serialization.dart';
 
-//class defination
 
+/// MapTestMixin
 ///
-mixin MapTestMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [mapMapOfString] 
+/// * [mapOfEnumString] 
+/// * [directMap] 
+/// * [indirectMap] 
+mixin MapTestMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<Map<String, Map<String, String>>> get mapMapOfString;
   UndefinedWrapper<Map<String, MapTestMapOfEnumStringEnum>> get mapOfEnumString;
   UndefinedWrapper<Map<String, bool>> get directMap;
   UndefinedWrapper<Map<String, bool>> get indirectMap;
+
 }
 
+/// MapTest
 ///
-class MapTest with $OpenApiObjectMixin, MapTestMixin {
+/// Properties:
+/// * [mapMapOfString] 
+/// * [mapOfEnumString] 
+/// * [directMap] 
+/// * [indirectMap] 
+class MapTest with
+$OpenApiObjectMixin,
+
+
+MapTestMixin {
   @override
   UndefinedWrapper<Map<String, Map<String, String>>> mapMapOfString;
   @override
@@ -29,11 +48,17 @@ class MapTest with $OpenApiObjectMixin, MapTestMixin {
   @override
   UndefinedWrapper<Map<String, bool>> indirectMap;
 
+
+
+
+
   MapTest.$all({
     required this.mapMapOfString,
     required this.mapOfEnumString,
     required this.directMap,
     required this.indirectMap,
+    
+    
   });
 
   MapTest({
@@ -41,14 +66,17 @@ class MapTest with $OpenApiObjectMixin, MapTestMixin {
     this.mapOfEnumString = const UndefinedWrapper.undefined(),
     this.directMap = const UndefinedWrapper.undefined(),
     this.indirectMap = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
 
-//inline enum def
+
+
 
 extension type const MapTestMapOfEnumStringEnum._(String value) {
-  const MapTestMapOfEnumStringEnum.UPPER() : this._(r'UPPER');
-  const MapTestMapOfEnumStringEnum.lower() : this._(r'lower');
+      const MapTestMapOfEnumStringEnum.UPPER() : this._(r'UPPER');
+      const MapTestMapOfEnumStringEnum.lower() : this._(r'lower');
 
   /// Creates a [MapTestMapOfEnumStringEnum] enum from a value and safely checking if it exists.
   factory MapTestMapOfEnumStringEnum.$safe(String value) {
@@ -66,5 +94,7 @@ extension type const MapTestMapOfEnumStringEnum._(String value) {
   static const List<MapTestMapOfEnumStringEnum> values = [
     MapTestMapOfEnumStringEnum.UPPER(),
     MapTestMapOfEnumStringEnum.lower(),
+    
   ];
 }
+

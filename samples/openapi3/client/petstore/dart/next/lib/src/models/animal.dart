@@ -8,28 +8,55 @@ import 'package:xml/xml.dart';
 part 'animal.reflection.dart';
 part 'animal.serialization.dart';
 
-//class defination
 
+/// AnimalMixin
 ///
-mixin AnimalMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [className] 
+/// * [color] 
+mixin AnimalMixin on 
+  
+  $OpenApiObjectMixin
+ {
   String get className;
   UndefinedWrapper<String> get color;
+
 }
 
+/// Animal
 ///
-class Animal with $OpenApiObjectMixin, AnimalMixin {
+/// Properties:
+/// * [className] 
+/// * [color] 
+class Animal with
+$OpenApiObjectMixin,
+
+
+AnimalMixin {
   @override
   String className;
   @override
   UndefinedWrapper<String> color;
 
+
+
+
+
   Animal.$all({
     required this.className,
     required this.color,
+    
+    
   });
 
   Animal({
-    required this.className,
+  required  this.className ,
     this.color = const UndefinedWrapper('red'),
+    
+    
   });
 }
+
+
+
+

@@ -8,31 +8,51 @@ import 'package:xml/xml.dart';
 part 'simple_quadrilateral.reflection.dart';
 part 'simple_quadrilateral.serialization.dart';
 
-//class defination
 
+/// SimpleQuadrilateralMixin
 ///
-mixin SimpleQuadrilateralMixin
-    on QuadrilateralInterfaceMixin, ShapeInterfaceMixin, $OpenApiObjectMixin {}
+/// Properties:
+mixin SimpleQuadrilateralMixin on 
+  QuadrilateralInterfaceMixin,ShapeInterfaceMixin,
+  $OpenApiObjectMixin
+ {
 
+}
+
+/// SimpleQuadrilateral
 ///
-class SimpleQuadrilateral
-    with
-        $OpenApiObjectMixin,
-        QuadrilateralInterfaceMixin,
-        ShapeInterfaceMixin,
-        SimpleQuadrilateralMixin {
+/// Properties:
+/// * [quadrilateralType] 
+/// * [shapeType] 
+class SimpleQuadrilateral with
+$OpenApiObjectMixin,
+
+QuadrilateralInterfaceMixin,ShapeInterfaceMixin,
+SimpleQuadrilateralMixin {
   @override
   String quadrilateralType;
   @override
   String shapeType;
 
+
+
+
+
   SimpleQuadrilateral.$all({
     required this.quadrilateralType,
     required this.shapeType,
+    
+    
   });
 
   SimpleQuadrilateral({
-    required this.quadrilateralType,
-    required this.shapeType,
+  required  this.quadrilateralType ,
+  required  this.shapeType ,
+    
+    
   });
 }
+
+
+
+

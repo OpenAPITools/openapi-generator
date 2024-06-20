@@ -8,18 +8,34 @@ import 'package:xml/xml.dart';
 part 'new_pet_category_inline_allof.reflection.dart';
 part 'new_pet_category_inline_allof.serialization.dart';
 
-//class defination
 
+/// NewPetCategoryInlineAllofMixin
 ///
-mixin NewPetCategoryInlineAllofMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [id] 
+/// * [name] 
+/// * [categoryTag] 
+mixin NewPetCategoryInlineAllofMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<int> get id;
   String get name;
   UndefinedWrapper<NewPetCategoryInlineAllofAllOfCategoryTag> get categoryTag;
+
 }
 
+/// NewPetCategoryInlineAllof
 ///
-class NewPetCategoryInlineAllof
-    with $OpenApiObjectMixin, NewPetCategoryInlineAllofMixin {
+/// Properties:
+/// * [id] 
+/// * [name] 
+/// * [categoryTag] 
+class NewPetCategoryInlineAllof with
+$OpenApiObjectMixin,
+
+
+NewPetCategoryInlineAllofMixin {
   @override
   UndefinedWrapper<int> id;
   @override
@@ -27,15 +43,27 @@ class NewPetCategoryInlineAllof
   @override
   UndefinedWrapper<NewPetCategoryInlineAllofAllOfCategoryTag> categoryTag;
 
+
+
+
+
   NewPetCategoryInlineAllof.$all({
     required this.id,
     required this.name,
     required this.categoryTag,
+    
+    
   });
 
   NewPetCategoryInlineAllof({
     this.id = const UndefinedWrapper.undefined(),
     this.name = 'default-name',
     this.categoryTag = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

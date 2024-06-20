@@ -8,23 +8,48 @@ import 'package:xml/xml.dart';
 part 'client.reflection.dart';
 part 'client.serialization.dart';
 
-//class defination
 
+/// ClientMixin
 ///
-mixin ClientMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [client] 
+mixin ClientMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<String> get client;
+
 }
 
+/// Client
 ///
-class Client with $OpenApiObjectMixin, ClientMixin {
+/// Properties:
+/// * [client] 
+class Client with
+$OpenApiObjectMixin,
+
+
+ClientMixin {
   @override
   UndefinedWrapper<String> client;
 
+
+
+
+
   Client.$all({
     required this.client,
+    
+    
   });
 
   Client({
     this.client = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

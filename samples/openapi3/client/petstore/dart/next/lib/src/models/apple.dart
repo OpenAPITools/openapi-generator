@@ -8,28 +8,55 @@ import 'package:xml/xml.dart';
 part 'apple.reflection.dart';
 part 'apple.serialization.dart';
 
-//class defination
 
+/// AppleMixin
 ///
-mixin AppleMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [cultivar] 
+/// * [origin] 
+mixin AppleMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<String> get cultivar;
   UndefinedWrapper<String> get origin;
+
 }
 
+/// Apple
 ///
-class Apple with $OpenApiObjectMixin, AppleMixin {
+/// Properties:
+/// * [cultivar] 
+/// * [origin] 
+class Apple with
+$OpenApiObjectMixin,
+
+
+AppleMixin {
   @override
   UndefinedWrapper<String> cultivar;
   @override
   UndefinedWrapper<String> origin;
 
+
+
+
+
   Apple.$all({
     required this.cultivar,
     required this.origin,
+    
+    
   });
 
   Apple({
     this.cultivar = const UndefinedWrapper.undefined(),
     this.origin = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

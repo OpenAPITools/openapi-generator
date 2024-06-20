@@ -8,28 +8,55 @@ import 'package:xml/xml.dart';
 part 'tag.reflection.dart';
 part 'tag.serialization.dart';
 
-//class defination
 
+/// TagMixin
 ///
-mixin TagMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [id] 
+/// * [name] 
+mixin TagMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<int> get id;
   UndefinedWrapper<String> get name;
+
 }
 
+/// Tag
 ///
-class Tag with $OpenApiObjectMixin, TagMixin {
+/// Properties:
+/// * [id] 
+/// * [name] 
+class Tag with
+$OpenApiObjectMixin,
+
+
+TagMixin {
   @override
   UndefinedWrapper<int> id;
   @override
   UndefinedWrapper<String> name;
 
+
+
+
+
   Tag.$all({
     required this.id,
     required this.name,
+    
+    
   });
 
   Tag({
     this.id = const UndefinedWrapper.undefined(),
     this.name = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

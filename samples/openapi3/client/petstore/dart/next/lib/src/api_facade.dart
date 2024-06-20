@@ -6,7 +6,7 @@ import 'apis/_exports.dart';
 class OpenApiPetStore {
   final NetworkingClientBase networkingClient;
   final Uri baseUrl;
-
+  
   OpenApiPetStore({
     required this.networkingClient,
     required this.baseUrl,

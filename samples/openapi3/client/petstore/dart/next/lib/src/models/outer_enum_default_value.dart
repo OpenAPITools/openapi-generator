@@ -8,12 +8,13 @@ import 'package:xml/xml.dart';
 part 'outer_enum_default_value.reflection.dart';
 part 'outer_enum_default_value.serialization.dart';
 
+
 //enum def
 
 extension type const OuterEnumDefaultValue._(String value) {
-  const OuterEnumDefaultValue.placed() : this._(r'placed');
-  const OuterEnumDefaultValue.approved() : this._(r'approved');
-  const OuterEnumDefaultValue.delivered() : this._(r'delivered');
+      const OuterEnumDefaultValue.placed() : this._(r'placed');
+      const OuterEnumDefaultValue.approved() : this._(r'approved');
+      const OuterEnumDefaultValue.delivered() : this._(r'delivered');
 
   /// Creates a [OuterEnumDefaultValue] enum from a value and safely checking if it exists.
   factory OuterEnumDefaultValue.$safe(String value) {
@@ -32,5 +33,6 @@ extension type const OuterEnumDefaultValue._(String value) {
     OuterEnumDefaultValue.placed(),
     OuterEnumDefaultValue.approved(),
     OuterEnumDefaultValue.delivered(),
+    
   ];
 }

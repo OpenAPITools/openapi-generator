@@ -8,23 +8,48 @@ import 'package:xml/xml.dart';
 part 'banana.reflection.dart';
 part 'banana.serialization.dart';
 
-//class defination
 
+/// BananaMixin
 ///
-mixin BananaMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [lengthCm] 
+mixin BananaMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<num> get lengthCm;
+
 }
 
+/// Banana
 ///
-class Banana with $OpenApiObjectMixin, BananaMixin {
+/// Properties:
+/// * [lengthCm] 
+class Banana with
+$OpenApiObjectMixin,
+
+
+BananaMixin {
   @override
   UndefinedWrapper<num> lengthCm;
 
+
+
+
+
   Banana.$all({
     required this.lengthCm,
+    
+    
   });
 
   Banana({
     this.lengthCm = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

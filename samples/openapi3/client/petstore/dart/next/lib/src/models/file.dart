@@ -8,23 +8,48 @@ import 'package:xml/xml.dart';
 part 'file.reflection.dart';
 part 'file.serialization.dart';
 
-//class defination
 
+/// Must be named `File` for test.
 ///
-mixin FileMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [sourceURI] - Test capitalization
+mixin FileMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<String> get sourceURI;
+
 }
 
+/// Must be named `File` for test.
 ///
-class File with $OpenApiObjectMixin, FileMixin {
+/// Properties:
+/// * [sourceURI] - Test capitalization
+class File with
+$OpenApiObjectMixin,
+
+
+FileMixin {
   @override
   UndefinedWrapper<String> sourceURI;
 
+
+
+
+
   File.$all({
     required this.sourceURI,
+    
+    
   });
 
   File({
     this.sourceURI = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

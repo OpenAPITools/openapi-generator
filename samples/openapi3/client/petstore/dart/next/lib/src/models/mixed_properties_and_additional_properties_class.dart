@@ -8,18 +8,34 @@ import 'package:xml/xml.dart';
 part 'mixed_properties_and_additional_properties_class.reflection.dart';
 part 'mixed_properties_and_additional_properties_class.serialization.dart';
 
-//class defination
 
+/// MixedPropertiesAndAdditionalPropertiesClassMixin
 ///
-mixin MixedPropertiesAndAdditionalPropertiesClassMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [uuid] 
+/// * [dateTime] 
+/// * [map] 
+mixin MixedPropertiesAndAdditionalPropertiesClassMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<String> get uuid;
   UndefinedWrapper<DateTime> get dateTime;
   UndefinedWrapper<Map<String, Animal>> get map;
+
 }
 
+/// MixedPropertiesAndAdditionalPropertiesClass
 ///
-class MixedPropertiesAndAdditionalPropertiesClass
-    with $OpenApiObjectMixin, MixedPropertiesAndAdditionalPropertiesClassMixin {
+/// Properties:
+/// * [uuid] 
+/// * [dateTime] 
+/// * [map] 
+class MixedPropertiesAndAdditionalPropertiesClass with
+$OpenApiObjectMixin,
+
+
+MixedPropertiesAndAdditionalPropertiesClassMixin {
   @override
   UndefinedWrapper<String> uuid;
   @override
@@ -27,15 +43,27 @@ class MixedPropertiesAndAdditionalPropertiesClass
   @override
   UndefinedWrapper<Map<String, Animal>> map;
 
+
+
+
+
   MixedPropertiesAndAdditionalPropertiesClass.$all({
     required this.uuid,
     required this.dateTime,
     required this.map,
+    
+    
   });
 
   MixedPropertiesAndAdditionalPropertiesClass({
     this.uuid = const UndefinedWrapper.undefined(),
     this.dateTime = const UndefinedWrapper.undefined(),
     this.map = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

@@ -8,23 +8,48 @@ import 'package:xml/xml.dart';
 part 'triangle_interface.reflection.dart';
 part 'triangle_interface.serialization.dart';
 
-//class defination
 
+/// TriangleInterfaceMixin
 ///
-mixin TriangleInterfaceMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [triangleType] 
+mixin TriangleInterfaceMixin on 
+  
+  $OpenApiObjectMixin
+ {
   String get triangleType;
+
 }
 
+/// TriangleInterface
 ///
-class TriangleInterface with $OpenApiObjectMixin, TriangleInterfaceMixin {
+/// Properties:
+/// * [triangleType] 
+class TriangleInterface with
+$OpenApiObjectMixin,
+
+
+TriangleInterfaceMixin {
   @override
   String triangleType;
 
+
+
+
+
   TriangleInterface.$all({
     required this.triangleType,
+    
+    
   });
 
   TriangleInterface({
-    required this.triangleType,
+  required  this.triangleType ,
+    
+    
   });
 }
+
+
+
+

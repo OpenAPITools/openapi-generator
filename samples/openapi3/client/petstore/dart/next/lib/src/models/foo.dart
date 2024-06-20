@@ -8,23 +8,48 @@ import 'package:xml/xml.dart';
 part 'foo.reflection.dart';
 part 'foo.serialization.dart';
 
-//class defination
 
+/// FooMixin
 ///
-mixin FooMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [bar] 
+mixin FooMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<String> get bar;
+
 }
 
+/// Foo
 ///
-class Foo with $OpenApiObjectMixin, FooMixin {
+/// Properties:
+/// * [bar] 
+class Foo with
+$OpenApiObjectMixin,
+
+
+FooMixin {
   @override
   UndefinedWrapper<String> bar;
 
+
+
+
+
   Foo.$all({
     required this.bar,
+    
+    
   });
 
   Foo({
     this.bar = const UndefinedWrapper('bar'),
+    
+    
   });
 }
+
+
+
+

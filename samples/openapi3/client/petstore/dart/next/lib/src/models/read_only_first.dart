@@ -8,28 +8,55 @@ import 'package:xml/xml.dart';
 part 'read_only_first.reflection.dart';
 part 'read_only_first.serialization.dart';
 
-//class defination
 
+/// ReadOnlyFirstMixin
 ///
-mixin ReadOnlyFirstMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [bar] 
+/// * [baz] 
+mixin ReadOnlyFirstMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<String> get bar;
   UndefinedWrapper<String> get baz;
+
 }
 
+/// ReadOnlyFirst
 ///
-class ReadOnlyFirst with $OpenApiObjectMixin, ReadOnlyFirstMixin {
+/// Properties:
+/// * [bar] 
+/// * [baz] 
+class ReadOnlyFirst with
+$OpenApiObjectMixin,
+
+
+ReadOnlyFirstMixin {
   @override
   UndefinedWrapper<String> bar;
   @override
   UndefinedWrapper<String> baz;
 
+
+
+
+
   ReadOnlyFirst.$all({
     required this.bar,
     required this.baz,
+    
+    
   });
 
   ReadOnlyFirst({
     this.bar = const UndefinedWrapper.undefined(),
     this.baz = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

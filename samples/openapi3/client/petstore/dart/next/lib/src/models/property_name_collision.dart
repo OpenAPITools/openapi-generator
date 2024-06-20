@@ -8,18 +8,34 @@ import 'package:xml/xml.dart';
 part 'property_name_collision.reflection.dart';
 part 'property_name_collision.serialization.dart';
 
-//class defination
 
+/// PropertyNameCollisionMixin
 ///
-mixin PropertyNameCollisionMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [$type] 
+/// * [type] 
+/// * [type$] 
+mixin PropertyNameCollisionMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<String> get $type;
   UndefinedWrapper<String> get type;
   UndefinedWrapper<String> get type$;
+
 }
 
+/// PropertyNameCollision
 ///
-class PropertyNameCollision
-    with $OpenApiObjectMixin, PropertyNameCollisionMixin {
+/// Properties:
+/// * [$type] 
+/// * [type] 
+/// * [type$] 
+class PropertyNameCollision with
+$OpenApiObjectMixin,
+
+
+PropertyNameCollisionMixin {
   @override
   UndefinedWrapper<String> $type;
   @override
@@ -27,15 +43,27 @@ class PropertyNameCollision
   @override
   UndefinedWrapper<String> type$;
 
+
+
+
+
   PropertyNameCollision.$all({
     required this.$type,
     required this.type,
     required this.type$,
+    
+    
   });
 
   PropertyNameCollision({
     this.$type = const UndefinedWrapper.undefined(),
     this.type = const UndefinedWrapper.undefined(),
     this.type$ = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

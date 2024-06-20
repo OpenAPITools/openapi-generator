@@ -8,19 +8,37 @@ import 'package:xml/xml.dart';
 part 'object_with_deprecated_fields.reflection.dart';
 part 'object_with_deprecated_fields.serialization.dart';
 
-//class defination
 
+/// ObjectWithDeprecatedFieldsMixin
 ///
-mixin ObjectWithDeprecatedFieldsMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [uuid] 
+/// * [id] 
+/// * [deprecatedRef] 
+/// * [bars] 
+mixin ObjectWithDeprecatedFieldsMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<String> get uuid;
   UndefinedWrapper<num> get id;
   UndefinedWrapper<DeprecatedObject> get deprecatedRef;
   UndefinedWrapper<List<String>> get bars;
+
 }
 
+/// ObjectWithDeprecatedFields
 ///
-class ObjectWithDeprecatedFields
-    with $OpenApiObjectMixin, ObjectWithDeprecatedFieldsMixin {
+/// Properties:
+/// * [uuid] 
+/// * [id] 
+/// * [deprecatedRef] 
+/// * [bars] 
+class ObjectWithDeprecatedFields with
+$OpenApiObjectMixin,
+
+
+ObjectWithDeprecatedFieldsMixin {
   @override
   UndefinedWrapper<String> uuid;
   @override
@@ -30,11 +48,17 @@ class ObjectWithDeprecatedFields
   @override
   UndefinedWrapper<List<String>> bars;
 
+
+
+
+
   ObjectWithDeprecatedFields.$all({
     required this.uuid,
     required this.id,
     required this.deprecatedRef,
     required this.bars,
+    
+    
   });
 
   ObjectWithDeprecatedFields({
@@ -42,5 +66,11 @@ class ObjectWithDeprecatedFields
     this.id = const UndefinedWrapper.undefined(),
     this.deprecatedRef = const UndefinedWrapper.undefined(),
     this.bars = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

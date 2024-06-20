@@ -8,23 +8,48 @@ import 'package:xml/xml.dart';
 part 'number_only.reflection.dart';
 part 'number_only.serialization.dart';
 
-//class defination
 
+/// NumberOnlyMixin
 ///
-mixin NumberOnlyMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [justNumber] 
+mixin NumberOnlyMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<num> get justNumber;
+
 }
 
+/// NumberOnly
 ///
-class NumberOnly with $OpenApiObjectMixin, NumberOnlyMixin {
+/// Properties:
+/// * [justNumber] 
+class NumberOnly with
+$OpenApiObjectMixin,
+
+
+NumberOnlyMixin {
   @override
   UndefinedWrapper<num> justNumber;
 
+
+
+
+
   NumberOnly.$all({
     required this.justNumber,
+    
+    
   });
 
   NumberOnly({
     this.justNumber = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

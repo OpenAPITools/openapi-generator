@@ -8,18 +8,33 @@ import 'package:xml/xml.dart';
 part 'all_of_model_array_any_of.reflection.dart';
 part 'all_of_model_array_any_of.serialization.dart';
 
-//class defination
 
+/// AllOfModelArrayAnyOfMixin
 ///
-mixin AllOfModelArrayAnyOfMixin on CategoryMixin, $OpenApiObjectMixin {
-  UndefinedWrapper<AllOfModelArrayAnyOfAllOfLinkListColumn1>
-      get linkListColumn1;
+/// Properties:
+/// * [linkListColumn1] 
+/// * [attributes] 
+mixin AllOfModelArrayAnyOfMixin on 
+  CategoryMixin,
+  $OpenApiObjectMixin
+ {
+  UndefinedWrapper<AllOfModelArrayAnyOfAllOfLinkListColumn1> get linkListColumn1;
   UndefinedWrapper<AllOfModelArrayAnyOfAllOfAttributes> get attributes;
+
 }
 
+/// AllOfModelArrayAnyOf
 ///
-class AllOfModelArrayAnyOf
-    with $OpenApiObjectMixin, CategoryMixin, AllOfModelArrayAnyOfMixin {
+/// Properties:
+/// * [name] 
+/// * [attributes] 
+/// * [id] 
+/// * [linkListColumn1] 
+class AllOfModelArrayAnyOf with
+$OpenApiObjectMixin,
+
+CategoryMixin,
+AllOfModelArrayAnyOfMixin {
   @override
   String name;
   @override
@@ -29,11 +44,17 @@ class AllOfModelArrayAnyOf
   @override
   UndefinedWrapper<AllOfModelArrayAnyOfAllOfLinkListColumn1> linkListColumn1;
 
+
+
+
+
   AllOfModelArrayAnyOf.$all({
     required this.name,
     required this.attributes,
     required this.id,
     required this.linkListColumn1,
+    
+    
   });
 
   AllOfModelArrayAnyOf({
@@ -41,5 +62,11 @@ class AllOfModelArrayAnyOf
     this.attributes = const UndefinedWrapper.undefined(),
     this.id = const UndefinedWrapper.undefined(),
     this.linkListColumn1 = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

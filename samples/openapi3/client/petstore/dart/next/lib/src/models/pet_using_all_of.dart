@@ -8,20 +8,43 @@ import 'package:xml/xml.dart';
 part 'pet_using_all_of.reflection.dart';
 part 'pet_using_all_of.serialization.dart';
 
-//class defination
 
+/// PetUsingAllOfMixin
 ///
-mixin PetUsingAllOfMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [id] 
+/// * [category] - multi line description 2nd line last line 
+/// * [name] 
+/// * [photoUrls] 
+/// * [tags] 
+/// * [status] - pet status in the store
+mixin PetUsingAllOfMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<int> get id;
   UndefinedWrapper<Category> get category;
   String get name;
   List<String> get photoUrls;
   UndefinedWrapper<List<Tag>> get tags;
   UndefinedWrapper<PetUsingAllOfStatusEnum> get status;
+
 }
 
+/// PetUsingAllOf
 ///
-class PetUsingAllOf with $OpenApiObjectMixin, PetUsingAllOfMixin {
+/// Properties:
+/// * [id] 
+/// * [category] - multi line description 2nd line last line 
+/// * [name] 
+/// * [photoUrls] 
+/// * [tags] 
+/// * [status] - pet status in the store
+class PetUsingAllOf with
+$OpenApiObjectMixin,
+
+
+PetUsingAllOfMixin {
   @override
   UndefinedWrapper<int> id;
   @override
@@ -35,6 +58,10 @@ class PetUsingAllOf with $OpenApiObjectMixin, PetUsingAllOfMixin {
   @override
   UndefinedWrapper<PetUsingAllOfStatusEnum> status;
 
+
+
+
+
   PetUsingAllOf.$all({
     required this.id,
     required this.category,
@@ -42,29 +69,32 @@ class PetUsingAllOf with $OpenApiObjectMixin, PetUsingAllOfMixin {
     required this.photoUrls,
     required this.tags,
     required this.status,
+    
+    
   });
 
   PetUsingAllOf({
     this.id = const UndefinedWrapper.undefined(),
     this.category = const UndefinedWrapper.undefined(),
-    required this.name,
-    required this.photoUrls,
+  required  this.name ,
+  required  this.photoUrls ,
     this.tags = const UndefinedWrapper.undefined(),
     this.status = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
 
-//inline enum def
+
+
 
 extension type const PetUsingAllOfStatusEnum._(String value) {
   /// pet status in the store
-  const PetUsingAllOfStatusEnum.available() : this._(r'available');
-
+      const PetUsingAllOfStatusEnum.available() : this._(r'available');
   /// pet status in the store
-  const PetUsingAllOfStatusEnum.pending() : this._(r'pending');
-
+      const PetUsingAllOfStatusEnum.pending() : this._(r'pending');
   /// pet status in the store
-  const PetUsingAllOfStatusEnum.sold() : this._(r'sold');
+      const PetUsingAllOfStatusEnum.sold() : this._(r'sold');
 
   /// Creates a [PetUsingAllOfStatusEnum] enum from a value and safely checking if it exists.
   factory PetUsingAllOfStatusEnum.$safe(String value) {
@@ -83,5 +113,7 @@ extension type const PetUsingAllOfStatusEnum._(String value) {
     PetUsingAllOfStatusEnum.available(),
     PetUsingAllOfStatusEnum.pending(),
     PetUsingAllOfStatusEnum.sold(),
+    
   ];
 }
+

@@ -8,24 +8,48 @@ import 'package:xml/xml.dart';
 part 'quadrilateral_interface.reflection.dart';
 part 'quadrilateral_interface.serialization.dart';
 
-//class defination
 
+/// QuadrilateralInterfaceMixin
 ///
-mixin QuadrilateralInterfaceMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [quadrilateralType] 
+mixin QuadrilateralInterfaceMixin on 
+  
+  $OpenApiObjectMixin
+ {
   String get quadrilateralType;
+
 }
 
+/// QuadrilateralInterface
 ///
-class QuadrilateralInterface
-    with $OpenApiObjectMixin, QuadrilateralInterfaceMixin {
+/// Properties:
+/// * [quadrilateralType] 
+class QuadrilateralInterface with
+$OpenApiObjectMixin,
+
+
+QuadrilateralInterfaceMixin {
   @override
   String quadrilateralType;
 
+
+
+
+
   QuadrilateralInterface.$all({
     required this.quadrilateralType,
+    
+    
   });
 
   QuadrilateralInterface({
-    required this.quadrilateralType,
+  required  this.quadrilateralType ,
+    
+    
   });
 }
+
+
+
+

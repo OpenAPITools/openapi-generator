@@ -8,23 +8,48 @@ import 'package:xml/xml.dart';
 part 'grandparent_animal.reflection.dart';
 part 'grandparent_animal.serialization.dart';
 
-//class defination
 
+/// GrandparentAnimalMixin
 ///
-mixin GrandparentAnimalMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [petType] 
+mixin GrandparentAnimalMixin on 
+  
+  $OpenApiObjectMixin
+ {
   String get petType;
+
 }
 
+/// GrandparentAnimal
 ///
-class GrandparentAnimal with $OpenApiObjectMixin, GrandparentAnimalMixin {
+/// Properties:
+/// * [petType] 
+class GrandparentAnimal with
+$OpenApiObjectMixin,
+
+
+GrandparentAnimalMixin {
   @override
   String petType;
 
+
+
+
+
   GrandparentAnimal.$all({
     required this.petType,
+    
+    
   });
 
   GrandparentAnimal({
-    required this.petType,
+  required  this.petType ,
+    
+    
   });
 }
+
+
+
+

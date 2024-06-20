@@ -8,24 +8,48 @@ import 'package:xml/xml.dart';
 part 'foo_get_default_response.reflection.dart';
 part 'foo_get_default_response.serialization.dart';
 
-//class defination
 
+/// FooGetDefaultResponseMixin
 ///
-mixin FooGetDefaultResponseMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [string] 
+mixin FooGetDefaultResponseMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<Foo> get string;
+
 }
 
+/// FooGetDefaultResponse
 ///
-class FooGetDefaultResponse
-    with $OpenApiObjectMixin, FooGetDefaultResponseMixin {
+/// Properties:
+/// * [string] 
+class FooGetDefaultResponse with
+$OpenApiObjectMixin,
+
+
+FooGetDefaultResponseMixin {
   @override
   UndefinedWrapper<Foo> string;
 
+
+
+
+
   FooGetDefaultResponse.$all({
     required this.string,
+    
+    
   });
 
   FooGetDefaultResponse({
     this.string = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

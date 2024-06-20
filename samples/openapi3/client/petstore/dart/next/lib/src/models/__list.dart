@@ -8,23 +8,48 @@ import 'package:xml/xml.dart';
 part '__list.reflection.dart';
 part '__list.serialization.dart';
 
-//class defination
 
+/// $ListMixin
 ///
-mixin $ListMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [$123list] 
+mixin $ListMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<String> get $123list;
+
 }
 
+/// $List
 ///
-class $List with $OpenApiObjectMixin, $ListMixin {
+/// Properties:
+/// * [$123list] 
+class $List with
+$OpenApiObjectMixin,
+
+
+$ListMixin {
   @override
   UndefinedWrapper<String> $123list;
 
+
+
+
+
   $List.$all({
     required this.$123list,
+    
+    
   });
 
   $List({
     this.$123list = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

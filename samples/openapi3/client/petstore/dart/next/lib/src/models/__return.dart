@@ -8,23 +8,48 @@ import 'package:xml/xml.dart';
 part '__return.reflection.dart';
 part '__return.serialization.dart';
 
-//class defination
 
+/// Model for testing reserved words
 ///
-mixin $ReturnMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [$return] 
+mixin $ReturnMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<int> get $return;
+
 }
 
+/// Model for testing reserved words
 ///
-class $Return with $OpenApiObjectMixin, $ReturnMixin {
+/// Properties:
+/// * [$return] 
+class $Return with
+$OpenApiObjectMixin,
+
+
+$ReturnMixin {
   @override
   UndefinedWrapper<int> $return;
 
+
+
+
+
   $Return.$all({
     required this.$return,
+    
+    
   });
 
   $Return({
     this.$return = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

@@ -8,12 +8,13 @@ import 'package:xml/xml.dart';
 part 'outer_enum_integer_default_value.reflection.dart';
 part 'outer_enum_integer_default_value.serialization.dart';
 
+
 //enum def
 
 extension type const OuterEnumIntegerDefaultValue._(int value) {
-  const OuterEnumIntegerDefaultValue.number0() : this._(0);
-  const OuterEnumIntegerDefaultValue.number1() : this._(1);
-  const OuterEnumIntegerDefaultValue.number2() : this._(2);
+      const OuterEnumIntegerDefaultValue.number0() : this._(0);
+      const OuterEnumIntegerDefaultValue.number1() : this._(1);
+      const OuterEnumIntegerDefaultValue.number2() : this._(2);
 
   /// Creates a [OuterEnumIntegerDefaultValue] enum from a value and safely checking if it exists.
   factory OuterEnumIntegerDefaultValue.$safe(int value) {
@@ -32,5 +33,6 @@ extension type const OuterEnumIntegerDefaultValue._(int value) {
     OuterEnumIntegerDefaultValue.number0(),
     OuterEnumIntegerDefaultValue.number1(),
     OuterEnumIntegerDefaultValue.number2(),
+    
   ];
 }

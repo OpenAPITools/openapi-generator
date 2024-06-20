@@ -8,28 +8,55 @@ import 'package:xml/xml.dart';
 part '__200_response.reflection.dart';
 part '__200_response.serialization.dart';
 
-//class defination
 
+/// Model for testing model name starting with number
 ///
-mixin $200ResponseMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [name] 
+/// * [propertyClass] 
+mixin $200ResponseMixin on 
+  
+  $OpenApiObjectMixin
+ {
   UndefinedWrapper<int> get name;
   UndefinedWrapper<String> get propertyClass;
+
 }
 
+/// Model for testing model name starting with number
 ///
-class $200Response with $OpenApiObjectMixin, $200ResponseMixin {
+/// Properties:
+/// * [name] 
+/// * [propertyClass] 
+class $200Response with
+$OpenApiObjectMixin,
+
+
+$200ResponseMixin {
   @override
   UndefinedWrapper<int> name;
   @override
   UndefinedWrapper<String> propertyClass;
 
+
+
+
+
   $200Response.$all({
     required this.name,
     required this.propertyClass,
+    
+    
   });
 
   $200Response({
     this.name = const UndefinedWrapper.undefined(),
     this.propertyClass = const UndefinedWrapper.undefined(),
+    
+    
   });
 }
+
+
+
+

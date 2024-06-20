@@ -8,31 +8,51 @@ import 'package:xml/xml.dart';
 part 'isosceles_triangle.reflection.dart';
 part 'isosceles_triangle.serialization.dart';
 
-//class defination
 
+/// IsoscelesTriangleMixin
 ///
-mixin IsoscelesTriangleMixin
-    on ShapeInterfaceMixin, TriangleInterfaceMixin, $OpenApiObjectMixin {}
+/// Properties:
+mixin IsoscelesTriangleMixin on 
+  ShapeInterfaceMixin,TriangleInterfaceMixin,
+  $OpenApiObjectMixin
+ {
 
+}
+
+/// IsoscelesTriangle
 ///
-class IsoscelesTriangle
-    with
-        $OpenApiObjectMixin,
-        ShapeInterfaceMixin,
-        TriangleInterfaceMixin,
-        IsoscelesTriangleMixin {
+/// Properties:
+/// * [shapeType] 
+/// * [triangleType] 
+class IsoscelesTriangle with
+$OpenApiObjectMixin,
+
+ShapeInterfaceMixin,TriangleInterfaceMixin,
+IsoscelesTriangleMixin {
   @override
   String shapeType;
   @override
   String triangleType;
 
+
+
+
+
   IsoscelesTriangle.$all({
     required this.shapeType,
     required this.triangleType,
+    
+    
   });
 
   IsoscelesTriangle({
-    required this.shapeType,
-    required this.triangleType,
+  required  this.shapeType ,
+  required  this.triangleType ,
+    
+    
   });
 }
+
+
+
+

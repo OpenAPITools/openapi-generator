@@ -8,23 +8,48 @@ import 'package:xml/xml.dart';
 part 'danish_pig.reflection.dart';
 part 'danish_pig.serialization.dart';
 
-//class defination
 
+/// DanishPigMixin
 ///
-mixin DanishPigMixin on $OpenApiObjectMixin {
+/// Properties:
+/// * [className] 
+mixin DanishPigMixin on 
+  
+  $OpenApiObjectMixin
+ {
   String get className;
+
 }
 
+/// DanishPig
 ///
-class DanishPig with $OpenApiObjectMixin, DanishPigMixin {
+/// Properties:
+/// * [className] 
+class DanishPig with
+$OpenApiObjectMixin,
+
+
+DanishPigMixin {
   @override
   String className;
 
+
+
+
+
   DanishPig.$all({
     required this.className,
+    
+    
   });
 
   DanishPig({
-    required this.className,
+  required  this.className ,
+    
+    
   });
 }
+
+
+
+
