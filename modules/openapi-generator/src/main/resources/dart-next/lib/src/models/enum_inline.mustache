@@ -1,0 +1,30 @@
+//inline enum def
+
+extension type const {{{enumName}}}._({{>types/enum_var_datatype}} value) {
+  {{#allowableValues}}
+    {{#enumVars}}
+      {{#description}}
+  /// {{{.}}}
+      {{/description}}
+      const {{{enumName}}}.{{name}}() : this._({{#isString}}r{{/isString}}{{{value}}});
+    {{/enumVars}}
+  {{/allowableValues}}
+
+  /// Creates a [{{{enumName}}}] enum from a value and safely checking if it exists.
+  factory {{{enumName}}}.$safe({{>types/enum_var_datatype}} value) {
+    final res = values.where((element) => element.value == value).firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res;
+  }
+
+  /// Creates a [{{enumName}}] enum from a value without checking if it exists.
+  const {{enumName}}.$unsafe({{>types/enum_var_datatype}} value) : this._(value);
+
+  /// All possible values of the enum.
+  static const List<{{enumName}}> values = [
+    {{#allowableValues}}{{#enumVars}}{{enumName}}.{{name}}(),
+    {{/enumVars}}{{/allowableValues}}
+  ];
+}

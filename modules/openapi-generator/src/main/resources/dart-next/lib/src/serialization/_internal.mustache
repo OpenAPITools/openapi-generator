@@ -1,3 +1,5 @@
+export '_exports.dart';
+
 export 'json_reflection.dart';
 export 'xml_reflection.dart';
 

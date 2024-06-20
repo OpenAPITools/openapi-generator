@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 import static org.openapitools.codegen.CodegenConstants.SKIP_FORM_MODEL;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.escape;
@@ -12,15 +13,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
@@ -32,8 +38,10 @@ import org.openapitools.codegen.meta.features.DataTypeFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -82,6 +90,9 @@ public class DartNextClientCodegen extends DefaultCodegen {
     protected boolean useEnumExtension = false;
     @Setter
     protected String sourceFolder = "src";
+    @Setter
+    protected boolean camelCaseDollarSign = false;
+
     protected String libPath = "lib" + File.separator;
 
     protected String srcPath() {
@@ -136,10 +147,21 @@ public class DartNextClientCodegen extends DefaultCodegen {
                 .stability(Stability.EXPERIMENTAL)
                 .build();
 
+        supportsMixins = true;
+        supportsInheritance = true;
+        supportsMultipleInheritance = true;
+        supportsAdditionalPropertiesWithComposedSchema = true;
+
         modifyFeatureSet(features -> features
                 .includeDataTypeFeatures(DataTypeFeature.AnyType, DataTypeFeature.Custom)
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
-
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union,
+                        SchemaSupportFeature.Composite,
+                        SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.anyOf)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
                         SecurityFeature.BasicAuth,
@@ -206,8 +228,8 @@ public class DartNextClientCodegen extends DefaultCodegen {
         typeMapping.put("binary", "Uint8List");
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "Uri");
-        // typeMapping.put("ByteArray", "String");
-        typeMapping.put("object", "Object");
+        typeMapping.put("ByteArray", "Uint8List");
+        typeMapping.put("object", "$OpenApiObjectMixin");
         typeMapping.put("AnyType", "Object");
 
         // Data types of the above values which are automatically imported
@@ -252,6 +274,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+        allowUnicodeIdentifiers = true;
 
         // Since we generate models for apis anyway, we need to always enable this.
         GlobalSettings.setProperty(SKIP_FORM_MODEL, "true");
@@ -370,7 +393,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
         supportingFiles.add(new SupportingFile("CHANGELOG.md", "", "CHANGELOG.md").doNotOverwrite());
         supportingFiles.add(new SupportingFile("lib/internal_exports.mustache", "lib", "_internal.dart"));
         supportingFiles.add(new SupportingFile("lib/public_exports.mustache", "lib", pubName + ".dart"));
-        supportingFiles.add(new SupportingFile("lib/src/facade.mustache", srcPath(),"api_facade.dart"));
+        supportingFiles.add(new SupportingFile("lib/src/facade.mustache", srcPath(), "api_facade.dart"));
         supportingFiles.add(new SupportingFile(modelsMustache + "_exports.mustache", modelsPath(), "_exports.dart"));
         supportingFiles.add(new SupportingFile(apisMustache + "_exports.mustache", apisPath(), "_exports.dart"));
 
@@ -394,6 +417,9 @@ public class DartNextClientCodegen extends DefaultCodegen {
                         "_internal.dart"));
 
         supportingFiles
+                .add(new SupportingFile(serializationMustache + "additional_properties.mustache", serializationPath(),
+                        "additional_properties.dart"));
+        supportingFiles
                 .add(new SupportingFile(serializationMustache + "json_extensions.mustache", serializationPath(),
                         "json_extensions.dart"));
         supportingFiles
@@ -408,6 +434,190 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
         // TODO: add all files inside shared_infrastructure to root folder of generated
         addSharedInfrastructureFiles();
+    }
+
+    private final String kIsChild = "x-is-child";
+    private final String kIsParent = "x-is-parent";
+    private final String kIsPure = "x-is-pure";
+    private final String kSelfOnlyProps = "x-self-only-props";
+    private final String kHasSelfOnlyProps = "x-has-self-only-props";
+    private final String kAncestorOnlyProps = "x-ancestor-only-props";
+    private final String kHasAncestorOnlyProps = "x-has-ancestor-only-props";
+    private final String kSelfAndAncestorOnlyProps = "x-self-and-ancestor-only-props";
+    private final String kHasSelfAndAncestorOnlyProps = "x-has-self-and-ancestor-only-props";
+    private final String kParentDiscriminator = "x-parent-discriminator";
+
+    Map<String, Object> getInheritanceVariablesLocation(CodegenModel mo) {
+        return mo.vendorExtensions;
+    }
+
+    // adapts codegen models and property to dart rules of inheritance
+    private Map<String, ModelsMap> adaptToDartInheritance(Map<String, ModelsMap> objs) {
+        // get all models
+        Map<String, CodegenModel> allModels = new HashMap<>();
+        for (ModelsMap modelsEntries : objs.values()) {
+            for (ModelMap modelsMap : modelsEntries.getModels()) {
+                CodegenModel model = modelsMap.getModel();
+                allModels.put(model.getClassname(), model);
+            }
+        }
+
+        // all ancestors
+        Set<String> allAncestorsForAllModelsFlat = new HashSet<>();
+        // maps a model to its ancestors
+        Map<String, Set<String>> allAncestorsForAllModels = new HashMap<>();
+        for (java.util.Map.Entry<String, CodegenModel> cm : allModels.entrySet()) {
+            Set<String> allAncestors = new HashSet<>();
+            // get all ancestors
+            // TODO: optimize this logic ?
+            getAncestors(cm.getValue(), allModels, allAncestors);
+            // just in case, a model can't be its own ancestor
+            allAncestors.remove(cm.getKey());
+
+            allAncestorsForAllModels.put(cm.getKey(), allAncestors);
+            allAncestorsForAllModelsFlat.addAll(allAncestors);
+        }
+
+        Set<String> allPureClasses = new HashSet<>();
+        // set isChild,isParent,isPure
+        for (java.util.Map.Entry<String, CodegenModel> cmEntry : allModels.entrySet()) {
+            String key = cmEntry.getKey();
+            CodegenModel cm = cmEntry.getValue();
+            // get all ancestors
+            Set<String> allAncestors = allAncestorsForAllModels.get(key);
+
+            // a class is a parent when it's an ancestor to another class
+            boolean isParent = allAncestorsForAllModelsFlat.contains(key);
+            // a class is a child when it has any ancestor
+            boolean isChild = !allAncestors.isEmpty();
+            // a class is pure when it's not a child, and has no oneOf nor anyOf
+            boolean isPure = !isChild && (cm.oneOf == null || cm.oneOf.isEmpty())
+                    && (cm.anyOf == null || cm.anyOf.isEmpty());
+
+            Map<String, Object> varLocation = getInheritanceVariablesLocation(cm);
+            varLocation.put(kIsChild, isChild);
+            varLocation.put(kIsParent, isParent);
+            varLocation.put(kIsPure, isPure);
+            if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty())) {
+                // discriminator has no meaning here
+                if (cm.discriminator != null) {
+                    varLocation.put(kParentDiscriminator, cm.discriminator);
+                    cm.discriminator = null;
+                }
+
+            }
+            // when pure:
+            // vars = allVars = selfOnlyProperties = kSelfAndAncestorOnlyProps
+            // ancestorOnlyProps = empty
+            if (isPure) {
+                varLocation.put(kSelfOnlyProps, new ArrayList<>(cm.getVars()));
+                varLocation.put(kHasSelfOnlyProps, !cm.getVars().isEmpty());
+                varLocation.put(kAncestorOnlyProps, cm.parentVars = new ArrayList<CodegenProperty>());
+                varLocation.put(kHasAncestorOnlyProps, false);
+                varLocation.put(kSelfAndAncestorOnlyProps, cm.allVars = new ArrayList<>(cm.getVars()));
+                varLocation.put(kHasSelfAndAncestorOnlyProps, !cm.getVars().isEmpty());
+
+                allPureClasses.add(key);
+            }
+        }
+
+        // handle impure models
+        for (java.util.Map.Entry<String, CodegenModel> cmEntry : allModels.entrySet()) {
+            String key = cmEntry.getKey();
+            CodegenModel cm = cmEntry.getValue();
+            if (allPureClasses.contains(key)) {
+                continue;
+            }
+            // get all ancestors
+            Set<String> allAncestors = allAncestorsForAllModels.get(key);
+
+            // get direct parents
+            // Set<String> directParentNames = cm.allOf == null ? new HashSet<>() :
+            // cm.allOf;
+            Set<String> compositeProperties = new HashSet<>();
+
+            Set<String> compositeModelNames = new HashSet<String>();
+            compositeModelNames.addAll(ObjectUtils.firstNonNull(cm.oneOf, new HashSet<>()));
+            compositeModelNames.addAll(ObjectUtils.firstNonNull(cm.anyOf, new HashSet<>()));
+            compositeModelNames.addAll(allAncestors);
+
+            for (String compositeModelName : compositeModelNames) {
+                CodegenModel model = allModels.get(compositeModelName);
+                if (model == null)
+                    continue;
+                List<CodegenProperty> allVars = ObjectUtils.firstNonNull(model.getAllVars(), new ArrayList<>());
+                for (CodegenProperty prop : allVars) {
+                    compositeProperties.add(prop.getName());
+                }
+            }
+            // dart classes declare selfOnlyProperties as direct members (they exist in
+            // "vars")
+            // for pure models, this will equal vars
+            Map<String, CodegenProperty> selfOnlyProperties = new HashMap<>();
+
+            // ancestorOnlyProperties are properties defined by all ancestors
+            // NOTE: oneOf,anyOf are NOT considered ancestors
+            // since a child in dart must implement ALL OF the parent (using implements)
+            Map<String, CodegenProperty> ancestorOnlyProperties = new HashMap<>();
+
+            // combines both selfOnlyProperties and ancestorOnlyProperties
+            // this will be used by the custom serializer as "x-handled-vars" and
+            // "x-has-handled-vars"
+            Map<String, CodegenProperty> selfAndAncestorOnlyProperties = new HashMap<>();
+
+            // STEP 1: calculating selfOnlyProperties
+            // get all vars of all ancestors and add them to ancestorPropNames
+            // Set<String> _ancestorPropNames = new HashSet<>();
+            for (String ancestorKey : allAncestors) {
+                CodegenModel ancestorCM = allModels.get(ancestorKey);
+                for (CodegenProperty prop : ancestorCM.getVars()) {
+                    ancestorOnlyProperties.put(prop.getName(), prop);
+                }
+            }
+            for (CodegenProperty p : cm.getVars()) {
+                p.isInherited = ancestorOnlyProperties.containsKey(p.getName());
+                if (!p.isInherited && !compositeProperties.contains(p.getName())) {
+                    selfOnlyProperties.put(p.getName(), p);
+                }
+            }
+            selfAndAncestorOnlyProperties.putAll(selfOnlyProperties);
+            selfAndAncestorOnlyProperties.putAll(ancestorOnlyProperties);
+
+            Map<String, Object> varLocation = getInheritanceVariablesLocation(cm);
+            varLocation.put(kSelfOnlyProps, cm.vars = new ArrayList<>(selfOnlyProperties.values()));
+            varLocation.put(kHasSelfOnlyProps, !selfOnlyProperties.isEmpty());
+            varLocation.put(kAncestorOnlyProps, cm.parentVars = new ArrayList<>(ancestorOnlyProperties.values()));
+            varLocation.put(kHasAncestorOnlyProps, !ancestorOnlyProperties.isEmpty());
+            varLocation.put(kSelfAndAncestorOnlyProps,
+                    cm.allVars = new ArrayList<>(selfAndAncestorOnlyProperties.values()));
+            varLocation.put(kHasSelfAndAncestorOnlyProps, !selfAndAncestorOnlyProperties.isEmpty());
+        }
+
+        return objs;
+    }
+
+    /// Gets all ancestors of a given model, and puts it in accumulator
+    private void getAncestors(CodegenModel cm, Map<String, CodegenModel> allModels, Set<String> accumulator) {
+
+        // get direct parents
+        Set<String> directParentNames = cm.allOf;
+        if (directParentNames != null && !directParentNames.isEmpty()) {
+            for (String directParentName : directParentNames) {
+                if (accumulator.add(directParentName)) {
+                    CodegenModel parent = allModels.get(directParentName);
+                    getAncestors(parent, allModels, accumulator);
+                }
+            }
+        }
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        objs = super.updateAllModels(objs);
+        objs = adaptToDartInheritance(objs);
+
+        return objs;
     }
 
     private void addSharedInfrastructureFiles() {
@@ -436,13 +646,15 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
         // Serialization
         supportingFiles.add(
-                        new SupportingFile(serializationFolder + "_exports.dart", serializationFolder, "_exports.dart"));
+                new SupportingFile(serializationFolder + "_exports.dart", serializationFolder, "_exports.dart"));
         supportingFiles.add(
-                        new SupportingFile(serializationFolder + "helpers.dart", serializationFolder, "helpers.dart"));
+                new SupportingFile(serializationFolder + "helpers.dart", serializationFolder, "helpers.dart"));
         supportingFiles.add(
-                        new SupportingFile(serializationFolder + "undefined_wrapper.dart", serializationFolder, "undefined_wrapper.dart"));
+                new SupportingFile(serializationFolder + "undefined_wrapper.dart", serializationFolder,
+                        "undefined_wrapper.dart"));
 
     }
+
 
     @Override
     protected boolean needToImport(String type) {
@@ -502,45 +714,68 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
         if (nameMapping.containsKey(name)) {
             return nameMapping.get(name);
         }
 
-        // replace - with _ e.g. created-at => created_at
-        name = name.replace("-", "_");
+        // sanitize name
+        name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods
+                                                // parameters as 'final'.
 
-        // always need to replace leading underscores first
-        if (name.equals("_")) {
-            return "underscore";
+        if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
+            return "propertyClass";
         }
-        name = name.replaceAll("^_", "");
+
+        if ("_".equals(name)) {
+            name = "_u";
+        }
+
+        // numbers are not allowed at the beginning
+        if (name.matches("^\\d.*")) {
+            name = "_" + name;
+        }
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (name.matches("^[A-Z0-9_]*$")) {
             return name;
         }
 
-        // replace all characters that have a mapping but ignore underscores
-        // append an underscore to each replacement so that it can be camelized
-        if (name.chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
-            name = escape(name, specialCharReplacements, Collections.singletonList("_"), "_");
+        if (startsWithTwoUppercaseLetters(name)) {
+            name = name.substring(0, 2).toLowerCase(Locale.ROOT) + name.substring(2);
         }
-        // remove the rest
-        name = sanitizeName(name);
+
+        // If name contains special chars -> replace them.
+        if ((((CharSequence) name).chars()
+                .anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character))))) {
+            List<String> allowedCharacters = new ArrayList<>();
+            allowedCharacters.add("_");
+            allowedCharacters.add("$");
+            name = escape(name, specialCharReplacements, allowedCharacters, "_");
+        }
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, LOWERCASE_FIRST_LETTER);
-
-        if (name.matches("^\\d.*")) {
-            name = "n" + name;
+        if (camelCaseDollarSign) {
+            name = camelize(name, LOWERCASE_FIRST_CHAR);
+        } else {
+            name = camelize(name, LOWERCASE_FIRST_LETTER);
         }
 
-        if (isReservedWord(name)) {
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
 
         return name;
+    }
+
+    private boolean startsWithTwoUppercaseLetters(String name) {
+        boolean startsWithTwoUppercaseLetters = false;
+        if (name.length() > 1) {
+            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase(Locale.ROOT));
+        }
+        return startsWithTwoUppercaseLetters;
     }
 
     @Override
@@ -555,6 +790,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     @Override
     public String toModelName(final String name) {
+        // obtain the name from modelNameMapping directly if provided
         if (modelNameMapping.containsKey(name)) {
             return modelNameMapping.get(name);
         }
@@ -597,7 +833,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
         // model name starts with number
         if (camelizedName.matches("^\\d.*")) {
-            final String modelName = "$" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
+            final String modelName = "$" + camelizedName; // e.g. 200Response => $200Response (after camelize)
             LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
                     modelName);
             return modelName;
@@ -633,14 +869,14 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     @Override
     public String toDefaultValue(Schema schema) {
-        if (ModelUtils.isMapSchema(schema) || ModelUtils.isSet(schema)) {
-            return "const {}";
-        }
-        if (ModelUtils.isArraySchema(schema)) {
-            return "const []";
-        }
 
         if (schema.getDefault() != null) {
+            // if (ModelUtils.isMapSchema(schema) || ModelUtils.isSet(schema)) {
+            // return "const {}";
+            // }
+            // if (ModelUtils.isArraySchema(schema)) {
+            // return "const []";
+            // }
             if (ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
                 // this is currently not supported and would create compile errors
                 return null;
@@ -651,245 +887,63 @@ public class DartNextClientCodegen extends DefaultCodegen {
             return schema.getDefault().toString();
         }
         return null;
+
     }
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        // Schema<?> schema = unaliasSchema(p);
-        // Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
-        // if (ModelUtils.isArraySchema(target)) {
-        // Schema<?> items = ModelUtils.getSchemaItems(schema);
-        // return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
-        // }
-        // if (ModelUtils.isMapSchema(target)) {
-        // // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema
-        // that
-        // // also defines
-        // // additionalproperties: true
-        // Schema<?> inner = ModelUtils.getAdditionalProperties(target);
-        // if (inner == null) {
-        // LOGGER.error("`{}` (map property) does not have a proper inner type defined.
-        // Default to type:string",
-        // p.getName());
-        // inner = new StringSchema().description("TODO default missing map inner type
-        // to string");
-        // p.setAdditionalProperties(inner);
-        // }
-        // return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
-        // }
-        return super.getTypeDeclaration(p);
+        Schema<?> schema = unaliasSchema(p);
+        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        return super.getTypeDeclaration(target);
     }
-
     // @Override
-    // public String getSchemaType(Schema p) {
-    // String openAPIType = super.getSchemaType(p);
-    // if (openAPIType == null) {
-    // LOGGER.error("No Type defined for Schema {}", p);
+    // public String getTypeDeclaration(Schema p) {
+    // Schema<?> schema = unaliasSchema(p);
+    // Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+    // if (ModelUtils.isArraySchema(target)) {
+    // Schema<?> items = ModelUtils.getSchemaItems(schema);
+    // return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
     // }
-    // if (typeMapping().containsKey(openAPIType)) {
-    // return typeMapping().get(openAPIType);
+    // if (ModelUtils.isMapSchema(target)) {
+    // // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema
+    // that also defines
+    // // additionalproperties: true
+    // Schema<?> inner = ModelUtils.getAdditionalProperties(target);
+    // if (inner == null) {
+    // LOGGER.error("`{}` (map property) does not have a proper inner type defined.
+    // Default to type:string", p.getName());
+    // inner = new StringSchema().description("TODO default missing map inner type
+    // to string");
+    // p.setAdditionalProperties(inner);
     // }
-    // return toModelName(openAPIType);
+    // return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
     // }
+    // return super.getTypeDeclaration(p);
+    // }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
+
+        // don't apply renaming on types from the typeMapping
+        if (typeMapping.containsKey(openAPIType)) {
+            return typeMapping.get(openAPIType);
+        }
+
+        if (null == openAPIType) {
+            LOGGER.error("No Type defined for Schema {}", p);
+        }
+        return toModelName(openAPIType);
+    }
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         return postProcessModelsEnum(objs);
     }
-
-    // @Override
-    // public void postProcessModelProperty(CodegenModel model, CodegenProperty
-    // property) {
-    // if (!model.isEnum && property.isEnum && property.getComposedSchemas() ==
-    // null) {
-    // // These are inner enums, enums which do not exist as models, just as
-    // // properties.
-    // // They are handled via the enum_inline template and are generated in the
-    // // same file as the containing class. To prevent name clashes the inline enum
-    // // classes
-    // // are prefix with the classname of the containing class in the template.
-    // // Here the datatypeWithEnum template variable gets updated to match that
-    // // scheme.
-    // // Also taking into account potential collection types e.g.
-    // List<JustSymbolEnum>
-    // // -> List<EnumArraysJustSymbolEnum>
-    // final String enumName = model.classname + property.enumName;
-    // if (property.items != null) {
-    // // inner items e.g. enums in collections, only works for one level
-    // // but same is the case for DefaultCodegen
-    // property.setDatatypeWithEnum(
-    // property.datatypeWithEnum.replace(property.items.datatypeWithEnum,
-    // enumName));
-    // property.items.setDatatypeWithEnum(enumName);
-    // property.items.setEnumName(enumName);
-    // } else {
-    // // plain enum property
-    // property.setDatatypeWithEnum(property.datatypeWithEnum.replace(property.enumName,
-    // enumName));
-    // }
-    // property.setEnumName(enumName);
-    // }
-    // }
-
-    // @Override
-    // public CodegenProperty fromProperty(String name, Schema p, boolean required)
-    // {
-    // final CodegenProperty property = super.fromProperty(name, p, required);
-
-    // // Handle composed properties and it's NOT allOf with a single ref only
-    // if (ModelUtils.isComposedSchema(p) && !(ModelUtils.isAllOf(p) &&
-    // p.getAllOf().size() == 1)) {
-    // ComposedSchema composed = (ComposedSchema) p;
-
-    // // Count the occurrences of allOf/anyOf/oneOf with exactly one child element
-    // long count = Stream.of(composed.getAllOf(), composed.getAnyOf(),
-    // composed.getOneOf())
-    // .filter(list -> list != null && list.size() == 1).count();
-
-    // if (count == 1) {
-    // // Continue only if there is one element that matches
-    // // and basically treat it as simple property.
-    // Stream.of(composed.getAllOf(), composed.getAnyOf(), composed.getOneOf())
-    // .filter(list -> list != null && list.size() == 1)
-    // .findFirst()
-    // .map(list -> list.get(0).get$ref())
-    // .map(ModelUtils::getSimpleRef)
-    // .map(ref -> ModelUtils.getSchemas(this.openAPI).get(ref))
-    // .ifPresent(schema -> {
-    // property.isEnum = schema.getEnum() != null;
-    // property.isModel = true;
-    // });
-
-    // }
-    // }
-    // return property;
-    // }
-
-    // @Override
-    // public CodegenOperation fromOperation(String path, String httpMethod,
-    // Operation operation, List<Server> servers) {
-    // final CodegenOperation op = super.fromOperation(path, httpMethod, operation,
-    // servers);
-    // for (CodegenResponse r : op.responses) {
-    // // By default, only set types are automatically added to operation imports,
-    // not
-    // // sure why.
-    // // Add all container type imports here, by default 'dart:core' imports are
-    // // skipped
-    // // but other sub-classes may require specific container type imports.
-    // if (r.containerType != null && typeMapping().containsKey(r.containerType)) {
-    // final String value = typeMapping().get(r.containerType);
-    // if (needToImport(value)) {
-    // op.imports.add(value);
-    // }
-    // }
-    // }
-    // for (CodegenParameter p : op.allParams) {
-    // if (p.isContainer) {
-    // final String type = p.isArray ? "array" : "map";
-    // if (typeMapping().containsKey(type)) {
-    // final String value = typeMapping().get(type);
-    // // Also add container imports for parameters.
-    // if (needToImport(value)) {
-    // op.imports.add(value);
-    // }
-    // }
-    // }
-    // }
-    // return op;
-    // }
-
-    // @Override
-    // public OperationsMap postProcessOperationsWithModels(OperationsMap objs,
-    // List<ModelMap> allModels) {
-    // super.postProcessOperationsWithModels(objs, allModels);
-    // OperationMap operations = objs.getOperations();
-    // if (operations != null) {
-    // List<CodegenOperation> ops = operations.getOperation();
-    // for (CodegenOperation op : ops) {
-    // if (op.hasConsumes) {
-    // if (!op.formParams.isEmpty() || op.isMultipart) {
-    // // DefaultCodegen only sets this if the first consumes mediaType
-    // // is application/x-www-form-urlencoded or multipart.
-    // // Can just use the original
-    // op.prioritizedContentTypes = op.consumes;
-    // } else {
-    // // Prioritize content types by moving application/json to the front
-    // // similar to JavaCodegen
-    // op.prioritizedContentTypes = prioritizeContentTypes(op.consumes);
-    // // String mediaType = op.prioritizedContentTypes.get(0).get("mediaType");
-    // // if (!DEFAULT_SUPPORTED_CONTENT_TYPES.contains(mediaType)) {
-    // // LOGGER.warn(
-    // // "The media-type '{}' for operation '{}' is not support in the Dart
-    // generators by default.",
-    // // mediaType, op.path);
-    // // }
-    // }
-    // }
-    // }
-    // }
-    // return objs;
-    // }
-
-    // private List<Map<String, String>> prioritizeContentTypes(List<Map<String,
-    // String>> consumes) {
-    // if (consumes.size() <= 1) {
-    // // no need to change any order
-    // return consumes;
-    // }
-
-    // List<Map<String, String>> prioritizedContentTypes = new
-    // ArrayList<>(consumes.size());
-
-    // List<Map<String, String>> jsonVendorMimeTypes = new
-    // ArrayList<>(consumes.size());
-    // List<Map<String, String>> jsonMimeTypes = new ArrayList<>(consumes.size());
-
-    // for (Map<String, String> consume : consumes) {
-    // String mediaType = consume.get("mediaType");
-    // if (isJsonVendorMimeType(mediaType)) {
-    // jsonVendorMimeTypes.add(consume);
-    // } else if (isJsonMimeType(mediaType)) {
-    // jsonMimeTypes.add(consume);
-    // } else {
-    // prioritizedContentTypes.add(consume);
-    // }
-    // }
-
-    // prioritizedContentTypes.addAll(0, jsonMimeTypes);
-    // prioritizedContentTypes.addAll(0, jsonVendorMimeTypes);
-    // return prioritizedContentTypes;
-    // }
-
-    // @Override
-    // protected void updateEnumVarsWithExtensions(List<Map<String, Object>>
-    // enumVars,
-    // Map<String, Object> vendorExtensions, String dataType) {
-    // if (vendorExtensions != null && useEnumExtension &&
-    // vendorExtensions.containsKey("x-enum-values")) {
-    // // Use the x-enum-values extension for this enum
-    // // Existing enumVars added by the default handling need to be removed first
-    // enumVars.clear();
-
-    // Object extension = vendorExtensions.get("x-enum-values");
-    // List<Map<String, Object>> values = (List<Map<String, Object>>) extension;
-    // for (Map<String, Object> value : values) {
-    // Map<String, Object> enumVar = new HashMap<>();
-    // enumVar.put("name", toEnumVarName((String) value.get("identifier"),
-    // dataType));
-    // enumVar.put("value", toEnumValue(value.get("numericValue").toString(),
-    // dataType));
-    // enumVar.put("isString", isDataTypeString(dataType));
-    // if (value.containsKey("description")) {
-    // enumVar.put("description", value.get("description").toString());
-    // }
-    // enumVars.add(enumVar);
-    // }
-    // } else {
-    // super.updateEnumVarsWithExtensions(enumVars, vendorExtensions, dataType);
-    // }
-    // }
-
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return sanitizeName(camelize(property.name)) + "Enum";
+    }
     @Override
     public String toEnumVarName(String value, String datatype) {
         if (enumNameMapping.containsKey(value)) {
@@ -913,11 +967,11 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("number".equalsIgnoreCase(datatype) ||
-                "int".equalsIgnoreCase(datatype)) {
-            return value;
-        } else {
+        if ("String".equalsIgnoreCase(datatype) ||
+            "string".equalsIgnoreCase(datatype)) {
             return "'" + escapeText(value) + "'";
+        } else {
+            return value;
         }
     }
 

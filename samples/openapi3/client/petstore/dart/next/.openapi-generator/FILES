@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 CHANGELOG.md
 README.md
 lib/_internal.dart
@@ -331,6 +330,7 @@ lib/src/networking/helpers.dart
 lib/src/networking/package_http_client.dart
 lib/src/serialization/_exports.dart
 lib/src/serialization/_internal.dart
+lib/src/serialization/additional_properties.dart
 lib/src/serialization/json_extensions.dart
 lib/src/serialization/json_reflection.dart
 lib/src/serialization/xml_extensions.dart

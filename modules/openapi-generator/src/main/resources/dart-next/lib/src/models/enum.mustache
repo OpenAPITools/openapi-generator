@@ -1,5 +1,30 @@
 //enum def
 
-enum {{classname}} {
+extension type const {{{classname}}}._({{dataType}} value) {
+  {{#allowableValues}}
+    {{#enumVars}}
+      {{#description}}
+  /// {{{.}}}
+      {{/description}}
+      const {{{classname}}}.{{name}}() : this._({{#isString}}r{{/isString}}{{{value}}});
+    {{/enumVars}}
+  {{/allowableValues}}
 
+  /// Creates a [{{{classname}}}] enum from a value and safely checking if it exists.
+  factory {{{classname}}}.$safe({{dataType}} value) {
+    final res = values.where((element) => element.value == value).firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res;
+  }
+
+  /// Creates a [{{{classname}}}] enum from a value without checking if it exists.
+  const {{{classname}}}.$unsafe(String value) : this._(value);
+
+  /// All possible values of the enum.
+  static const List<{{{classname}}}> values = [
+    {{#allowableValues}}{{#enumVars}}{{{classname}}}.{{name}}(),
+    {{/enumVars}}{{/allowableValues}}
+  ];
 }
