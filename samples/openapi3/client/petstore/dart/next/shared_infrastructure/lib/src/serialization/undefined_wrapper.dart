@@ -42,5 +42,3 @@ extension type const UndefinedWrapper<T>._(Object? source) {
     }
   }
 }
-
-

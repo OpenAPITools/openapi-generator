@@ -8,28 +8,19 @@ import 'package:xml/xml.dart';
 part 'drawing.reflection.dart';
 part 'drawing.serialization.dart';
 
-
 //class defination
 
 ///
-mixin DrawingMixin on  AdditionalPropertiesMixin<Fruit>,
-  
-  $OpenApiObjectMixin
- {
+mixin DrawingMixin on AdditionalPropertiesMixin<Fruit>, $OpenApiObjectMixin {
   UndefinedWrapper<Shape> get mainShape;
   UndefinedWrapper<ShapeOrNull?> get shapeOrNull;
   UndefinedWrapper<NullableShape?> get nullableShape;
   UndefinedWrapper<List<Shape>> get shapes;
-
-
 }
 
 ///
-class Drawing with
-$OpenApiObjectMixin,
-AdditionalPropertiesMixin<Fruit>,
-
-DrawingMixin {
+class Drawing
+    with $OpenApiObjectMixin, AdditionalPropertiesMixin<Fruit>, DrawingMixin {
   @override
   UndefinedWrapper<Shape> mainShape;
   @override
@@ -42,15 +33,12 @@ DrawingMixin {
   @override
   AdditionalProperties<Fruit> additionalProperties;
 
-
-
   Drawing.$all({
     required this.mainShape,
     required this.shapeOrNull,
     required this.nullableShape,
     required this.shapes,
     required this.additionalProperties,
-    
   });
 
   Drawing({
@@ -59,10 +47,5 @@ DrawingMixin {
     this.nullableShape = const UndefinedWrapper.undefined(),
     this.shapes = const UndefinedWrapper.undefined(),
     this.additionalProperties = const AdditionalProperties(),
-    
   });
 }
-
-
-
-

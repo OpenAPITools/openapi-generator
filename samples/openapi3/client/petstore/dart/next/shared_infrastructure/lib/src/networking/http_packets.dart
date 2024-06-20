@@ -1,4 +1,3 @@
-
 /// An http packet is:
 /// 1. Headers
 /// 2. Body

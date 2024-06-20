@@ -20,7 +20,7 @@ extension type const {{{classname}}}._({{dataType}} value) {
   }
 
   /// Creates a [{{{classname}}}] enum from a value without checking if it exists.
-  const {{{classname}}}.$unsafe(String value) : this._(value);
+  const {{{classname}}}.$unsafe({{dataType}} value) : this._(value);
 
   /// All possible values of the enum.
   static const List<{{{classname}}}> values = [

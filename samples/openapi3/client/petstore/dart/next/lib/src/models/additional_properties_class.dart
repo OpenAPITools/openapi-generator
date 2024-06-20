@@ -8,32 +8,24 @@ import 'package:xml/xml.dart';
 part 'additional_properties_class.reflection.dart';
 part 'additional_properties_class.serialization.dart';
 
-
 //class defination
 
 ///
-mixin AdditionalPropertiesClassMixin on 
-  
-  $OpenApiObjectMixin
- {
+mixin AdditionalPropertiesClassMixin on $OpenApiObjectMixin {
   UndefinedWrapper<Map<String, String>> get mapProperty;
   UndefinedWrapper<Map<String, Map<String, String>>> get mapOfMapProperty;
   UndefinedWrapper<Object?> get anytype1;
   UndefinedWrapper<$OpenApiObjectMixin> get mapWithUndeclaredPropertiesAnytype1;
   UndefinedWrapper<$OpenApiObjectMixin> get mapWithUndeclaredPropertiesAnytype2;
-  UndefinedWrapper<Map<String, Object?>> get mapWithUndeclaredPropertiesAnytype3;
+  UndefinedWrapper<Map<String, Object?>>
+      get mapWithUndeclaredPropertiesAnytype3;
   UndefinedWrapper<$OpenApiObjectMixin> get emptyMap;
   UndefinedWrapper<Map<String, String>> get mapWithUndeclaredPropertiesString;
-
-
 }
 
 ///
-class AdditionalPropertiesClass with
-$OpenApiObjectMixin,
-
-
-AdditionalPropertiesClassMixin {
+class AdditionalPropertiesClass
+    with $OpenApiObjectMixin, AdditionalPropertiesClassMixin {
   @override
   UndefinedWrapper<Map<String, String>> mapProperty;
   @override
@@ -51,10 +43,6 @@ AdditionalPropertiesClassMixin {
   @override
   UndefinedWrapper<Map<String, String>> mapWithUndeclaredPropertiesString;
 
-
-
-
-
   AdditionalPropertiesClass.$all({
     required this.mapProperty,
     required this.mapOfMapProperty,
@@ -64,24 +52,19 @@ AdditionalPropertiesClassMixin {
     required this.mapWithUndeclaredPropertiesAnytype3,
     required this.emptyMap,
     required this.mapWithUndeclaredPropertiesString,
-    
-    
   });
 
   AdditionalPropertiesClass({
     this.mapProperty = const UndefinedWrapper.undefined(),
     this.mapOfMapProperty = const UndefinedWrapper.undefined(),
     this.anytype1 = const UndefinedWrapper.undefined(),
-    this.mapWithUndeclaredPropertiesAnytype1 = const UndefinedWrapper.undefined(),
-    this.mapWithUndeclaredPropertiesAnytype2 = const UndefinedWrapper.undefined(),
-    this.mapWithUndeclaredPropertiesAnytype3 = const UndefinedWrapper.undefined(),
+    this.mapWithUndeclaredPropertiesAnytype1 =
+        const UndefinedWrapper.undefined(),
+    this.mapWithUndeclaredPropertiesAnytype2 =
+        const UndefinedWrapper.undefined(),
+    this.mapWithUndeclaredPropertiesAnytype3 =
+        const UndefinedWrapper.undefined(),
     this.emptyMap = const UndefinedWrapper.undefined(),
     this.mapWithUndeclaredPropertiesString = const UndefinedWrapper.undefined(),
-    
-    
   });
 }
-
-
-
-

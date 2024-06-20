@@ -8,14 +8,11 @@ import 'package:xml/xml.dart';
 part 'nullable_class.reflection.dart';
 part 'nullable_class.serialization.dart';
 
-
 //class defination
 
 ///
-mixin NullableClassMixin on  AdditionalPropertiesMixin<$OpenApiObjectMixin?>,
-  
-  $OpenApiObjectMixin
- {
+mixin NullableClassMixin
+    on AdditionalPropertiesMixin<$OpenApiObjectMixin?>, $OpenApiObjectMixin {
   UndefinedWrapper<int?> get integerProp;
   UndefinedWrapper<num?> get numberProp;
   UndefinedWrapper<bool?> get booleanProp;
@@ -26,18 +23,17 @@ mixin NullableClassMixin on  AdditionalPropertiesMixin<$OpenApiObjectMixin?>,
   UndefinedWrapper<List<$OpenApiObjectMixin?>?> get arrayAndItemsNullableProp;
   UndefinedWrapper<List<$OpenApiObjectMixin?>> get arrayItemsNullable;
   UndefinedWrapper<Map<String, $OpenApiObjectMixin>?> get objectNullableProp;
-  UndefinedWrapper<Map<String, $OpenApiObjectMixin?>?> get objectAndItemsNullableProp;
+  UndefinedWrapper<Map<String, $OpenApiObjectMixin?>?>
+      get objectAndItemsNullableProp;
   UndefinedWrapper<Map<String, $OpenApiObjectMixin?>> get objectItemsNullable;
-
-
 }
 
 ///
-class NullableClass with
-$OpenApiObjectMixin,
-AdditionalPropertiesMixin<$OpenApiObjectMixin?>,
-
-NullableClassMixin {
+class NullableClass
+    with
+        $OpenApiObjectMixin,
+        AdditionalPropertiesMixin<$OpenApiObjectMixin?>,
+        NullableClassMixin {
   @override
   UndefinedWrapper<int?> integerProp;
   @override
@@ -59,14 +55,13 @@ NullableClassMixin {
   @override
   UndefinedWrapper<Map<String, $OpenApiObjectMixin>?> objectNullableProp;
   @override
-  UndefinedWrapper<Map<String, $OpenApiObjectMixin?>?> objectAndItemsNullableProp;
+  UndefinedWrapper<Map<String, $OpenApiObjectMixin?>?>
+      objectAndItemsNullableProp;
   @override
   UndefinedWrapper<Map<String, $OpenApiObjectMixin?>> objectItemsNullable;
 
   @override
   AdditionalProperties<$OpenApiObjectMixin?> additionalProperties;
-
-
 
   NullableClass.$all({
     required this.integerProp,
@@ -82,7 +77,6 @@ NullableClassMixin {
     required this.objectAndItemsNullableProp,
     required this.objectItemsNullable,
     required this.additionalProperties,
-    
   });
 
   NullableClass({
@@ -99,10 +93,5 @@ NullableClassMixin {
     this.objectAndItemsNullableProp = const UndefinedWrapper.undefined(),
     this.objectItemsNullable = const UndefinedWrapper.undefined(),
     this.additionalProperties = const AdditionalProperties(),
-    
   });
 }
-
-
-
-

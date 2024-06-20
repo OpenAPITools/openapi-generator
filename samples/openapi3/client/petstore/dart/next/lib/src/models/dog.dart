@@ -8,25 +8,15 @@ import 'package:xml/xml.dart';
 part 'dog.reflection.dart';
 part 'dog.serialization.dart';
 
-
 //class defination
 
 ///
-mixin DogMixin on 
-  AnimalMixin,
-  $OpenApiObjectMixin
- {
+mixin DogMixin on AnimalMixin, $OpenApiObjectMixin {
   UndefinedWrapper<String> get breed;
-
-
 }
 
 ///
-class Dog with
-$OpenApiObjectMixin,
-
-AnimalMixin,
-DogMixin {
+class Dog with $OpenApiObjectMixin, AnimalMixin, DogMixin {
   @override
   UndefinedWrapper<String> color;
   @override
@@ -34,27 +24,15 @@ DogMixin {
   @override
   String className;
 
-
-
-
-
   Dog.$all({
     required this.color,
     required this.breed,
     required this.className,
-    
-    
   });
 
   Dog({
     this.color = const UndefinedWrapper('red'),
     this.breed = const UndefinedWrapper.undefined(),
-  required  this.className ,
-    
-    
+    required this.className,
   });
 }
-
-
-
-

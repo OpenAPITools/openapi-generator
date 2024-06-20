@@ -938,8 +938,38 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        return postProcessModelsEnum(objs);
+        objs = postProcessModelsEnum(objs);
+
+        return objs;
     }
+
+
+    @Override
+    public void updateCodegenPropertyEnum(CodegenProperty var, CodegenModel cm) {
+        super.updateCodegenPropertyEnum(var);
+        if (var.enumName != null) {
+            propagateCorrectEnumName(var, cm.classname + var.enumName);
+        }
+    }
+
+    protected void propagateCorrectEnumName(CodegenProperty var, String enumName) {
+        if (var == null) {
+            return;
+        }
+        if (var.enumName != null && !var.enumName.equals(enumName)) {
+            var oldEnumName = var.enumName;
+            LOGGER.info("enumName is not correct for property {}, renaming from {} to {}", var.name, var.enumName,
+                    enumName);
+
+            var.enumName = enumName;
+            if (oldEnumName.equals(var.datatypeWithEnum)) {
+                var.datatypeWithEnum = enumName;
+            }
+        }
+        propagateCorrectEnumName(var.items, enumName);
+        propagateCorrectEnumName(var.additionalProperties, enumName);
+    }
+
     @Override
     public String toEnumName(CodegenProperty property) {
         return sanitizeName(camelize(property.name)) + "Enum";

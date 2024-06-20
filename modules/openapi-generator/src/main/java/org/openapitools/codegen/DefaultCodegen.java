@@ -614,7 +614,7 @@ public class DefaultCodegen implements CodegenConfig {
     private boolean codegenPropertyIsNew(CodegenModel model, CodegenProperty property) {
         return model.parentModel == null
                 ? false
-                : model.parentModel.allVars.stream().anyMatch(p -> 
+                : model.parentModel.allVars.stream().anyMatch(p ->
                     p.name.equals(property.name) &&
                     (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false || p.isDiscriminator));
     }
@@ -854,35 +854,35 @@ public class DefaultCodegen implements CodegenConfig {
             // update codegen property enum with proper naming convention
             // and handling of numbers, special characters
             for (CodegenProperty var : cm.vars) {
-                updateCodegenPropertyEnum(var);
+                updateCodegenPropertyEnum(var,cm);
             }
 
             for (CodegenProperty var : cm.allVars) {
-                updateCodegenPropertyEnum(var);
+                updateCodegenPropertyEnum(var,cm);
             }
 
             for (CodegenProperty var : cm.nonNullableVars) {
-                updateCodegenPropertyEnum(var);
+                updateCodegenPropertyEnum(var,cm);
             }
 
             for (CodegenProperty var : cm.requiredVars) {
-                updateCodegenPropertyEnum(var);
+                updateCodegenPropertyEnum(var,cm);
             }
 
             for (CodegenProperty var : cm.optionalVars) {
-                updateCodegenPropertyEnum(var);
+                updateCodegenPropertyEnum(var,cm);
             }
 
             for (CodegenProperty var : cm.parentVars) {
-                updateCodegenPropertyEnum(var);
+                updateCodegenPropertyEnum(var,cm);
             }
 
             for (CodegenProperty var : cm.readOnlyVars) {
-                updateCodegenPropertyEnum(var);
+                updateCodegenPropertyEnum(var,cm);
             }
 
             for (CodegenProperty var : cm.readWriteVars) {
-                updateCodegenPropertyEnum(var);
+                updateCodegenPropertyEnum(var,cm);
             }
 
         }
@@ -6660,6 +6660,10 @@ public class DefaultCodegen implements CodegenConfig {
                 var.defaultValue = toEnumDefaultValue(var, enumName);
             }
         }
+    }
+
+    public void updateCodegenPropertyEnum(CodegenProperty var, CodegenModel model) {
+        updateCodegenPropertyEnum(var);
     }
 
     protected String getEnumDefaultValue(String defaultValue, String dataType) {

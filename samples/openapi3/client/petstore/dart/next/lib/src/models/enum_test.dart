@@ -8,43 +8,34 @@ import 'package:xml/xml.dart';
 part 'enum_test.reflection.dart';
 part 'enum_test.serialization.dart';
 
-
 //class defination
 
 ///
-mixin EnumTestMixin on 
-  
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<EnumStringEnum> get enumString;
-  EnumStringRequiredEnum get enumStringRequired;
-  UndefinedWrapper<EnumIntegerEnum> get enumInteger;
-  UndefinedWrapper<EnumIntegerOnlyEnum> get enumIntegerOnly;
-  UndefinedWrapper<EnumNumberEnum> get enumNumber;
+mixin EnumTestMixin on $OpenApiObjectMixin {
+  UndefinedWrapper<EnumTestEnumStringEnum> get enumString;
+  EnumTestEnumStringRequiredEnum get enumStringRequired;
+  UndefinedWrapper<EnumTestEnumIntegerEnum> get enumInteger;
+  UndefinedWrapper<EnumTestEnumIntegerOnlyEnum> get enumIntegerOnly;
+  UndefinedWrapper<EnumTestEnumNumberEnum> get enumNumber;
   UndefinedWrapper<OuterEnum?> get outerEnum;
   UndefinedWrapper<OuterEnumInteger> get outerEnumInteger;
   UndefinedWrapper<OuterEnumDefaultValue> get outerEnumDefaultValue;
-  UndefinedWrapper<OuterEnumIntegerDefaultValue> get outerEnumIntegerDefaultValue;
-
-
+  UndefinedWrapper<OuterEnumIntegerDefaultValue>
+      get outerEnumIntegerDefaultValue;
 }
 
 ///
-class EnumTest with
-$OpenApiObjectMixin,
-
-
-EnumTestMixin {
+class EnumTest with $OpenApiObjectMixin, EnumTestMixin {
   @override
-  UndefinedWrapper<EnumStringEnum> enumString;
+  UndefinedWrapper<EnumTestEnumStringEnum> enumString;
   @override
-  EnumStringRequiredEnum enumStringRequired;
+  EnumTestEnumStringRequiredEnum enumStringRequired;
   @override
-  UndefinedWrapper<EnumIntegerEnum> enumInteger;
+  UndefinedWrapper<EnumTestEnumIntegerEnum> enumInteger;
   @override
-  UndefinedWrapper<EnumIntegerOnlyEnum> enumIntegerOnly;
+  UndefinedWrapper<EnumTestEnumIntegerOnlyEnum> enumIntegerOnly;
   @override
-  UndefinedWrapper<EnumNumberEnum> enumNumber;
+  UndefinedWrapper<EnumTestEnumNumberEnum> enumNumber;
   @override
   UndefinedWrapper<OuterEnum?> outerEnum;
   @override
@@ -53,10 +44,6 @@ EnumTestMixin {
   UndefinedWrapper<OuterEnumDefaultValue> outerEnumDefaultValue;
   @override
   UndefinedWrapper<OuterEnumIntegerDefaultValue> outerEnumIntegerDefaultValue;
-
-
-
-
 
   EnumTest.$all({
     required this.enumString,
@@ -68,13 +55,11 @@ EnumTestMixin {
     required this.outerEnumInteger,
     required this.outerEnumDefaultValue,
     required this.outerEnumIntegerDefaultValue,
-    
-    
   });
 
   EnumTest({
     this.enumString = const UndefinedWrapper.undefined(),
-  required  this.enumStringRequired ,
+    required this.enumStringRequired,
     this.enumInteger = const UndefinedWrapper.undefined(),
     this.enumIntegerOnly = const UndefinedWrapper.undefined(),
     this.enumNumber = const UndefinedWrapper.undefined(),
@@ -82,23 +67,18 @@ EnumTestMixin {
     this.outerEnumInteger = const UndefinedWrapper.undefined(),
     this.outerEnumDefaultValue = const UndefinedWrapper.undefined(),
     this.outerEnumIntegerDefaultValue = const UndefinedWrapper.undefined(),
-    
-    
   });
 }
 
-
-
-
 //inline enum def
 
-extension type const EnumStringEnum._(String value) {
-      const EnumStringEnum.UPPER() : this._(r'UPPER');
-      const EnumStringEnum.lower() : this._(r'lower');
-      const EnumStringEnum.empty() : this._(r'');
+extension type const EnumTestEnumStringEnum._(String value) {
+  const EnumTestEnumStringEnum.UPPER() : this._(r'UPPER');
+  const EnumTestEnumStringEnum.lower() : this._(r'lower');
+  const EnumTestEnumStringEnum.empty() : this._(r'');
 
-  /// Creates a [EnumStringEnum] enum from a value and safely checking if it exists.
-  factory EnumStringEnum.$safe(String value) {
+  /// Creates a [EnumTestEnumStringEnum] enum from a value and safely checking if it exists.
+  factory EnumTestEnumStringEnum.$safe(String value) {
     final res = values.where((element) => element.value == value).firstOrNull;
     if (res == null) {
       throw 'Invalid enum value $value';
@@ -106,27 +86,26 @@ extension type const EnumStringEnum._(String value) {
     return res;
   }
 
-  /// Creates a [EnumStringEnum] enum from a value without checking if it exists.
-  const EnumStringEnum.$unsafe(String value) : this._(value);
+  /// Creates a [EnumTestEnumStringEnum] enum from a value without checking if it exists.
+  const EnumTestEnumStringEnum.$unsafe(String value) : this._(value);
 
   /// All possible values of the enum.
-  static const List<EnumStringEnum> values = [
-    EnumStringEnum.UPPER(),
-    EnumStringEnum.lower(),
-    EnumStringEnum.empty(),
-    
+  static const List<EnumTestEnumStringEnum> values = [
+    EnumTestEnumStringEnum.UPPER(),
+    EnumTestEnumStringEnum.lower(),
+    EnumTestEnumStringEnum.empty(),
   ];
 }
 
 //inline enum def
 
-extension type const EnumStringRequiredEnum._(String value) {
-      const EnumStringRequiredEnum.UPPER() : this._(r'UPPER');
-      const EnumStringRequiredEnum.lower() : this._(r'lower');
-      const EnumStringRequiredEnum.empty() : this._(r'');
+extension type const EnumTestEnumStringRequiredEnum._(String value) {
+  const EnumTestEnumStringRequiredEnum.UPPER() : this._(r'UPPER');
+  const EnumTestEnumStringRequiredEnum.lower() : this._(r'lower');
+  const EnumTestEnumStringRequiredEnum.empty() : this._(r'');
 
-  /// Creates a [EnumStringRequiredEnum] enum from a value and safely checking if it exists.
-  factory EnumStringRequiredEnum.$safe(String value) {
+  /// Creates a [EnumTestEnumStringRequiredEnum] enum from a value and safely checking if it exists.
+  factory EnumTestEnumStringRequiredEnum.$safe(String value) {
     final res = values.where((element) => element.value == value).firstOrNull;
     if (res == null) {
       throw 'Invalid enum value $value';
@@ -134,26 +113,25 @@ extension type const EnumStringRequiredEnum._(String value) {
     return res;
   }
 
-  /// Creates a [EnumStringRequiredEnum] enum from a value without checking if it exists.
-  const EnumStringRequiredEnum.$unsafe(String value) : this._(value);
+  /// Creates a [EnumTestEnumStringRequiredEnum] enum from a value without checking if it exists.
+  const EnumTestEnumStringRequiredEnum.$unsafe(String value) : this._(value);
 
   /// All possible values of the enum.
-  static const List<EnumStringRequiredEnum> values = [
-    EnumStringRequiredEnum.UPPER(),
-    EnumStringRequiredEnum.lower(),
-    EnumStringRequiredEnum.empty(),
-    
+  static const List<EnumTestEnumStringRequiredEnum> values = [
+    EnumTestEnumStringRequiredEnum.UPPER(),
+    EnumTestEnumStringRequiredEnum.lower(),
+    EnumTestEnumStringRequiredEnum.empty(),
   ];
 }
 
 //inline enum def
 
-extension type const EnumIntegerEnum._(int value) {
-      const EnumIntegerEnum.number1() : this._(1);
-      const EnumIntegerEnum.numberNegative1() : this._(-1);
+extension type const EnumTestEnumIntegerEnum._(int value) {
+  const EnumTestEnumIntegerEnum.number1() : this._(1);
+  const EnumTestEnumIntegerEnum.numberNegative1() : this._(-1);
 
-  /// Creates a [EnumIntegerEnum] enum from a value and safely checking if it exists.
-  factory EnumIntegerEnum.$safe(int value) {
+  /// Creates a [EnumTestEnumIntegerEnum] enum from a value and safely checking if it exists.
+  factory EnumTestEnumIntegerEnum.$safe(int value) {
     final res = values.where((element) => element.value == value).firstOrNull;
     if (res == null) {
       throw 'Invalid enum value $value';
@@ -161,25 +139,24 @@ extension type const EnumIntegerEnum._(int value) {
     return res;
   }
 
-  /// Creates a [EnumIntegerEnum] enum from a value without checking if it exists.
-  const EnumIntegerEnum.$unsafe(int value) : this._(value);
+  /// Creates a [EnumTestEnumIntegerEnum] enum from a value without checking if it exists.
+  const EnumTestEnumIntegerEnum.$unsafe(int value) : this._(value);
 
   /// All possible values of the enum.
-  static const List<EnumIntegerEnum> values = [
-    EnumIntegerEnum.number1(),
-    EnumIntegerEnum.numberNegative1(),
-    
+  static const List<EnumTestEnumIntegerEnum> values = [
+    EnumTestEnumIntegerEnum.number1(),
+    EnumTestEnumIntegerEnum.numberNegative1(),
   ];
 }
 
 //inline enum def
 
-extension type const EnumIntegerOnlyEnum._(int value) {
-      const EnumIntegerOnlyEnum.number2() : this._(2);
-      const EnumIntegerOnlyEnum.numberNegative2() : this._(-2);
+extension type const EnumTestEnumIntegerOnlyEnum._(int value) {
+  const EnumTestEnumIntegerOnlyEnum.number2() : this._(2);
+  const EnumTestEnumIntegerOnlyEnum.numberNegative2() : this._(-2);
 
-  /// Creates a [EnumIntegerOnlyEnum] enum from a value and safely checking if it exists.
-  factory EnumIntegerOnlyEnum.$safe(int value) {
+  /// Creates a [EnumTestEnumIntegerOnlyEnum] enum from a value and safely checking if it exists.
+  factory EnumTestEnumIntegerOnlyEnum.$safe(int value) {
     final res = values.where((element) => element.value == value).firstOrNull;
     if (res == null) {
       throw 'Invalid enum value $value';
@@ -187,25 +164,24 @@ extension type const EnumIntegerOnlyEnum._(int value) {
     return res;
   }
 
-  /// Creates a [EnumIntegerOnlyEnum] enum from a value without checking if it exists.
-  const EnumIntegerOnlyEnum.$unsafe(int value) : this._(value);
+  /// Creates a [EnumTestEnumIntegerOnlyEnum] enum from a value without checking if it exists.
+  const EnumTestEnumIntegerOnlyEnum.$unsafe(int value) : this._(value);
 
   /// All possible values of the enum.
-  static const List<EnumIntegerOnlyEnum> values = [
-    EnumIntegerOnlyEnum.number2(),
-    EnumIntegerOnlyEnum.numberNegative2(),
-    
+  static const List<EnumTestEnumIntegerOnlyEnum> values = [
+    EnumTestEnumIntegerOnlyEnum.number2(),
+    EnumTestEnumIntegerOnlyEnum.numberNegative2(),
   ];
 }
 
 //inline enum def
 
-extension type const EnumNumberEnum._(double value) {
-      const EnumNumberEnum.number11() : this._(1.1);
-      const EnumNumberEnum.numberNegative12() : this._(-1.2);
+extension type const EnumTestEnumNumberEnum._(double value) {
+  const EnumTestEnumNumberEnum.number11() : this._(1.1);
+  const EnumTestEnumNumberEnum.numberNegative12() : this._(-1.2);
 
-  /// Creates a [EnumNumberEnum] enum from a value and safely checking if it exists.
-  factory EnumNumberEnum.$safe(double value) {
+  /// Creates a [EnumTestEnumNumberEnum] enum from a value and safely checking if it exists.
+  factory EnumTestEnumNumberEnum.$safe(double value) {
     final res = values.where((element) => element.value == value).firstOrNull;
     if (res == null) {
       throw 'Invalid enum value $value';
@@ -213,14 +189,12 @@ extension type const EnumNumberEnum._(double value) {
     return res;
   }
 
-  /// Creates a [EnumNumberEnum] enum from a value without checking if it exists.
-  const EnumNumberEnum.$unsafe(double value) : this._(value);
+  /// Creates a [EnumTestEnumNumberEnum] enum from a value without checking if it exists.
+  const EnumTestEnumNumberEnum.$unsafe(double value) : this._(value);
 
   /// All possible values of the enum.
-  static const List<EnumNumberEnum> values = [
-    EnumNumberEnum.number11(),
-    EnumNumberEnum.numberNegative12(),
-    
+  static const List<EnumTestEnumNumberEnum> values = [
+    EnumTestEnumNumberEnum.number11(),
+    EnumTestEnumNumberEnum.numberNegative12(),
   ];
 }
-

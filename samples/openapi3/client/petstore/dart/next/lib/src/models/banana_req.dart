@@ -8,50 +8,28 @@ import 'package:xml/xml.dart';
 part 'banana_req.reflection.dart';
 part 'banana_req.serialization.dart';
 
-
 //class defination
 
 ///
-mixin BananaReqMixin on 
-  
-  $OpenApiObjectMixin
- {
+mixin BananaReqMixin on $OpenApiObjectMixin {
   num get lengthCm;
   UndefinedWrapper<bool> get sweet;
-
-
 }
 
 ///
-class BananaReq with
-$OpenApiObjectMixin,
-
-
-BananaReqMixin {
+class BananaReq with $OpenApiObjectMixin, BananaReqMixin {
   @override
   num lengthCm;
   @override
   UndefinedWrapper<bool> sweet;
 
-
-
-
-
   BananaReq.$all({
     required this.lengthCm,
     required this.sweet,
-    
-    
   });
 
   BananaReq({
-  required  this.lengthCm ,
+    required this.lengthCm,
     this.sweet = const UndefinedWrapper.undefined(),
-    
-    
   });
 }
-
-
-
-

@@ -13,7 +13,6 @@ abstract class HttpRequestBase extends HttpPacketBase {
   static const deleteMethod = 'DELETE';
   static const headMethod = 'HEAD';
 
-
   Uri get url;
   String get method;
 

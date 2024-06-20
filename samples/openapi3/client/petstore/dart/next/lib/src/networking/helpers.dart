@@ -5,6 +5,5 @@ class OASNetworkingUtils {
 
   static bool matchesMimeTypePattern(String? contentType, String pattern) {
     return false;
-
   }
 }

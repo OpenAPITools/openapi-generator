@@ -8,27 +8,17 @@ import 'package:xml/xml.dart';
 part 'whale.reflection.dart';
 part 'whale.serialization.dart';
 
-
 //class defination
 
 ///
-mixin WhaleMixin on 
-  
-  $OpenApiObjectMixin
- {
+mixin WhaleMixin on $OpenApiObjectMixin {
   UndefinedWrapper<bool> get hasBaleen;
   UndefinedWrapper<bool> get hasTeeth;
   String get className;
-
-
 }
 
 ///
-class Whale with
-$OpenApiObjectMixin,
-
-
-WhaleMixin {
+class Whale with $OpenApiObjectMixin, WhaleMixin {
   @override
   UndefinedWrapper<bool> hasBaleen;
   @override
@@ -36,27 +26,15 @@ WhaleMixin {
   @override
   String className;
 
-
-
-
-
   Whale.$all({
     required this.hasBaleen,
     required this.hasTeeth,
     required this.className,
-    
-    
   });
 
   Whale({
     this.hasBaleen = const UndefinedWrapper.undefined(),
     this.hasTeeth = const UndefinedWrapper.undefined(),
-  required  this.className ,
-    
-    
+    required this.className,
   });
 }
-
-
-
-

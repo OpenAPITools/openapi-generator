@@ -8,30 +8,20 @@ import 'package:xml/xml.dart';
 part 'order.reflection.dart';
 part 'order.serialization.dart';
 
-
 //class defination
 
 ///
-mixin OrderMixin on 
-  
-  $OpenApiObjectMixin
- {
+mixin OrderMixin on $OpenApiObjectMixin {
   UndefinedWrapper<int> get id;
   UndefinedWrapper<int> get petId;
   UndefinedWrapper<int> get quantity;
   UndefinedWrapper<DateTime> get shipDate;
-  UndefinedWrapper<StatusEnum> get status;
+  UndefinedWrapper<OrderStatusEnum> get status;
   UndefinedWrapper<bool> get complete;
-
-
 }
 
 ///
-class Order with
-$OpenApiObjectMixin,
-
-
-OrderMixin {
+class Order with $OpenApiObjectMixin, OrderMixin {
   @override
   UndefinedWrapper<int> id;
   @override
@@ -41,13 +31,9 @@ OrderMixin {
   @override
   UndefinedWrapper<DateTime> shipDate;
   @override
-  UndefinedWrapper<StatusEnum> status;
+  UndefinedWrapper<OrderStatusEnum> status;
   @override
   UndefinedWrapper<bool> complete;
-
-
-
-
 
   Order.$all({
     required this.id,
@@ -56,8 +42,6 @@ OrderMixin {
     required this.shipDate,
     required this.status,
     required this.complete,
-    
-    
   });
 
   Order({
@@ -67,26 +51,23 @@ OrderMixin {
     this.shipDate = const UndefinedWrapper.undefined(),
     this.status = const UndefinedWrapper.undefined(),
     this.complete = const UndefinedWrapper(false),
-    
-    
   });
 }
 
-
-
-
 //inline enum def
 
-extension type const StatusEnum._(String value) {
+extension type const OrderStatusEnum._(String value) {
   /// Order Status
-      const StatusEnum.placed() : this._(r'placed');
-  /// Order Status
-      const StatusEnum.approved() : this._(r'approved');
-  /// Order Status
-      const StatusEnum.delivered() : this._(r'delivered');
+  const OrderStatusEnum.placed() : this._(r'placed');
 
-  /// Creates a [StatusEnum] enum from a value and safely checking if it exists.
-  factory StatusEnum.$safe(String value) {
+  /// Order Status
+  const OrderStatusEnum.approved() : this._(r'approved');
+
+  /// Order Status
+  const OrderStatusEnum.delivered() : this._(r'delivered');
+
+  /// Creates a [OrderStatusEnum] enum from a value and safely checking if it exists.
+  factory OrderStatusEnum.$safe(String value) {
     final res = values.where((element) => element.value == value).firstOrNull;
     if (res == null) {
       throw 'Invalid enum value $value';
@@ -94,15 +75,13 @@ extension type const StatusEnum._(String value) {
     return res;
   }
 
-  /// Creates a [StatusEnum] enum from a value without checking if it exists.
-  const StatusEnum.$unsafe(String value) : this._(value);
+  /// Creates a [OrderStatusEnum] enum from a value without checking if it exists.
+  const OrderStatusEnum.$unsafe(String value) : this._(value);
 
   /// All possible values of the enum.
-  static const List<StatusEnum> values = [
-    StatusEnum.placed(),
-    StatusEnum.approved(),
-    StatusEnum.delivered(),
-    
+  static const List<OrderStatusEnum> values = [
+    OrderStatusEnum.placed(),
+    OrderStatusEnum.approved(),
+    OrderStatusEnum.delivered(),
   ];
 }
-

@@ -8,15 +8,14 @@ import 'package:xml/xml.dart';
 part 'outer_enum.reflection.dart';
 part 'outer_enum.serialization.dart';
 
-
 //enum def
 
 extension type const OuterEnum._(String value) {
-      const OuterEnum.placed() : this._(r'placed');
-      const OuterEnum.approved() : this._(r'approved');
-      const OuterEnum.delivered() : this._(r'delivered');
-      const OuterEnum.LOWER_CASE_S() : this._(r's');
-      const OuterEnum.UPPER_CASE_S() : this._(r'S');
+  const OuterEnum.placed() : this._(r'placed');
+  const OuterEnum.approved() : this._(r'approved');
+  const OuterEnum.delivered() : this._(r'delivered');
+  const OuterEnum.LOWER_CASE_S() : this._(r's');
+  const OuterEnum.UPPER_CASE_S() : this._(r'S');
 
   /// Creates a [OuterEnum] enum from a value and safely checking if it exists.
   factory OuterEnum.$safe(String value) {
@@ -37,6 +36,5 @@ extension type const OuterEnum._(String value) {
     OuterEnum.delivered(),
     OuterEnum.LOWER_CASE_S(),
     OuterEnum.UPPER_CASE_S(),
-    
   ];
 }

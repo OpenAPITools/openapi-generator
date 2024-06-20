@@ -8,61 +8,40 @@ import 'package:xml/xml.dart';
 part 'enum_arrays.reflection.dart';
 part 'enum_arrays.serialization.dart';
 
-
 //class defination
 
 ///
-mixin EnumArraysMixin on 
-  
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<JustSymbolEnum> get justSymbol;
-  UndefinedWrapper<List<ArrayEnumEnum>> get arrayEnum;
-
-
+mixin EnumArraysMixin on $OpenApiObjectMixin {
+  UndefinedWrapper<EnumArraysJustSymbolEnum> get justSymbol;
+  UndefinedWrapper<List<EnumArraysArrayEnumEnum>> get arrayEnum;
 }
 
 ///
-class EnumArrays with
-$OpenApiObjectMixin,
-
-
-EnumArraysMixin {
+class EnumArrays with $OpenApiObjectMixin, EnumArraysMixin {
   @override
-  UndefinedWrapper<JustSymbolEnum> justSymbol;
+  UndefinedWrapper<EnumArraysJustSymbolEnum> justSymbol;
   @override
-  UndefinedWrapper<List<ArrayEnumEnum>> arrayEnum;
-
-
-
-
+  UndefinedWrapper<List<EnumArraysArrayEnumEnum>> arrayEnum;
 
   EnumArrays.$all({
     required this.justSymbol,
     required this.arrayEnum,
-    
-    
   });
 
   EnumArrays({
     this.justSymbol = const UndefinedWrapper.undefined(),
     this.arrayEnum = const UndefinedWrapper.undefined(),
-    
-    
   });
 }
 
-
-
-
 //inline enum def
 
-extension type const JustSymbolEnum._(String value) {
-      const JustSymbolEnum.greaterThanEqual() : this._(r'>=');
-      const JustSymbolEnum.value() : this._(r'$');
+extension type const EnumArraysJustSymbolEnum._(String value) {
+  const EnumArraysJustSymbolEnum.greaterThanEqual() : this._(r'>=');
+  const EnumArraysJustSymbolEnum.value() : this._(r'$');
 
-  /// Creates a [JustSymbolEnum] enum from a value and safely checking if it exists.
-  factory JustSymbolEnum.$safe(String value) {
+  /// Creates a [EnumArraysJustSymbolEnum] enum from a value and safely checking if it exists.
+  factory EnumArraysJustSymbolEnum.$safe(String value) {
     final res = values.where((element) => element.value == value).firstOrNull;
     if (res == null) {
       throw 'Invalid enum value $value';
@@ -70,25 +49,24 @@ extension type const JustSymbolEnum._(String value) {
     return res;
   }
 
-  /// Creates a [JustSymbolEnum] enum from a value without checking if it exists.
-  const JustSymbolEnum.$unsafe(String value) : this._(value);
+  /// Creates a [EnumArraysJustSymbolEnum] enum from a value without checking if it exists.
+  const EnumArraysJustSymbolEnum.$unsafe(String value) : this._(value);
 
   /// All possible values of the enum.
-  static const List<JustSymbolEnum> values = [
-    JustSymbolEnum.greaterThanEqual(),
-    JustSymbolEnum.value(),
-    
+  static const List<EnumArraysJustSymbolEnum> values = [
+    EnumArraysJustSymbolEnum.greaterThanEqual(),
+    EnumArraysJustSymbolEnum.value(),
   ];
 }
 
 //inline enum def
 
-extension type const ArrayEnumEnum._(String value) {
-      const ArrayEnumEnum.fish() : this._(r'fish');
-      const ArrayEnumEnum.crab() : this._(r'crab');
+extension type const EnumArraysArrayEnumEnum._(String value) {
+  const EnumArraysArrayEnumEnum.fish() : this._(r'fish');
+  const EnumArraysArrayEnumEnum.crab() : this._(r'crab');
 
-  /// Creates a [ArrayEnumEnum] enum from a value and safely checking if it exists.
-  factory ArrayEnumEnum.$safe(String value) {
+  /// Creates a [EnumArraysArrayEnumEnum] enum from a value and safely checking if it exists.
+  factory EnumArraysArrayEnumEnum.$safe(String value) {
     final res = values.where((element) => element.value == value).firstOrNull;
     if (res == null) {
       throw 'Invalid enum value $value';
@@ -96,14 +74,12 @@ extension type const ArrayEnumEnum._(String value) {
     return res;
   }
 
-  /// Creates a [ArrayEnumEnum] enum from a value without checking if it exists.
-  const ArrayEnumEnum.$unsafe(String value) : this._(value);
+  /// Creates a [EnumArraysArrayEnumEnum] enum from a value without checking if it exists.
+  const EnumArraysArrayEnumEnum.$unsafe(String value) : this._(value);
 
   /// All possible values of the enum.
-  static const List<ArrayEnumEnum> values = [
-    ArrayEnumEnum.fish(),
-    ArrayEnumEnum.crab(),
-    
+  static const List<EnumArraysArrayEnumEnum> values = [
+    EnumArraysArrayEnumEnum.fish(),
+    EnumArraysArrayEnumEnum.crab(),
   ];
 }
-

@@ -1,7 +1,6 @@
 extension type const AdditionalProperties<T>._(Map<String, T> src)
     implements Map<String, dynamic> {
-  const AdditionalProperties([Map<String, T> src = const {}])
-      : this._(src);
+  const AdditionalProperties([Map<String, T> src = const {}]) : this._(src);
   factory AdditionalProperties.srcExcept(
     Map<String, T> src,
     Set<String> toRemove,

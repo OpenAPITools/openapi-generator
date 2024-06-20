@@ -8,30 +8,20 @@ import 'package:xml/xml.dart';
 part 'pet.reflection.dart';
 part 'pet.serialization.dart';
 
-
 //class defination
 
 ///
-mixin PetMixin on 
-  
-  $OpenApiObjectMixin
- {
+mixin PetMixin on $OpenApiObjectMixin {
   UndefinedWrapper<int> get id;
   UndefinedWrapper<Category> get category;
   String get name;
   List<String> get photoUrls;
   UndefinedWrapper<List<Tag>> get tags;
-  UndefinedWrapper<StatusEnum> get status;
-
-
+  UndefinedWrapper<PetStatusEnum> get status;
 }
 
 ///
-class Pet with
-$OpenApiObjectMixin,
-
-
-PetMixin {
+class Pet with $OpenApiObjectMixin, PetMixin {
   @override
   UndefinedWrapper<int> id;
   @override
@@ -43,11 +33,7 @@ PetMixin {
   @override
   UndefinedWrapper<List<Tag>> tags;
   @override
-  UndefinedWrapper<StatusEnum> status;
-
-
-
-
+  UndefinedWrapper<PetStatusEnum> status;
 
   Pet.$all({
     required this.id,
@@ -56,37 +42,32 @@ PetMixin {
     required this.photoUrls,
     required this.tags,
     required this.status,
-    
-    
   });
 
   Pet({
     this.id = const UndefinedWrapper.undefined(),
     this.category = const UndefinedWrapper.undefined(),
-  required  this.name ,
-  required  this.photoUrls ,
+    required this.name,
+    required this.photoUrls,
     this.tags = const UndefinedWrapper.undefined(),
     this.status = const UndefinedWrapper.undefined(),
-    
-    
   });
 }
 
-
-
-
 //inline enum def
 
-extension type const StatusEnum._(String value) {
+extension type const PetStatusEnum._(String value) {
   /// pet status in the store
-      const StatusEnum.available() : this._(r'available');
-  /// pet status in the store
-      const StatusEnum.pending() : this._(r'pending');
-  /// pet status in the store
-      const StatusEnum.sold() : this._(r'sold');
+  const PetStatusEnum.available() : this._(r'available');
 
-  /// Creates a [StatusEnum] enum from a value and safely checking if it exists.
-  factory StatusEnum.$safe(String value) {
+  /// pet status in the store
+  const PetStatusEnum.pending() : this._(r'pending');
+
+  /// pet status in the store
+  const PetStatusEnum.sold() : this._(r'sold');
+
+  /// Creates a [PetStatusEnum] enum from a value and safely checking if it exists.
+  factory PetStatusEnum.$safe(String value) {
     final res = values.where((element) => element.value == value).firstOrNull;
     if (res == null) {
       throw 'Invalid enum value $value';
@@ -94,15 +75,13 @@ extension type const StatusEnum._(String value) {
     return res;
   }
 
-  /// Creates a [StatusEnum] enum from a value without checking if it exists.
-  const StatusEnum.$unsafe(String value) : this._(value);
+  /// Creates a [PetStatusEnum] enum from a value without checking if it exists.
+  const PetStatusEnum.$unsafe(String value) : this._(value);
 
   /// All possible values of the enum.
-  static const List<StatusEnum> values = [
-    StatusEnum.available(),
-    StatusEnum.pending(),
-    StatusEnum.sold(),
-    
+  static const List<PetStatusEnum> values = [
+    PetStatusEnum.available(),
+    PetStatusEnum.pending(),
+    PetStatusEnum.sold(),
   ];
 }
-

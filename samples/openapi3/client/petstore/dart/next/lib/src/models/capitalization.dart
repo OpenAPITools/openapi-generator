@@ -8,30 +8,20 @@ import 'package:xml/xml.dart';
 part 'capitalization.reflection.dart';
 part 'capitalization.serialization.dart';
 
-
 //class defination
 
 ///
-mixin CapitalizationMixin on 
-  
-  $OpenApiObjectMixin
- {
+mixin CapitalizationMixin on $OpenApiObjectMixin {
   UndefinedWrapper<String> get smallCamel;
   UndefinedWrapper<String> get capitalCamel;
   UndefinedWrapper<String> get smallSnake;
   UndefinedWrapper<String> get capitalSnake;
   UndefinedWrapper<String> get scAETHFlowPoints;
   UndefinedWrapper<String> get ATT_NAME;
-
-
 }
 
 ///
-class Capitalization with
-$OpenApiObjectMixin,
-
-
-CapitalizationMixin {
+class Capitalization with $OpenApiObjectMixin, CapitalizationMixin {
   @override
   UndefinedWrapper<String> smallCamel;
   @override
@@ -45,10 +35,6 @@ CapitalizationMixin {
   @override
   UndefinedWrapper<String> ATT_NAME;
 
-
-
-
-
   Capitalization.$all({
     required this.smallCamel,
     required this.capitalCamel,
@@ -56,8 +42,6 @@ CapitalizationMixin {
     required this.capitalSnake,
     required this.scAETHFlowPoints,
     required this.ATT_NAME,
-    
-    
   });
 
   Capitalization({
@@ -67,11 +51,5 @@ CapitalizationMixin {
     this.capitalSnake = const UndefinedWrapper.undefined(),
     this.scAETHFlowPoints = const UndefinedWrapper.undefined(),
     this.ATT_NAME = const UndefinedWrapper.undefined(),
-    
-    
   });
 }
-
-
-
-

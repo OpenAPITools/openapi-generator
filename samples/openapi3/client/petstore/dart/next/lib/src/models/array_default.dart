@@ -8,50 +8,28 @@ import 'package:xml/xml.dart';
 part 'array_default.reflection.dart';
 part 'array_default.serialization.dart';
 
-
 //class defination
 
 ///
-mixin ArrayDefaultMixin on 
-  
-  $OpenApiObjectMixin
- {
+mixin ArrayDefaultMixin on $OpenApiObjectMixin {
   UndefinedWrapper<List<String>> get withDefaultEmptyBracket;
   UndefinedWrapper<List<String>> get withoutDefault;
-
-
 }
 
 ///
-class ArrayDefault with
-$OpenApiObjectMixin,
-
-
-ArrayDefaultMixin {
+class ArrayDefault with $OpenApiObjectMixin, ArrayDefaultMixin {
   @override
   UndefinedWrapper<List<String>> withDefaultEmptyBracket;
   @override
   UndefinedWrapper<List<String>> withoutDefault;
 
-
-
-
-
   ArrayDefault.$all({
     required this.withDefaultEmptyBracket,
     required this.withoutDefault,
-    
-    
   });
 
   ArrayDefault({
     this.withDefaultEmptyBracket = const UndefinedWrapper([]),
     this.withoutDefault = const UndefinedWrapper.undefined(),
-    
-    
   });
 }
-
-
-
-

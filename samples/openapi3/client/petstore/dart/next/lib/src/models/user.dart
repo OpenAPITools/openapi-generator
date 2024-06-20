@@ -8,14 +8,10 @@ import 'package:xml/xml.dart';
 part 'user.reflection.dart';
 part 'user.serialization.dart';
 
-
 //class defination
 
 ///
-mixin UserMixin on 
-  
-  $OpenApiObjectMixin
- {
+mixin UserMixin on $OpenApiObjectMixin {
   UndefinedWrapper<int> get id;
   UndefinedWrapper<String> get username;
   UndefinedWrapper<String> get firstName;
@@ -28,16 +24,10 @@ mixin UserMixin on
   UndefinedWrapper<$OpenApiObjectMixin?> get objectWithNoDeclaredPropsNullable;
   UndefinedWrapper<Object?> get anyTypeProp;
   UndefinedWrapper<Object?> get anyTypePropNullable;
-
-
 }
 
 ///
-class User with
-$OpenApiObjectMixin,
-
-
-UserMixin {
+class User with $OpenApiObjectMixin, UserMixin {
   @override
   UndefinedWrapper<int> id;
   @override
@@ -63,10 +53,6 @@ UserMixin {
   @override
   UndefinedWrapper<Object?> anyTypePropNullable;
 
-
-
-
-
   User.$all({
     required this.id,
     required this.username,
@@ -80,8 +66,6 @@ UserMixin {
     required this.objectWithNoDeclaredPropsNullable,
     required this.anyTypeProp,
     required this.anyTypePropNullable,
-    
-    
   });
 
   User({
@@ -97,11 +81,5 @@ UserMixin {
     this.objectWithNoDeclaredPropsNullable = const UndefinedWrapper.undefined(),
     this.anyTypeProp = const UndefinedWrapper.undefined(),
     this.anyTypePropNullable = const UndefinedWrapper.undefined(),
-    
-    
   });
 }
-
-
-
-

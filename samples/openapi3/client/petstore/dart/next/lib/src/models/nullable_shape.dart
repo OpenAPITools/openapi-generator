@@ -8,63 +8,30 @@ import 'package:xml/xml.dart';
 part 'nullable_shape.reflection.dart';
 part 'nullable_shape.serialization.dart';
 
-
 //class defination
 
 ///
-mixin NullableShapeMixin on 
-  
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<String> get testPropNullableShapeString;
+mixin NullableShapeMixin on $OpenApiObjectMixin {
+  UndefinedWrapper<Triangle> get oneOf0;
 
-
-UndefinedWrapper<Triangle> get oneOf0;
-
-UndefinedWrapper<Quadrilateral> get oneOf1;
-
+  UndefinedWrapper<Quadrilateral> get oneOf1;
 }
 
 ///
-class NullableShape with
-$OpenApiObjectMixin,
-
-
-NullableShapeMixin {
+class NullableShape with $OpenApiObjectMixin, NullableShapeMixin {
   @override
-  UndefinedWrapper<String> testPropNullableShapeString;
-
-
-
+  UndefinedWrapper<Triangle> oneOf0;
 
   @override
-UndefinedWrapper<Triangle> oneOf0;
-
-  @override
-UndefinedWrapper<Quadrilateral> oneOf1;
-
+  UndefinedWrapper<Quadrilateral> oneOf1;
 
   NullableShape.$all({
-    required this.testPropNullableShapeString,
-    
-    
     required this.oneOf0,
-    
     required this.oneOf1,
-    
   });
 
   NullableShape({
-    this.testPropNullableShapeString = const UndefinedWrapper.undefined(),
-    
-    
     this.oneOf0 = const UndefinedWrapper.undefined(),
-    
     this.oneOf1 = const UndefinedWrapper.undefined(),
-    
   });
 }
-
-
-
-

@@ -8,27 +8,18 @@ import 'package:xml/xml.dart';
 part 'mixed_properties_and_additional_properties_class.reflection.dart';
 part 'mixed_properties_and_additional_properties_class.serialization.dart';
 
-
 //class defination
 
 ///
-mixin MixedPropertiesAndAdditionalPropertiesClassMixin on 
-  
-  $OpenApiObjectMixin
- {
+mixin MixedPropertiesAndAdditionalPropertiesClassMixin on $OpenApiObjectMixin {
   UndefinedWrapper<String> get uuid;
   UndefinedWrapper<DateTime> get dateTime;
   UndefinedWrapper<Map<String, Animal>> get map;
-
-
 }
 
 ///
-class MixedPropertiesAndAdditionalPropertiesClass with
-$OpenApiObjectMixin,
-
-
-MixedPropertiesAndAdditionalPropertiesClassMixin {
+class MixedPropertiesAndAdditionalPropertiesClass
+    with $OpenApiObjectMixin, MixedPropertiesAndAdditionalPropertiesClassMixin {
   @override
   UndefinedWrapper<String> uuid;
   @override
@@ -36,27 +27,15 @@ MixedPropertiesAndAdditionalPropertiesClassMixin {
   @override
   UndefinedWrapper<Map<String, Animal>> map;
 
-
-
-
-
   MixedPropertiesAndAdditionalPropertiesClass.$all({
     required this.uuid,
     required this.dateTime,
     required this.map,
-    
-    
   });
 
   MixedPropertiesAndAdditionalPropertiesClass({
     this.uuid = const UndefinedWrapper.undefined(),
     this.dateTime = const UndefinedWrapper.undefined(),
     this.map = const UndefinedWrapper.undefined(),
-    
-    
   });
 }
-
-
-
-
