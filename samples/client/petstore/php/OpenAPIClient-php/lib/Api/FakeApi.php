@@ -412,6 +412,10 @@ class FakeApi
 
 
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             ['*/*', ],
             $contentType,
@@ -699,6 +703,10 @@ class FakeApi
 
 
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             ['application/json', ],
             $contentType,
@@ -944,6 +952,10 @@ class FakeApi
         }
 
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -1237,6 +1249,10 @@ class FakeApi
 
 
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             ['*/*', ],
             $contentType,
@@ -1528,6 +1544,10 @@ class FakeApi
 
 
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['*/*', ],
@@ -1821,6 +1841,10 @@ class FakeApi
 
 
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             ['*/*', ],
             $contentType,
@@ -2112,6 +2136,10 @@ class FakeApi
 
 
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['*/*', ],
@@ -2410,6 +2438,10 @@ class FakeApi
 
 
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['*/*', ],
@@ -2717,6 +2749,10 @@ class FakeApi
 
 
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             [],
             $contentType,
@@ -2938,6 +2974,10 @@ class FakeApi
 
 
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             [],
             $contentType,
@@ -3158,6 +3198,10 @@ class FakeApi
 
 
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             [],
             $contentType,
@@ -3377,6 +3421,10 @@ class FakeApi
 
 
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -3618,6 +3666,10 @@ class FakeApi
 
 
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -3924,6 +3976,10 @@ class FakeApi
 
 
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['application/json', ],
@@ -4352,6 +4408,10 @@ class FakeApi
             $formParams['callback'] = ObjectSerializer::toFormValue($callback);
         }
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             [],
             $contentType,
@@ -4683,6 +4743,10 @@ class FakeApi
             $formParams['enum_form_string'] = ObjectSerializer::toFormValue($enum_form_string);
         }
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             [],
             $contentType,
@@ -5008,6 +5072,10 @@ class FakeApi
 
 
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             [],
             $contentType,
@@ -5232,6 +5300,10 @@ class FakeApi
 
 
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -5460,6 +5532,10 @@ class FakeApi
 
 
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -5707,6 +5783,10 @@ class FakeApi
         // form params
         if ($param2 !== null) {
             $formParams['param2'] = ObjectSerializer::toFormValue($param2);
+        }
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
         }
 
         $headers = $this->headerSelector->selectHeaders(
@@ -6051,6 +6131,10 @@ class FakeApi
 
 
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             [],
             $contentType,
@@ -6271,6 +6355,10 @@ class FakeApi
 
 
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             [],

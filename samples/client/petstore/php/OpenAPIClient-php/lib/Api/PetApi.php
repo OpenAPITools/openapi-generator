@@ -406,6 +406,10 @@ class PetApi
 
 
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             [],
             $contentType,
@@ -707,6 +711,10 @@ class PetApi
             );
         }
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -1019,6 +1027,10 @@ class PetApi
 
 
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['application/xml', 'application/json', ],
@@ -1337,6 +1349,10 @@ class PetApi
 
 
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             ['application/xml', 'application/json', ],
             $contentType,
@@ -1647,6 +1663,10 @@ class PetApi
             );
         }
 
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['application/xml', 'application/json', ],
@@ -1964,6 +1984,10 @@ class PetApi
 
 
 
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
+        }
+
         $headers = $this->headerSelector->selectHeaders(
             [],
             $contentType,
@@ -2274,6 +2298,10 @@ class PetApi
         // form params
         if ($status !== null) {
             $formParams['status'] = ObjectSerializer::toFormValue($status);
+        }
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
         }
 
         $headers = $this->headerSelector->selectHeaders(
@@ -2613,6 +2641,10 @@ class PetApi
                     'rb'
                 );
             }
+        }
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
         }
 
         $headers = $this->headerSelector->selectHeaders(
@@ -2958,6 +2990,10 @@ class PetApi
                     'rb'
                 );
             }
+        }
+
+        if ($contentType === 'multipart/form-data') {
+            $multipart = true;
         }
 
         $headers = $this->headerSelector->selectHeaders(
