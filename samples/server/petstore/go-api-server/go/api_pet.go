@@ -156,6 +156,7 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	apiKeyParamValues := r.Header.Values("api_key")
 	apiKeyParam := getPointerOrNilIfEmpty(r.Header.Get("api_key"))
 	result, err := c.service.DeletePet(r.Context(), *petIdParam, apiKeyParam)
 	// If an error occurred, encode the error with the status code
