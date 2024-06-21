@@ -1,13 +1,14 @@
 part of 'values_api.dart';
 
 
-abstract class ValuesApiGetSomeValuesRequest {
+ class ValuesApiGetSomeValuesRequest {
   static const pathTemplate = r'/values';
   static String method = r'GET';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
+
 
 
   const ValuesApiGetSomeValuesRequest({
@@ -47,9 +48,10 @@ abstract class ValuesApiGetSomeValuesRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -74,6 +76,8 @@ abstract class ValuesApiGetSomeValuesRequest {
     );
   }
 }
+
+
 
 
 class ValuesApiGetSomeValuesResponse {

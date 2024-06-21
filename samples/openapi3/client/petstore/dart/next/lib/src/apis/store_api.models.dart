@@ -1,7 +1,7 @@
 part of 'store_api.dart';
 
 
-abstract class StoreApiDeleteOrderRequest {
+ class StoreApiDeleteOrderRequest {
   static const pathTemplate = r'/store/order/{order_id}';
   static String method = r'DELETE';
 
@@ -14,6 +14,7 @@ abstract class StoreApiDeleteOrderRequest {
   /// spec name: order_id
   final String orderId;
   
+
 
   const StoreApiDeleteOrderRequest({
 
@@ -56,9 +57,10 @@ abstract class StoreApiDeleteOrderRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -85,17 +87,20 @@ abstract class StoreApiDeleteOrderRequest {
 }
 
 
+
+
 class StoreApiDeleteOrderResponse {
 }
 
 
-abstract class StoreApiGetInventoryRequest {
+ class StoreApiGetInventoryRequest {
   static const pathTemplate = r'/store/inventory';
   static String method = r'GET';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
+
 
 
   const StoreApiGetInventoryRequest({
@@ -135,9 +140,10 @@ abstract class StoreApiGetInventoryRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -164,11 +170,13 @@ abstract class StoreApiGetInventoryRequest {
 }
 
 
+
+
 class StoreApiGetInventoryResponse {
 }
 
 
-abstract class StoreApiGetOrderByIdRequest {
+ class StoreApiGetOrderByIdRequest {
   static const pathTemplate = r'/store/order/{order_id}';
   static String method = r'GET';
 
@@ -181,6 +189,7 @@ abstract class StoreApiGetOrderByIdRequest {
   /// spec name: order_id
   final int orderId;
   
+
 
   const StoreApiGetOrderByIdRequest({
 
@@ -223,9 +232,10 @@ abstract class StoreApiGetOrderByIdRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -252,6 +262,8 @@ abstract class StoreApiGetOrderByIdRequest {
 }
 
 
+
+
 class StoreApiGetOrderByIdResponse {
 }
 
@@ -265,6 +277,14 @@ abstract class StoreApiPlaceOrderRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory StoreApiPlaceOrderRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = StoreApiPlaceOrderRequestUnsafe;
 
   const StoreApiPlaceOrderRequest({
 
@@ -304,13 +324,14 @@ abstract class StoreApiPlaceOrderRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -335,9 +356,38 @@ abstract class StoreApiPlaceOrderRequest {
   }
 }
 
-class StoreApiPlaceOrderRequestJson extends StoreApiPlaceOrderRequest {
-    final String mediaType = r'application/json';
+/// A version of [StoreApiPlaceOrderRequest], where you can send arbitrary bytes in the body.
+class StoreApiPlaceOrderRequestUnsafe extends StoreApiPlaceOrderRequest {
+  final Stream<Uint8List>? body;
+  const StoreApiPlaceOrderRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class StoreApiPlaceOrderRequestSchemaForRequestBodyApplicationJson extends StoreApiPlaceOrderRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<Order> data;
+}
+
 
 class StoreApiPlaceOrderResponse {
 }

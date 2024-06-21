@@ -1,14 +1,26 @@
 part of 'another_fake_api.dart';
 
+
 abstract class AnotherFakeApi$123testSpecialTagsRequest {
   static const pathTemplate = r'/another-fake/dummy';
   static String method = r'PATCH';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
-  final Map<String, Object /* String | List<String> */ > extraQueryParameters;
+  final Map<String, Object /* String | List<String> */> extraQueryParameters;
+
+  
+
+  const factory AnotherFakeApi$123testSpecialTagsRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = AnotherFakeApi$123testSpecialTagsRequestUnsafe;
 
   const AnotherFakeApi$123testSpecialTagsRequest({
+
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -37,20 +49,22 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
   Future<Map<String, String>> getResolvedHeaders({
     Map<String, dynamic> context = const {},
   }) async {
-    final cookieParts = <String, String>{
+
+    final cookieParts = <String,String>{
       ...extraCookies,
     };
 
     return {
       if (cookieParts.isNotEmpty)
-        'Cookie':
-            cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -75,27 +89,62 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
   }
 }
 
-class AnotherFakeApi$123testSpecialTagsRequestJson
-    extends AnotherFakeApi$123testSpecialTagsRequest {
-  final String mediaType = r'application/json';
+/// A version of [AnotherFakeApi$123testSpecialTagsRequest], where you can send arbitrary bytes in the body.
+class AnotherFakeApi$123testSpecialTagsRequestUnsafe extends AnotherFakeApi$123testSpecialTagsRequest {
+  final Stream<Uint8List>? body;
+  const AnotherFakeApi$123testSpecialTagsRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
 
-class AnotherFakeApi$123testSpecialTagsResponse {}
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
 
-abstract class AnotherFakeApiGetParameterArrayNumberRequest {
+
+class AnotherFakeApi$123testSpecialTagsRequestSchemaForRequestBodyApplicationJson extends AnotherFakeApi$123testSpecialTagsRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<Client> data;
+}
+
+
+class AnotherFakeApi$123testSpecialTagsResponse {
+}
+
+
+ class AnotherFakeApiGetParameterArrayNumberRequest {
   static const pathTemplate = r'/fake/parameter-array-number';
   static String method = r'GET';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
-  final Map<String, Object /* String | List<String> */ > extraQueryParameters;
+  final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
+  
   /// array integer
   /// spec name: array
   final List<int> array;
+  
+
 
   const AnotherFakeApiGetParameterArrayNumberRequest({
-    this.array = const [1],
+
+     this.array= const[1],
+
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -124,19 +173,21 @@ abstract class AnotherFakeApiGetParameterArrayNumberRequest {
   Future<Map<String, String>> getResolvedHeaders({
     Map<String, dynamic> context = const {},
   }) async {
-    final cookieParts = <String, String>{
+
+    final cookieParts = <String,String>{
       ...extraCookies,
     };
 
     return {
-      r'array': OpenApiParameterSerializationHeader(
-              parameterName: r'array', explode: false)
-          .serialize(array),
       if (cookieParts.isNotEmpty)
-        'Cookie':
-            cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+      
+        r'array': OpenApiParameterSerializationHeader(parameterName: r'array',explode: false).serialize(array),
+      ...extraHeaders,
     };
   }
+
+
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -161,22 +212,32 @@ abstract class AnotherFakeApiGetParameterArrayNumberRequest {
   }
 }
 
-class AnotherFakeApiGetParameterArrayNumberResponse {}
 
-abstract class AnotherFakeApiGetParameterStringNumberRequest {
+
+
+class AnotherFakeApiGetParameterArrayNumberResponse {
+}
+
+
+ class AnotherFakeApiGetParameterStringNumberRequest {
   static const pathTemplate = r'/fake/parameter-string-number';
   static String method = r'GET';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
-  final Map<String, Object /* String | List<String> */ > extraQueryParameters;
+  final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
+  
   /// string number
   /// spec name: string_number
   final double stringNumber;
+  
+
 
   const AnotherFakeApiGetParameterStringNumberRequest({
+
     required this.stringNumber,
+
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -205,19 +266,21 @@ abstract class AnotherFakeApiGetParameterStringNumberRequest {
   Future<Map<String, String>> getResolvedHeaders({
     Map<String, dynamic> context = const {},
   }) async {
-    final cookieParts = <String, String>{
+
+    final cookieParts = <String,String>{
       ...extraCookies,
     };
 
     return {
-      r'string_number': OpenApiParameterSerializationHeader(
-              parameterName: r'string_number', explode: false)
-          .serialize(stringNumber),
       if (cookieParts.isNotEmpty)
-        'Cookie':
-            cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+      
+        r'string_number': OpenApiParameterSerializationHeader(parameterName: r'string_number',explode: false).serialize(stringNumber),
+      ...extraHeaders,
     };
   }
+
+
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -242,22 +305,34 @@ abstract class AnotherFakeApiGetParameterStringNumberRequest {
   }
 }
 
-class AnotherFakeApiGetParameterStringNumberResponse {}
 
-abstract class AnotherFakeApiNullRequestBodyRequest {
+
+
+class AnotherFakeApiGetParameterStringNumberResponse {
+}
+
+
+ class AnotherFakeApiNullRequestBodyRequest {
   static const pathTemplate = r'/fake/null-request-body';
   static String method = r'GET';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
-  final Map<String, Object /* String | List<String> */ > extraQueryParameters;
+  final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
-  ///
+  
+  /// 
   /// spec name: Accept-Language
   final UndefinedWrapper<String> acceptLanguage;
+  
+  
+
 
   const AnotherFakeApiNullRequestBodyRequest({
-    this.acceptLanguage = const UndefinedWrapper.undefined(),
+
+     this.acceptLanguage= const UndefinedWrapper.undefined(),
+
+
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -286,20 +361,21 @@ abstract class AnotherFakeApiNullRequestBodyRequest {
   Future<Map<String, String>> getResolvedHeaders({
     Map<String, dynamic> context = const {},
   }) async {
-    final cookieParts = <String, String>{
+
+    final cookieParts = <String,String>{
       ...extraCookies,
     };
 
     return {
-      if (acceptLanguage.isDefined)
-        r'Accept-Language': OpenApiParameterSerializationHeader(
-                parameterName: r'Accept-Language', explode: false)
-            .serialize(acceptLanguage.valueRequired),
       if (cookieParts.isNotEmpty)
-        'Cookie':
-            cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+      if (acceptLanguage.isDefined)
+        r'Accept-Language': OpenApiParameterSerializationHeader(parameterName: r'Accept-Language',explode: false).serialize(acceptLanguage.valueRequired),
+      ...extraHeaders,
     };
   }
+
+
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -324,9 +400,14 @@ abstract class AnotherFakeApiNullRequestBodyRequest {
   }
 }
 
-class AnotherFakeApiNullRequestBodyRequest
-    extends AnotherFakeApiNullRequestBodyRequest {
-  final String mediaType = r'text/plain';
+
+
+class AnotherFakeApiNullRequestBodyRequestSchemaForRequestBodyTextPlain extends AnotherFakeApiNullRequestBodyRequest {
+    final String mediaType = r'text/plain';
+    final UndefinedWrapper<String> data;
 }
 
-class AnotherFakeApiNullRequestBodyResponse {}
+
+class AnotherFakeApiNullRequestBodyResponse {
+}
+

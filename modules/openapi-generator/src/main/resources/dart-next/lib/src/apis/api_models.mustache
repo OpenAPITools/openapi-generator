@@ -6,7 +6,7 @@ part of '{{classFilename}}.dart';
 {{#isDeprecated}}
 @Deprecated('This operation has been deprecated')
 {{/isDeprecated}}
-abstract class {{classname}}{{operationIdCamelCase}}Request {
+{{#bodyAllowed}}abstract{{/bodyAllowed}} class {{classname}}{{operationIdCamelCase}}Request {
   static const pathTemplate = r'{{{path}}}';
   static String method = r'{{{httpMethod}}}';
 
@@ -22,6 +22,20 @@ abstract class {{classname}}{{operationIdCamelCase}}Request {
   final {{>types/param}} {{paramName}};
   {{/isBodyParam}}{{/isFormParam}}
   {{/allParams}}
+
+  {{#bodyAllowed}}
+  const factory {{classname}}{{operationIdCamelCase}}Request.unsafe({
+    {{#allParams}}
+{{^isFormParam}}{{^isBodyParam}}
+    {{>types/required_ctor}} {{>types/param}} {{paramName}},
+{{/isBodyParam}}{{/isFormParam}}
+{{/allParams}}
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = {{classname}}{{operationIdCamelCase}}RequestUnsafe;
+  {{/bodyAllowed}}
 
   const {{classname}}{{operationIdCamelCase}}Request({
 {{#allParams}}
@@ -81,23 +95,24 @@ abstract class {{classname}}{{operationIdCamelCase}}Request {
     };
 
     return {
-      {{! first we resolve header parameters }}
+      {{! first add cookie header }}
+      if (cookieParts.isNotEmpty)
+        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+      {{! then headers to override the cookie if necessary }}
       {{#headerParams}}
       {{^required}}if ({{paramName}}.isDefined){{/required}}
         r'{{baseName}}': OpenApiParameterSerializationHeader(parameterName: r'{{baseName}}',explode: {{isExplode}}).serialize({{paramName}}{{^required}}.valueRequired{{/required}}),
       {{/headerParams}}
-      {{! then cookie parameters }}
-      if (cookieParts.isNotEmpty)
-        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
-{{#bodyAllowed}}
+
+  {{#bodyAllowed}}
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
-{{/bodyAllowed}}
+  });
+  {{/bodyAllowed}}
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -122,11 +137,46 @@ abstract class {{classname}}{{operationIdCamelCase}}Request {
   }
 }
 
-{{#consumes}}
-class {{classname}}{{operationIdCamelCase}}Request{{#isJson}}Json{{/isJson}}{{#isXml}}Xml{{/isXml}} extends {{classname}}{{operationIdCamelCase}}Request {
-    final String mediaType = r'{{mediaType}}';
+{{#bodyAllowed}}
+/// A version of [{{classname}}{{operationIdCamelCase}}Request], where you can send arbitrary bytes in the body.
+class {{classname}}{{operationIdCamelCase}}RequestUnsafe extends {{classname}}{{operationIdCamelCase}}Request {
+  final Stream<Uint8List>? body;
+  const {{classname}}{{operationIdCamelCase}}RequestUnsafe({
+    this.body,
+  {{#allParams}}
+  {{^isFormParam}}{{^isBodyParam}}
+    {{>types/required_ctor}} super.{{paramName}},
+  {{/isBodyParam}}{{/isFormParam}}
+  {{/allParams}}
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
-{{/consumes}}
+
+{{#hasBodyOrFormParams}}
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+{{/hasBodyOrFormParams}}
+{{/bodyAllowed}}
+
+{{#vendorExtensions}}{{#better-consumes}}{{#content}}{{#schema}}
+class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {{classname}}{{operationIdCamelCase}}Request {
+    final String mediaType = r'{{mediaType}}';
+    final {{>types/variable}} data;
+}
+{{/schema}}{{/content}}{{/better-consumes}}{{/vendorExtensions}}
 
 {{#isDeprecated}}
 @Deprecated('This operation has been deprecated')

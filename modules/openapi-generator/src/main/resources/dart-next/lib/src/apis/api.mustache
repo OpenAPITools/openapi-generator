@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'package:{{pubName}}/_internal.dart';
 import 'package:xml/xml.dart';
+import 'dart:typed_data';
 
 {{#operations}}
 part '{{classFilename}}.models.dart';
@@ -23,7 +24,7 @@ class {{classname}} {
   {{#isDeprecated}}
   @Deprecated('This operation has been deprecated')
   {{/isDeprecated}}
-  Future<{{classname}}{{operationIdCamelCase}}Response> {{nickname}}(
+  Future<{{classname}}{{operationIdCamelCase}}Response> {{operationId}}(
     {{classname}}{{operationIdCamelCase}}Request request, {
     Map<String, dynamic> context = const {},
   }) async {

@@ -1,13 +1,14 @@
 part of 'fake_api.dart';
 
 
-abstract class FakeApiFakeGetFreeFormObjectGetRequest {
+ class FakeApiFakeGetFreeFormObjectGetRequest {
   static const pathTemplate = r'/fake/get-free-form-object';
   static String method = r'GET';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
+
 
 
   const FakeApiFakeGetFreeFormObjectGetRequest({
@@ -47,9 +48,10 @@ abstract class FakeApiFakeGetFreeFormObjectGetRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -76,6 +78,8 @@ abstract class FakeApiFakeGetFreeFormObjectGetRequest {
 }
 
 
+
+
 class FakeApiFakeGetFreeFormObjectGetResponse {
 }
 
@@ -89,6 +93,14 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory FakeApiFakeOuterBooleanSerializeRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiFakeOuterBooleanSerializeRequestUnsafe;
 
   const FakeApiFakeOuterBooleanSerializeRequest({
 
@@ -128,13 +140,14 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -159,9 +172,38 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
   }
 }
 
-class FakeApiFakeOuterBooleanSerializeRequestJson extends FakeApiFakeOuterBooleanSerializeRequest {
-    final String mediaType = r'application/json';
+/// A version of [FakeApiFakeOuterBooleanSerializeRequest], where you can send arbitrary bytes in the body.
+class FakeApiFakeOuterBooleanSerializeRequestUnsafe extends FakeApiFakeOuterBooleanSerializeRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiFakeOuterBooleanSerializeRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class FakeApiFakeOuterBooleanSerializeRequestSchemaForRequestBodyApplicationJson extends FakeApiFakeOuterBooleanSerializeRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<bool> data;
+}
+
 
 class FakeApiFakeOuterBooleanSerializeResponse {
 }
@@ -176,6 +218,14 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory FakeApiFakeOuterCompositeSerializeRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiFakeOuterCompositeSerializeRequestUnsafe;
 
   const FakeApiFakeOuterCompositeSerializeRequest({
 
@@ -215,13 +265,14 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -246,9 +297,38 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
   }
 }
 
-class FakeApiFakeOuterCompositeSerializeRequestJson extends FakeApiFakeOuterCompositeSerializeRequest {
-    final String mediaType = r'application/json';
+/// A version of [FakeApiFakeOuterCompositeSerializeRequest], where you can send arbitrary bytes in the body.
+class FakeApiFakeOuterCompositeSerializeRequestUnsafe extends FakeApiFakeOuterCompositeSerializeRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiFakeOuterCompositeSerializeRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class FakeApiFakeOuterCompositeSerializeRequestSchemaForRequestBodyApplicationJson extends FakeApiFakeOuterCompositeSerializeRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<OuterComposite> data;
+}
+
 
 class FakeApiFakeOuterCompositeSerializeResponse {
 }
@@ -263,6 +343,14 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory FakeApiFakeOuterNumberSerializeRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiFakeOuterNumberSerializeRequestUnsafe;
 
   const FakeApiFakeOuterNumberSerializeRequest({
 
@@ -302,13 +390,14 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -333,9 +422,38 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
   }
 }
 
-class FakeApiFakeOuterNumberSerializeRequestJson extends FakeApiFakeOuterNumberSerializeRequest {
-    final String mediaType = r'application/json';
+/// A version of [FakeApiFakeOuterNumberSerializeRequest], where you can send arbitrary bytes in the body.
+class FakeApiFakeOuterNumberSerializeRequestUnsafe extends FakeApiFakeOuterNumberSerializeRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiFakeOuterNumberSerializeRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class FakeApiFakeOuterNumberSerializeRequestSchemaForRequestBodyApplicationJson extends FakeApiFakeOuterNumberSerializeRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<num> data;
+}
+
 
 class FakeApiFakeOuterNumberSerializeResponse {
 }
@@ -350,6 +468,14 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory FakeApiFakeOuterStringSerializeRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiFakeOuterStringSerializeRequestUnsafe;
 
   const FakeApiFakeOuterStringSerializeRequest({
 
@@ -389,13 +515,14 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -420,9 +547,38 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
   }
 }
 
-class FakeApiFakeOuterStringSerializeRequestJson extends FakeApiFakeOuterStringSerializeRequest {
-    final String mediaType = r'application/json';
+/// A version of [FakeApiFakeOuterStringSerializeRequest], where you can send arbitrary bytes in the body.
+class FakeApiFakeOuterStringSerializeRequestUnsafe extends FakeApiFakeOuterStringSerializeRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiFakeOuterStringSerializeRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class FakeApiFakeOuterStringSerializeRequestSchemaForRequestBodyApplicationJson extends FakeApiFakeOuterStringSerializeRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<String> data;
+}
+
 
 class FakeApiFakeOuterStringSerializeResponse {
 }
@@ -443,6 +599,18 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
   
   
   
+
+  const factory FakeApiFakeUploadRefRequestBodiesRequest.unsafe({
+
+    required int petId,
+
+
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiFakeUploadRefRequestBodiesRequestUnsafe;
 
   const FakeApiFakeUploadRefRequestBodiesRequest({
 
@@ -487,13 +655,14 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -518,21 +687,50 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
   }
 }
 
-class FakeApiFakeUploadRefRequestBodiesRequest extends FakeApiFakeUploadRefRequestBodiesRequest {
-    final String mediaType = r'multipart/form-data';
+/// A version of [FakeApiFakeUploadRefRequestBodiesRequest], where you can send arbitrary bytes in the body.
+class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRefRequestBodiesRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiFakeUploadRefRequestBodiesRequestUnsafe({
+    this.body,
+  
+    required super.petId,
+  
+  
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
 
 class FakeApiFakeUploadRefRequestBodiesResponse {
 }
 
 
-abstract class FakeApiGetFakeArrayofenumsRequest {
+ class FakeApiGetFakeArrayofenumsRequest {
   static const pathTemplate = r'/fake/array-of-enums';
   static String method = r'GET';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
+
 
 
   const FakeApiGetFakeArrayofenumsRequest({
@@ -572,9 +770,10 @@ abstract class FakeApiGetFakeArrayofenumsRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -601,17 +800,20 @@ abstract class FakeApiGetFakeArrayofenumsRequest {
 }
 
 
+
+
 class FakeApiGetFakeArrayofenumsResponse {
 }
 
 
-abstract class FakeApiGetFakeHealthRequest {
+ class FakeApiGetFakeHealthRequest {
   static const pathTemplate = r'/fake/health';
   static String method = r'GET';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
+
 
 
   const FakeApiGetFakeHealthRequest({
@@ -651,9 +853,10 @@ abstract class FakeApiGetFakeHealthRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -680,11 +883,13 @@ abstract class FakeApiGetFakeHealthRequest {
 }
 
 
+
+
 class FakeApiGetFakeHealthResponse {
 }
 
 
-abstract class FakeApiGetParameterNameMappingRequest {
+ class FakeApiGetParameterNameMappingRequest {
   static const pathTemplate = r'/fake/parameter-name-mapping';
   static String method = r'GET';
 
@@ -707,6 +912,7 @@ abstract class FakeApiGetParameterNameMappingRequest {
   /// spec name: type_
   final String type$;
   
+
 
   const FakeApiGetParameterNameMappingRequest({
 
@@ -753,15 +959,16 @@ abstract class FakeApiGetParameterNameMappingRequest {
     };
 
     return {
+      if (cookieParts.isNotEmpty)
+        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       
         r'_type': OpenApiParameterSerializationHeader(parameterName: r'_type',explode: false).serialize($type),
       
         r'type_': OpenApiParameterSerializationHeader(parameterName: r'type_',explode: false).serialize(type$),
-      if (cookieParts.isNotEmpty)
-        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -788,6 +995,8 @@ abstract class FakeApiGetParameterNameMappingRequest {
 }
 
 
+
+
 class FakeApiGetParameterNameMappingResponse {
 }
 
@@ -801,6 +1010,14 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory FakeApiTestAdditionalPropertiesReferenceRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiTestAdditionalPropertiesReferenceRequestUnsafe;
 
   const FakeApiTestAdditionalPropertiesReferenceRequest({
 
@@ -840,13 +1057,14 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -871,9 +1089,38 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
   }
 }
 
-class FakeApiTestAdditionalPropertiesReferenceRequestJson extends FakeApiTestAdditionalPropertiesReferenceRequest {
-    final String mediaType = r'application/json';
+/// A version of [FakeApiTestAdditionalPropertiesReferenceRequest], where you can send arbitrary bytes in the body.
+class FakeApiTestAdditionalPropertiesReferenceRequestUnsafe extends FakeApiTestAdditionalPropertiesReferenceRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiTestAdditionalPropertiesReferenceRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class FakeApiTestAdditionalPropertiesReferenceRequestSchemaForRequestBodyApplicationJson extends FakeApiTestAdditionalPropertiesReferenceRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<Map<String, Object?>> data;
+}
+
 
 class FakeApiTestAdditionalPropertiesReferenceResponse {
 }
@@ -888,6 +1135,14 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory FakeApiTestBodyWithFileSchemaRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiTestBodyWithFileSchemaRequestUnsafe;
 
   const FakeApiTestBodyWithFileSchemaRequest({
 
@@ -927,13 +1182,14 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -958,9 +1214,38 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
   }
 }
 
-class FakeApiTestBodyWithFileSchemaRequestJson extends FakeApiTestBodyWithFileSchemaRequest {
-    final String mediaType = r'application/json';
+/// A version of [FakeApiTestBodyWithFileSchemaRequest], where you can send arbitrary bytes in the body.
+class FakeApiTestBodyWithFileSchemaRequestUnsafe extends FakeApiTestBodyWithFileSchemaRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiTestBodyWithFileSchemaRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class FakeApiTestBodyWithFileSchemaRequestSchemaForRequestBodyApplicationJson extends FakeApiTestBodyWithFileSchemaRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<FileSchemaTestClass> data;
+}
+
 
 class FakeApiTestBodyWithFileSchemaResponse {
 }
@@ -980,6 +1265,17 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
   final String query;
   
   
+
+  const factory FakeApiTestBodyWithQueryParamsRequest.unsafe({
+
+    required String query,
+
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiTestBodyWithQueryParamsRequestUnsafe;
 
   const FakeApiTestBodyWithQueryParamsRequest({
 
@@ -1023,13 +1319,14 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -1054,9 +1351,41 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
   }
 }
 
-class FakeApiTestBodyWithQueryParamsRequestJson extends FakeApiTestBodyWithQueryParamsRequest {
-    final String mediaType = r'application/json';
+/// A version of [FakeApiTestBodyWithQueryParamsRequest], where you can send arbitrary bytes in the body.
+class FakeApiTestBodyWithQueryParamsRequestUnsafe extends FakeApiTestBodyWithQueryParamsRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiTestBodyWithQueryParamsRequestUnsafe({
+    this.body,
+  
+    required super.query,
+  
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class FakeApiTestBodyWithQueryParamsRequestSchemaForRequestBodyApplicationJson extends FakeApiTestBodyWithQueryParamsRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<User> data;
+}
+
 
 class FakeApiTestBodyWithQueryParamsResponse {
 }
@@ -1071,6 +1400,14 @@ abstract class FakeApiTestClientModelRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory FakeApiTestClientModelRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiTestClientModelRequestUnsafe;
 
   const FakeApiTestClientModelRequest({
 
@@ -1110,13 +1447,14 @@ abstract class FakeApiTestClientModelRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -1141,9 +1479,38 @@ abstract class FakeApiTestClientModelRequest {
   }
 }
 
-class FakeApiTestClientModelRequestJson extends FakeApiTestClientModelRequest {
-    final String mediaType = r'application/json';
+/// A version of [FakeApiTestClientModelRequest], where you can send arbitrary bytes in the body.
+class FakeApiTestClientModelRequestUnsafe extends FakeApiTestClientModelRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiTestClientModelRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class FakeApiTestClientModelRequestSchemaForRequestBodyApplicationJson extends FakeApiTestClientModelRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<Client> data;
+}
+
 
 class FakeApiTestClientModelResponse {
 }
@@ -1171,6 +1538,27 @@ abstract class FakeApiTestEndpointParametersRequest {
   
   
   
+
+  const factory FakeApiTestEndpointParametersRequest.unsafe({
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiTestEndpointParametersRequestUnsafe;
 
   const FakeApiTestEndpointParametersRequest({
 
@@ -1223,13 +1611,14 @@ abstract class FakeApiTestEndpointParametersRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -1254,15 +1643,52 @@ abstract class FakeApiTestEndpointParametersRequest {
   }
 }
 
-class FakeApiTestEndpointParametersRequest extends FakeApiTestEndpointParametersRequest {
-    final String mediaType = r'application/x-www-form-urlencoded';
+/// A version of [FakeApiTestEndpointParametersRequest], where you can send arbitrary bytes in the body.
+class FakeApiTestEndpointParametersRequestUnsafe extends FakeApiTestEndpointParametersRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiTestEndpointParametersRequestUnsafe({
+    this.body,
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
 
 class FakeApiTestEndpointParametersResponse {
 }
 
 
-abstract class FakeApiTestEnumParametersRequest {
+ class FakeApiTestEnumParametersRequest {
   static const pathTemplate = r'/fake';
   static String method = r'GET';
 
@@ -1302,6 +1728,7 @@ abstract class FakeApiTestEnumParametersRequest {
   
   
   
+
 
   const FakeApiTestEnumParametersRequest({
 
@@ -1370,15 +1797,16 @@ abstract class FakeApiTestEnumParametersRequest {
     };
 
     return {
+      if (cookieParts.isNotEmpty)
+        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       if (enumHeaderStringArray.isDefined)
         r'enum_header_string_array': OpenApiParameterSerializationHeader(parameterName: r'enum_header_string_array',explode: false).serialize(enumHeaderStringArray.valueRequired),
       if (enumHeaderString.isDefined)
         r'enum_header_string': OpenApiParameterSerializationHeader(parameterName: r'enum_header_string',explode: false).serialize(enumHeaderString.valueRequired),
-      if (cookieParts.isNotEmpty)
-        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -1404,15 +1832,14 @@ abstract class FakeApiTestEnumParametersRequest {
   }
 }
 
-class FakeApiTestEnumParametersRequest extends FakeApiTestEnumParametersRequest {
-    final String mediaType = r'application/x-www-form-urlencoded';
-}
+
+
 
 class FakeApiTestEnumParametersResponse {
 }
 
 
-abstract class FakeApiTestGroupParametersRequest {
+ class FakeApiTestGroupParametersRequest {
   static const pathTemplate = r'/fake';
   static String method = r'DELETE';
 
@@ -1450,6 +1877,7 @@ abstract class FakeApiTestGroupParametersRequest {
   /// spec name: int64_group
   final UndefinedWrapper<int> int64Group;
   
+
 
   const FakeApiTestGroupParametersRequest({
 
@@ -1512,15 +1940,16 @@ abstract class FakeApiTestGroupParametersRequest {
     };
 
     return {
+      if (cookieParts.isNotEmpty)
+        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       
         r'required_boolean_group': OpenApiParameterSerializationHeader(parameterName: r'required_boolean_group',explode: false).serialize(requiredBooleanGroup),
       if (booleanGroup.isDefined)
         r'boolean_group': OpenApiParameterSerializationHeader(parameterName: r'boolean_group',explode: false).serialize(booleanGroup.valueRequired),
-      if (cookieParts.isNotEmpty)
-        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -1547,6 +1976,8 @@ abstract class FakeApiTestGroupParametersRequest {
 }
 
 
+
+
 class FakeApiTestGroupParametersResponse {
 }
 
@@ -1560,6 +1991,14 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory FakeApiTestInlineAdditionalPropertiesRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiTestInlineAdditionalPropertiesRequestUnsafe;
 
   const FakeApiTestInlineAdditionalPropertiesRequest({
 
@@ -1599,13 +2038,14 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -1630,9 +2070,38 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
   }
 }
 
-class FakeApiTestInlineAdditionalPropertiesRequestJson extends FakeApiTestInlineAdditionalPropertiesRequest {
-    final String mediaType = r'application/json';
+/// A version of [FakeApiTestInlineAdditionalPropertiesRequest], where you can send arbitrary bytes in the body.
+class FakeApiTestInlineAdditionalPropertiesRequestUnsafe extends FakeApiTestInlineAdditionalPropertiesRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiTestInlineAdditionalPropertiesRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class FakeApiTestInlineAdditionalPropertiesRequestSchemaForRequestBodyApplicationJson extends FakeApiTestInlineAdditionalPropertiesRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<Map<String, String>> data;
+}
+
 
 class FakeApiTestInlineAdditionalPropertiesResponse {
 }
@@ -1647,6 +2116,14 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory FakeApiTestInlineFreeformAdditionalPropertiesRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe;
 
   const FakeApiTestInlineFreeformAdditionalPropertiesRequest({
 
@@ -1686,13 +2163,14 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -1717,15 +2195,44 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
   }
 }
 
-class FakeApiTestInlineFreeformAdditionalPropertiesRequestJson extends FakeApiTestInlineFreeformAdditionalPropertiesRequest {
-    final String mediaType = r'application/json';
+/// A version of [FakeApiTestInlineFreeformAdditionalPropertiesRequest], where you can send arbitrary bytes in the body.
+class FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe extends FakeApiTestInlineFreeformAdditionalPropertiesRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class FakeApiTestInlineFreeformAdditionalPropertiesRequestSchemaForRequestBodyApplicationJson extends FakeApiTestInlineFreeformAdditionalPropertiesRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<TestInlineFreeformAdditionalPropertiesRequest> data;
+}
+
 
 class FakeApiTestInlineFreeformAdditionalPropertiesResponse {
 }
 
 
-abstract class FakeApiTestJsonFormDataRequest {
+ class FakeApiTestJsonFormDataRequest {
   static const pathTemplate = r'/fake/jsonFormData';
   static String method = r'GET';
 
@@ -1735,6 +2242,7 @@ abstract class FakeApiTestJsonFormDataRequest {
 
   
   
+
 
   const FakeApiTestJsonFormDataRequest({
 
@@ -1775,9 +2283,10 @@ abstract class FakeApiTestJsonFormDataRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -1803,9 +2312,8 @@ abstract class FakeApiTestJsonFormDataRequest {
   }
 }
 
-class FakeApiTestJsonFormDataRequest extends FakeApiTestJsonFormDataRequest {
-    final String mediaType = r'application/x-www-form-urlencoded';
-}
+
+
 
 class FakeApiTestJsonFormDataResponse {
 }
@@ -1844,6 +2352,28 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
   /// spec name: context
   final List<String> context;
   
+
+  const factory FakeApiTestQueryParameterCollectionFormatRequest.unsafe({
+
+    required List<String> pipe,
+
+
+    required List<String> ioutil,
+
+
+    required List<String> http,
+
+
+    required List<String> url,
+
+
+    required List<String> context,
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiTestQueryParameterCollectionFormatRequestUnsafe;
 
   const FakeApiTestQueryParameterCollectionFormatRequest({
 
@@ -1902,13 +2432,14 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -1933,6 +2464,44 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
   }
 }
 
+/// A version of [FakeApiTestQueryParameterCollectionFormatRequest], where you can send arbitrary bytes in the body.
+class FakeApiTestQueryParameterCollectionFormatRequestUnsafe extends FakeApiTestQueryParameterCollectionFormatRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiTestQueryParameterCollectionFormatRequestUnsafe({
+    this.body,
+  
+    required super.pipe,
+  
+  
+    required super.ioutil,
+  
+  
+    required super.http,
+  
+  
+    required super.url,
+  
+  
+    required super.context,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
+}
+
+
+
 
 class FakeApiTestQueryParameterCollectionFormatResponse {
 }
@@ -1947,6 +2516,14 @@ abstract class FakeApiTestStringMapReferenceRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory FakeApiTestStringMapReferenceRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeApiTestStringMapReferenceRequestUnsafe;
 
   const FakeApiTestStringMapReferenceRequest({
 
@@ -1986,13 +2563,14 @@ abstract class FakeApiTestStringMapReferenceRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -2017,9 +2595,38 @@ abstract class FakeApiTestStringMapReferenceRequest {
   }
 }
 
-class FakeApiTestStringMapReferenceRequestJson extends FakeApiTestStringMapReferenceRequest {
-    final String mediaType = r'application/json';
+/// A version of [FakeApiTestStringMapReferenceRequest], where you can send arbitrary bytes in the body.
+class FakeApiTestStringMapReferenceRequestUnsafe extends FakeApiTestStringMapReferenceRequest {
+  final Stream<Uint8List>? body;
+  const FakeApiTestStringMapReferenceRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class FakeApiTestStringMapReferenceRequestSchemaForRequestBodyApplicationJson extends FakeApiTestStringMapReferenceRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<Map<String, String>> data;
+}
+
 
 class FakeApiTestStringMapReferenceResponse {
 }

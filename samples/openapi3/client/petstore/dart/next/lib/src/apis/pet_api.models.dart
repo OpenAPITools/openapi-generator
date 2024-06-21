@@ -11,6 +11,14 @@ abstract class PetApiAddPetRequest {
 
   
 
+  const factory PetApiAddPetRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = PetApiAddPetRequestUnsafe;
+
   const PetApiAddPetRequest({
 
     this.extraHeaders = const {},
@@ -49,13 +57,14 @@ abstract class PetApiAddPetRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -80,18 +89,49 @@ abstract class PetApiAddPetRequest {
   }
 }
 
-class PetApiAddPetRequestJson extends PetApiAddPetRequest {
+/// A version of [PetApiAddPetRequest], where you can send arbitrary bytes in the body.
+class PetApiAddPetRequestUnsafe extends PetApiAddPetRequest {
+  final Stream<Uint8List>? body;
+  const PetApiAddPetRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
+}
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class PetApiAddPetRequestSchemaForRequestBodyApplicationJson extends PetApiAddPetRequest {
     final String mediaType = r'application/json';
+    final UndefinedWrapper<Pet> data;
 }
-class PetApiAddPetRequestXml extends PetApiAddPetRequest {
+
+class PetApiAddPetRequestSchemaForRequestBodyApplicationXml extends PetApiAddPetRequest {
     final String mediaType = r'application/xml';
+    final UndefinedWrapper<Pet> data;
 }
+
 
 class PetApiAddPetResponse {
 }
 
 
-abstract class PetApiDeletePetRequest {
+ class PetApiDeletePetRequest {
   static const pathTemplate = r'/pet/{petId}';
   static String method = r'DELETE';
 
@@ -109,6 +149,7 @@ abstract class PetApiDeletePetRequest {
   /// spec name: api_key
   final UndefinedWrapper<String> apiKey;
   
+
 
   const PetApiDeletePetRequest({
 
@@ -152,13 +193,14 @@ abstract class PetApiDeletePetRequest {
     };
 
     return {
-      if (apiKey.isDefined)
-        r'api_key': OpenApiParameterSerializationHeader(parameterName: r'api_key',explode: false).serialize(apiKey.valueRequired),
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      if (apiKey.isDefined)
+        r'api_key': OpenApiParameterSerializationHeader(parameterName: r'api_key',explode: false).serialize(apiKey.valueRequired),
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -185,11 +227,13 @@ abstract class PetApiDeletePetRequest {
 }
 
 
+
+
 class PetApiDeletePetResponse {
 }
 
 
-abstract class PetApiFindPetsByStatusRequest {
+ class PetApiFindPetsByStatusRequest {
   static const pathTemplate = r'/pet/findByStatus';
   static String method = r'GET';
 
@@ -202,6 +246,7 @@ abstract class PetApiFindPetsByStatusRequest {
   /// spec name: status
   final List<StatusEnum> status;
   
+
 
   const PetApiFindPetsByStatusRequest({
 
@@ -244,9 +289,10 @@ abstract class PetApiFindPetsByStatusRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -273,12 +319,14 @@ abstract class PetApiFindPetsByStatusRequest {
 }
 
 
+
+
 class PetApiFindPetsByStatusResponse {
 }
 
 
 @Deprecated('This operation has been deprecated')
-abstract class PetApiFindPetsByTagsRequest {
+ class PetApiFindPetsByTagsRequest {
   static const pathTemplate = r'/pet/findByTags';
   static String method = r'GET';
 
@@ -291,6 +339,7 @@ abstract class PetApiFindPetsByTagsRequest {
   /// spec name: tags
   final List<String> tags;
   
+
 
   const PetApiFindPetsByTagsRequest({
 
@@ -333,9 +382,10 @@ abstract class PetApiFindPetsByTagsRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -362,12 +412,14 @@ abstract class PetApiFindPetsByTagsRequest {
 }
 
 
+
+
 @Deprecated('This operation has been deprecated')
 class PetApiFindPetsByTagsResponse {
 }
 
 
-abstract class PetApiGetPetByIdRequest {
+ class PetApiGetPetByIdRequest {
   static const pathTemplate = r'/pet/{petId}';
   static String method = r'GET';
 
@@ -380,6 +432,7 @@ abstract class PetApiGetPetByIdRequest {
   /// spec name: petId
   final int petId;
   
+
 
   const PetApiGetPetByIdRequest({
 
@@ -422,9 +475,10 @@ abstract class PetApiGetPetByIdRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -451,6 +505,8 @@ abstract class PetApiGetPetByIdRequest {
 }
 
 
+
+
 class PetApiGetPetByIdResponse {
 }
 
@@ -464,6 +520,14 @@ abstract class PetApiUpdatePetRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory PetApiUpdatePetRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = PetApiUpdatePetRequestUnsafe;
 
   const PetApiUpdatePetRequest({
 
@@ -503,13 +567,14 @@ abstract class PetApiUpdatePetRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -534,12 +599,43 @@ abstract class PetApiUpdatePetRequest {
   }
 }
 
-class PetApiUpdatePetRequestJson extends PetApiUpdatePetRequest {
+/// A version of [PetApiUpdatePetRequest], where you can send arbitrary bytes in the body.
+class PetApiUpdatePetRequestUnsafe extends PetApiUpdatePetRequest {
+  final Stream<Uint8List>? body;
+  const PetApiUpdatePetRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
+}
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class PetApiUpdatePetRequestSchemaForRequestBodyApplicationJson extends PetApiUpdatePetRequest {
     final String mediaType = r'application/json';
+    final UndefinedWrapper<Pet> data;
 }
-class PetApiUpdatePetRequestXml extends PetApiUpdatePetRequest {
+
+class PetApiUpdatePetRequestSchemaForRequestBodyApplicationXml extends PetApiUpdatePetRequest {
     final String mediaType = r'application/xml';
+    final UndefinedWrapper<Pet> data;
 }
+
 
 class PetApiUpdatePetResponse {
 }
@@ -560,6 +656,18 @@ abstract class PetApiUpdatePetWithFormRequest {
   
   
   
+
+  const factory PetApiUpdatePetWithFormRequest.unsafe({
+
+    required int petId,
+
+
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = PetApiUpdatePetWithFormRequestUnsafe;
 
   const PetApiUpdatePetWithFormRequest({
 
@@ -604,13 +712,14 @@ abstract class PetApiUpdatePetWithFormRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -635,9 +744,37 @@ abstract class PetApiUpdatePetWithFormRequest {
   }
 }
 
-class PetApiUpdatePetWithFormRequest extends PetApiUpdatePetWithFormRequest {
-    final String mediaType = r'application/x-www-form-urlencoded';
+/// A version of [PetApiUpdatePetWithFormRequest], where you can send arbitrary bytes in the body.
+class PetApiUpdatePetWithFormRequestUnsafe extends PetApiUpdatePetWithFormRequest {
+  final Stream<Uint8List>? body;
+  const PetApiUpdatePetWithFormRequestUnsafe({
+    this.body,
+  
+    required super.petId,
+  
+  
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
 
 class PetApiUpdatePetWithFormResponse {
 }
@@ -658,6 +795,18 @@ abstract class PetApiUploadFileRequest {
   
   
   
+
+  const factory PetApiUploadFileRequest.unsafe({
+
+    required int petId,
+
+
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = PetApiUploadFileRequestUnsafe;
 
   const PetApiUploadFileRequest({
 
@@ -702,13 +851,14 @@ abstract class PetApiUploadFileRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -733,9 +883,37 @@ abstract class PetApiUploadFileRequest {
   }
 }
 
-class PetApiUploadFileRequest extends PetApiUploadFileRequest {
-    final String mediaType = r'multipart/form-data';
+/// A version of [PetApiUploadFileRequest], where you can send arbitrary bytes in the body.
+class PetApiUploadFileRequestUnsafe extends PetApiUploadFileRequest {
+  final Stream<Uint8List>? body;
+  const PetApiUploadFileRequestUnsafe({
+    this.body,
+  
+    required super.petId,
+  
+  
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
 
 class PetApiUploadFileResponse {
 }
@@ -756,6 +934,18 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
   
   
   
+
+  const factory PetApiUploadFileWithRequiredFileRequest.unsafe({
+
+    required int petId,
+
+
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = PetApiUploadFileWithRequiredFileRequestUnsafe;
 
   const PetApiUploadFileWithRequiredFileRequest({
 
@@ -800,13 +990,14 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -831,9 +1022,37 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
   }
 }
 
-class PetApiUploadFileWithRequiredFileRequest extends PetApiUploadFileWithRequiredFileRequest {
-    final String mediaType = r'multipart/form-data';
+/// A version of [PetApiUploadFileWithRequiredFileRequest], where you can send arbitrary bytes in the body.
+class PetApiUploadFileWithRequiredFileRequestUnsafe extends PetApiUploadFileWithRequiredFileRequest {
+  final Stream<Uint8List>? body;
+  const PetApiUploadFileWithRequiredFileRequestUnsafe({
+    this.body,
+  
+    required super.petId,
+  
+  
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
 
 class PetApiUploadFileWithRequiredFileResponse {
 }

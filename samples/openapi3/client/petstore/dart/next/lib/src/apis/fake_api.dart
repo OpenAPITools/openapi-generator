@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'package:openapi/_internal.dart';
 import 'package:xml/xml.dart';
+import 'dart:typed_data';
 
 part 'fake_api.models.dart';
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'package:openapi/_internal.dart';
 import 'package:xml/xml.dart';
+import 'dart:typed_data';
 
 part 'default_api.models.dart';
 
@@ -57,6 +58,21 @@ class DefaultApi {
     );
     final response = await networkingClient.sendRequest(httpRequest);
     return DefaultApiFooGetResponse.fromResponse(
+      response,
+      context: newContext,
+    );
+  }
+  Future<DefaultApiPetsMulticontentTestPostResponse> petsMulticontentTestPost(
+    DefaultApiPetsMulticontentTestPostRequest request, {
+    Map<String, dynamic> context = const {},
+  }) async {
+    final newContext = {...this.context, ...context};
+    final httpRequest = await request.createHttpRequest(
+      context: newContext,
+      baseUrl: baseUrl,
+    );
+    final response = await networkingClient.sendRequest(httpRequest);
+    return DefaultApiPetsMulticontentTestPostResponse.fromResponse(
       response,
       context: newContext,
     );

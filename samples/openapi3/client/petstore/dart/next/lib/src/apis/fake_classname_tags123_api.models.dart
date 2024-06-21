@@ -11,6 +11,14 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
 
   
 
+  const factory FakeClassnameTags123ApiTestClassnameRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = FakeClassnameTags123ApiTestClassnameRequestUnsafe;
+
   const FakeClassnameTags123ApiTestClassnameRequest({
 
     this.extraHeaders = const {},
@@ -49,13 +57,14 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -80,9 +89,38 @@ abstract class FakeClassnameTags123ApiTestClassnameRequest {
   }
 }
 
-class FakeClassnameTags123ApiTestClassnameRequestJson extends FakeClassnameTags123ApiTestClassnameRequest {
-    final String mediaType = r'application/json';
+/// A version of [FakeClassnameTags123ApiTestClassnameRequest], where you can send arbitrary bytes in the body.
+class FakeClassnameTags123ApiTestClassnameRequestUnsafe extends FakeClassnameTags123ApiTestClassnameRequest {
+  final Stream<Uint8List>? body;
+  const FakeClassnameTags123ApiTestClassnameRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class FakeClassnameTags123ApiTestClassnameRequestSchemaForRequestBodyApplicationJson extends FakeClassnameTags123ApiTestClassnameRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<Client> data;
+}
+
 
 class FakeClassnameTags123ApiTestClassnameResponse {
 }

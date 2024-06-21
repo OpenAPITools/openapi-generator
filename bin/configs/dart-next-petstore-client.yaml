@@ -1,6 +1,6 @@
 generatorName: dart-next
 outputDir: samples/openapi3/client/petstore/dart/next
-inputSpec: modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/dart/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/dart-next
 additionalProperties:
   hideGenerationTimestamp: "true"

@@ -11,6 +11,14 @@ abstract class UserApiCreateUserRequest {
 
   
 
+  const factory UserApiCreateUserRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = UserApiCreateUserRequestUnsafe;
+
   const UserApiCreateUserRequest({
 
     this.extraHeaders = const {},
@@ -49,13 +57,14 @@ abstract class UserApiCreateUserRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -80,9 +89,38 @@ abstract class UserApiCreateUserRequest {
   }
 }
 
-class UserApiCreateUserRequestJson extends UserApiCreateUserRequest {
-    final String mediaType = r'application/json';
+/// A version of [UserApiCreateUserRequest], where you can send arbitrary bytes in the body.
+class UserApiCreateUserRequestUnsafe extends UserApiCreateUserRequest {
+  final Stream<Uint8List>? body;
+  const UserApiCreateUserRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class UserApiCreateUserRequestSchemaForRequestBodyApplicationJson extends UserApiCreateUserRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<User> data;
+}
+
 
 class UserApiCreateUserResponse {
 }
@@ -97,6 +135,14 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory UserApiCreateUsersWithArrayInputRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = UserApiCreateUsersWithArrayInputRequestUnsafe;
 
   const UserApiCreateUsersWithArrayInputRequest({
 
@@ -136,13 +182,14 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -167,9 +214,38 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
   }
 }
 
-class UserApiCreateUsersWithArrayInputRequestJson extends UserApiCreateUsersWithArrayInputRequest {
-    final String mediaType = r'application/json';
+/// A version of [UserApiCreateUsersWithArrayInputRequest], where you can send arbitrary bytes in the body.
+class UserApiCreateUsersWithArrayInputRequestUnsafe extends UserApiCreateUsersWithArrayInputRequest {
+  final Stream<Uint8List>? body;
+  const UserApiCreateUsersWithArrayInputRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class UserApiCreateUsersWithArrayInputRequestSchemaForRequestBodyApplicationJson extends UserApiCreateUsersWithArrayInputRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<List<User>> data;
+}
+
 
 class UserApiCreateUsersWithArrayInputResponse {
 }
@@ -184,6 +260,14 @@ abstract class UserApiCreateUsersWithListInputRequest {
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
   
+
+  const factory UserApiCreateUsersWithListInputRequest.unsafe({
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = UserApiCreateUsersWithListInputRequestUnsafe;
 
   const UserApiCreateUsersWithListInputRequest({
 
@@ -223,13 +307,14 @@ abstract class UserApiCreateUsersWithListInputRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -254,15 +339,44 @@ abstract class UserApiCreateUsersWithListInputRequest {
   }
 }
 
-class UserApiCreateUsersWithListInputRequestJson extends UserApiCreateUsersWithListInputRequest {
-    final String mediaType = r'application/json';
+/// A version of [UserApiCreateUsersWithListInputRequest], where you can send arbitrary bytes in the body.
+class UserApiCreateUsersWithListInputRequestUnsafe extends UserApiCreateUsersWithListInputRequest {
+  final Stream<Uint8List>? body;
+  const UserApiCreateUsersWithListInputRequestUnsafe({
+    this.body,
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class UserApiCreateUsersWithListInputRequestSchemaForRequestBodyApplicationJson extends UserApiCreateUsersWithListInputRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<List<User>> data;
+}
+
 
 class UserApiCreateUsersWithListInputResponse {
 }
 
 
-abstract class UserApiDeleteUserRequest {
+ class UserApiDeleteUserRequest {
   static const pathTemplate = r'/user/{username}';
   static String method = r'DELETE';
 
@@ -275,6 +389,7 @@ abstract class UserApiDeleteUserRequest {
   /// spec name: username
   final String username;
   
+
 
   const UserApiDeleteUserRequest({
 
@@ -317,9 +432,10 @@ abstract class UserApiDeleteUserRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -346,11 +462,13 @@ abstract class UserApiDeleteUserRequest {
 }
 
 
+
+
 class UserApiDeleteUserResponse {
 }
 
 
-abstract class UserApiGetUserByNameRequest {
+ class UserApiGetUserByNameRequest {
   static const pathTemplate = r'/user/{username}';
   static String method = r'GET';
 
@@ -363,6 +481,7 @@ abstract class UserApiGetUserByNameRequest {
   /// spec name: username
   final String username;
   
+
 
   const UserApiGetUserByNameRequest({
 
@@ -405,9 +524,10 @@ abstract class UserApiGetUserByNameRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -434,11 +554,13 @@ abstract class UserApiGetUserByNameRequest {
 }
 
 
+
+
 class UserApiGetUserByNameResponse {
 }
 
 
-abstract class UserApiLoginUserRequest {
+ class UserApiLoginUserRequest {
   static const pathTemplate = r'/user/login';
   static String method = r'GET';
 
@@ -456,6 +578,7 @@ abstract class UserApiLoginUserRequest {
   /// spec name: password
   final String password;
   
+
 
   const UserApiLoginUserRequest({
 
@@ -502,9 +625,10 @@ abstract class UserApiLoginUserRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -531,17 +655,20 @@ abstract class UserApiLoginUserRequest {
 }
 
 
+
+
 class UserApiLoginUserResponse {
 }
 
 
-abstract class UserApiLogoutUserRequest {
+ class UserApiLogoutUserRequest {
   static const pathTemplate = r'/user/logout';
   static String method = r'GET';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
+
 
 
   const UserApiLogoutUserRequest({
@@ -581,9 +708,10 @@ abstract class UserApiLogoutUserRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
+
 
 
   Future<HttpRequestBase> createHttpRequest({
@@ -610,6 +738,8 @@ abstract class UserApiLogoutUserRequest {
 }
 
 
+
+
 class UserApiLogoutUserResponse {
 }
 
@@ -628,6 +758,17 @@ abstract class UserApiUpdateUserRequest {
   final String username;
   
   
+
+  const factory UserApiUpdateUserRequest.unsafe({
+
+    required String username,
+
+
+    Map<String, String> extraHeaders,
+    Map<String, Object> extraQueryParameters,
+    Map<String, String> extraCookies,
+    Stream<Uint8List>? body,
+  }) = UserApiUpdateUserRequestUnsafe;
 
   const UserApiUpdateUserRequest({
 
@@ -671,13 +812,14 @@ abstract class UserApiUpdateUserRequest {
     return {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-
+      ...extraHeaders,
     };
   }
 
+
   Stream<List<int>> getResolvedBody({
     Map<String, dynamic> context = const {},
-  }) async* {}
+  });
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -702,9 +844,41 @@ abstract class UserApiUpdateUserRequest {
   }
 }
 
-class UserApiUpdateUserRequestJson extends UserApiUpdateUserRequest {
-    final String mediaType = r'application/json';
+/// A version of [UserApiUpdateUserRequest], where you can send arbitrary bytes in the body.
+class UserApiUpdateUserRequestUnsafe extends UserApiUpdateUserRequest {
+  final Stream<Uint8List>? body;
+  const UserApiUpdateUserRequestUnsafe({
+    this.body,
+  
+    required super.username,
+  
+  
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+    final body = this.body;
+    if (body == null) {
+      return;
+    }
+    yield* body;
+  }
 }
+
+//generate a class for body
+//OR
+//generate a class for form params (multipart/formdata)
+
+
+class UserApiUpdateUserRequestSchemaForRequestBodyApplicationJson extends UserApiUpdateUserRequest {
+    final String mediaType = r'application/json';
+    final UndefinedWrapper<User> data;
+}
+
 
 class UserApiUpdateUserResponse {
 }

@@ -26,6 +26,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
@@ -43,13 +44,17 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import lombok.Setter;
 
 public class DartNextClientCodegen extends DefaultCodegen {
@@ -277,7 +282,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
         allowUnicodeIdentifiers = true;
 
         // Since we generate models for apis anyway, we need to always enable this.
-        GlobalSettings.setProperty(SKIP_FORM_MODEL, "true");
+        GlobalSettings.setProperty(SKIP_FORM_MODEL, "false");
 
         // Fix a couple Java notation properties
         modelPackage = modelPackage.replace('.', '/');
@@ -576,8 +581,10 @@ public class DartNextClientCodegen extends DefaultCodegen {
             // Set<String> _ancestorPropNames = new HashSet<>();
             for (String ancestorKey : allAncestors) {
                 CodegenModel ancestorCM = allModels.get(ancestorKey);
-                for (CodegenProperty prop : ancestorCM.getVars()) {
-                    ancestorOnlyProperties.put(prop.getName(), prop);
+                if (ancestorCM != null) {
+                    for (CodegenProperty prop : ancestorCM.getVars()) {
+                        ancestorOnlyProperties.put(prop.getName(), prop);
+                    }
                 }
             }
             for (CodegenProperty p : cm.getVars()) {
@@ -611,7 +618,9 @@ public class DartNextClientCodegen extends DefaultCodegen {
             for (String directParentName : directParentNames) {
                 if (accumulator.add(directParentName)) {
                     CodegenModel parent = allModels.get(directParentName);
-                    getAncestors(parent, allModels, accumulator);
+                    if (parent != null) {
+                        getAncestors(parent, allModels, accumulator);
+                    }
                 }
             }
         }
@@ -661,6 +670,53 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     }
 
+    // @Override
+    // public CodegenOperation fromOperation(String path, String httpMethod,
+    // Operation operation, List<Server> servers) {
+    // var result = super.fromOperation(path, httpMethod, operation, servers);
+
+    // return result;
+    // }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        var result = super.postProcessOperationsWithModels(objs, allModels);
+        var operations = result.getOperations();
+        for (var operation : operations.getOperation()) {
+            var bodyParam = operation.bodyParam;
+            if (bodyParam == null) {
+                continue;
+            }
+            var resultContentMap = bodyParam.getContent();
+            if (resultContentMap == null) {
+                continue;
+            }
+            var betterConsumes = new ArrayList<Map<String, Object>>();
+            for (var consumeEntry : resultContentMap.entrySet()) {
+                var key = consumeEntry.getKey();
+                var resultContent = consumeEntry.getValue();
+                var betterConsume = new HashMap<String, Object>();
+                Map<String, String> originalConsume = null;
+                if (operation.consumes != null) {
+                    for (var x : operation.consumes) {
+                        var mediaType = x.get("mediaType");
+                        if (key.equals(mediaType)) {
+                            originalConsume = x;
+                            break;
+                        }
+                    }
+                }
+                if (originalConsume != null) {
+                    betterConsume.putAll(originalConsume);
+                }
+                betterConsume.put("key", key);
+                betterConsume.put("content", resultContent);
+                betterConsumes.add(betterConsume);
+            }
+            operation.vendorExtensions.put("better-consumes", betterConsumes);
+        }
+        return result;
+    }
 
     @Override
     protected boolean needToImport(String type) {
@@ -949,7 +1005,6 @@ public class DartNextClientCodegen extends DefaultCodegen {
         return objs;
     }
 
-
     @Override
     public void updateCodegenPropertyEnum(CodegenProperty var, CodegenModel cm) {
         super.updateCodegenPropertyEnum(var);
@@ -980,6 +1035,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
     public String toEnumName(CodegenProperty property) {
         return sanitizeName(camelize(property.name)) + "Enum";
     }
+
     @Override
     public String toEnumVarName(String value, String datatype) {
         if (enumNameMapping.containsKey(value)) {
@@ -1004,7 +1060,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
     @Override
     public String toEnumValue(String value, String datatype) {
         if ("String".equalsIgnoreCase(datatype) ||
-            "string".equalsIgnoreCase(datatype)) {
+                "string".equalsIgnoreCase(datatype)) {
             return "'" + escapeText(value) + "'";
         } else {
             return value;
