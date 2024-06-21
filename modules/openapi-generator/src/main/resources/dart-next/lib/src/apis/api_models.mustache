@@ -1,0 +1,137 @@
+{{#operations}}
+part of '{{classFilename}}.dart';
+{{/operations}}
+
+{{#operations}}{{#operation}}
+{{#isDeprecated}}
+@Deprecated('This operation has been deprecated')
+{{/isDeprecated}}
+abstract class {{classname}}{{operationIdCamelCase}}Request {
+  static const pathTemplate = r'{{{path}}}';
+  static String method = r'{{{httpMethod}}}';
+
+  final Map<String, String> extraHeaders;
+  final Map<String, String> extraCookies;
+  final Map<String, Object /* String | List<String> */> extraQueryParameters;
+
+{{! add path / header / query / cookie params }}
+  {{#allParams}}
+  {{^isFormParam}}{{^isBodyParam}}
+  /// {{{description}}}
+  /// spec name: {{baseName}}
+  final {{>types/param}} {{paramName}};
+  {{/isBodyParam}}{{/isFormParam}}
+  {{/allParams}}
+
+  const {{classname}}{{operationIdCamelCase}}Request({
+{{#allParams}}
+{{^isFormParam}}{{^isBodyParam}}
+    {{>types/required_ctor}} this.{{paramName}}{{>types/default}},
+{{/isBodyParam}}{{/isFormParam}}
+{{/allParams}}
+    this.extraHeaders = const {},
+    this.extraQueryParameters = const {},
+    this.extraCookies = const {},
+  });
+
+  Future<Uri> getResolvedUri({
+    required Uri baseUrl,
+    Map<String, dynamic> context = const {},
+  }) async {
+    var resolvedPath = pathTemplate;
+    {{! first we resolve path parameters }}
+    {{#pathParams}}
+    resolvedPath = OpenApiParameterSerializationPath.fromStyle(r'{{style}}', explode: {{isExplode}}, parameterName: r'{{baseName}}',).expand(resolvedPath, {{paramName}});
+    {{/pathParams}}
+    {{! then query parameters }}
+    var methodUri = Uri(path: resolvedPath);
+    {{#queryParams}}
+    {{^required}}
+    if ({{paramName}}.isDefined) {
+    {{/required}}
+      methodUri = OpenApiParameterSerializationQuery.fromStyle(r'{{style}}', explode: {{isExplode}}, parameterName: r'{{baseName}}', allowEmptyValue: {{isAllowEmptyValue}},).expandUri(methodUri, {{paramName}}{{^required}}.valueRequired{{/required}});
+    {{^required}}
+    }
+    {{/required}}
+    {{/queryParams}}
+
+    return baseUrl.replace(
+      pathSegments: [
+        ...baseUrl.pathSegments,
+        ...methodUri.pathSegments,
+      ],
+      queryParameters: {
+        ...baseUrl.queryParameters,
+        ...methodUri.queryParameters,
+        ...extraQueryParameters,
+      },
+    );
+  }
+
+  Future<Map<String, String>> getResolvedHeaders({
+    Map<String, dynamic> context = const {},
+  }) async {
+
+    final cookieParts = <String,String>{
+      {{#cookieParams}}
+        {{^required}}if ({{paramName}}.isDefined){{/required}}
+        r'{{baseName}}': OpenApiParameterSerializationCookie(parameterName: r'{{baseName}}',explode: {{isExplode}}).serialize({{paramName}}{{^required}}.valueRequired{{/required}}),
+      {{/cookieParams}}
+      ...extraCookies,
+    };
+
+    return {
+      {{! first we resolve header parameters }}
+      {{#headerParams}}
+      {{^required}}if ({{paramName}}.isDefined){{/required}}
+        r'{{baseName}}': OpenApiParameterSerializationHeader(parameterName: r'{{baseName}}',explode: {{isExplode}}).serialize({{paramName}}{{^required}}.valueRequired{{/required}}),
+      {{/headerParams}}
+      {{! then cookie parameters }}
+      if (cookieParts.isNotEmpty)
+        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+
+    };
+  }
+
+{{#bodyAllowed}}
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {}
+{{/bodyAllowed}}
+
+  Future<HttpRequestBase> createHttpRequest({
+    required Uri baseUrl,
+    Map<String, dynamic> context = const {},
+  }) async {
+    final futures = [
+      getResolvedUri(
+        context: context,
+        baseUrl: baseUrl,
+      ),
+      getResolvedHeaders(context: context),
+    ];
+    final futureResults = await Future.wait(futures);
+    // Add any path/query parameters to the knownUrl.
+    return HttpRequestBase.stream(
+      url: futureResults[0] as Uri,
+      headers: futureResults[1] as Map<String, String>,
+      method: method,
+      bodyBytesStream: {{#bodyAllowed}}getResolvedBody(context: context){{/bodyAllowed}}{{^bodyAllowed}}Stream.empty(){{/bodyAllowed}},
+      context: context,
+    );
+  }
+}
+
+{{#consumes}}
+class {{classname}}{{operationIdCamelCase}}Request{{#isJson}}Json{{/isJson}}{{#isXml}}Xml{{/isXml}} extends {{classname}}{{operationIdCamelCase}}Request {
+    final String mediaType = r'{{mediaType}}';
+}
+{{/consumes}}
+
+{{#isDeprecated}}
+@Deprecated('This operation has been deprecated')
+{{/isDeprecated}}
+class {{classname}}{{operationIdCamelCase}}Response {
+}
+
+{{/operation}}{{/operations}}

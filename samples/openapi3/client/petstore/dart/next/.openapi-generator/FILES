@@ -333,6 +333,8 @@ lib/src/serialization/_internal.dart
 lib/src/serialization/additional_properties.dart
 lib/src/serialization/json_extensions.dart
 lib/src/serialization/json_reflection.dart
+lib/src/serialization/open_api_object.dart
+lib/src/serialization/parameter_serialization.dart
 lib/src/serialization/xml_extensions.dart
 lib/src/serialization/xml_reflection.dart
 pubspec.yaml

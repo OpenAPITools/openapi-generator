@@ -420,6 +420,12 @@ public class DartNextClientCodegen extends DefaultCodegen {
                 .add(new SupportingFile(serializationMustache + "additional_properties.mustache", serializationPath(),
                         "additional_properties.dart"));
         supportingFiles
+                .add(new SupportingFile(serializationMustache + "open_api_object.mustache", serializationPath(),
+                        "open_api_object.dart"));
+        supportingFiles
+                .add(new SupportingFile(serializationMustache + "parameter_serialization.mustache", serializationPath(),
+                        "parameter_serialization.dart"));
+        supportingFiles
                 .add(new SupportingFile(serializationMustache + "json_extensions.mustache", serializationPath(),
                         "json_extensions.dart"));
         supportingFiles

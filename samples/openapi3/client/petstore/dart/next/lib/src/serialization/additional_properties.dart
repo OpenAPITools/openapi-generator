@@ -1,3 +1,5 @@
+import 'open_api_object.dart';
+
 extension type const AdditionalProperties<T>._(Map<String, T> src)
     implements Map<String, dynamic> {
   const AdditionalProperties([Map<String, T> src = const {}])
@@ -20,4 +22,9 @@ mixin AdditionalPropertiesMixin<T> on $OpenApiObjectMixin {
   AdditionalProperties<T> get additionalProperties;
 }
 
-mixin $OpenApiObjectMixin {}
+/// An openapi object that has no known properties.
+class UnkownOpenApiObject with $OpenApiObjectMixin, AdditionalPropertiesMixin<Object?> {
+  const UnkownOpenApiObject([this.additionalProperties = const AdditionalProperties()]);
+
+  final AdditionalProperties<Object?> additionalProperties;
+}
