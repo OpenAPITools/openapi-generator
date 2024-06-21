@@ -558,7 +558,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
             // If the requested version is a single number then treat it as "highest dot release of this major version".
             // Otherwise, just create a constraint from the value. That also handles the case where the requested version is
-            // the complete version.
+            // the complete version. Treat as a bit of a special case when the user specifies
 
             VersionConstraint requestedConstraint = constraint(versionScheme, requestedVersion);
             Version bestMatch = null;
@@ -577,7 +577,10 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
                     }
                 }
             }
-            return bestMatch != null ? bestMatch.toString() : null;
+            // The user might have requested a legal version we cannot fully validate because of a network outage
+            // that prevents us from retrieving the current full list of versions, for example. In such cases return the
+            // requested version itself as the best match.
+            return bestMatch != null ? bestMatch.toString() : requestedVersion;
         }
 
         private VersionConstraint constraint(VersionScheme versionScheme, String requestedVersion) {
