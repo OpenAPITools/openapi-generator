@@ -1,13 +1,15 @@
-abstract class JsonClassReflection<T> {
-  const JsonClassReflection();
-  Type get type => T;
-  List<JsonPropertyReflection> get members;
-  T Function(Map<String, dynamic> json) get fromJsonFunction;
-  Map<String, dynamic> Function(T src) get toJsonFunction;
+abstract class ClassReflection<T> {
+  const ClassReflection();
+  List<PropertyReflection> get members;
+  Set<String> get knownKeys => members.map((e) => e.oasName).toSet();
+
+  T Function(Object? src) get deserializeFunction;
+  bool Function(Object? src) get canDeserializeFunction;
+  Object? Function(T src) get serializeFunction;
 }
 
-class JsonPropertyReflection {
-  const JsonPropertyReflection({
+class PropertyReflection<T> {
+  const PropertyReflection({
     required this.dartName,
     required this.oasName,
     required this.oasType,
@@ -22,18 +24,18 @@ class JsonPropertyReflection {
   final String oasType;
   final bool required;
   final bool nullable;
-  final String? $default;
+  final Object? $default;
   final String? pattern;
 }
 
-// abstract class JsonEnumReflection<T extends Enum> {
-//   const JsonEnumReflection();
+// abstract class EnumReflection<T extends Enum> {
+//   const EnumReflection();
 //   Type get type => T;
-//   List<JsonEnumMemberReflection> get members;
+//   List<EnumMemberReflection> get members;
 // }
 
-class JsonEnumMemberReflection {
-  const JsonEnumMemberReflection({
+class EnumMemberReflection {
+  const EnumMemberReflection({
     required this.dartName,
     required this.oasValue,
   });

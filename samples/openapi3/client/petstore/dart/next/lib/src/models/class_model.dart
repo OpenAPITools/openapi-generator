@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'class_model.reflection.dart';
 part 'class_model.serialization.dart';
@@ -14,11 +12,11 @@ part 'class_model.serialization.dart';
 /// Properties:
 /// * [propertyClass] 
 mixin ClassModelMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            String
+> get propertyClass;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<String> get propertyClass;
-
 }
 
 /// Model for testing model with \"_class\" property
@@ -31,23 +29,74 @@ $OpenApiObjectMixin,
 
 ClassModelMixin {
   @override
-  UndefinedWrapper<String> propertyClass;
+  UndefinedWrapper<
+            String
+> propertyClass;
 
+  
 
-
-
+  
 
   ClassModel.$all({
-    required this.propertyClass,
+        required this.propertyClass,
     
     
   });
 
   ClassModel({
-    this.propertyClass = const UndefinedWrapper.undefined(),
+      this.propertyClass = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = ClassModelReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$ClassModelToMap(this);
+  }
+  factory ClassModel.fromMap(Map<String, dynamic> src) {
+    return _$ClassModelFromMap(src);
+  }
+  static ClassModel? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return ClassModel.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$ClassModelCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory ClassModel.deserialize(Object? src) {
+    return _$ClassModelDeserialize(src);
+  }
+  static ClassModel? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return ClassModel.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$ClassModelCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$ClassModelSerialize(this);
+  }
 }
 
 

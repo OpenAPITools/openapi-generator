@@ -116,14 +116,54 @@ class PetApiAddPetRequestUnsafe extends PetApiAddPetRequest {
 //generate a class for form params (multipart/formdata)
 
 
-class PetApiAddPetRequestSchemaForRequestBodyApplicationJson extends PetApiAddPetRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<Pet> data;
+class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            Pet
+> data;
+
+  const PetApiAddPetRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
-class PetApiAddPetRequestSchemaForRequestBodyApplicationXml extends PetApiAddPetRequest {
-    final String mediaType = r'application/xml';
-    final UndefinedWrapper<Pet> data;
+class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
+  static const mediaType = r'application/xml';
+
+  final UndefinedWrapper<
+            Pet
+> data;
+
+  const PetApiAddPetRequestApplicationXml({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -142,21 +182,27 @@ class PetApiAddPetResponse {
   
   /// Pet id to delete
   /// spec name: petId
-  final int petId;
+  final 
+            int
+ petId;
   
   
   /// 
   /// spec name: api_key
-  final UndefinedWrapper<String> apiKey;
+  final UndefinedWrapper<
+            String
+> apiKey;
   
 
 
   const PetApiDeletePetRequest({
 
-    required this.petId,
+    required this.petId    ,
 
 
-     this.apiKey= const UndefinedWrapper.undefined(),
+     this.apiKey= const UndefinedWrapper
+        .undefined()
+,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -244,13 +290,18 @@ class PetApiDeletePetResponse {
   
   /// Status values that need to be considered for filter
   /// spec name: status
-  final List<StatusEnum> status;
+  final 
+    List<
+        
+            StatusEnum
+>
+ status;
   
 
 
   const PetApiFindPetsByStatusRequest({
 
-    required this.status,
+    required this.status    ,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -337,13 +388,18 @@ class PetApiFindPetsByStatusResponse {
   
   /// Tags to filter by
   /// spec name: tags
-  final List<String> tags;
+  final 
+    List<
+        
+            String
+>
+ tags;
   
 
 
   const PetApiFindPetsByTagsRequest({
 
-    required this.tags,
+    required this.tags    ,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -430,13 +486,15 @@ class PetApiFindPetsByTagsResponse {
   
   /// ID of pet to return
   /// spec name: petId
-  final int petId;
+  final 
+            int
+ petId;
   
 
 
   const PetApiGetPetByIdRequest({
 
-    required this.petId,
+    required this.petId    ,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -626,14 +684,54 @@ class PetApiUpdatePetRequestUnsafe extends PetApiUpdatePetRequest {
 //generate a class for form params (multipart/formdata)
 
 
-class PetApiUpdatePetRequestSchemaForRequestBodyApplicationJson extends PetApiUpdatePetRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<Pet> data;
+class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            Pet
+> data;
+
+  const PetApiUpdatePetRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
-class PetApiUpdatePetRequestSchemaForRequestBodyApplicationXml extends PetApiUpdatePetRequest {
-    final String mediaType = r'application/xml';
-    final UndefinedWrapper<Pet> data;
+class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
+  static const mediaType = r'application/xml';
+
+  final UndefinedWrapper<
+            Pet
+> data;
+
+  const PetApiUpdatePetRequestApplicationXml({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -652,14 +750,18 @@ abstract class PetApiUpdatePetWithFormRequest {
   
   /// ID of pet that needs to be updated
   /// spec name: petId
-  final int petId;
+  final 
+            int
+ petId;
   
   
   
 
   const factory PetApiUpdatePetWithFormRequest.unsafe({
 
-    required int petId,
+    required 
+            int
+ petId,
 
 
 
@@ -671,7 +773,7 @@ abstract class PetApiUpdatePetWithFormRequest {
 
   const PetApiUpdatePetWithFormRequest({
 
-    required this.petId,
+    required this.petId    ,
 
 
 
@@ -791,14 +893,18 @@ abstract class PetApiUploadFileRequest {
   
   /// ID of pet to update
   /// spec name: petId
-  final int petId;
+  final 
+            int
+ petId;
   
   
   
 
   const factory PetApiUploadFileRequest.unsafe({
 
-    required int petId,
+    required 
+            int
+ petId,
 
 
 
@@ -810,7 +916,7 @@ abstract class PetApiUploadFileRequest {
 
   const PetApiUploadFileRequest({
 
-    required this.petId,
+    required this.petId    ,
 
 
 
@@ -930,14 +1036,18 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
   
   /// ID of pet to update
   /// spec name: petId
-  final int petId;
+  final 
+            int
+ petId;
   
   
   
 
   const factory PetApiUploadFileWithRequiredFileRequest.unsafe({
 
-    required int petId,
+    required 
+            int
+ petId,
 
 
 
@@ -949,7 +1059,7 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
 
   const PetApiUploadFileWithRequiredFileRequest({
 
-    required this.petId,
+    required this.petId    ,
 
 
 

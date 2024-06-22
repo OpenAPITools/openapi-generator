@@ -116,9 +116,29 @@ class FakeClassnameTags123ApiTestClassnameRequestUnsafe extends FakeClassnameTag
 //generate a class for form params (multipart/formdata)
 
 
-class FakeClassnameTags123ApiTestClassnameRequestSchemaForRequestBodyApplicationJson extends FakeClassnameTags123ApiTestClassnameRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<Client> data;
+class FakeClassnameTags123ApiTestClassnameRequestApplicationJson extends FakeClassnameTags123ApiTestClassnameRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            Client
+> data;
+
+  const FakeClassnameTags123ApiTestClassnameRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 

@@ -1,19 +1,181 @@
-// Model serialization
+// ignore_for_file: unnecessary_cast, unused_local_variable
+
 part of 'name.dart';
 
 
 //class serialization
 
-Map<String, dynamic> _$NameToJson(Name instance) => <String, dynamic>{
+Map<String, dynamic> _$NameToMap(Name instance) {
+  final _reflection = NameReflection.instance;
+  return <String, dynamic>{
+    
+    _reflection.name.oasName: (
+            int
+ v) {
+      return v;
+    }(instance.name),
+    if (instance.snakeCase.isDefined)
+    _reflection.snakeCase.oasName: (
+            int
+ v) {
+      return v;
+    }(instance.snakeCase.valueRequired),
+    if (instance.property.isDefined)
+    _reflection.property.oasName: (
+            String
+ v) {
+      return v;
+    }(instance.property.valueRequired),
+    if (instance.$123number.isDefined)
+    _reflection.$123number.oasName: (
+            int
+ v) {
+      return v;
+    }(instance.$123number.valueRequired),
+    
+    
+  };
+}
 
-};
-
-Name _$NameFromJson(Map<String, dynamic> src) {
+Name _$NameFromMap(Map<String, dynamic> src) {
+  final _reflection = NameReflection.instance;
   return Name.$all(
+    name: src.getRequiredMapped(_reflection.name.oasName, (v) => 
+(
 
+    
+            
+                    v as int
+            
+
+)
+
+
+),
+snakeCase: src.getOrUndefinedMapped(_reflection.snakeCase.oasName, (v) => 
+(
+
+    
+            
+                    v as int
+            
+
+)
+
+
+),
+property: src.getOrUndefinedMapped(_reflection.property.oasName, (v) => 
+(
+
+    
+            
+                    v as String
+            
+
+)
+
+
+),
+$123number: src.getOrUndefinedMapped(_reflection.$123number.oasName, (v) => 
+(
+
+    
+            
+                    v as int
+            
+
+)
+
+
+),
+    
+    
   );
 }
 
+bool _$NameCanFromMap(Map<String, dynamic> src) {
+  final _reflection = NameReflection.instance;
+  if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is int
+),
+    unDefined: () => !_reflection.name.required,
+)) {
+    return false;
+  }
+if (!src.getOrUndefined(_reflection.snakeCase.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is int
+),
+    unDefined: () => !_reflection.snakeCase.required,
+)) {
+    return false;
+  }
+if (!src.getOrUndefined(_reflection.property.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is String
+),
+    unDefined: () => !_reflection.property.required,
+)) {
+    return false;
+  }
+if (!src.getOrUndefined(_reflection.$123number.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is int
+),
+    unDefined: () => !_reflection.$123number.required,
+)) {
+    return false;
+  }
+  
+  return true;
+}
+
+/// Deserializes a primitive Object (num, String, List, Map).
+Name _$NameDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$NameFromMap(src);
+  } else {
+        
+    throw UnimplementedError();
+    
+  }
+}
+/// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+bool _$NameCanDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$NameCanFromMap(src);
+  } else {
+    return false;
+  }
+}
+
+/// Serializes to a primitive Object (num, String, List, Map).
+Object? _$NameSerialize(Name src) {
+  
+  return src.toMap();
+  
+  
+}
+
+
+/*
 XmlElement _$NameToXml(Name instance) {
   final reflection = NameXmlReflection.instance;
   final result = XmlElement(
@@ -35,4 +197,5 @@ Name _$NameFromXml(XmlElement src) {
 
   );
 }
+*/
 

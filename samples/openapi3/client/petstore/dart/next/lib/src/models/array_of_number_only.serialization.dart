@@ -1,19 +1,111 @@
-// Model serialization
+// ignore_for_file: unnecessary_cast, unused_local_variable
+
 part of 'array_of_number_only.dart';
 
 
 //class serialization
 
-Map<String, dynamic> _$ArrayOfNumberOnlyToJson(ArrayOfNumberOnly instance) => <String, dynamic>{
+Map<String, dynamic> _$ArrayOfNumberOnlyToMap(ArrayOfNumberOnly instance) {
+  final _reflection = ArrayOfNumberOnlyReflection.instance;
+  return <String, dynamic>{
+    if (instance.arrayNumber.isDefined)
+    _reflection.arrayNumber.oasName: (
+    List<
+        
+            num
+>
+ v) {
+      return v.map((v) => v).toList();
+    }(instance.arrayNumber.valueRequired),
+    
+    
+  };
+}
 
-};
-
-ArrayOfNumberOnly _$ArrayOfNumberOnlyFromJson(Map<String, dynamic> src) {
+ArrayOfNumberOnly _$ArrayOfNumberOnlyFromMap(Map<String, dynamic> src) {
+  final _reflection = ArrayOfNumberOnlyReflection.instance;
   return ArrayOfNumberOnly.$all(
+    arrayNumber: src.getOrUndefinedMapped(_reflection.arrayNumber.oasName, (v) => 
+(
 
+    
+            
+            v as List
+            
+
+)
+
+.map((v) => 
+(
+
+    
+            
+                    v as num
+            
+
+)
+
+
+).toList()
+),
+    
+    
   );
 }
 
+bool _$ArrayOfNumberOnlyCanFromMap(Map<String, dynamic> src) {
+  final _reflection = ArrayOfNumberOnlyReflection.instance;
+  if (!src.getOrUndefined(_reflection.arrayNumber.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is List && v.every((v) => v == null ? false :
+(
+
+    
+            
+            v is num
+))
+),
+    unDefined: () => !_reflection.arrayNumber.required,
+)) {
+    return false;
+  }
+  
+  return true;
+}
+
+/// Deserializes a primitive Object (num, String, List, Map).
+ArrayOfNumberOnly _$ArrayOfNumberOnlyDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$ArrayOfNumberOnlyFromMap(src);
+  } else {
+        
+    throw UnimplementedError();
+    
+  }
+}
+/// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+bool _$ArrayOfNumberOnlyCanDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$ArrayOfNumberOnlyCanFromMap(src);
+  } else {
+    return false;
+  }
+}
+
+/// Serializes to a primitive Object (num, String, List, Map).
+Object? _$ArrayOfNumberOnlySerialize(ArrayOfNumberOnly src) {
+  
+  return src.toMap();
+  
+  
+}
+
+
+/*
 XmlElement _$ArrayOfNumberOnlyToXml(ArrayOfNumberOnly instance) {
   final reflection = ArrayOfNumberOnlyXmlReflection.instance;
   final result = XmlElement(
@@ -35,4 +127,5 @@ ArrayOfNumberOnly _$ArrayOfNumberOnlyFromXml(XmlElement src) {
 
   );
 }
+*/
 

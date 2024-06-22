@@ -1,19 +1,151 @@
-// Model serialization
+// ignore_for_file: unnecessary_cast, unused_local_variable
+
 part of 'api_response.dart';
 
 
 //class serialization
 
-Map<String, dynamic> _$ApiResponseToJson(ApiResponse instance) => <String, dynamic>{
+Map<String, dynamic> _$ApiResponseToMap(ApiResponse instance) {
+  final _reflection = ApiResponseReflection.instance;
+  return <String, dynamic>{
+    if (instance.code.isDefined)
+    _reflection.code.oasName: (
+            int
+ v) {
+      return v;
+    }(instance.code.valueRequired),
+    if (instance.type.isDefined)
+    _reflection.type.oasName: (
+            String
+ v) {
+      return v;
+    }(instance.type.valueRequired),
+    if (instance.message.isDefined)
+    _reflection.message.oasName: (
+            String
+ v) {
+      return v;
+    }(instance.message.valueRequired),
+    
+    
+  };
+}
 
-};
-
-ApiResponse _$ApiResponseFromJson(Map<String, dynamic> src) {
+ApiResponse _$ApiResponseFromMap(Map<String, dynamic> src) {
+  final _reflection = ApiResponseReflection.instance;
   return ApiResponse.$all(
+    code: src.getOrUndefinedMapped(_reflection.code.oasName, (v) => 
+(
 
+    
+            
+                    v as int
+            
+
+)
+
+
+),
+type: src.getOrUndefinedMapped(_reflection.type.oasName, (v) => 
+(
+
+    
+            
+                    v as String
+            
+
+)
+
+
+),
+message: src.getOrUndefinedMapped(_reflection.message.oasName, (v) => 
+(
+
+    
+            
+                    v as String
+            
+
+)
+
+
+),
+    
+    
   );
 }
 
+bool _$ApiResponseCanFromMap(Map<String, dynamic> src) {
+  final _reflection = ApiResponseReflection.instance;
+  if (!src.getOrUndefined(_reflection.code.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is int
+),
+    unDefined: () => !_reflection.code.required,
+)) {
+    return false;
+  }
+if (!src.getOrUndefined(_reflection.type.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is String
+),
+    unDefined: () => !_reflection.type.required,
+)) {
+    return false;
+  }
+if (!src.getOrUndefined(_reflection.message.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is String
+),
+    unDefined: () => !_reflection.message.required,
+)) {
+    return false;
+  }
+  
+  return true;
+}
+
+/// Deserializes a primitive Object (num, String, List, Map).
+ApiResponse _$ApiResponseDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$ApiResponseFromMap(src);
+  } else {
+        
+    throw UnimplementedError();
+    
+  }
+}
+/// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+bool _$ApiResponseCanDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$ApiResponseCanFromMap(src);
+  } else {
+    return false;
+  }
+}
+
+/// Serializes to a primitive Object (num, String, List, Map).
+Object? _$ApiResponseSerialize(ApiResponse src) {
+  
+  return src.toMap();
+  
+  
+}
+
+
+/*
 XmlElement _$ApiResponseToXml(ApiResponse instance) {
   final reflection = ApiResponseXmlReflection.instance;
   final result = XmlElement(
@@ -35,4 +167,5 @@ ApiResponse _$ApiResponseFromXml(XmlElement src) {
 
   );
 }
+*/
 

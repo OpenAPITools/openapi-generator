@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'additional_properties_class.reflection.dart';
 part 'additional_properties_class.serialization.dart';
@@ -21,18 +19,45 @@ part 'additional_properties_class.serialization.dart';
 /// * [emptyMap] - an object with no declared properties and no undeclared properties, hence it's an empty map.
 /// * [mapWithUndeclaredPropertiesString] 
 mixin AdditionalPropertiesClassMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+    Map<String, 
+        
+            String
+>
+> get mapProperty;
+UndefinedWrapper<
+    Map<String, 
+        
+    Map<String, 
+        
+            String
+>
+>
+> get mapOfMapProperty;
+UndefinedWrapper<Object
+?> get anytype1;
+UndefinedWrapper<
+            Map<String, Object?>
+> get mapWithUndeclaredPropertiesAnytype1;
+UndefinedWrapper<
+            Map<String, Object?>
+> get mapWithUndeclaredPropertiesAnytype2;
+UndefinedWrapper<
+    Map<String, 
+        Object
+?>
+> get mapWithUndeclaredPropertiesAnytype3;
+UndefinedWrapper<
+            Map<String, Object?>
+> get emptyMap;
+UndefinedWrapper<
+    Map<String, 
+        
+            String
+>
+> get mapWithUndeclaredPropertiesString;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<Map<String, String>> get mapProperty;
-  UndefinedWrapper<Map<String, Map<String, String>>> get mapOfMapProperty;
-  UndefinedWrapper<Object?> get anytype1;
-  UndefinedWrapper<$OpenApiObjectMixin> get mapWithUndeclaredPropertiesAnytype1;
-  UndefinedWrapper<$OpenApiObjectMixin> get mapWithUndeclaredPropertiesAnytype2;
-  UndefinedWrapper<Map<String, Object?>> get mapWithUndeclaredPropertiesAnytype3;
-  UndefinedWrapper<$OpenApiObjectMixin> get emptyMap;
-  UndefinedWrapper<Map<String, String>> get mapWithUndeclaredPropertiesString;
-
 }
 
 /// AdditionalPropertiesClass
@@ -52,28 +77,57 @@ $OpenApiObjectMixin,
 
 AdditionalPropertiesClassMixin {
   @override
-  UndefinedWrapper<Map<String, String>> mapProperty;
+  UndefinedWrapper<
+    Map<String, 
+        
+            String
+>
+> mapProperty;
   @override
-  UndefinedWrapper<Map<String, Map<String, String>>> mapOfMapProperty;
+  UndefinedWrapper<
+    Map<String, 
+        
+    Map<String, 
+        
+            String
+>
+>
+> mapOfMapProperty;
   @override
-  UndefinedWrapper<Object?> anytype1;
+  UndefinedWrapper<Object
+?> anytype1;
   @override
-  UndefinedWrapper<$OpenApiObjectMixin> mapWithUndeclaredPropertiesAnytype1;
+  UndefinedWrapper<
+            Map<String, Object?>
+> mapWithUndeclaredPropertiesAnytype1;
   @override
-  UndefinedWrapper<$OpenApiObjectMixin> mapWithUndeclaredPropertiesAnytype2;
+  UndefinedWrapper<
+            Map<String, Object?>
+> mapWithUndeclaredPropertiesAnytype2;
   @override
-  UndefinedWrapper<Map<String, Object?>> mapWithUndeclaredPropertiesAnytype3;
+  UndefinedWrapper<
+    Map<String, 
+        Object
+?>
+> mapWithUndeclaredPropertiesAnytype3;
   @override
-  UndefinedWrapper<$OpenApiObjectMixin> emptyMap;
+  UndefinedWrapper<
+            Map<String, Object?>
+> emptyMap;
   @override
-  UndefinedWrapper<Map<String, String>> mapWithUndeclaredPropertiesString;
+  UndefinedWrapper<
+    Map<String, 
+        
+            String
+>
+> mapWithUndeclaredPropertiesString;
 
+  
 
-
-
+  
 
   AdditionalPropertiesClass.$all({
-    required this.mapProperty,
+        required this.mapProperty,
     required this.mapOfMapProperty,
     required this.anytype1,
     required this.mapWithUndeclaredPropertiesAnytype1,
@@ -86,17 +140,80 @@ AdditionalPropertiesClassMixin {
   });
 
   AdditionalPropertiesClass({
-    this.mapProperty = const UndefinedWrapper.undefined(),
-    this.mapOfMapProperty = const UndefinedWrapper.undefined(),
-    this.anytype1 = const UndefinedWrapper.undefined(),
-    this.mapWithUndeclaredPropertiesAnytype1 = const UndefinedWrapper.undefined(),
-    this.mapWithUndeclaredPropertiesAnytype2 = const UndefinedWrapper.undefined(),
-    this.mapWithUndeclaredPropertiesAnytype3 = const UndefinedWrapper.undefined(),
-    this.emptyMap = const UndefinedWrapper.undefined(),
-    this.mapWithUndeclaredPropertiesString = const UndefinedWrapper.undefined(),
+      this.mapProperty = const UndefinedWrapper
+        .undefined()
+,
+  this.mapOfMapProperty = const UndefinedWrapper
+        .undefined()
+,
+  this.anytype1 = const UndefinedWrapper
+        .undefined()
+,
+  this.mapWithUndeclaredPropertiesAnytype1 = const UndefinedWrapper
+        .undefined()
+,
+  this.mapWithUndeclaredPropertiesAnytype2 = const UndefinedWrapper
+        .undefined()
+,
+  this.mapWithUndeclaredPropertiesAnytype3 = const UndefinedWrapper
+        .undefined()
+,
+  this.emptyMap = const UndefinedWrapper
+        .undefined()
+,
+  this.mapWithUndeclaredPropertiesString = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = AdditionalPropertiesClassReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$AdditionalPropertiesClassToMap(this);
+  }
+  factory AdditionalPropertiesClass.fromMap(Map<String, dynamic> src) {
+    return _$AdditionalPropertiesClassFromMap(src);
+  }
+  static AdditionalPropertiesClass? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return AdditionalPropertiesClass.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$AdditionalPropertiesClassCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory AdditionalPropertiesClass.deserialize(Object? src) {
+    return _$AdditionalPropertiesClassDeserialize(src);
+  }
+  static AdditionalPropertiesClass? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return AdditionalPropertiesClass.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$AdditionalPropertiesClassCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$AdditionalPropertiesClassSerialize(this);
+  }
 }
 
 

@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'variable.reflection.dart';
 part 'variable.serialization.dart';
@@ -15,12 +13,14 @@ part 'variable.serialization.dart';
 /// * [name] 
 /// * [value] 
 mixin VariableMixin on 
+  $OpenApiObjectMixin {
   
-  $OpenApiObjectMixin
- {
-  String get name;
-  Value get value;
+            String
+ get name;
 
+            Value
+ get value;
+  
 }
 
 /// Value object
@@ -34,27 +34,78 @@ $OpenApiObjectMixin,
 
 VariableMixin {
   @override
-  String name;
+  
+            String
+ name;
   @override
-  Value value;
+  
+            Value
+ value;
 
+  
 
-
-
+  
 
   Variable.$all({
-    required this.name,
+        required this.name,
     required this.value,
     
     
   });
 
   Variable({
-  required  this.name ,
-  required  this.value ,
+    required  this.name     ,
+required  this.value     ,
     
     
   });
+
+  static const $reflection = VariableReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$VariableToMap(this);
+  }
+  factory Variable.fromMap(Map<String, dynamic> src) {
+    return _$VariableFromMap(src);
+  }
+  static Variable? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return Variable.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$VariableCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory Variable.deserialize(Object? src) {
+    return _$VariableDeserialize(src);
+  }
+  static Variable? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return Variable.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$VariableCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$VariableSerialize(this);
+  }
 }
 
 

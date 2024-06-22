@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'enum_test.reflection.dart';
 part 'enum_test.serialization.dart';
@@ -22,19 +20,35 @@ part 'enum_test.serialization.dart';
 /// * [outerEnumDefaultValue] 
 /// * [outerEnumIntegerDefaultValue] 
 mixin EnumTestMixin on 
-  
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<EnumTestEnumStringEnum> get enumString;
-  EnumTestEnumStringRequiredEnum get enumStringRequired;
-  UndefinedWrapper<EnumTestEnumIntegerEnum> get enumInteger;
-  UndefinedWrapper<EnumTestEnumIntegerOnlyEnum> get enumIntegerOnly;
-  UndefinedWrapper<EnumTestEnumNumberEnum> get enumNumber;
-  UndefinedWrapper<OuterEnum?> get outerEnum;
-  UndefinedWrapper<OuterEnumInteger> get outerEnumInteger;
-  UndefinedWrapper<OuterEnumDefaultValue> get outerEnumDefaultValue;
-  UndefinedWrapper<OuterEnumIntegerDefaultValue> get outerEnumIntegerDefaultValue;
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            EnumTestEnumStringEnum
+> get enumString;
 
+            EnumTestEnumStringRequiredEnum
+ get enumStringRequired;
+UndefinedWrapper<
+            EnumTestEnumIntegerEnum
+> get enumInteger;
+UndefinedWrapper<
+            EnumTestEnumIntegerOnlyEnum
+> get enumIntegerOnly;
+UndefinedWrapper<
+            EnumTestEnumNumberEnum
+> get enumNumber;
+UndefinedWrapper<
+            OuterEnum
+?> get outerEnum;
+UndefinedWrapper<
+            OuterEnumInteger
+> get outerEnumInteger;
+UndefinedWrapper<
+            OuterEnumDefaultValue
+> get outerEnumDefaultValue;
+UndefinedWrapper<
+            OuterEnumIntegerDefaultValue
+> get outerEnumIntegerDefaultValue;
+  
 }
 
 /// EnumTest
@@ -55,30 +69,48 @@ $OpenApiObjectMixin,
 
 EnumTestMixin {
   @override
-  UndefinedWrapper<EnumTestEnumStringEnum> enumString;
+  UndefinedWrapper<
+            EnumTestEnumStringEnum
+> enumString;
   @override
-  EnumTestEnumStringRequiredEnum enumStringRequired;
+  
+            EnumTestEnumStringRequiredEnum
+ enumStringRequired;
   @override
-  UndefinedWrapper<EnumTestEnumIntegerEnum> enumInteger;
+  UndefinedWrapper<
+            EnumTestEnumIntegerEnum
+> enumInteger;
   @override
-  UndefinedWrapper<EnumTestEnumIntegerOnlyEnum> enumIntegerOnly;
+  UndefinedWrapper<
+            EnumTestEnumIntegerOnlyEnum
+> enumIntegerOnly;
   @override
-  UndefinedWrapper<EnumTestEnumNumberEnum> enumNumber;
+  UndefinedWrapper<
+            EnumTestEnumNumberEnum
+> enumNumber;
   @override
-  UndefinedWrapper<OuterEnum?> outerEnum;
+  UndefinedWrapper<
+            OuterEnum
+?> outerEnum;
   @override
-  UndefinedWrapper<OuterEnumInteger> outerEnumInteger;
+  UndefinedWrapper<
+            OuterEnumInteger
+> outerEnumInteger;
   @override
-  UndefinedWrapper<OuterEnumDefaultValue> outerEnumDefaultValue;
+  UndefinedWrapper<
+            OuterEnumDefaultValue
+> outerEnumDefaultValue;
   @override
-  UndefinedWrapper<OuterEnumIntegerDefaultValue> outerEnumIntegerDefaultValue;
+  UndefinedWrapper<
+            OuterEnumIntegerDefaultValue
+> outerEnumIntegerDefaultValue;
 
+  
 
-
-
+  
 
   EnumTest.$all({
-    required this.enumString,
+        required this.enumString,
     required this.enumStringRequired,
     required this.enumInteger,
     required this.enumIntegerOnly,
@@ -92,18 +124,81 @@ EnumTestMixin {
   });
 
   EnumTest({
-    this.enumString = const UndefinedWrapper.undefined(),
-  required  this.enumStringRequired ,
-    this.enumInteger = const UndefinedWrapper.undefined(),
-    this.enumIntegerOnly = const UndefinedWrapper.undefined(),
-    this.enumNumber = const UndefinedWrapper.undefined(),
-    this.outerEnum = const UndefinedWrapper.undefined(),
-    this.outerEnumInteger = const UndefinedWrapper.undefined(),
-    this.outerEnumDefaultValue = const UndefinedWrapper.undefined(),
-    this.outerEnumIntegerDefaultValue = const UndefinedWrapper.undefined(),
+      this.enumString = const UndefinedWrapper
+        .undefined()
+,
+required  this.enumStringRequired     ,
+  this.enumInteger = const UndefinedWrapper
+        .undefined()
+,
+  this.enumIntegerOnly = const UndefinedWrapper
+        .undefined()
+,
+  this.enumNumber = const UndefinedWrapper
+        .undefined()
+,
+  this.outerEnum = const UndefinedWrapper
+        .undefined()
+,
+  this.outerEnumInteger = const UndefinedWrapper
+        .undefined()
+,
+  this.outerEnumDefaultValue = const UndefinedWrapper
+        .undefined()
+,
+  this.outerEnumIntegerDefaultValue = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = EnumTestReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$EnumTestToMap(this);
+  }
+  factory EnumTest.fromMap(Map<String, dynamic> src) {
+    return _$EnumTestFromMap(src);
+  }
+  static EnumTest? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return EnumTest.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$EnumTestCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory EnumTest.deserialize(Object? src) {
+    return _$EnumTestDeserialize(src);
+  }
+  static EnumTest? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return EnumTest.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$EnumTestCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$EnumTestSerialize(this);
+  }
 }
 
 

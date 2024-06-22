@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'array_test.reflection.dart';
 part 'array_test.serialization.dart';
@@ -16,13 +14,32 @@ part 'array_test.serialization.dart';
 /// * [arrayArrayOfInteger] 
 /// * [arrayArrayOfModel] 
 mixin ArrayTestMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+    List<
+        
+            String
+>
+> get arrayOfString;
+UndefinedWrapper<
+    List<
+        
+    List<
+        
+            int
+>
+>
+> get arrayArrayOfInteger;
+UndefinedWrapper<
+    List<
+        
+    List<
+        
+            ReadOnlyFirst
+>
+>
+> get arrayArrayOfModel;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<List<String>> get arrayOfString;
-  UndefinedWrapper<List<List<int>>> get arrayArrayOfInteger;
-  UndefinedWrapper<List<List<ReadOnlyFirst>>> get arrayArrayOfModel;
-
 }
 
 /// ArrayTest
@@ -37,18 +54,39 @@ $OpenApiObjectMixin,
 
 ArrayTestMixin {
   @override
-  UndefinedWrapper<List<String>> arrayOfString;
+  UndefinedWrapper<
+    List<
+        
+            String
+>
+> arrayOfString;
   @override
-  UndefinedWrapper<List<List<int>>> arrayArrayOfInteger;
+  UndefinedWrapper<
+    List<
+        
+    List<
+        
+            int
+>
+>
+> arrayArrayOfInteger;
   @override
-  UndefinedWrapper<List<List<ReadOnlyFirst>>> arrayArrayOfModel;
+  UndefinedWrapper<
+    List<
+        
+    List<
+        
+            ReadOnlyFirst
+>
+>
+> arrayArrayOfModel;
 
+  
 
-
-
+  
 
   ArrayTest.$all({
-    required this.arrayOfString,
+        required this.arrayOfString,
     required this.arrayArrayOfInteger,
     required this.arrayArrayOfModel,
     
@@ -56,12 +94,65 @@ ArrayTestMixin {
   });
 
   ArrayTest({
-    this.arrayOfString = const UndefinedWrapper.undefined(),
-    this.arrayArrayOfInteger = const UndefinedWrapper.undefined(),
-    this.arrayArrayOfModel = const UndefinedWrapper.undefined(),
+      this.arrayOfString = const UndefinedWrapper
+        .undefined()
+,
+  this.arrayArrayOfInteger = const UndefinedWrapper
+        .undefined()
+,
+  this.arrayArrayOfModel = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = ArrayTestReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$ArrayTestToMap(this);
+  }
+  factory ArrayTest.fromMap(Map<String, dynamic> src) {
+    return _$ArrayTestFromMap(src);
+  }
+  static ArrayTest? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return ArrayTest.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$ArrayTestCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory ArrayTest.deserialize(Object? src) {
+    return _$ArrayTestDeserialize(src);
+  }
+  static ArrayTest? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return ArrayTest.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$ArrayTestCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$ArrayTestSerialize(this);
+  }
 }
 
 

@@ -1,19 +1,119 @@
-// Model serialization
+// ignore_for_file: unnecessary_cast, unused_local_variable
+
 part of 'model_with_one_of_any_of_properties.dart';
 
 
 //class serialization
 
-Map<String, dynamic> _$ModelWithOneOfAnyOfPropertiesToJson(ModelWithOneOfAnyOfProperties instance) => <String, dynamic>{
+Map<String, dynamic> _$ModelWithOneOfAnyOfPropertiesToMap(ModelWithOneOfAnyOfProperties instance) {
+  final _reflection = ModelWithOneOfAnyOfPropertiesReflection.instance;
+  return <String, dynamic>{
+    if (instance.oneofProp.isDefined)
+    _reflection.oneofProp.oasName: (
+            ArrayOneOf
+ v) {
+      return v.serialize();
+    }(instance.oneofProp.valueRequired),
+    if (instance.anyofProp.isDefined)
+    _reflection.anyofProp.oasName: (
+            ArrayAnyOf
+ v) {
+      return v.serialize();
+    }(instance.anyofProp.valueRequired),
+    
+    
+  };
+}
 
-};
-
-ModelWithOneOfAnyOfProperties _$ModelWithOneOfAnyOfPropertiesFromJson(Map<String, dynamic> src) {
+ModelWithOneOfAnyOfProperties _$ModelWithOneOfAnyOfPropertiesFromMap(Map<String, dynamic> src) {
+  final _reflection = ModelWithOneOfAnyOfPropertiesReflection.instance;
   return ModelWithOneOfAnyOfProperties.$all(
+    oneofProp: src.getOrUndefinedMapped(_reflection.oneofProp.oasName, (v) => ArrayOneOf.deserialize
+(
 
+    
+            v
+
+
+)
+
+
+),
+anyofProp: src.getOrUndefinedMapped(_reflection.anyofProp.oasName, (v) => ArrayAnyOf.deserialize
+(
+
+    
+            v
+
+
+)
+
+
+),
+    
+    
   );
 }
 
+bool _$ModelWithOneOfAnyOfPropertiesCanFromMap(Map<String, dynamic> src) {
+  final _reflection = ModelWithOneOfAnyOfPropertiesReflection.instance;
+  if (!src.getOrUndefined(_reflection.oneofProp.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            ArrayOneOf.canDeserialize(v)
+            
+),
+    unDefined: () => !_reflection.oneofProp.required,
+)) {
+    return false;
+  }
+if (!src.getOrUndefined(_reflection.anyofProp.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            ArrayAnyOf.canDeserialize(v)
+            
+),
+    unDefined: () => !_reflection.anyofProp.required,
+)) {
+    return false;
+  }
+  
+  return true;
+}
+
+/// Deserializes a primitive Object (num, String, List, Map).
+ModelWithOneOfAnyOfProperties _$ModelWithOneOfAnyOfPropertiesDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$ModelWithOneOfAnyOfPropertiesFromMap(src);
+  } else {
+        
+    throw UnimplementedError();
+    
+  }
+}
+/// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+bool _$ModelWithOneOfAnyOfPropertiesCanDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$ModelWithOneOfAnyOfPropertiesCanFromMap(src);
+  } else {
+    return false;
+  }
+}
+
+/// Serializes to a primitive Object (num, String, List, Map).
+Object? _$ModelWithOneOfAnyOfPropertiesSerialize(ModelWithOneOfAnyOfProperties src) {
+  
+  return src.toMap();
+  
+  
+}
+
+
+/*
 XmlElement _$ModelWithOneOfAnyOfPropertiesToXml(ModelWithOneOfAnyOfProperties instance) {
   final reflection = ModelWithOneOfAnyOfPropertiesXmlReflection.instance;
   final result = XmlElement(
@@ -35,4 +135,5 @@ ModelWithOneOfAnyOfProperties _$ModelWithOneOfAnyOfPropertiesFromXml(XmlElement 
 
   );
 }
+*/
 

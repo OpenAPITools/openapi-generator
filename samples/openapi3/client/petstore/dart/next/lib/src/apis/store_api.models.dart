@@ -12,13 +12,15 @@ part of 'store_api.dart';
   
   /// ID of the order that needs to be deleted
   /// spec name: order_id
-  final String orderId;
+  final 
+            String
+ orderId;
   
 
 
   const StoreApiDeleteOrderRequest({
 
-    required this.orderId,
+    required this.orderId    ,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -187,13 +189,15 @@ class StoreApiGetInventoryResponse {
   
   /// ID of pet that needs to be fetched
   /// spec name: order_id
-  final int orderId;
+  final 
+            int
+ orderId;
   
 
 
   const StoreApiGetOrderByIdRequest({
 
-    required this.orderId,
+    required this.orderId    ,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -383,9 +387,29 @@ class StoreApiPlaceOrderRequestUnsafe extends StoreApiPlaceOrderRequest {
 //generate a class for form params (multipart/formdata)
 
 
-class StoreApiPlaceOrderRequestSchemaForRequestBodyApplicationJson extends StoreApiPlaceOrderRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<Order> data;
+class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            Order
+> data;
+
+  const StoreApiPlaceOrderRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 

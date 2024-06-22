@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'test_enum_parameters_request.reflection.dart';
 part 'test_enum_parameters_request.serialization.dart';
@@ -15,12 +13,17 @@ part 'test_enum_parameters_request.serialization.dart';
 /// * [enumFormStringArray] - Form parameter enum test (string array)
 /// * [enumFormString] - Form parameter enum test (string)
 mixin TestEnumParametersRequestMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+    List<
+        
+            TestEnumParametersRequestEnumFormStringArrayEnum
+>
+> get enumFormStringArray;
+UndefinedWrapper<
+            TestEnumParametersRequestEnumFormStringEnum
+> get enumFormString;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<List<TestEnumParametersRequestEnumFormStringArrayEnum>> get enumFormStringArray;
-  UndefinedWrapper<TestEnumParametersRequestEnumFormStringEnum> get enumFormString;
-
 }
 
 /// TestEnumParametersRequest
@@ -34,27 +37,89 @@ $OpenApiObjectMixin,
 
 TestEnumParametersRequestMixin {
   @override
-  UndefinedWrapper<List<TestEnumParametersRequestEnumFormStringArrayEnum>> enumFormStringArray;
+  UndefinedWrapper<
+    List<
+        
+            TestEnumParametersRequestEnumFormStringArrayEnum
+>
+> enumFormStringArray;
   @override
-  UndefinedWrapper<TestEnumParametersRequestEnumFormStringEnum> enumFormString;
+  UndefinedWrapper<
+            TestEnumParametersRequestEnumFormStringEnum
+> enumFormString;
 
+  
 
-
-
+  
 
   TestEnumParametersRequest.$all({
-    required this.enumFormStringArray,
+        required this.enumFormStringArray,
     required this.enumFormString,
     
     
   });
 
   TestEnumParametersRequest({
-    this.enumFormStringArray = const UndefinedWrapper.undefined(),
-    this.enumFormString = const UndefinedWrapper('-efg'),
+      this.enumFormStringArray = const UndefinedWrapper
+        .undefined()
+,
+  this.enumFormString = const UndefinedWrapper
+    (
+        TestEnumParametersRequestEnumFormStringEnum.$unsafe('-efg')
+        
+    )
+    
+,
     
     
   });
+
+  static const $reflection = TestEnumParametersRequestReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$TestEnumParametersRequestToMap(this);
+  }
+  factory TestEnumParametersRequest.fromMap(Map<String, dynamic> src) {
+    return _$TestEnumParametersRequestFromMap(src);
+  }
+  static TestEnumParametersRequest? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return TestEnumParametersRequest.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$TestEnumParametersRequestCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory TestEnumParametersRequest.deserialize(Object? src) {
+    return _$TestEnumParametersRequestDeserialize(src);
+  }
+  static TestEnumParametersRequest? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return TestEnumParametersRequest.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$TestEnumParametersRequestCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$TestEnumParametersRequestSerialize(this);
+  }
 }
 
 

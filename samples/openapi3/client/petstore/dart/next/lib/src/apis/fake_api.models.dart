@@ -199,9 +199,29 @@ class FakeApiFakeOuterBooleanSerializeRequestUnsafe extends FakeApiFakeOuterBool
 //generate a class for form params (multipart/formdata)
 
 
-class FakeApiFakeOuterBooleanSerializeRequestSchemaForRequestBodyApplicationJson extends FakeApiFakeOuterBooleanSerializeRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<bool> data;
+class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFakeOuterBooleanSerializeRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            bool
+> data;
+
+  const FakeApiFakeOuterBooleanSerializeRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -324,9 +344,29 @@ class FakeApiFakeOuterCompositeSerializeRequestUnsafe extends FakeApiFakeOuterCo
 //generate a class for form params (multipart/formdata)
 
 
-class FakeApiFakeOuterCompositeSerializeRequestSchemaForRequestBodyApplicationJson extends FakeApiFakeOuterCompositeSerializeRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<OuterComposite> data;
+class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFakeOuterCompositeSerializeRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            OuterComposite
+> data;
+
+  const FakeApiFakeOuterCompositeSerializeRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -449,9 +489,29 @@ class FakeApiFakeOuterNumberSerializeRequestUnsafe extends FakeApiFakeOuterNumbe
 //generate a class for form params (multipart/formdata)
 
 
-class FakeApiFakeOuterNumberSerializeRequestSchemaForRequestBodyApplicationJson extends FakeApiFakeOuterNumberSerializeRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<num> data;
+class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeOuterNumberSerializeRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            num
+> data;
+
+  const FakeApiFakeOuterNumberSerializeRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -574,9 +634,29 @@ class FakeApiFakeOuterStringSerializeRequestUnsafe extends FakeApiFakeOuterStrin
 //generate a class for form params (multipart/formdata)
 
 
-class FakeApiFakeOuterStringSerializeRequestSchemaForRequestBodyApplicationJson extends FakeApiFakeOuterStringSerializeRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<String> data;
+class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeOuterStringSerializeRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            String
+> data;
+
+  const FakeApiFakeOuterStringSerializeRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -595,14 +675,18 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
   
   /// ID of pet to update
   /// spec name: petId
-  final int petId;
+  final 
+            int
+ petId;
   
   
   
 
   const factory FakeApiFakeUploadRefRequestBodiesRequest.unsafe({
 
-    required int petId,
+    required 
+            int
+ petId,
 
 
 
@@ -614,7 +698,7 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
 
   const FakeApiFakeUploadRefRequestBodiesRequest({
 
-    required this.petId,
+    required this.petId    ,
 
 
 
@@ -900,29 +984,35 @@ class FakeApiGetFakeHealthResponse {
   
   /// _type
   /// spec name: _type
-  final int $type;
+  final 
+            int
+ $type;
   
   
   /// type
   /// spec name: type
-  final String type;
+  final 
+            String
+ type;
   
   
   /// type_
   /// spec name: type_
-  final String type$;
+  final 
+            String
+ type$;
   
 
 
   const FakeApiGetParameterNameMappingRequest({
 
-    required this.$type,
+    required this.$type    ,
 
 
-    required this.type,
+    required this.type    ,
 
 
-    required this.type$,
+    required this.type$    ,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -1116,9 +1206,31 @@ class FakeApiTestAdditionalPropertiesReferenceRequestUnsafe extends FakeApiTestA
 //generate a class for form params (multipart/formdata)
 
 
-class FakeApiTestAdditionalPropertiesReferenceRequestSchemaForRequestBodyApplicationJson extends FakeApiTestAdditionalPropertiesReferenceRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<Map<String, Object?>> data;
+class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends FakeApiTestAdditionalPropertiesReferenceRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+    Map<String, 
+        Object
+?>
+> data;
+
+  const FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -1241,9 +1353,29 @@ class FakeApiTestBodyWithFileSchemaRequestUnsafe extends FakeApiTestBodyWithFile
 //generate a class for form params (multipart/formdata)
 
 
-class FakeApiTestBodyWithFileSchemaRequestSchemaForRequestBodyApplicationJson extends FakeApiTestBodyWithFileSchemaRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<FileSchemaTestClass> data;
+class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBodyWithFileSchemaRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            FileSchemaTestClass
+> data;
+
+  const FakeApiTestBodyWithFileSchemaRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -1262,13 +1394,17 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
   
   /// 
   /// spec name: query
-  final String query;
+  final 
+            String
+ query;
   
   
 
   const factory FakeApiTestBodyWithQueryParamsRequest.unsafe({
 
-    required String query,
+    required 
+            String
+ query,
 
 
     Map<String, String> extraHeaders,
@@ -1279,7 +1415,7 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
 
   const FakeApiTestBodyWithQueryParamsRequest({
 
-    required this.query,
+    required this.query    ,
 
 
     this.extraHeaders = const {},
@@ -1381,9 +1517,32 @@ class FakeApiTestBodyWithQueryParamsRequestUnsafe extends FakeApiTestBodyWithQue
 //generate a class for form params (multipart/formdata)
 
 
-class FakeApiTestBodyWithQueryParamsRequestSchemaForRequestBodyApplicationJson extends FakeApiTestBodyWithQueryParamsRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<User> data;
+class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBodyWithQueryParamsRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            User
+> data;
+
+  const FakeApiTestBodyWithQueryParamsRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    required super.query,
+    
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -1506,9 +1665,29 @@ class FakeApiTestClientModelRequestUnsafe extends FakeApiTestClientModelRequest 
 //generate a class for form params (multipart/formdata)
 
 
-class FakeApiTestClientModelRequestSchemaForRequestBodyApplicationJson extends FakeApiTestClientModelRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<Client> data;
+class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientModelRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            Client
+> data;
+
+  const FakeApiTestClientModelRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -1699,32 +1878,50 @@ class FakeApiTestEndpointParametersResponse {
   
   /// Header parameter enum test (string array)
   /// spec name: enum_header_string_array
-  final UndefinedWrapper<List<EnumHeaderStringArrayEnum>> enumHeaderStringArray;
+  final UndefinedWrapper<
+    List<
+        
+            EnumHeaderStringArrayEnum
+>
+> enumHeaderStringArray;
   
   
   /// Header parameter enum test (string)
   /// spec name: enum_header_string
-  final UndefinedWrapper<EnumHeaderStringEnum> enumHeaderString;
+  final UndefinedWrapper<
+            EnumHeaderStringEnum
+> enumHeaderString;
   
   
   /// Query parameter enum test (string array)
   /// spec name: enum_query_string_array
-  final UndefinedWrapper<List<EnumQueryStringArrayEnum>> enumQueryStringArray;
+  final UndefinedWrapper<
+    List<
+        
+            EnumQueryStringArrayEnum
+>
+> enumQueryStringArray;
   
   
   /// Query parameter enum test (string)
   /// spec name: enum_query_string
-  final UndefinedWrapper<EnumQueryStringEnum> enumQueryString;
+  final UndefinedWrapper<
+            EnumQueryStringEnum
+> enumQueryString;
   
   
   /// Query parameter enum test (double)
   /// spec name: enum_query_integer
-  final UndefinedWrapper<EnumQueryIntegerEnum> enumQueryInteger;
+  final UndefinedWrapper<
+            EnumQueryIntegerEnum
+> enumQueryInteger;
   
   
   /// Query parameter enum test (double)
   /// spec name: enum_query_double
-  final UndefinedWrapper<EnumQueryDoubleEnum> enumQueryDouble;
+  final UndefinedWrapper<
+            EnumQueryDoubleEnum
+> enumQueryDouble;
   
   
   
@@ -1732,22 +1929,42 @@ class FakeApiTestEndpointParametersResponse {
 
   const FakeApiTestEnumParametersRequest({
 
-     this.enumHeaderStringArray= const UndefinedWrapper.undefined(),
+     this.enumHeaderStringArray= const UndefinedWrapper
+        .undefined()
+,
 
 
-     this.enumHeaderString= const UndefinedWrapper('-efg'),
+     this.enumHeaderString= const UndefinedWrapper
+    (
+        EnumHeaderStringEnum.$unsafe('-efg')
+        
+    )
+    
+,
 
 
-     this.enumQueryStringArray= const UndefinedWrapper.undefined(),
+     this.enumQueryStringArray= const UndefinedWrapper
+        .undefined()
+,
 
 
-     this.enumQueryString= const UndefinedWrapper('-efg'),
+     this.enumQueryString= const UndefinedWrapper
+    (
+        EnumQueryStringEnum.$unsafe('-efg')
+        
+    )
+    
+,
 
 
-     this.enumQueryInteger= const UndefinedWrapper.undefined(),
+     this.enumQueryInteger= const UndefinedWrapper
+        .undefined()
+,
 
 
-     this.enumQueryDouble= const UndefinedWrapper.undefined(),
+     this.enumQueryDouble= const UndefinedWrapper
+        .undefined()
+,
 
 
 
@@ -1850,53 +2067,71 @@ class FakeApiTestEnumParametersResponse {
   
   /// Required String in group parameters
   /// spec name: required_string_group
-  final int requiredStringGroup;
+  final 
+            int
+ requiredStringGroup;
   
   
   /// Required Boolean in group parameters
   /// spec name: required_boolean_group
-  final bool requiredBooleanGroup;
+  final 
+            bool
+ requiredBooleanGroup;
   
   
   /// Required Integer in group parameters
   /// spec name: required_int64_group
-  final int requiredInt64Group;
+  final 
+            int
+ requiredInt64Group;
   
   
   /// String in group parameters
   /// spec name: string_group
-  final UndefinedWrapper<int> stringGroup;
+  final UndefinedWrapper<
+            int
+> stringGroup;
   
   
   /// Boolean in group parameters
   /// spec name: boolean_group
-  final UndefinedWrapper<bool> booleanGroup;
+  final UndefinedWrapper<
+            bool
+> booleanGroup;
   
   
   /// Integer in group parameters
   /// spec name: int64_group
-  final UndefinedWrapper<int> int64Group;
+  final UndefinedWrapper<
+            int
+> int64Group;
   
 
 
   const FakeApiTestGroupParametersRequest({
 
-    required this.requiredStringGroup,
+    required this.requiredStringGroup    ,
 
 
-    required this.requiredBooleanGroup,
+    required this.requiredBooleanGroup    ,
 
 
-    required this.requiredInt64Group,
+    required this.requiredInt64Group    ,
 
 
-     this.stringGroup= const UndefinedWrapper.undefined(),
+     this.stringGroup= const UndefinedWrapper
+        .undefined()
+,
 
 
-     this.booleanGroup= const UndefinedWrapper.undefined(),
+     this.booleanGroup= const UndefinedWrapper
+        .undefined()
+,
 
 
-     this.int64Group= const UndefinedWrapper.undefined(),
+     this.int64Group= const UndefinedWrapper
+        .undefined()
+,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -2097,9 +2332,32 @@ class FakeApiTestInlineAdditionalPropertiesRequestUnsafe extends FakeApiTestInli
 //generate a class for form params (multipart/formdata)
 
 
-class FakeApiTestInlineAdditionalPropertiesRequestSchemaForRequestBodyApplicationJson extends FakeApiTestInlineAdditionalPropertiesRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<Map<String, String>> data;
+class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeApiTestInlineAdditionalPropertiesRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+    Map<String, 
+        
+            String
+>
+> data;
+
+  const FakeApiTestInlineAdditionalPropertiesRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -2222,9 +2480,29 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe extends FakeApi
 //generate a class for form params (multipart/formdata)
 
 
-class FakeApiTestInlineFreeformAdditionalPropertiesRequestSchemaForRequestBodyApplicationJson extends FakeApiTestInlineFreeformAdditionalPropertiesRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<TestInlineFreeformAdditionalPropertiesRequest> data;
+class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extends FakeApiTestInlineFreeformAdditionalPropertiesRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            TestInlineFreeformAdditionalPropertiesRequest
+> data;
+
+  const FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -2330,44 +2608,94 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
   
   /// 
   /// spec name: pipe
-  final List<String> pipe;
+  final 
+    List<
+        
+            String
+>
+ pipe;
   
   
   /// 
   /// spec name: ioutil
-  final List<String> ioutil;
+  final 
+    List<
+        
+            String
+>
+ ioutil;
   
   
   /// 
   /// spec name: http
-  final List<String> http;
+  final 
+    List<
+        
+            String
+>
+ http;
   
   
   /// 
   /// spec name: url
-  final List<String> url;
+  final 
+    List<
+        
+            String
+>
+ url;
   
   
   /// 
   /// spec name: context
-  final List<String> context;
+  final 
+    List<
+        
+            String
+>
+ context;
   
 
   const factory FakeApiTestQueryParameterCollectionFormatRequest.unsafe({
 
-    required List<String> pipe,
+    required 
+    List<
+        
+            String
+>
+ pipe,
 
 
-    required List<String> ioutil,
+    required 
+    List<
+        
+            String
+>
+ ioutil,
 
 
-    required List<String> http,
+    required 
+    List<
+        
+            String
+>
+ http,
 
 
-    required List<String> url,
+    required 
+    List<
+        
+            String
+>
+ url,
 
 
-    required List<String> context,
+    required 
+    List<
+        
+            String
+>
+ context,
 
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
@@ -2377,19 +2705,19 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
 
   const FakeApiTestQueryParameterCollectionFormatRequest({
 
-    required this.pipe,
+    required this.pipe    ,
 
 
-    required this.ioutil,
+    required this.ioutil    ,
 
 
-    required this.http,
+    required this.http    ,
 
 
-    required this.url,
+    required this.url    ,
 
 
-    required this.context,
+    required this.context    ,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -2622,9 +2950,32 @@ class FakeApiTestStringMapReferenceRequestUnsafe extends FakeApiTestStringMapRef
 //generate a class for form params (multipart/formdata)
 
 
-class FakeApiTestStringMapReferenceRequestSchemaForRequestBodyApplicationJson extends FakeApiTestStringMapReferenceRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<Map<String, String>> data;
+class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStringMapReferenceRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+    Map<String, 
+        
+            String
+>
+> data;
+
+  const FakeApiTestStringMapReferenceRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 

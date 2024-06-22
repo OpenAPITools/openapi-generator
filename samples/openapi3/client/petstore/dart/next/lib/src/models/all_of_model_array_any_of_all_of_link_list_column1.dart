@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'all_of_model_array_any_of_all_of_link_list_column1.reflection.dart';
 part 'all_of_model_array_any_of_all_of_link_list_column1.serialization.dart';
@@ -14,11 +12,14 @@ part 'all_of_model_array_any_of_all_of_link_list_column1.serialization.dart';
 /// Properties:
 /// * [value] 
 mixin AllOfModelArrayAnyOfAllOfLinkListColumn1Mixin on 
+  $OpenApiObjectMixin {
   
-  $OpenApiObjectMixin
- {
-  List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> get value;
-
+    List<
+        
+            AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+>
+ get value;
+  
 }
 
 /// AllOfModelArrayAnyOfAllOfLinkListColumn1
@@ -31,23 +32,75 @@ $OpenApiObjectMixin,
 
 AllOfModelArrayAnyOfAllOfLinkListColumn1Mixin {
   @override
-  List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value;
+  
+    List<
+        
+            AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+>
+ value;
 
+  
 
-
-
+  
 
   AllOfModelArrayAnyOfAllOfLinkListColumn1.$all({
-    required this.value,
+        required this.value,
     
     
   });
 
   AllOfModelArrayAnyOfAllOfLinkListColumn1({
-  required  this.value ,
+    required  this.value     ,
     
     
   });
+
+  static const $reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$AllOfModelArrayAnyOfAllOfLinkListColumn1ToMap(this);
+  }
+  factory AllOfModelArrayAnyOfAllOfLinkListColumn1.fromMap(Map<String, dynamic> src) {
+    return _$AllOfModelArrayAnyOfAllOfLinkListColumn1FromMap(src);
+  }
+  static AllOfModelArrayAnyOfAllOfLinkListColumn1? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return AllOfModelArrayAnyOfAllOfLinkListColumn1.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$AllOfModelArrayAnyOfAllOfLinkListColumn1CanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory AllOfModelArrayAnyOfAllOfLinkListColumn1.deserialize(Object? src) {
+    return _$AllOfModelArrayAnyOfAllOfLinkListColumn1Deserialize(src);
+  }
+  static AllOfModelArrayAnyOfAllOfLinkListColumn1? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return AllOfModelArrayAnyOfAllOfLinkListColumn1.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$AllOfModelArrayAnyOfAllOfLinkListColumn1CanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$AllOfModelArrayAnyOfAllOfLinkListColumn1Serialize(this);
+  }
 }
 
 

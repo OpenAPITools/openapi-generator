@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'danish_pig.reflection.dart';
 part 'danish_pig.serialization.dart';
@@ -14,11 +12,11 @@ part 'danish_pig.serialization.dart';
 /// Properties:
 /// * [className] 
 mixin DanishPigMixin on 
+  $OpenApiObjectMixin {
   
-  $OpenApiObjectMixin
- {
-  String get className;
-
+            String
+ get className;
+  
 }
 
 /// DanishPig
@@ -31,23 +29,72 @@ $OpenApiObjectMixin,
 
 DanishPigMixin {
   @override
-  String className;
+  
+            String
+ className;
 
+  
 
-
-
+  
 
   DanishPig.$all({
-    required this.className,
+        required this.className,
     
     
   });
 
   DanishPig({
-  required  this.className ,
+    required  this.className     ,
     
     
   });
+
+  static const $reflection = DanishPigReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$DanishPigToMap(this);
+  }
+  factory DanishPig.fromMap(Map<String, dynamic> src) {
+    return _$DanishPigFromMap(src);
+  }
+  static DanishPig? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return DanishPig.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$DanishPigCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory DanishPig.deserialize(Object? src) {
+    return _$DanishPigDeserialize(src);
+  }
+  static DanishPig? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return DanishPig.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$DanishPigCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$DanishPigSerialize(this);
+  }
 }
 
 

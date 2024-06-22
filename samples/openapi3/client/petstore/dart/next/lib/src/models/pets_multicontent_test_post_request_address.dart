@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'pets_multicontent_test_post_request_address.reflection.dart';
 part 'pets_multicontent_test_post_request_address.serialization.dart';
@@ -15,12 +13,14 @@ part 'pets_multicontent_test_post_request_address.serialization.dart';
 /// * [street] 
 /// * [city] 
 mixin PetsMulticontentTestPostRequestAddressMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            String
+> get street;
+UndefinedWrapper<
+            String
+> get city;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<String> get street;
-  UndefinedWrapper<String> get city;
-
 }
 
 /// PetsMulticontentTestPostRequestAddress
@@ -34,27 +34,82 @@ $OpenApiObjectMixin,
 
 PetsMulticontentTestPostRequestAddressMixin {
   @override
-  UndefinedWrapper<String> street;
+  UndefinedWrapper<
+            String
+> street;
   @override
-  UndefinedWrapper<String> city;
+  UndefinedWrapper<
+            String
+> city;
 
+  
 
-
-
+  
 
   PetsMulticontentTestPostRequestAddress.$all({
-    required this.street,
+        required this.street,
     required this.city,
     
     
   });
 
   PetsMulticontentTestPostRequestAddress({
-    this.street = const UndefinedWrapper.undefined(),
-    this.city = const UndefinedWrapper.undefined(),
+      this.street = const UndefinedWrapper
+        .undefined()
+,
+  this.city = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = PetsMulticontentTestPostRequestAddressReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$PetsMulticontentTestPostRequestAddressToMap(this);
+  }
+  factory PetsMulticontentTestPostRequestAddress.fromMap(Map<String, dynamic> src) {
+    return _$PetsMulticontentTestPostRequestAddressFromMap(src);
+  }
+  static PetsMulticontentTestPostRequestAddress? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return PetsMulticontentTestPostRequestAddress.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$PetsMulticontentTestPostRequestAddressCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory PetsMulticontentTestPostRequestAddress.deserialize(Object? src) {
+    return _$PetsMulticontentTestPostRequestAddressDeserialize(src);
+  }
+  static PetsMulticontentTestPostRequestAddress? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return PetsMulticontentTestPostRequestAddress.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$PetsMulticontentTestPostRequestAddressCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$PetsMulticontentTestPostRequestAddressSerialize(this);
+  }
 }
 
 

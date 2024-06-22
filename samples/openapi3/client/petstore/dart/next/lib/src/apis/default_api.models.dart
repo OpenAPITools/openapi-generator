@@ -365,29 +365,129 @@ class DefaultApiPetsMulticontentTestPostRequestUnsafe extends DefaultApiPetsMult
 //generate a class for form params (multipart/formdata)
 
 
-class DefaultApiPetsMulticontentTestPostRequestSchemaForRequestBodyApplicationJson extends DefaultApiPetsMulticontentTestPostRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<Pet> data;
+class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultApiPetsMulticontentTestPostRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            Pet
+> data;
+
+  const DefaultApiPetsMulticontentTestPostRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
-class DefaultApiPetsMulticontentTestPostRequestSchemaForRequestBodyApplicationXml extends DefaultApiPetsMulticontentTestPostRequest {
-    final String mediaType = r'application/xml';
-    final UndefinedWrapper<NewPet> data;
+class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApiPetsMulticontentTestPostRequest {
+  static const mediaType = r'application/xml';
+
+  final UndefinedWrapper<
+            NewPet
+> data;
+
+  const DefaultApiPetsMulticontentTestPostRequestApplicationXml({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
-class DefaultApiPetsMulticontentTestPostRequestSchemaForRequestBodyApplicationXWwwFormUrlencoded extends DefaultApiPetsMulticontentTestPostRequest {
-    final String mediaType = r'application/x-www-form-urlencoded';
-    final UndefinedWrapper<ShapeInterface> data;
+class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded extends DefaultApiPetsMulticontentTestPostRequest {
+  static const mediaType = r'application/x-www-form-urlencoded';
+
+  final UndefinedWrapper<
+            ShapeInterface
+> data;
+
+  const DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
-class DefaultApiPetsMulticontentTestPostRequestSchemaForRequestBodyTextPlain extends DefaultApiPetsMulticontentTestPostRequest {
-    final String mediaType = r'text/plain';
-    final UndefinedWrapper<String> data;
+class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsMulticontentTestPostRequest {
+  static const mediaType = r'text/plain';
+
+  final UndefinedWrapper<
+            String
+> data;
+
+  const DefaultApiPetsMulticontentTestPostRequestTextPlain({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
-class DefaultApiPetsMulticontentTestPostRequestSchemaForRequestBodyMultipartFormData extends DefaultApiPetsMulticontentTestPostRequest {
-    final String mediaType = r'multipart/form-data';
-    final UndefinedWrapper<PetsMulticontentTestPostRequest> data;
+class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends DefaultApiPetsMulticontentTestPostRequest {
+  static const mediaType = r'multipart/form-data';
+
+  final UndefinedWrapper<
+            PetsMulticontentTestPostRequest
+> data;
+
+  const DefaultApiPetsMulticontentTestPostRequestMultipartFormData({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 

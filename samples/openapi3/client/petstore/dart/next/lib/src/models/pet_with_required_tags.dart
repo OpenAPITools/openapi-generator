@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'pet_with_required_tags.reflection.dart';
 part 'pet_with_required_tags.serialization.dart';
@@ -19,16 +17,32 @@ part 'pet_with_required_tags.serialization.dart';
 /// * [tags] 
 /// * [status] - pet status in the store
 mixin PetWithRequiredTagsMixin on 
-  
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<int> get id;
-  UndefinedWrapper<Category> get category;
-  String get name;
-  List<String> get photoUrls;
-  List<Tag> get tags;
-  UndefinedWrapper<PetWithRequiredTagsStatusEnum> get status;
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            int
+> get id;
+UndefinedWrapper<
+            Category
+> get category;
 
+            String
+ get name;
+
+    List<
+        
+            String
+>
+ get photoUrls;
+
+    List<
+        
+            Tag
+>
+ get tags;
+UndefinedWrapper<
+            PetWithRequiredTagsStatusEnum
+> get status;
+  
 }
 
 /// PetWithRequiredTags
@@ -46,24 +60,42 @@ $OpenApiObjectMixin,
 
 PetWithRequiredTagsMixin {
   @override
-  UndefinedWrapper<int> id;
+  UndefinedWrapper<
+            int
+> id;
   @override
-  UndefinedWrapper<Category> category;
+  UndefinedWrapper<
+            Category
+> category;
   @override
-  String name;
+  
+            String
+ name;
   @override
-  List<String> photoUrls;
+  
+    List<
+        
+            String
+>
+ photoUrls;
   @override
-  List<Tag> tags;
+  
+    List<
+        
+            Tag
+>
+ tags;
   @override
-  UndefinedWrapper<PetWithRequiredTagsStatusEnum> status;
+  UndefinedWrapper<
+            PetWithRequiredTagsStatusEnum
+> status;
 
+  
 
-
-
+  
 
   PetWithRequiredTags.$all({
-    required this.id,
+        required this.id,
     required this.category,
     required this.name,
     required this.photoUrls,
@@ -74,15 +106,68 @@ PetWithRequiredTagsMixin {
   });
 
   PetWithRequiredTags({
-    this.id = const UndefinedWrapper.undefined(),
-    this.category = const UndefinedWrapper.undefined(),
-  required  this.name ,
-  required  this.photoUrls ,
-  required  this.tags ,
-    this.status = const UndefinedWrapper.undefined(),
+      this.id = const UndefinedWrapper
+        .undefined()
+,
+  this.category = const UndefinedWrapper
+        .undefined()
+,
+required  this.name     ,
+required  this.photoUrls     ,
+required  this.tags     ,
+  this.status = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = PetWithRequiredTagsReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$PetWithRequiredTagsToMap(this);
+  }
+  factory PetWithRequiredTags.fromMap(Map<String, dynamic> src) {
+    return _$PetWithRequiredTagsFromMap(src);
+  }
+  static PetWithRequiredTags? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return PetWithRequiredTags.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$PetWithRequiredTagsCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory PetWithRequiredTags.deserialize(Object? src) {
+    return _$PetWithRequiredTagsDeserialize(src);
+  }
+  static PetWithRequiredTags? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return PetWithRequiredTags.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$PetWithRequiredTagsCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$PetWithRequiredTagsSerialize(this);
+  }
 }
 
 

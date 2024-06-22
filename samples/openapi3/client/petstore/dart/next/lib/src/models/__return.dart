@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part '__return.reflection.dart';
 part '__return.serialization.dart';
@@ -14,11 +12,11 @@ part '__return.serialization.dart';
 /// Properties:
 /// * [$return] 
 mixin $ReturnMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            int
+> get $return;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<int> get $return;
-
 }
 
 /// Model for testing reserved words
@@ -31,23 +29,74 @@ $OpenApiObjectMixin,
 
 $ReturnMixin {
   @override
-  UndefinedWrapper<int> $return;
+  UndefinedWrapper<
+            int
+> $return;
 
+  
 
-
-
+  
 
   $Return.$all({
-    required this.$return,
+        required this.$return,
     
     
   });
 
   $Return({
-    this.$return = const UndefinedWrapper.undefined(),
+      this.$return = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = $ReturnReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$$ReturnToMap(this);
+  }
+  factory $Return.fromMap(Map<String, dynamic> src) {
+    return _$$ReturnFromMap(src);
+  }
+  static $Return? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return $Return.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$$ReturnCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory $Return.deserialize(Object? src) {
+    return _$$ReturnDeserialize(src);
+  }
+  static $Return? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return $Return.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$$ReturnCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$$ReturnSerialize(this);
+  }
 }
 
 

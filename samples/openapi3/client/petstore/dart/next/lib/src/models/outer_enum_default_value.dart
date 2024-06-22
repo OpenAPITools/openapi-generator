@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'outer_enum_default_value.reflection.dart';
 part 'outer_enum_default_value.serialization.dart';

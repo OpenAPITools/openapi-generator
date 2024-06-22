@@ -1,8 +1,44 @@
 //class reflection
 
-class {{classname}}JsonReflection {
-    const {{classname}}JsonReflection();
+class {{classname}}Reflection extends ClassReflection<{{classname}}> {
+  static const instance = {{classname}}Reflection._(
+    {{#allVars}}
+    {{name}}: PropertyReflection(
+      dartName: r'{{name}}',
+      nullable: {{isNullable}},
+      required: {{required}},
+      oasName: r'{{baseName}}',
+      oasType: r'{{openApiType}}',
+      pattern: {{#pattern}}r'{{{.}}}'{{/pattern}}{{^pattern}}null{{/pattern}},
+    ),
+    {{/allVars}}
+  );
+  const {{classname}}Reflection._({{#allVars}}{{#-first}}{{=<% %>=}}{<%={{ }}=%>{{/-first}}
+    required this.{{name}},
+  {{#-last}}}{{/-last}}{{/allVars}});
+
+  {{#allVars}}
+  final PropertyReflection<{{>types/variable}}> {{name}};
+  {{/allVars}}
+
+  @override
+  List<PropertyReflection> get members => [
+    {{#allVars}}{{name}},
+    {{/allVars}}
+  ];
+
+  @override
+  bool Function(Object? src) get canDeserializeFunction =>
+    (src) => {{classname}}.canDeserialize(src);
+  @override
+  {{classname}} Function(Object? src) get deserializeFunction =>
+      (src) => {{classname}}.deserialize(src);
+
+  @override
+  Object? Function({{classname}} src) get serializeFunction =>
+      (src) => src.serialize();
 }
+
 class {{classname}}XmlReflection {
     const {{classname}}XmlReflection();
 }

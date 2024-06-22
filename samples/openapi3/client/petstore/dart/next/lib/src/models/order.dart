@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'order.reflection.dart';
 part 'order.serialization.dart';
@@ -19,16 +17,26 @@ part 'order.serialization.dart';
 /// * [status] - Order Status
 /// * [complete] 
 mixin OrderMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            int
+> get id;
+UndefinedWrapper<
+            int
+> get petId;
+UndefinedWrapper<
+            int
+> get quantity;
+UndefinedWrapper<
+            DateTime
+> get shipDate;
+UndefinedWrapper<
+            OrderStatusEnum
+> get status;
+UndefinedWrapper<
+            bool
+> get complete;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<int> get id;
-  UndefinedWrapper<int> get petId;
-  UndefinedWrapper<int> get quantity;
-  UndefinedWrapper<DateTime> get shipDate;
-  UndefinedWrapper<OrderStatusEnum> get status;
-  UndefinedWrapper<bool> get complete;
-
 }
 
 /// Order
@@ -46,24 +54,36 @@ $OpenApiObjectMixin,
 
 OrderMixin {
   @override
-  UndefinedWrapper<int> id;
+  UndefinedWrapper<
+            int
+> id;
   @override
-  UndefinedWrapper<int> petId;
+  UndefinedWrapper<
+            int
+> petId;
   @override
-  UndefinedWrapper<int> quantity;
+  UndefinedWrapper<
+            int
+> quantity;
   @override
-  UndefinedWrapper<DateTime> shipDate;
+  UndefinedWrapper<
+            DateTime
+> shipDate;
   @override
-  UndefinedWrapper<OrderStatusEnum> status;
+  UndefinedWrapper<
+            OrderStatusEnum
+> status;
   @override
-  UndefinedWrapper<bool> complete;
+  UndefinedWrapper<
+            bool
+> complete;
 
+  
 
-
-
+  
 
   Order.$all({
-    required this.id,
+        required this.id,
     required this.petId,
     required this.quantity,
     required this.shipDate,
@@ -74,15 +94,78 @@ OrderMixin {
   });
 
   Order({
-    this.id = const UndefinedWrapper.undefined(),
-    this.petId = const UndefinedWrapper.undefined(),
-    this.quantity = const UndefinedWrapper.undefined(),
-    this.shipDate = const UndefinedWrapper.undefined(),
-    this.status = const UndefinedWrapper.undefined(),
-    this.complete = const UndefinedWrapper(false),
+      this.id = const UndefinedWrapper
+        .undefined()
+,
+  this.petId = const UndefinedWrapper
+        .undefined()
+,
+  this.quantity = const UndefinedWrapper
+        .undefined()
+,
+  this.shipDate = const UndefinedWrapper
+        .undefined()
+,
+  this.status = const UndefinedWrapper
+        .undefined()
+,
+  this.complete = const UndefinedWrapper
+    (
+        
+        false
+    )
+    
+,
     
     
   });
+
+  static const $reflection = OrderReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$OrderToMap(this);
+  }
+  factory Order.fromMap(Map<String, dynamic> src) {
+    return _$OrderFromMap(src);
+  }
+  static Order? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return Order.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$OrderCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory Order.deserialize(Object? src) {
+    return _$OrderDeserialize(src);
+  }
+  static Order? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return Order.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$OrderCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$OrderSerialize(this);
+  }
 }
 
 

@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'foo_get_default_response.reflection.dart';
 part 'foo_get_default_response.serialization.dart';
@@ -14,11 +12,11 @@ part 'foo_get_default_response.serialization.dart';
 /// Properties:
 /// * [string] 
 mixin FooGetDefaultResponseMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            Foo
+> get string;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<Foo> get string;
-
 }
 
 /// FooGetDefaultResponse
@@ -31,23 +29,74 @@ $OpenApiObjectMixin,
 
 FooGetDefaultResponseMixin {
   @override
-  UndefinedWrapper<Foo> string;
+  UndefinedWrapper<
+            Foo
+> string;
 
+  
 
-
-
+  
 
   FooGetDefaultResponse.$all({
-    required this.string,
+        required this.string,
     
     
   });
 
   FooGetDefaultResponse({
-    this.string = const UndefinedWrapper.undefined(),
+      this.string = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = FooGetDefaultResponseReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$FooGetDefaultResponseToMap(this);
+  }
+  factory FooGetDefaultResponse.fromMap(Map<String, dynamic> src) {
+    return _$FooGetDefaultResponseFromMap(src);
+  }
+  static FooGetDefaultResponse? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return FooGetDefaultResponse.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$FooGetDefaultResponseCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory FooGetDefaultResponse.deserialize(Object? src) {
+    return _$FooGetDefaultResponseDeserialize(src);
+  }
+  static FooGetDefaultResponse? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return FooGetDefaultResponse.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$FooGetDefaultResponseCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$FooGetDefaultResponseSerialize(this);
+  }
 }
 
 

@@ -1,19 +1,91 @@
-// Model serialization
+// ignore_for_file: unnecessary_cast, unused_local_variable
+
 part of 'banana.dart';
 
 
 //class serialization
 
-Map<String, dynamic> _$BananaToJson(Banana instance) => <String, dynamic>{
+Map<String, dynamic> _$BananaToMap(Banana instance) {
+  final _reflection = BananaReflection.instance;
+  return <String, dynamic>{
+    if (instance.lengthCm.isDefined)
+    _reflection.lengthCm.oasName: (
+            num
+ v) {
+      return v;
+    }(instance.lengthCm.valueRequired),
+    
+    
+  };
+}
 
-};
-
-Banana _$BananaFromJson(Map<String, dynamic> src) {
+Banana _$BananaFromMap(Map<String, dynamic> src) {
+  final _reflection = BananaReflection.instance;
   return Banana.$all(
+    lengthCm: src.getOrUndefinedMapped(_reflection.lengthCm.oasName, (v) => 
+(
 
+    
+            
+                    v as num
+            
+
+)
+
+
+),
+    
+    
   );
 }
 
+bool _$BananaCanFromMap(Map<String, dynamic> src) {
+  final _reflection = BananaReflection.instance;
+  if (!src.getOrUndefined(_reflection.lengthCm.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is num
+),
+    unDefined: () => !_reflection.lengthCm.required,
+)) {
+    return false;
+  }
+  
+  return true;
+}
+
+/// Deserializes a primitive Object (num, String, List, Map).
+Banana _$BananaDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$BananaFromMap(src);
+  } else {
+        
+    throw UnimplementedError();
+    
+  }
+}
+/// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+bool _$BananaCanDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$BananaCanFromMap(src);
+  } else {
+    return false;
+  }
+}
+
+/// Serializes to a primitive Object (num, String, List, Map).
+Object? _$BananaSerialize(Banana src) {
+  
+  return src.toMap();
+  
+  
+}
+
+
+/*
 XmlElement _$BananaToXml(Banana instance) {
   final reflection = BananaXmlReflection.instance;
   final result = XmlElement(
@@ -35,4 +107,5 @@ Banana _$BananaFromXml(XmlElement src) {
 
   );
 }
+*/
 

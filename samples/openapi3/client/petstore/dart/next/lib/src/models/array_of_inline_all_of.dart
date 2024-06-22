@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'array_of_inline_all_of.reflection.dart';
 part 'array_of_inline_all_of.serialization.dart';
@@ -16,13 +14,20 @@ part 'array_of_inline_all_of.serialization.dart';
 /// * [name] 
 /// * [arrayAllofDogProperty] 
 mixin ArrayOfInlineAllOfMixin on 
-  
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<int> get id;
-  String get name;
-  UndefinedWrapper<List<ArrayOfInlineAllOfArrayAllofDogPropertyInner>> get arrayAllofDogProperty;
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            int
+> get id;
 
+            String
+ get name;
+UndefinedWrapper<
+    List<
+        
+            ArrayOfInlineAllOfArrayAllofDogPropertyInner
+>
+> get arrayAllofDogProperty;
+  
 }
 
 /// ArrayOfInlineAllOf
@@ -37,18 +42,27 @@ $OpenApiObjectMixin,
 
 ArrayOfInlineAllOfMixin {
   @override
-  UndefinedWrapper<int> id;
+  UndefinedWrapper<
+            int
+> id;
   @override
-  String name;
+  
+            String
+ name;
   @override
-  UndefinedWrapper<List<ArrayOfInlineAllOfArrayAllofDogPropertyInner>> arrayAllofDogProperty;
+  UndefinedWrapper<
+    List<
+        
+            ArrayOfInlineAllOfArrayAllofDogPropertyInner
+>
+> arrayAllofDogProperty;
 
+  
 
-
-
+  
 
   ArrayOfInlineAllOf.$all({
-    required this.id,
+        required this.id,
     required this.name,
     required this.arrayAllofDogProperty,
     
@@ -56,12 +70,63 @@ ArrayOfInlineAllOfMixin {
   });
 
   ArrayOfInlineAllOf({
-    this.id = const UndefinedWrapper.undefined(),
-  required  this.name ,
-    this.arrayAllofDogProperty = const UndefinedWrapper.undefined(),
+      this.id = const UndefinedWrapper
+        .undefined()
+,
+required  this.name     ,
+  this.arrayAllofDogProperty = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = ArrayOfInlineAllOfReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$ArrayOfInlineAllOfToMap(this);
+  }
+  factory ArrayOfInlineAllOf.fromMap(Map<String, dynamic> src) {
+    return _$ArrayOfInlineAllOfFromMap(src);
+  }
+  static ArrayOfInlineAllOf? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return ArrayOfInlineAllOf.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$ArrayOfInlineAllOfCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory ArrayOfInlineAllOf.deserialize(Object? src) {
+    return _$ArrayOfInlineAllOfDeserialize(src);
+  }
+  static ArrayOfInlineAllOf? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return ArrayOfInlineAllOf.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$ArrayOfInlineAllOfCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$ArrayOfInlineAllOfSerialize(this);
+  }
 }
 
 

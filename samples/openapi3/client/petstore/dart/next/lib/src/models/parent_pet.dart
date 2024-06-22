@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'parent_pet.reflection.dart';
 part 'parent_pet.serialization.dart';
@@ -11,10 +9,8 @@ part 'parent_pet.serialization.dart';
 
 /// ParentPetMixin
 mixin ParentPetMixin on 
-  GrandparentAnimalMixin,
-  $OpenApiObjectMixin
- {
-
+  GrandparentAnimalMixin, $OpenApiObjectMixin {
+    
 }
 
 /// ParentPet
@@ -24,23 +20,74 @@ $OpenApiObjectMixin,
 GrandparentAnimalMixin,
 ParentPetMixin {
   @override
-  String petType;
+  
+            String
+ petType;
 
+  
 
-
-
+  
 
   ParentPet.$all({
-    required this.petType,
+        required this.petType,
     
     
   });
 
   ParentPet({
-  required  this.petType ,
+    required  this.petType     ,
     
     
   });
+
+  static const $reflection = ParentPetReflection.instance;
+
+  @override
+  bool validate() {
+      
+      
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$ParentPetToMap(this);
+  }
+  factory ParentPet.fromMap(Map<String, dynamic> src) {
+    return _$ParentPetFromMap(src);
+  }
+  static ParentPet? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return ParentPet.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$ParentPetCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory ParentPet.deserialize(Object? src) {
+    return _$ParentPetDeserialize(src);
+  }
+  static ParentPet? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return ParentPet.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$ParentPetCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$ParentPetSerialize(this);
+  }
 }
 
 

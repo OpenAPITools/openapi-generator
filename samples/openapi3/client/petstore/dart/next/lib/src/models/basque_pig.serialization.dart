@@ -1,19 +1,91 @@
-// Model serialization
+// ignore_for_file: unnecessary_cast, unused_local_variable
+
 part of 'basque_pig.dart';
 
 
 //class serialization
 
-Map<String, dynamic> _$BasquePigToJson(BasquePig instance) => <String, dynamic>{
+Map<String, dynamic> _$BasquePigToMap(BasquePig instance) {
+  final _reflection = BasquePigReflection.instance;
+  return <String, dynamic>{
+    
+    _reflection.className.oasName: (
+            String
+ v) {
+      return v;
+    }(instance.className),
+    
+    
+  };
+}
 
-};
-
-BasquePig _$BasquePigFromJson(Map<String, dynamic> src) {
+BasquePig _$BasquePigFromMap(Map<String, dynamic> src) {
+  final _reflection = BasquePigReflection.instance;
   return BasquePig.$all(
+    className: src.getRequiredMapped(_reflection.className.oasName, (v) => 
+(
 
+    
+            
+                    v as String
+            
+
+)
+
+
+),
+    
+    
   );
 }
 
+bool _$BasquePigCanFromMap(Map<String, dynamic> src) {
+  final _reflection = BasquePigReflection.instance;
+  if (!src.getOrUndefined(_reflection.className.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is String
+),
+    unDefined: () => !_reflection.className.required,
+)) {
+    return false;
+  }
+  
+  return true;
+}
+
+/// Deserializes a primitive Object (num, String, List, Map).
+BasquePig _$BasquePigDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$BasquePigFromMap(src);
+  } else {
+        
+    throw UnimplementedError();
+    
+  }
+}
+/// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+bool _$BasquePigCanDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$BasquePigCanFromMap(src);
+  } else {
+    return false;
+  }
+}
+
+/// Serializes to a primitive Object (num, String, List, Map).
+Object? _$BasquePigSerialize(BasquePig src) {
+  
+  return src.toMap();
+  
+  
+}
+
+
+/*
 XmlElement _$BasquePigToXml(BasquePig instance) {
   final reflection = BasquePigXmlReflection.instance;
   final result = XmlElement(
@@ -35,4 +107,5 @@ BasquePig _$BasquePigFromXml(XmlElement src) {
 
   );
 }
+*/
 

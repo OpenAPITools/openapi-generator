@@ -1,15 +1,150 @@
 //class serialization
 
-Map<String, dynamic> _${{classname}}ToJson({{classname}} instance) => <String, dynamic>{
+Map<String, dynamic> _${{classname}}ToMap({{classname}} instance) {
+  final _reflection = {{classname}}Reflection.instance;
+  return <String, dynamic>{
+    {{#allVars}}
+    {{^required}}if (instance.{{name}}.isDefined){{/required}}
+    _reflection.{{name}}.oasName: ({{>types/variable_recursive}} v) {
+      return {{>types/serialize_recursive}};
+    }(instance.{{name}}{{^required}}.valueRequired{{/required}}),
+    {{/allVars}}
+    {{#additionalProperties}}...instance.additionalProperties.map((key, v) => MapEntry(key, {{>types/serialize_recursive}})),{{/additionalProperties}}
+    {{#composedSchemas}}{{#oneOf}}{{#isModel}}
+    if (instance.{{name}}.isDefined) ...{{#isNullable}}?{{/isNullable}}instance.{{name}}.valueRequired{{#isNullable}}?{{/isNullable}}.toMap(),
+    {{/isModel}}{{/oneOf}}{{#anyOf}}{{#isModel}}
+    if (instance.{{name}}.isDefined) ...{{#isNullable}}?{{/isNullable}}instance.{{name}}.valueRequired{{#isNullable}}?{{/isNullable}}.toMap(),{{/isModel}}{{/anyOf}}{{/composedSchemas}}
+  };
+}
 
-};
-
-{{classname}} _${{classname}}FromJson(Map<String, dynamic> src) {
+{{classname}} _${{classname}}FromMap(Map<String, dynamic> src) {
+  final _reflection = {{classname}}Reflection.instance;
   return {{classname}}.$all(
-
+    {{#allVars}}{{name}}: {{>types/from_map}},
+    {{/allVars}}
+    {{#additionalProperties}}additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, {{>types/deserialize_recursive}}))),{{/additionalProperties}}
+    {{#composedSchemas}}{{#oneOf}}
+    {{name}}: {{#isModel}}{{dataType}}.canDeserialize(src) ? UndefinedWrapper({{dataType}}.deserialize(src)) : {{/isModel}} UndefinedWrapper.undefined(),{{/oneOf}}{{#anyOf}}
+    {{name}}: {{#isModel}}{{dataType}}.canDeserialize(src) ? UndefinedWrapper({{dataType}}.deserialize(src)) : {{/isModel}} UndefinedWrapper.undefined(),{{/anyOf}}{{/composedSchemas}}
   );
 }
 
+bool _${{classname}}CanFromMap(Map<String, dynamic> src) {
+  final _reflection = {{classname}}Reflection.instance;
+  {{#allVars}}if (!{{>types/can_from_map}}) {
+    return false;
+  }
+  {{/allVars}}
+  {{#additionalProperties}}
+  if (!src.except(_reflection.knownKeys).values.every((v) => {{>types/can_deserialize_recursive}})) {
+    return false;
+  }
+  {{/additionalProperties}}
+  {{#composedSchemas}}{{#oneOf}}
+  {{#-first}}
+  final oneOfs = [
+  {{/-first}}
+  {{#isModel}}
+    () => {{dataType}}.canDeserialize(src),
+  {{/isModel}}
+  {{#-last}}
+  ];
+  final validOneOfs = oneOfs.where((x) => x()).take(2).length;
+  if (validOneOfs == 0 || validOneOfs > 1) {
+    return false;
+  }
+  {{/-last}}
+  {{/oneOf}}{{#anyOf}}
+  {{#-first}}
+  final anyOfs = [
+  {{/-first}}
+  {{#isModel}}
+    () => {{dataType}}.canDeserialize(src),
+  {{/isModel}}
+  {{#-last}}
+  ];
+  final validAnyOfs = anyOfs.where((x) => x()).take(1).length;
+  if (validAnyOfs == 0) {
+    return false;
+  }
+  {{/-last}}
+  {{/anyOf}}{{/composedSchemas}}
+  return true;
+}
+
+/// Deserializes a primitive Object (num, String, List, Map).
+{{classname}} _${{classname}}Deserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _${{classname}}FromMap(src);
+  } else {
+    {{^allVars}}{{#vendorExtensions.hasAnyOfOrOneOf}}
+    final v = src;
+    return {{classname}}.$all(
+      {{#composedSchemas}}
+      {{#oneOf}}
+      {{name}}: ({{>types/can_deserialize_recursive}}) ? UndefinedWrapper({{>types/deserialize_recursive}}) : UndefinedWrapper.undefined(),{{/oneOf}}{{#anyOf}}
+      {{name}}: ({{>types/can_deserialize_recursive}}) ? UndefinedWrapper({{>types/deserialize_recursive}}) : UndefinedWrapper.undefined(),{{/anyOf}}
+      {{/composedSchemas}}
+    );{{/vendorExtensions.hasAnyOfOrOneOf}}
+    {{/allVars}}
+    {{! If a model has vars, then src MUST be Map, otherwise it's not supported. }}
+    {{#allVars}}{{#-first}}
+    throw UnimplementedError();
+    {{/-first}}{{/allVars}}
+  }
+}
+/// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+bool _${{classname}}CanDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _${{classname}}CanFromMap(src);
+  } else {
+    {{#composedSchemas}}
+    final v = src;
+    {{#oneOf}}
+    {{#-first}}
+    final oneOfs = [
+    {{/-first}}
+      () => {{>types/can_deserialize_recursive}},
+    {{#-last}}
+    ];
+    final validOneOfs = oneOfs.where((x) => x()).take(2).length;
+    if (validOneOfs == 1) {
+      return true;
+    }
+    {{/-last}}
+    {{/oneOf}}
+    {{#anyOf}}
+    {{#-first}}
+    final anyOfs = [
+    {{/-first}}
+      () => {{>types/can_deserialize_recursive}},
+    {{#-last}}
+    ];
+    final validAnyOfs = anyOfs.where((x) => x()).take(1).length;
+    if (validAnyOfs > 0) {
+      return true;
+    }
+    {{/-last}}
+    {{/anyOf}}
+    {{/composedSchemas}}
+    return false;
+  }
+}
+
+/// Serializes to a primitive Object (num, String, List, Map).
+Object? _${{classname}}Serialize({{classname}} src) {
+  {{#allVars}}{{#-first}}
+  return src.toMap();
+  {{/-first}}{{/allVars}}
+  {{^allVars}}{{#vendorExtensions.hasAnyOfOrOneOf}}{{#composedSchemas}}{{#oneOf}}
+  if (src.{{name}}.isDefined) {final v = src.{{name}}.valueRequired; return {{>types/serialize_recursive}}; }{{/oneOf}}{{#anyOf}}
+  if (src.{{name}}.isDefined) {final v = src.{{name}}.valueRequired; return {{>types/serialize_recursive}}; }
+  {{/anyOf}}{{/composedSchemas}}
+  return null;{{/vendorExtensions.hasAnyOfOrOneOf}}{{/allVars}}
+}
+
+
+/*
 XmlElement _${{classname}}ToXml({{classname}} instance) {
   final reflection = {{classname}}XmlReflection.instance;
   final result = XmlElement(
@@ -31,3 +166,4 @@ XmlElement _${{classname}}ToXml({{classname}} instance) {
 
   );
 }
+*/

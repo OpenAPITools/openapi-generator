@@ -116,9 +116,29 @@ class AnotherFakeApi$123testSpecialTagsRequestUnsafe extends AnotherFakeApi$123t
 //generate a class for form params (multipart/formdata)
 
 
-class AnotherFakeApi$123testSpecialTagsRequestSchemaForRequestBodyApplicationJson extends AnotherFakeApi$123testSpecialTagsRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<Client> data;
+class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFakeApi$123testSpecialTagsRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            Client
+> data;
+
+  const AnotherFakeApi$123testSpecialTagsRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -137,13 +157,22 @@ class AnotherFakeApi$123testSpecialTagsResponse {
   
   /// array integer
   /// spec name: array
-  final List<int> array;
+  final 
+    List<
+        
+            int
+>
+ array;
   
 
 
   const AnotherFakeApiGetParameterArrayNumberRequest({
 
-     this.array= const[1],
+     this.array    =
+        const
+        [1]
+        
+,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -230,13 +259,15 @@ class AnotherFakeApiGetParameterArrayNumberResponse {
   
   /// string number
   /// spec name: string_number
-  final double stringNumber;
+  final 
+            double
+ stringNumber;
   
 
 
   const AnotherFakeApiGetParameterStringNumberRequest({
 
-    required this.stringNumber,
+    required this.stringNumber    ,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -323,14 +354,18 @@ class AnotherFakeApiGetParameterStringNumberResponse {
   
   /// 
   /// spec name: Accept-Language
-  final UndefinedWrapper<String> acceptLanguage;
+  final UndefinedWrapper<
+            String
+> acceptLanguage;
   
   
 
 
   const AnotherFakeApiNullRequestBodyRequest({
 
-     this.acceptLanguage= const UndefinedWrapper.undefined(),
+     this.acceptLanguage= const UndefinedWrapper
+        .undefined()
+,
 
 
     this.extraHeaders = const {},
@@ -402,9 +437,32 @@ class AnotherFakeApiGetParameterStringNumberResponse {
 
 
 
-class AnotherFakeApiNullRequestBodyRequestSchemaForRequestBodyTextPlain extends AnotherFakeApiNullRequestBodyRequest {
-    final String mediaType = r'text/plain';
-    final UndefinedWrapper<String> data;
+class AnotherFakeApiNullRequestBodyRequestTextPlain extends AnotherFakeApiNullRequestBodyRequest {
+  static const mediaType = r'text/plain';
+
+  final UndefinedWrapper<
+            String
+> data;
+
+  const AnotherFakeApiNullRequestBodyRequestTextPlain({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+     super.acceptLanguage,
+    
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 

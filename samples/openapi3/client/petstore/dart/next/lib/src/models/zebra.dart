@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'zebra.reflection.dart';
 part 'zebra.serialization.dart';
@@ -14,13 +12,16 @@ part 'zebra.serialization.dart';
 /// Properties:
 /// * [type] 
 /// * [className] 
-mixin ZebraMixin on  AdditionalPropertiesMixin<Object?>,
-  
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<ZebraTypeEnum> get type;
-  String get className;
+mixin ZebraMixin on  AdditionalPropertiesMixin<Object
+?>,
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            ZebraTypeEnum
+> get type;
 
+            String
+ get className;
+  
 }
 
 /// Zebra
@@ -30,32 +31,87 @@ mixin ZebraMixin on  AdditionalPropertiesMixin<Object?>,
 /// * [className] 
 class Zebra with
 $OpenApiObjectMixin,
-AdditionalPropertiesMixin<Object?>,
+AdditionalPropertiesMixin<Object
+?>,
 
 ZebraMixin {
   @override
-  UndefinedWrapper<ZebraTypeEnum> type;
+  UndefinedWrapper<
+            ZebraTypeEnum
+> type;
   @override
-  String className;
+  
+            String
+ className;
 
   @override
-  AdditionalProperties<Object?> additionalProperties;
+  AdditionalProperties<Object
+?> additionalProperties;
 
-
+  
 
   Zebra.$all({
-    required this.type,
+        required this.type,
     required this.className,
     required this.additionalProperties,
     
   });
 
   Zebra({
-    this.type = const UndefinedWrapper.undefined(),
-  required  this.className ,
+      this.type = const UndefinedWrapper
+        .undefined()
+,
+required  this.className     ,
     this.additionalProperties = const AdditionalProperties(),
     
   });
+
+  static const $reflection = ZebraReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$ZebraToMap(this);
+  }
+  factory Zebra.fromMap(Map<String, dynamic> src) {
+    return _$ZebraFromMap(src);
+  }
+  static Zebra? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return Zebra.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$ZebraCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory Zebra.deserialize(Object? src) {
+    return _$ZebraDeserialize(src);
+  }
+  static Zebra? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return Zebra.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$ZebraCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$ZebraSerialize(this);
+  }
 }
 
 

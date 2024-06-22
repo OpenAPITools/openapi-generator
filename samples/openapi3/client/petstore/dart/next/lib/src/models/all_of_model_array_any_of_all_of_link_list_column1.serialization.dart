@@ -1,19 +1,110 @@
-// Model serialization
+// ignore_for_file: unnecessary_cast, unused_local_variable
+
 part of 'all_of_model_array_any_of_all_of_link_list_column1.dart';
 
 
 //class serialization
 
-Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfLinkListColumn1ToJson(AllOfModelArrayAnyOfAllOfLinkListColumn1 instance) => <String, dynamic>{
+Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfLinkListColumn1ToMap(AllOfModelArrayAnyOfAllOfLinkListColumn1 instance) {
+  final _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection.instance;
+  return <String, dynamic>{
+    
+    _reflection.value.oasName: (
+    List<
+        
+            AllOfModelArrayAnyOfAllOfLinkListColumn1Value
+>
+ v) {
+      return v.map((v) => v.serialize()).toList();
+    }(instance.value),
+    
+    
+  };
+}
 
-};
-
-AllOfModelArrayAnyOfAllOfLinkListColumn1 _$AllOfModelArrayAnyOfAllOfLinkListColumn1FromJson(Map<String, dynamic> src) {
+AllOfModelArrayAnyOfAllOfLinkListColumn1 _$AllOfModelArrayAnyOfAllOfLinkListColumn1FromMap(Map<String, dynamic> src) {
+  final _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection.instance;
   return AllOfModelArrayAnyOfAllOfLinkListColumn1.$all(
+    value: src.getRequiredMapped(_reflection.value.oasName, (v) => 
+(
 
+    
+            
+            v as List
+            
+
+)
+
+.map((v) => AllOfModelArrayAnyOfAllOfLinkListColumn1Value.deserialize
+(
+
+    
+            v
+
+
+)
+
+
+).toList()
+),
+    
+    
   );
 }
 
+bool _$AllOfModelArrayAnyOfAllOfLinkListColumn1CanFromMap(Map<String, dynamic> src) {
+  final _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1Reflection.instance;
+  if (!src.getOrUndefined(_reflection.value.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is List && v.every((v) => v == null ? false :
+(
+
+    
+            AllOfModelArrayAnyOfAllOfLinkListColumn1Value.canDeserialize(v)
+            
+))
+),
+    unDefined: () => !_reflection.value.required,
+)) {
+    return false;
+  }
+  
+  return true;
+}
+
+/// Deserializes a primitive Object (num, String, List, Map).
+AllOfModelArrayAnyOfAllOfLinkListColumn1 _$AllOfModelArrayAnyOfAllOfLinkListColumn1Deserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$AllOfModelArrayAnyOfAllOfLinkListColumn1FromMap(src);
+  } else {
+        
+    throw UnimplementedError();
+    
+  }
+}
+/// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+bool _$AllOfModelArrayAnyOfAllOfLinkListColumn1CanDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$AllOfModelArrayAnyOfAllOfLinkListColumn1CanFromMap(src);
+  } else {
+    return false;
+  }
+}
+
+/// Serializes to a primitive Object (num, String, List, Map).
+Object? _$AllOfModelArrayAnyOfAllOfLinkListColumn1Serialize(AllOfModelArrayAnyOfAllOfLinkListColumn1 src) {
+  
+  return src.toMap();
+  
+  
+}
+
+
+/*
 XmlElement _$AllOfModelArrayAnyOfAllOfLinkListColumn1ToXml(AllOfModelArrayAnyOfAllOfLinkListColumn1 instance) {
   final reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1XmlReflection.instance;
   final result = XmlElement(
@@ -35,4 +126,5 @@ AllOfModelArrayAnyOfAllOfLinkListColumn1 _$AllOfModelArrayAnyOfAllOfLinkListColu
 
   );
 }
+*/
 

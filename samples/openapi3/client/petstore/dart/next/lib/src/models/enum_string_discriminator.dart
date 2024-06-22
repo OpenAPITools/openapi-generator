@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'enum_string_discriminator.reflection.dart';
 part 'enum_string_discriminator.serialization.dart';
@@ -14,11 +12,11 @@ part 'enum_string_discriminator.serialization.dart';
 /// Properties:
 /// * [enumStrType] - enum string type
 mixin EnumStringDiscriminatorMixin on 
+  $OpenApiObjectMixin {
   
-  $OpenApiObjectMixin
- {
-  EnumStringDiscriminatorEnumStrTypeEnum get enumStrType;
-
+            EnumStringDiscriminatorEnumStrTypeEnum
+ get enumStrType;
+  
 }
 
 /// An object to test discriminator of enum string
@@ -31,23 +29,72 @@ $OpenApiObjectMixin,
 
 EnumStringDiscriminatorMixin {
   @override
-  EnumStringDiscriminatorEnumStrTypeEnum enumStrType;
+  
+            EnumStringDiscriminatorEnumStrTypeEnum
+ enumStrType;
 
+  
 
-
-
+  
 
   EnumStringDiscriminator.$all({
-    required this.enumStrType,
+        required this.enumStrType,
     
     
   });
 
   EnumStringDiscriminator({
-  required  this.enumStrType ,
+    required  this.enumStrType     ,
     
     
   });
+
+  static const $reflection = EnumStringDiscriminatorReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$EnumStringDiscriminatorToMap(this);
+  }
+  factory EnumStringDiscriminator.fromMap(Map<String, dynamic> src) {
+    return _$EnumStringDiscriminatorFromMap(src);
+  }
+  static EnumStringDiscriminator? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return EnumStringDiscriminator.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$EnumStringDiscriminatorCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory EnumStringDiscriminator.deserialize(Object? src) {
+    return _$EnumStringDiscriminatorDeserialize(src);
+  }
+  static EnumStringDiscriminator? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return EnumStringDiscriminator.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$EnumStringDiscriminatorCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$EnumStringDiscriminatorSerialize(this);
+  }
 }
 
 

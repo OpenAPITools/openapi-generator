@@ -1,19 +1,91 @@
-// Model serialization
+// ignore_for_file: unnecessary_cast, unused_local_variable
+
 part of 'grandparent_animal.dart';
 
 
 //class serialization
 
-Map<String, dynamic> _$GrandparentAnimalToJson(GrandparentAnimal instance) => <String, dynamic>{
+Map<String, dynamic> _$GrandparentAnimalToMap(GrandparentAnimal instance) {
+  final _reflection = GrandparentAnimalReflection.instance;
+  return <String, dynamic>{
+    
+    _reflection.petType.oasName: (
+            String
+ v) {
+      return v;
+    }(instance.petType),
+    
+    
+  };
+}
 
-};
-
-GrandparentAnimal _$GrandparentAnimalFromJson(Map<String, dynamic> src) {
+GrandparentAnimal _$GrandparentAnimalFromMap(Map<String, dynamic> src) {
+  final _reflection = GrandparentAnimalReflection.instance;
   return GrandparentAnimal.$all(
+    petType: src.getRequiredMapped(_reflection.petType.oasName, (v) => 
+(
 
+    
+            
+                    v as String
+            
+
+)
+
+
+),
+    
+    
   );
 }
 
+bool _$GrandparentAnimalCanFromMap(Map<String, dynamic> src) {
+  final _reflection = GrandparentAnimalReflection.instance;
+  if (!src.getOrUndefined(_reflection.petType.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is String
+),
+    unDefined: () => !_reflection.petType.required,
+)) {
+    return false;
+  }
+  
+  return true;
+}
+
+/// Deserializes a primitive Object (num, String, List, Map).
+GrandparentAnimal _$GrandparentAnimalDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$GrandparentAnimalFromMap(src);
+  } else {
+        
+    throw UnimplementedError();
+    
+  }
+}
+/// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+bool _$GrandparentAnimalCanDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$GrandparentAnimalCanFromMap(src);
+  } else {
+    return false;
+  }
+}
+
+/// Serializes to a primitive Object (num, String, List, Map).
+Object? _$GrandparentAnimalSerialize(GrandparentAnimal src) {
+  
+  return src.toMap();
+  
+  
+}
+
+
+/*
 XmlElement _$GrandparentAnimalToXml(GrandparentAnimal instance) {
   final reflection = GrandparentAnimalXmlReflection.instance;
   final result = XmlElement(
@@ -35,4 +107,5 @@ GrandparentAnimal _$GrandparentAnimalFromXml(XmlElement src) {
 
   );
 }
+*/
 

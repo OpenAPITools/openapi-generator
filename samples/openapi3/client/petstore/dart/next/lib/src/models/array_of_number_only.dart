@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'array_of_number_only.reflection.dart';
 part 'array_of_number_only.serialization.dart';
@@ -14,11 +12,14 @@ part 'array_of_number_only.serialization.dart';
 /// Properties:
 /// * [arrayNumber] 
 mixin ArrayOfNumberOnlyMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+    List<
+        
+            num
+>
+> get arrayNumber;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<List<num>> get arrayNumber;
-
 }
 
 /// ArrayOfNumberOnly
@@ -31,23 +32,77 @@ $OpenApiObjectMixin,
 
 ArrayOfNumberOnlyMixin {
   @override
-  UndefinedWrapper<List<num>> arrayNumber;
+  UndefinedWrapper<
+    List<
+        
+            num
+>
+> arrayNumber;
 
+  
 
-
-
+  
 
   ArrayOfNumberOnly.$all({
-    required this.arrayNumber,
+        required this.arrayNumber,
     
     
   });
 
   ArrayOfNumberOnly({
-    this.arrayNumber = const UndefinedWrapper.undefined(),
+      this.arrayNumber = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = ArrayOfNumberOnlyReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$ArrayOfNumberOnlyToMap(this);
+  }
+  factory ArrayOfNumberOnly.fromMap(Map<String, dynamic> src) {
+    return _$ArrayOfNumberOnlyFromMap(src);
+  }
+  static ArrayOfNumberOnly? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return ArrayOfNumberOnly.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$ArrayOfNumberOnlyCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory ArrayOfNumberOnly.deserialize(Object? src) {
+    return _$ArrayOfNumberOnlyDeserialize(src);
+  }
+  static ArrayOfNumberOnly? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return ArrayOfNumberOnly.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$ArrayOfNumberOnlyCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$ArrayOfNumberOnlySerialize(this);
+  }
 }
 
 

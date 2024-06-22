@@ -26,7 +26,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
@@ -51,10 +50,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
 import lombok.Setter;
 
 public class DartNextClientCodegen extends DefaultCodegen {
@@ -229,12 +225,12 @@ public class DartNextClientCodegen extends DefaultCodegen {
         typeMapping.put("Date", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("file", "MyFile");
+        typeMapping.put("file", "XFile");
         typeMapping.put("binary", "Uint8List");
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "Uri");
         typeMapping.put("ByteArray", "Uint8List");
-        typeMapping.put("object", "$OpenApiObjectMixin");
+        typeMapping.put("object", "Map<String, Object?>");
         typeMapping.put("AnyType", "Object");
 
         // Data types of the above values which are automatically imported
@@ -274,6 +270,11 @@ public class DartNextClientCodegen extends DefaultCodegen {
         addOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums",
                 String.valueOf(useEnumExtension));
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
+    }
+
+    @Override
+    protected String toMediaTypeSchemaName(String contentType, String mediaTypeSchemaSuffix) {
+        return toModelName(contentType);
     }
 
     @Override
@@ -469,6 +470,9 @@ public class DartNextClientCodegen extends DefaultCodegen {
         for (ModelsMap modelsEntries : objs.values()) {
             for (ModelMap modelsMap : modelsEntries.getModels()) {
                 CodegenModel model = modelsMap.getModel();
+                var hasAnyOfOrOneOf = ((model.anyOf != null && !model.anyOf.isEmpty())
+                        || (model.oneOf != null && !model.oneOf.isEmpty()));
+                model.vendorExtensions.put("hasAnyOfOrOneOf", hasAnyOfOrOneOf);
                 allModels.put(model.getClassname(), model);
             }
         }
@@ -931,7 +935,6 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     @Override
     public String toDefaultValue(Schema schema) {
-
         if (schema.getDefault() != null) {
             // if (ModelUtils.isMapSchema(schema) || ModelUtils.isSet(schema)) {
             // return "const {}";
@@ -950,6 +953,22 @@ public class DartNextClientCodegen extends DefaultCodegen {
         }
         return null;
 
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required,
+            boolean schemaIsFromAdditionalProperties) {
+        var result = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        // Fix for DefaultGenerator setting isModel to false when it has both
+        // properties + additionalProperties.
+        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+        if (referencedSchema != null && !result.isModel &&
+                ModelUtils.isModel(referencedSchema) &&
+                referencedSchema.getProperties() != null &&
+                !referencedSchema.getProperties().isEmpty()) {
+            result.isModel = true;
+        }
+        return result;
     }
 
     @Override

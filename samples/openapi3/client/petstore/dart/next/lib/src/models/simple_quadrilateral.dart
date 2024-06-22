@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'simple_quadrilateral.reflection.dart';
 part 'simple_quadrilateral.serialization.dart';
@@ -13,10 +11,8 @@ part 'simple_quadrilateral.serialization.dart';
 ///
 /// Properties:
 mixin SimpleQuadrilateralMixin on 
-  QuadrilateralInterfaceMixin,ShapeInterfaceMixin,
-  $OpenApiObjectMixin
- {
-
+  QuadrilateralInterfaceMixin, ShapeInterfaceMixin, $OpenApiObjectMixin {
+    
 }
 
 /// SimpleQuadrilateral
@@ -30,27 +26,80 @@ $OpenApiObjectMixin,
 QuadrilateralInterfaceMixin,ShapeInterfaceMixin,
 SimpleQuadrilateralMixin {
   @override
-  String quadrilateralType;
+  
+            String
+ quadrilateralType;
   @override
-  String shapeType;
+  
+            String
+ shapeType;
 
+  
 
-
-
+  
 
   SimpleQuadrilateral.$all({
-    required this.quadrilateralType,
+        required this.quadrilateralType,
     required this.shapeType,
     
     
   });
 
   SimpleQuadrilateral({
-  required  this.quadrilateralType ,
-  required  this.shapeType ,
+    required  this.quadrilateralType     ,
+required  this.shapeType     ,
     
     
   });
+
+  static const $reflection = SimpleQuadrilateralReflection.instance;
+
+  @override
+  bool validate() {
+      
+      
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$SimpleQuadrilateralToMap(this);
+  }
+  factory SimpleQuadrilateral.fromMap(Map<String, dynamic> src) {
+    return _$SimpleQuadrilateralFromMap(src);
+  }
+  static SimpleQuadrilateral? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return SimpleQuadrilateral.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$SimpleQuadrilateralCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory SimpleQuadrilateral.deserialize(Object? src) {
+    return _$SimpleQuadrilateralDeserialize(src);
+  }
+  static SimpleQuadrilateral? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return SimpleQuadrilateral.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$SimpleQuadrilateralCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$SimpleQuadrilateralSerialize(this);
+  }
 }
 
 

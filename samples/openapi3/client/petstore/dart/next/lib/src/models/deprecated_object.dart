@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'deprecated_object.reflection.dart';
 part 'deprecated_object.serialization.dart';
@@ -15,11 +13,11 @@ part 'deprecated_object.serialization.dart';
 /// * [name] 
 @Deprecated('DeprecatedObjectMixin has been deprecated')
 mixin DeprecatedObjectMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            String
+> get name;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<String> get name;
-
 }
 
 /// DeprecatedObject
@@ -33,23 +31,74 @@ $OpenApiObjectMixin,
 
 DeprecatedObjectMixin {
   @override
-  UndefinedWrapper<String> name;
+  UndefinedWrapper<
+            String
+> name;
 
+  
 
-
-
+  
 
   DeprecatedObject.$all({
-    required this.name,
+        required this.name,
     
     
   });
 
   DeprecatedObject({
-    this.name = const UndefinedWrapper.undefined(),
+      this.name = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = DeprecatedObjectReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$DeprecatedObjectToMap(this);
+  }
+  factory DeprecatedObject.fromMap(Map<String, dynamic> src) {
+    return _$DeprecatedObjectFromMap(src);
+  }
+  static DeprecatedObject? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return DeprecatedObject.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$DeprecatedObjectCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory DeprecatedObject.deserialize(Object? src) {
+    return _$DeprecatedObjectDeserialize(src);
+  }
+  static DeprecatedObject? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return DeprecatedObject.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$DeprecatedObjectCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$DeprecatedObjectSerialize(this);
+  }
 }
 
 

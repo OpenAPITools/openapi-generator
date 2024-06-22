@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'all_of_model_array_any_of.reflection.dart';
 part 'all_of_model_array_any_of.serialization.dart';
@@ -15,12 +13,14 @@ part 'all_of_model_array_any_of.serialization.dart';
 /// * [linkListColumn1] 
 /// * [attributes] 
 mixin AllOfModelArrayAnyOfMixin on 
-  CategoryMixin,
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<AllOfModelArrayAnyOfAllOfLinkListColumn1> get linkListColumn1;
-  UndefinedWrapper<AllOfModelArrayAnyOfAllOfAttributes> get attributes;
-
+  CategoryMixin, $OpenApiObjectMixin {
+  UndefinedWrapper<
+            AllOfModelArrayAnyOfAllOfLinkListColumn1
+> get linkListColumn1;
+UndefinedWrapper<
+            AllOfModelArrayAnyOfAllOfAttributes
+> get attributes;
+  
 }
 
 /// AllOfModelArrayAnyOf
@@ -36,20 +36,28 @@ $OpenApiObjectMixin,
 CategoryMixin,
 AllOfModelArrayAnyOfMixin {
   @override
-  String name;
+  
+            String
+ name;
   @override
-  UndefinedWrapper<AllOfModelArrayAnyOfAllOfAttributes> attributes;
+  UndefinedWrapper<
+            AllOfModelArrayAnyOfAllOfAttributes
+> attributes;
   @override
-  UndefinedWrapper<int> id;
+  UndefinedWrapper<
+            int
+> id;
   @override
-  UndefinedWrapper<AllOfModelArrayAnyOfAllOfLinkListColumn1> linkListColumn1;
+  UndefinedWrapper<
+            AllOfModelArrayAnyOfAllOfLinkListColumn1
+> linkListColumn1;
 
+  
 
-
-
+  
 
   AllOfModelArrayAnyOf.$all({
-    required this.name,
+        required this.name,
     required this.attributes,
     required this.id,
     required this.linkListColumn1,
@@ -58,13 +66,72 @@ AllOfModelArrayAnyOfMixin {
   });
 
   AllOfModelArrayAnyOf({
-    this.name = 'default-name',
-    this.attributes = const UndefinedWrapper.undefined(),
-    this.id = const UndefinedWrapper.undefined(),
-    this.linkListColumn1 = const UndefinedWrapper.undefined(),
+      this.name     =
+        
+        'default-name'
+        
+,
+  this.attributes = const UndefinedWrapper
+        .undefined()
+,
+  this.id = const UndefinedWrapper
+        .undefined()
+,
+  this.linkListColumn1 = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = AllOfModelArrayAnyOfReflection.instance;
+
+  @override
+  bool validate() {
+      
+      
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$AllOfModelArrayAnyOfToMap(this);
+  }
+  factory AllOfModelArrayAnyOf.fromMap(Map<String, dynamic> src) {
+    return _$AllOfModelArrayAnyOfFromMap(src);
+  }
+  static AllOfModelArrayAnyOf? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return AllOfModelArrayAnyOf.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$AllOfModelArrayAnyOfCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory AllOfModelArrayAnyOf.deserialize(Object? src) {
+    return _$AllOfModelArrayAnyOfDeserialize(src);
+  }
+  static AllOfModelArrayAnyOf? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return AllOfModelArrayAnyOf.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$AllOfModelArrayAnyOfCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$AllOfModelArrayAnyOfSerialize(this);
+  }
 }
 
 

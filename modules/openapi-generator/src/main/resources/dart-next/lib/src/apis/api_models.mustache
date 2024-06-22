@@ -173,8 +173,28 @@ class {{classname}}{{operationIdCamelCase}}RequestUnsafe extends {{classname}}{{
 
 {{#vendorExtensions}}{{#better-consumes}}{{#content}}{{#schema}}
 class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {{classname}}{{operationIdCamelCase}}Request {
-    final String mediaType = r'{{mediaType}}';
-    final {{>types/variable}} data;
+  static const mediaType = r'{{mediaType}}';
+
+  final {{>types/variable}} data;
+
+  const {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}}({
+    {{>types/required_ctor}} this.data{{>types/default}},
+    {{#allParams}}
+    {{^isFormParam}}{{^isBodyParam}}
+    {{>types/required_ctor}} super.{{paramName}},
+    {{/isBodyParam}}{{/isFormParam}}
+    {{/allParams}}
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 {{/schema}}{{/content}}{{/better-consumes}}{{/vendorExtensions}}
 

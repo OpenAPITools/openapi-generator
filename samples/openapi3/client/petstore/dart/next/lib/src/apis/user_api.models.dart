@@ -116,9 +116,29 @@ class UserApiCreateUserRequestUnsafe extends UserApiCreateUserRequest {
 //generate a class for form params (multipart/formdata)
 
 
-class UserApiCreateUserRequestSchemaForRequestBodyApplicationJson extends UserApiCreateUserRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<User> data;
+class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            User
+> data;
+
+  const UserApiCreateUserRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -241,9 +261,32 @@ class UserApiCreateUsersWithArrayInputRequestUnsafe extends UserApiCreateUsersWi
 //generate a class for form params (multipart/formdata)
 
 
-class UserApiCreateUsersWithArrayInputRequestSchemaForRequestBodyApplicationJson extends UserApiCreateUsersWithArrayInputRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<List<User>> data;
+class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCreateUsersWithArrayInputRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+    List<
+        
+            User
+>
+> data;
+
+  const UserApiCreateUsersWithArrayInputRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -366,9 +409,32 @@ class UserApiCreateUsersWithListInputRequestUnsafe extends UserApiCreateUsersWit
 //generate a class for form params (multipart/formdata)
 
 
-class UserApiCreateUsersWithListInputRequestSchemaForRequestBodyApplicationJson extends UserApiCreateUsersWithListInputRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<List<User>> data;
+class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreateUsersWithListInputRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+    List<
+        
+            User
+>
+> data;
+
+  const UserApiCreateUsersWithListInputRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 
@@ -387,13 +453,15 @@ class UserApiCreateUsersWithListInputResponse {
   
   /// The name that needs to be deleted
   /// spec name: username
-  final String username;
+  final 
+            String
+ username;
   
 
 
   const UserApiDeleteUserRequest({
 
-    required this.username,
+    required this.username    ,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -479,13 +547,15 @@ class UserApiDeleteUserResponse {
   
   /// The name that needs to be fetched. Use user1 for testing.
   /// spec name: username
-  final String username;
+  final 
+            String
+ username;
   
 
 
   const UserApiGetUserByNameRequest({
 
-    required this.username,
+    required this.username    ,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -571,21 +641,25 @@ class UserApiGetUserByNameResponse {
   
   /// The user name for login
   /// spec name: username
-  final String username;
+  final 
+            String
+ username;
   
   
   /// The password for login in clear text
   /// spec name: password
-  final String password;
+  final 
+            String
+ password;
   
 
 
   const UserApiLoginUserRequest({
 
-    required this.username,
+    required this.username    ,
 
 
-    required this.password,
+    required this.password    ,
 
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
@@ -755,13 +829,17 @@ abstract class UserApiUpdateUserRequest {
   
   /// name that need to be deleted
   /// spec name: username
-  final String username;
+  final 
+            String
+ username;
   
   
 
   const factory UserApiUpdateUserRequest.unsafe({
 
-    required String username,
+    required 
+            String
+ username,
 
 
     Map<String, String> extraHeaders,
@@ -772,7 +850,7 @@ abstract class UserApiUpdateUserRequest {
 
   const UserApiUpdateUserRequest({
 
-    required this.username,
+    required this.username    ,
 
 
     this.extraHeaders = const {},
@@ -874,9 +952,32 @@ class UserApiUpdateUserRequestUnsafe extends UserApiUpdateUserRequest {
 //generate a class for form params (multipart/formdata)
 
 
-class UserApiUpdateUserRequestSchemaForRequestBodyApplicationJson extends UserApiUpdateUserRequest {
-    final String mediaType = r'application/json';
-    final UndefinedWrapper<User> data;
+class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
+  static const mediaType = r'application/json';
+
+  final UndefinedWrapper<
+            User
+> data;
+
+  const UserApiUpdateUserRequestApplicationJson({
+     this.data= const UndefinedWrapper
+        .undefined()
+,
+    
+    required super.username,
+    
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    Map<String, dynamic> context = const {},
+  }) async* {
+
+  }
 }
 
 

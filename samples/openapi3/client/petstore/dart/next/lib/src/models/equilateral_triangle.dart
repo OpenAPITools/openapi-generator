@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'equilateral_triangle.reflection.dart';
 part 'equilateral_triangle.serialization.dart';
@@ -13,10 +11,8 @@ part 'equilateral_triangle.serialization.dart';
 ///
 /// Properties:
 mixin EquilateralTriangleMixin on 
-  ShapeInterfaceMixin,TriangleInterfaceMixin,
-  $OpenApiObjectMixin
- {
-
+  ShapeInterfaceMixin, TriangleInterfaceMixin, $OpenApiObjectMixin {
+    
 }
 
 /// EquilateralTriangle
@@ -30,27 +26,80 @@ $OpenApiObjectMixin,
 ShapeInterfaceMixin,TriangleInterfaceMixin,
 EquilateralTriangleMixin {
   @override
-  String shapeType;
+  
+            String
+ shapeType;
   @override
-  String triangleType;
+  
+            String
+ triangleType;
 
+  
 
-
-
+  
 
   EquilateralTriangle.$all({
-    required this.shapeType,
+        required this.shapeType,
     required this.triangleType,
     
     
   });
 
   EquilateralTriangle({
-  required  this.shapeType ,
-  required  this.triangleType ,
+    required  this.shapeType     ,
+required  this.triangleType     ,
     
     
   });
+
+  static const $reflection = EquilateralTriangleReflection.instance;
+
+  @override
+  bool validate() {
+      
+      
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$EquilateralTriangleToMap(this);
+  }
+  factory EquilateralTriangle.fromMap(Map<String, dynamic> src) {
+    return _$EquilateralTriangleFromMap(src);
+  }
+  static EquilateralTriangle? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return EquilateralTriangle.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$EquilateralTriangleCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory EquilateralTriangle.deserialize(Object? src) {
+    return _$EquilateralTriangleDeserialize(src);
+  }
+  static EquilateralTriangle? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return EquilateralTriangle.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$EquilateralTriangleCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$EquilateralTriangleSerialize(this);
+  }
 }
 
 

@@ -13,6 +13,10 @@ extension type const AdditionalProperties<T>._(Map<String, T> src)
       );
 }
 
+extension OASMapExtensions<TKey,TValue> on Map<TKey, TValue> {
+  Map<TKey, TValue> except(Set<TKey> toRemove) => Map.fromEntries(entries.where((e) => !toRemove.contains(e.key)));
+}
+
 /// Mixin to mark objects as having additional properties.
 mixin AdditionalPropertiesMixin<T> on $OpenApiObjectMixin {
   /// A special field containing properties that are not explicitly defined by the schema,
@@ -27,4 +31,6 @@ class UnkownOpenApiObject with $OpenApiObjectMixin, AdditionalPropertiesMixin<Ob
   const UnkownOpenApiObject([this.additionalProperties = const AdditionalProperties()]);
 
   final AdditionalProperties<Object?> additionalProperties;
+
+  factory UnkownOpenApiObject.fromMap(Map<String, dynamic> src) => UnkownOpenApiObject(AdditionalProperties(src));
 }

@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'test_inline_freeform_additional_properties_request.reflection.dart';
 part 'test_inline_freeform_additional_properties_request.serialization.dart';
@@ -13,12 +11,13 @@ part 'test_inline_freeform_additional_properties_request.serialization.dart';
 ///
 /// Properties:
 /// * [someProperty] 
-mixin TestInlineFreeformAdditionalPropertiesRequestMixin on  AdditionalPropertiesMixin<Object?>,
+mixin TestInlineFreeformAdditionalPropertiesRequestMixin on  AdditionalPropertiesMixin<Object
+?>,
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            String
+> get someProperty;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<String> get someProperty;
-
 }
 
 /// TestInlineFreeformAdditionalPropertiesRequest
@@ -27,28 +26,81 @@ mixin TestInlineFreeformAdditionalPropertiesRequestMixin on  AdditionalPropertie
 /// * [someProperty] 
 class TestInlineFreeformAdditionalPropertiesRequest with
 $OpenApiObjectMixin,
-AdditionalPropertiesMixin<Object?>,
+AdditionalPropertiesMixin<Object
+?>,
 
 TestInlineFreeformAdditionalPropertiesRequestMixin {
   @override
-  UndefinedWrapper<String> someProperty;
+  UndefinedWrapper<
+            String
+> someProperty;
 
   @override
-  AdditionalProperties<Object?> additionalProperties;
+  AdditionalProperties<Object
+?> additionalProperties;
 
-
+  
 
   TestInlineFreeformAdditionalPropertiesRequest.$all({
-    required this.someProperty,
+        required this.someProperty,
     required this.additionalProperties,
     
   });
 
   TestInlineFreeformAdditionalPropertiesRequest({
-    this.someProperty = const UndefinedWrapper.undefined(),
+      this.someProperty = const UndefinedWrapper
+        .undefined()
+,
     this.additionalProperties = const AdditionalProperties(),
     
   });
+
+  static const $reflection = TestInlineFreeformAdditionalPropertiesRequestReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$TestInlineFreeformAdditionalPropertiesRequestToMap(this);
+  }
+  factory TestInlineFreeformAdditionalPropertiesRequest.fromMap(Map<String, dynamic> src) {
+    return _$TestInlineFreeformAdditionalPropertiesRequestFromMap(src);
+  }
+  static TestInlineFreeformAdditionalPropertiesRequest? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return TestInlineFreeformAdditionalPropertiesRequest.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$TestInlineFreeformAdditionalPropertiesRequestCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory TestInlineFreeformAdditionalPropertiesRequest.deserialize(Object? src) {
+    return _$TestInlineFreeformAdditionalPropertiesRequestDeserialize(src);
+  }
+  static TestInlineFreeformAdditionalPropertiesRequest? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return TestInlineFreeformAdditionalPropertiesRequest.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$TestInlineFreeformAdditionalPropertiesRequestCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$TestInlineFreeformAdditionalPropertiesRequestSerialize(this);
+  }
 }
 
 

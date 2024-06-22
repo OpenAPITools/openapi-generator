@@ -1,19 +1,153 @@
-// Model serialization
+// ignore_for_file: unnecessary_cast, unused_local_variable
+
 part of 'array_one_of.dart';
 
 
 //class serialization
 
-Map<String, dynamic> _$ArrayOneOfToJson(ArrayOneOf instance) => <String, dynamic>{
+Map<String, dynamic> _$ArrayOneOfToMap(ArrayOneOf instance) {
+  final _reflection = ArrayOneOfReflection.instance;
+  return <String, dynamic>{
+    
+    
+  };
+}
 
-};
-
-ArrayOneOf _$ArrayOneOfFromJson(Map<String, dynamic> src) {
+ArrayOneOf _$ArrayOneOfFromMap(Map<String, dynamic> src) {
+  final _reflection = ArrayOneOfReflection.instance;
   return ArrayOneOf.$all(
-
+        
+    
+    oneOf0:  UndefinedWrapper.undefined(),
+    oneOf1:  UndefinedWrapper.undefined(),
   );
 }
 
+bool _$ArrayOneOfCanFromMap(Map<String, dynamic> src) {
+  final _reflection = ArrayOneOfReflection.instance;
+    
+  final oneOfs = [
+  
+  ];
+  final validOneOfs = oneOfs.where((x) => x()).take(2).length;
+  if (validOneOfs == 0 || validOneOfs > 1) {
+    return false;
+  }
+  
+  return true;
+}
+
+/// Deserializes a primitive Object (num, String, List, Map).
+ArrayOneOf _$ArrayOneOfDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$ArrayOneOfFromMap(src);
+  } else {
+    
+    final v = src;
+    return ArrayOneOf.$all(
+      oneOf0: (v == null ? false :
+(
+
+    
+            
+            v is int
+)) ? UndefinedWrapper(
+(
+
+    
+            
+                    v as int
+            
+
+)
+
+
+) : UndefinedWrapper.undefined(),      oneOf1: (v == null ? false :
+(
+
+    
+            
+            v is List && v.every((v) => v == null ? false :
+(
+
+    
+            
+            v is String
+))
+)) ? UndefinedWrapper(
+(
+
+    
+            
+            v as List
+            
+
+)
+
+.map((v) => 
+(
+
+    
+            
+                    v as String
+            
+
+)
+
+
+).toList()
+) : UndefinedWrapper.undefined(),
+    );
+    
+  }
+}
+/// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+bool _$ArrayOneOfCanDeserialize(Object? src) {
+  if (src is Map<String, dynamic>) {
+    return _$ArrayOneOfCanFromMap(src);
+  } else {
+    final v = src;
+    final oneOfs = [
+      () => v == null ? false :
+(
+
+    
+            
+            v is int
+),
+      () => v == null ? false :
+(
+
+    
+            
+            v is List && v.every((v) => v == null ? false :
+(
+
+    
+            
+            v is String
+))
+),
+    ];
+    final validOneOfs = oneOfs.where((x) => x()).take(2).length;
+    if (validOneOfs == 1) {
+      return true;
+    }
+    return false;
+  }
+}
+
+/// Serializes to a primitive Object (num, String, List, Map).
+Object? _$ArrayOneOfSerialize(ArrayOneOf src) {
+  
+  
+  if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v; }
+  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.map((v) => v).toList(); }
+  return null;
+}
+
+
+/*
 XmlElement _$ArrayOneOfToXml(ArrayOneOf instance) {
   final reflection = ArrayOneOfXmlReflection.instance;
   final result = XmlElement(
@@ -35,4 +169,5 @@ ArrayOneOf _$ArrayOneOfFromXml(XmlElement src) {
 
   );
 }
+*/
 

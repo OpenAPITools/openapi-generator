@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'format_test.reflection.dart';
 part 'format_test.serialization.dart';
@@ -30,27 +28,59 @@ part 'format_test.serialization.dart';
 /// * [patternWithDigits] - A string that is a 10 digit number. Can have leading zeros.
 /// * [patternWithDigitsAndDelimiter] - A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
 mixin FormatTestMixin on 
-  
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<int> get integer;
-  UndefinedWrapper<int> get int32;
-  UndefinedWrapper<int> get int64;
-  num get number;
-  UndefinedWrapper<double> get float;
-  UndefinedWrapper<double> get $double;
-  UndefinedWrapper<double> get decimal;
-  UndefinedWrapper<String> get string;
-  Uint8List get byte;
-  UndefinedWrapper<MyFile> get binary;
-  DateTime get date;
-  UndefinedWrapper<DateTime> get dateTime;
-  UndefinedWrapper<String> get uuid;
-  UndefinedWrapper<String> get uuidWithDefault;
-  String get password;
-  UndefinedWrapper<String> get patternWithDigits;
-  UndefinedWrapper<String> get patternWithDigitsAndDelimiter;
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            int
+> get integer;
+UndefinedWrapper<
+            int
+> get int32;
+UndefinedWrapper<
+            int
+> get int64;
 
+            num
+ get number;
+UndefinedWrapper<
+            double
+> get float;
+UndefinedWrapper<
+            double
+> get $double;
+UndefinedWrapper<
+            double
+> get decimal;
+UndefinedWrapper<
+            String
+> get string;
+
+            Uint8List
+ get byte;
+UndefinedWrapper<
+            XFile
+> get binary;
+
+            DateTime
+ get date;
+UndefinedWrapper<
+            DateTime
+> get dateTime;
+UndefinedWrapper<
+            String
+> get uuid;
+UndefinedWrapper<
+            String
+> get uuidWithDefault;
+
+            String
+ get password;
+UndefinedWrapper<
+            String
+> get patternWithDigits;
+UndefinedWrapper<
+            String
+> get patternWithDigitsAndDelimiter;
+  
 }
 
 /// FormatTest
@@ -79,46 +109,80 @@ $OpenApiObjectMixin,
 
 FormatTestMixin {
   @override
-  UndefinedWrapper<int> integer;
+  UndefinedWrapper<
+            int
+> integer;
   @override
-  UndefinedWrapper<int> int32;
+  UndefinedWrapper<
+            int
+> int32;
   @override
-  UndefinedWrapper<int> int64;
+  UndefinedWrapper<
+            int
+> int64;
   @override
-  num number;
+  
+            num
+ number;
   @override
-  UndefinedWrapper<double> float;
+  UndefinedWrapper<
+            double
+> float;
   @override
-  UndefinedWrapper<double> $double;
+  UndefinedWrapper<
+            double
+> $double;
   @override
-  UndefinedWrapper<double> decimal;
+  UndefinedWrapper<
+            double
+> decimal;
   @override
-  UndefinedWrapper<String> string;
+  UndefinedWrapper<
+            String
+> string;
   @override
-  Uint8List byte;
+  
+            Uint8List
+ byte;
   @override
-  UndefinedWrapper<MyFile> binary;
+  UndefinedWrapper<
+            XFile
+> binary;
   @override
-  DateTime date;
+  
+            DateTime
+ date;
   @override
-  UndefinedWrapper<DateTime> dateTime;
+  UndefinedWrapper<
+            DateTime
+> dateTime;
   @override
-  UndefinedWrapper<String> uuid;
+  UndefinedWrapper<
+            String
+> uuid;
   @override
-  UndefinedWrapper<String> uuidWithDefault;
+  UndefinedWrapper<
+            String
+> uuidWithDefault;
   @override
-  String password;
+  
+            String
+ password;
   @override
-  UndefinedWrapper<String> patternWithDigits;
+  UndefinedWrapper<
+            String
+> patternWithDigits;
   @override
-  UndefinedWrapper<String> patternWithDigitsAndDelimiter;
+  UndefinedWrapper<
+            String
+> patternWithDigitsAndDelimiter;
 
+  
 
-
-
+  
 
   FormatTest.$all({
-    required this.integer,
+        required this.integer,
     required this.int32,
     required this.int64,
     required this.number,
@@ -140,26 +204,103 @@ FormatTestMixin {
   });
 
   FormatTest({
-    this.integer = const UndefinedWrapper.undefined(),
-    this.int32 = const UndefinedWrapper.undefined(),
-    this.int64 = const UndefinedWrapper.undefined(),
-  required  this.number ,
-    this.float = const UndefinedWrapper.undefined(),
-    this.$double = const UndefinedWrapper.undefined(),
-    this.decimal = const UndefinedWrapper.undefined(),
-    this.string = const UndefinedWrapper.undefined(),
-  required  this.byte ,
-    this.binary = const UndefinedWrapper.undefined(),
-  required  this.date ,
-    this.dateTime = const UndefinedWrapper.undefined(),
-    this.uuid = const UndefinedWrapper.undefined(),
-    this.uuidWithDefault = const UndefinedWrapper('11111111-206d-4f12-9f12-3d1e525a8e84'),
-  required  this.password ,
-    this.patternWithDigits = const UndefinedWrapper.undefined(),
-    this.patternWithDigitsAndDelimiter = const UndefinedWrapper.undefined(),
+      this.integer = const UndefinedWrapper
+        .undefined()
+,
+  this.int32 = const UndefinedWrapper
+        .undefined()
+,
+  this.int64 = const UndefinedWrapper
+        .undefined()
+,
+required  this.number     ,
+  this.float = const UndefinedWrapper
+        .undefined()
+,
+  this.$double = const UndefinedWrapper
+        .undefined()
+,
+  this.decimal = const UndefinedWrapper
+        .undefined()
+,
+  this.string = const UndefinedWrapper
+        .undefined()
+,
+required  this.byte     ,
+  this.binary = const UndefinedWrapper
+        .undefined()
+,
+required  this.date     ,
+  this.dateTime = const UndefinedWrapper
+        .undefined()
+,
+  this.uuid = const UndefinedWrapper
+        .undefined()
+,
+  this.uuidWithDefault = const UndefinedWrapper
+    (
+        
+        '11111111-206d-4f12-9f12-3d1e525a8e84'
+    )
+    
+,
+required  this.password     ,
+  this.patternWithDigits = const UndefinedWrapper
+        .undefined()
+,
+  this.patternWithDigitsAndDelimiter = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = FormatTestReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$FormatTestToMap(this);
+  }
+  factory FormatTest.fromMap(Map<String, dynamic> src) {
+    return _$FormatTestFromMap(src);
+  }
+  static FormatTest? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return FormatTest.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$FormatTestCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory FormatTest.deserialize(Object? src) {
+    return _$FormatTestDeserialize(src);
+  }
+  static FormatTest? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return FormatTest.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$FormatTestCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$FormatTestSerialize(this);
+  }
 }
 
 

@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'file_schema_test_class.reflection.dart';
 part 'file_schema_test_class.serialization.dart';
@@ -15,12 +13,17 @@ part 'file_schema_test_class.serialization.dart';
 /// * [file] 
 /// * [files] 
 mixin FileSchemaTestClassMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            File
+> get file;
+UndefinedWrapper<
+    List<
+        
+            File
+>
+> get files;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<File> get file;
-  UndefinedWrapper<List<File>> get files;
-
 }
 
 /// FileSchemaTestClass
@@ -34,27 +37,85 @@ $OpenApiObjectMixin,
 
 FileSchemaTestClassMixin {
   @override
-  UndefinedWrapper<File> file;
+  UndefinedWrapper<
+            File
+> file;
   @override
-  UndefinedWrapper<List<File>> files;
+  UndefinedWrapper<
+    List<
+        
+            File
+>
+> files;
 
+  
 
-
-
+  
 
   FileSchemaTestClass.$all({
-    required this.file,
+        required this.file,
     required this.files,
     
     
   });
 
   FileSchemaTestClass({
-    this.file = const UndefinedWrapper.undefined(),
-    this.files = const UndefinedWrapper.undefined(),
+      this.file = const UndefinedWrapper
+        .undefined()
+,
+  this.files = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = FileSchemaTestClassReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$FileSchemaTestClassToMap(this);
+  }
+  factory FileSchemaTestClass.fromMap(Map<String, dynamic> src) {
+    return _$FileSchemaTestClassFromMap(src);
+  }
+  static FileSchemaTestClass? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return FileSchemaTestClass.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$FileSchemaTestClassCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory FileSchemaTestClass.deserialize(Object? src) {
+    return _$FileSchemaTestClassDeserialize(src);
+  }
+  static FileSchemaTestClass? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return FileSchemaTestClass.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$FileSchemaTestClassCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$FileSchemaTestClassSerialize(this);
+  }
 }
 
 

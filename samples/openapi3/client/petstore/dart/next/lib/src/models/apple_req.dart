@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'apple_req.reflection.dart';
 part 'apple_req.serialization.dart';
@@ -15,12 +13,14 @@ part 'apple_req.serialization.dart';
 /// * [cultivar] 
 /// * [mealy] 
 mixin AppleReqMixin on 
+  $OpenApiObjectMixin {
   
-  $OpenApiObjectMixin
- {
-  String get cultivar;
-  UndefinedWrapper<bool> get mealy;
-
+            String
+ get cultivar;
+UndefinedWrapper<
+            bool
+> get mealy;
+  
 }
 
 /// AppleReq
@@ -34,27 +34,80 @@ $OpenApiObjectMixin,
 
 AppleReqMixin {
   @override
-  String cultivar;
+  
+            String
+ cultivar;
   @override
-  UndefinedWrapper<bool> mealy;
+  UndefinedWrapper<
+            bool
+> mealy;
 
+  
 
-
-
+  
 
   AppleReq.$all({
-    required this.cultivar,
+        required this.cultivar,
     required this.mealy,
     
     
   });
 
   AppleReq({
-  required  this.cultivar ,
-    this.mealy = const UndefinedWrapper.undefined(),
+    required  this.cultivar     ,
+  this.mealy = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = AppleReqReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$AppleReqToMap(this);
+  }
+  factory AppleReq.fromMap(Map<String, dynamic> src) {
+    return _$AppleReqFromMap(src);
+  }
+  static AppleReq? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return AppleReq.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$AppleReqCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory AppleReq.deserialize(Object? src) {
+    return _$AppleReqDeserialize(src);
+  }
+  static AppleReq? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return AppleReq.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$AppleReqCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$AppleReqSerialize(this);
+  }
 }
 
 

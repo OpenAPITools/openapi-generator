@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'drawing.reflection.dart';
 part 'drawing.serialization.dart';
@@ -16,15 +14,26 @@ part 'drawing.serialization.dart';
 /// * [shapeOrNull] 
 /// * [nullableShape] 
 /// * [shapes] 
-mixin DrawingMixin on  AdditionalPropertiesMixin<Fruit>,
+mixin DrawingMixin on  AdditionalPropertiesMixin<
+            Fruit
+>,
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            Shape
+> get mainShape;
+UndefinedWrapper<
+            ShapeOrNull
+?> get shapeOrNull;
+UndefinedWrapper<
+            NullableShape
+?> get nullableShape;
+UndefinedWrapper<
+    List<
+        
+            Shape
+>
+> get shapes;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<Shape> get mainShape;
-  UndefinedWrapper<ShapeOrNull?> get shapeOrNull;
-  UndefinedWrapper<NullableShape?> get nullableShape;
-  UndefinedWrapper<List<Shape>> get shapes;
-
 }
 
 /// Drawing
@@ -36,25 +45,40 @@ mixin DrawingMixin on  AdditionalPropertiesMixin<Fruit>,
 /// * [shapes] 
 class Drawing with
 $OpenApiObjectMixin,
-AdditionalPropertiesMixin<Fruit>,
+AdditionalPropertiesMixin<
+            Fruit
+>,
 
 DrawingMixin {
   @override
-  UndefinedWrapper<Shape> mainShape;
+  UndefinedWrapper<
+            Shape
+> mainShape;
   @override
-  UndefinedWrapper<ShapeOrNull?> shapeOrNull;
+  UndefinedWrapper<
+            ShapeOrNull
+?> shapeOrNull;
   @override
-  UndefinedWrapper<NullableShape?> nullableShape;
+  UndefinedWrapper<
+            NullableShape
+?> nullableShape;
   @override
-  UndefinedWrapper<List<Shape>> shapes;
+  UndefinedWrapper<
+    List<
+        
+            Shape
+>
+> shapes;
 
   @override
-  AdditionalProperties<Fruit> additionalProperties;
+  AdditionalProperties<
+            Fruit
+> additionalProperties;
 
-
+  
 
   Drawing.$all({
-    required this.mainShape,
+        required this.mainShape,
     required this.shapeOrNull,
     required this.nullableShape,
     required this.shapes,
@@ -63,13 +87,68 @@ DrawingMixin {
   });
 
   Drawing({
-    this.mainShape = const UndefinedWrapper.undefined(),
-    this.shapeOrNull = const UndefinedWrapper.undefined(),
-    this.nullableShape = const UndefinedWrapper.undefined(),
-    this.shapes = const UndefinedWrapper.undefined(),
+      this.mainShape = const UndefinedWrapper
+        .undefined()
+,
+  this.shapeOrNull = const UndefinedWrapper
+        .undefined()
+,
+  this.nullableShape = const UndefinedWrapper
+        .undefined()
+,
+  this.shapes = const UndefinedWrapper
+        .undefined()
+,
     this.additionalProperties = const AdditionalProperties(),
     
   });
+
+  static const $reflection = DrawingReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$DrawingToMap(this);
+  }
+  factory Drawing.fromMap(Map<String, dynamic> src) {
+    return _$DrawingFromMap(src);
+  }
+  static Drawing? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return Drawing.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$DrawingCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory Drawing.deserialize(Object? src) {
+    return _$DrawingDeserialize(src);
+  }
+  static Drawing? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return Drawing.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$DrawingCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$DrawingSerialize(this);
+  }
 }
 
 

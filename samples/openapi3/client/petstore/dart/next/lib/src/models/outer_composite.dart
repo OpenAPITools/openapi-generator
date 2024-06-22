@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'outer_composite.reflection.dart';
 part 'outer_composite.serialization.dart';
@@ -16,13 +14,17 @@ part 'outer_composite.serialization.dart';
 /// * [myString] 
 /// * [myBoolean] 
 mixin OuterCompositeMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            num
+> get myNumber;
+UndefinedWrapper<
+            String
+> get myString;
+UndefinedWrapper<
+            bool
+> get myBoolean;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<num> get myNumber;
-  UndefinedWrapper<String> get myString;
-  UndefinedWrapper<bool> get myBoolean;
-
 }
 
 /// OuterComposite
@@ -37,18 +39,24 @@ $OpenApiObjectMixin,
 
 OuterCompositeMixin {
   @override
-  UndefinedWrapper<num> myNumber;
+  UndefinedWrapper<
+            num
+> myNumber;
   @override
-  UndefinedWrapper<String> myString;
+  UndefinedWrapper<
+            String
+> myString;
   @override
-  UndefinedWrapper<bool> myBoolean;
+  UndefinedWrapper<
+            bool
+> myBoolean;
 
+  
 
-
-
+  
 
   OuterComposite.$all({
-    required this.myNumber,
+        required this.myNumber,
     required this.myString,
     required this.myBoolean,
     
@@ -56,12 +64,65 @@ OuterCompositeMixin {
   });
 
   OuterComposite({
-    this.myNumber = const UndefinedWrapper.undefined(),
-    this.myString = const UndefinedWrapper.undefined(),
-    this.myBoolean = const UndefinedWrapper.undefined(),
+      this.myNumber = const UndefinedWrapper
+        .undefined()
+,
+  this.myString = const UndefinedWrapper
+        .undefined()
+,
+  this.myBoolean = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = OuterCompositeReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$OuterCompositeToMap(this);
+  }
+  factory OuterComposite.fromMap(Map<String, dynamic> src) {
+    return _$OuterCompositeFromMap(src);
+  }
+  static OuterComposite? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return OuterComposite.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$OuterCompositeCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory OuterComposite.deserialize(Object? src) {
+    return _$OuterCompositeDeserialize(src);
+  }
+  static OuterComposite? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return OuterComposite.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$OuterCompositeCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$OuterCompositeSerialize(this);
+  }
 }
 
 

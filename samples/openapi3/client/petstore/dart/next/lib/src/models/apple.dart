@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'apple.reflection.dart';
 part 'apple.serialization.dart';
@@ -15,12 +13,14 @@ part 'apple.serialization.dart';
 /// * [cultivar] 
 /// * [origin] 
 mixin AppleMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+            String
+> get cultivar;
+UndefinedWrapper<
+            String
+> get origin;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<String> get cultivar;
-  UndefinedWrapper<String> get origin;
-
 }
 
 /// Apple
@@ -34,27 +34,82 @@ $OpenApiObjectMixin,
 
 AppleMixin {
   @override
-  UndefinedWrapper<String> cultivar;
+  UndefinedWrapper<
+            String
+> cultivar;
   @override
-  UndefinedWrapper<String> origin;
+  UndefinedWrapper<
+            String
+> origin;
 
+  
 
-
-
+  
 
   Apple.$all({
-    required this.cultivar,
+        required this.cultivar,
     required this.origin,
     
     
   });
 
   Apple({
-    this.cultivar = const UndefinedWrapper.undefined(),
-    this.origin = const UndefinedWrapper.undefined(),
+      this.cultivar = const UndefinedWrapper
+        .undefined()
+,
+  this.origin = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = AppleReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$AppleToMap(this);
+  }
+  factory Apple.fromMap(Map<String, dynamic> src) {
+    return _$AppleFromMap(src);
+  }
+  static Apple? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return Apple.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$AppleCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory Apple.deserialize(Object? src) {
+    return _$AppleDeserialize(src);
+  }
+  static Apple? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return Apple.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$AppleCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$AppleSerialize(this);
+  }
 }
 
 

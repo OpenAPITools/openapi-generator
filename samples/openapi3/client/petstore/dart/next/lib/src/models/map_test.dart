@@ -1,9 +1,7 @@
 // Model def
 
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:openapi/_internal.dart';
-import 'package:xml/xml.dart';
+
 
 part 'map_test.reflection.dart';
 part 'map_test.serialization.dart';
@@ -17,14 +15,35 @@ part 'map_test.serialization.dart';
 /// * [directMap] 
 /// * [indirectMap] 
 mixin MapTestMixin on 
+  $OpenApiObjectMixin {
+  UndefinedWrapper<
+    Map<String, 
+        
+    Map<String, 
+        
+            String
+>
+>
+> get mapMapOfString;
+UndefinedWrapper<
+    Map<String, 
+        
+            MapTestMapOfEnumStringEnum
+>
+> get mapOfEnumString;
+UndefinedWrapper<
+    Map<String, 
+        
+            bool
+>
+> get directMap;
+UndefinedWrapper<
+    Map<String, 
+        
+            bool
+>
+> get indirectMap;
   
-  $OpenApiObjectMixin
- {
-  UndefinedWrapper<Map<String, Map<String, String>>> get mapMapOfString;
-  UndefinedWrapper<Map<String, MapTestMapOfEnumStringEnum>> get mapOfEnumString;
-  UndefinedWrapper<Map<String, bool>> get directMap;
-  UndefinedWrapper<Map<String, bool>> get indirectMap;
-
 }
 
 /// MapTest
@@ -40,20 +59,43 @@ $OpenApiObjectMixin,
 
 MapTestMixin {
   @override
-  UndefinedWrapper<Map<String, Map<String, String>>> mapMapOfString;
+  UndefinedWrapper<
+    Map<String, 
+        
+    Map<String, 
+        
+            String
+>
+>
+> mapMapOfString;
   @override
-  UndefinedWrapper<Map<String, MapTestMapOfEnumStringEnum>> mapOfEnumString;
+  UndefinedWrapper<
+    Map<String, 
+        
+            MapTestMapOfEnumStringEnum
+>
+> mapOfEnumString;
   @override
-  UndefinedWrapper<Map<String, bool>> directMap;
+  UndefinedWrapper<
+    Map<String, 
+        
+            bool
+>
+> directMap;
   @override
-  UndefinedWrapper<Map<String, bool>> indirectMap;
+  UndefinedWrapper<
+    Map<String, 
+        
+            bool
+>
+> indirectMap;
 
+  
 
-
-
+  
 
   MapTest.$all({
-    required this.mapMapOfString,
+        required this.mapMapOfString,
     required this.mapOfEnumString,
     required this.directMap,
     required this.indirectMap,
@@ -62,13 +104,68 @@ MapTestMixin {
   });
 
   MapTest({
-    this.mapMapOfString = const UndefinedWrapper.undefined(),
-    this.mapOfEnumString = const UndefinedWrapper.undefined(),
-    this.directMap = const UndefinedWrapper.undefined(),
-    this.indirectMap = const UndefinedWrapper.undefined(),
+      this.mapMapOfString = const UndefinedWrapper
+        .undefined()
+,
+  this.mapOfEnumString = const UndefinedWrapper
+        .undefined()
+,
+  this.directMap = const UndefinedWrapper
+        .undefined()
+,
+  this.indirectMap = const UndefinedWrapper
+        .undefined()
+,
     
     
   });
+
+  static const $reflection = MapTestReflection.instance;
+
+  @override
+  bool validate() {
+    return super.validate();
+  }
+
+
+  Map<String, dynamic> toMap() {
+    return _$MapTestToMap(this);
+  }
+  factory MapTest.fromMap(Map<String, dynamic> src) {
+    return _$MapTestFromMap(src);
+  }
+  static MapTest? fromMapOrNull(Map<String, dynamic>? src) {
+    if (src == null) {
+      return null;
+    }
+    return MapTest.fromMap(src);
+  }
+  static bool canFromMap(Map<String, dynamic>? src) {
+    if (src  == null) {
+      return false;
+    }
+    return _$MapTestCanFromMap(src);
+  }
+
+
+  /// Deserializes a primitive Object (num, String, List, Map).
+  factory MapTest.deserialize(Object? src) {
+    return _$MapTestDeserialize(src);
+  }
+  static MapTest? deserializeOrNull(Object? src) {
+    if (src == null) {
+      return null;
+    }
+    return MapTest.deserialize(src);
+  }
+  /// Checks if a primitive Object (num, String, List, Map) can be deserialized.
+  static bool canDeserialize(Object? src) {
+    return _$MapTestCanDeserialize(src);
+  }
+  /// Serializes to a primitive Object (num, String, List, Map).
+  Object? serialize() {
+    return _$MapTestSerialize(this);
+  }
 }
 
 

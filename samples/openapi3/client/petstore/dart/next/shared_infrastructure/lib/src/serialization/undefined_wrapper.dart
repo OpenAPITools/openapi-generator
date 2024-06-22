@@ -31,16 +31,26 @@ extension type const UndefinedWrapper<T>._(Object? source) {
     if (other.isUndefined && isUndefined) {
       return true;
     }
+
     return other.source == source;
   }
 
   UndefinedWrapper<TOther> map<TOther>(TOther Function(T src) mapper) {
     if (isUndefined) {
-      return UndefinedWrapper.undefined();
+      return const UndefinedWrapper.undefined();
     } else {
       return UndefinedWrapper(mapper(valueRequired));
     }
   }
+
+  TOther split<TOther>({
+    required TOther Function(T src) defined,
+    required TOther Function() unDefined,
+  }) {
+    if (source is T) {
+      return defined(source as T);
+    } else {
+      return unDefined();
+    }
+  }
 }
-
-
