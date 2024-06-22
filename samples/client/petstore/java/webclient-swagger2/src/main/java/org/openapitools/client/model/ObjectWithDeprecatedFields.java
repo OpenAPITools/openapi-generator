@@ -61,10 +61,10 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -87,11 +87,11 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
@@ -115,11 +115,11 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get deprecatedRef
    * @return deprecatedRef
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
@@ -151,11 +151,11 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get bars
    * @return bars
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")

@@ -112,10 +112,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -143,10 +143,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -173,10 +173,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get directMap
    * @return directMap
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -203,10 +203,10 @@ public class MapTest {
     return this;
   }
 
-   /**
+  /**
    * Get indirectMap
    * @return indirectMap
-  **/
+   */
   @javax.annotation.Nullable
 
 

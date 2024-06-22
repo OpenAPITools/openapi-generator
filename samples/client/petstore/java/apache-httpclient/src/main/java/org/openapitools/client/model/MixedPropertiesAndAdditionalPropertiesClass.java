@@ -59,10 +59,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -84,10 +84,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get dateTime
    * @return dateTime
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -117,10 +117,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get map
    * @return map
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

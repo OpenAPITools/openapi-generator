@@ -52,10 +52,10 @@ public class ReadOnlyFirst {
     this.bar = bar;
   }
 
-   /**
+  /**
    * Get bar
    * @return bar
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BAR)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -72,10 +72,10 @@ public class ReadOnlyFirst {
     return this;
   }
 
-   /**
+  /**
    * Get baz
    * @return baz
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BAZ)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

@@ -69,10 +69,10 @@ public class Category implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
@@ -88,10 +88,10 @@ public class Category implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
@@ -180,12 +180,12 @@ public class Category implements Parcelable {
     openapiRequiredFields.add("name");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Category
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Category
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Category.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -242,22 +242,22 @@ public class Category implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of Category given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Category
-  * @throws IOException if the JSON string is invalid with respect to Category
-  */
+  /**
+   * Create an instance of Category given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Category
+   * @throws IOException if the JSON string is invalid with respect to Category
+   */
   public static Category fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Category.class);
   }
 
- /**
-  * Convert an instance of Category to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Category to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -88,10 +88,10 @@ public class TypeHolderExample implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @javax.annotation.Nonnull
   public String getStringItem() {
     return stringItem;
@@ -107,10 +107,10 @@ public class TypeHolderExample implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @javax.annotation.Nonnull
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -126,10 +126,10 @@ public class TypeHolderExample implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get floatItem
    * @return floatItem
-  **/
+   */
   @javax.annotation.Nonnull
   public Float getFloatItem() {
     return floatItem;
@@ -145,10 +145,10 @@ public class TypeHolderExample implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @javax.annotation.Nonnull
   public Integer getIntegerItem() {
     return integerItem;
@@ -164,10 +164,10 @@ public class TypeHolderExample implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @javax.annotation.Nonnull
   public Boolean getBoolItem() {
     return boolItem;
@@ -191,10 +191,10 @@ public class TypeHolderExample implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @javax.annotation.Nonnull
   public List<Integer> getArrayItem() {
     return arrayItem;
@@ -308,12 +308,12 @@ public class TypeHolderExample implements Parcelable {
     openapiRequiredFields.add("array_item");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to TypeHolderExample
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to TypeHolderExample
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!TypeHolderExample.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -376,22 +376,22 @@ public class TypeHolderExample implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of TypeHolderExample given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of TypeHolderExample
-  * @throws IOException if the JSON string is invalid with respect to TypeHolderExample
-  */
+  /**
+   * Create an instance of TypeHolderExample given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of TypeHolderExample
+   * @throws IOException if the JSON string is invalid with respect to TypeHolderExample
+   */
   public static TypeHolderExample fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, TypeHolderExample.class);
   }
 
- /**
-  * Convert an instance of TypeHolderExample to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of TypeHolderExample to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

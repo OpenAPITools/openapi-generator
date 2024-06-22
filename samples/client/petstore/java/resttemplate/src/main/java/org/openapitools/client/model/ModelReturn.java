@@ -39,8 +39,8 @@ public class ModelReturn {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ModelReturn(@JsonProperty(JSON_PROPERTY_RETURN) Integer _return) {
     this._return = _return;
   }
@@ -51,10 +51,10 @@ public class ModelReturn {
     return this;
   }
 
-   /**
+  /**
    * Get _return
    * @return _return
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_RETURN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

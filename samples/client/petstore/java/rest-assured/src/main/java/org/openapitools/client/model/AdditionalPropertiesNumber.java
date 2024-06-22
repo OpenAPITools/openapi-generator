@@ -47,10 +47,10 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
 
 

@@ -119,12 +119,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean nonPublicApi = Boolean.FALSE;
 
     private static final String OPERATION_PARAMETER_SORTING_KEY = "operationParameterSorting";
+    private static final String MODEL_PROPERTY_SORTING_KEY = "modelPropertySorting";
     enum SortingMethod {
         DEFAULT,
         ALPHABETICAL,
         LEGACY
     }
     private SortingMethod operationParameterSorting = SortingMethod.LEGACY;
+    private SortingMethod modelPropertySorting = SortingMethod.LEGACY;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
     protected String releaseNote = "Minor update";
@@ -229,6 +231,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addOption(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY,
                 "One of legacy, alphabetical, default (only `generichost` library supports this option).",
                 this.operationParameterSorting.toString().toLowerCase(Locale.ROOT));
+
+        addOption(CSharpClientCodegen.MODEL_PROPERTY_SORTING_KEY,
+                "One of legacy, alphabetical, default (only `generichost` library supports this option).",
+                this.modelPropertySorting.toString().toLowerCase(Locale.ROOT));
 
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
@@ -465,21 +471,42 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         // avoid breaking changes
         if (GENERICHOST.equals(getLibrary()) && codegenModel != null) {
 
-            Collections.sort(codegenModel.vars, propertyComparatorByName);
-            Collections.sort(codegenModel.allVars, propertyComparatorByName);
-            Collections.sort(codegenModel.requiredVars, propertyComparatorByName);
-            Collections.sort(codegenModel.optionalVars, propertyComparatorByName);
-            Collections.sort(codegenModel.readOnlyVars, propertyComparatorByName);
-            Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
-            Collections.sort(codegenModel.parentVars, propertyComparatorByName);
+            if (this.modelPropertySorting == SortingMethod.LEGACY) {
+                Collections.sort(codegenModel.vars, propertyComparatorByName);
+                Collections.sort(codegenModel.allVars, propertyComparatorByName);
+                Collections.sort(codegenModel.requiredVars, propertyComparatorByName);
+                Collections.sort(codegenModel.optionalVars, propertyComparatorByName);
+                Collections.sort(codegenModel.readOnlyVars, propertyComparatorByName);
+                Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
+                Collections.sort(codegenModel.parentVars, propertyComparatorByName);
 
-            Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(codegenModel.optionalVars, propertyComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                Collections.sort(codegenModel.optionalVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+                Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
+            }
+            else {
+                if (this.modelPropertySorting == SortingMethod.ALPHABETICAL) {
+                    Collections.sort(codegenModel.vars, propertyComparatorByName);
+                    Collections.sort(codegenModel.allVars, propertyComparatorByName);
+                    Collections.sort(codegenModel.requiredVars, propertyComparatorByName);
+                    Collections.sort(codegenModel.optionalVars, propertyComparatorByName);
+                    Collections.sort(codegenModel.readOnlyVars, propertyComparatorByName);
+                    Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
+                    Collections.sort(codegenModel.parentVars, propertyComparatorByName);
+                }
+
+                Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(codegenModel.optionalVars, propertyComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefault);
+                Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefault);
+            }
         }
 
         return codegenModel;
@@ -489,6 +516,18 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         @Override
         public int compare(CodegenProperty one, CodegenProperty another) {
             return one.name.compareTo(another.name);
+        }
+    };
+
+    public static Comparator<CodegenProperty> propertyComparatorByNotNullableRequiredNoDefaultLegacy = new Comparator<CodegenProperty>() {
+        @Override
+        public int compare(CodegenProperty one, CodegenProperty another) {
+            if (one.isNullable == another.isNullable && one.required == another.required && (one.defaultValue == null) == (another.defaultValue == null))
+                return 0;
+            else if (!one.isNullable && one.required && one.defaultValue == null)
+                return -1;
+            else
+                return 1;
         }
     };
 
@@ -684,6 +723,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         if (additionalProperties.containsKey(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY)) {
             setOperationParameterSorting((String) additionalProperties.get(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY));
+        }
+
+        if (additionalProperties.containsKey(CSharpClientCodegen.MODEL_PROPERTY_SORTING_KEY)) {
+            setModelPropertySorting((String) additionalProperties.get(CSharpClientCodegen.MODEL_PROPERTY_SORTING_KEY));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.API_NAME)) {
@@ -1121,6 +1164,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         this.operationParameterSorting = SortingMethod.valueOf(operationParameterSorting.toUpperCase(Locale.ROOT));
+    }
+
+    public void setModelPropertySorting(String modelPropertySorting) {
+        if (modelPropertySorting == null) {
+            modelPropertySorting = "DEFAULT";
+        }
+
+        this.modelPropertySorting = SortingMethod.valueOf(modelPropertySorting.toUpperCase(Locale.ROOT));
     }
 
     public void setSupportsAsync(Boolean supportsAsync) {

@@ -69,10 +69,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -96,10 +96,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
   @Valid
@@ -124,10 +124,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get floatItem
    * @return floatItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -151,10 +151,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -178,10 +178,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -213,10 +213,10 @@ public class TypeHolderExample {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

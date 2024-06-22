@@ -63,10 +63,10 @@ public class AdditionalPropertiesString {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
   public String getName() {
     return name;
@@ -174,12 +174,12 @@ public class AdditionalPropertiesString {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesString
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesString
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AdditionalPropertiesString.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -264,22 +264,22 @@ public class AdditionalPropertiesString {
     }
   }
 
- /**
-  * Create an instance of AdditionalPropertiesString given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AdditionalPropertiesString
-  * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesString
-  */
+  /**
+   * Create an instance of AdditionalPropertiesString given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AdditionalPropertiesString
+   * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesString
+   */
   public static AdditionalPropertiesString fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AdditionalPropertiesString.class);
   }
 
- /**
-  * Convert an instance of AdditionalPropertiesString to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AdditionalPropertiesString to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

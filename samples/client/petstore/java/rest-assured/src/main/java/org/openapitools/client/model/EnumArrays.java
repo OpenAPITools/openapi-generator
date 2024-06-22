@@ -144,10 +144,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get justSymbol
    * @return justSymbol
-  **/
+   */
   @javax.annotation.Nullable
 
 
@@ -174,10 +174,10 @@ public class EnumArrays {
     return this;
   }
 
-   /**
+  /**
    * Get arrayEnum
    * @return arrayEnum
-  **/
+   */
   @javax.annotation.Nullable
 
 

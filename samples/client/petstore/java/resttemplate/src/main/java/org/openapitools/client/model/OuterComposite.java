@@ -47,8 +47,8 @@ public class OuterComposite {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public OuterComposite(@JsonProperty(JSON_PROPERTY_MY_NUMBER) BigDecimal myNumber, @JsonProperty(JSON_PROPERTY_MY_STRING) String myString, @JsonProperty(JSON_PROPERTY_MY_BOOLEAN) Boolean myBoolean) {
     this.myNumber = myNumber;
     this.myString = myString;
@@ -61,10 +61,10 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myNumber
    * @return myNumber
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -86,10 +86,10 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myString
    * @return myString
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -111,10 +111,10 @@ public class OuterComposite {
     return this;
   }
 
-   /**
+  /**
    * Get myBoolean
    * @return myBoolean
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

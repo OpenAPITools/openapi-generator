@@ -34,8 +34,8 @@ public class Model200Response {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public Model200Response(Integer name, String propertyClass) {
       this.name = name;
       this.propertyClass = propertyClass;
@@ -49,7 +49,7 @@ public class Model200Response {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
@@ -69,7 +69,7 @@ public class Model200Response {
   /**
    * Get propertyClass
    * @return propertyClass
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("class")

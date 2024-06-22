@@ -72,10 +72,10 @@ public class NewPetCategoryInlineAllof {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
@@ -91,10 +91,10 @@ public class NewPetCategoryInlineAllof {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
@@ -110,10 +110,10 @@ public class NewPetCategoryInlineAllof {
     return this;
   }
 
-   /**
+  /**
    * Get categoryTag
    * @return categoryTag
-  **/
+   */
   @javax.annotation.Nullable
   public NewPetCategoryInlineAllofAllOfCategoryTag getCategoryTag() {
     return categoryTag;
@@ -228,12 +228,12 @@ public class NewPetCategoryInlineAllof {
     openapiRequiredFields.add("name");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to NewPetCategoryInlineAllof
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to NewPetCategoryInlineAllof
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!NewPetCategoryInlineAllof.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -329,22 +329,22 @@ public class NewPetCategoryInlineAllof {
     }
   }
 
- /**
-  * Create an instance of NewPetCategoryInlineAllof given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of NewPetCategoryInlineAllof
-  * @throws IOException if the JSON string is invalid with respect to NewPetCategoryInlineAllof
-  */
+  /**
+   * Create an instance of NewPetCategoryInlineAllof given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of NewPetCategoryInlineAllof
+   * @throws IOException if the JSON string is invalid with respect to NewPetCategoryInlineAllof
+   */
   public static NewPetCategoryInlineAllof fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, NewPetCategoryInlineAllof.class);
   }
 
- /**
-  * Convert an instance of NewPetCategoryInlineAllof to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of NewPetCategoryInlineAllof to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

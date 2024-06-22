@@ -114,10 +114,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
 
   public Long getId() {
@@ -136,10 +136,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
 
   public String getName() {
@@ -158,10 +158,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
 
   public Category getCategory() {
@@ -188,10 +188,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
 
   public List<String> getPhotoUrls() {
@@ -218,10 +218,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<Tag> getTags() {
@@ -240,10 +240,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
 
   public StatusEnum getStatus() {

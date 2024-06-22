@@ -26,6 +26,7 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaPlayFrameworkCodegen;
+import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -39,18 +40,13 @@ public class JavaPlayFrameworkCodegenTest {
         final JavaPlayFrameworkCodegen codegen = new JavaPlayFrameworkCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
-        Assert.assertEquals(codegen.modelPackage(), "apimodels");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "apimodels");
-        Assert.assertEquals(codegen.apiPackage(), "controllers");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "controllers");
-        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
-        Assert.assertEquals(codegen.getBasePackage(), "org.openapitools");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaPlayFrameworkCodegen.BASE_PACKAGE), "org.openapitools");
-        Assert.assertEquals(codegen.getConfigPackage(), "org.openapitools.configuration");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaPlayFrameworkCodegen.CONFIG_PACKAGE), "org.openapitools.configuration");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, false);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "apimodels");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "controllers");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "org.openapitools.api");
+        configAssert.assertValue(JavaPlayFrameworkCodegen.BASE_PACKAGE, codegen::getBasePackage, "org.openapitools");
+        configAssert.assertValue(JavaPlayFrameworkCodegen.CONFIG_PACKAGE, codegen::getConfigPackage, "org.openapitools.configuration");
     }
 
     @Test
@@ -63,19 +59,13 @@ public class JavaPlayFrameworkCodegenTest {
         codegen.setBasePackage("xx.yyyyyyyy.base");
         codegen.setConfigPackage("xx.yyyyyyyy.config");
         codegen.processOpts();
-
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
-        Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xx.yyyyyyyy.invoker");
-        Assert.assertEquals(codegen.getBasePackage(), "xx.yyyyyyyy.base");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaPlayFrameworkCodegen.BASE_PACKAGE), "xx.yyyyyyyy.base");
-        Assert.assertEquals(codegen.getConfigPackage(), "xx.yyyyyyyy.config");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaPlayFrameworkCodegen.CONFIG_PACKAGE), "xx.yyyyyyyy.config");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.TRUE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xx.yyyyyyyy.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xx.yyyyyyyy.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xx.yyyyyyyy.invoker");
+        configAssert.assertValue(JavaPlayFrameworkCodegen.BASE_PACKAGE, codegen::getBasePackage, "xx.yyyyyyyy.base");
+        configAssert.assertValue(JavaPlayFrameworkCodegen.CONFIG_PACKAGE, "xx.yyyyyyyy.config");
     }
 
     @Test
@@ -89,19 +79,13 @@ public class JavaPlayFrameworkCodegenTest {
         codegen.additionalProperties().put(JavaPlayFrameworkCodegen.CONFIG_PACKAGE,"xyz.yyyyy.cccc.config");
         codegen.additionalProperties().put("serverPort","8088");
         codegen.processOpts();
-
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.getBasePackage(), "xyz.yyyyy.bbbb.base");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaPlayFrameworkCodegen.BASE_PACKAGE), "xyz.yyyyy.bbbb.base");
-        Assert.assertEquals(codegen.getConfigPackage(), "xyz.yyyyy.cccc.config");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaPlayFrameworkCodegen.CONFIG_PACKAGE), "xyz.yyyyy.cccc.config");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.TRUE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xyz.yyyyy.mmmmm.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xyz.yyyyy.aaaaa.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xyz.yyyyy.iiii.invoker");
+        configAssert.assertValue(JavaPlayFrameworkCodegen.BASE_PACKAGE, codegen::getBasePackage, "xyz.yyyyy.bbbb.base");
+        configAssert.assertValue(JavaPlayFrameworkCodegen.CONFIG_PACKAGE, codegen::getConfigPackage, "xyz.yyyyy.cccc.config");
     }
 
     @Test

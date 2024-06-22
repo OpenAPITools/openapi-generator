@@ -33,8 +33,8 @@ public class HasOnlyReadOnly {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public HasOnlyReadOnly(String bar, String foo) {
       this.bar = bar;
       this.foo = foo;
@@ -48,7 +48,7 @@ public class HasOnlyReadOnly {
   /**
    * Get bar
    * @return bar
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("bar")
@@ -68,7 +68,7 @@ public class HasOnlyReadOnly {
   /**
    * Get foo
    * @return foo
-  */
+   */
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("foo")

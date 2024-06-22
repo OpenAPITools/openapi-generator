@@ -102,10 +102,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ID)
@@ -128,10 +128,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Get petId
    * @return petId
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_PET_ID)
@@ -154,10 +154,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Get quantity
    * @return quantity
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_QUANTITY)
@@ -180,10 +180,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Get shipDate
    * @return shipDate
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
@@ -206,10 +206,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Order Status
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "Order Status")
   @JsonProperty(JSON_PROPERTY_STATUS)
@@ -232,10 +232,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Get complete
    * @return complete
-  **/
+   */
   @javax.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_COMPLETE)

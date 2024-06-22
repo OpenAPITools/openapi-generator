@@ -65,10 +65,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayOfString
    * @return arrayOfString
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
@@ -99,10 +99,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -134,10 +134,10 @@ public class ArrayTest {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 

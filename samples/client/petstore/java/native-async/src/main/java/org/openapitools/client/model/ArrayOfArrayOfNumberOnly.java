@@ -59,14 +59,13 @@ public class ArrayOfArrayOfNumberOnly {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }

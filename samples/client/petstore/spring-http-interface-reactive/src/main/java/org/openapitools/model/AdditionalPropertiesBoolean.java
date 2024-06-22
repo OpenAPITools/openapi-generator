@@ -33,7 +33,7 @@ public class AdditionalPropertiesBoolean {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @JsonProperty("name")
   public String getName() {

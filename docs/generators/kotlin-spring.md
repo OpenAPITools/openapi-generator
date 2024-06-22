@@ -41,6 +41,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|Generated artifact package name.| |org.openapitools|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |reactive|use coroutines for reactive behavior| |false|
+|requestMappingMode|Where to generate the class level @RequestMapping annotation.|<dl><dt>**api_interface**</dt><dd>Generate the @RequestMapping annotation on the generated Api Interface.</dd><dt>**controller**</dt><dd>Generate the @RequestMapping annotation on the generated Api Controller Implementation.</dd><dt>**none**</dt><dd>Do not add a class level @RequestMapping annotation.</dd></dl>|controller|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
 |serverPort|configuration the port in which the sever is to run on| |8080|
 |serviceImplementation|generate stub service implementations that extends service interfaces. If this is set to true service interfaces will also be generated| |false|

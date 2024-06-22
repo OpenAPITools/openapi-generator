@@ -56,10 +56,10 @@ public class Whale {
     return this;
   }
 
-   /**
+  /**
    * Get hasBaleen
    * @return hasBaleen
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
@@ -82,10 +82,10 @@ public class Whale {
     return this;
   }
 
-   /**
+  /**
    * Get hasTeeth
    * @return hasTeeth
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_HAS_TEETH)
@@ -108,10 +108,10 @@ public class Whale {
     return this;
   }
 
-   /**
+  /**
    * Get className
    * @return className
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

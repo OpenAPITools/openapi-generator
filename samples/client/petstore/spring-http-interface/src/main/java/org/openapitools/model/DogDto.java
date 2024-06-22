@@ -40,7 +40,7 @@ public class DogDto extends AnimalDto {
   /**
    * Get breed
    * @return breed
-  */
+   */
   
   @JsonProperty("breed")
   public String getBreed() {

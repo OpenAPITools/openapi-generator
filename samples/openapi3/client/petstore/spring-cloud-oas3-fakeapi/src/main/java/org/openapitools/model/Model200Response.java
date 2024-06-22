@@ -36,7 +36,7 @@ public class Model200Response {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
@@ -56,7 +56,7 @@ public class Model200Response {
   /**
    * Get propertyClass
    * @return propertyClass
-  */
+   */
   
   @Schema(name = "class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("class")
