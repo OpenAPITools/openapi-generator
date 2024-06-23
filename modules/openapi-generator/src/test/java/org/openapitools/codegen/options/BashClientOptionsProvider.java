@@ -40,6 +40,7 @@ public class BashClientOptionsProvider implements OptionsProvider {
                                 = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
+    public static final String REMOVE_ENUM_VALUE_PREFIX_VALUE = "true";
 
     @Override
     public String getLanguage() {
@@ -74,6 +75,7 @@ public class BashClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+                .put(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX, REMOVE_ENUM_VALUE_PREFIX_VALUE)
                 .build();
 
     }

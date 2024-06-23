@@ -29,6 +29,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |optionalProjectFile|Generate client.pri.| |true|
 |packageName|C++ package (library) name.| |QtOpenAPIClient|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|removeEnumValuePrefix|Remove the common prefix of enum values|<dl><dt>**false**</dt><dd>No changes to the enum's are made.</dd><dt>**true**</dt><dd>With this option disabled, each enum will have the common prefix between them removed. This is the default option.</dd></dl>|true|
 |reservedWordPrefix|Prefix to prepend to reserved words in order to avoid conflicts| |r_|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|

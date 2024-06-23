@@ -71,6 +71,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |performBeanValidation|Use Bean Validation Impl. to perform BeanValidation| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |reactive|wrap responses in Mono/Flux Reactor types (spring-boot only)| |false|
+|removeEnumValuePrefix|Remove the common prefix of enum values|<dl><dt>**false**</dt><dd>No changes to the enum's are made.</dd><dt>**true**</dt><dd>With this option disabled, each enum will have the common prefix between them removed. This is the default option.</dd></dl>|true|
 |requestMappingMode|Where to generate the class level @RequestMapping annotation.|<dl><dt>**api_interface**</dt><dd>Generate the @RequestMapping annotation on the generated Api Interface.</dd><dt>**controller**</dt><dd>Generate the @RequestMapping annotation on the generated Api Controller Implementation.</dd><dt>**none**</dt><dd>Do not add a class level @RequestMapping annotation.</dd></dl>|controller|
 |resourceFolder|resource folder for generated resources| |src/main/resources|
 |responseWrapper|wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, RxObservable, RxSingle or fully qualified type)| |null|

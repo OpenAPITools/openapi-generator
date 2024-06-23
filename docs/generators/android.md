@@ -34,6 +34,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |library|library template (sub-template) to use|<dl><dt>**volley**</dt><dd>HTTP client: Volley 1.0.19 (default)</dd><dt>**httpclient**</dt><dd>HTTP client: Apache HttpClient 4.3.6. JSON processing: Gson 2.3.1. IMPORTANT: Android client using HttpClient is not actively maintained and will be deprecated in the next major release.</dd></dl>|null|
 |modelPackage|package for generated models| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|removeEnumValuePrefix|Remove the common prefix of enum values|<dl><dt>**false**</dt><dd>No changes to the enum's are made.</dd><dt>**true**</dt><dd>With this option disabled, each enum will have the common prefix between them removed. This is the default option.</dd></dl>|true|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|

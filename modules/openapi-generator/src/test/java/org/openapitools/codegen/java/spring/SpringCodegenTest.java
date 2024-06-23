@@ -3149,6 +3149,48 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testOneOfSubType_issue15274() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_15274.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(USE_ONE_OF_INTERFACES, "true");
+        codegen.additionalProperties().put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true");
+        codegen.additionalProperties().put(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .isInterface()
+                .assertTypeAnnotations()
+                .containsWithName("JsonSubTypes");
+
+        String jsonSubType = "@JsonSubTypes({\n" +
+                "  @JsonSubTypes.Type(value = Cat.class, name = \"PET_CAT\")," +
+                "  @JsonSubTypes.Type(value = Dog.class, name = \"PET_DOG\")," +
+                "  @JsonSubTypes.Type(value = Lizard.class, name = \"PET_LIZARD\")" +
+                "})";
+        assertFileContains(files.get("Pet.java").toPath(), jsonSubType);
+    }
+
+    @Test
     public void testEnumCaseInsensitive_issue8084() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

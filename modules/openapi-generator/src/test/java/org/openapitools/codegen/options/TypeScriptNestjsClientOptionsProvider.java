@@ -49,6 +49,7 @@ public class TypeScriptNestjsClientOptionsProvider implements OptionsProvider {
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
     public static final String ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_VALUE = "false";
     public static final String USE_SINGLE_REQUEST_PARAMETER = "false";
+    public static final String REMOVE_ENUM_VALUE_PREFIX_VALUE = "true";
 
     @Override
     public String getLanguage() {
@@ -90,6 +91,7 @@ public class TypeScriptNestjsClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptNestjsClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .put(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, USE_SINGLE_REQUEST_PARAMETER)
+                .put(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX, REMOVE_ENUM_VALUE_PREFIX_VALUE)
                 .build();
     }
 

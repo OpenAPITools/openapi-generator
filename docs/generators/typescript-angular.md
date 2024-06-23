@@ -41,6 +41,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |providedIn|Use this property to provide Injectables in wanted level.|<dl><dt>**root**</dt><dd>The application-level injector in most apps.</dd><dt>**none**</dt><dd>No providedIn)</dd><dt>**any**</dt><dd>Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.</dd><dt>**platform**</dt><dd>A special singleton platform injector shared by all applications on the page.</dd></dl>|root|
 |queryParamObjectFormat|The format for query param objects: 'dot', 'json', 'key'.| |dot|
+|removeEnumValuePrefix|Remove the common prefix of enum values|<dl><dt>**false**</dt><dd>No changes to the enum's are made.</dd><dt>**true**</dt><dd>With this option disabled, each enum will have the common prefix between them removed. This is the default option.</dd></dl>|true|
 |serviceFileSuffix|The suffix of the file of the generated service (service&lt;suffix&gt;.ts).| |.service|
 |serviceSuffix|The suffix of the generated service.| |Service|
 |snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|

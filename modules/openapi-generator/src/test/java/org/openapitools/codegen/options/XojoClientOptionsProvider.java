@@ -32,6 +32,7 @@ public class XojoClientOptionsProvider implements OptionsProvider {
     public static final String SUPPORTS_ASYNC_VALUE = "true";
     public static final String API_PACKAGE_VALUE = "APIs";
     public static final String MODEL_PACKAGE_VALUE = "Models";
+    public static final String REMOVE_ENUM_VALUE_PREFIX_VALUE = "true";
 
     @Override
     public String getLanguage() {
@@ -57,6 +58,7 @@ public class XojoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, "true")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "false")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "false")
+                .put(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX, REMOVE_ENUM_VALUE_PREFIX_VALUE)
                 .build();
     }
 

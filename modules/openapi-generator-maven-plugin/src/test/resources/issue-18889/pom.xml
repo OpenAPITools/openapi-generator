@@ -1,0 +1,44 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>common.maven</groupId>
+    <artifactId>issue-18889</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>OpenAPI Generator Configuration Test</name>
+    <url>https://openapi-generator.tech/</url>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <configuration>
+                    <generatorName>java</generatorName>
+                    
+                    <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                    
+                    <library>native</library>
+                    <output>${basedir}/target/generated-sources/issue-18889</output>
+                    <additionalProperties>hideGenerationTimestamp=true</additionalProperties>
+                    <inputSpec>${basedir}/issue_18889.yaml</inputSpec>
+                    <generateModelTests>true</generateModelTests>
+                    <generateModelDocumentation>false</generateModelDocumentation>
+                    <generateApiTests>false</generateApiTests>
+                    <generateApis>false</generateApis>
+                    <generateSupportingFiles>false</generateSupportingFiles>
+                    <configOptions>
+                        <removeEnumValuePrefix>false</removeEnumValuePrefix>
+                    </configOptions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

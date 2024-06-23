@@ -55,6 +55,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
     public static final String USE_SPM_FILE_STRUCTURE_VALUE = "false";
     public static final String SWIFT_PACKAGE_PATH_VALUE = "";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
+    public static final String REMOVE_ENUM_VALUE_PREFIX_VALUE = "true";
 
     @Override
     public String getLanguage() {
@@ -102,6 +103,7 @@ public class Swift5OptionsProvider implements OptionsProvider {
                 .put(Swift5ClientCodegen.VALIDATABLE, "true")
                 .put(Swift5ClientCodegen.USE_CLASSES, "false")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+                .put(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX, REMOVE_ENUM_VALUE_PREFIX_VALUE)
                 .build();
     }
 
