@@ -184,6 +184,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.setServiceImplementation(true);
         codegen.setUseBeanValidation(false);
         codegen.setReactive(false);
+        codegen.setSerializableModel(true);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
@@ -206,6 +207,8 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
         Assert.assertFalse(codegen.isReactive());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.REACTIVE), false);
+        Assert.assertTrue(codegen.isSerializableModel());
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL), true);
     }
 
     @Test
@@ -746,5 +749,36 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(outputFilepath,
                            "@Parameter(description = \"image to upload\") @Valid @RequestPart(\"image\", required = false) image: org.springframework.core.io.Resource?");
 
+    }
+
+    @Test
+    public void generateSerializableModel() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt"),
+                "import java.io.Serializable",
+                ") : Serializable{",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
     }
 }
