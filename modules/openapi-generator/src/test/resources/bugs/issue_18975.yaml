@@ -1,0 +1,47 @@
+openapi: 3.0.1
+info:
+  title: sample issue 18975
+  description: sample issue 18975
+  version: "1.0"
+paths:
+  /sample:
+    get:
+      summary: sample
+      operationId: getSample
+      responses:
+        "200":
+          description: Found vehicle.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DifficultType'
+components:
+  schemas:
+    SubA:
+      required:
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+        sim:
+          type: string
+    SubB:
+      required:
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+        system:
+          type: string
+    DifficultType:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          "typeA": '#/components/schemas/SubA'
+          "typeB": '#/components/schemas/SubB'
+      anyOf:
+        - $ref: '#/components/schemas/SubA'
+        - $ref: '#/components/schemas/SubB'
