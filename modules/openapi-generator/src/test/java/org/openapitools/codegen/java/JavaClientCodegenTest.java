@@ -2889,4 +2889,38 @@ public class JavaClientCodegenTest {
             .containsWithNameAndAttributes("XmlElement", Map.of("name", "\"item\""))
             .containsWithNameAndAttributes("XmlElementWrapper", Map.of("name", "\"activities-array\""));
     }
+
+
+    @Test
+    public void shouldGenerateOAuthTokenSuppliers() {
+
+        final Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/java/oauth.yaml",
+            JavaClientCodegen.RESTTEMPLATE
+        );
+
+        final JavaFileAssert apiClient = JavaFileAssert.assertThat(files.get("ApiClient.java"))
+            .printFileContent();
+        apiClient
+            .assertMethod("setAccessToken", "String")
+            .bodyContainsLines("setAccessToken(() -> accessToken);");
+        apiClient
+            .assertMethod("setAccessToken", "Supplier<String>")
+            .bodyContainsLines("((OAuth) auth).setAccessToken(tokenSupplier);");
+
+        final JavaFileAssert oAuth = JavaFileAssert.assertThat(files.get("OAuth.java"))
+            .printFileContent();
+        oAuth
+            .assertMethod("setAccessToken", "String")
+            .bodyContainsLines("setAccessToken(() -> accessToken);");
+        oAuth
+            .assertMethod("setAccessToken", "Supplier<String>")
+            .bodyContainsLines("this.tokenSupplier = tokenSupplier;");
+        oAuth
+            .assertMethod("applyToParams")
+            .bodyContainsLines("Optional.ofNullable(tokenSupplier).map(Supplier::get).ifPresent(accessToken ->")
+            .bodyContainsLines("headerParams.add(HttpHeaders.AUTHORIZATION, \"Bearer \" + accessToken)");
+
+    }
+
 }
