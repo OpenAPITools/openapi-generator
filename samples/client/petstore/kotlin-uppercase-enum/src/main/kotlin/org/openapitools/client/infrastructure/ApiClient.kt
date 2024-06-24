@@ -202,33 +202,35 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         @Suppress("UNNECESSARY_SAFE_CALL")
-        return when {
-            response.isRedirect -> Redirection(
-                response.code,
-                response.headers.toMultimap()
-            )
-            response.isInformational -> Informational(
-                response.message,
-                response.code,
-                response.headers.toMultimap()
-            )
-            response.isSuccessful -> Success(
-                responseBody(response.body, accept),
-                response.code,
-                response.headers.toMultimap()
-            )
-            response.isClientError -> ClientError(
-                response.message,
-                response.body?.string(),
-                response.code,
-                response.headers.toMultimap()
-            )
-            else -> ServerError(
-                response.message,
-                response.body?.string(),
-                response.code,
-                response.headers.toMultimap()
-            )
+        return response.use {
+            when {
+                it.isRedirect -> Redirection(
+                    it.code,
+                    it.headers.toMultimap()
+                )
+                it.isInformational -> Informational(
+                    it.message,
+                    it.code,
+                    it.headers.toMultimap()
+                )
+                it.isSuccessful -> Success(
+                    responseBody(it.body, accept),
+                    it.code,
+                    it.headers.toMultimap()
+                )
+                it.isClientError -> ClientError(
+                    it.message,
+                    it.body?.string(),
+                    it.code,
+                    it.headers.toMultimap()
+                )
+                else -> ServerError(
+                    it.message,
+                    it.body?.string(),
+                    it.code,
+                    it.headers.toMultimap()
+                )
+            }
         }
     }
 

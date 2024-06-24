@@ -240,9 +240,18 @@ public class ApiClient extends JavaTimeFormatter {
      * @param accessToken Access token
      */
     public void setAccessToken(String accessToken) {
+        setAccessToken(() -> accessToken);
+    }
+
+    /**
+     * Helper method to set the supplier of access tokens for OAuth2 authentication.
+     *
+     * @param tokenSupplier The supplier of bearer tokens
+     */
+    public void setAccessToken(Supplier<String> tokenSupplier) {
         for (Authentication auth : authentications.values()) {
             if (auth instanceof OAuth) {
-                ((OAuth) auth).setAccessToken(accessToken);
+                ((OAuth) auth).setAccessToken(tokenSupplier);
                 return;
             }
         }

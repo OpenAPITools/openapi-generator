@@ -14,7 +14,7 @@
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-) {{/discriminator}}{{#parent}}: {{{.}}}{{/parent}}{
+) {{/discriminator}}{{#parent}}: {{{.}}}{{#serializableModel}}, Serializable{{/serializableModel}}{{/parent}}{{#serializableModel}}: Serializable{{/serializableModel}}{
 {{#discriminator}}
     {{#requiredVars}}
         {{>interfaceReqVar}}
@@ -33,4 +33,9 @@
         @JsonProperty({{{value}}}) {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     }
 {{/isEnum}}{{/vars}}{{/hasEnums}}
+{{#serializableModel}}
+    companion object {
+        private const val serialVersionUID: kotlin.Long = 1
+    }
+{{/serializableModel}}
 }
