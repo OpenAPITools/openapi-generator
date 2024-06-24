@@ -33,7 +33,6 @@ public class CodegenConstants {
     public static final String API_TESTS = "apiTests";
     public static final String API_DOCS = "apiDocs";
 
-    public static final String WITH_XML = "withXml";
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
@@ -232,6 +231,8 @@ public class CodegenConstants {
 
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
+
+    public static final String MUSTACHE_PARENT_CONTEXT = "MUSTACHE_PARENT_CONTEXT";
 
     public static enum PARAM_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
@@ -438,6 +439,8 @@ public class CodegenConstants {
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
 
+    public static final String WITH_XML = "withXml";
+    
     public static final String WITH_GO_MOD = "withGoMod";
 
     public static final String GENERATE_MARSHAL_JSON = "generateMarshalJSON";

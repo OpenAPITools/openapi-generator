@@ -41,14 +41,17 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaCaskServerCodegen.class);
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "scala-cask";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a scala-cask server.";
     }
@@ -116,6 +119,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
 
+        typeMapping.put("object", "Value");
+
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
@@ -129,8 +134,20 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "]() ";
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            // We're opinionated in this template to use ujson
+            return "ujson.Null";
         }
         return super.toDefaultValue(p);
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        if (ModelUtils.isFreeFormObject(p)) {
+            // We're opinionated in this template to use ujson
+            return "Value";
+        }
+        return super.getSchemaType(p);
     }
 
     @Override
@@ -138,6 +155,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         return "jvm/src/test/scala";
     }
 
+    @Override
     public String toModelTestFilename(String name) {
         String n = super.toModelTestFilename(name);
         return (modelPackage + "." + n).replace('.', '/');
@@ -222,6 +240,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalTime", "java.time.LocalTime");
+        importMapping.put("Value", "ujson.Value");
     }
 
     static boolean consumesMimetype(CodegenOperation op, String mimetype) {
@@ -267,23 +286,40 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String apiFilename(String templateName, String tag) {
-        String suffix = apiTemplateFiles().get(templateName);
-        String fn = toApiFilename(tag);
+
+        final String suffix = apiTemplateFiles().get(templateName);
+        final String fn = toApiFilename(tag);
         if (templateName.equals(ApiServiceTemplate)) {
-            return apiFileFolder() + '/' + fn + suffix;
+            return apiInterfaceFileFolder() + '/' + fn + suffix;
+        }
+        return apiFileFolder() + '/' + fn + "Routes" + suffix;
+    }
+    @Override
+    public String modelFilename(String templateName, String modelName) {
+        final String defaultFilename = super.modelFilename(templateName, modelName);
+        if (templateName.equals(ApiServiceTemplate)) {
+            final String suffix = apiTemplateFiles().get(templateName);
+            final String fn = toApiFilename(modelName);
+            final String path = modelFileFolder() + '/' + fn + suffix;
+            return path;
         } else {
-            return apiFileFolder() + '/' + fn + "Routes" + suffix;
+            return defaultFilename;
         }
     }
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/jvm/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        final String folder = outputFolder + "/jvm/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return folder;
     }
 
     @Override
     public String modelFileFolder() {
         return outputFolder + "/shared/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+    }
+
+    public String apiInterfaceFileFolder() {
+        return outputFolder + "/shared/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
     }
 
     static String capitalise(String p) {
@@ -785,6 +821,37 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             return "\"\"";
         }
         return p.defaultValue;
+    }
+
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema schema) {
+        CodegenProperty property = super.fromProperty(name, schema);
+
+        // Customize type for freeform objects
+        if (ModelUtils.isFreeFormObject(schema)) {
+            property.dataType = "Value";
+            property.baseType = "Value";
+        }
+
+        return property;
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema schema) {
+        if (ModelUtils.isFreeFormObject(schema)) {
+            return "Value";
+        }
+        return super.getTypeDeclaration(schema);
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        final String result = super.toModelImport(name);
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+        return result;
     }
 
     private static String queryArgs(final CodegenOperation op) {

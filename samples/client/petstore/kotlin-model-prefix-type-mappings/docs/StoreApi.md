@@ -2,12 +2,12 @@
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** store/order/{orderId} | Delete purchase order by ID
-[**getInventory**](StoreApi.md#getInventory) | **GET** store/inventory | Returns pet inventories by status
-[**getOrderById**](StoreApi.md#getOrderById) | **GET** store/order/{orderId} | Find purchase order by ID
-[**placeOrder**](StoreApi.md#placeOrder) | **POST** store/order | Place an order for a pet
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** store/order/{orderId} | Delete purchase order by ID |
+| [**getInventory**](StoreApi.md#getInventory) | **GET** store/inventory | Returns pet inventories by status |
+| [**getOrderById**](StoreApi.md#getOrderById) | **GET** store/order/{orderId} | Find purchase order by ID |
+| [**placeOrder**](StoreApi.md#placeOrder) | **POST** store/order | Place an order for a pet |
 
 
 
@@ -32,10 +32,9 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderId** | **kotlin.String**| ID of the order that needs to be deleted |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **orderId** | **kotlin.String**| ID of the order that needs to be deleted | |
 
 ### Return type
 
@@ -108,10 +107,9 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderId** | **kotlin.Long**| ID of pet that needs to be fetched |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **orderId** | **kotlin.Long**| ID of pet that needs to be fetched | |
 
 ### Return type
 
@@ -148,10 +146,9 @@ launch(Dispatchers.IO) {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **apiOrder** | [**ApiOrder**](ApiOrder.md)| order placed for purchasing the pet |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **apiOrder** | [**ApiOrder**](ApiOrder.md)| order placed for purchasing the pet | |
 
 ### Return type
 

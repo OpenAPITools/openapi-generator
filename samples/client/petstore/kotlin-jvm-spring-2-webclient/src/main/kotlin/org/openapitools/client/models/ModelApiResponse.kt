@@ -39,5 +39,8 @@ data class ModelApiResponse (
     @field:JsonProperty("message")
     val message: kotlin.String? = null
 
-)
+) {
+
+
+}
 

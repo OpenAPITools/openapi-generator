@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -211,12 +211,14 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (shapeOrNull.Triangle != null) {
+            if (shapeOrNull.Triangle != null)
+            {
                 TriangleJsonConverter triangleJsonConverter = (TriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(shapeOrNull.Triangle.GetType()));
                 triangleJsonConverter.WriteProperties(writer, shapeOrNull.Triangle, jsonSerializerOptions);
             }
 
-            if (shapeOrNull.Quadrilateral != null) {
+            if (shapeOrNull.Quadrilateral != null)
+            {
                 QuadrilateralJsonConverter quadrilateralJsonConverter = (QuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(shapeOrNull.Quadrilateral.GetType()));
                 quadrilateralJsonConverter.WriteProperties(writer, shapeOrNull.Quadrilateral, jsonSerializerOptions);
             }

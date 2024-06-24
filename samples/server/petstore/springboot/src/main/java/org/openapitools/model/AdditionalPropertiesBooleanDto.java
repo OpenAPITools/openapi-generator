@@ -38,7 +38,7 @@ public class AdditionalPropertiesBooleanDto {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")

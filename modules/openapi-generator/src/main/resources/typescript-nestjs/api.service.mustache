@@ -2,11 +2,11 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 {{#useAxiosHttpModule}}
-import { Inject, Injectable, Optional } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 {{/useAxiosHttpModule}}
 {{^useAxiosHttpModule}}
-import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
+import { HttpService, Injectable, Optional } from '@nestjs/common';
 {{/useAxiosHttpModule}}
 import { AxiosResponse } from 'axios';
 import { Observable, from, of, switchMap } from 'rxjs';
@@ -84,15 +84,14 @@ export class {{classname}} {
      {{#useSingleRequestParameter}}
      {{#allParams.0}}
      * @param {{=<% %>=}}{<%& classname %><%& operationIdCamelCase %>Request}<%={{ }}=%> requestParameters Request parameters.
-     */
      {{/allParams.0}}
      {{/useSingleRequestParameter}}
      {{^useSingleRequestParameter}}
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}* @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     {{/useSingleRequestParameter}}
      */
-    {{/useSingleRequestParameter}}
     {{#useSingleRequestParameter}}
     public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
     public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}): Observable<any> {
@@ -101,15 +100,16 @@ export class {{classname}} {
     public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
     public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<any> {
     {{/useSingleRequestParameter}}
+{{#allParams.0}}
 {{#useSingleRequestParameter}}
-const {
-{{#allParams}}
-    {{paramName}},
-{{/allParams}}
-} = requestParameters;
+        const {
+        {{#allParams}}
+            {{paramName}},
+        {{/allParams}}
+        } = requestParameters;
 
 {{/useSingleRequestParameter}}
-
+{{/allParams.0}}
 {{#allParams}}
 {{#required}}
         {{#isConstEnumParam}}

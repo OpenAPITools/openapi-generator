@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * TriangleInterface
  */
@@ -47,14 +48,13 @@ public class TriangleInterface {
     return this;
   }
 
-   /**
+  /**
    * Get triangleType
    * @return triangleType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getTriangleType() {
     return triangleType;
   }
@@ -141,7 +141,7 @@ public class TriangleInterface {
 
     // add `triangleType` to the URL query string
     if (getTriangleType() != null) {
-      joiner.add(String.format("%striangleType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getTriangleType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%striangleType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getTriangleType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

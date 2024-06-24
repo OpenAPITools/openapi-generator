@@ -231,7 +231,9 @@ public class InlineModelResolver {
                 if (schema.equals(c)) {
                     return isModelNeeded((Schema) schema.getAllOf().get(0), visitedSchemas);
                 }
-            } else if (isSingleAllOf && StringUtils.isNotEmpty(((Schema) schema.getAllOf().get(0)).get$ref())) {
+            }
+
+            if (isSingleAllOf && StringUtils.isNotEmpty(((Schema) schema.getAllOf().get(0)).get$ref())) {
                 // single allOf and it's a ref
                 return isModelNeeded((Schema) schema.getAllOf().get(0), visitedSchemas);
             }

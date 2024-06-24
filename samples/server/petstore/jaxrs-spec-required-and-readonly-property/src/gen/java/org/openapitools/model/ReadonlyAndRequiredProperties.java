@@ -43,7 +43,7 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("requiredYesReadonlyYes")
-  @NotNull public String getRequiredYesReadonlyYes() {
+  public String getRequiredYesReadonlyYes() {
     return requiredYesReadonlyYes;
   }
 
@@ -159,7 +159,7 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
     return new ReadonlyAndRequiredPropertiesBuilderImpl();
   }
 
-  private static final class ReadonlyAndRequiredPropertiesBuilderImpl extends ReadonlyAndRequiredPropertiesBuilder<ReadonlyAndRequiredProperties, ReadonlyAndRequiredPropertiesBuilderImpl> {
+  private static class ReadonlyAndRequiredPropertiesBuilderImpl extends ReadonlyAndRequiredPropertiesBuilder<ReadonlyAndRequiredProperties, ReadonlyAndRequiredPropertiesBuilderImpl> {
 
     @Override
     protected ReadonlyAndRequiredPropertiesBuilderImpl self() {

@@ -32,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 import org.openapitools.client.JSON;
+import org.openapitools.client.ApiClient;
 /**
  * GrandparentAnimal
  */
@@ -61,14 +62,13 @@ public class GrandparentAnimal {
     return this;
   }
 
-   /**
+  /**
    * Get petType
    * @return petType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getPetType() {
     return petType;
   }
@@ -155,7 +155,7 @@ public class GrandparentAnimal {
 
     // add `pet_type` to the URL query string
     if (getPetType() != null) {
-      joiner.add(String.format("%spet_type%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPetType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spet_type%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPetType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

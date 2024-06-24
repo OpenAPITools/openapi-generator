@@ -57,7 +57,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     /**
      * Get uuid
      * @return uuid
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_UUID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -79,7 +79,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     /**
      * Get dateTime
      * @return dateTime
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_DATE_TIME)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -111,7 +111,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     /**
      * Get map
      * @return map
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_MAP)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

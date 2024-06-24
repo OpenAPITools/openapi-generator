@@ -15,6 +15,7 @@ on:
       - samples/client/others/java/webclient-useAbstractionForFiles/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
+      - samples/client/others/java/resttemplate-list-schema-validation/**
   pull_request:
     paths:
       - 'samples/client/petstore/java/**'
@@ -29,6 +30,7 @@ on:
       - samples/client/others/java/webclient-useAbstractionForFiles/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
+      - samples/client/others/java/resttemplate-list-schema-validation/**
 jobs:
   build:
     name: Build Java Client JDK11
@@ -78,6 +80,7 @@ jobs:
           - samples/client/others/java/webclient-useAbstractionForFiles/
           - samples/client/others/java/jersey2-oneOf-duplicates/
           - samples/client/others/java/jersey2-oneOf-Mixed/
+          - samples/client/others/java/resttemplate-list-schema-validation/
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -94,4 +97,4 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: mvn clean package
+        run: mvn clean package --no-transfer-progress

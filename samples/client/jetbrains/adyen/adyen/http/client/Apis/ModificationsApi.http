@@ -5,6 +5,7 @@
 POST https://checkout-test.adyen.com/v71/cancels
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -20,6 +21,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/amountUpdates
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -38,6 +40,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/cancels
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -52,6 +55,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/captures
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -75,6 +79,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/refunds
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -93,6 +98,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/reversals
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 

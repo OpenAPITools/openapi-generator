@@ -22,8 +22,6 @@ import com.samskivert.mustache.Template;
 import java.io.IOException;
 import java.io.Writer;
 
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
 /**
  * Replaces forward slash with backslash in the text.
  *

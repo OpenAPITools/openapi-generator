@@ -67,14 +67,17 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
 
     final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "scala-akka-http-server";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a scala-akka-http server (beta).";
     }

@@ -25,6 +25,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import io.swagger.v3.oas.models.examples.Example;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Describes a single operation parameter in the OAS specification.
@@ -48,6 +50,8 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary,
             isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject, isAnyType, isShort, isUnboundedInteger;
     public boolean isArray, isMap;
+    /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
+    public boolean isOptional;
     public boolean isFile;
     public boolean isEnum;
     public boolean isEnumRef; // true if the enum is a ref (model) but not defined inline
@@ -65,6 +69,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public String containerType;
     public String containerTypeMapped; // language-specified container type (e.g. `dict` in python for map)
 
+    @Getter @Setter
     private CodegenProperty schema;
     private boolean additionalPropertiesIsAnyType;
     private boolean hasVars;
@@ -128,6 +133,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private CodegenComposedSchemas composedSchemas;
     private boolean hasMultipleTypes = false;
+    @Getter @Setter
     private LinkedHashMap<String, CodegenMediaType> content;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
@@ -261,6 +267,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isAnyType = this.isAnyType;
         output.isArray = this.isArray;
         output.isMap = this.isMap;
+        output.isOptional = this.isOptional;
         output.isExplode = this.isExplode;
         output.style = this.style;
         output.isDeepObject = this.isDeepObject;
@@ -280,7 +287,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 enumDefaultValue, enumName, style, isDeepObject, isMatrix, isAllowEmptyValue, example, examples,
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
                 isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
-                isFreeFormObject, isAnyType, isArray, isMap, isFile, isEnum, isEnumRef, _enum, allowableValues,
+                isFreeFormObject, isAnyType, isArray, isMap, isOptional, isFile, isEnum, isEnumRef, _enum, allowableValues,
                 items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation,
                 getMaxProperties(), getMinProperties(), isNullable, isDeprecated, required, getMaximum(),
                 getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(),
@@ -330,6 +337,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isAnyType == that.isAnyType &&
                 isArray == that.isArray &&
                 isMap == that.isMap &&
+                isOptional == that.isOptional &&
                 isFile == that.isFile &&
                 isEnum == that.isEnum &&
                 isEnumRef == that.isEnumRef &&
@@ -463,6 +471,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", isAnyType=").append(isAnyType);
         sb.append(", isArray=").append(isArray);
         sb.append(", isMap=").append(isMap);
+        sb.append(", isOptional=").append(isOptional);
         sb.append(", isFile=").append(isFile);
         sb.append(", isEnum=").append(isEnum);
         sb.append(", isEnumRef=").append(isEnumRef);
@@ -756,6 +765,16 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsOptional() {
+        return isOptional;
+    }
+
+    @Override
+    public void setIsOptional(boolean isOptional) {
+        this.isOptional = isOptional;
+    }
+
+    @Override
     public boolean getIsArray() {
         return isArray;
     }
@@ -908,8 +927,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         return hasDiscriminatorWithNonEmptyMapping;
     }
 
-    ;
-
     @Override
     public void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping) {
         this.hasDiscriminatorWithNonEmptyMapping = hasDiscriminatorWithNonEmptyMapping;
@@ -973,22 +990,6 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setHasMultipleTypes(boolean hasMultipleTypes) {
         this.hasMultipleTypes = hasMultipleTypes;
-    }
-
-    public CodegenProperty getSchema() {
-        return schema;
-    }
-
-    public void setSchema(CodegenProperty schema) {
-        this.schema = schema;
-    }
-
-    public LinkedHashMap<String, CodegenMediaType> getContent() {
-        return content;
-    }
-
-    public void setContent(LinkedHashMap<String, CodegenMediaType> content) {
-        this.content = content;
     }
 
     @Override

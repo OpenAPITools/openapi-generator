@@ -97,10 +97,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapString
    * @return mapString
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
@@ -131,10 +131,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapNumber
    * @return mapNumber
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -166,10 +166,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapInteger
    * @return mapInteger
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
@@ -200,10 +200,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapBoolean
    * @return mapBoolean
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
@@ -234,10 +234,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapArrayInteger
    * @return mapArrayInteger
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -269,10 +269,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapArrayAnytype
    * @return mapArrayAnytype
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -304,10 +304,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapString
    * @return mapMapString
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -339,10 +339,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get mapMapAnytype
    * @return mapMapAnytype
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -366,10 +366,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get anytype1
    * @return anytype1
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
@@ -392,10 +392,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get anytype2
    * @return anytype2
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ANYTYPE2)
@@ -418,10 +418,10 @@ public class AdditionalPropertiesClass {
     return this;
   }
 
-   /**
+  /**
    * Get anytype3
    * @return anytype3
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ANYTYPE3)

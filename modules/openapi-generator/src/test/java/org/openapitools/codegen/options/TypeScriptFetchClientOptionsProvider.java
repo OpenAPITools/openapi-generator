@@ -85,6 +85,7 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .put(TypeScriptFetchClientCodegen.STRING_ENUMS, STRING_ENUMS)
+                .put(TypeScriptFetchClientCodegen.USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, Boolean.FALSE.toString())
                 .build();
     }
 

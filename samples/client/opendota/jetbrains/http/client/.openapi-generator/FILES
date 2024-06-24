@@ -25,4 +25,5 @@ Apis/SchemaApi.http
 Apis/SearchApi.http
 Apis/StatusApi.http
 Apis/TeamsApi.http
+Apis/http-client.template.env.json
 README.md

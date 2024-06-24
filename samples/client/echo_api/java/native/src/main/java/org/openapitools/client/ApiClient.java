@@ -66,7 +66,7 @@ public class ApiClient {
   private Duration readTimeout;
   private Duration connectTimeout;
 
-  private static String valueToString(Object value) {
+  public static String valueToString(Object value) {
     if (value == null) {
       return "";
     }

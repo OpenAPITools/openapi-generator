@@ -64,10 +64,10 @@ public class AdditionalPropertiesNumber {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nullable
   public String getName() {
     return name;
@@ -175,12 +175,12 @@ public class AdditionalPropertiesNumber {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesNumber
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesNumber
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AdditionalPropertiesNumber.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -265,22 +265,22 @@ public class AdditionalPropertiesNumber {
     }
   }
 
- /**
-  * Create an instance of AdditionalPropertiesNumber given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AdditionalPropertiesNumber
-  * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesNumber
-  */
+  /**
+   * Create an instance of AdditionalPropertiesNumber given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AdditionalPropertiesNumber
+   * @throws IOException if the JSON string is invalid with respect to AdditionalPropertiesNumber
+   */
   public static AdditionalPropertiesNumber fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AdditionalPropertiesNumber.class);
   }
 
- /**
-  * Convert an instance of AdditionalPropertiesNumber to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AdditionalPropertiesNumber to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

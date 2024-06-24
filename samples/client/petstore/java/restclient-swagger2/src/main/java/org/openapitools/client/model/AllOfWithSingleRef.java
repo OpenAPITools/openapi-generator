@@ -49,10 +49,10 @@ public class AllOfWithSingleRef {
     return this;
   }
 
-   /**
+  /**
    * Get username
    * @return username
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_USERNAME)
@@ -75,10 +75,10 @@ public class AllOfWithSingleRef {
     return this;
   }
 
-   /**
+  /**
    * Get singleRefType
    * @return singleRefType
-  **/
+   */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)

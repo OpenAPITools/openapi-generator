@@ -34,7 +34,7 @@ public class ClientDto {
   /**
    * Get client
    * @return client
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("client")

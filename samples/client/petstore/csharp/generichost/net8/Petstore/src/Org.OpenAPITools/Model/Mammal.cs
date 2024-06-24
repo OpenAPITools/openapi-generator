@@ -100,7 +100,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -232,17 +232,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (mammal.Whale != null) {
+            if (mammal.Whale != null)
+            {
                 WhaleJsonConverter whaleJsonConverter = (WhaleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Whale.GetType()));
                 whaleJsonConverter.WriteProperties(writer, mammal.Whale, jsonSerializerOptions);
             }
 
-            if (mammal.Zebra != null) {
+            if (mammal.Zebra != null)
+            {
                 ZebraJsonConverter zebraJsonConverter = (ZebraJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Zebra.GetType()));
                 zebraJsonConverter.WriteProperties(writer, mammal.Zebra, jsonSerializerOptions);
             }
 
-            if (mammal.Pig != null) {
+            if (mammal.Pig != null)
+            {
                 PigJsonConverter pigJsonConverter = (PigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Pig.GetType()));
                 pigJsonConverter.WriteProperties(writer, mammal.Pig, jsonSerializerOptions);
             }

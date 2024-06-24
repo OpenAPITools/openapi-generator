@@ -14,14 +14,17 @@ import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
 
 public class JavaWiremockServerCodegen extends AbstractJavaCodegen implements CodegenConfig {
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
 
+    @Override
     public String getName() {
         return "java-wiremock";
     }
 
+    @Override
     public String getHelp() {
         return "Generates Java WireMock stubs, requests and responses samples.";
     }

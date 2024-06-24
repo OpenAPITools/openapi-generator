@@ -60,5 +60,8 @@ data class User (
     @field:JsonProperty("userStatus")
     val userStatus: kotlin.Int? = null
 
-)
+) {
+
+
+}
 

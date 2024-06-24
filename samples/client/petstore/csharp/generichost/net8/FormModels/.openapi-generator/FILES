@@ -62,7 +62,13 @@ docs/models/LiteralStringClass.md
 docs/models/Mammal.md
 docs/models/MapTest.md
 docs/models/MapTestMapOfEnumStringValue.md
+docs/models/MixLog.md
+docs/models/MixedAnyOf.md
+docs/models/MixedAnyOfContent.md
+docs/models/MixedOneOf.md
+docs/models/MixedOneOfContent.md
 docs/models/MixedPropertiesAndAdditionalPropertiesClass.md
+docs/models/MixedSubId.md
 docs/models/Model200Response.md
 docs/models/ModelClient.md
 docs/models/Name.md
@@ -215,7 +221,13 @@ src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
 src/Org.OpenAPITools/Model/MapTestMapOfEnumStringValue.cs
+src/Org.OpenAPITools/Model/MixLog.cs
+src/Org.OpenAPITools/Model/MixedAnyOf.cs
+src/Org.OpenAPITools/Model/MixedAnyOfContent.cs
+src/Org.OpenAPITools/Model/MixedOneOf.cs
+src/Org.OpenAPITools/Model/MixedOneOfContent.cs
 src/Org.OpenAPITools/Model/MixedPropertiesAndAdditionalPropertiesClass.cs
+src/Org.OpenAPITools/Model/MixedSubId.cs
 src/Org.OpenAPITools/Model/Model200Response.cs
 src/Org.OpenAPITools/Model/ModelClient.cs
 src/Org.OpenAPITools/Model/Name.cs

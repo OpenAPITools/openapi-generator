@@ -35,7 +35,7 @@ public class ClassModelDto {
   /**
    * Get propertyClass
    * @return propertyClass
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("_class")

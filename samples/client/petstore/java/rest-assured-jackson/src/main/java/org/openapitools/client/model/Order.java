@@ -104,10 +104,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ID)
@@ -130,10 +130,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Get petId
    * @return petId
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PET_ID)
@@ -156,10 +156,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Get quantity
    * @return quantity
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_QUANTITY)
@@ -182,10 +182,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Get shipDate
    * @return shipDate
-  **/
+   */
   @javax.annotation.Nullable
   @Valid
 
@@ -209,10 +209,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Order Status
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_STATUS)
@@ -235,10 +235,10 @@ public class Order {
     return this;
   }
 
-   /**
+  /**
    * Get complete
    * @return complete
-  **/
+   */
   @javax.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_COMPLETE)

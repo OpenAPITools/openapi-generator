@@ -31,7 +31,7 @@ public class ClassModelDto {
   /**
    * Get propertyClass
    * @return propertyClass
-  */
+   */
   
   @JsonProperty("_class")
   public String getPropertyClass() {

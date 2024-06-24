@@ -132,7 +132,6 @@ Endpoints do not require authorization.
 - modelDocs: true
 - apiTests: true
 - modelTests: true
-- withXml: 
 
 ## [OpenApi Generator Parameters](https://openapi-generator.tech/docs/generators/csharp-netcore)
 - allowUnicodeIdentifiers: 

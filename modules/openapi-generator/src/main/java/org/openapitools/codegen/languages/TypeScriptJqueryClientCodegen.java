@@ -19,6 +19,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.SupportingFile;
@@ -35,6 +37,7 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String JQUERY_ALREADY_IMPORTED = "jqueryAlreadyImported";
 
+    @Getter @Setter
     protected String npmRepository = null;
 
     public TypeScriptJqueryClientCodegen() {
@@ -65,14 +68,6 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
     @Override
     public String getHelp() {
         return "Generates a TypeScript jquery client library.";
-    }
-
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
     }
 
     @Override
@@ -164,6 +159,4 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         String indexPackage = modelPackage.substring(0, Math.max(0, modelPackage.lastIndexOf('.')));
         return indexPackage.replace('.', File.separatorChar);
     }
-
-
 }

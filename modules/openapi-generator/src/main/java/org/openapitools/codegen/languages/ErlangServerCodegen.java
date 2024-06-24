@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -40,8 +41,8 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
 
     protected String apiVersion = "1.0.0";
     protected String apiPath = "src";
-    protected String packageName = "openapi";
-    protected String openApiSpecName = "openapi";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String openApiSpecName = "openapi";
 
     public ErlangServerCodegen() {
         super();
@@ -287,14 +288,6 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateJSONSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setOpenApiSpecName(String openApiSpecName) {
-        this.openApiSpecName = openApiSpecName;
     }
 
     protected String toHandlerName(String name) {

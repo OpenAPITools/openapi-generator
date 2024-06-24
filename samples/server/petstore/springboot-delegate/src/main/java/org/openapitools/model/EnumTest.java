@@ -192,8 +192,8 @@ public class EnumTest {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public EnumTest(EnumStringEnum enumString, EnumStringRequiredEnum enumStringRequired, EnumIntegerEnum enumInteger, EnumNumberEnum enumNumber, OuterEnum outerEnum) {
       this.enumString = enumString;
       this.enumStringRequired = enumStringRequired;
@@ -210,7 +210,7 @@ public class EnumTest {
   /**
    * Get enumString
    * @return enumString
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("enum_string")
@@ -230,7 +230,7 @@ public class EnumTest {
   /**
    * Get enumStringRequired
    * @return enumStringRequired
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("enum_string_required")
@@ -250,7 +250,7 @@ public class EnumTest {
   /**
    * Get enumInteger
    * @return enumInteger
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("enum_integer")
@@ -270,7 +270,7 @@ public class EnumTest {
   /**
    * Get enumNumber
    * @return enumNumber
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("enum_number")
@@ -290,7 +290,7 @@ public class EnumTest {
   /**
    * Get outerEnum
    * @return outerEnum
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("outerEnum")

@@ -48,10 +48,10 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME)

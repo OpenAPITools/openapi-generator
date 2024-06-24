@@ -72,11 +72,11 @@ namespace Org.OpenAPITools.Model
             }
             set
             {
-                if (value.GetType() == typeof(Apple))
+                if (value.GetType() == typeof(Apple) || value is Apple)
                 {
                     this._actualInstance = value;
                 }
-                else if (value.GetType() == typeof(Banana))
+                else if (value.GetType() == typeof(Banana) || value is Banana)
                 {
                     this._actualInstance = value;
                 }

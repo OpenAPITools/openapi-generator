@@ -28,7 +28,7 @@ export type OuterEnumIntegerDefaultValue = typeof OuterEnumIntegerDefaultValue[k
 export function instanceOfOuterEnumIntegerDefaultValue(value: any): boolean {
     for (const key in OuterEnumIntegerDefaultValue) {
         if (Object.prototype.hasOwnProperty.call(OuterEnumIntegerDefaultValue, key)) {
-            if (OuterEnumIntegerDefaultValue[key] === value) {
+            if ((OuterEnumIntegerDefaultValue as Record<string, OuterEnumIntegerDefaultValue>)[key] === value) {
                 return true;
             }
         }

@@ -267,10 +267,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumString
    * @return enumString
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ENUM_STRING)
@@ -293,10 +293,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumStringRequired
    * @return enumStringRequired
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -320,10 +320,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumInteger
    * @return enumInteger
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
@@ -346,10 +346,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumIntegerOnly
    * @return enumIntegerOnly
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER_ONLY)
@@ -372,10 +372,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get enumNumber
    * @return enumNumber
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
@@ -398,10 +398,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnum
    * @return outerEnum
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -433,10 +433,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnumInteger
    * @return outerEnumInteger
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -460,10 +460,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnumDefaultValue
    * @return outerEnumDefaultValue
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -487,10 +487,10 @@ public class EnumTest {
     return this;
   }
 
-   /**
+  /**
    * Get outerEnumIntegerDefaultValue
    * @return outerEnumIntegerDefaultValue
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 

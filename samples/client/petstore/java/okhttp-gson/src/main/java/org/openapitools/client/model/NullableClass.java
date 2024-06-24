@@ -115,10 +115,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get integerProp
    * @return integerProp
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getIntegerProp() {
     return integerProp;
@@ -134,10 +134,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get numberProp
    * @return numberProp
-  **/
+   */
   @javax.annotation.Nullable
   public BigDecimal getNumberProp() {
     return numberProp;
@@ -153,10 +153,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get booleanProp
    * @return booleanProp
-  **/
+   */
   @javax.annotation.Nullable
   public Boolean getBooleanProp() {
     return booleanProp;
@@ -172,10 +172,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get stringProp
    * @return stringProp
-  **/
+   */
   @javax.annotation.Nullable
   public String getStringProp() {
     return stringProp;
@@ -191,10 +191,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get dateProp
    * @return dateProp
-  **/
+   */
   @javax.annotation.Nullable
   public LocalDate getDateProp() {
     return dateProp;
@@ -210,10 +210,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get datetimeProp
    * @return datetimeProp
-  **/
+   */
   @javax.annotation.Nullable
   public OffsetDateTime getDatetimeProp() {
     return datetimeProp;
@@ -237,10 +237,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNullableProp
    * @return arrayNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   public List<Object> getArrayNullableProp() {
     return arrayNullableProp;
@@ -264,10 +264,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get arrayAndItemsNullableProp
    * @return arrayAndItemsNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   public List<Object> getArrayAndItemsNullableProp() {
     return arrayAndItemsNullableProp;
@@ -291,10 +291,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItemsNullable
    * @return arrayItemsNullable
-  **/
+   */
   @javax.annotation.Nullable
   public List<Object> getArrayItemsNullable() {
     return arrayItemsNullable;
@@ -318,10 +318,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get objectNullableProp
    * @return objectNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Object> getObjectNullableProp() {
     return objectNullableProp;
@@ -345,10 +345,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Object> getObjectAndItemsNullableProp() {
     return objectAndItemsNullableProp;
@@ -372,10 +372,10 @@ public class NullableClass {
     return this;
   }
 
-   /**
+  /**
    * Get objectItemsNullable
    * @return objectItemsNullable
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;
@@ -527,12 +527,12 @@ public class NullableClass {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to NullableClass
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to NullableClass
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!NullableClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -629,22 +629,22 @@ public class NullableClass {
     }
   }
 
- /**
-  * Create an instance of NullableClass given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of NullableClass
-  * @throws IOException if the JSON string is invalid with respect to NullableClass
-  */
+  /**
+   * Create an instance of NullableClass given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of NullableClass
+   * @throws IOException if the JSON string is invalid with respect to NullableClass
+   */
   public static NullableClass fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, NullableClass.class);
   }
 
- /**
-  * Convert an instance of NullableClass to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of NullableClass to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

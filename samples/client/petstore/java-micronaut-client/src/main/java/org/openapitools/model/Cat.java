@@ -46,7 +46,7 @@ public class Cat extends Animal {
     /**
      * Get declawed
      * @return declawed
-     **/
+     */
     @Nullable
     @JsonProperty(JSON_PROPERTY_DECLAWED)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

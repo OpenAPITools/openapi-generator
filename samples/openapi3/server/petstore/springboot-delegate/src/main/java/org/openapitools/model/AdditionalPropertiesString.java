@@ -35,7 +35,7 @@ public class AdditionalPropertiesString {
   /**
    * Get name
    * @return name
-  */
+   */
   
   @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")

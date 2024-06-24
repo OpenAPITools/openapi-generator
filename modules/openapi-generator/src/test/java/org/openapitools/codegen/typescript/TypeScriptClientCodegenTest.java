@@ -15,7 +15,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;

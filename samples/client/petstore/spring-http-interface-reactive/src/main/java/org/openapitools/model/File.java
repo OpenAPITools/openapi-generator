@@ -29,7 +29,7 @@ public class File {
   /**
    * Test capitalization
    * @return sourceURI
-  */
+   */
   
   @JsonProperty("sourceURI")
   public String getSourceURI() {

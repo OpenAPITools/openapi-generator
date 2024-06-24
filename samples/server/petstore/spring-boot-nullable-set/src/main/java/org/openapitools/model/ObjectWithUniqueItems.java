@@ -65,7 +65,7 @@ public class ObjectWithUniqueItems {
   /**
    * Get nullSet
    * @return nullSet
-  */
+   */
   
   @Schema(name = "nullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullSet")
@@ -93,7 +93,7 @@ public class ObjectWithUniqueItems {
   /**
    * Get notNullSet
    * @return notNullSet
-  */
+   */
   
   @Schema(name = "notNullSet", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullSet")
@@ -122,7 +122,7 @@ public class ObjectWithUniqueItems {
   /**
    * Get nullList
    * @return nullList
-  */
+   */
   
   @Schema(name = "nullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullList")
@@ -150,7 +150,7 @@ public class ObjectWithUniqueItems {
   /**
    * Get notNullList
    * @return notNullList
-  */
+   */
   
   @Schema(name = "notNullList", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullList")
@@ -170,7 +170,7 @@ public class ObjectWithUniqueItems {
   /**
    * Get notNullDateField
    * @return notNullDateField
-  */
+   */
   @Valid 
   @Schema(name = "notNullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("notNullDateField")
@@ -190,7 +190,7 @@ public class ObjectWithUniqueItems {
   /**
    * Get nullDateField
    * @return nullDateField
-  */
+   */
   @Valid 
   @Schema(name = "nullDateField", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullDateField")

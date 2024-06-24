@@ -28,6 +28,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * QuadrilateralInterface
  */
@@ -47,14 +48,13 @@ public class QuadrilateralInterface {
     return this;
   }
 
-   /**
+  /**
    * Get quadrilateralType
    * @return quadrilateralType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getQuadrilateralType() {
     return quadrilateralType;
   }
@@ -141,7 +141,7 @@ public class QuadrilateralInterface {
 
     // add `quadrilateralType` to the URL query string
     if (getQuadrilateralType() != null) {
-      joiner.add(String.format("%squadrilateralType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getQuadrilateralType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%squadrilateralType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuadrilateralType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
     }
 
     return joiner.toString();

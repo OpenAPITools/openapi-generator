@@ -47,7 +47,7 @@ public class CatDto extends AnimalDto {
   /**
    * Get declawed
    * @return declawed
-  */
+   */
   
   @JsonProperty("declawed")
   public Boolean getDeclawed() {

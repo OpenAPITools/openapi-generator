@@ -68,10 +68,10 @@ public class Cat extends Animal implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get declawed
    * @return declawed
-  **/
+   */
   @javax.annotation.Nullable
   public Boolean getDeclawed() {
     return declawed;
@@ -161,12 +161,12 @@ public class Cat extends Animal implements Parcelable {
     openapiRequiredFields.add("className");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Cat
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Cat
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Cat.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -185,22 +185,22 @@ public class Cat extends Animal implements Parcelable {
   }
 
 
- /**
-  * Create an instance of Cat given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Cat
-  * @throws IOException if the JSON string is invalid with respect to Cat
-  */
+  /**
+   * Create an instance of Cat given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Cat
+   * @throws IOException if the JSON string is invalid with respect to Cat
+   */
   public static Cat fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Cat.class);
   }
 
- /**
-  * Convert an instance of Cat to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Cat to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

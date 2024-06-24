@@ -29,7 +29,7 @@ import org.openapitools.codegen.languages.PythonPydanticV1ClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileExists;
-import org.openapitools.codegen.TestUtils;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import java.io.File;

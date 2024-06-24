@@ -35,8 +35,8 @@ public class ResponseObjectWithDifferentFieldNames {
   }
 
   /**
-  * Constructor with all args parameters
-  */
+   * Constructor with all args parameters
+   */
   public ResponseObjectWithDifferentFieldNames(String normalPropertyName, String UPPER_CASE_PROPERTY_SNAKE, String lowerCasePropertyDashes, String propertyNameWithSpaces) {
       this.normalPropertyName = normalPropertyName;
       this.UPPER_CASE_PROPERTY_SNAKE = UPPER_CASE_PROPERTY_SNAKE;
@@ -52,7 +52,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Get normalPropertyName
    * @return normalPropertyName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("normalPropertyName")
@@ -72,7 +72,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Get UPPER_CASE_PROPERTY_SNAKE
    * @return UPPER_CASE_PROPERTY_SNAKE
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
@@ -92,7 +92,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Get lowerCasePropertyDashes
    * @return lowerCasePropertyDashes
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("lower-case-property-dashes")
@@ -112,7 +112,7 @@ public class ResponseObjectWithDifferentFieldNames {
   /**
    * Get propertyNameWithSpaces
    * @return propertyNameWithSpaces
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("property name with spaces")

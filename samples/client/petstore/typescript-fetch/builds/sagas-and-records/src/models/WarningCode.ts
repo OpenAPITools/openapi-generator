@@ -28,7 +28,7 @@ export type WarningCode = typeof WarningCode[keyof typeof WarningCode];
 export function instanceOfWarningCode(value: any): boolean {
     for (const key in WarningCode) {
         if (Object.prototype.hasOwnProperty.call(WarningCode, key)) {
-            if (WarningCode[key] === value) {
+            if ((WarningCode as Record<string, WarningCode>)[key] === value) {
                 return true;
             }
         }

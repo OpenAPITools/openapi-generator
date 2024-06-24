@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -56,22 +57,22 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
-    protected String gemName;
-    protected String moduleName;
-    protected String gemVersion = "1.0.0";
+    @Setter protected String gemName;
+    @Setter protected String moduleName;
+    @Setter protected String gemVersion = "1.0.0";
     protected String specFolder = "spec";
     protected String libFolder = "lib";
-    protected String gemLicense = "unlicense";
-    protected String gemRequiredRubyVersion = ">= 1.9";
-    protected String gemHomepage = "https://openapitools.org";
-    protected String gemSummary = "A Ruby SDK for the REST API";
-    protected String gemDescription = "This gem maps to a REST API";
-    protected String gemAuthor = "";
-    protected String gemMetadata = "{}";
-    protected String gemAuthorEmail = "";
+    @Setter protected String gemLicense = "unlicense";
+    @Setter protected String gemRequiredRubyVersion = ">= 1.9";
+    @Setter protected String gemHomepage = "https://openapitools.org";
+    @Setter protected String gemSummary = "A Ruby SDK for the REST API";
+    @Setter protected String gemDescription = "This gem maps to a REST API";
+    @Setter protected String gemAuthor = "";
+    @Setter protected String gemMetadata = "{}";
+    @Setter protected String gemAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected boolean useAutoload = false;
+    @Setter protected boolean useAutoload = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -588,54 +589,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     @Override
     public String toApiImport(String name) {
         return gemName + "/" + apiPackage() + "/" + toApiFilename(name);
-    }
-
-    public void setGemName(String gemName) {
-        this.gemName = gemName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void setGemVersion(String gemVersion) {
-        this.gemVersion = gemVersion;
-    }
-
-    public void setGemDescription(String gemDescription) {
-        this.gemDescription = gemDescription;
-    }
-
-    public void setGemSummary(String gemSummary) {
-        this.gemSummary = gemSummary;
-    }
-
-    public void setGemLicense(String gemLicense) {
-        this.gemLicense = gemLicense;
-    }
-
-    public void setGemRequiredRubyVersion(String gemRequiredRubyVersion) {
-        this.gemRequiredRubyVersion = gemRequiredRubyVersion;
-    }
-
-    public void setGemHomepage(String gemHomepage) {
-        this.gemHomepage = gemHomepage;
-    }
-
-    public void setGemAuthor(String gemAuthor) {
-        this.gemAuthor = gemAuthor;
-    }
-
-    public void setGemAuthorEmail(String gemAuthorEmail) {
-        this.gemAuthorEmail = gemAuthorEmail;
-    }
-
-    public void setGemMetadata(String gemMetadata) {
-        this.gemMetadata = gemMetadata;
-    }
-
-    public void setUseAutoload(boolean useAutoload) {
-        this.useAutoload = useAutoload;
     }
 
     @Override

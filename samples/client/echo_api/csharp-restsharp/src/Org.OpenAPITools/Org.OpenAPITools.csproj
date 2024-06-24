@@ -18,6 +18,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>Minor update</PackageReleaseNotes>
     <Nullable>annotations</Nullable>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,9 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Web" />
   </ItemGroup>
 </Project>

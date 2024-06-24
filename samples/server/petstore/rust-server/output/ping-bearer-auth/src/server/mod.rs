@@ -14,8 +14,7 @@ use swagger::auth::Scopes;
 use url::form_urlencoded;
 
 #[allow(unused_imports)]
-use crate::models;
-use crate::header;
+use crate::{models, header, AuthenticationApi};
 
 pub use crate::context;
 
@@ -24,6 +23,8 @@ type ServiceFuture = BoxFuture<'static, Result<Response<Body>, crate::ServiceErr
 use crate::{Api,
      PingGetResponse
 };
+
+mod server_auth;
 
 mod paths {
     use lazy_static::lazy_static;
@@ -36,6 +37,7 @@ mod paths {
     }
     pub(crate) static ID_PING: usize = 0;
 }
+
 
 pub struct MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,
@@ -56,6 +58,7 @@ impl<T, C> MakeService<T, C> where
         }
     }
 }
+
 
 impl<T, C, Target> hyper::service::Service<Target> for MakeService<T, C> where
     T: Api<C> + Clone + Send + 'static,

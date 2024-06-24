@@ -54,7 +54,7 @@ public class BarCreate extends Entity {
   /**
    * Get barPropA
    * @return barPropA
-  */
+   */
   
   @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("barPropA")
@@ -74,7 +74,7 @@ public class BarCreate extends Entity {
   /**
    * Get fooPropB
    * @return fooPropB
-  */
+   */
   
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
@@ -94,7 +94,7 @@ public class BarCreate extends Entity {
   /**
    * Get foo
    * @return foo
-  */
+   */
   @Valid 
   @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")
