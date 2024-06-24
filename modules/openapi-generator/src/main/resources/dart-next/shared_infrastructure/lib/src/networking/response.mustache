@@ -2,7 +2,7 @@ import 'http_packets.dart';
 import 'request.dart';
 
 /// A response is an http packet originating from a request.
-abstract class HttpResponseBase extends HttpPacketBase {
+abstract class HttpResponseBase with HttpMetaPacketMixin, HttpPacketMixin {
   const HttpResponseBase();
 
   HttpRequestBase get originalRequest;
@@ -32,7 +32,7 @@ abstract class HttpResponseBase extends HttpPacketBase {
   }) = StreamHttpResponse;
 }
 
-class StreamHttpResponse extends HttpResponseBase {
+class StreamHttpResponse extends HttpResponseBase implements StreamHttpPacket {
   const StreamHttpResponse({
     required this.bodyBytesStream,
     required this.originalRequest,
@@ -61,7 +61,7 @@ class StreamHttpResponse extends HttpResponseBase {
   final int statusCode;
 }
 
-class MemoryHttpResponse extends HttpResponseBase {
+class MemoryHttpResponse extends HttpResponseBase implements MemoryHttpPacket {
   const MemoryHttpResponse({
     required this.bodyBytes,
     required this.originalRequest,
@@ -71,7 +71,9 @@ class MemoryHttpResponse extends HttpResponseBase {
     this.context = const {},
   });
 
+  @override
   final List<int> bodyBytes;
+
   @override
   Stream<List<int>> get bodyBytesStream => Stream.value(bodyBytes);
 

@@ -1369,6 +1369,11 @@ paths:
               $ref: '#/components/schemas/ShapeInterface'
           text/plain:
             schema:
+              type: integer
+          '*/*':
+            schema: {}
+          'text/*':
+            schema:
               type: string
           multipart/form-data: # Media type
             schema:            # Request payload
@@ -1806,6 +1811,9 @@ components:
         byte:
           type: string
           format: byte
+        base64Str:
+          type: string
+          format: base64
         binary:
           type: string
           format: binary

@@ -274,6 +274,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     @Override
     protected String toMediaTypeSchemaName(String contentType, String mediaTypeSchemaSuffix) {
+        contentType = contentType.replaceAll("\\*", "Any");
         return toModelName(contentType);
     }
 
@@ -647,40 +648,32 @@ public class DartNextClientCodegen extends DefaultCodegen {
         String srcFolder = libFolder + "src" + File.separator;
         String networkingFolder = srcFolder + "networking" + File.separator;
         String serializationFolder = srcFolder + "serialization" + File.separator;
-        supportingFiles.add(new SupportingFile(sharedInfrastructureFolder + "pubspec.yaml", sharedInfrastructureFolder,
+        supportingFiles.add(new SupportingFile(sharedInfrastructureFolder + "pubspec.mustache", sharedInfrastructureFolder,
                 "pubspec.yaml"));
         supportingFiles.add(
                 new SupportingFile(libFolder + "shared_infrastructure.dart", libFolder, "shared_infrastructure.dart"));
         // Networking
         supportingFiles.add(
-                new SupportingFile(networkingFolder + "_exports.dart", networkingFolder, "_exports.dart"));
+                new SupportingFile(networkingFolder + "_exports.mustache", networkingFolder, "_exports.dart"));
         supportingFiles.add(
-                new SupportingFile(networkingFolder + "client.dart", networkingFolder, "client.dart"));
+                new SupportingFile(networkingFolder + "client.mustache", networkingFolder, "client.dart"));
         supportingFiles.add(
-                new SupportingFile(networkingFolder + "http_packets.dart", networkingFolder, "http_packets.dart"));
+                new SupportingFile(networkingFolder + "http_packets.mustache", networkingFolder, "http_packets.dart"));
         supportingFiles.add(
-                new SupportingFile(networkingFolder + "request.dart", networkingFolder, "request.dart"));
+                new SupportingFile(networkingFolder + "request.mustache", networkingFolder, "request.dart"));
         supportingFiles.add(
-                new SupportingFile(networkingFolder + "response.dart", networkingFolder, "response.dart"));
+                new SupportingFile(networkingFolder + "response.mustache", networkingFolder, "response.dart"));
 
         // Serialization
         supportingFiles.add(
-                new SupportingFile(serializationFolder + "_exports.dart", serializationFolder, "_exports.dart"));
+                new SupportingFile(serializationFolder + "_exports.mustache", serializationFolder, "_exports.dart"));
         supportingFiles.add(
-                new SupportingFile(serializationFolder + "helpers.dart", serializationFolder, "helpers.dart"));
+                new SupportingFile(serializationFolder + "helpers.mustache", serializationFolder, "helpers.dart"));
         supportingFiles.add(
-                new SupportingFile(serializationFolder + "undefined_wrapper.dart", serializationFolder,
+                new SupportingFile(serializationFolder + "undefined_wrapper.mustache", serializationFolder,
                         "undefined_wrapper.dart"));
 
     }
-
-    // @Override
-    // public CodegenOperation fromOperation(String path, String httpMethod,
-    // Operation operation, List<Server> servers) {
-    // var result = super.fromOperation(path, httpMethod, operation, servers);
-
-    // return result;
-    // }
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {

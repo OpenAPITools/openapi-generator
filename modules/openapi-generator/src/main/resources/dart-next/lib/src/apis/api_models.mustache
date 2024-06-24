@@ -10,6 +10,9 @@ part of '{{classFilename}}.dart';
   static const pathTemplate = r'{{{path}}}';
   static String method = r'{{{httpMethod}}}';
 
+  {{#bodyAllowed}}
+  String get contentType;
+  {{/bodyAllowed}}
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
@@ -25,11 +28,9 @@ part of '{{classFilename}}.dart';
 
   {{#bodyAllowed}}
   const factory {{classname}}{{operationIdCamelCase}}Request.unsafe({
-    {{#allParams}}
-{{^isFormParam}}{{^isBodyParam}}
+    {{#allParams}}{{^isFormParam}}{{^isBodyParam}}
     {{>types/required_ctor}} {{>types/param}} {{paramName}},
-{{/isBodyParam}}{{/isFormParam}}
-{{/allParams}}
+    {{/isBodyParam}}{{/isFormParam}}{{/allParams}}
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -94,7 +95,10 @@ part of '{{classFilename}}.dart';
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
+      {{#bodyAllowed}}
+      'Content-Type': contentType,
+      {{/bodyAllowed}}
       {{! first add cookie header }}
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
@@ -104,12 +108,13 @@ part of '{{classFilename}}.dart';
         r'{{baseName}}': OpenApiParameterSerializationHeader(parameterName: r'{{baseName}}',explode: {{isExplode}}).serialize({{paramName}}{{^required}}.valueRequired{{/required}}),
       {{/headerParams}}
       ...extraHeaders,
-    };
+    });
   }
 
 
   {{#bodyAllowed}}
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   });
   {{/bodyAllowed}}
@@ -126,12 +131,16 @@ part of '{{classFilename}}.dart';
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
+    {{#bodyAllowed}}
+    final contentType = headers['Content-Type']!;
+    final parsedContentType = MediaType.parse(contentType).fillDefaults();
+    {{/bodyAllowed}}
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
-      bodyBytesStream: {{#bodyAllowed}}getResolvedBody(context: context){{/bodyAllowed}}{{^bodyAllowed}}Stream.empty(){{/bodyAllowed}},
+      bodyBytesStream: {{#bodyAllowed}}getResolvedBody(context: context, resolvedMediaType: parsedContentType){{/bodyAllowed}}{{^bodyAllowed}}Stream.empty(){{/bodyAllowed}},
       context: context,
     );
   }
@@ -141,19 +150,25 @@ part of '{{classFilename}}.dart';
 /// A version of [{{classname}}{{operationIdCamelCase}}Request], where you can send arbitrary bytes in the body.
 class {{classname}}{{operationIdCamelCase}}RequestUnsafe extends {{classname}}{{operationIdCamelCase}}Request {
   final Stream<Uint8List>? body;
+
+  @override
+  final String contentType;
+
   const {{classname}}{{operationIdCamelCase}}RequestUnsafe({
     this.body,
-  {{#allParams}}
-  {{^isFormParam}}{{^isBodyParam}}
+    this.contentType = 'application/octet-stream',
+    {{#allParams}}
+    {{^isFormParam}}{{^isBodyParam}}
     {{>types/required_ctor}} super.{{paramName}},
-  {{/isBodyParam}}{{/isFormParam}}
-  {{/allParams}}
+    {{/isBodyParam}}{{/isFormParam}}
+    {{/allParams}}
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
   });
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
     final body = this.body;
@@ -164,21 +179,17 @@ class {{classname}}{{operationIdCamelCase}}RequestUnsafe extends {{classname}}{{
   }
 }
 
-{{#hasBodyOrFormParams}}
-//generate a class for body
-//OR
-//generate a class for form params (multipart/formdata)
-{{/hasBodyOrFormParams}}
-{{/bodyAllowed}}
-
 {{#vendorExtensions}}{{#better-consumes}}{{#content}}{{#schema}}
 class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {{classname}}{{operationIdCamelCase}}Request {
-  static const mediaType = r'{{mediaType}}';
+  static const specMediaType = r'{{{key}}}';
 
-  final {{>types/variable}} data;
+  @override
+  String get contentType => specMediaType;
+
+  final {{>types/variable_recursive}} data;
 
   const {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}}({
-    {{>types/required_ctor}} this.data{{>types/default}},
+    required this.data,
     {{#allParams}}
     {{^isFormParam}}{{^isBodyParam}}
     {{>types/required_ctor}} super.{{paramName}},
@@ -191,12 +202,19 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
 
   @override
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
-
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = {{>types/serialize_recursive}};
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = {{#isJson}}json.encode(serialized){{/isJson}}{{^isJson}}serialized{{/isJson}};
+    //final bytes = ;
   }
 }
 {{/schema}}{{/content}}{{/better-consumes}}{{/vendorExtensions}}
+{{/bodyAllowed}}
 
 {{#isDeprecated}}
 @Deprecated('This operation has been deprecated')
