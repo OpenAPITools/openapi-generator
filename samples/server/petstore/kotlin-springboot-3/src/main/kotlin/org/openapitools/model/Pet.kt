@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
 import org.openapitools.model.Tag
+import java.io.Serializable
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Email
@@ -40,7 +41,7 @@ data class Pet(
 
     @Deprecated(message = "")
     @get:JsonProperty("status") val status: Pet.Status? = null
-) {
+) : Serializable{
 
     /**
     * pet status in the store
@@ -53,5 +54,8 @@ data class Pet(
         @JsonProperty("sold") sold("sold")
     }
 
+    companion object {
+        private const val serialVersionUID: kotlin.Long = 1
+    }
 }
 

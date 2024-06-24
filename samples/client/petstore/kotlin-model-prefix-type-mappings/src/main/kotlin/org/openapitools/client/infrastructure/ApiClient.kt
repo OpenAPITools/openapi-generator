@@ -23,8 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
-    private val serializerBuilder: GsonBuilder = Serializer.gsonBuilder,
-    private val callFactory : Call.Factory? = null,
+    private val serializerBuilder: GsonBuilder = registerTypeAdapterFactoryForAllModels(Serializer.gsonBuilder),
+    private val callFactory: Call.Factory? = null,
     private val callAdapterFactories: List<CallAdapter.Factory> = listOf(
     ),
     private val converterFactories: List<Converter.Factory> = listOf(
@@ -112,23 +112,12 @@ class ApiClient(
             ?.setClientSecret(secret)
             ?.setUsername(username)
             ?.setPassword(password)
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnnotation.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnyOfUserOrPet.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnyOfUserOrPetOrArrayString.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiApiResponse.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiCategory.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiOrder.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiPet.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiTag.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUser.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPet.CustomTypeAdapterFactory())
-        serializerBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPetOrArrayString.CustomTypeAdapterFactory())
     }
 
     /**
-    * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-    * @return Token request builder
-    */
+     * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+     * @return Token request builder
+     */
     fun getTokenEndPoint(): TokenRequestBuilder? {
         var result: TokenRequestBuilder? = null
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
@@ -138,9 +127,9 @@ class ApiClient(
     }
 
     /**
-    * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
-    * @return Authentication request builder
-    */
+     * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+     * @return Authentication request builder
+     */
     fun getAuthorizationEndPoint(): AuthenticationRequestBuilder? {
         var result: AuthenticationRequestBuilder? = null
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
@@ -150,10 +139,10 @@ class ApiClient(
     }
 
     /**
-    * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
-    * @param accessToken Access token
-    * @return ApiClient
-    */
+     * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
+     * @param accessToken Access token
+     * @return ApiClient
+     */
     fun setAccessToken(accessToken: String): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             setAccessToken(accessToken)
@@ -162,12 +151,12 @@ class ApiClient(
     }
 
     /**
-    * Helper method to configure the oauth accessCode/implicit flow parameters
-    * @param clientId Client ID
-    * @param clientSecret Client secret
-    * @param redirectURI Redirect URI
-    * @return ApiClient
-    */
+     * Helper method to configure the oauth accessCode/implicit flow parameters
+     * @param clientId Client ID
+     * @param clientSecret Client secret
+     * @param redirectURI Redirect URI
+     * @return ApiClient
+     */
     fun configureAuthorizationFlow(clientId: String, clientSecret: String, redirectURI: String): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             tokenRequestBuilder
@@ -182,10 +171,10 @@ class ApiClient(
     }
 
     /**
-    * Configures a listener which is notified when a new access token is received.
-    * @param accessTokenListener Access token listener
-    * @return ApiClient
-    */
+     * Configures a listener which is notified when a new access token is received.
+     * @param accessTokenListener Access token listener
+     * @return ApiClient
+     */
     fun registerAccessTokenListener(accessTokenListener: AccessTokenListener): ApiClient {
         apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
             registerAccessTokenListener(accessTokenListener)
@@ -218,6 +207,14 @@ class ApiClient(
         return retrofitBuilder.callFactory(usedCallFactory).build().create(serviceClass)
     }
 
+    /**
+     * Gets the serializer builder.
+     * @return serial builder
+     */
+    fun getSerializerBuilder(): GsonBuilder {
+        return serializerBuilder
+    }
+
     private fun normalizeBaseUrl() {
         if (!baseUrl.endsWith("/")) {
             baseUrl += "/"
@@ -226,7 +223,7 @@ class ApiClient(
 
     private inline fun <T, reified U> Iterable<T>.runOnFirst(callback: U.() -> Unit) {
         for (element in this) {
-            if (element is U)  {
+            if (element is U) {
                 callback.invoke(element)
                 break
             }
@@ -242,4 +239,25 @@ class ApiClient(
             System.getProperties().getProperty(baseUrlKey, "http://petstore.swagger.io/v2")
         }
     }
+}
+
+/**
+ * Registers all models with the type adapter factory.
+ *
+ * @param gsonBuilder gson builder
+ * @return GSON builder
+ */
+fun registerTypeAdapterFactoryForAllModels(gsonBuilder: GsonBuilder): GsonBuilder {
+    gsonBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnnotation.CustomTypeAdapterFactory())
+    gsonBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnyOfUserOrPet.CustomTypeAdapterFactory())
+    gsonBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiAnyOfUserOrPetOrArrayString.CustomTypeAdapterFactory())
+    gsonBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiApiResponse.CustomTypeAdapterFactory())
+    gsonBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiCategory.CustomTypeAdapterFactory())
+    gsonBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiOrder.CustomTypeAdapterFactory())
+    gsonBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiPet.CustomTypeAdapterFactory())
+    gsonBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiTag.CustomTypeAdapterFactory())
+    gsonBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUser.CustomTypeAdapterFactory())
+    gsonBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPet.CustomTypeAdapterFactory())
+    gsonBuilder.registerTypeAdapterFactory(org.openapitools.client.models.ApiUserOrPetOrArrayString.CustomTypeAdapterFactory())
+    return gsonBuilder
 }

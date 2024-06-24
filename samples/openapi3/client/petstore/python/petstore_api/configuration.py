@@ -56,6 +56,7 @@ class Configuration:
       values before.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
+    :param retries: Number of retries for API requests.
 
     :Example:
 
@@ -144,6 +145,9 @@ conf = petstore_api.Configuration(
                  server_index=None, server_variables=None,
                  server_operation_index=None, server_operation_variables=None,
                  ssl_ca_cert=None,
+                 retries=None,
+                 *,
+                 debug: Optional[bool] = None
                  ) -> None:
         """Constructor
         """
@@ -206,7 +210,10 @@ conf = petstore_api.Configuration(
         self.logger_file = None
         """Debug file location
         """
-        self.debug = False
+        if debug is not None:
+            self.debug = debug
+        else:
+            self.__debug = False
         """Debug switch
         """
 
@@ -249,7 +256,7 @@ conf = petstore_api.Configuration(
         self.safe_chars_for_path_param = ''
         """Safe chars for path_param
         """
-        self.retries = None
+        self.retries = retries
         """Adding retries to override urllib3 default value 3
         """
         # Enable client side validation

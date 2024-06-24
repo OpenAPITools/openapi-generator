@@ -5133,6 +5133,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (parameter.getExtensions() != null && !parameter.getExtensions().isEmpty()) {
             codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
         }
+        if (parameter.getSchema() != null && parameter.getSchema().getExtensions() != null && !parameter.getSchema().getExtensions().isEmpty()) {
+            codegenParameter.vendorExtensions.putAll(parameter.getSchema().getExtensions());
+        }
 
         Schema parameterSchema;
 

@@ -176,6 +176,7 @@ apply plugin: 'org.openapi.generator'
 
 |templateResourcePath
 |String
+|None
 |Directory with mustache templates via resource path. This option will overwrite any option defined in `templateDir`
 
 |auth

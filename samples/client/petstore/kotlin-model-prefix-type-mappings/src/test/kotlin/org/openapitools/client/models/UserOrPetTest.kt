@@ -27,6 +27,8 @@ import com.google.gson.GsonBuilder
 import io.kotlintest.matchers.types.shouldBeSameInstanceAs
 import io.kotlintest.shouldNotBe
 import org.junit.jupiter.api.Assertions.assertThrows
+import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.registerTypeAdapterFactoryForAllModels
 import java.io.IOException
 import java.lang.RuntimeException
 
@@ -34,13 +36,7 @@ class ApiUserOrPetTest : ShouldSpec() {
     init {
 
         should("test custom type adapter") {
-            val gson = GsonBuilder()
-                    .registerTypeAdapterFactory(ApiUser.CustomTypeAdapterFactory())
-                    .registerTypeAdapterFactory(ApiCategory.CustomTypeAdapterFactory())
-                    .registerTypeAdapterFactory(ApiPet.CustomTypeAdapterFactory())
-                    .registerTypeAdapterFactory(ApiTag.CustomTypeAdapterFactory())
-                    .registerTypeAdapterFactory(ApiUserOrPet.CustomTypeAdapterFactory())
-                    .create()
+            val gson = ApiClient().getSerializerBuilder().create()
 
             // test Category
             val categoryJson = "{\"id\":123,\"name\":\"category\"}"

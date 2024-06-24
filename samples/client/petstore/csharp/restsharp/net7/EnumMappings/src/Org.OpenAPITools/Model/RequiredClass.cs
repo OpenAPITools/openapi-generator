@@ -708,28 +708,24 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets RequiredNullableDateProp
         /// </summary>
         [DataMember(Name = "required_nullable_date_prop", IsRequired = true, EmitDefaultValue = true)]
-        [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateOnly RequiredNullableDateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNotNullableDateProp
         /// </summary>
         [DataMember(Name = "required_not_nullable_date_prop", IsRequired = true, EmitDefaultValue = true)]
-        [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateOnly RequiredNotNullableDateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets NotRequiredNullableDateProp
         /// </summary>
         [DataMember(Name = "not_required_nullable_date_prop", EmitDefaultValue = true)]
-        [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateOnly NotRequiredNullableDateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets NotRequiredNotnullableDateProp
         /// </summary>
         [DataMember(Name = "not_required_notnullable_date_prop", EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateOnly NotRequiredNotnullableDateProp { get; set; }
 
         /// <summary>
