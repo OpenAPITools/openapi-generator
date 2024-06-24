@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.helidon.applications</groupId>
         <artifactId>helidon-se</artifactId>
-        <version>4.0.9</version>
+        <version>4.0.10</version>
         <relativePath/>
     </parent>
     <artifactId>petstore-helidon-client-se</artifactId>

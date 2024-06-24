@@ -1,6 +1,7 @@
-{{#isPrimitiveType}}{{^isFile}}{{^isString}}
-                .map({{!
-}}{{#isDecimal}}BigDecimal::new{{/isDecimal}}{{!
-}}{{#isNumber}}BigDecimal::new{{/isNumber}}{{!
-}}{{#isDate}}LocalDate::parse{{/isDate}}{{#isDateTime}}OffsetDateTime::parse{{/isDateTime}}{{!
-}}{{^isDecimal}}{{^isNumber}}{{^isDate}}{{^isDateTime}}{{{dataType}}}::valueOf{{/isDateTime}}{{/isDate}}{{/isNumber}}{{/isDecimal}}){{/isString}}{{/isFile}}{{/isPrimitiveType}}
+{{^isFile}}{{!
+}}{{^isString}}{{!
+}}{{!{{^isContainer}}
+                .map({{>paramValueConverter}}){{!
+}}{{!{{/isContainer}}{{!
+}}{{/isString}}{{!
+}}{{/isFile}}

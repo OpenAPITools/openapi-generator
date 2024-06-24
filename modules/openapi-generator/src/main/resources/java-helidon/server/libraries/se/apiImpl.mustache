@@ -3,13 +3,18 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 {{^useAbstractClass}}
-import java.util.logging.Logger;{{/useAbstractClass}}
-
+import {{#x-helidon-v3}}java.util.logging.Logger;
+{{/x-helidon-v3}}{{/useAbstractClass}}
+{{^x-helidon-v3}}
+import io.helidon.common.Errors;
+{{/x-helidon-v3}}
 import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerRequest;
 import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerResponse;
 {{#useBeanValidation}}{{^x-helidon-v3}}import {{rootJavaEEPackage}}.validation.constraints.*;
 import {{rootJavaEEPackage}}.validation.Valid;
 {{/x-helidon-v3}}{{/useBeanValidation}}{{!
+}}{{^x-helidon-v3}}import {{rootJavaEEPackage}}.validation.ValidationException;
+{{/x-helidon-v3}}{{!
 }}{{#x-helidon-hasGenericTypeDeclarations}}import {{modelPackage}}.GenericTypes;
 {{/x-helidon-hasGenericTypeDeclarations}}{{!
 }}
@@ -18,7 +23,7 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
 
     private static final int HTTP_CODE_NOT_IMPLEMENTED = 501;
 {{^useAbstractClass}}
-    private static final Logger LOGGER = Logger.getLogger({{classname}}.class.getName());
+    private static final {{^x-helidon-v3}}System.{{/x-helidon-v3}}Logger LOGGER = {{#x-helidon-v3}}Logger{{/x-helidon-v3}}{{^x-helidon-v3}}System{{/x-helidon-v3}}.getLogger({{classname}}.class.getName());
 {{#jackson}}
     private static final ObjectMapper MAPPER = JsonProvider.objectMapper();{{/jackson}}
 {{#jsonb}}
@@ -42,20 +47,39 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
   we handle things differently.
 
 }}{{^isMultipart}}{{#formParams}}{{#-first}}        Parameters formParams = request.content().as(Parameters.class);
+
 {{/-first}}{{/formParams}}{{/isMultipart}}{{!
 }}{{#isMultipart}}        MultiPart multiPart = request.content().as(MultiPart.class);
         multiPart.forEachRemaining(part -> {
                 // TODO: Insert user-implemented handling of multipart data here.
         });
 {{/isMultipart}}{{!
-}}{{#allParams}}{{^isFormParam}}{{!
+}}        Errors.Collector errorsCollector = Errors.collector();
+        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+
+{{#allParams}}{{!
+}}{{#isMap}}
+        // TODO - user code needed to handle Map for parameter {{paramName}}.{{/isMap}}{{!
+}}{{^isMap}}{{!
+}}{{!
+
+    We handle form parameters separately here because we handle multipart separate from single part form params.
+
+}}{{^isFormParam}}{{!
 }}        {{>paramDecl}} = {{#isBodyParam}}{{>bodyParamValue}}{{/isBodyParam}}{{^isBodyParam}}{{>paramValue}}{{/isBodyParam}};
 
-{{/isFormParam}}{{/allParams}}{{!
-}}{{^isMultipart}}{{#formParams}}{{!
+{{/isFormParam}}{{!
+}}{{#isFormParam}}{{^isMultipart}}{{!
 }}        {{>paramDecl}} = {{>paramValue}};
-{{/formParams}}{{!
-}}{{/isMultipart}}
+
+{{/isMultipart}}{{/isFormParam}}{{!
+}}{{/isMap}}{{!
+}}{{/allParams}}
+        Errors errors = errorsCollector.collect();
+        errors.log(LOGGER);
+        if (errors.hasFatal()) {
+            throw new ValidationException("Validation errors: " + errors);
+        }
 {{/x-helidon-v3}}
 {{/useAbstractClass}}
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();

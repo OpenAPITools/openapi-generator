@@ -10,6 +10,11 @@ src/main/java/org/openapitools/server/api/FakeClassnameTags123Service.java
 src/main/java/org/openapitools/server/api/FakeClassnameTags123ServiceImpl.java
 src/main/java/org/openapitools/server/api/FakeService.java
 src/main/java/org/openapitools/server/api/FakeServiceImpl.java
+src/main/java/org/openapitools/server/api/HCollectors.java
+src/main/java/org/openapitools/server/api/HCollectors.java
+src/main/java/org/openapitools/server/api/HCollectors.java
+src/main/java/org/openapitools/server/api/HCollectors.java
+src/main/java/org/openapitools/server/api/HCollectors.java
 src/main/java/org/openapitools/server/api/JsonProvider.java
 src/main/java/org/openapitools/server/api/PetService.java
 src/main/java/org/openapitools/server/api/PetServiceImpl.java

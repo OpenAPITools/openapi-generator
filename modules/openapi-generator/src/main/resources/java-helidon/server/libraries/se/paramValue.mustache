@@ -22,32 +22,66 @@ Wrap a single-valued parameter in an Optional only if it is NOT declared as requ
 The Helidon 4 API exposes path, query, and cookie values as Value objects but header values as Strings, so deal with
 them slightly differently.
 
-}}{{#required}}ValidatorUtils.nonEmpty({{/required}}{{!
 }}{{^isFormParam}}request{{/isFormParam}}{{!
 }}{{#isFormParam}}formParams{{/isFormParam}}{{!
 }}{{#isPathParam}}.path()
-                .pathParameters()
-{{/isPathParam}}{{#isQueryParam}}.query()
-{{/isQueryParam}}{{#isCookieParam}}.headers()
-                .cookies()
-{{/isCookieParam}}{{!
-}}{{#isHeaderParam}}.headers()
-{{/isHeaderParam}}{{!
+                .pathParameters(){{!
+}}{{/isPathParam}}{{!
+}}{{#isQueryParam}}.query(){{!
+}}{{/isQueryParam}}{{!
+}}{{#isCookieParam}}.headers()
+                .cookies(){{!
+}}{{/isCookieParam}}{{!
+}}{{#isHeaderParam}}.headers(){{!
+}}{{/isHeaderParam}}{{!
   We have generated code to access the object from which we'll get either the first value or all the values given a name.
   Headers use "values" which accepts a HeaderName while the other objects use "all" which accepts a String to gather all of
   potentially multiple values. All types use "first" to retrieve only the first value with the name.
-}}{{#isContainer}}{{#isHeaderParam}}{{!
-}}                .values(HeaderNames.create("{{baseName}}")){{/isHeaderParam}}{{!
-}}{{^isHeaderParam}}{{!
-}}                .all("{{baseName}}"){{/isHeaderParam}}
-                .stream(){{> paramValueMapExpr }}
+}}{{#isContainer}}{{!
+}}{{#isHeaderParam}}
+                .values(HeaderNames.create("{{baseName}}")){{!
+}}{{/isHeaderParam}}{{!
+}}{{^isHeaderParam}}
+                .all("{{baseName}}"){{!
+}}{{/isHeaderParam}}
+                .stream(){{!
+}}{{/isContainer}}{{!
+}}{{^isContainer}}
+                .first({{#isHeaderParam}}HeaderNames.create({{/isHeaderParam}}"{{baseName}}"{{#isHeaderParam}}){{/isHeaderParam}}){{!
+}}{{#isString}}{{^isHeaderParam}}
+                .asOptional(){{/isHeaderParam}}{{/isString}}{{!
+}}{{#defaultValue}}
+                .or(() -> Optional.of("{{defaultValue}}")){{/defaultValue}}{{!
+}}{{^defaultValue}}{{#required}}
+                .map(v -> validator.require("{{baseName}}", v)){{!
+}}{{/required}}{{/defaultValue}}{{!
+}}{{/isContainer}}{{!
+}}{{> paramValueMapExpr }}{{!
+}}{{^vendorExtensions.x-helidon-hasEnumClass}}{{!
+}}{{#isEnum}}
+                .map(v -> validator.check("{{baseName}}",
+                     v,
+                     List.of({{#allowableValues}}{{#enumVars}}{{^-first}},
+                             {{/-first}}{{{value}}}{{/enumVars}}{{/allowableValues}}))){{!
+}}{{/isEnum}}{{/vendorExtensions.x-helidon-hasEnumClass}}{{^isContainer}}{{^defaultValue}}{{!
+}}{{#required}}
+                .orElse(null){{!
+}}{{/required}}{{!
+}}{{^required}}
+                .or(Optional::empty){{!
+}}{{/required}}{{!
+}}{{/defaultValue}}{{/isContainer}}{{!
+}}{{#isContainer}}{{!
+}}{{#defaultValue}}
+                .collect(HCollectors.toDefaultedList("{{defaultValue}}",
+                                                    {{>paramValueConverter}}){{!
+}}{{/defaultValue}}{{!
+}}{{^defaultValue}}{{#required}}
+                .collect(HCollectors.toRequiredList("{{baseName}}",
+                                                    validator){{!
+}}{{/required}}{{!
+}}{{^required}}
                 .to{{containerTypeMapped}}(){{!
+}}{{/required}}{{/defaultValue}}{{!
 }}{{/isContainer}}{{!
-}}{{^isContainer}}{{!
-}}{{^isFormParam}}                {{/isFormParam}}.first({{#isHeaderParam}}HeaderNames.create({{/isHeaderParam}}"{{baseName}}"{{#isHeaderParam}}){{/isHeaderParam}}){{> paramValueMapExpr }}{{!
-}}{{#isFormParam}}
-                .asOptional(){{!
-}}{{/isFormParam}}{{!
-}}{{/isContainer}}{{!
-}}{{#required}}){{/required}}{{!
 }}{{/x-helidon-v3}}

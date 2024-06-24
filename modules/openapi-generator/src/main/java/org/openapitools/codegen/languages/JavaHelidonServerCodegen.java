@@ -362,6 +362,7 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                 additionalProperties.put(GenericTypeDeclarations.ATTR_NAME, genericTypeDeclarations.genericTypeDeclarations());
                 if (helidonMajorVersion > 3) {
                     supportingFiles.add(new SupportingFile("genericTypes.mustache", modelFolder(), "GenericTypes.java"));
+                    supportingFiles.add(new SupportingFile("hcollectors.mustache", apiFolder(), "HCollectors.java"));
                 }
             }
             List<CodegenOperation> ops = operations.getOperation();

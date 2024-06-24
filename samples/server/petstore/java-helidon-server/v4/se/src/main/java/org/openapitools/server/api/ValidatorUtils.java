@@ -3,9 +3,12 @@ package org.openapitools.server.api;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
+import io.helidon.common.Errors;
 import io.helidon.common.mapper.OptionalValue;
 
 import jakarta.validation.ValidationException;
@@ -146,5 +149,50 @@ public final class ValidatorUtils {
             throw new ValidationException("Required value is missing");
         }
         return coll;
+    }
+
+    static Validator validator(System.Logger logger) {
+        return new Validator(logger);
+    }
+
+    static class Validator {
+
+        private final System.Logger logger;
+        private final Errors.Collector errorsCollector = Errors.collector();
+
+        Validator(System.Logger logger) {
+            this.logger = logger;
+        }
+
+        <T> T check(String paramName, T paramValue, List<T> validValues) {
+            if (!validValues.contains(paramValue)) {
+                errorsCollector.fatal(String.format("Invalid value %s = '%s' not among %s",
+                                                    paramName,
+                                                    paramValue,
+                                                    validValues));
+            }
+            return paramValue;
+        }
+
+        <T> T require(String paramName, T paramValue) {
+            if (paramValue == null || ((paramValue instanceof Optional opt) && opt.isEmpty())) {
+                errorsCollector.fatal(String.format("Missing required param: %s", paramName));
+            }
+            return paramValue;
+        }
+
+        <T> List<T> require(String paramName, List<T> paramValues) {
+            if (paramValues.isEmpty()) {
+                errorsCollector.fatal(String.format("Empty required parameter: %s", paramName));
+            }
+            return paramValues;
+        }
+
+        void close() {
+            Errors errors = errorsCollector.collect();
+            if (errors.hasFatal()) {
+                throw new ValidationException("Validation errors: " + errors);
+            }
+        }
     }
 }

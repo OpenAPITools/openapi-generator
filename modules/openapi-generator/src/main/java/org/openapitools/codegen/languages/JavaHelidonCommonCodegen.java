@@ -90,6 +90,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     static final String MICROPROFILE_ROOT_PACKAGE_DESC = "Root package name for Java EE";
     static final String MICROPROFILE_ROOT_PACKAGE_JAVAX = "javax";
     static final String MICROPROFILE_ROOT_PACKAGE_JAKARTA = "jakarta";
+    static final String HELIDON_ENUM_CLASS = "x-helidon-hasEnumClass";
     private static final String VALIDATION_ARTIFACT_PREFIX_KEY = "x-helidon-validationArtifactPrefix";
     private static final String VALIDATION_ARTIFACT_PREFIX_JAVAX = "";
     private static final String VALIDATION_ARTIFACT_PREFIX_JAKARTA = MICROPROFILE_ROOT_PACKAGE_JAKARTA + ".";
@@ -212,7 +213,15 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         if (!result.required && helidonMajorVersion > 3) {
             imports.add("Optional");
         }
+        if (result.items != null && result.items.getRef() != null) {
+            result.vendorExtensions.put(HELIDON_ENUM_CLASS, true);
+        }
         return result;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
     }
 
     /**
