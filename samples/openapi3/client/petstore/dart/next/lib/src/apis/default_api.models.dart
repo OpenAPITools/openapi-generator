@@ -45,11 +45,11 @@ part of 'default_api.dart';
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -66,18 +66,16 @@ part of 'default_api.dart';
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 class DefaultApiFakeAnyOfWIthSameErasureGetResponse {
@@ -128,11 +126,11 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -149,18 +147,16 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 class DefaultApiFakeOneOfWIthSameErasureGetResponse {
@@ -211,11 +207,11 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -232,18 +228,16 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 class DefaultApiFooGetResponse {
@@ -254,6 +248,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   static const pathTemplate = r'/pets/multicontent-test';
   static String method = r'POST';
 
+  String get contentType;
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
@@ -261,7 +256,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   
 
   const factory DefaultApiPetsMulticontentTestPostRequest.unsafe({
-
+    
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -303,15 +298,17 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
+      'Content-Type': contentType,
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   });
 
@@ -327,12 +324,14 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
+    final contentType = headers['Content-Type']!;
+    final parsedContentType = MediaType.parse(contentType).fillDefaults();
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context),
+      bodyBytesStream: getResolvedBody(context: context, resolvedMediaType: parsedContentType),
       context: context,
     );
   }
@@ -341,15 +340,21 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
 /// A version of [DefaultApiPetsMulticontentTestPostRequest], where you can send arbitrary bytes in the body.
 class DefaultApiPetsMulticontentTestPostRequestUnsafe extends DefaultApiPetsMulticontentTestPostRequest {
   final Stream<Uint8List>? body;
+
+  @override
+  final String contentType;
+
   const DefaultApiPetsMulticontentTestPostRequestUnsafe({
     this.body,
-  
+    this.contentType = 'application/octet-stream',
+    
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
   });
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
     final body = this.body;
@@ -360,22 +365,19 @@ class DefaultApiPetsMulticontentTestPostRequestUnsafe extends DefaultApiPetsMult
   }
 }
 
-//generate a class for body
-//OR
-//generate a class for form params (multipart/formdata)
-
 
 class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultApiPetsMulticontentTestPostRequest {
-  static const mediaType = r'application/json';
+  static const specMediaType = r'application/json';
 
-  final UndefinedWrapper<
+  @override
+  String get contentType => specMediaType;
+
+  final 
             Pet
-> data;
+ data;
 
   const DefaultApiPetsMulticontentTestPostRequestApplicationJson({
-     this.data= const UndefinedWrapper
-        .undefined()
-,
+    required this.data,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -384,23 +386,30 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
 
   @override
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
-
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v.serialize();
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = json.encode(serialized);
+    //final bytes = ;
   }
 }
 
 class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApiPetsMulticontentTestPostRequest {
-  static const mediaType = r'application/xml';
+  static const specMediaType = r'application/xml';
 
-  final UndefinedWrapper<
+  @override
+  String get contentType => specMediaType;
+
+  final 
             NewPet
-> data;
+ data;
 
   const DefaultApiPetsMulticontentTestPostRequestApplicationXml({
-     this.data= const UndefinedWrapper
-        .undefined()
-,
+    required this.data,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -409,23 +418,30 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
 
   @override
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
-
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v.serialize();
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = serialized;
+    //final bytes = ;
   }
 }
 
 class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded extends DefaultApiPetsMulticontentTestPostRequest {
-  static const mediaType = r'application/x-www-form-urlencoded';
+  static const specMediaType = r'application/x-www-form-urlencoded';
 
-  final UndefinedWrapper<
+  @override
+  String get contentType => specMediaType;
+
+  final 
             ShapeInterface
-> data;
+ data;
 
   const DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded({
-     this.data= const UndefinedWrapper
-        .undefined()
-,
+    required this.data,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -434,23 +450,30 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
 
   @override
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
-
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v.serialize();
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = serialized;
+    //final bytes = ;
   }
 }
 
 class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsMulticontentTestPostRequest {
-  static const mediaType = r'text/plain';
+  static const specMediaType = r'text/plain';
 
-  final UndefinedWrapper<
-            String
-> data;
+  @override
+  String get contentType => specMediaType;
+
+  final 
+            int
+ data;
 
   const DefaultApiPetsMulticontentTestPostRequestTextPlain({
-     this.data= const UndefinedWrapper
-        .undefined()
-,
+    required this.data,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -459,23 +482,93 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
 
   @override
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v;
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = serialized;
+    //final bytes = ;
+  }
+}
 
+class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMulticontentTestPostRequest {
+  static const specMediaType = r'*/*';
+
+  @override
+  String get contentType => specMediaType;
+
+  final Object
+? data;
+
+  const DefaultApiPetsMulticontentTestPostRequestAnyAny({
+    required this.data,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
+    Map<String, dynamic> context = const {},
+  }) async* {
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v;
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = serialized;
+    //final bytes = ;
+  }
+}
+
+class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMulticontentTestPostRequest {
+  static const specMediaType = r'text/*';
+
+  @override
+  String get contentType => specMediaType;
+
+  final 
+            String
+ data;
+
+  const DefaultApiPetsMulticontentTestPostRequestTextAny({
+    required this.data,
+    
+    super.extraHeaders,
+    super.extraQueryParameters,
+    super.extraCookies,
+  });
+
+  @override
+  Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
+    Map<String, dynamic> context = const {},
+  }) async* {
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v;
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = serialized;
+    //final bytes = ;
   }
 }
 
 class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends DefaultApiPetsMulticontentTestPostRequest {
-  static const mediaType = r'multipart/form-data';
+  static const specMediaType = r'multipart/form-data';
 
-  final UndefinedWrapper<
+  @override
+  String get contentType => specMediaType;
+
+  final 
             PetsMulticontentTestPostRequest
-> data;
+ data;
 
   const DefaultApiPetsMulticontentTestPostRequestMultipartFormData({
-     this.data= const UndefinedWrapper
-        .undefined()
-,
+    required this.data,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -484,9 +577,15 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
 
   @override
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
-
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v.serialize();
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = serialized;
+    //final bytes = ;
   }
 }
 

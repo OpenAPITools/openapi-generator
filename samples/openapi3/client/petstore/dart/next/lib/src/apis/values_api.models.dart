@@ -45,11 +45,11 @@ part of 'values_api.dart';
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -66,18 +66,16 @@ part of 'values_api.dart';
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 class ValuesApiGetSomeValuesResponse {

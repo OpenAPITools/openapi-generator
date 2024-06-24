@@ -19,6 +19,7 @@ part 'format_test.serialization.dart';
 /// * [decimal] 
 /// * [string] 
 /// * [byte] 
+/// * [base64Str] 
 /// * [binary] 
 /// * [date] 
 /// * [dateTime] 
@@ -56,6 +57,9 @@ UndefinedWrapper<
 
             Uint8List
  get byte;
+UndefinedWrapper<
+            String
+> get base64Str;
 UndefinedWrapper<
             XFile
 > get binary;
@@ -95,6 +99,7 @@ UndefinedWrapper<
 /// * [decimal] 
 /// * [string] 
 /// * [byte] 
+/// * [base64Str] 
 /// * [binary] 
 /// * [date] 
 /// * [dateTime] 
@@ -146,6 +151,10 @@ FormatTestMixin {
  byte;
   @override
   UndefinedWrapper<
+            String
+> base64Str;
+  @override
+  UndefinedWrapper<
             XFile
 > binary;
   @override
@@ -191,6 +200,7 @@ FormatTestMixin {
     required this.decimal,
     required this.string,
     required this.byte,
+    required this.base64Str,
     required this.binary,
     required this.date,
     required this.dateTime,
@@ -227,6 +237,9 @@ required  this.number     ,
         .undefined()
 ,
 required  this.byte     ,
+  this.base64Str = const UndefinedWrapper
+        .undefined()
+,
   this.binary = const UndefinedWrapper
         .undefined()
 ,

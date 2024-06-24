@@ -5,5 +5,7 @@ import 'response.dart';
 /// receive a response (raw bytes).
 abstract class NetworkingClientBase {
   const NetworkingClientBase();
+
+  /// Send an HttpRequest and get an HttpResponse
   Future<HttpResponseBase> sendRequest(HttpRequestBase request);
 }

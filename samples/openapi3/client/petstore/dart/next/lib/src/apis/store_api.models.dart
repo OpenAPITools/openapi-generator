@@ -56,11 +56,11 @@ part of 'store_api.dart';
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -77,18 +77,16 @@ part of 'store_api.dart';
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 class StoreApiDeleteOrderResponse {
@@ -139,11 +137,11 @@ class StoreApiDeleteOrderResponse {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -160,18 +158,16 @@ class StoreApiDeleteOrderResponse {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 class StoreApiGetInventoryResponse {
@@ -233,11 +229,11 @@ class StoreApiGetInventoryResponse {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -254,18 +250,16 @@ class StoreApiGetInventoryResponse {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 class StoreApiGetOrderByIdResponse {
@@ -276,6 +270,7 @@ abstract class StoreApiPlaceOrderRequest {
   static const pathTemplate = r'/store/order';
   static String method = r'POST';
 
+  String get contentType;
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
@@ -283,7 +278,7 @@ abstract class StoreApiPlaceOrderRequest {
   
 
   const factory StoreApiPlaceOrderRequest.unsafe({
-
+    
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -325,15 +320,17 @@ abstract class StoreApiPlaceOrderRequest {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
+      'Content-Type': contentType,
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   });
 
@@ -349,12 +346,14 @@ abstract class StoreApiPlaceOrderRequest {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
+    final contentType = headers['Content-Type']!;
+    final parsedContentType = MediaType.parse(contentType).fillDefaults();
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context),
+      bodyBytesStream: getResolvedBody(context: context, resolvedMediaType: parsedContentType),
       context: context,
     );
   }
@@ -363,15 +362,21 @@ abstract class StoreApiPlaceOrderRequest {
 /// A version of [StoreApiPlaceOrderRequest], where you can send arbitrary bytes in the body.
 class StoreApiPlaceOrderRequestUnsafe extends StoreApiPlaceOrderRequest {
   final Stream<Uint8List>? body;
+
+  @override
+  final String contentType;
+
   const StoreApiPlaceOrderRequestUnsafe({
     this.body,
-  
+    this.contentType = 'application/octet-stream',
+    
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
   });
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
     final body = this.body;
@@ -382,22 +387,19 @@ class StoreApiPlaceOrderRequestUnsafe extends StoreApiPlaceOrderRequest {
   }
 }
 
-//generate a class for body
-//OR
-//generate a class for form params (multipart/formdata)
-
 
 class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest {
-  static const mediaType = r'application/json';
+  static const specMediaType = r'application/json';
 
-  final UndefinedWrapper<
+  @override
+  String get contentType => specMediaType;
+
+  final 
             Order
-> data;
+ data;
 
   const StoreApiPlaceOrderRequestApplicationJson({
-     this.data= const UndefinedWrapper
-        .undefined()
-,
+    required this.data,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -406,9 +408,15 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
 
   @override
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
-
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v.serialize();
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = json.encode(serialized);
+    //final bytes = ;
   }
 }
 

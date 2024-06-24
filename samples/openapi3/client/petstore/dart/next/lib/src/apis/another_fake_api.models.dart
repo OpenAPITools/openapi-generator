@@ -5,6 +5,7 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
   static const pathTemplate = r'/another-fake/dummy';
   static String method = r'PATCH';
 
+  String get contentType;
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
@@ -12,7 +13,7 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
   
 
   const factory AnotherFakeApi$123testSpecialTagsRequest.unsafe({
-
+    
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -54,15 +55,17 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
+      'Content-Type': contentType,
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   });
 
@@ -78,12 +81,14 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
+    final contentType = headers['Content-Type']!;
+    final parsedContentType = MediaType.parse(contentType).fillDefaults();
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context),
+      bodyBytesStream: getResolvedBody(context: context, resolvedMediaType: parsedContentType),
       context: context,
     );
   }
@@ -92,15 +97,21 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
 /// A version of [AnotherFakeApi$123testSpecialTagsRequest], where you can send arbitrary bytes in the body.
 class AnotherFakeApi$123testSpecialTagsRequestUnsafe extends AnotherFakeApi$123testSpecialTagsRequest {
   final Stream<Uint8List>? body;
+
+  @override
+  final String contentType;
+
   const AnotherFakeApi$123testSpecialTagsRequestUnsafe({
     this.body,
-  
+    this.contentType = 'application/octet-stream',
+    
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
   });
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
     final body = this.body;
@@ -111,22 +122,19 @@ class AnotherFakeApi$123testSpecialTagsRequestUnsafe extends AnotherFakeApi$123t
   }
 }
 
-//generate a class for body
-//OR
-//generate a class for form params (multipart/formdata)
-
 
 class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFakeApi$123testSpecialTagsRequest {
-  static const mediaType = r'application/json';
+  static const specMediaType = r'application/json';
 
-  final UndefinedWrapper<
+  @override
+  String get contentType => specMediaType;
+
+  final 
             Client
-> data;
+ data;
 
   const AnotherFakeApi$123testSpecialTagsRequestApplicationJson({
-     this.data= const UndefinedWrapper
-        .undefined()
-,
+    required this.data,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -135,9 +143,15 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
 
   @override
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
-
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v.serialize();
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = json.encode(serialized);
+    //final bytes = ;
   }
 }
 
@@ -207,13 +221,13 @@ class AnotherFakeApi$123testSpecialTagsResponse {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       
         r'array': OpenApiParameterSerializationHeader(parameterName: r'array',explode: false).serialize(array),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -230,18 +244,16 @@ class AnotherFakeApi$123testSpecialTagsResponse {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 class AnotherFakeApiGetParameterArrayNumberResponse {
@@ -302,13 +314,13 @@ class AnotherFakeApiGetParameterArrayNumberResponse {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       
         r'string_number': OpenApiParameterSerializationHeader(parameterName: r'string_number',explode: false).serialize(stringNumber),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -325,18 +337,16 @@ class AnotherFakeApiGetParameterArrayNumberResponse {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 class AnotherFakeApiGetParameterStringNumberResponse {
@@ -401,13 +411,13 @@ class AnotherFakeApiGetParameterStringNumberResponse {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       if (acceptLanguage.isDefined)
         r'Accept-Language': OpenApiParameterSerializationHeader(parameterName: r'Accept-Language',explode: false).serialize(acceptLanguage.valueRequired),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -424,44 +434,14 @@ class AnotherFakeApiGetParameterStringNumberResponse {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
-  }
-}
-
-
-
-class AnotherFakeApiNullRequestBodyRequestTextPlain extends AnotherFakeApiNullRequestBodyRequest {
-  static const mediaType = r'text/plain';
-
-  final UndefinedWrapper<
-            String
-> data;
-
-  const AnotherFakeApiNullRequestBodyRequestTextPlain({
-     this.data= const UndefinedWrapper
-        .undefined()
-,
-    
-     super.acceptLanguage,
-    
-    
-    super.extraHeaders,
-    super.extraQueryParameters,
-    super.extraCookies,
-  });
-
-  @override
-  Stream<List<int>> getResolvedBody({
-    Map<String, dynamic> context = const {},
-  }) async* {
-
   }
 }
 

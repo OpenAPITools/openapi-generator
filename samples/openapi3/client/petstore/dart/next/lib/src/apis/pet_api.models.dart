@@ -5,6 +5,7 @@ abstract class PetApiAddPetRequest {
   static const pathTemplate = r'/pet';
   static String method = r'POST';
 
+  String get contentType;
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
@@ -12,7 +13,7 @@ abstract class PetApiAddPetRequest {
   
 
   const factory PetApiAddPetRequest.unsafe({
-
+    
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -54,15 +55,17 @@ abstract class PetApiAddPetRequest {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
+      'Content-Type': contentType,
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   });
 
@@ -78,12 +81,14 @@ abstract class PetApiAddPetRequest {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
+    final contentType = headers['Content-Type']!;
+    final parsedContentType = MediaType.parse(contentType).fillDefaults();
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context),
+      bodyBytesStream: getResolvedBody(context: context, resolvedMediaType: parsedContentType),
       context: context,
     );
   }
@@ -92,15 +97,21 @@ abstract class PetApiAddPetRequest {
 /// A version of [PetApiAddPetRequest], where you can send arbitrary bytes in the body.
 class PetApiAddPetRequestUnsafe extends PetApiAddPetRequest {
   final Stream<Uint8List>? body;
+
+  @override
+  final String contentType;
+
   const PetApiAddPetRequestUnsafe({
     this.body,
-  
+    this.contentType = 'application/octet-stream',
+    
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
   });
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
     final body = this.body;
@@ -111,22 +122,19 @@ class PetApiAddPetRequestUnsafe extends PetApiAddPetRequest {
   }
 }
 
-//generate a class for body
-//OR
-//generate a class for form params (multipart/formdata)
-
 
 class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
-  static const mediaType = r'application/json';
+  static const specMediaType = r'application/json';
 
-  final UndefinedWrapper<
+  @override
+  String get contentType => specMediaType;
+
+  final 
             Pet
-> data;
+ data;
 
   const PetApiAddPetRequestApplicationJson({
-     this.data= const UndefinedWrapper
-        .undefined()
-,
+    required this.data,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -135,23 +143,30 @@ class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
 
   @override
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
-
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v.serialize();
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = json.encode(serialized);
+    //final bytes = ;
   }
 }
 
 class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
-  static const mediaType = r'application/xml';
+  static const specMediaType = r'application/xml';
 
-  final UndefinedWrapper<
+  @override
+  String get contentType => specMediaType;
+
+  final 
             Pet
-> data;
+ data;
 
   const PetApiAddPetRequestApplicationXml({
-     this.data= const UndefinedWrapper
-        .undefined()
-,
+    required this.data,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -160,9 +175,15 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
 
   @override
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
-
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v.serialize();
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = serialized;
+    //final bytes = ;
   }
 }
 
@@ -238,13 +259,13 @@ class PetApiAddPetResponse {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       if (apiKey.isDefined)
         r'api_key': OpenApiParameterSerializationHeader(parameterName: r'api_key',explode: false).serialize(apiKey.valueRequired),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -261,18 +282,16 @@ class PetApiAddPetResponse {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 class PetApiDeletePetResponse {
@@ -337,11 +356,11 @@ class PetApiDeletePetResponse {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -358,18 +377,16 @@ class PetApiDeletePetResponse {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 class PetApiFindPetsByStatusResponse {
@@ -435,11 +452,11 @@ class PetApiFindPetsByStatusResponse {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -456,18 +473,16 @@ class PetApiFindPetsByStatusResponse {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 @Deprecated('This operation has been deprecated')
@@ -530,11 +545,11 @@ class PetApiFindPetsByTagsResponse {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
@@ -551,18 +566,16 @@ class PetApiFindPetsByTagsResponse {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
       bodyBytesStream: Stream.empty(),
       context: context,
     );
   }
 }
-
-
 
 
 class PetApiGetPetByIdResponse {
@@ -573,6 +586,7 @@ abstract class PetApiUpdatePetRequest {
   static const pathTemplate = r'/pet';
   static String method = r'PUT';
 
+  String get contentType;
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
@@ -580,7 +594,7 @@ abstract class PetApiUpdatePetRequest {
   
 
   const factory PetApiUpdatePetRequest.unsafe({
-
+    
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -622,15 +636,17 @@ abstract class PetApiUpdatePetRequest {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
+      'Content-Type': contentType,
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   });
 
@@ -646,12 +662,14 @@ abstract class PetApiUpdatePetRequest {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
+    final contentType = headers['Content-Type']!;
+    final parsedContentType = MediaType.parse(contentType).fillDefaults();
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context),
+      bodyBytesStream: getResolvedBody(context: context, resolvedMediaType: parsedContentType),
       context: context,
     );
   }
@@ -660,15 +678,21 @@ abstract class PetApiUpdatePetRequest {
 /// A version of [PetApiUpdatePetRequest], where you can send arbitrary bytes in the body.
 class PetApiUpdatePetRequestUnsafe extends PetApiUpdatePetRequest {
   final Stream<Uint8List>? body;
+
+  @override
+  final String contentType;
+
   const PetApiUpdatePetRequestUnsafe({
     this.body,
-  
+    this.contentType = 'application/octet-stream',
+    
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
   });
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
     final body = this.body;
@@ -679,22 +703,19 @@ class PetApiUpdatePetRequestUnsafe extends PetApiUpdatePetRequest {
   }
 }
 
-//generate a class for body
-//OR
-//generate a class for form params (multipart/formdata)
-
 
 class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
-  static const mediaType = r'application/json';
+  static const specMediaType = r'application/json';
 
-  final UndefinedWrapper<
+  @override
+  String get contentType => specMediaType;
+
+  final 
             Pet
-> data;
+ data;
 
   const PetApiUpdatePetRequestApplicationJson({
-     this.data= const UndefinedWrapper
-        .undefined()
-,
+    required this.data,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -703,23 +724,30 @@ class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
 
   @override
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
-
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v.serialize();
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = json.encode(serialized);
+    //final bytes = ;
   }
 }
 
 class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
-  static const mediaType = r'application/xml';
+  static const specMediaType = r'application/xml';
 
-  final UndefinedWrapper<
+  @override
+  String get contentType => specMediaType;
+
+  final 
             Pet
-> data;
+ data;
 
   const PetApiUpdatePetRequestApplicationXml({
-     this.data= const UndefinedWrapper
-        .undefined()
-,
+    required this.data,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -728,9 +756,15 @@ class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
 
   @override
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
-
+    //TODO: serialize model, then encode it according to media type.
+    final v = data;
+    var serialized = v.serialize();
+    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
+    final encoded = serialized;
+    //final bytes = ;
   }
 }
 
@@ -743,6 +777,7 @@ abstract class PetApiUpdatePetWithFormRequest {
   static const pathTemplate = r'/pet/{petId}';
   static String method = r'POST';
 
+  String get contentType;
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
@@ -758,13 +793,11 @@ abstract class PetApiUpdatePetWithFormRequest {
   
 
   const factory PetApiUpdatePetWithFormRequest.unsafe({
-
+    
     required 
             int
  petId,
-
-
-
+    
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -811,15 +844,17 @@ abstract class PetApiUpdatePetWithFormRequest {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
+      'Content-Type': contentType,
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   });
 
@@ -835,12 +870,14 @@ abstract class PetApiUpdatePetWithFormRequest {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
+    final contentType = headers['Content-Type']!;
+    final parsedContentType = MediaType.parse(contentType).fillDefaults();
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context),
+      bodyBytesStream: getResolvedBody(context: context, resolvedMediaType: parsedContentType),
       context: context,
     );
   }
@@ -849,19 +886,25 @@ abstract class PetApiUpdatePetWithFormRequest {
 /// A version of [PetApiUpdatePetWithFormRequest], where you can send arbitrary bytes in the body.
 class PetApiUpdatePetWithFormRequestUnsafe extends PetApiUpdatePetWithFormRequest {
   final Stream<Uint8List>? body;
+
+  @override
+  final String contentType;
+
   const PetApiUpdatePetWithFormRequestUnsafe({
     this.body,
-  
+    this.contentType = 'application/octet-stream',
+    
     required super.petId,
-  
-  
-  
+    
+    
+    
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
   });
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
     final body = this.body;
@@ -871,10 +914,6 @@ class PetApiUpdatePetWithFormRequestUnsafe extends PetApiUpdatePetWithFormReques
     yield* body;
   }
 }
-
-//generate a class for body
-//OR
-//generate a class for form params (multipart/formdata)
 
 
 
@@ -886,6 +925,7 @@ abstract class PetApiUploadFileRequest {
   static const pathTemplate = r'/pet/{petId}/uploadImage';
   static String method = r'POST';
 
+  String get contentType;
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
@@ -901,13 +941,11 @@ abstract class PetApiUploadFileRequest {
   
 
   const factory PetApiUploadFileRequest.unsafe({
-
+    
     required 
             int
  petId,
-
-
-
+    
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -954,15 +992,17 @@ abstract class PetApiUploadFileRequest {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
+      'Content-Type': contentType,
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   });
 
@@ -978,12 +1018,14 @@ abstract class PetApiUploadFileRequest {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
+    final contentType = headers['Content-Type']!;
+    final parsedContentType = MediaType.parse(contentType).fillDefaults();
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context),
+      bodyBytesStream: getResolvedBody(context: context, resolvedMediaType: parsedContentType),
       context: context,
     );
   }
@@ -992,19 +1034,25 @@ abstract class PetApiUploadFileRequest {
 /// A version of [PetApiUploadFileRequest], where you can send arbitrary bytes in the body.
 class PetApiUploadFileRequestUnsafe extends PetApiUploadFileRequest {
   final Stream<Uint8List>? body;
+
+  @override
+  final String contentType;
+
   const PetApiUploadFileRequestUnsafe({
     this.body,
-  
+    this.contentType = 'application/octet-stream',
+    
     required super.petId,
-  
-  
-  
+    
+    
+    
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
   });
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
     final body = this.body;
@@ -1014,10 +1062,6 @@ class PetApiUploadFileRequestUnsafe extends PetApiUploadFileRequest {
     yield* body;
   }
 }
-
-//generate a class for body
-//OR
-//generate a class for form params (multipart/formdata)
 
 
 
@@ -1029,6 +1073,7 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
   static const pathTemplate = r'/fake/{petId}/uploadImageWithRequiredFile';
   static String method = r'POST';
 
+  String get contentType;
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
@@ -1044,13 +1089,11 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
   
 
   const factory PetApiUploadFileWithRequiredFileRequest.unsafe({
-
+    
     required 
             int
  petId,
-
-
-
+    
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -1097,15 +1140,17 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
       ...extraCookies,
     };
 
-    return {
+    return CaseInsensitiveMap<String>.from(<String,String>{
+      'Content-Type': contentType,
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
-    };
+    });
   }
 
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   });
 
@@ -1121,12 +1166,14 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
       getResolvedHeaders(context: context),
     ];
     final futureResults = await Future.wait(futures);
-    // Add any path/query parameters to the knownUrl.
+    final headers = futureResults[1] as Map<String, String>;
+    final contentType = headers['Content-Type']!;
+    final parsedContentType = MediaType.parse(contentType).fillDefaults();
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
-      headers: futureResults[1] as Map<String, String>,
+      headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context),
+      bodyBytesStream: getResolvedBody(context: context, resolvedMediaType: parsedContentType),
       context: context,
     );
   }
@@ -1135,19 +1182,25 @@ abstract class PetApiUploadFileWithRequiredFileRequest {
 /// A version of [PetApiUploadFileWithRequiredFileRequest], where you can send arbitrary bytes in the body.
 class PetApiUploadFileWithRequiredFileRequestUnsafe extends PetApiUploadFileWithRequiredFileRequest {
   final Stream<Uint8List>? body;
+
+  @override
+  final String contentType;
+
   const PetApiUploadFileWithRequiredFileRequestUnsafe({
     this.body,
-  
+    this.contentType = 'application/octet-stream',
+    
     required super.petId,
-  
-  
-  
+    
+    
+    
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
   });
 
   Stream<List<int>> getResolvedBody({
+    required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
   }) async* {
     final body = this.body;
@@ -1157,10 +1210,6 @@ class PetApiUploadFileWithRequiredFileRequestUnsafe extends PetApiUploadFileWith
     yield* body;
   }
 }
-
-//generate a class for body
-//OR
-//generate a class for form params (multipart/formdata)
 
 
 

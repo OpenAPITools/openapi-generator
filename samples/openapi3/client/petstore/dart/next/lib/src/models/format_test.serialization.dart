@@ -62,6 +62,12 @@ Map<String, dynamic> _$FormatTestToMap(FormatTest instance) {
  v) {
       return v;
     }(instance.byte),
+    if (instance.base64Str.isDefined)
+    _reflection.base64Str.oasName: (
+            String
+ v) {
+      return v;
+    }(instance.base64Str.valueRequired),
     if (instance.binary.isDefined)
     _reflection.binary.oasName: (
             XFile
@@ -220,6 +226,18 @@ byte: src.getRequiredMapped(_reflection.byte.oasName, (v) =>
     
             
                     v as Uint8List
+            
+
+)
+
+
+),
+base64Str: src.getOrUndefinedMapped(_reflection.base64Str.oasName, (v) => 
+(
+
+    
+            
+                    v as String
             
 
 )
@@ -434,6 +452,18 @@ if (!src.getOrUndefined(_reflection.byte.oasName).split<bool>(
             v is Uint8List
 ),
     unDefined: () => !_reflection.byte.required,
+)) {
+    return false;
+  }
+if (!src.getOrUndefined(_reflection.base64Str.oasName).split<bool>(
+    defined: (v) => v == null ? false :
+(
+
+    
+            
+            v is String
+),
+    unDefined: () => !_reflection.base64Str.required,
 )) {
     return false;
   }

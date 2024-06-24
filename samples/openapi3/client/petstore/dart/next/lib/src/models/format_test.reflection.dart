@@ -79,6 +79,14 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
       oasType: r'string',
       pattern: null,
     ),
+    base64Str: PropertyReflection(
+      dartName: r'base64Str',
+      nullable: false,
+      required: false,
+      oasName: r'base64Str',
+      oasType: r'string',
+      pattern: null,
+    ),
     binary: PropertyReflection(
       dartName: r'binary',
       nullable: false,
@@ -163,6 +171,8 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
   
     required this.byte,
   
+    required this.base64Str,
+  
     required this.binary,
   
     required this.date,
@@ -208,6 +218,9 @@ class FormatTestReflection extends ClassReflection<FormatTest> {
             Uint8List
 > byte;
   final PropertyReflection<UndefinedWrapper<
+            String
+>> base64Str;
+  final PropertyReflection<UndefinedWrapper<
             XFile
 >> binary;
   final PropertyReflection<
@@ -243,6 +256,7 @@ $double,
 decimal,
 string,
 byte,
+base64Str,
 binary,
 date,
 dateTime,
