@@ -436,9 +436,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         // schema is a ref to property's schema e.g. #/components/schemas/Pet/properties/id
         if (ModelUtils.isRefToSchemaWithProperties(ref)) {
-            Schema propertySChema = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, ref);
-            openAPIType = super.getSchemaType(propertySChema);
-            ref = propertySChema.get$ref();
+            Schema propertySchema = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, ref);
+            openAPIType = super.getSchemaType(propertySchema);
+            ref = propertySchema.get$ref();
         }
 
         if (ref != null && !ref.isEmpty()) {
