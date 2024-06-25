@@ -40,17 +40,27 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
 
-    @Setter protected boolean withGoCodegenComment = false;
-    @Setter protected boolean withAWSV4Signature = false;
-    @Setter protected boolean withXml = false;
-    @Setter protected boolean enumClassPrefix = false;
-    @Setter protected boolean structPrefix = false;
-    @Setter protected boolean generateInterfaces = false;
-    @Setter protected boolean withGoMod = false;
-    @Setter protected boolean generateMarshalJSON = true;
-    @Setter protected boolean generateUnmarshalJSON = true;
+    @Setter
+    protected boolean withGoCodegenComment = false;
+    @Setter
+    protected boolean withAWSV4Signature = false;
+    @Setter
+    protected boolean withXml = false;
+    @Setter
+    protected boolean enumClassPrefix = false;
+    @Setter
+    protected boolean structPrefix = false;
+    @Setter
+    protected boolean generateInterfaces = false;
+    @Setter
+    protected boolean withGoMod = false;
+    @Setter
+    protected boolean generateMarshalJSON = true;
+    @Setter
+    protected boolean generateUnmarshalJSON = true;
 
-    @Setter protected String packageName = "openapi";
+    @Setter
+    protected String packageName = "openapi";
     protected Set<String> numberTypes;
 
     public AbstractGoCodegen() {
@@ -424,7 +434,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         String ref = p.get$ref();
         String type;
 
-        if (ref != null && !ref.isEmpty() && ref.endsWith(openAPIType)) {
+        // schema is a ref to property's schema e.g. #/components/schemas/Pet/properties/id
+        if (ModelUtils.isRefToSchemaWithProperties(ref)) {
+            Schema propertySChema = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, ref);
+            openAPIType = super.getSchemaType(propertySChema);
+            ref = propertySChema.get$ref();
+        }
+
+        if (ref != null && !ref.isEmpty()) {
             type = toModelName(openAPIType);
         } else if ("object".equals(openAPIType) && ModelUtils.isAnyType(p)) {
             // Arbitrary type. Note this is not the same thing as free-form object.
@@ -755,7 +772,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
-                
+
                 if (!addedOSImport && ("*os.File".equals(cp.dataType) ||
                         (cp.items != null && "*os.File".equals(cp.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
@@ -764,15 +781,15 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
                 if (cp.pattern != null) {
                     cp.vendorExtensions.put("x-go-custom-tag", "validate:\"regexp=" +
-                        cp.pattern.replace("\\","\\\\").replaceAll("^/|/$","") +
-                        "\"");
+                            cp.pattern.replace("\\", "\\\\").replaceAll("^/|/$", "") +
+                            "\"");
                 }
             }
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
             }
 
-            if(model.oneOf != null && !model.oneOf.isEmpty() && !addedValidator && generateUnmarshalJSON) {
+            if (model.oneOf != null && !model.oneOf.isEmpty() && !addedValidator && generateUnmarshalJSON) {
                 imports.add(createMapping("import", "gopkg.in/validator.v2"));
                 addedValidator = true;
             }
