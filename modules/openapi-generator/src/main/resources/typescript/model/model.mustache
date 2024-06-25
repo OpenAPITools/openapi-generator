@@ -11,6 +11,8 @@ import { HttpFile } from '../http/http{{importFileExtension}}';
 * {{{.}}}
 */
 {{/description}}
+{{#oneOf}}{{#-first}}{{>model/modelOneOf}}{{/-first}}{{/oneOf}}
+{{^oneOf}}
 {{^isEnum}}
 export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
@@ -92,5 +94,6 @@ export enum {{classname}} {
     {{/allowableValues}}
 }
 {{/isEnum}}
+{{/oneOf}}
 {{/model}}
 {{/models}}
