@@ -12,7 +12,7 @@ part 'variable.serialization.dart';
 /// Properties:
 /// * [name] 
 /// * [value] 
-mixin VariableMixin on 
+mixin VariableMixin on
   $OpenApiObjectMixin {
   
             String
@@ -42,21 +42,22 @@ VariableMixin {
             Value
  value;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   Variable.$all({
         required this.name,
     required this.value,
-    
+    required this.additionalProperties,
     
   });
 
   Variable({
     required  this.name     ,
 required  this.value     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

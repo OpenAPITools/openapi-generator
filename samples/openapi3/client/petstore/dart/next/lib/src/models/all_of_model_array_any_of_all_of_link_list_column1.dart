@@ -11,7 +11,7 @@ part 'all_of_model_array_any_of_all_of_link_list_column1.serialization.dart';
 ///
 /// Properties:
 /// * [value] 
-mixin AllOfModelArrayAnyOfAllOfLinkListColumn1Mixin on 
+mixin AllOfModelArrayAnyOfAllOfLinkListColumn1Mixin on
   $OpenApiObjectMixin {
   
     List<
@@ -39,19 +39,20 @@ AllOfModelArrayAnyOfAllOfLinkListColumn1Mixin {
 >
  value;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   AllOfModelArrayAnyOfAllOfLinkListColumn1.$all({
         required this.value,
-    
+    required this.additionalProperties,
     
   });
 
   AllOfModelArrayAnyOfAllOfLinkListColumn1({
     required  this.value     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

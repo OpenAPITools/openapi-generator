@@ -151,8 +151,9 @@ public class DartNextClientCodegen extends DefaultCodegen {
         supportsMixins = true;
         supportsInheritance = true;
         supportsMultipleInheritance = true;
+        legacyDiscriminatorBehavior = false;
         supportsAdditionalPropertiesWithComposedSchema = true;
-
+        disallowAdditionalPropertiesIfNotPresent = false;
         modifyFeatureSet(features -> features
                 .includeDataTypeFeatures(DataTypeFeature.AnyType, DataTypeFeature.Custom)
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -163,6 +164,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
                         SchemaSupportFeature.allOf,
                         SchemaSupportFeature.oneOf,
                         SchemaSupportFeature.anyOf)
+
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
                         SecurityFeature.BasicAuth,
@@ -446,7 +448,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
                         "xml_reflection.dart"));
 
         // TODO: add all files inside shared_infrastructure to root folder of generated
-        addSharedInfrastructureFiles();
+        // addSharedInfrastructureFiles();
     }
 
     private final String kIsChild = "x-is-child";
@@ -640,40 +642,44 @@ public class DartNextClientCodegen extends DefaultCodegen {
         return objs;
     }
 
-    private void addSharedInfrastructureFiles() {
+    // private void addSharedInfrastructureFiles() {
 
-        String sharedInfrastructureFolder = "shared_infrastructure" + File.separator;
+    //     String sharedInfrastructureFolder = "shared_infrastructure" + File.separator;
 
-        String libFolder = sharedInfrastructureFolder + "lib" + File.separator;
-        String srcFolder = libFolder + "src" + File.separator;
-        String networkingFolder = srcFolder + "networking" + File.separator;
-        String serializationFolder = srcFolder + "serialization" + File.separator;
-        supportingFiles.add(new SupportingFile(sharedInfrastructureFolder + "pubspec.mustache", sharedInfrastructureFolder,
-                "pubspec.yaml"));
-        supportingFiles.add(
-                new SupportingFile(libFolder + "shared_infrastructure.dart", libFolder, "shared_infrastructure.dart"));
-        // Networking
-        supportingFiles.add(
-                new SupportingFile(networkingFolder + "_exports.mustache", networkingFolder, "_exports.dart"));
-        supportingFiles.add(
-                new SupportingFile(networkingFolder + "client.mustache", networkingFolder, "client.dart"));
-        supportingFiles.add(
-                new SupportingFile(networkingFolder + "http_packets.mustache", networkingFolder, "http_packets.dart"));
-        supportingFiles.add(
-                new SupportingFile(networkingFolder + "request.mustache", networkingFolder, "request.dart"));
-        supportingFiles.add(
-                new SupportingFile(networkingFolder + "response.mustache", networkingFolder, "response.dart"));
+    //     String libFolder = sharedInfrastructureFolder + "lib" + File.separator;
+    //     String srcFolder = libFolder + "src" + File.separator;
+    //     String networkingFolder = srcFolder + "networking" + File.separator;
+    //     String serializationFolder = srcFolder + "serialization" + File.separator;
+    //     supportingFiles.add(new SupportingFile(sharedInfrastructureFolder + "pubspec.mustache", sharedInfrastructureFolder,
+    //             "pubspec.yaml"));
+    //     supportingFiles.add(
+    //             new SupportingFile(libFolder + "shared_infrastructure.dart", libFolder, "shared_infrastructure.dart"));
+    //     // Networking
+    //     supportingFiles.add(
+    //             new SupportingFile(networkingFolder + "_exports.mustache", networkingFolder, "_exports.dart"));
+    //     supportingFiles.add(
+    //             new SupportingFile(networkingFolder + "client.mustache", networkingFolder, "client.dart"));
+    //     supportingFiles.add(
+    //             new SupportingFile(networkingFolder + "helpers.mustache", networkingFolder, "helpers.dart"));
+    //     supportingFiles.add(
+    //             new SupportingFile(networkingFolder + "http_packets.mustache", networkingFolder, "http_packets.dart"));
+    //     supportingFiles.add(
+    //             new SupportingFile(networkingFolder + "request.mustache", networkingFolder, "request.dart"));
+    //     supportingFiles.add(
+    //             new SupportingFile(networkingFolder + "request.multipart.mustache", networkingFolder, "request.multipart.dart"));
+    //     supportingFiles.add(
+    //             new SupportingFile(networkingFolder + "response.mustache", networkingFolder, "response.dart"));
 
-        // Serialization
-        supportingFiles.add(
-                new SupportingFile(serializationFolder + "_exports.mustache", serializationFolder, "_exports.dart"));
-        supportingFiles.add(
-                new SupportingFile(serializationFolder + "helpers.mustache", serializationFolder, "helpers.dart"));
-        supportingFiles.add(
-                new SupportingFile(serializationFolder + "undefined_wrapper.mustache", serializationFolder,
-                        "undefined_wrapper.dart"));
+    //     // Serialization
+    //     supportingFiles.add(
+    //             new SupportingFile(serializationFolder + "_exports.mustache", serializationFolder, "_exports.dart"));
+    //     supportingFiles.add(
+    //             new SupportingFile(serializationFolder + "helpers.mustache", serializationFolder, "helpers.dart"));
+    //     supportingFiles.add(
+    //             new SupportingFile(serializationFolder + "undefined_wrapper.mustache", serializationFolder,
+    //                     "undefined_wrapper.dart"));
 
-    }
+    // }
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
@@ -948,21 +954,21 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     }
 
-    @Override
-    public CodegenProperty fromProperty(String name, Schema p, boolean required,
-            boolean schemaIsFromAdditionalProperties) {
-        var result = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
-        // Fix for DefaultGenerator setting isModel to false when it has both
-        // properties + additionalProperties.
-        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
-        if (referencedSchema != null && !result.isModel &&
-                ModelUtils.isModel(referencedSchema) &&
-                referencedSchema.getProperties() != null &&
-                !referencedSchema.getProperties().isEmpty()) {
-            result.isModel = true;
-        }
-        return result;
-    }
+    // @Override
+    // public CodegenProperty fromProperty(String name, Schema p, boolean required,
+    //         boolean schemaIsFromAdditionalProperties) {
+    //     var result = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+    //     // Fix for DefaultGenerator setting isModel to false when it has both
+    //     // properties + additionalProperties.
+    //     Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+    //     if (referencedSchema != null && !result.isModel &&
+    //             ModelUtils.isModel(referencedSchema) &&
+    //             referencedSchema.getProperties() != null &&
+    //             !referencedSchema.getProperties().isEmpty()) {
+    //         result.isModel = true;
+    //     }
+    //     return result;
+    // }
 
     @Override
     public String getTypeDeclaration(Schema p) {

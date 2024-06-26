@@ -8,7 +8,7 @@ part of 'triangle.dart';
 Map<String, dynamic> _$TriangleToMap(Triangle instance) {
   final _reflection = TriangleReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
     if (instance.oneOf0.isDefined) ...instance.oneOf0.valueRequired.toMap(),
     
@@ -22,7 +22,12 @@ Map<String, dynamic> _$TriangleToMap(Triangle instance) {
 Triangle _$TriangleFromMap(Map<String, dynamic> src) {
   final _reflection = TriangleReflection.instance;
   return Triangle.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     oneOf0: EquilateralTriangle.canDeserialize(src) ? UndefinedWrapper(EquilateralTriangle.deserialize(src)) :  UndefinedWrapper.undefined(),
     oneOf1: IsoscelesTriangle.canDeserialize(src) ? UndefinedWrapper(IsoscelesTriangle.deserialize(src)) :  UndefinedWrapper.undefined(),
@@ -32,7 +37,13 @@ Triangle _$TriangleFromMap(Map<String, dynamic> src) {
 
 bool _$TriangleCanFromMap(Map<String, dynamic> src) {
   final _reflection = TriangleReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final oneOfs = [
     () => EquilateralTriangle.canDeserialize(src),
   
@@ -105,6 +116,8 @@ Triangle _$TriangleDeserialize(Object? src) {
 
 
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

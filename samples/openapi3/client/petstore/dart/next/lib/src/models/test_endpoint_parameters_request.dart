@@ -24,7 +24,7 @@ part 'test_endpoint_parameters_request.serialization.dart';
 /// * [dateTime] - None
 /// * [password] - None
 /// * [callback] - None
-mixin TestEndpointParametersRequestMixin on 
+mixin TestEndpointParametersRequestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -150,7 +150,8 @@ TestEndpointParametersRequestMixin {
             String
 > callback;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -169,7 +170,7 @@ TestEndpointParametersRequestMixin {
     required this.dateTime,
     required this.password,
     required this.callback,
-    
+    required this.additionalProperties,
     
   });
 
@@ -208,7 +209,7 @@ required  this.byte     ,
   this.callback = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

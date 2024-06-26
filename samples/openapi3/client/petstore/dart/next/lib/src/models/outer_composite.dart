@@ -13,7 +13,7 @@ part 'outer_composite.serialization.dart';
 /// * [myNumber] 
 /// * [myString] 
 /// * [myBoolean] 
-mixin OuterCompositeMixin on 
+mixin OuterCompositeMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             num
@@ -51,7 +51,8 @@ OuterCompositeMixin {
             bool
 > myBoolean;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -59,7 +60,7 @@ OuterCompositeMixin {
         required this.myNumber,
     required this.myString,
     required this.myBoolean,
-    
+    required this.additionalProperties,
     
   });
 
@@ -73,7 +74,7 @@ OuterCompositeMixin {
   this.myBoolean = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

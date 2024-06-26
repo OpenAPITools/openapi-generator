@@ -11,7 +11,7 @@ part 'foo.serialization.dart';
 ///
 /// Properties:
 /// * [bar] 
-mixin FooMixin on 
+mixin FooMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -33,13 +33,14 @@ FooMixin {
             String
 > bar;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   Foo.$all({
         required this.bar,
-    
+    required this.additionalProperties,
     
   });
 
@@ -51,7 +52,7 @@ FooMixin {
     )
     
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

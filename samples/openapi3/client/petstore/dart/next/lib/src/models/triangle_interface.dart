@@ -11,7 +11,7 @@ part 'triangle_interface.serialization.dart';
 ///
 /// Properties:
 /// * [triangleType] 
-mixin TriangleInterfaceMixin on 
+mixin TriangleInterfaceMixin on
   $OpenApiObjectMixin {
   
             String
@@ -33,19 +33,20 @@ TriangleInterfaceMixin {
             String
  triangleType;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   TriangleInterface.$all({
         required this.triangleType,
-    
+    required this.additionalProperties,
     
   });
 
   TriangleInterface({
     required  this.triangleType     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

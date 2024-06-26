@@ -23,12 +23,12 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
       oasType: r'PetsMulticontentTestPostRequestAddress',
       pattern: null,
     ),
-    profileImage: PropertyReflection(
-      dartName: r'profileImage',
+    profileImages: PropertyReflection(
+      dartName: r'profileImages',
       nullable: false,
       required: false,
-      oasName: r'profileImage',
-      oasType: r'string',
+      oasName: r'profileImages',
+      oasType: r'array',
       pattern: null,
     ),
   );
@@ -37,7 +37,7 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
   
     required this.address,
   
-    required this.profileImage,
+    required this.profileImages,
   });
 
   final PropertyReflection<UndefinedWrapper<
@@ -47,14 +47,17 @@ class PetsMulticontentTestPostRequestReflection extends ClassReflection<PetsMult
             PetsMulticontentTestPostRequestAddress
 >> address;
   final PropertyReflection<UndefinedWrapper<
+    List<
+        
             XFile
->> profileImage;
+>
+>> profileImages;
 
   @override
   List<PropertyReflection> get members => [
     id,
 address,
-profileImage,
+profileImages,
   ];
 
   @override

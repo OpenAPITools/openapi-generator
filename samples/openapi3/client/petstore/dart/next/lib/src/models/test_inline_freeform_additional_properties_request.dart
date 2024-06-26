@@ -11,8 +11,7 @@ part 'test_inline_freeform_additional_properties_request.serialization.dart';
 ///
 /// Properties:
 /// * [someProperty] 
-mixin TestInlineFreeformAdditionalPropertiesRequestMixin on  AdditionalPropertiesMixin<Object
-?>,
+mixin TestInlineFreeformAdditionalPropertiesRequestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -26,8 +25,7 @@ mixin TestInlineFreeformAdditionalPropertiesRequestMixin on  AdditionalPropertie
 /// * [someProperty] 
 class TestInlineFreeformAdditionalPropertiesRequest with
 $OpenApiObjectMixin,
-AdditionalPropertiesMixin<Object
-?>,
+
 
 TestInlineFreeformAdditionalPropertiesRequestMixin {
   @override
@@ -35,7 +33,6 @@ TestInlineFreeformAdditionalPropertiesRequestMixin {
             String
 > someProperty;
 
-  @override
   AdditionalProperties<Object
 ?> additionalProperties;
 

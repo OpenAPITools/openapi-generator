@@ -78,7 +78,7 @@ Map<String, dynamic> _$UserToMap(User instance) {
 ? v) {
       return v;
     }(instance.anyTypePropNullable.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -212,7 +212,12 @@ v
 
 )
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -351,6 +356,12 @@ true
 ),
     unDefined: () => !_reflection.anyTypePropNullable.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

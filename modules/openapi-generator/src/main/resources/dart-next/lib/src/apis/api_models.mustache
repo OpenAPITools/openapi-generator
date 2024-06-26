@@ -204,14 +204,54 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
     var serialized = {{>types/serialize_recursive}};
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = {{>types/serialize_recursive}};
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = {{#content}}{{{encoding}}}{{/content}};
+          parts = MultiPartBodySerializer.getFormDataParts(
+            fields: {
+            },
+            files: []
+          );
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+
+    }
+    //var serialized = {{>types/serialize_recursive}};
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = {{#isJson}}json.encode(serialized){{/isJson}}{{^isJson}}serialized{{/isJson}};
+    //final encoded = {{#isJson}}json.encode(serialized){{/isJson}}{{^isJson}}serialized{{/isJson}};
     //final bytes = ;
   }
+
 }
 {{/schema}}{{/content}}{{/better-consumes}}{{/vendorExtensions}}
 {{/bodyAllowed}}

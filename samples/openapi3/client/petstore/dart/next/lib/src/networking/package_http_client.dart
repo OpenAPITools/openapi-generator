@@ -1,4 +1,4 @@
-import 'package:shared_infrastructure/shared_infrastructure.dart';
+import 'package:openapi_infrastructure/openapi_infrastructure.dart';
 import 'package:http/http.dart' as http;
 
 

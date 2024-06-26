@@ -8,11 +8,9 @@ part of 'mammal.dart';
 Map<String, dynamic> _$MammalToMap(Mammal instance) {
   final _reflection = MammalReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
     if (instance.oneOf0.isDefined) ...instance.oneOf0.valueRequired.toMap(),
-    
-    if (instance.oneOf1.isDefined) ...instance.oneOf1.valueRequired.toMap(),
     
     if (instance.oneOf2.isDefined) ...instance.oneOf2.valueRequired.toMap(),
     
@@ -22,21 +20,31 @@ Map<String, dynamic> _$MammalToMap(Mammal instance) {
 Mammal _$MammalFromMap(Map<String, dynamic> src) {
   final _reflection = MammalReflection.instance;
   return Mammal.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     oneOf0: Whale.canDeserialize(src) ? UndefinedWrapper(Whale.deserialize(src)) :  UndefinedWrapper.undefined(),
-    oneOf1: Zebra.canDeserialize(src) ? UndefinedWrapper(Zebra.deserialize(src)) :  UndefinedWrapper.undefined(),
+    oneOf1:  UndefinedWrapper.undefined(),
     oneOf2: Pig.canDeserialize(src) ? UndefinedWrapper(Pig.deserialize(src)) :  UndefinedWrapper.undefined(),
   );
 }
 
 bool _$MammalCanFromMap(Map<String, dynamic> src) {
   final _reflection = MammalReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final oneOfs = [
     () => Whale.canDeserialize(src),
   
-    () => Zebra.canDeserialize(src),
   
     () => Pig.canDeserialize(src),
   ];
@@ -76,14 +84,15 @@ Mammal _$MammalDeserialize(Object? src) {
 (
 
     
-            Zebra.canDeserialize(v)
             
-)) ? UndefinedWrapper(Zebra.deserialize
+            v is Zebra
+)) ? UndefinedWrapper(
 (
 
     
-            v
-
+            
+                    v as Zebra
+            
 
 )
 
@@ -105,6 +114,8 @@ Mammal _$MammalDeserialize(Object? src) {
 
 
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }
@@ -127,8 +138,8 @@ bool _$MammalCanDeserialize(Object? src) {
 (
 
     
-            Zebra.canDeserialize(v)
             
+            v is Zebra
 ),
       () => v == null ? false :
 (
@@ -151,7 +162,7 @@ Object? _$MammalSerialize(Mammal src) {
   
   
   if (src.oneOf0.isDefined) {final v = src.oneOf0.valueRequired; return v.serialize(); }
-  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v.serialize(); }
+  if (src.oneOf1.isDefined) {final v = src.oneOf1.valueRequired; return v; }
   if (src.oneOf2.isDefined) {final v = src.oneOf2.valueRequired; return v.serialize(); }
   return null;
 }

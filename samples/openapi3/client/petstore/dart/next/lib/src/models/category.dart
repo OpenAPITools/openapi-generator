@@ -12,7 +12,7 @@ part 'category.serialization.dart';
 /// Properties:
 /// * [id] 
 /// * [name] 
-mixin CategoryMixin on 
+mixin CategoryMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -42,14 +42,15 @@ CategoryMixin {
             String
  name;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   Category.$all({
         required this.id,
     required this.name,
-    
+    required this.additionalProperties,
     
   });
 
@@ -62,7 +63,7 @@ CategoryMixin {
         'default-name'
         
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

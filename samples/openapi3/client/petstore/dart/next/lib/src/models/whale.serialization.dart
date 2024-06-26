@@ -26,7 +26,7 @@ Map<String, dynamic> _$WhaleToMap(Whale instance) {
  v) {
       return v;
     }(instance.className),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -70,7 +70,12 @@ className: src.getRequiredMapped(_reflection.className.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -111,6 +116,12 @@ if (!src.getOrUndefined(_reflection.className.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.className.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

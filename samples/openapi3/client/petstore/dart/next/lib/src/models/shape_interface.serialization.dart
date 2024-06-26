@@ -14,7 +14,7 @@ Map<String, dynamic> _$ShapeInterfaceToMap(ShapeInterface instance) {
  v) {
       return v;
     }(instance.shapeType),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -34,7 +34,12 @@ ShapeInterface _$ShapeInterfaceFromMap(Map<String, dynamic> src) {
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -51,6 +56,12 @@ bool _$ShapeInterfaceCanFromMap(Map<String, dynamic> src) {
 ),
     unDefined: () => !_reflection.shapeType.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

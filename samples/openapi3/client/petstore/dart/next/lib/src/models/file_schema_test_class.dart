@@ -12,7 +12,7 @@ part 'file_schema_test_class.serialization.dart';
 /// Properties:
 /// * [file] 
 /// * [files] 
-mixin FileSchemaTestClassMixin on 
+mixin FileSchemaTestClassMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             File
@@ -48,14 +48,15 @@ FileSchemaTestClassMixin {
 >
 > files;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   FileSchemaTestClass.$all({
         required this.file,
     required this.files,
-    
+    required this.additionalProperties,
     
   });
 
@@ -66,7 +67,7 @@ FileSchemaTestClassMixin {
   this.files = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

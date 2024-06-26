@@ -12,7 +12,7 @@ part 'pets_multicontent_test_post_request_address.serialization.dart';
 /// Properties:
 /// * [street] 
 /// * [city] 
-mixin PetsMulticontentTestPostRequestAddressMixin on 
+mixin PetsMulticontentTestPostRequestAddressMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -42,14 +42,15 @@ PetsMulticontentTestPostRequestAddressMixin {
             String
 > city;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   PetsMulticontentTestPostRequestAddress.$all({
         required this.street,
     required this.city,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ PetsMulticontentTestPostRequestAddressMixin {
   this.city = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

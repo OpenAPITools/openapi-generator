@@ -13,7 +13,7 @@ part 'api_response.serialization.dart';
 /// * [code] 
 /// * [type] 
 /// * [message] 
-mixin ApiResponseMixin on 
+mixin ApiResponseMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -51,7 +51,8 @@ ApiResponseMixin {
             String
 > message;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -59,7 +60,7 @@ ApiResponseMixin {
         required this.code,
     required this.type,
     required this.message,
-    
+    required this.additionalProperties,
     
   });
 
@@ -73,7 +74,7 @@ ApiResponseMixin {
   this.message = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

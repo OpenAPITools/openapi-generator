@@ -44,7 +44,7 @@ Map<String, dynamic> _$CapitalizationToMap(Capitalization instance) {
  v) {
       return v;
     }(instance.ATT_NAME.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -124,7 +124,12 @@ ATT_NAME: src.getOrUndefinedMapped(_reflection.ATT_NAME.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -201,6 +206,12 @@ if (!src.getOrUndefined(_reflection.ATT_NAME.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.ATT_NAME.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

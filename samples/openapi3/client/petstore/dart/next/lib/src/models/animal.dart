@@ -12,7 +12,7 @@ part 'animal.serialization.dart';
 /// Properties:
 /// * [className] 
 /// * [color] 
-mixin AnimalMixin on 
+mixin AnimalMixin on
   $OpenApiObjectMixin {
   
             String
@@ -42,14 +42,15 @@ AnimalMixin {
             String
 > color;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   Animal.$all({
         required this.className,
     required this.color,
-    
+    required this.additionalProperties,
     
   });
 
@@ -62,7 +63,7 @@ AnimalMixin {
     )
     
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

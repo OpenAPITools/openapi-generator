@@ -11,7 +11,7 @@ part '__list.serialization.dart';
 ///
 /// Properties:
 /// * [$123list] 
-mixin $ListMixin on 
+mixin $ListMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -33,13 +33,14 @@ $ListMixin {
             String
 > $123list;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   $List.$all({
         required this.$123list,
-    
+    required this.additionalProperties,
     
   });
 
@@ -47,7 +48,7 @@ $ListMixin {
       this.$123list = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

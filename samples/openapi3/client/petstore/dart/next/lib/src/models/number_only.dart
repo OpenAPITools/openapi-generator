@@ -11,7 +11,7 @@ part 'number_only.serialization.dart';
 ///
 /// Properties:
 /// * [justNumber] 
-mixin NumberOnlyMixin on 
+mixin NumberOnlyMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             num
@@ -33,13 +33,14 @@ NumberOnlyMixin {
             num
 > justNumber;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   NumberOnly.$all({
         required this.justNumber,
-    
+    required this.additionalProperties,
     
   });
 
@@ -47,7 +48,7 @@ NumberOnlyMixin {
       this.justNumber = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

@@ -18,7 +18,7 @@ part 'additional_properties_class.serialization.dart';
 /// * [mapWithUndeclaredPropertiesAnytype3] 
 /// * [emptyMap] - an object with no declared properties and no undeclared properties, hence it's an empty map.
 /// * [mapWithUndeclaredPropertiesString] 
-mixin AdditionalPropertiesClassMixin on 
+mixin AdditionalPropertiesClassMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
     Map<String, 
@@ -122,7 +122,8 @@ AdditionalPropertiesClassMixin {
 >
 > mapWithUndeclaredPropertiesString;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -135,7 +136,7 @@ AdditionalPropertiesClassMixin {
     required this.mapWithUndeclaredPropertiesAnytype3,
     required this.emptyMap,
     required this.mapWithUndeclaredPropertiesString,
-    
+    required this.additionalProperties,
     
   });
 
@@ -164,7 +165,7 @@ AdditionalPropertiesClassMixin {
   this.mapWithUndeclaredPropertiesString = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

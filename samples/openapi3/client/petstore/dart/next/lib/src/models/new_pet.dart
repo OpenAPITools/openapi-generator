@@ -17,7 +17,7 @@ part 'new_pet.serialization.dart';
 /// * [photoUrls] 
 /// * [tags] 
 /// * [status] - pet status in the store
-mixin NewPetMixin on 
+mixin NewPetMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -99,7 +99,8 @@ NewPetMixin {
             NewPetStatusEnum
 > status;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -111,7 +112,7 @@ NewPetMixin {
     required this.photoUrls,
     required this.tags,
     required this.status,
-    
+    required this.additionalProperties,
     
   });
 
@@ -133,7 +134,7 @@ required  this.photoUrls     ,
   this.status = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

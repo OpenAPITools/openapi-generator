@@ -20,7 +20,7 @@ Map<String, dynamic> _$ModelWithOneOfAnyOfPropertiesToMap(ModelWithOneOfAnyOfPro
  v) {
       return v.serialize();
     }(instance.anyofProp.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -50,7 +50,12 @@ anyofProp: src.getOrUndefinedMapped(_reflection.anyofProp.oasName, (v) => ArrayA
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -79,6 +84,12 @@ if (!src.getOrUndefined(_reflection.anyofProp.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.anyofProp.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

@@ -16,7 +16,7 @@ part 'pet_ref.serialization.dart';
 /// * [photoUrls] 
 /// * [tags] 
 /// * [status] - pet status in the store
-mixin PetRefMixin on 
+mixin PetRefMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -90,7 +90,8 @@ PetRefMixin {
             PetRefStatusEnum
 > status;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -101,7 +102,7 @@ PetRefMixin {
     required this.photoUrls,
     required this.tags,
     required this.status,
-    
+    required this.additionalProperties,
     
   });
 
@@ -120,7 +121,7 @@ required  this.photoUrls     ,
   this.status = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

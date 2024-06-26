@@ -12,7 +12,7 @@ part 'has_only_read_only.serialization.dart';
 /// Properties:
 /// * [bar] 
 /// * [foo] 
-mixin HasOnlyReadOnlyMixin on 
+mixin HasOnlyReadOnlyMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -42,14 +42,15 @@ HasOnlyReadOnlyMixin {
             String
 > foo;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   HasOnlyReadOnly.$all({
         required this.bar,
     required this.foo,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ HasOnlyReadOnlyMixin {
   this.foo = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

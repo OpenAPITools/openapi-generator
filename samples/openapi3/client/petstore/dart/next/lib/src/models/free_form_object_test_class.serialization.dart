@@ -20,7 +20,7 @@ Map<String, dynamic> _$FreeFormObjectTestClassToMap(FreeFormObjectTestClass inst
  v) {
       return v.serialize();
     }(instance.properties.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -51,7 +51,12 @@ properties: src.getOrUndefinedMapped(_reflection.properties.oasName, (v) => Free
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -80,6 +85,12 @@ if (!src.getOrUndefined(_reflection.properties.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.properties.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

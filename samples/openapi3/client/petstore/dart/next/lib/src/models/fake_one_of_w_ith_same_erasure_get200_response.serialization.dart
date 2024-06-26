@@ -8,7 +8,7 @@ part of 'fake_one_of_w_ith_same_erasure_get200_response.dart';
 Map<String, dynamic> _$FakeOneOfWIthSameErasureGet200ResponseToMap(FakeOneOfWIthSameErasureGet200Response instance) {
   final _reflection = FakeOneOfWIthSameErasureGet200ResponseReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -16,7 +16,12 @@ Map<String, dynamic> _$FakeOneOfWIthSameErasureGet200ResponseToMap(FakeOneOfWIth
 FakeOneOfWIthSameErasureGet200Response _$FakeOneOfWIthSameErasureGet200ResponseFromMap(Map<String, dynamic> src) {
   final _reflection = FakeOneOfWIthSameErasureGet200ResponseReflection.instance;
   return FakeOneOfWIthSameErasureGet200Response.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     oneOf0:  UndefinedWrapper.undefined(),
     oneOf1:  UndefinedWrapper.undefined(),
@@ -25,7 +30,13 @@ FakeOneOfWIthSameErasureGet200Response _$FakeOneOfWIthSameErasureGet200ResponseF
 
 bool _$FakeOneOfWIthSameErasureGet200ResponseCanFromMap(Map<String, dynamic> src) {
   final _reflection = FakeOneOfWIthSameErasureGet200ResponseReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final oneOfs = [
   
   ];
@@ -114,6 +125,8 @@ FakeOneOfWIthSameErasureGet200Response _$FakeOneOfWIthSameErasureGet200ResponseD
 
 ).toList()
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

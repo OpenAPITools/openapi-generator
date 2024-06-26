@@ -26,7 +26,7 @@ Map<String, dynamic> _$NewPetCategoryInlineAllofToMap(NewPetCategoryInlineAllof 
  v) {
       return v.serialize();
     }(instance.categoryTag.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -69,7 +69,12 @@ categoryTag: src.getOrUndefinedMapped(_reflection.categoryTag.oasName, (v) => Ne
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -110,6 +115,12 @@ if (!src.getOrUndefined(_reflection.categoryTag.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.categoryTag.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

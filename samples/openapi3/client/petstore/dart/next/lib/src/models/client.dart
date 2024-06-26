@@ -11,7 +11,7 @@ part 'client.serialization.dart';
 ///
 /// Properties:
 /// * [client] 
-mixin ClientMixin on 
+mixin ClientMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -33,13 +33,14 @@ ClientMixin {
             String
 > client;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   Client.$all({
         required this.client,
-    
+    required this.additionalProperties,
     
   });
 
@@ -47,7 +48,7 @@ ClientMixin {
       this.client = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

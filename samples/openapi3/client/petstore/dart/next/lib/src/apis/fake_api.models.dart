@@ -226,14 +226,54 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
     var serialized = v;
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = v;
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = ;
+          parts = MultiPartBodySerializer.getFormDataParts(
+            fields: {
+            },
+            files: []
+          );
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+
+    }
+    //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = json.encode(serialized);
+    //final encoded = json.encode(serialized);
     //final bytes = ;
   }
+
 }
 
 
@@ -385,14 +425,54 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
     var serialized = v.serialize();
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = v.serialize();
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = ;
+          parts = MultiPartBodySerializer.getFormDataParts(
+            fields: {
+            },
+            files: []
+          );
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+
+    }
+    //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = json.encode(serialized);
+    //final encoded = json.encode(serialized);
     //final bytes = ;
   }
+
 }
 
 
@@ -544,14 +624,54 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
     var serialized = v;
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = v;
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = ;
+          parts = MultiPartBodySerializer.getFormDataParts(
+            fields: {
+            },
+            files: []
+          );
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+
+    }
+    //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = json.encode(serialized);
+    //final encoded = json.encode(serialized);
     //final bytes = ;
   }
+
 }
 
 
@@ -703,14 +823,54 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
     var serialized = v;
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = v;
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = ;
+          parts = MultiPartBodySerializer.getFormDataParts(
+            fields: {
+            },
+            files: []
+          );
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+
+    }
+    //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = json.encode(serialized);
+    //final encoded = json.encode(serialized);
     //final bytes = ;
   }
+
 }
 
 
@@ -1290,14 +1450,54 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
     var serialized = v;
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = v;
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = ;
+          parts = MultiPartBodySerializer.getFormDataParts(
+            fields: {
+            },
+            files: []
+          );
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+
+    }
+    //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = json.encode(serialized);
+    //final encoded = json.encode(serialized);
     //final bytes = ;
   }
+
 }
 
 
@@ -1449,14 +1649,54 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
     var serialized = v.serialize();
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = v.serialize();
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = ;
+          parts = MultiPartBodySerializer.getFormDataParts(
+            fields: {
+            },
+            files: []
+          );
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+
+    }
+    //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = json.encode(serialized);
+    //final encoded = json.encode(serialized);
     //final bytes = ;
   }
+
 }
 
 
@@ -1629,14 +1869,54 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
     var serialized = v.serialize();
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = v.serialize();
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = ;
+          parts = MultiPartBodySerializer.getFormDataParts(
+            fields: {
+            },
+            files: []
+          );
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+
+    }
+    //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = json.encode(serialized);
+    //final encoded = json.encode(serialized);
     //final bytes = ;
   }
+
 }
 
 
@@ -1788,14 +2068,54 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
     var serialized = v.serialize();
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = v.serialize();
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = ;
+          parts = MultiPartBodySerializer.getFormDataParts(
+            fields: {
+            },
+            files: []
+          );
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+
+    }
+    //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = json.encode(serialized);
+    //final encoded = json.encode(serialized);
     //final bytes = ;
   }
+
 }
 
 
@@ -2462,14 +2782,54 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
     var serialized = v.map((k,v) => MapEntry(k, v));
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = v.map((k,v) => MapEntry(k, v));
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = ;
+          parts = MultiPartBodySerializer.getFormDataParts(
+            fields: {
+            },
+            files: []
+          );
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+
+    }
+    //var serialized = v.map((k,v) => MapEntry(k, v));
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = json.encode(serialized);
+    //final encoded = json.encode(serialized);
     //final bytes = ;
   }
+
 }
 
 
@@ -2621,14 +2981,54 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
-    var serialized = v.serialize();
+    var serialized = v;
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = v;
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = ;
+          parts = MultiPartBodySerializer.getFormDataParts(
+            fields: {
+            },
+            files: []
+          );
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+
+    }
+    //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = json.encode(serialized);
+    //final encoded = json.encode(serialized);
     //final bytes = ;
   }
+
 }
 
 
@@ -3112,14 +3512,54 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
     var serialized = v.map((k,v) => MapEntry(k, v));
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = v.map((k,v) => MapEntry(k, v));
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = ;
+          parts = MultiPartBodySerializer.getFormDataParts(
+            fields: {
+            },
+            files: []
+          );
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+
+    }
+    //var serialized = v.map((k,v) => MapEntry(k, v));
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = json.encode(serialized);
+    //final encoded = json.encode(serialized);
     //final bytes = ;
   }
+
 }
 
 

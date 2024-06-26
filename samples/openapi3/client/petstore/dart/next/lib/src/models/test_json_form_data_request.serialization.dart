@@ -20,7 +20,7 @@ Map<String, dynamic> _$TestJsonFormDataRequestToMap(TestJsonFormDataRequest inst
  v) {
       return v;
     }(instance.param2),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -52,7 +52,12 @@ param2: src.getRequiredMapped(_reflection.param2.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -81,6 +86,12 @@ if (!src.getOrUndefined(_reflection.param2.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.param2.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

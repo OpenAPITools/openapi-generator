@@ -8,7 +8,7 @@ part of 'all_of_model_array_any_of_all_of_link_list_column1_value.dart';
 Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfLinkListColumn1ValueToMap(AllOfModelArrayAnyOfAllOfLinkListColumn1Value instance) {
   final _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
     if (instance.anyOf0.isDefined) ...instance.anyOf0.valueRequired.toMap(),
     if (instance.anyOf1.isDefined) ...instance.anyOf1.valueRequired.toMap(),
@@ -18,7 +18,12 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfLinkListColumn1ValueToMap(AllOfM
 AllOfModelArrayAnyOfAllOfLinkListColumn1Value _$AllOfModelArrayAnyOfAllOfLinkListColumn1ValueFromMap(Map<String, dynamic> src) {
   final _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection.instance;
   return AllOfModelArrayAnyOfAllOfLinkListColumn1Value.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     anyOf0: User.canDeserialize(src) ? UndefinedWrapper(User.deserialize(src)) :  UndefinedWrapper.undefined(),
     anyOf1: Tag.canDeserialize(src) ? UndefinedWrapper(Tag.deserialize(src)) :  UndefinedWrapper.undefined(),
@@ -27,7 +32,13 @@ AllOfModelArrayAnyOfAllOfLinkListColumn1Value _$AllOfModelArrayAnyOfAllOfLinkLis
 
 bool _$AllOfModelArrayAnyOfAllOfLinkListColumn1ValueCanFromMap(Map<String, dynamic> src) {
   final _reflection = AllOfModelArrayAnyOfAllOfLinkListColumn1ValueReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final anyOfs = [
     () => User.canDeserialize(src),
   
@@ -84,6 +95,8 @@ AllOfModelArrayAnyOfAllOfLinkListColumn1Value _$AllOfModelArrayAnyOfAllOfLinkLis
 
 
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

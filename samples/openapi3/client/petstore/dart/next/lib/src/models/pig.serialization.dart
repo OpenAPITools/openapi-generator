@@ -8,7 +8,7 @@ part of 'pig.dart';
 Map<String, dynamic> _$PigToMap(Pig instance) {
   final _reflection = PigReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
     if (instance.oneOf0.isDefined) ...instance.oneOf0.valueRequired.toMap(),
     
@@ -20,7 +20,12 @@ Map<String, dynamic> _$PigToMap(Pig instance) {
 Pig _$PigFromMap(Map<String, dynamic> src) {
   final _reflection = PigReflection.instance;
   return Pig.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     oneOf0: BasquePig.canDeserialize(src) ? UndefinedWrapper(BasquePig.deserialize(src)) :  UndefinedWrapper.undefined(),
     oneOf1: DanishPig.canDeserialize(src) ? UndefinedWrapper(DanishPig.deserialize(src)) :  UndefinedWrapper.undefined(),
@@ -29,7 +34,13 @@ Pig _$PigFromMap(Map<String, dynamic> src) {
 
 bool _$PigCanFromMap(Map<String, dynamic> src) {
   final _reflection = PigReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final oneOfs = [
     () => BasquePig.canDeserialize(src),
   
@@ -84,6 +95,8 @@ Pig _$PigDeserialize(Object? src) {
 
 
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

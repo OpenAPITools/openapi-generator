@@ -32,7 +32,7 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfToMap(AllOfModelArrayAnyOf instance) 
  v) {
       return v.serialize();
     }(instance.linkListColumn1.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -86,7 +86,12 @@ linkListColumn1: src.getOrUndefinedMapped(_reflection.linkListColumn1.oasName, (
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -139,6 +144,12 @@ if (!src.getOrUndefined(_reflection.linkListColumn1.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.linkListColumn1.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

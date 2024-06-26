@@ -20,7 +20,7 @@ Map<String, dynamic> _$TagToMap(Tag instance) {
  v) {
       return v;
     }(instance.name.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -52,7 +52,12 @@ name: src.getOrUndefinedMapped(_reflection.name.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -81,6 +86,12 @@ if (!src.getOrUndefined(_reflection.name.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.name.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

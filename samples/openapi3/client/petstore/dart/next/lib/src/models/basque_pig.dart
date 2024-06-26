@@ -11,7 +11,7 @@ part 'basque_pig.serialization.dart';
 ///
 /// Properties:
 /// * [className] 
-mixin BasquePigMixin on 
+mixin BasquePigMixin on
   $OpenApiObjectMixin {
   
             String
@@ -33,19 +33,20 @@ BasquePigMixin {
             String
  className;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   BasquePig.$all({
         required this.className,
-    
+    required this.additionalProperties,
     
   });
 
   BasquePig({
     required  this.className     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

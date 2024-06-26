@@ -13,7 +13,7 @@ part 'property_name_collision.serialization.dart';
 /// * [$type] 
 /// * [type] 
 /// * [type$] 
-mixin PropertyNameCollisionMixin on 
+mixin PropertyNameCollisionMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -51,7 +51,8 @@ PropertyNameCollisionMixin {
             String
 > type$;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -59,7 +60,7 @@ PropertyNameCollisionMixin {
         required this.$type,
     required this.type,
     required this.type$,
-    
+    required this.additionalProperties,
     
   });
 
@@ -73,7 +74,7 @@ PropertyNameCollisionMixin {
   this.type$ = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

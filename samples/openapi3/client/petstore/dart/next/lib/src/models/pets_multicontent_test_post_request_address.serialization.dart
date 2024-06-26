@@ -20,7 +20,7 @@ Map<String, dynamic> _$PetsMulticontentTestPostRequestAddressToMap(PetsMulticont
  v) {
       return v;
     }(instance.city.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -52,7 +52,12 @@ city: src.getOrUndefinedMapped(_reflection.city.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -81,6 +86,12 @@ if (!src.getOrUndefined(_reflection.city.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.city.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

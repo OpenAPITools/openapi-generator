@@ -8,7 +8,7 @@ part 'nullable_shape.serialization.dart';
 
 
 /// The value may be a shape or the 'null' value. The 'nullable' attribute was introduced in OAS schema >= 3.0 and has been deprecated in OAS schema >= 3.1.
-mixin NullableShapeMixin on 
+mixin NullableShapeMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -26,7 +26,8 @@ $OpenApiObjectMixin,
 
 NullableShapeMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -41,14 +42,14 @@ NullableShapeMixin {
   
 
   NullableShape.$all({
-        
+        required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
   });
 
   NullableShape({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),

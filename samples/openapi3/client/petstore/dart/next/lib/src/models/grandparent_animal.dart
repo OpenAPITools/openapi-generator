@@ -11,7 +11,7 @@ part 'grandparent_animal.serialization.dart';
 ///
 /// Properties:
 /// * [petType] 
-mixin GrandparentAnimalMixin on 
+mixin GrandparentAnimalMixin on
   $OpenApiObjectMixin {
   
             String
@@ -33,19 +33,20 @@ GrandparentAnimalMixin {
             String
  petType;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   GrandparentAnimal.$all({
         required this.petType,
-    
+    required this.additionalProperties,
     
   });
 
   GrandparentAnimal({
     required  this.petType     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

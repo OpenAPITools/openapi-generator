@@ -11,7 +11,7 @@ part 'file.serialization.dart';
 ///
 /// Properties:
 /// * [sourceURI] - Test capitalization
-mixin FileMixin on 
+mixin FileMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -33,13 +33,14 @@ FileMixin {
             String
 > sourceURI;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   File.$all({
         required this.sourceURI,
-    
+    required this.additionalProperties,
     
   });
 
@@ -47,7 +48,7 @@ FileMixin {
       this.sourceURI = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

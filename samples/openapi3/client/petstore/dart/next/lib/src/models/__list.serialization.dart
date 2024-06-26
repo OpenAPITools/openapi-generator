@@ -14,7 +14,7 @@ Map<String, dynamic> _$$ListToMap($List instance) {
  v) {
       return v;
     }(instance.$123list.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -34,7 +34,12 @@ $List _$$ListFromMap(Map<String, dynamic> src) {
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -51,6 +56,12 @@ bool _$$ListCanFromMap(Map<String, dynamic> src) {
 ),
     unDefined: () => !_reflection.$123list.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

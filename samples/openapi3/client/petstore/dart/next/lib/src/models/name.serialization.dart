@@ -32,7 +32,7 @@ Map<String, dynamic> _$NameToMap(Name instance) {
  v) {
       return v;
     }(instance.$123number.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -88,7 +88,12 @@ $123number: src.getOrUndefinedMapped(_reflection.$123number.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -141,6 +146,12 @@ if (!src.getOrUndefined(_reflection.$123number.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.$123number.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

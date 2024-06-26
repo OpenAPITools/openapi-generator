@@ -12,7 +12,7 @@ part 'special_model_name.serialization.dart';
 /// Properties:
 /// * [$specialPropertyName] 
 /// * [specialModelName] 
-mixin SpecialModelNameMixin on 
+mixin SpecialModelNameMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -42,14 +42,15 @@ SpecialModelNameMixin {
             String
 > specialModelName;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   SpecialModelName.$all({
         required this.$specialPropertyName,
     required this.specialModelName,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ SpecialModelNameMixin {
   this.specialModelName = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

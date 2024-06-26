@@ -62,7 +62,7 @@ Map<String, dynamic> _$EnumTestToMap(EnumTest instance) {
  v) {
       return v;
     }(instance.outerEnumIntegerDefaultValue.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -178,7 +178,12 @@ outerEnumIntegerDefaultValue: src.getOrUndefinedMapped(_reflection.outerEnumInte
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -291,6 +296,12 @@ if (!src.getOrUndefined(_reflection.outerEnumIntegerDefaultValue.oasName).split<
 ),
     unDefined: () => !_reflection.outerEnumIntegerDefaultValue.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

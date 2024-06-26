@@ -23,7 +23,7 @@ Map<String, dynamic> _$FileSchemaTestClassToMap(FileSchemaTestClass instance) {
  v) {
       return v.map((v) => v.serialize()).toList();
     }(instance.files.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -64,7 +64,12 @@ files: src.getOrUndefinedMapped(_reflection.files.oasName, (v) =>
 
 ).toList()
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -99,6 +104,12 @@ if (!src.getOrUndefined(_reflection.files.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.files.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

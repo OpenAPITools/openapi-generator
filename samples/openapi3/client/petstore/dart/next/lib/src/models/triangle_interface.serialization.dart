@@ -14,7 +14,7 @@ Map<String, dynamic> _$TriangleInterfaceToMap(TriangleInterface instance) {
  v) {
       return v;
     }(instance.triangleType),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -34,7 +34,12 @@ TriangleInterface _$TriangleInterfaceFromMap(Map<String, dynamic> src) {
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -51,6 +56,12 @@ bool _$TriangleInterfaceCanFromMap(Map<String, dynamic> src) {
 ),
     unDefined: () => !_reflection.triangleType.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

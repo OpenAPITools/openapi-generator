@@ -47,7 +47,7 @@ Map<String, dynamic> _$MapTestToMap(MapTest instance) {
  v) {
       return v.map((k,v) => MapEntry(k, v));
     }(instance.indirectMap.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -158,7 +158,12 @@ indirectMap: src.getOrUndefinedMapped(_reflection.indirectMap.oasName, (v) =>
 ))
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -241,6 +246,12 @@ if (!src.getOrUndefined(_reflection.indirectMap.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.indirectMap.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

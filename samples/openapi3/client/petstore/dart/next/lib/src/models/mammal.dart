@@ -10,7 +10,7 @@ part 'mammal.serialization.dart';
 /// MammalMixin
 ///
 /// Properties:
-mixin MammalMixin on 
+mixin MammalMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -33,7 +33,8 @@ $OpenApiObjectMixin,
 
 MammalMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -53,7 +54,7 @@ MammalMixin {
   
 
   Mammal.$all({
-        
+        required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
@@ -61,7 +62,7 @@ MammalMixin {
   });
 
   Mammal({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),

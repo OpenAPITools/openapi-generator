@@ -14,7 +14,7 @@ Map<String, dynamic> _$ClassModelToMap(ClassModel instance) {
  v) {
       return v;
     }(instance.propertyClass.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -34,7 +34,12 @@ ClassModel _$ClassModelFromMap(Map<String, dynamic> src) {
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -51,6 +56,12 @@ bool _$ClassModelCanFromMap(Map<String, dynamic> src) {
 ),
     unDefined: () => !_reflection.propertyClass.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

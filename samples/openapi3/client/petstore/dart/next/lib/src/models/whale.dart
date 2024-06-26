@@ -13,7 +13,7 @@ part 'whale.serialization.dart';
 /// * [hasBaleen] 
 /// * [hasTeeth] 
 /// * [className] 
-mixin WhaleMixin on 
+mixin WhaleMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             bool
@@ -51,7 +51,8 @@ WhaleMixin {
             String
  className;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -59,7 +60,7 @@ WhaleMixin {
         required this.hasBaleen,
     required this.hasTeeth,
     required this.className,
-    
+    required this.additionalProperties,
     
   });
 
@@ -71,7 +72,7 @@ WhaleMixin {
         .undefined()
 ,
 required  this.className     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

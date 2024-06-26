@@ -12,7 +12,7 @@ part 'free_form_object_test_class.serialization.dart';
 /// Properties:
 /// * [name] 
 /// * [properties] 
-mixin FreeFormObjectTestClassMixin on 
+mixin FreeFormObjectTestClassMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -42,14 +42,15 @@ FreeFormObjectTestClassMixin {
             FreeFormObjectTestClassProperties
 > properties;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   FreeFormObjectTestClass.$all({
         required this.name,
     required this.properties,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ FreeFormObjectTestClassMixin {
   this.properties = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

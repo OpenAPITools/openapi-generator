@@ -12,7 +12,7 @@ part 'update_pet_with_form_request.serialization.dart';
 /// Properties:
 /// * [name] - Updated name of the pet
 /// * [status] - Updated status of the pet
-mixin UpdatePetWithFormRequestMixin on 
+mixin UpdatePetWithFormRequestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -42,14 +42,15 @@ UpdatePetWithFormRequestMixin {
             String
 > status;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   UpdatePetWithFormRequest.$all({
         required this.name,
     required this.status,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ UpdatePetWithFormRequestMixin {
   this.status = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

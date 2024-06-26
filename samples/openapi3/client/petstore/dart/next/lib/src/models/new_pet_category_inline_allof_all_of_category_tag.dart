@@ -12,7 +12,7 @@ part 'new_pet_category_inline_allof_all_of_category_tag.serialization.dart';
 /// Properties:
 /// * [id] 
 /// * [name] 
-mixin NewPetCategoryInlineAllofAllOfCategoryTagMixin on 
+mixin NewPetCategoryInlineAllofAllOfCategoryTagMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -42,14 +42,15 @@ NewPetCategoryInlineAllofAllOfCategoryTagMixin {
             String
 > name;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   NewPetCategoryInlineAllofAllOfCategoryTag.$all({
         required this.id,
     required this.name,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ NewPetCategoryInlineAllofAllOfCategoryTagMixin {
   this.name = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

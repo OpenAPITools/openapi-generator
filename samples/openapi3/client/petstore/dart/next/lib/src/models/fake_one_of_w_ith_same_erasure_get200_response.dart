@@ -8,7 +8,7 @@ part 'fake_one_of_w_ith_same_erasure_get200_response.serialization.dart';
 
 
 /// FakeOneOfWIthSameErasureGet200ResponseMixin
-mixin FakeOneOfWIthSameErasureGet200ResponseMixin on 
+mixin FakeOneOfWIthSameErasureGet200ResponseMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -32,7 +32,8 @@ $OpenApiObjectMixin,
 
 FakeOneOfWIthSameErasureGet200ResponseMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -53,14 +54,14 @@ FakeOneOfWIthSameErasureGet200ResponseMixin {
   
 
   FakeOneOfWIthSameErasureGet200Response.$all({
-        
+        required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
   });
 
   FakeOneOfWIthSameErasureGet200Response({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),

@@ -8,7 +8,7 @@ part of 'free_form_object_test_class_properties.dart';
 Map<String, dynamic> _$FreeFormObjectTestClassPropertiesToMap(FreeFormObjectTestClassProperties instance) {
   final _reflection = FreeFormObjectTestClassPropertiesReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -16,7 +16,12 @@ Map<String, dynamic> _$FreeFormObjectTestClassPropertiesToMap(FreeFormObjectTest
 FreeFormObjectTestClassProperties _$FreeFormObjectTestClassPropertiesFromMap(Map<String, dynamic> src) {
   final _reflection = FreeFormObjectTestClassPropertiesReflection.instance;
   return FreeFormObjectTestClassProperties.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     oneOf0:  UndefinedWrapper.undefined(),
     oneOf1:  UndefinedWrapper.undefined(),
@@ -25,7 +30,13 @@ FreeFormObjectTestClassProperties _$FreeFormObjectTestClassPropertiesFromMap(Map
 
 bool _$FreeFormObjectTestClassPropertiesCanFromMap(Map<String, dynamic> src) {
   final _reflection = FreeFormObjectTestClassPropertiesReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final oneOfs = [
   
   ];
@@ -80,6 +91,8 @@ v
 ))
 
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

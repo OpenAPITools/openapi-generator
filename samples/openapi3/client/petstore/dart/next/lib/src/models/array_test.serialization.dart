@@ -41,7 +41,7 @@ Map<String, dynamic> _$ArrayTestToMap(ArrayTest instance) {
  v) {
       return v.map((v) => v.map((v) => v.serialize()).toList()).toList();
     }(instance.arrayArrayOfModel.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -139,7 +139,12 @@ arrayArrayOfModel: src.getOrUndefinedMapped(_reflection.arrayArrayOfModel.oasNam
 ).toList()
 ).toList()
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -210,6 +215,12 @@ if (!src.getOrUndefined(_reflection.arrayArrayOfModel.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.arrayArrayOfModel.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

@@ -12,7 +12,7 @@ part 'tag.serialization.dart';
 /// Properties:
 /// * [id] 
 /// * [name] 
-mixin TagMixin on 
+mixin TagMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -42,14 +42,15 @@ TagMixin {
             String
 > name;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   Tag.$all({
         required this.id,
     required this.name,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ TagMixin {
   this.name = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

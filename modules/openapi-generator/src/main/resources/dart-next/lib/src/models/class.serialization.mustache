@@ -85,6 +85,8 @@ bool _${{classname}}CanFromMap(Map<String, dynamic> src) {
       {{name}}: ({{>types/can_deserialize_recursive}}) ? UndefinedWrapper({{>types/deserialize_recursive}}) : UndefinedWrapper.undefined(),{{/oneOf}}{{#anyOf}}
       {{name}}: ({{>types/can_deserialize_recursive}}) ? UndefinedWrapper({{>types/deserialize_recursive}}) : UndefinedWrapper.undefined(),{{/anyOf}}
       {{/composedSchemas}}
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      {{#additionalProperties}}additionalProperties: AdditionalProperties(),{{/additionalProperties}}
     );{{/vendorExtensions.hasAnyOfOrOneOf}}
     {{/allVars}}
     {{! If a model has vars, then src MUST be Map, otherwise it's not supported. }}

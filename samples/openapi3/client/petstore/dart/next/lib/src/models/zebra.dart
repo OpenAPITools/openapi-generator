@@ -12,8 +12,7 @@ part 'zebra.serialization.dart';
 /// Properties:
 /// * [type] 
 /// * [className] 
-mixin ZebraMixin on  AdditionalPropertiesMixin<Object
-?>,
+mixin ZebraMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             ZebraTypeEnum
@@ -31,8 +30,7 @@ mixin ZebraMixin on  AdditionalPropertiesMixin<Object
 /// * [className] 
 class Zebra with
 $OpenApiObjectMixin,
-AdditionalPropertiesMixin<Object
-?>,
+
 
 ZebraMixin {
   @override
@@ -44,7 +42,6 @@ ZebraMixin {
             String
  className;
 
-  @override
   AdditionalProperties<Object
 ?> additionalProperties;
 

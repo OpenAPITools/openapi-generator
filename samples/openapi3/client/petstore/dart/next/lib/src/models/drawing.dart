@@ -14,9 +14,7 @@ part 'drawing.serialization.dart';
 /// * [shapeOrNull] 
 /// * [nullableShape] 
 /// * [shapes] 
-mixin DrawingMixin on  AdditionalPropertiesMixin<
-            Fruit
->,
+mixin DrawingMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             Shape
@@ -45,9 +43,7 @@ UndefinedWrapper<
 /// * [shapes] 
 class Drawing with
 $OpenApiObjectMixin,
-AdditionalPropertiesMixin<
-            Fruit
->,
+
 
 DrawingMixin {
   @override
@@ -70,7 +66,6 @@ DrawingMixin {
 >
 > shapes;
 
-  @override
   AdditionalProperties<
             Fruit
 > additionalProperties;

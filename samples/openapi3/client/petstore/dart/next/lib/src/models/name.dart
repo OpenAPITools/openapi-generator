@@ -14,7 +14,7 @@ part 'name.serialization.dart';
 /// * [snakeCase] 
 /// * [property] 
 /// * [$123number] 
-mixin NameMixin on 
+mixin NameMixin on
   $OpenApiObjectMixin {
   
             int
@@ -60,7 +60,8 @@ NameMixin {
             int
 > $123number;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -69,7 +70,7 @@ NameMixin {
     required this.snakeCase,
     required this.property,
     required this.$123number,
-    
+    required this.additionalProperties,
     
   });
 
@@ -84,7 +85,7 @@ NameMixin {
   this.$123number = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

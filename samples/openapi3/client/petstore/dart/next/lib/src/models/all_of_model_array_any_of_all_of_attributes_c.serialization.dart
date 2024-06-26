@@ -8,7 +8,7 @@ part of 'all_of_model_array_any_of_all_of_attributes_c.dart';
 Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfAttributesCToMap(AllOfModelArrayAnyOfAllOfAttributesC instance) {
   final _reflection = AllOfModelArrayAnyOfAllOfAttributesCReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
     if (instance.oneOf0.isDefined) ...instance.oneOf0.valueRequired.toMap(),
     
@@ -20,7 +20,12 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfAttributesCToMap(AllOfModelArray
 AllOfModelArrayAnyOfAllOfAttributesC _$AllOfModelArrayAnyOfAllOfAttributesCFromMap(Map<String, dynamic> src) {
   final _reflection = AllOfModelArrayAnyOfAllOfAttributesCReflection.instance;
   return AllOfModelArrayAnyOfAllOfAttributesC.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     oneOf0: Pet.canDeserialize(src) ? UndefinedWrapper(Pet.deserialize(src)) :  UndefinedWrapper.undefined(),
     oneOf1: Order.canDeserialize(src) ? UndefinedWrapper(Order.deserialize(src)) :  UndefinedWrapper.undefined(),
@@ -29,7 +34,13 @@ AllOfModelArrayAnyOfAllOfAttributesC _$AllOfModelArrayAnyOfAllOfAttributesCFromM
 
 bool _$AllOfModelArrayAnyOfAllOfAttributesCCanFromMap(Map<String, dynamic> src) {
   final _reflection = AllOfModelArrayAnyOfAllOfAttributesCReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final oneOfs = [
     () => Pet.canDeserialize(src),
   
@@ -84,6 +95,8 @@ AllOfModelArrayAnyOfAllOfAttributesC _$AllOfModelArrayAnyOfAllOfAttributesCDeser
 
 
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

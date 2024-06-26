@@ -16,7 +16,7 @@ part 'order.serialization.dart';
 /// * [shipDate] 
 /// * [status] - Order Status
 /// * [complete] 
-mixin OrderMixin on 
+mixin OrderMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -78,7 +78,8 @@ OrderMixin {
             bool
 > complete;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -89,7 +90,7 @@ OrderMixin {
     required this.shipDate,
     required this.status,
     required this.complete,
-    
+    required this.additionalProperties,
     
   });
 
@@ -116,7 +117,7 @@ OrderMixin {
     )
     
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

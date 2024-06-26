@@ -14,8 +14,7 @@ dependencies:
   collection: ^1.19.0
   http_parser: ^4.1.0
   cross_file: '>=0.3.4+1 <1.0.0'
-  shared_infrastructure:
-    path: shared_infrastructure
+  openapi_infrastructure: ^1.0.2
 
 dev_dependencies:
   lints: ^3.0.0

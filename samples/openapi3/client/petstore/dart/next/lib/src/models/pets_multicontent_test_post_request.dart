@@ -12,8 +12,8 @@ part 'pets_multicontent_test_post_request.serialization.dart';
 /// Properties:
 /// * [id] 
 /// * [address] 
-/// * [profileImage] 
-mixin PetsMulticontentTestPostRequestMixin on 
+/// * [profileImages] 
+mixin PetsMulticontentTestPostRequestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -22,8 +22,11 @@ UndefinedWrapper<
             PetsMulticontentTestPostRequestAddress
 > get address;
 UndefinedWrapper<
+    List<
+        
             XFile
-> get profileImage;
+>
+> get profileImages;
   
 }
 
@@ -32,7 +35,7 @@ UndefinedWrapper<
 /// Properties:
 /// * [id] 
 /// * [address] 
-/// * [profileImage] 
+/// * [profileImages] 
 class PetsMulticontentTestPostRequest with
 $OpenApiObjectMixin,
 
@@ -48,18 +51,22 @@ PetsMulticontentTestPostRequestMixin {
 > address;
   @override
   UndefinedWrapper<
+    List<
+        
             XFile
-> profileImage;
+>
+> profileImages;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   PetsMulticontentTestPostRequest.$all({
         required this.id,
     required this.address,
-    required this.profileImage,
-    
+    required this.profileImages,
+    required this.additionalProperties,
     
   });
 
@@ -70,10 +77,10 @@ PetsMulticontentTestPostRequestMixin {
   this.address = const UndefinedWrapper
         .undefined()
 ,
-  this.profileImage = const UndefinedWrapper
+  this.profileImages = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

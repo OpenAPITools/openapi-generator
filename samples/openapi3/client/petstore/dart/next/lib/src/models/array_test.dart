@@ -13,7 +13,7 @@ part 'array_test.serialization.dart';
 /// * [arrayOfString] 
 /// * [arrayArrayOfInteger] 
 /// * [arrayArrayOfModel] 
-mixin ArrayTestMixin on 
+mixin ArrayTestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
     List<
@@ -81,7 +81,8 @@ ArrayTestMixin {
 >
 > arrayArrayOfModel;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -89,7 +90,7 @@ ArrayTestMixin {
         required this.arrayOfString,
     required this.arrayArrayOfInteger,
     required this.arrayArrayOfModel,
-    
+    required this.additionalProperties,
     
   });
 
@@ -103,7 +104,7 @@ ArrayTestMixin {
   this.arrayArrayOfModel = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

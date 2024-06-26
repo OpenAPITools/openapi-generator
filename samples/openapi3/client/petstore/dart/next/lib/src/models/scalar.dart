@@ -8,7 +8,7 @@ part 'scalar.serialization.dart';
 
 
 /// Values of scalar type
-mixin ScalarMixin on 
+mixin ScalarMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -29,7 +29,8 @@ $OpenApiObjectMixin,
 
 ScalarMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -49,7 +50,7 @@ ScalarMixin {
   
 
   Scalar.$all({
-        
+        required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
@@ -57,7 +58,7 @@ ScalarMixin {
   });
 
   Scalar({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),

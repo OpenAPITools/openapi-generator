@@ -11,7 +11,7 @@ part '__return.serialization.dart';
 ///
 /// Properties:
 /// * [$return] 
-mixin $ReturnMixin on 
+mixin $ReturnMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -33,13 +33,14 @@ $ReturnMixin {
             int
 > $return;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   $Return.$all({
         required this.$return,
-    
+    required this.additionalProperties,
     
   });
 
@@ -47,7 +48,7 @@ $ReturnMixin {
       this.$return = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

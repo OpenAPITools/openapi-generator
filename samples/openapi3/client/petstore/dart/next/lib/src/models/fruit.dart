@@ -11,7 +11,7 @@ part 'fruit.serialization.dart';
 ///
 /// Properties:
 /// * [color] 
-mixin FruitMixin on 
+mixin FruitMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -39,7 +39,7 @@ FruitMixin {
             String
 > color;
 
-  
+
 
   
   @override

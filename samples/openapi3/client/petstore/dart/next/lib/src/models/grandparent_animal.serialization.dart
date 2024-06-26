@@ -14,7 +14,7 @@ Map<String, dynamic> _$GrandparentAnimalToMap(GrandparentAnimal instance) {
  v) {
       return v;
     }(instance.petType),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -34,7 +34,12 @@ GrandparentAnimal _$GrandparentAnimalFromMap(Map<String, dynamic> src) {
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -51,6 +56,12 @@ bool _$GrandparentAnimalCanFromMap(Map<String, dynamic> src) {
 ),
     unDefined: () => !_reflection.petType.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

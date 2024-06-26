@@ -11,7 +11,7 @@ part 'danish_pig.serialization.dart';
 ///
 /// Properties:
 /// * [className] 
-mixin DanishPigMixin on 
+mixin DanishPigMixin on
   $OpenApiObjectMixin {
   
             String
@@ -33,19 +33,20 @@ DanishPigMixin {
             String
  className;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   DanishPig.$all({
         required this.className,
-    
+    required this.additionalProperties,
     
   });
 
   DanishPig({
     required  this.className     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

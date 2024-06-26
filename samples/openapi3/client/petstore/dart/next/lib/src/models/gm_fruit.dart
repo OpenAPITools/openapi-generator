@@ -11,7 +11,7 @@ part 'gm_fruit.serialization.dart';
 ///
 /// Properties:
 /// * [color] 
-mixin GmFruitMixin on 
+mixin GmFruitMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -39,7 +39,7 @@ GmFruitMixin {
             String
 > color;
 
-  
+
 
   
   @override

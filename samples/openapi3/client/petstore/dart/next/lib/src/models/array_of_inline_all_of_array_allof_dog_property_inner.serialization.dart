@@ -20,7 +20,7 @@ Map<String, dynamic> _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerToMap(ArrayOf
  v) {
       return v;
     }(instance.color.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -52,7 +52,12 @@ color: src.getOrUndefinedMapped(_reflection.color.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -81,6 +86,12 @@ if (!src.getOrUndefined(_reflection.color.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.color.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

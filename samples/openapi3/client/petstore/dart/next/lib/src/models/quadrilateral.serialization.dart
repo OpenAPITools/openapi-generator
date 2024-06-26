@@ -8,7 +8,7 @@ part of 'quadrilateral.dart';
 Map<String, dynamic> _$QuadrilateralToMap(Quadrilateral instance) {
   final _reflection = QuadrilateralReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
     if (instance.oneOf0.isDefined) ...instance.oneOf0.valueRequired.toMap(),
     
@@ -20,7 +20,12 @@ Map<String, dynamic> _$QuadrilateralToMap(Quadrilateral instance) {
 Quadrilateral _$QuadrilateralFromMap(Map<String, dynamic> src) {
   final _reflection = QuadrilateralReflection.instance;
   return Quadrilateral.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     oneOf0: SimpleQuadrilateral.canDeserialize(src) ? UndefinedWrapper(SimpleQuadrilateral.deserialize(src)) :  UndefinedWrapper.undefined(),
     oneOf1: ComplexQuadrilateral.canDeserialize(src) ? UndefinedWrapper(ComplexQuadrilateral.deserialize(src)) :  UndefinedWrapper.undefined(),
@@ -29,7 +34,13 @@ Quadrilateral _$QuadrilateralFromMap(Map<String, dynamic> src) {
 
 bool _$QuadrilateralCanFromMap(Map<String, dynamic> src) {
   final _reflection = QuadrilateralReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final oneOfs = [
     () => SimpleQuadrilateral.canDeserialize(src),
   
@@ -84,6 +95,8 @@ Quadrilateral _$QuadrilateralDeserialize(Object? src) {
 
 
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

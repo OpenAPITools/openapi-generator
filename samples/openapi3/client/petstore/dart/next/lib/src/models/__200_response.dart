@@ -12,7 +12,7 @@ part '__200_response.serialization.dart';
 /// Properties:
 /// * [name] 
 /// * [propertyClass] 
-mixin $200ResponseMixin on 
+mixin $200ResponseMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -42,14 +42,15 @@ $200ResponseMixin {
             String
 > propertyClass;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   $200Response.$all({
         required this.name,
     required this.propertyClass,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ $200ResponseMixin {
   this.propertyClass = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

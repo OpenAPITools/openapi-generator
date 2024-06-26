@@ -10,7 +10,7 @@ part 'pet_composition.serialization.dart';
 /// PetCompositionMixin
 ///
 /// Properties:
-mixin PetCompositionMixin on 
+mixin PetCompositionMixin on
   PetMixin, $OpenApiObjectMixin {
     
 }
@@ -60,7 +60,8 @@ PetCompositionMixin {
             PetStatusEnum
 > status;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -71,7 +72,7 @@ PetCompositionMixin {
     required this.category,
     required this.tags,
     required this.status,
-    
+    required this.additionalProperties,
     
   });
 
@@ -90,7 +91,7 @@ required  this.name     ,
   this.status = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

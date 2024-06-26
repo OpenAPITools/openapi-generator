@@ -92,7 +92,7 @@ Map<String, dynamic> _$TestEndpointParametersRequestToMap(TestEndpointParameters
  v) {
       return v;
     }(instance.callback.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -268,7 +268,12 @@ callback: src.getOrUndefinedMapped(_reflection.callback.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -441,6 +446,12 @@ if (!src.getOrUndefined(_reflection.callback.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.callback.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

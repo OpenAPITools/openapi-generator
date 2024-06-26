@@ -12,7 +12,7 @@ part 'enum_arrays.serialization.dart';
 /// Properties:
 /// * [justSymbol] 
 /// * [arrayEnum] 
-mixin EnumArraysMixin on 
+mixin EnumArraysMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             EnumArraysJustSymbolEnum
@@ -48,14 +48,15 @@ EnumArraysMixin {
 >
 > arrayEnum;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   EnumArrays.$all({
         required this.justSymbol,
     required this.arrayEnum,
-    
+    required this.additionalProperties,
     
   });
 
@@ -66,7 +67,7 @@ EnumArraysMixin {
   this.arrayEnum = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

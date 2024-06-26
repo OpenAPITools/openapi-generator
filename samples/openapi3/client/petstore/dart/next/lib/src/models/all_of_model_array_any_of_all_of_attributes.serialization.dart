@@ -14,7 +14,7 @@ Map<String, dynamic> _$AllOfModelArrayAnyOfAllOfAttributesToMap(AllOfModelArrayA
  v) {
       return v.serialize();
     }(instance.C.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -33,7 +33,12 @@ AllOfModelArrayAnyOfAllOfAttributes _$AllOfModelArrayAnyOfAllOfAttributesFromMap
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -50,6 +55,12 @@ bool _$AllOfModelArrayAnyOfAllOfAttributesCanFromMap(Map<String, dynamic> src) {
 ),
     unDefined: () => !_reflection.C.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

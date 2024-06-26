@@ -84,6 +84,8 @@ FruitReq _$FruitReqDeserialize(Object? src) {
 
 
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      
     );
     
   }

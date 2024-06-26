@@ -12,7 +12,7 @@ part 'read_only_first.serialization.dart';
 /// Properties:
 /// * [bar] 
 /// * [baz] 
-mixin ReadOnlyFirstMixin on 
+mixin ReadOnlyFirstMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -42,14 +42,15 @@ ReadOnlyFirstMixin {
             String
 > baz;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   ReadOnlyFirst.$all({
         required this.bar,
     required this.baz,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ ReadOnlyFirstMixin {
   this.baz = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

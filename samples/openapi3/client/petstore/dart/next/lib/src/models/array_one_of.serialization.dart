@@ -8,7 +8,7 @@ part of 'array_one_of.dart';
 Map<String, dynamic> _$ArrayOneOfToMap(ArrayOneOf instance) {
   final _reflection = ArrayOneOfReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -16,7 +16,12 @@ Map<String, dynamic> _$ArrayOneOfToMap(ArrayOneOf instance) {
 ArrayOneOf _$ArrayOneOfFromMap(Map<String, dynamic> src) {
   final _reflection = ArrayOneOfReflection.instance;
   return ArrayOneOf.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     oneOf0:  UndefinedWrapper.undefined(),
     oneOf1:  UndefinedWrapper.undefined(),
@@ -25,7 +30,13 @@ ArrayOneOf _$ArrayOneOfFromMap(Map<String, dynamic> src) {
 
 bool _$ArrayOneOfCanFromMap(Map<String, dynamic> src) {
   final _reflection = ArrayOneOfReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final oneOfs = [
   
   ];
@@ -97,6 +108,8 @@ ArrayOneOf _$ArrayOneOfDeserialize(Object? src) {
 
 ).toList()
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

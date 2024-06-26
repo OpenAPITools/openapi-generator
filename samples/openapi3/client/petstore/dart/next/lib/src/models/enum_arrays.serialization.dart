@@ -23,7 +23,7 @@ Map<String, dynamic> _$EnumArraysToMap(EnumArrays instance) {
  v) {
       return v.map((v) => v.value).toList();
     }(instance.arrayEnum.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -66,7 +66,12 @@ arrayEnum: src.getOrUndefinedMapped(_reflection.arrayEnum.oasName, (v) =>
 
 ).toList()
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -101,6 +106,12 @@ if (!src.getOrUndefined(_reflection.arrayEnum.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.arrayEnum.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

@@ -8,7 +8,7 @@ part of 'scalar_any_of.dart';
 Map<String, dynamic> _$ScalarAnyOfToMap(ScalarAnyOf instance) {
   final _reflection = ScalarAnyOfReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -16,7 +16,12 @@ Map<String, dynamic> _$ScalarAnyOfToMap(ScalarAnyOf instance) {
 ScalarAnyOf _$ScalarAnyOfFromMap(Map<String, dynamic> src) {
   final _reflection = ScalarAnyOfReflection.instance;
   return ScalarAnyOf.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     anyOf0:  UndefinedWrapper.undefined(),
     anyOf1:  UndefinedWrapper.undefined(),
@@ -26,7 +31,13 @@ ScalarAnyOf _$ScalarAnyOfFromMap(Map<String, dynamic> src) {
 
 bool _$ScalarAnyOfCanFromMap(Map<String, dynamic> src) {
   final _reflection = ScalarAnyOfReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final anyOfs = [
   
   
@@ -102,6 +113,8 @@ ScalarAnyOf _$ScalarAnyOfDeserialize(Object? src) {
 
 
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

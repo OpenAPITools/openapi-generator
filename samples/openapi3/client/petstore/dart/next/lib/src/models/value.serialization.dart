@@ -8,7 +8,7 @@ part of 'value.dart';
 Map<String, dynamic> _$ValueToMap(Value instance) {
   final _reflection = ValueReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
     if (instance.oneOf0.isDefined) ...instance.oneOf0.valueRequired.toMap(),
     
@@ -18,7 +18,12 @@ Map<String, dynamic> _$ValueToMap(Value instance) {
 Value _$ValueFromMap(Map<String, dynamic> src) {
   final _reflection = ValueReflection.instance;
   return Value.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     oneOf0: Scalar.canDeserialize(src) ? UndefinedWrapper(Scalar.deserialize(src)) :  UndefinedWrapper.undefined(),
     oneOf1:  UndefinedWrapper.undefined(),
@@ -27,7 +32,13 @@ Value _$ValueFromMap(Map<String, dynamic> src) {
 
 bool _$ValueCanFromMap(Map<String, dynamic> src) {
   final _reflection = ValueReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final oneOfs = [
     () => Scalar.canDeserialize(src),
   
@@ -98,6 +109,8 @@ Value _$ValueDeserialize(Object? src) {
 
 ).toList()
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

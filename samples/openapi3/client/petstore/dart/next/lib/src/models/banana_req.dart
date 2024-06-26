@@ -12,7 +12,7 @@ part 'banana_req.serialization.dart';
 /// Properties:
 /// * [lengthCm] 
 /// * [sweet] 
-mixin BananaReqMixin on 
+mixin BananaReqMixin on
   $OpenApiObjectMixin {
   
             num
@@ -42,7 +42,7 @@ BananaReqMixin {
             bool
 > sweet;
 
-  
+
 
   
 

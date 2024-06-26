@@ -12,7 +12,7 @@ part 'upload_file_request.serialization.dart';
 /// Properties:
 /// * [additionalMetadata] - Additional data to pass to server
 /// * [file] - file to upload
-mixin UploadFileRequestMixin on 
+mixin UploadFileRequestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -42,14 +42,15 @@ UploadFileRequestMixin {
             XFile
 > file;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   UploadFileRequest.$all({
         required this.additionalMetadata,
     required this.file,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ UploadFileRequestMixin {
   this.file = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

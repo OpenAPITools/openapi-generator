@@ -12,7 +12,7 @@ part 'deprecated_object.serialization.dart';
 /// Properties:
 /// * [name] 
 @Deprecated('DeprecatedObjectMixin has been deprecated')
-mixin DeprecatedObjectMixin on 
+mixin DeprecatedObjectMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -35,13 +35,14 @@ DeprecatedObjectMixin {
             String
 > name;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   DeprecatedObject.$all({
         required this.name,
-    
+    required this.additionalProperties,
     
   });
 
@@ -49,7 +50,7 @@ DeprecatedObjectMixin {
       this.name = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

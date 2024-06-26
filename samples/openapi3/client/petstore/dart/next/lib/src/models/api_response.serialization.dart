@@ -26,7 +26,7 @@ Map<String, dynamic> _$ApiResponseToMap(ApiResponse instance) {
  v) {
       return v;
     }(instance.message.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -70,7 +70,12 @@ message: src.getOrUndefinedMapped(_reflection.message.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -111,6 +116,12 @@ if (!src.getOrUndefined(_reflection.message.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.message.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

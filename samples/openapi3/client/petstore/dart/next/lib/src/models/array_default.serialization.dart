@@ -26,7 +26,7 @@ Map<String, dynamic> _$ArrayDefaultToMap(ArrayDefault instance) {
  v) {
       return v.map((v) => v).toList();
     }(instance.withoutDefault.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -80,7 +80,12 @@ withoutDefault: src.getOrUndefinedMapped(_reflection.withoutDefault.oasName, (v)
 
 ).toList()
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -121,6 +126,12 @@ if (!src.getOrUndefined(_reflection.withoutDefault.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.withoutDefault.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

@@ -11,7 +11,7 @@ part 'dog.serialization.dart';
 ///
 /// Properties:
 /// * [breed] 
-mixin DogMixin on 
+mixin DogMixin on
   AnimalMixin, $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -43,7 +43,8 @@ DogMixin {
             String
  className;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -51,7 +52,7 @@ DogMixin {
         required this.color,
     required this.breed,
     required this.className,
-    
+    required this.additionalProperties,
     
   });
 
@@ -67,7 +68,7 @@ DogMixin {
         .undefined()
 ,
 required  this.className     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

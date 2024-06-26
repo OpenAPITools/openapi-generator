@@ -362,13 +362,3 @@ lib/src/serialization/parameter_serialization.dart
 lib/src/serialization/xml_extensions.dart
 lib/src/serialization/xml_reflection.dart
 pubspec.yaml
-shared_infrastructure/lib/shared_infrastructure.dart
-shared_infrastructure/lib/src/networking/_exports.dart
-shared_infrastructure/lib/src/networking/client.dart
-shared_infrastructure/lib/src/networking/http_packets.dart
-shared_infrastructure/lib/src/networking/request.dart
-shared_infrastructure/lib/src/networking/response.dart
-shared_infrastructure/lib/src/serialization/_exports.dart
-shared_infrastructure/lib/src/serialization/helpers.dart
-shared_infrastructure/lib/src/serialization/undefined_wrapper.dart
-shared_infrastructure/pubspec.yaml

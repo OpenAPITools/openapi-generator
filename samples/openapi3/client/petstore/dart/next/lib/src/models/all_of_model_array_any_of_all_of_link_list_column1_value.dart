@@ -10,7 +10,7 @@ part 'all_of_model_array_any_of_all_of_link_list_column1_value.serialization.dar
 /// AllOfModelArrayAnyOfAllOfLinkListColumn1ValueMixin
 ///
 /// Properties:
-mixin AllOfModelArrayAnyOfAllOfLinkListColumn1ValueMixin on 
+mixin AllOfModelArrayAnyOfAllOfLinkListColumn1ValueMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -30,7 +30,8 @@ $OpenApiObjectMixin,
 
 AllOfModelArrayAnyOfAllOfLinkListColumn1ValueMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -45,14 +46,14 @@ AllOfModelArrayAnyOfAllOfLinkListColumn1ValueMixin {
   
 
   AllOfModelArrayAnyOfAllOfLinkListColumn1Value.$all({
-        
+        required this.additionalProperties,
     
     required this.anyOf0,
     required this.anyOf1,
   });
 
   AllOfModelArrayAnyOfAllOfLinkListColumn1Value({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.anyOf0 = const UndefinedWrapper.undefined(),
     

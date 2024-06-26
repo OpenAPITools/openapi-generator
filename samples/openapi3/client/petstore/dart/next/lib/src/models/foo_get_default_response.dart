@@ -11,7 +11,7 @@ part 'foo_get_default_response.serialization.dart';
 ///
 /// Properties:
 /// * [string] 
-mixin FooGetDefaultResponseMixin on 
+mixin FooGetDefaultResponseMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             Foo
@@ -33,13 +33,14 @@ FooGetDefaultResponseMixin {
             Foo
 > string;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   FooGetDefaultResponse.$all({
         required this.string,
-    
+    required this.additionalProperties,
     
   });
 
@@ -47,7 +48,7 @@ FooGetDefaultResponseMixin {
       this.string = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

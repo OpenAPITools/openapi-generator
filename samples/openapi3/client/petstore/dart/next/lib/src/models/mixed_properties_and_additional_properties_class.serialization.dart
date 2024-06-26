@@ -29,7 +29,7 @@ Map<String, dynamic> _$MixedPropertiesAndAdditionalPropertiesClassToMap(MixedPro
  v) {
       return v.map((k,v) => MapEntry(k, v.serialize()));
     }(instance.map.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -83,7 +83,12 @@ map: src.getOrUndefinedMapped(_reflection.map.oasName, (v) =>
 ))
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -130,6 +135,12 @@ if (!src.getOrUndefined(_reflection.map.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.map.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

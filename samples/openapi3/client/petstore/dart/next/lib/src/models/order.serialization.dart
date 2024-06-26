@@ -44,7 +44,7 @@ Map<String, dynamic> _$OrderToMap(Order instance) {
  v) {
       return v;
     }(instance.complete.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -124,7 +124,12 @@ complete: src.getOrUndefinedMapped(_reflection.complete.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -201,6 +206,12 @@ if (!src.getOrUndefined(_reflection.complete.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.complete.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

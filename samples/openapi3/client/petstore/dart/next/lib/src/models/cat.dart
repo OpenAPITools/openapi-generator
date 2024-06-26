@@ -11,7 +11,7 @@ part 'cat.serialization.dart';
 ///
 /// Properties:
 /// * [declawed] 
-mixin CatMixin on 
+mixin CatMixin on
   AnimalMixin, $OpenApiObjectMixin {
   UndefinedWrapper<
             bool
@@ -43,7 +43,8 @@ CatMixin {
             String
  className;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -51,7 +52,7 @@ CatMixin {
         required this.color,
     required this.declawed,
     required this.className,
-    
+    required this.additionalProperties,
     
   });
 
@@ -67,7 +68,7 @@ CatMixin {
         .undefined()
 ,
 required  this.className     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

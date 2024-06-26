@@ -8,7 +8,7 @@ part 'value.serialization.dart';
 
 
 /// ValueMixin
-mixin ValueMixin on 
+mixin ValueMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -29,7 +29,8 @@ $OpenApiObjectMixin,
 
 ValueMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -47,14 +48,14 @@ ValueMixin {
   
 
   Value.$all({
-        
+        required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
   });
 
   Value({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),

@@ -12,7 +12,7 @@ part 'array_default.serialization.dart';
 /// Properties:
 /// * [withDefaultEmptyBracket] 
 /// * [withoutDefault] 
-mixin ArrayDefaultMixin on 
+mixin ArrayDefaultMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
     List<
@@ -54,14 +54,15 @@ ArrayDefaultMixin {
 >
 > withoutDefault;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   ArrayDefault.$all({
         required this.withDefaultEmptyBracket,
     required this.withoutDefault,
-    
+    required this.additionalProperties,
     
   });
 
@@ -76,7 +77,7 @@ ArrayDefaultMixin {
   this.withoutDefault = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

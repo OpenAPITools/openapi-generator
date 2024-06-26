@@ -10,7 +10,7 @@ part 'triangle.serialization.dart';
 /// TriangleMixin
 ///
 /// Properties:
-mixin TriangleMixin on 
+mixin TriangleMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -33,7 +33,8 @@ $OpenApiObjectMixin,
 
 TriangleMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -53,7 +54,7 @@ TriangleMixin {
   
 
   Triangle.$all({
-        
+        required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
@@ -61,7 +62,7 @@ TriangleMixin {
   });
 
   Triangle({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),

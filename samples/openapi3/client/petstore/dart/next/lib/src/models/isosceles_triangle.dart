@@ -10,7 +10,7 @@ part 'isosceles_triangle.serialization.dart';
 /// IsoscelesTriangleMixin
 ///
 /// Properties:
-mixin IsoscelesTriangleMixin on 
+mixin IsoscelesTriangleMixin on
   ShapeInterfaceMixin, TriangleInterfaceMixin, $OpenApiObjectMixin {
     
 }
@@ -34,7 +34,7 @@ IsoscelesTriangleMixin {
             String
  triangleType;
 
-  
+
 
   
 

@@ -1,4 +1,4 @@
-import 'package:shared_infrastructure/shared_infrastructure.dart';
+import 'package:openapi_infrastructure/openapi_infrastructure.dart';
 
 extension UndefinedWrapperMapExtensions<TKey, TValue> on Map<TKey, TValue> {
   UndefinedWrapper<TValue?> getOrUndefined(

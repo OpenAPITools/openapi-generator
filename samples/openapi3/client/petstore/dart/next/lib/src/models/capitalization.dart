@@ -16,7 +16,7 @@ part 'capitalization.serialization.dart';
 /// * [capitalSnake] 
 /// * [scAETHFlowPoints] 
 /// * [ATT_NAME] - Name of the pet 
-mixin CapitalizationMixin on 
+mixin CapitalizationMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -78,7 +78,8 @@ CapitalizationMixin {
             String
 > ATT_NAME;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -89,7 +90,7 @@ CapitalizationMixin {
     required this.capitalSnake,
     required this.scAETHFlowPoints,
     required this.ATT_NAME,
-    
+    required this.additionalProperties,
     
   });
 
@@ -112,7 +113,7 @@ CapitalizationMixin {
   this.ATT_NAME = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

@@ -10,7 +10,7 @@ part 'equilateral_triangle.serialization.dart';
 /// EquilateralTriangleMixin
 ///
 /// Properties:
-mixin EquilateralTriangleMixin on 
+mixin EquilateralTriangleMixin on
   ShapeInterfaceMixin, TriangleInterfaceMixin, $OpenApiObjectMixin {
     
 }
@@ -34,21 +34,22 @@ EquilateralTriangleMixin {
             String
  triangleType;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   EquilateralTriangle.$all({
         required this.shapeType,
     required this.triangleType,
-    
+    required this.additionalProperties,
     
   });
 
   EquilateralTriangle({
     required  this.shapeType     ,
 required  this.triangleType     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

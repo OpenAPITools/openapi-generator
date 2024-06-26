@@ -8,7 +8,7 @@ part 'parent_pet.serialization.dart';
 
 
 /// ParentPetMixin
-mixin ParentPetMixin on 
+mixin ParentPetMixin on
   GrandparentAnimalMixin, $OpenApiObjectMixin {
     
 }
@@ -24,19 +24,20 @@ ParentPetMixin {
             String
  petType;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   ParentPet.$all({
         required this.petType,
-    
+    required this.additionalProperties,
     
   });
 
   ParentPet({
     required  this.petType     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

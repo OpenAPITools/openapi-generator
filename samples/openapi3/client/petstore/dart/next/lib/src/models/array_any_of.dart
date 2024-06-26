@@ -8,7 +8,7 @@ part 'array_any_of.serialization.dart';
 
 
 /// ArrayAnyOfMixin
-mixin ArrayAnyOfMixin on 
+mixin ArrayAnyOfMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -29,7 +29,8 @@ $OpenApiObjectMixin,
 
 ArrayAnyOfMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -47,14 +48,14 @@ ArrayAnyOfMixin {
   
 
   ArrayAnyOf.$all({
-        
+        required this.additionalProperties,
     
     required this.anyOf0,
     required this.anyOf1,
   });
 
   ArrayAnyOf({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.anyOf0 = const UndefinedWrapper.undefined(),
     

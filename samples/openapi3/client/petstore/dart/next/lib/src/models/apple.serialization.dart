@@ -20,7 +20,7 @@ Map<String, dynamic> _$AppleToMap(Apple instance) {
  v) {
       return v;
     }(instance.origin.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -52,7 +52,12 @@ origin: src.getOrUndefinedMapped(_reflection.origin.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -81,6 +86,12 @@ if (!src.getOrUndefined(_reflection.origin.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.origin.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

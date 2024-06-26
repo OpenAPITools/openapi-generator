@@ -1,5 +1,5 @@
 import 'package:xml/xml.dart';
-import 'package:shared_infrastructure/shared_infrastructure.dart';
+import 'package:openapi_infrastructure/openapi_infrastructure.dart';
 
 extension UndefinedWrapperXmlNodeExtensions on XmlNode {
   UndefinedWrapper<XmlElement> getElementOrUndefined(

@@ -20,7 +20,7 @@ Map<String, dynamic> _$VariableToMap(Variable instance) {
  v) {
       return v.serialize();
     }(instance.value),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -51,7 +51,12 @@ value: src.getRequiredMapped(_reflection.value.oasName, (v) => Value.deserialize
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -80,6 +85,12 @@ if (!src.getOrUndefined(_reflection.value.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.value.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

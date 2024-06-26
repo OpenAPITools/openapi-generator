@@ -28,7 +28,7 @@ part 'format_test.serialization.dart';
 /// * [password] 
 /// * [patternWithDigits] - A string that is a 10 digit number. Can have leading zeros.
 /// * [patternWithDigitsAndDelimiter] - A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
-mixin FormatTestMixin on 
+mixin FormatTestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -186,7 +186,8 @@ FormatTestMixin {
             String
 > patternWithDigitsAndDelimiter;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -209,7 +210,7 @@ FormatTestMixin {
     required this.password,
     required this.patternWithDigits,
     required this.patternWithDigitsAndDelimiter,
-    
+    required this.additionalProperties,
     
   });
 
@@ -264,7 +265,7 @@ required  this.password     ,
   this.patternWithDigitsAndDelimiter = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

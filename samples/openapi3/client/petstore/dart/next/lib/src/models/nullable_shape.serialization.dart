@@ -8,7 +8,7 @@ part of 'nullable_shape.dart';
 Map<String, dynamic> _$NullableShapeToMap(NullableShape instance) {
   final _reflection = NullableShapeReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
     if (instance.oneOf0.isDefined) ...instance.oneOf0.valueRequired.toMap(),
     
@@ -20,7 +20,12 @@ Map<String, dynamic> _$NullableShapeToMap(NullableShape instance) {
 NullableShape _$NullableShapeFromMap(Map<String, dynamic> src) {
   final _reflection = NullableShapeReflection.instance;
   return NullableShape.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     oneOf0: Triangle.canDeserialize(src) ? UndefinedWrapper(Triangle.deserialize(src)) :  UndefinedWrapper.undefined(),
     oneOf1: Quadrilateral.canDeserialize(src) ? UndefinedWrapper(Quadrilateral.deserialize(src)) :  UndefinedWrapper.undefined(),
@@ -29,7 +34,13 @@ NullableShape _$NullableShapeFromMap(Map<String, dynamic> src) {
 
 bool _$NullableShapeCanFromMap(Map<String, dynamic> src) {
   final _reflection = NullableShapeReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final oneOfs = [
     () => Triangle.canDeserialize(src),
   
@@ -84,6 +95,8 @@ NullableShape _$NullableShapeDeserialize(Object? src) {
 
 
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

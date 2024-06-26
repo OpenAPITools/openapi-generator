@@ -1361,6 +1361,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Pet'
+            encoding:
+              name:
+                contentType: 'application/json'
           application/xml:
             schema:
               $ref: '#/components/schemas/NewPet'
@@ -1375,23 +1378,28 @@ paths:
           'text/*':
             schema:
               type: string
-          multipart/form-data: # Media type
-            schema:            # Request payload
+          multipart/form-data:
+            schema:
               type: object
-              properties:      # Request parts
-                id:            # Part 1 (string value)
+              properties:
+                id:
                   type: string
                   format: uuid
-                address:       # Part2 (object)
+                address:
                   type: object
                   properties:
                     street:
                       type: string
                     city:
                       type: string
-                profileImage:  # Part 3 (an image)
-                  type: string
-                  format: binary
+                profileImages:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+            encoding:
+              address:
+                contentType: 'application/json'
       responses:
         '201':
           description: Created

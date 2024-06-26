@@ -11,7 +11,7 @@ part 'shape_interface.serialization.dart';
 ///
 /// Properties:
 /// * [shapeType] 
-mixin ShapeInterfaceMixin on 
+mixin ShapeInterfaceMixin on
   $OpenApiObjectMixin {
   
             String
@@ -33,19 +33,20 @@ ShapeInterfaceMixin {
             String
  shapeType;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   ShapeInterface.$all({
         required this.shapeType,
-    
+    required this.additionalProperties,
     
   });
 
   ShapeInterface({
     required  this.shapeType     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

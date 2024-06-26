@@ -14,7 +14,7 @@ Map<String, dynamic> _$HealthCheckResultToMap(HealthCheckResult instance) {
 ? v) {
       return v;
     }(instance.nullableMessage.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -34,7 +34,12 @@ HealthCheckResult _$HealthCheckResultFromMap(Map<String, dynamic> src) {
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -51,6 +56,12 @@ bool _$HealthCheckResultCanFromMap(Map<String, dynamic> src) {
 ),
     unDefined: () => !_reflection.nullableMessage.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

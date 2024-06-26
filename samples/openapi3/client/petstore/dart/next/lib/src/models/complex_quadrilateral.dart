@@ -10,7 +10,7 @@ part 'complex_quadrilateral.serialization.dart';
 /// ComplexQuadrilateralMixin
 ///
 /// Properties:
-mixin ComplexQuadrilateralMixin on 
+mixin ComplexQuadrilateralMixin on
   QuadrilateralInterfaceMixin, ShapeInterfaceMixin, $OpenApiObjectMixin {
     
 }
@@ -34,21 +34,22 @@ ComplexQuadrilateralMixin {
             String
  shapeType;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   ComplexQuadrilateral.$all({
         required this.quadrilateralType,
     required this.shapeType,
-    
+    required this.additionalProperties,
     
   });
 
   ComplexQuadrilateral({
     required  this.quadrilateralType     ,
 required  this.shapeType     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

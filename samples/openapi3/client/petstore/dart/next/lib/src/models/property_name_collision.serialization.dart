@@ -26,7 +26,7 @@ Map<String, dynamic> _$PropertyNameCollisionToMap(PropertyNameCollision instance
  v) {
       return v;
     }(instance.type$.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -70,7 +70,12 @@ type$: src.getOrUndefinedMapped(_reflection.type$.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -111,6 +116,12 @@ if (!src.getOrUndefined(_reflection.type$.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.type$.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

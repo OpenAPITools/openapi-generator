@@ -10,7 +10,7 @@ part 'quadrilateral.serialization.dart';
 /// QuadrilateralMixin
 ///
 /// Properties:
-mixin QuadrilateralMixin on 
+mixin QuadrilateralMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -30,7 +30,8 @@ $OpenApiObjectMixin,
 
 QuadrilateralMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -45,14 +46,14 @@ QuadrilateralMixin {
   
 
   Quadrilateral.$all({
-        
+        required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
   });
 
   Quadrilateral({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),

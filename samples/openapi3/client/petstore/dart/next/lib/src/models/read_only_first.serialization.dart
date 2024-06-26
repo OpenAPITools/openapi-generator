@@ -20,7 +20,7 @@ Map<String, dynamic> _$ReadOnlyFirstToMap(ReadOnlyFirst instance) {
  v) {
       return v;
     }(instance.baz.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -52,7 +52,12 @@ baz: src.getOrUndefinedMapped(_reflection.baz.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -81,6 +86,12 @@ if (!src.getOrUndefined(_reflection.baz.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.baz.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

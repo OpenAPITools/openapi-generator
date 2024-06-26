@@ -7,4 +7,4 @@ export  'dart:convert';
 export  'dart:typed_data';
 export  'package:xml/xml.dart';
 export 'package:http_parser/http_parser.dart';
-import 'package:meta/meta.dart';
+export 'package:meta/meta.dart';

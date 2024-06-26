@@ -14,7 +14,7 @@ part 'map_test.serialization.dart';
 /// * [mapOfEnumString] 
 /// * [directMap] 
 /// * [indirectMap] 
-mixin MapTestMixin on 
+mixin MapTestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
     Map<String, 
@@ -90,7 +90,8 @@ MapTestMixin {
 >
 > indirectMap;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -99,7 +100,7 @@ MapTestMixin {
     required this.mapOfEnumString,
     required this.directMap,
     required this.indirectMap,
-    
+    required this.additionalProperties,
     
   });
 
@@ -116,7 +117,7 @@ MapTestMixin {
   this.indirectMap = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

@@ -11,7 +11,7 @@ part 'health_check_result.serialization.dart';
 ///
 /// Properties:
 /// * [nullableMessage] 
-mixin HealthCheckResultMixin on 
+mixin HealthCheckResultMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -33,13 +33,14 @@ HealthCheckResultMixin {
             String
 ?> nullableMessage;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   HealthCheckResult.$all({
         required this.nullableMessage,
-    
+    required this.additionalProperties,
     
   });
 
@@ -47,7 +48,7 @@ HealthCheckResultMixin {
       this.nullableMessage = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

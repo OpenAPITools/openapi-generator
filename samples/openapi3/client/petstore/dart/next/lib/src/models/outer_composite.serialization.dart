@@ -26,7 +26,7 @@ Map<String, dynamic> _$OuterCompositeToMap(OuterComposite instance) {
  v) {
       return v;
     }(instance.myBoolean.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -70,7 +70,12 @@ myBoolean: src.getOrUndefinedMapped(_reflection.myBoolean.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -111,6 +116,12 @@ if (!src.getOrUndefined(_reflection.myBoolean.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.myBoolean.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

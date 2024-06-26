@@ -50,7 +50,7 @@ Map<String, dynamic> _$PetToMap(Pet instance) {
  v) {
       return v.value;
     }(instance.status.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -150,7 +150,12 @@ status: src.getOrUndefinedMapped(_reflection.status.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -239,6 +244,12 @@ if (!src.getOrUndefined(_reflection.status.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.status.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

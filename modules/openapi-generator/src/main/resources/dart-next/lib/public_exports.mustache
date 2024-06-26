@@ -7,4 +7,4 @@ export 'src/models/_exports.dart';
 export 'src/networking/_exports.dart';
 export 'src/serialization/_exports.dart';
 
-export 'package:shared_infrastructure/shared_infrastructure.dart';
+export 'package:openapi_infrastructure/openapi_infrastructure.dart';

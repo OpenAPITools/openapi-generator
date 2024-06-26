@@ -12,7 +12,7 @@ part 'apple_req.serialization.dart';
 /// Properties:
 /// * [cultivar] 
 /// * [mealy] 
-mixin AppleReqMixin on 
+mixin AppleReqMixin on
   $OpenApiObjectMixin {
   
             String
@@ -42,7 +42,7 @@ AppleReqMixin {
             bool
 > mealy;
 
-  
+
 
   
 

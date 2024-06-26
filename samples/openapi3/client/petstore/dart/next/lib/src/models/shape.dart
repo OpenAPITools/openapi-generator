@@ -8,7 +8,7 @@ part 'shape.serialization.dart';
 
 
 /// ShapeMixin
-mixin ShapeMixin on 
+mixin ShapeMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -26,7 +26,8 @@ $OpenApiObjectMixin,
 
 ShapeMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -41,14 +42,14 @@ ShapeMixin {
   
 
   Shape.$all({
-        
+        required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
   });
 
   Shape({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),

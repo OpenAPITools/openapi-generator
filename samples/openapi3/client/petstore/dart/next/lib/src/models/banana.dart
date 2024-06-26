@@ -11,7 +11,7 @@ part 'banana.serialization.dart';
 ///
 /// Properties:
 /// * [lengthCm] 
-mixin BananaMixin on 
+mixin BananaMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             num
@@ -33,13 +33,14 @@ BananaMixin {
             num
 > lengthCm;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   Banana.$all({
         required this.lengthCm,
-    
+    required this.additionalProperties,
     
   });
 
@@ -47,7 +48,7 @@ BananaMixin {
       this.lengthCm = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

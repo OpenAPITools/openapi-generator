@@ -116,7 +116,7 @@ Map<String, dynamic> _$FormatTestToMap(FormatTest instance) {
  v) {
       return v;
     }(instance.patternWithDigitsAndDelimiter.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -340,7 +340,12 @@ patternWithDigitsAndDelimiter: src.getOrUndefinedMapped(_reflection.patternWithD
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -561,6 +566,12 @@ if (!src.getOrUndefined(_reflection.patternWithDigitsAndDelimiter.oasName).split
 ),
     unDefined: () => !_reflection.patternWithDigitsAndDelimiter.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

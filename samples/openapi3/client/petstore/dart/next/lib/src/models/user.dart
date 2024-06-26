@@ -22,7 +22,7 @@ part 'user.serialization.dart';
 /// * [objectWithNoDeclaredPropsNullable] - test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.
 /// * [anyTypeProp] - test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
 /// * [anyTypePropNullable] - test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.
-mixin UserMixin on 
+mixin UserMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -128,7 +128,8 @@ UserMixin {
   UndefinedWrapper<Object
 ?> anyTypePropNullable;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -145,7 +146,7 @@ UserMixin {
     required this.objectWithNoDeclaredPropsNullable,
     required this.anyTypeProp,
     required this.anyTypePropNullable,
-    
+    required this.additionalProperties,
     
   });
 
@@ -186,7 +187,7 @@ UserMixin {
   this.anyTypePropNullable = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

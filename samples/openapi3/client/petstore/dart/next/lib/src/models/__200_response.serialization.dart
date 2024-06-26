@@ -20,7 +20,7 @@ Map<String, dynamic> _$$200ResponseToMap($200Response instance) {
  v) {
       return v;
     }(instance.propertyClass.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -52,7 +52,12 @@ propertyClass: src.getOrUndefinedMapped(_reflection.propertyClass.oasName, (v) =
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -81,6 +86,12 @@ if (!src.getOrUndefined(_reflection.propertyClass.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.propertyClass.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

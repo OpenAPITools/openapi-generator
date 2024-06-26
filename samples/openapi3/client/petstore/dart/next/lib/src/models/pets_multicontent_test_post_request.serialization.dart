@@ -20,13 +20,16 @@ Map<String, dynamic> _$PetsMulticontentTestPostRequestToMap(PetsMulticontentTest
  v) {
       return v.serialize();
     }(instance.address.valueRequired),
-    if (instance.profileImage.isDefined)
-    _reflection.profileImage.oasName: (
+    if (instance.profileImages.isDefined)
+    _reflection.profileImages.oasName: (
+    List<
+        
             XFile
+>
  v) {
-      return v;
-    }(instance.profileImage.valueRequired),
-    
+      return v.map((v) => v).toList();
+    }(instance.profileImages.valueRequired),
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -57,7 +60,17 @@ address: src.getOrUndefinedMapped(_reflection.address.oasName, (v) => PetsMultic
 
 
 ),
-profileImage: src.getOrUndefinedMapped(_reflection.profileImage.oasName, (v) => 
+profileImages: src.getOrUndefinedMapped(_reflection.profileImages.oasName, (v) => 
+(
+
+    
+            
+            v as List
+            
+
+)
+
+.map((v) => 
 (
 
     
@@ -68,8 +81,14 @@ profileImage: src.getOrUndefinedMapped(_reflection.profileImage.oasName, (v) =>
 )
 
 
+).toList()
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -100,16 +119,28 @@ if (!src.getOrUndefined(_reflection.address.oasName).split<bool>(
 )) {
     return false;
   }
-if (!src.getOrUndefined(_reflection.profileImage.oasName).split<bool>(
+if (!src.getOrUndefined(_reflection.profileImages.oasName).split<bool>(
     defined: (v) => v == null ? false :
 (
 
     
             
+            v is List && v.every((v) => v == null ? false :
+(
+
+    
+            
             v is XFile
+))
 ),
-    unDefined: () => !_reflection.profileImage.required,
+    unDefined: () => !_reflection.profileImages.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

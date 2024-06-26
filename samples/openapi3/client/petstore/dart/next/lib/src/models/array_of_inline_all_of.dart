@@ -13,7 +13,7 @@ part 'array_of_inline_all_of.serialization.dart';
 /// * [id] 
 /// * [name] 
 /// * [arrayAllofDogProperty] 
-mixin ArrayOfInlineAllOfMixin on 
+mixin ArrayOfInlineAllOfMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -57,7 +57,8 @@ ArrayOfInlineAllOfMixin {
 >
 > arrayAllofDogProperty;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -65,7 +66,7 @@ ArrayOfInlineAllOfMixin {
         required this.id,
     required this.name,
     required this.arrayAllofDogProperty,
-    
+    required this.additionalProperties,
     
   });
 
@@ -77,7 +78,7 @@ required  this.name     ,
   this.arrayAllofDogProperty = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

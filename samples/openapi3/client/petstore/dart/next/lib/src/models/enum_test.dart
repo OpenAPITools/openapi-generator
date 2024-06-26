@@ -19,7 +19,7 @@ part 'enum_test.serialization.dart';
 /// * [outerEnumInteger] 
 /// * [outerEnumDefaultValue] 
 /// * [outerEnumIntegerDefaultValue] 
-mixin EnumTestMixin on 
+mixin EnumTestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             EnumTestEnumStringEnum
@@ -105,7 +105,8 @@ EnumTestMixin {
             OuterEnumIntegerDefaultValue
 > outerEnumIntegerDefaultValue;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -119,7 +120,7 @@ EnumTestMixin {
     required this.outerEnumInteger,
     required this.outerEnumDefaultValue,
     required this.outerEnumIntegerDefaultValue,
-    
+    required this.additionalProperties,
     
   });
 
@@ -149,7 +150,7 @@ required  this.enumStringRequired     ,
   this.outerEnumIntegerDefaultValue = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

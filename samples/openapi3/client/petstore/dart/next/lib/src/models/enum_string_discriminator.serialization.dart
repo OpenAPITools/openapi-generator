@@ -14,7 +14,7 @@ Map<String, dynamic> _$EnumStringDiscriminatorToMap(EnumStringDiscriminator inst
  v) {
       return v.value;
     }(instance.enumStrType),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -34,7 +34,12 @@ EnumStringDiscriminator _$EnumStringDiscriminatorFromMap(Map<String, dynamic> sr
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -51,6 +56,12 @@ bool _$EnumStringDiscriminatorCanFromMap(Map<String, dynamic> src) {
 ),
     unDefined: () => !_reflection.enumStrType.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

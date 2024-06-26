@@ -22,9 +22,7 @@ part 'nullable_class.serialization.dart';
 /// * [objectNullableProp] 
 /// * [objectAndItemsNullableProp] 
 /// * [objectItemsNullable] 
-mixin NullableClassMixin on  AdditionalPropertiesMixin<
-            Map<String, Object?>
-?>,
+mixin NullableClassMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -100,9 +98,7 @@ UndefinedWrapper<
 /// * [objectItemsNullable] 
 class NullableClass with
 $OpenApiObjectMixin,
-AdditionalPropertiesMixin<
-            Map<String, Object?>
-?>,
+
 
 NullableClassMixin {
   @override
@@ -172,7 +168,6 @@ NullableClassMixin {
 ?>
 > objectItemsNullable;
 
-  @override
   AdditionalProperties<
             Map<String, Object?>
 ?> additionalProperties;

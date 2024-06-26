@@ -35,7 +35,7 @@ Map<String, dynamic> _$ObjectWithDeprecatedFieldsToMap(ObjectWithDeprecatedField
  v) {
       return v.map((v) => v).toList();
     }(instance.bars.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -101,7 +101,12 @@ bars: src.getOrUndefinedMapped(_reflection.bars.oasName, (v) =>
 
 ).toList()
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -160,6 +165,12 @@ if (!src.getOrUndefined(_reflection.bars.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.bars.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

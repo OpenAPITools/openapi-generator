@@ -11,7 +11,7 @@ part 'quadrilateral_interface.serialization.dart';
 ///
 /// Properties:
 /// * [quadrilateralType] 
-mixin QuadrilateralInterfaceMixin on 
+mixin QuadrilateralInterfaceMixin on
   $OpenApiObjectMixin {
   
             String
@@ -33,19 +33,20 @@ QuadrilateralInterfaceMixin {
             String
  quadrilateralType;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   QuadrilateralInterface.$all({
         required this.quadrilateralType,
-    
+    required this.additionalProperties,
     
   });
 
   QuadrilateralInterface({
     required  this.quadrilateralType     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

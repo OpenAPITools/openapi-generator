@@ -14,7 +14,7 @@ Map<String, dynamic> _$FooGetDefaultResponseToMap(FooGetDefaultResponse instance
  v) {
       return v.serialize();
     }(instance.string.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -33,7 +33,12 @@ FooGetDefaultResponse _$FooGetDefaultResponseFromMap(Map<String, dynamic> src) {
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -50,6 +55,12 @@ bool _$FooGetDefaultResponseCanFromMap(Map<String, dynamic> src) {
 ),
     unDefined: () => !_reflection.string.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

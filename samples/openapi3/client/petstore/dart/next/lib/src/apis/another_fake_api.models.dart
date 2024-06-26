@@ -1,6 +1,5 @@
 part of 'another_fake_api.dart';
 
-
 abstract class AnotherFakeApi$123testSpecialTagsRequest {
   static const pathTemplate = r'/another-fake/dummy';
   static String method = r'PATCH';
@@ -8,12 +7,9 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
   String get contentType;
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
-  final Map<String, Object /* String | List<String> */> extraQueryParameters;
-
-  
+  final Map<String, Object /* String | List<String> */ > extraQueryParameters;
 
   const factory AnotherFakeApi$123testSpecialTagsRequest.unsafe({
-    
     Map<String, String> extraHeaders,
     Map<String, Object> extraQueryParameters,
     Map<String, String> extraCookies,
@@ -21,7 +17,6 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
   }) = AnotherFakeApi$123testSpecialTagsRequestUnsafe;
 
   const AnotherFakeApi$123testSpecialTagsRequest({
-
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -50,19 +45,18 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
   Future<Map<String, String>> getResolvedHeaders({
     Map<String, dynamic> context = const {},
   }) async {
-
-    final cookieParts = <String,String>{
+    final cookieParts = <String, String>{
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
+    return CaseInsensitiveMap<String>.from(<String, String>{
       'Content-Type': contentType,
       if (cookieParts.isNotEmpty)
-        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+        'Cookie':
+            cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
     });
   }
-
 
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
@@ -88,14 +82,16 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, resolvedMediaType: parsedContentType),
+      bodyBytesStream: getResolvedBody(
+          context: context, resolvedMediaType: parsedContentType),
       context: context,
     );
   }
 }
 
 /// A version of [AnotherFakeApi$123testSpecialTagsRequest], where you can send arbitrary bytes in the body.
-class AnotherFakeApi$123testSpecialTagsRequestUnsafe extends AnotherFakeApi$123testSpecialTagsRequest {
+class AnotherFakeApi$123testSpecialTagsRequestUnsafe
+    extends AnotherFakeApi$123testSpecialTagsRequest {
   final Stream<Uint8List>? body;
 
   @override
@@ -104,7 +100,6 @@ class AnotherFakeApi$123testSpecialTagsRequestUnsafe extends AnotherFakeApi$123t
   const AnotherFakeApi$123testSpecialTagsRequestUnsafe({
     this.body,
     this.contentType = 'application/octet-stream',
-    
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
@@ -122,20 +117,17 @@ class AnotherFakeApi$123testSpecialTagsRequestUnsafe extends AnotherFakeApi$123t
   }
 }
 
-
-class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFakeApi$123testSpecialTagsRequest {
+class AnotherFakeApi$123testSpecialTagsRequestApplicationJson
+    extends AnotherFakeApi$123testSpecialTagsRequest {
   static const specMediaType = r'application/json';
 
   @override
   String get contentType => specMediaType;
 
-  final 
-            Client
- data;
+  final Client data;
 
   const AnotherFakeApi$123testSpecialTagsRequestApplicationJson({
     required this.data,
-    
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
@@ -145,49 +137,68 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
   Stream<List<int>> getResolvedBody({
     required MediaType resolvedMediaType,
     Map<String, dynamic> context = const {},
-  }) async* {
+  }) {
     //TODO: serialize model, then encode it according to media type.
     final v = data;
     var serialized = v.serialize();
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    Stream<List<int>> _stringResult(String src) {
+      return encoding.encoder.bind(Stream.value(src));
+    }
+
+    // Since the user can override mime type at runtime, we need to check the
+    // mime type and serialize the model accordingly.
+    switch (resolvedMediaType) {
+      case MediaType(type: 'application', subtype: 'json'):
+        return _stringResult(json.encode(serialized));
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        var serialized = v.serialize();
+        //_stringResult();
+        break;
+      case MediaType(type: 'application', subtype: 'xml'):
+        break;
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        break;
+      case MediaType(type: 'multipart'):
+        List<HttpPacketMixin> parts;
+        if (resolvedMediaType.subtype == 'form-data') {
+          //final memberEncodings = ;
+          parts =
+              MultiPartBodySerializer.getFormDataParts(fields: {}, files: []);
+        } else {
+          parts = [];
+        }
+        final bodySerializer = MultiPartBodySerializer(
+          parts: parts,
+        );
+        return bodySerializer.bodyBytesStream;
+        break;
+      default:
+    }
+    //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    final encoded = json.encode(serialized);
+    //final encoded = json.encode(serialized);
     //final bytes = ;
   }
 }
 
+class AnotherFakeApi$123testSpecialTagsResponse {}
 
-class AnotherFakeApi$123testSpecialTagsResponse {
-}
-
-
- class AnotherFakeApiGetParameterArrayNumberRequest {
+class AnotherFakeApiGetParameterArrayNumberRequest {
   static const pathTemplate = r'/fake/parameter-array-number';
   static String method = r'GET';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
-  final Map<String, Object /* String | List<String> */> extraQueryParameters;
+  final Map<String, Object /* String | List<String> */ > extraQueryParameters;
 
-  
   /// array integer
   /// spec name: array
-  final 
-    List<
-        
-            int
->
- array;
-  
-
+  final List<int> array;
 
   const AnotherFakeApiGetParameterArrayNumberRequest({
-
-     this.array    =
-        const
-        [1]
-        
-,
-
+    this.array = const [1],
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -216,21 +227,20 @@ class AnotherFakeApi$123testSpecialTagsResponse {
   Future<Map<String, String>> getResolvedHeaders({
     Map<String, dynamic> context = const {},
   }) async {
-
-    final cookieParts = <String,String>{
+    final cookieParts = <String, String>{
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
+    return CaseInsensitiveMap<String>.from(<String, String>{
       if (cookieParts.isNotEmpty)
-        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-      
-        r'array': OpenApiParameterSerializationHeader(parameterName: r'array',explode: false).serialize(array),
+        'Cookie':
+            cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+      r'array': OpenApiParameterSerializationHeader(
+              parameterName: r'array', explode: false)
+          .serialize(array),
       ...extraHeaders,
     });
   }
-
-
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -255,32 +265,22 @@ class AnotherFakeApi$123testSpecialTagsResponse {
   }
 }
 
+class AnotherFakeApiGetParameterArrayNumberResponse {}
 
-class AnotherFakeApiGetParameterArrayNumberResponse {
-}
-
-
- class AnotherFakeApiGetParameterStringNumberRequest {
+class AnotherFakeApiGetParameterStringNumberRequest {
   static const pathTemplate = r'/fake/parameter-string-number';
   static String method = r'GET';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
-  final Map<String, Object /* String | List<String> */> extraQueryParameters;
+  final Map<String, Object /* String | List<String> */ > extraQueryParameters;
 
-  
   /// string number
   /// spec name: string_number
-  final 
-            double
- stringNumber;
-  
-
+  final double stringNumber;
 
   const AnotherFakeApiGetParameterStringNumberRequest({
-
-    required this.stringNumber    ,
-
+    required this.stringNumber,
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -309,21 +309,20 @@ class AnotherFakeApiGetParameterArrayNumberResponse {
   Future<Map<String, String>> getResolvedHeaders({
     Map<String, dynamic> context = const {},
   }) async {
-
-    final cookieParts = <String,String>{
+    final cookieParts = <String, String>{
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
+    return CaseInsensitiveMap<String>.from(<String, String>{
       if (cookieParts.isNotEmpty)
-        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
-      
-        r'string_number': OpenApiParameterSerializationHeader(parameterName: r'string_number',explode: false).serialize(stringNumber),
+        'Cookie':
+            cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+      r'string_number': OpenApiParameterSerializationHeader(
+              parameterName: r'string_number', explode: false)
+          .serialize(stringNumber),
       ...extraHeaders,
     });
   }
-
-
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -348,36 +347,22 @@ class AnotherFakeApiGetParameterArrayNumberResponse {
   }
 }
 
+class AnotherFakeApiGetParameterStringNumberResponse {}
 
-class AnotherFakeApiGetParameterStringNumberResponse {
-}
-
-
- class AnotherFakeApiNullRequestBodyRequest {
+class AnotherFakeApiNullRequestBodyRequest {
   static const pathTemplate = r'/fake/null-request-body';
   static String method = r'GET';
 
   final Map<String, String> extraHeaders;
   final Map<String, String> extraCookies;
-  final Map<String, Object /* String | List<String> */> extraQueryParameters;
+  final Map<String, Object /* String | List<String> */ > extraQueryParameters;
 
-  
-  /// 
+  ///
   /// spec name: Accept-Language
-  final UndefinedWrapper<
-            String
-> acceptLanguage;
-  
-  
-
+  final UndefinedWrapper<String> acceptLanguage;
 
   const AnotherFakeApiNullRequestBodyRequest({
-
-     this.acceptLanguage= const UndefinedWrapper
-        .undefined()
-,
-
-
+    this.acceptLanguage = const UndefinedWrapper.undefined(),
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -406,21 +391,21 @@ class AnotherFakeApiGetParameterStringNumberResponse {
   Future<Map<String, String>> getResolvedHeaders({
     Map<String, dynamic> context = const {},
   }) async {
-
-    final cookieParts = <String,String>{
+    final cookieParts = <String, String>{
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
+    return CaseInsensitiveMap<String>.from(<String, String>{
       if (cookieParts.isNotEmpty)
-        'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
+        'Cookie':
+            cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       if (acceptLanguage.isDefined)
-        r'Accept-Language': OpenApiParameterSerializationHeader(parameterName: r'Accept-Language',explode: false).serialize(acceptLanguage.valueRequired),
+        r'Accept-Language': OpenApiParameterSerializationHeader(
+                parameterName: r'Accept-Language', explode: false)
+            .serialize(acceptLanguage.valueRequired),
       ...extraHeaders,
     });
   }
-
-
 
   Future<HttpRequestBase> createHttpRequest({
     required Uri baseUrl,
@@ -445,7 +430,4 @@ class AnotherFakeApiGetParameterStringNumberResponse {
   }
 }
 
-
-class AnotherFakeApiNullRequestBodyResponse {
-}
-
+class AnotherFakeApiNullRequestBodyResponse {}

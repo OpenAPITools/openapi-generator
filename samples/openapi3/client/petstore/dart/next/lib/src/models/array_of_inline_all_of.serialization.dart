@@ -29,7 +29,7 @@ Map<String, dynamic> _$ArrayOfInlineAllOfToMap(ArrayOfInlineAllOf instance) {
  v) {
       return v.map((v) => v.serialize()).toList();
     }(instance.arrayAllofDogProperty.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -83,7 +83,12 @@ arrayAllofDogProperty: src.getOrUndefinedMapped(_reflection.arrayAllofDogPropert
 
 ).toList()
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -130,6 +135,12 @@ if (!src.getOrUndefined(_reflection.arrayAllofDogProperty.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.arrayAllofDogProperty.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

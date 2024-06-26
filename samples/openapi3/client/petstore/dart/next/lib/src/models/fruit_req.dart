@@ -10,7 +10,7 @@ part 'fruit_req.serialization.dart';
 /// FruitReqMixin
 ///
 /// Properties:
-mixin FruitReqMixin on 
+mixin FruitReqMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -30,7 +30,7 @@ $OpenApiObjectMixin,
 
 FruitReqMixin {
 
-  
+
 
   
   @override

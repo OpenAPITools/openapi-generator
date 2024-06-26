@@ -9,7 +9,7 @@
 {{#isDeprecated}}
 @Deprecated('{{{classname}}}Mixin has been deprecated')
 {{/isDeprecated}}
-mixin {{classname}}Mixin on {{#additionalProperties}} AdditionalPropertiesMixin<{{>types/variable_recursive}}>,{{/additionalProperties}}
+mixin {{classname}}Mixin on
   {{#allOf}}{{.}}Mixin, {{/allOf}}$OpenApiObjectMixin {
   {{#vars}}{{>types/variable}} get {{name}};
   {{/vars}}
@@ -31,7 +31,7 @@ mixin {{classname}}Mixin on {{#additionalProperties}} AdditionalPropertiesMixin<
 {{/isDeprecated}}
 class {{classname}} with
 $OpenApiObjectMixin,
-{{#additionalProperties}}AdditionalPropertiesMixin<{{>types/variable_recursive}}>,{{/additionalProperties}}
+
 {{#allOf}}{{.}}Mixin,{{/allOf}}
 {{classname}}Mixin {
   {{#allVars}}
@@ -39,7 +39,7 @@ $OpenApiObjectMixin,
   {{>types/variable}} {{name}};
   {{/allVars}}
 
-  {{#additionalProperties}}@override
+  {{#additionalProperties}}
   AdditionalProperties<{{>types/variable_recursive}}> additionalProperties;{{/additionalProperties}}
 
   {{#composedSchemas}}{{#oneOf}}

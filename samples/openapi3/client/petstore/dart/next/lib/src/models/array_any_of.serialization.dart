@@ -8,7 +8,7 @@ part of 'array_any_of.dart';
 Map<String, dynamic> _$ArrayAnyOfToMap(ArrayAnyOf instance) {
   final _reflection = ArrayAnyOfReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -16,7 +16,12 @@ Map<String, dynamic> _$ArrayAnyOfToMap(ArrayAnyOf instance) {
 ArrayAnyOf _$ArrayAnyOfFromMap(Map<String, dynamic> src) {
   final _reflection = ArrayAnyOfReflection.instance;
   return ArrayAnyOf.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     anyOf0:  UndefinedWrapper.undefined(),
     anyOf1:  UndefinedWrapper.undefined(),
@@ -25,7 +30,13 @@ ArrayAnyOf _$ArrayAnyOfFromMap(Map<String, dynamic> src) {
 
 bool _$ArrayAnyOfCanFromMap(Map<String, dynamic> src) {
   final _reflection = ArrayAnyOfReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final anyOfs = [
   
   ];
@@ -99,6 +110,8 @@ ArrayAnyOf _$ArrayAnyOfDeserialize(Object? src) {
 
 ).toList()
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

@@ -17,7 +17,7 @@ Map<String, dynamic> _$ArrayOfNumberOnlyToMap(ArrayOfNumberOnly instance) {
  v) {
       return v.map((v) => v).toList();
     }(instance.arrayNumber.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -48,7 +48,12 @@ ArrayOfNumberOnly _$ArrayOfNumberOnlyFromMap(Map<String, dynamic> src) {
 
 ).toList()
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -71,6 +76,12 @@ bool _$ArrayOfNumberOnlyCanFromMap(Map<String, dynamic> src) {
 ),
     unDefined: () => !_reflection.arrayNumber.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

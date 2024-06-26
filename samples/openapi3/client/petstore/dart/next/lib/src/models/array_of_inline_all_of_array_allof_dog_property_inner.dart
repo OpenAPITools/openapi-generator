@@ -12,7 +12,7 @@ part 'array_of_inline_all_of_array_allof_dog_property_inner.serialization.dart';
 /// Properties:
 /// * [breed] 
 /// * [color] 
-mixin ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin on 
+mixin ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -42,14 +42,15 @@ ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin {
             String
 > color;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   ArrayOfInlineAllOfArrayAllofDogPropertyInner.$all({
         required this.breed,
     required this.color,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ ArrayOfInlineAllOfArrayAllofDogPropertyInnerMixin {
   this.color = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

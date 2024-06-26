@@ -14,7 +14,7 @@ part 'object_with_deprecated_fields.serialization.dart';
 /// * [id] 
 /// * [deprecatedRef] 
 /// * [bars] 
-mixin ObjectWithDeprecatedFieldsMixin on 
+mixin ObjectWithDeprecatedFieldsMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -66,7 +66,8 @@ ObjectWithDeprecatedFieldsMixin {
 >
 > bars;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -75,7 +76,7 @@ ObjectWithDeprecatedFieldsMixin {
     required this.id,
     required this.deprecatedRef,
     required this.bars,
-    
+    required this.additionalProperties,
     
   });
 
@@ -92,7 +93,7 @@ ObjectWithDeprecatedFieldsMixin {
   this.bars = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

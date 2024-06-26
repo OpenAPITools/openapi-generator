@@ -12,7 +12,7 @@ part 'model_with_one_of_any_of_properties.serialization.dart';
 /// Properties:
 /// * [oneofProp] 
 /// * [anyofProp] 
-mixin ModelWithOneOfAnyOfPropertiesMixin on 
+mixin ModelWithOneOfAnyOfPropertiesMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             ArrayOneOf
@@ -42,14 +42,15 @@ ModelWithOneOfAnyOfPropertiesMixin {
             ArrayAnyOf
 > anyofProp;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   ModelWithOneOfAnyOfProperties.$all({
         required this.oneofProp,
     required this.anyofProp,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ ModelWithOneOfAnyOfPropertiesMixin {
   this.anyofProp = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

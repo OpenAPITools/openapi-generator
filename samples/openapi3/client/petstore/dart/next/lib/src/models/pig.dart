@@ -10,7 +10,7 @@ part 'pig.serialization.dart';
 /// PigMixin
 ///
 /// Properties:
-mixin PigMixin on 
+mixin PigMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -30,7 +30,8 @@ $OpenApiObjectMixin,
 
 PigMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -45,14 +46,14 @@ PigMixin {
   
 
   Pig.$all({
-        
+        required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
   });
 
   Pig({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),

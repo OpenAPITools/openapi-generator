@@ -11,7 +11,7 @@ part 'all_of_model_array_any_of_all_of_attributes.serialization.dart';
 ///
 /// Properties:
 /// * [C] 
-mixin AllOfModelArrayAnyOfAllOfAttributesMixin on 
+mixin AllOfModelArrayAnyOfAllOfAttributesMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfAttributesC
@@ -33,13 +33,14 @@ AllOfModelArrayAnyOfAllOfAttributesMixin {
             AllOfModelArrayAnyOfAllOfAttributesC
 > C;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   AllOfModelArrayAnyOfAllOfAttributes.$all({
         required this.C,
-    
+    required this.additionalProperties,
     
   });
 
@@ -47,7 +48,7 @@ AllOfModelArrayAnyOfAllOfAttributesMixin {
       this.C = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

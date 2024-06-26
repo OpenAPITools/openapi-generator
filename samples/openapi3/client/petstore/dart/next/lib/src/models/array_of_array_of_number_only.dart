@@ -11,7 +11,7 @@ part 'array_of_array_of_number_only.serialization.dart';
 ///
 /// Properties:
 /// * [arrayArrayNumber] 
-mixin ArrayOfArrayOfNumberOnlyMixin on 
+mixin ArrayOfArrayOfNumberOnlyMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
     List<
@@ -45,13 +45,14 @@ ArrayOfArrayOfNumberOnlyMixin {
 >
 > arrayArrayNumber;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   ArrayOfArrayOfNumberOnly.$all({
         required this.arrayArrayNumber,
-    
+    required this.additionalProperties,
     
   });
 
@@ -59,7 +60,7 @@ ArrayOfArrayOfNumberOnlyMixin {
       this.arrayArrayNumber = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

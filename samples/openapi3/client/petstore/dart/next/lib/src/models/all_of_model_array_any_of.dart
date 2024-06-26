@@ -12,7 +12,7 @@ part 'all_of_model_array_any_of.serialization.dart';
 /// Properties:
 /// * [linkListColumn1] 
 /// * [attributes] 
-mixin AllOfModelArrayAnyOfMixin on 
+mixin AllOfModelArrayAnyOfMixin on
   CategoryMixin, $OpenApiObjectMixin {
   UndefinedWrapper<
             AllOfModelArrayAnyOfAllOfLinkListColumn1
@@ -52,7 +52,8 @@ AllOfModelArrayAnyOfMixin {
             AllOfModelArrayAnyOfAllOfLinkListColumn1
 > linkListColumn1;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -61,7 +62,7 @@ AllOfModelArrayAnyOfMixin {
     required this.attributes,
     required this.id,
     required this.linkListColumn1,
-    
+    required this.additionalProperties,
     
   });
 
@@ -80,7 +81,7 @@ AllOfModelArrayAnyOfMixin {
   this.linkListColumn1 = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

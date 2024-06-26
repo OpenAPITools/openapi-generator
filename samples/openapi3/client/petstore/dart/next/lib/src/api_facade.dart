@@ -1,4 +1,4 @@
-import 'package:shared_infrastructure/shared_infrastructure.dart';
+import 'package:openapi_infrastructure/openapi_infrastructure.dart';
 
 import 'apis/_exports.dart';
 
@@ -6,7 +6,7 @@ import 'apis/_exports.dart';
 class OpenApiPetStore {
   final NetworkingClientBase networkingClient;
   final Uri baseUrl;
-  
+
   OpenApiPetStore({
     required this.networkingClient,
     required this.baseUrl,

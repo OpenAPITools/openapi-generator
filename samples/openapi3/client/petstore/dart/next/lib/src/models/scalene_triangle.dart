@@ -10,7 +10,7 @@ part 'scalene_triangle.serialization.dart';
 /// ScaleneTriangleMixin
 ///
 /// Properties:
-mixin ScaleneTriangleMixin on 
+mixin ScaleneTriangleMixin on
   ShapeInterfaceMixin, TriangleInterfaceMixin, $OpenApiObjectMixin {
     
 }
@@ -34,21 +34,22 @@ ScaleneTriangleMixin {
             String
  triangleType;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   ScaleneTriangle.$all({
         required this.shapeType,
     required this.triangleType,
-    
+    required this.additionalProperties,
     
   });
 
   ScaleneTriangle({
     required  this.shapeType     ,
 required  this.triangleType     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

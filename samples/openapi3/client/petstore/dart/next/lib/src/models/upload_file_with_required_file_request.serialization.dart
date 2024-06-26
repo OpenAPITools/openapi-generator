@@ -20,7 +20,7 @@ Map<String, dynamic> _$UploadFileWithRequiredFileRequestToMap(UploadFileWithRequ
  v) {
       return v;
     }(instance.requiredFile),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -52,7 +52,12 @@ requiredFile: src.getRequiredMapped(_reflection.requiredFile.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -81,6 +86,12 @@ if (!src.getOrUndefined(_reflection.requiredFile.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.requiredFile.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

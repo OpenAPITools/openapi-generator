@@ -16,7 +16,7 @@ part 'pet_with_required_tags.serialization.dart';
 /// * [photoUrls] 
 /// * [tags] 
 /// * [status] - pet status in the store
-mixin PetWithRequiredTagsMixin on 
+mixin PetWithRequiredTagsMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             int
@@ -90,7 +90,8 @@ PetWithRequiredTagsMixin {
             PetWithRequiredTagsStatusEnum
 > status;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -101,7 +102,7 @@ PetWithRequiredTagsMixin {
     required this.photoUrls,
     required this.tags,
     required this.status,
-    
+    required this.additionalProperties,
     
   });
 
@@ -118,7 +119,7 @@ required  this.tags     ,
   this.status = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

@@ -12,7 +12,7 @@ part 'test_json_form_data_request.serialization.dart';
 /// Properties:
 /// * [param] - field1
 /// * [param2] - field2
-mixin TestJsonFormDataRequestMixin on 
+mixin TestJsonFormDataRequestMixin on
   $OpenApiObjectMixin {
   
             String
@@ -42,21 +42,22 @@ TestJsonFormDataRequestMixin {
             String
  param2;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   TestJsonFormDataRequest.$all({
         required this.param,
     required this.param2,
-    
+    required this.additionalProperties,
     
   });
 
   TestJsonFormDataRequest({
     required  this.param     ,
 required  this.param2     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

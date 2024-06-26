@@ -69,7 +69,7 @@ Map<String, dynamic> _$AdditionalPropertiesClassToMap(AdditionalPropertiesClass 
  v) {
       return v.map((k,v) => MapEntry(k, v));
     }(instance.mapWithUndeclaredPropertiesString.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -204,7 +204,12 @@ mapWithUndeclaredPropertiesString: src.getOrUndefinedMapped(_reflection.mapWithU
 ))
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -318,6 +323,12 @@ if (!src.getOrUndefined(_reflection.mapWithUndeclaredPropertiesString.oasName).s
 ),
     unDefined: () => !_reflection.mapWithUndeclaredPropertiesString.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

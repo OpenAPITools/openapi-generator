@@ -11,7 +11,7 @@ part 'class_model.serialization.dart';
 ///
 /// Properties:
 /// * [propertyClass] 
-mixin ClassModelMixin on 
+mixin ClassModelMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -33,13 +33,14 @@ ClassModelMixin {
             String
 > propertyClass;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   ClassModel.$all({
         required this.propertyClass,
-    
+    required this.additionalProperties,
     
   });
 
@@ -47,7 +48,7 @@ ClassModelMixin {
       this.propertyClass = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

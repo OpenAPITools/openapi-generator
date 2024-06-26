@@ -20,7 +20,7 @@ Map<String, dynamic> _$EquilateralTriangleToMap(EquilateralTriangle instance) {
  v) {
       return v;
     }(instance.triangleType),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -52,7 +52,12 @@ triangleType: src.getRequiredMapped(_reflection.triangleType.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -81,6 +86,12 @@ if (!src.getOrUndefined(_reflection.triangleType.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.triangleType.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

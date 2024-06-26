@@ -12,7 +12,7 @@ part 'apple.serialization.dart';
 /// Properties:
 /// * [cultivar] 
 /// * [origin] 
-mixin AppleMixin on 
+mixin AppleMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -42,14 +42,15 @@ AppleMixin {
             String
 > origin;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   Apple.$all({
         required this.cultivar,
     required this.origin,
-    
+    required this.additionalProperties,
     
   });
 
@@ -60,7 +61,7 @@ AppleMixin {
   this.origin = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

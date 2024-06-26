@@ -12,7 +12,7 @@ part 'test_enum_parameters_request.serialization.dart';
 /// Properties:
 /// * [enumFormStringArray] - Form parameter enum test (string array)
 /// * [enumFormString] - Form parameter enum test (string)
-mixin TestEnumParametersRequestMixin on 
+mixin TestEnumParametersRequestMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
     List<
@@ -48,14 +48,15 @@ TestEnumParametersRequestMixin {
             TestEnumParametersRequestEnumFormStringEnum
 > enumFormString;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   TestEnumParametersRequest.$all({
         required this.enumFormStringArray,
     required this.enumFormString,
-    
+    required this.additionalProperties,
     
   });
 
@@ -70,7 +71,7 @@ TestEnumParametersRequestMixin {
     )
     
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

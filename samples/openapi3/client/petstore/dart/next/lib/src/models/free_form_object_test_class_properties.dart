@@ -8,7 +8,7 @@ part 'free_form_object_test_class_properties.serialization.dart';
 
 
 /// FreeFormObjectTestClassPropertiesMixin
-mixin FreeFormObjectTestClassPropertiesMixin on 
+mixin FreeFormObjectTestClassPropertiesMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -28,7 +28,8 @@ $OpenApiObjectMixin,
 
 FreeFormObjectTestClassPropertiesMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -45,14 +46,14 @@ FreeFormObjectTestClassPropertiesMixin {
   
 
   FreeFormObjectTestClassProperties.$all({
-        
+        required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
   });
 
   FreeFormObjectTestClassProperties({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),

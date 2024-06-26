@@ -20,7 +20,7 @@ Map<String, dynamic> _$HasOnlyReadOnlyToMap(HasOnlyReadOnly instance) {
  v) {
       return v;
     }(instance.foo.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -52,7 +52,12 @@ foo: src.getOrUndefinedMapped(_reflection.foo.oasName, (v) =>
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -81,6 +86,12 @@ if (!src.getOrUndefined(_reflection.foo.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.foo.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

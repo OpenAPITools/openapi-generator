@@ -8,7 +8,7 @@ part 'shape_or_null.serialization.dart';
 
 
 /// The value may be a shape or the 'null' value. This is introduced in OAS schema >= 3.1.
-mixin ShapeOrNullMixin on 
+mixin ShapeOrNullMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -26,7 +26,8 @@ $OpenApiObjectMixin,
 
 ShapeOrNullMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -41,14 +42,14 @@ ShapeOrNullMixin {
   
 
   ShapeOrNull.$all({
-        
+        required this.additionalProperties,
     
     required this.oneOf0,
     required this.oneOf1,
   });
 
   ShapeOrNull({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.oneOf0 = const UndefinedWrapper.undefined(),
     this.oneOf1 = const UndefinedWrapper.undefined(),

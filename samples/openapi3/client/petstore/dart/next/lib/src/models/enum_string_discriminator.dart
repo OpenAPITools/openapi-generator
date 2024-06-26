@@ -11,7 +11,7 @@ part 'enum_string_discriminator.serialization.dart';
 ///
 /// Properties:
 /// * [enumStrType] - enum string type
-mixin EnumStringDiscriminatorMixin on 
+mixin EnumStringDiscriminatorMixin on
   $OpenApiObjectMixin {
   
             EnumStringDiscriminatorEnumStrTypeEnum
@@ -33,19 +33,20 @@ EnumStringDiscriminatorMixin {
             EnumStringDiscriminatorEnumStrTypeEnum
  enumStrType;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
   EnumStringDiscriminator.$all({
         required this.enumStrType,
-    
+    required this.additionalProperties,
     
   });
 
   EnumStringDiscriminator({
     required  this.enumStrType     ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 

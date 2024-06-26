@@ -8,7 +8,7 @@ part of 'scalar.dart';
 Map<String, dynamic> _$ScalarToMap(Scalar instance) {
   final _reflection = ScalarReflection.instance;
   return <String, dynamic>{
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -16,7 +16,12 @@ Map<String, dynamic> _$ScalarToMap(Scalar instance) {
 Scalar _$ScalarFromMap(Map<String, dynamic> src) {
   final _reflection = ScalarReflection.instance;
   return Scalar.$all(
-        
+        additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
     oneOf0:  UndefinedWrapper.undefined(),
     oneOf1:  UndefinedWrapper.undefined(),
@@ -26,7 +31,13 @@ Scalar _$ScalarFromMap(Map<String, dynamic> src) {
 
 bool _$ScalarCanFromMap(Map<String, dynamic> src) {
   final _reflection = ScalarReflection.instance;
-    
+    if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
+    return false;
+  }
+  
   final oneOfs = [
   
   
@@ -99,6 +110,8 @@ Scalar _$ScalarDeserialize(Object? src) {
 
 
 ) : UndefinedWrapper.undefined(),
+      // Additional Properties only make sense if the src is a Map<String, dynamic>
+      additionalProperties: AdditionalProperties(),
     );
     
   }

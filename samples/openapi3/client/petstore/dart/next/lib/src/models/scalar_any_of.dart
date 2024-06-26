@@ -8,7 +8,7 @@ part 'scalar_any_of.serialization.dart';
 
 
 /// Values of scalar type using anyOf
-mixin ScalarAnyOfMixin on 
+mixin ScalarAnyOfMixin on
   $OpenApiObjectMixin {
     
   UndefinedWrapper<
@@ -29,7 +29,8 @@ $OpenApiObjectMixin,
 
 ScalarAnyOfMixin {
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
   @override
@@ -49,7 +50,7 @@ ScalarAnyOfMixin {
   
 
   ScalarAnyOf.$all({
-        
+        required this.additionalProperties,
     
     required this.anyOf0,
     required this.anyOf1,
@@ -57,7 +58,7 @@ ScalarAnyOfMixin {
   });
 
   ScalarAnyOf({
-        
+        this.additionalProperties = const AdditionalProperties(),
     
     this.anyOf0 = const UndefinedWrapper.undefined(),
     

@@ -14,7 +14,7 @@ Map<String, dynamic> _$DeprecatedObjectToMap(DeprecatedObject instance) {
  v) {
       return v;
     }(instance.name.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -34,7 +34,12 @@ DeprecatedObject _$DeprecatedObjectFromMap(Map<String, dynamic> src) {
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -51,6 +56,12 @@ bool _$DeprecatedObjectCanFromMap(Map<String, dynamic> src) {
 ),
     unDefined: () => !_reflection.name.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

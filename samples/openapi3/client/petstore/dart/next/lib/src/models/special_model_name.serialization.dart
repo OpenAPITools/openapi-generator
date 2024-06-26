@@ -20,7 +20,7 @@ Map<String, dynamic> _$SpecialModelNameToMap(SpecialModelName instance) {
  v) {
       return v;
     }(instance.specialModelName.valueRequired),
-    
+    ...instance.additionalProperties.map((key, v) => MapEntry(key, v)),
     
   };
 }
@@ -52,7 +52,12 @@ specialModelName: src.getOrUndefinedMapped(_reflection.specialModelName.oasName,
 
 
 ),
-    
+    additionalProperties: AdditionalProperties(src.except(_reflection.knownKeys).map((key, v) => MapEntry(key, 
+(
+v
+
+)
+))),
     
   );
 }
@@ -81,6 +86,12 @@ if (!src.getOrUndefined(_reflection.specialModelName.oasName).split<bool>(
 ),
     unDefined: () => !_reflection.specialModelName.required,
 )) {
+    return false;
+  }
+  if (!src.except(_reflection.knownKeys).values.every((v) => v == null ? true :
+(
+true
+))) {
     return false;
   }
   

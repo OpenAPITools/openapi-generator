@@ -13,7 +13,7 @@ part 'mixed_properties_and_additional_properties_class.serialization.dart';
 /// * [uuid] 
 /// * [dateTime] 
 /// * [map] 
-mixin MixedPropertiesAndAdditionalPropertiesClassMixin on 
+mixin MixedPropertiesAndAdditionalPropertiesClassMixin on
   $OpenApiObjectMixin {
   UndefinedWrapper<
             String
@@ -57,7 +57,8 @@ MixedPropertiesAndAdditionalPropertiesClassMixin {
 >
 > map;
 
-  
+  AdditionalProperties<Object
+?> additionalProperties;
 
   
 
@@ -65,7 +66,7 @@ MixedPropertiesAndAdditionalPropertiesClassMixin {
         required this.uuid,
     required this.dateTime,
     required this.map,
-    
+    required this.additionalProperties,
     
   });
 
@@ -79,7 +80,7 @@ MixedPropertiesAndAdditionalPropertiesClassMixin {
   this.map = const UndefinedWrapper
         .undefined()
 ,
-    
+    this.additionalProperties = const AdditionalProperties(),
     
   });
 
