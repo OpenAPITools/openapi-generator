@@ -12,13 +12,13 @@ part 'pizza_speziale.g.dart';
 /// PizzaSpeziale
 ///
 /// Properties:
-/// * [toppings] 
-/// * [pizzaSize] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
+/// * [pizzaSize] 
+/// * [toppings] 
 @BuiltValue()
 abstract class PizzaSpeziale implements Pizza, Built<PizzaSpeziale, PizzaSpezialeBuilder> {
   @BuiltValueField(wireName: r'toppings')
