@@ -143,9 +143,13 @@ class EnumTest {
       }());
 
       return EnumTest(
+                
         enumString: EnumTestEnumStringEnum.fromJson(json[r'enum_string']),
+                
         enumStringRequired: EnumTestEnumStringRequiredEnum.fromJson(json[r'enum_string_required'])!,
+                
         enumInteger: EnumTestEnumIntegerEnum.fromJson(json[r'enum_integer']),
+                
         enumNumber: EnumTestEnumNumberEnum.fromJson(json[r'enum_number']),
         outerEnum: OuterEnum.fromJson(json[r'outerEnum']),
         outerEnumInteger: OuterEnumInteger.fromJson(json[r'outerEnumInteger']),
@@ -240,6 +244,12 @@ class EnumTestEnumStringEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is EnumTestEnumStringEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [EnumTestEnumStringEnum] to String,
@@ -317,6 +327,12 @@ class EnumTestEnumStringRequiredEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is EnumTestEnumStringRequiredEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [EnumTestEnumStringRequiredEnum] to String,
@@ -392,6 +408,12 @@ class EnumTestEnumIntegerEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is EnumTestEnumIntegerEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [EnumTestEnumIntegerEnum] to int,
@@ -466,6 +488,12 @@ class EnumTestEnumNumberEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is EnumTestEnumNumberEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [EnumTestEnumNumberEnum] to double,
