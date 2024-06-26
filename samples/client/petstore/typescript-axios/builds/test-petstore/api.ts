@@ -913,6 +913,46 @@ export type Mammal = Pig | Whale | Zebra;
 /**
  * 
  * @export
+ * @interface MammalAnyof
+ */
+export interface MammalAnyof {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MammalAnyof
+     */
+    'hasBaleen'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MammalAnyof
+     */
+    'hasTeeth'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof MammalAnyof
+     */
+    'className': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MammalAnyof
+     */
+    'type'?: MammalAnyofTypeEnum;
+}
+
+export const MammalAnyofTypeEnum = {
+    Plains: 'plains',
+    Mountain: 'mountain',
+    Grevys: 'grevys'
+} as const;
+
+export type MammalAnyofTypeEnum = typeof MammalAnyofTypeEnum[keyof typeof MammalAnyofTypeEnum];
+
+/**
+ * 
+ * @export
  * @interface MapTest
  */
 export interface MapTest {
