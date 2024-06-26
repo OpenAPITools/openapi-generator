@@ -13,9 +13,9 @@ part of openapi.api;
 class Cat {
   /// Returns a new [Cat] instance.
   Cat({
-    required this.className,
-    this.color = 'red',
-    this.declawed,
+     required this.className,
+     this.color = 'red',
+     this.declawed,
   });
 
   String className;

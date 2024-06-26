@@ -13,9 +13,9 @@ part of openapi.api;
 class MixedPropertiesAndAdditionalPropertiesClass {
   /// Returns a new [MixedPropertiesAndAdditionalPropertiesClass] instance.
   MixedPropertiesAndAdditionalPropertiesClass({
-    this.uuid,
-    this.dateTime,
-    this.map = const {},
+     this.uuid,
+     this.dateTime,
+     this.map = const {},
   });
 
   ///

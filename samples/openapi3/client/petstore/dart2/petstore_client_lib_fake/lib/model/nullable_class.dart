@@ -13,18 +13,18 @@ part of openapi.api;
 class NullableClass {
   /// Returns a new [NullableClass] instance.
   NullableClass({
-    this.integerProp,
-    this.numberProp,
-    this.booleanProp,
-    this.stringProp,
-    this.dateProp,
-    this.datetimeProp,
-    this.arrayNullableProp = const [],
-    this.arrayAndItemsNullableProp = const [],
-    this.arrayItemsNullable = const [],
-    this.objectNullableProp = const {},
-    this.objectAndItemsNullableProp = const {},
-    this.objectItemsNullable = const {},
+     this.integerProp,
+     this.numberProp,
+     this.booleanProp,
+     this.stringProp,
+     this.dateProp,
+     this.datetimeProp,
+     this.arrayNullableProp = const [],
+     this.arrayAndItemsNullableProp = const [],
+     this.arrayItemsNullable = const [],
+     this.objectNullableProp = const {},
+     this.objectAndItemsNullableProp = const {},
+     this.objectItemsNullable = const {},
   });
 
   int? integerProp;
@@ -169,9 +169,15 @@ class NullableClass {
         stringProp: mapValueOfType<String>(json, r'string_prop'),
         dateProp: mapDateTime(json, r'date_prop', r''),
         datetimeProp: mapDateTime(json, r'datetime_prop', r''),
-        arrayNullableProp: Object.listFromJson(json[r'array_nullable_prop']),
-        arrayAndItemsNullableProp: Object.listFromJson(json[r'array_and_items_nullable_prop']),
-        arrayItemsNullable: Object.listFromJson(json[r'array_items_nullable']),
+        arrayNullableProp: json[r'array_nullable_prop'] is Iterable
+            ? (json[r'array_nullable_prop'] as Iterable).cast<Object>().toList(growable: false)
+            : const [],
+        arrayAndItemsNullableProp: json[r'array_and_items_nullable_prop'] is Iterable
+            ? (json[r'array_and_items_nullable_prop'] as Iterable).cast<Object>().toList(growable: false)
+            : const [],
+        arrayItemsNullable: json[r'array_items_nullable'] is Iterable
+            ? (json[r'array_items_nullable'] as Iterable).cast<Object>().toList(growable: false)
+            : const [],
         objectNullableProp: mapCastOfType<String, Object>(json, r'object_nullable_prop') ?? const {},
         objectAndItemsNullableProp: mapCastOfType<String, Object>(json, r'object_and_items_nullable_prop') ?? const {},
         objectItemsNullable: mapCastOfType<String, Object>(json, r'object_items_nullable') ?? const {},
