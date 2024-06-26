@@ -512,7 +512,7 @@ OpenAPI Normalizer transforms the input OpenAPI doc/spec (which may not perfectl
 
 - SIMPLIFY_ONEOF_ANYOF 
 - SIMPLIFY_BOOLEAN_ENUM
-- REFACTOR_ALLOF_WITH_PROPERTIES_ONLY (default to true since v7.5.0)
+- REFACTOR_ALLOF_WITH_PROPERTIES_ONLY
 
 (One can use `DISABLE_ALL=true` to disable all the rules)
 
