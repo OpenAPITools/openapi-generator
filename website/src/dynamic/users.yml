@@ -301,7 +301,7 @@
 -
   caption: "Landeshauptstadt München - it@M"
   image: "img/companies/it-at-m.png"
-  infoLink: "https://muenchen.digital/it-at-m/"
+  infoLink: "https://opensource.muenchen.de/software/openapi-generator.html"
   pinned: false
 -
   caption: "Linode"
@@ -492,6 +492,11 @@
   caption: Robocorp
   image: "img/companies/robocorp.svg"
   infoLink: "https://www.robocorp.com"
+  pinned: false
+-
+  caption: "SearchApi"
+  image: "img/companies/searchapi.png"
+  infoLink: "https://www.searchapi.io/"
   pinned: false
 -
   caption: "Shotstack"

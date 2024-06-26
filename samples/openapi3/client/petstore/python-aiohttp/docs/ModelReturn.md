@@ -23,7 +23,7 @@ print(ModelReturn.to_json())
 # convert the object into a dict
 model_return_dict = model_return_instance.to_dict()
 # create an instance of ModelReturn from a dict
-model_return_form_dict = model_return.from_dict(model_return_dict)
+model_return_from_dict = ModelReturn.from_dict(model_return_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -23,7 +23,7 @@ print(DummyModel.to_json())
 # convert the object into a dict
 dummy_model_dict = dummy_model_instance.to_dict()
 # create an instance of DummyModel from a dict
-dummy_model_form_dict = dummy_model.from_dict(dummy_model_dict)
+dummy_model_from_dict = DummyModel.from_dict(dummy_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

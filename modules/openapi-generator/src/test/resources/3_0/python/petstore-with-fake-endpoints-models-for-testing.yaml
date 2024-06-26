@@ -894,6 +894,13 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/OuterObjectWithEnumProperty'
+      parameters:
+        - in: query
+          name: param
+          schema:
+            type: array
+            items:
+                $ref: '#/components/schemas/OuterEnumInteger'
       requestBody:
         required: true
         content:
@@ -2053,6 +2060,35 @@ components:
           enum:
             - 1.1
             - -1.2
+        enum_number_vendor_ext:
+          type: integer
+          format: int32
+          enum:
+            - 42
+            - 18
+            - 56
+          x-enum-descriptions:
+            - 'Description for 42'
+            - 'Description for 18'
+            - 'Description for 56'
+          x-enum-varnames:
+            - FortyTwo
+            - Eigtheen
+            - FiftySix
+        enum_string_vendor_ext:
+          type: string
+          enum:
+            - FOO
+            - Bar
+            - baz
+          x-enum-descriptions:
+            - 'Description for FOO'
+            - 'Description for Bar'
+            - 'Description for baz'
+          x-enum-varnames:
+            - FOOVar
+            - BarVar
+            - bazVar
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
         outerEnumInteger:
@@ -2706,3 +2742,91 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/CreatureInfo"
+    field:
+      type: object
+      properties:
+        field:
+          type: string
+    CircularAllOfRef:
+      allOf:
+        - $ref: '#/components/schemas/AllOfSuperModel'
+        - properties:
+            secondCircularAllOfRef:
+              items:
+                $ref: '#/components/schemas/SecondCircularAllOfRef'
+              type: array
+      type: object
+    SecondCircularAllOfRef:
+      allOf:
+        - $ref: '#/components/schemas/AllOfSuperModel'
+        - properties:
+            circularAllOfRef:
+              items:
+                $ref: '#/components/schemas/CircularAllOfRef'
+              type: array
+      type: object
+    AllOfSuperModel:
+      properties:
+        _name:
+          type: string
+      type: object
+    Info:
+      allOf:
+        - $ref: '#/components/schemas/BaseDiscriminator'
+        - properties:
+            val:
+              $ref: '#/components/schemas/BaseDiscriminator'
+      type: object
+    BaseDiscriminator:
+      discriminator:
+        mapping:
+          string: '#/components/schemas/PrimitiveString'
+        propertyName: _typeName
+      properties:
+        _typeName:
+          type: string
+      type: object
+    PrimitiveString:
+      allOf:
+        - $ref: '#/components/schemas/BaseDiscriminator'
+        - properties:
+            _value:
+              type: string
+      type: object
+    TestEnum:
+      type: string
+      enum:
+        - ONE
+        - TWO
+        - THREE
+        - foUr
+    TestEnumWithDefault:
+      type: string
+      enum:
+        - EIN
+        - ZWEI
+        - DREI
+      default: ZWEI
+    TestModelWithEnumDefault:
+      type: object
+      required:
+        - test_enum
+      properties:
+        test_enum:
+          $ref: "#/components/schemas/TestEnum"
+        test_string:
+          type: string
+          example: "Just some string"
+        test_enum_with_default:
+          $ref: "#/components/schemas/TestEnumWithDefault"
+        test_string_with_default:
+          type: string
+          example: "More string"
+          default: "ahoy matey"
+        test_inline_defined_enum_with_default:
+          type: string
+          enum:
+            - A
+            - B
+            - C
+          default: B

@@ -134,6 +134,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val templateDir = project.objects.property<String?>()
 
     /**
+     * Resource path containing template files.
+     */
+    @Optional
+    @Input
+    val templateResourcePath = project.objects.property<String?>()
+
+    /**
      * Adds authorization headers when fetching the OpenAPI definitions remotely.
      * Pass in a URL-encoded string of name:header with a comma separating multiple values
      */
@@ -507,14 +514,6 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
-     * A special-case setting which configures some generators with XML support. In some cases,
-     * this forces json OR xml, so the default here is false.
-     */
-    @Optional
-    @Input
-    val withXml = project.objects.property<Boolean>()
-
-    /**
      * To write all log messages (not just errors) to STDOUT
      */
     @Optional
@@ -680,10 +679,6 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
                 GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
             }
 
-            if (withXml.isPresent) {
-                GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
-            }
-
             if (inputSpec.isPresent && remoteInputSpec.isPresent) {
                 logger.warn("Both inputSpec and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
             }
@@ -716,6 +711,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             }
 
             templateDir.ifNotEmpty { value ->
+                configurator.setTemplateDir(value)
+            }
+
+            templateResourcePath.ifNotEmpty { value ->
+                templateDir.ifNotEmpty {
+                    logger.warn("Both templateDir and templateResourcePath were configured. templateResourcePath overwrites templateDir.")
+                }
                 configurator.setTemplateDir(value)
             }
 
@@ -887,7 +889,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
 
             if (openapiNormalizer.isPresent) {
                 openapiNormalizer.get().forEach { entry ->
-                    configurator.addOpenAPINormalizer(entry.key, entry.value)
+                    configurator.addOpenapiNormalizer(entry.key, entry.value)
                 }
             }
 
@@ -917,7 +919,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
 
             if (openapiGeneratorIgnoreList.isPresent) {
                 openapiGeneratorIgnoreList.get().forEach {
-                    configurator.addOpenAPIGeneratorIgnoreList(it)
+                    configurator.addOpenapiGeneratorIgnoreList(it)
                 }
             }
 

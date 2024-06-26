@@ -3,6 +3,7 @@
 {{#description}}{{&description}}
 {{/description}}
 
+{{^isEnum}}
 ## Properties
 
 Name | Type | Description | Notes
@@ -10,7 +11,6 @@ Name | Type | Description | Notes
 {{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
 {{/vars}}
 
-{{^isEnum}}
 ## Example
 
 ```python
@@ -26,8 +26,14 @@ print {{classname}}.to_json()
 # convert the object into a dict
 {{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_dict = {{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_instance.to_dict()
 # create an instance of {{classname}} from a dict
-{{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_form_dict = {{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}.from_dict({{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_dict)
+{{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_from_dict = {{classname}}.from_dict({{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_dict)
 ```
+{{/isEnum}}
+{{#isEnum}}
+## Enum
+{{#allowableValues}}{{#enumVars}}
+* `{{name}}` (value: `{{{value}}}`)
+{{/enumVars}}{{/allowableValues}}
 {{/isEnum}}
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -1,6 +1,6 @@
 /*
- * Copyright 2022 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright (c) 2022 Oracle and/or its affiliates.
+ * Copyright 2022, 2024 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ * Copyright (c) 2022, 2024 Oracle and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -44,12 +44,12 @@ public class JavaHelidonCommonCodegenPackagePrefixTest {
   private static final String EXCEPTION_MESSAGE_FRAGMENT = "namespace but options specified";
 
   // The generated SE client does not depend on the jakarta/javax imports, so no need to test it.
-  private static final List<List<String>> GENERATOR_LIBRARY_PAIRS = new ArrayList<List<String>>() {
-    {
-      add(listOf("java-helidon-client", "mp"));
-      add(listOf("java-helidon-server", "se"));
-      add(listOf("java-helidon-server", "mp"));
-    }
+  private static final List<List<String>> GENERATOR_LIBRARY_PAIRS = new ArrayList<>() {
+      {
+          add(listOf("java-helidon-client", "mp"));
+          add(listOf("java-helidon-server", "se"));
+          add(listOf("java-helidon-server", "mp"));
+      }
   };
 
   private String outputDir;
@@ -76,10 +76,23 @@ public class JavaHelidonCommonCodegenPackagePrefixTest {
                                        String explicitPrefix,
                                        String generatorName,
                                        String libraryName) {
-    IllegalArgumentException e = Assert.assertThrows(IllegalArgumentException.class,
-        () -> runTest(explicitHelidonVersion, explicitPrefix, generatorName, libraryName));
-    Assert.assertTrue("Exception message '" + e.getMessage() + "' contains '" + EXCEPTION_MESSAGE_FRAGMENT + "'",
-        e.getMessage().contains(EXCEPTION_MESSAGE_FRAGMENT));
+    IllegalArgumentException e = Assert.expectThrows(
+        "Run invalid combo: " + assertMsg(explicitHelidonVersion, explicitPrefix, generatorName, libraryName),
+       IllegalArgumentException.class,
+       () -> runTest(explicitHelidonVersion, explicitPrefix, generatorName, libraryName)
+    );
+    Assert.assertTrue(
+        e.getMessage().contains(EXCEPTION_MESSAGE_FRAGMENT),
+        "Exception message for " + assertMsg(explicitHelidonVersion, explicitPrefix, generatorName, libraryName)
+                          + "'" + e.getMessage() + "' containing '" + EXCEPTION_MESSAGE_FRAGMENT + "'"
+    );
+  }
+
+  private static String assertMsg(String explicitHelidonVersion, String explicitPrefix, String generatorName, String libraryName) {
+    return "Explicit version: " + (explicitHelidonVersion == null ? "null" : explicitHelidonVersion)
+            + ", explicit prefix: " + (explicitPrefix == null ? "null" : explicitPrefix)
+            + ", generatorName: " + generatorName
+            + ", libraryName: " + libraryName;
   }
 
   @DataProvider(name = "valid")

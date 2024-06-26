@@ -204,12 +204,6 @@ namespace Org.OpenAPITools.Client
                 return RequiredClass.RequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNotnullableEnumIntegerOnlyEnum).ToString();
             if (obj is RequiredClass.RequiredNotnullableEnumStringEnum requiredClassRequiredNotnullableEnumStringEnum)
                 return RequiredClass.RequiredNotnullableEnumStringEnumToJsonValue(requiredClassRequiredNotnullableEnumStringEnum);
-            if (obj is RequiredClass.RequiredNullableEnumIntegerEnum requiredClassRequiredNullableEnumIntegerEnum)
-                return RequiredClass.RequiredNullableEnumIntegerEnumToJsonValue(requiredClassRequiredNullableEnumIntegerEnum).ToString();
-            if (obj is RequiredClass.RequiredNullableEnumIntegerOnlyEnum requiredClassRequiredNullableEnumIntegerOnlyEnum)
-                return RequiredClass.RequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNullableEnumIntegerOnlyEnum).ToString();
-            if (obj is RequiredClass.RequiredNullableEnumStringEnum requiredClassRequiredNullableEnumStringEnum)
-                return RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClassRequiredNullableEnumStringEnum);
             if (obj is RequiredClass.NotrequiredNotnullableEnumIntegerEnum requiredClassNotrequiredNotnullableEnumIntegerEnum)
                 return RequiredClass.NotrequiredNotnullableEnumIntegerEnumToJsonValue(requiredClassNotrequiredNotnullableEnumIntegerEnum).ToString();
             if (obj is RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnum requiredClassNotrequiredNotnullableEnumIntegerOnlyEnum)
@@ -222,6 +216,12 @@ namespace Org.OpenAPITools.Client
                 return RequiredClass.NotrequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassNotrequiredNullableEnumIntegerOnlyEnum).ToString();
             if (obj is RequiredClass.NotrequiredNullableEnumStringEnum requiredClassNotrequiredNullableEnumStringEnum)
                 return RequiredClass.NotrequiredNullableEnumStringEnumToJsonValue(requiredClassNotrequiredNullableEnumStringEnum);
+            if (obj is RequiredClass.RequiredNullableEnumIntegerEnum requiredClassRequiredNullableEnumIntegerEnum)
+                return RequiredClass.RequiredNullableEnumIntegerEnumToJsonValue(requiredClassRequiredNullableEnumIntegerEnum).ToString();
+            if (obj is RequiredClass.RequiredNullableEnumIntegerOnlyEnum requiredClassRequiredNullableEnumIntegerOnlyEnum)
+                return RequiredClass.RequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNullableEnumIntegerOnlyEnum).ToString();
+            if (obj is RequiredClass.RequiredNullableEnumStringEnum requiredClassRequiredNullableEnumStringEnum)
+                return RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClassRequiredNullableEnumStringEnum);
             if (obj is Zebra.TypeEnum zebraTypeEnum)
                 return Zebra.TypeEnumToJsonValue(zebraTypeEnum);
             if (obj is ZeroBasedEnum zeroBasedEnum)
@@ -357,6 +357,43 @@ namespace Org.OpenAPITools.Client
             if (string.IsNullOrWhiteSpace(mime)) return false;
 
             return JsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json");
+        }
+
+        /// <summary>
+        /// Get the discriminator
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="discriminator"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public static string GetDiscriminator(Utf8JsonReader utf8JsonReader, string discriminator)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string localVarJsonPropertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    if (localVarJsonPropertyName != null && localVarJsonPropertyName.Equals(discriminator))
+                        return utf8JsonReader.GetString();
+                }
+            }
+
+            throw new JsonException("The specified discriminator was not found.");
         }
 
         /// <summary>

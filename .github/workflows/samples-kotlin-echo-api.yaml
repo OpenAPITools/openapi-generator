@@ -7,8 +7,7 @@ on:
   pull_request:
     paths:
       - samples/client/echo_api/kotlin**
-env:
-  GRADLE_VERSION: 7.4
+
 jobs:
   build:
     name: Build Kotlin Client JDK17
@@ -37,7 +36,6 @@ jobs:
       - name: Install Gradle wrapper
         uses: eskatos/gradle-command-action@v3
         with:
-          gradle-version: ${{ env.GRADLE_VERSION }}
           build-root-directory: ${{ matrix.sample }}
           arguments: wrapper
       - name: Setup node.js

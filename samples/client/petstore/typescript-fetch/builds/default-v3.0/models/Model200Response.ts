@@ -36,7 +36,7 @@ export interface Model200Response {
 /**
  * Check if a given object implements the Model200Response interface.
  */
-export function instanceOfModel200Response(value: object): boolean {
+export function instanceOfModel200Response(value: object): value is Model200Response {
     return true;
 }
 

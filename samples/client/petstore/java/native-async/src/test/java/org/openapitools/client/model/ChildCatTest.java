@@ -24,9 +24,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.ParentPet;
 import java.util.Set;
 import java.util.HashSet;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 
 /**

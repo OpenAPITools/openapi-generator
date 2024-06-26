@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -32,7 +33,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
@@ -63,9 +63,9 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
-    protected String packageName;
-    protected Boolean exportModels;
-    protected Boolean exportOperations;
+    @Setter protected String packageName;
+    @Setter protected Boolean exportModels;
+    @Setter protected Boolean exportOperations;
 
     protected final DateTimeFormatter OFFSET_DATE_TIME_FORMAT = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
     protected final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
@@ -145,18 +145,6 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.JULIA;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setExportModels(Boolean exportModels) {
-        this.exportModels = exportModels;
-    }
-
-    public void setExportOperations(Boolean exportOperations) {
-        this.exportOperations = exportOperations;
     }
 
     protected static String dropDots(String str) {
@@ -346,8 +334,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     @Override
     public String getTypeDeclaration(Schema schema) {
         if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema ap = (ArraySchema) schema;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(schema);
             return getSchemaType(schema) + "{" + getTypeDeclaration(inner) + "}";
         } else if (ModelUtils.isSet(schema)) {
             Schema inner = ModelUtils.getAdditionalProperties(schema);
@@ -441,6 +428,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      * @param input String to be cleaned up
      * @return string with quotation mark removed or escaped
      */
+    @Override
     public String escapeQuotationMark(String input) {
         return input.replace("\"", "\\\"");
     }
@@ -501,6 +489,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      * @param operationId operation ID
      * @return the sanitized method name
      */
+    @Override
     @SuppressWarnings("static-method")
     public String toOperationId(String operationId) {
         CamelizeOption camelizeOption = CamelizeOption.UPPERCASE_FIRST_CHAR;

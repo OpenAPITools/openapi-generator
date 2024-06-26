@@ -67,5 +67,6 @@ data class Pet (
         @JsonProperty(value = "sold") SOLD("sold"),
         @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue UNKNOWN_DEFAULT_OPEN_API("unknown_default_open_api");
     }
+
 }
 

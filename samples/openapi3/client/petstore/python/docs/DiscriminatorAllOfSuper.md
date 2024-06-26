@@ -22,7 +22,7 @@ print(DiscriminatorAllOfSuper.to_json())
 # convert the object into a dict
 discriminator_all_of_super_dict = discriminator_all_of_super_instance.to_dict()
 # create an instance of DiscriminatorAllOfSuper from a dict
-discriminator_all_of_super_form_dict = discriminator_all_of_super.from_dict(discriminator_all_of_super_dict)
+discriminator_all_of_super_from_dict = DiscriminatorAllOfSuper.from_dict(discriminator_all_of_super_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

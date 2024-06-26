@@ -6,10 +6,9 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.TestUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
@@ -17,6 +16,14 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_FETCH})
@@ -53,6 +60,32 @@ public class TypeScriptFetchClientCodegenTest {
         PathItem path = openApi.getPaths().get("/api/Users/{userId}");
         CodegenOperation operation = codegen.fromOperation("/api/Users/{userId}", "get", path.getGet(), path.getServers());
         Assert.assertEquals(operation.isResponseOptional, true);
+    }
+
+    @Test
+    public void testModelsWithoutPaths() throws IOException {
+        final String specPath = "src/test/resources/3_1/reusable-components-without-paths.yaml";
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("supportsES6", true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec(specPath)
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/index.ts"));
+        TestUtils.assertFileExists(Paths.get(output + "/runtime.ts"));
+        TestUtils.assertFileExists(Paths.get(output + "/models/Pet.ts"));
+        TestUtils.assertFileExists(Paths.get(output + "/models/index.ts"));
     }
 
     @Test
@@ -182,5 +215,100 @@ public class TypeScriptFetchClientCodegenTest {
 
         assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         assertThat(codegen.supportingFiles()).doesNotContain(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+    }
+
+    @Test(description = "Verify file name formatting from model name in PascalCase")
+    public void testModelFileNameInPascalCase() {
+        final TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.setFileNaming(TypeScriptFetchClientCodegen.PASCAL_CASE);
+        Assert.assertEquals("FirstSimpleModel", codegen.toModelFilename("FirstSimpleModel"));
+        codegen.setModelNameSuffix("suffix");
+        Assert.assertEquals("FirstSimpleModelSuffix", codegen.toModelFilename("FirstSimpleModel"));
+        codegen.setModelNamePrefix("prefix");
+        Assert.assertEquals("PrefixFirstSimpleModelSuffix", codegen.toModelFilename("FirstSimpleModel"));
+    }
+
+    @Test(description = "Verify file name formatting from model name in camelCase")
+    public void testModelFileNameInCamelCase() {
+        final TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.setFileNaming(TypeScriptFetchClientCodegen.CAMEL_CASE);
+        Assert.assertEquals("firstSimpleModel", codegen.toModelFilename("FirstSimpleModel"));
+        codegen.setModelNameSuffix("suffix");
+        Assert.assertEquals("firstSimpleModelSuffix", codegen.toModelFilename("FirstSimpleModel"));
+        codegen.setModelNamePrefix("prefix");
+        Assert.assertEquals("prefixFirstSimpleModelSuffix", codegen.toModelFilename("FirstSimpleModel"));
+    }
+
+    @Test(description = "Verify file name formatting from model name in kebab-case")
+    public void testModelFileNameInKebabCase() {
+        final TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.setFileNaming("kebab-case");
+        Assert.assertEquals("first-simple-model", codegen.toModelFilename("FirstSimpleModel"));
+        codegen.setModelNameSuffix("suffix");
+        Assert.assertEquals("first-simple-model-suffix", codegen.toModelFilename("FirstSimpleModel"));
+        codegen.setModelNamePrefix("prefix");
+        Assert.assertEquals("prefix-first-simple-model-suffix", codegen.toModelFilename("FirstSimpleModel"));
+    }
+
+    @Test(description = "Verify file name formatting from api name in PascalCase, camelCase and kebab-case")
+    public void testApiFileNameInVariousFormat() {
+        final TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.setFileNaming(TypeScriptFetchClientCodegen.PASCAL_CASE);
+        String prefix = codegen.getApiNamePrefix() != null ? codegen.getApiNamePrefix() : "";
+        String suffix = codegen.getApiNameSuffix() != null ? codegen.getApiNameSuffix() : "";
+        Assert.assertEquals(StringUtils.capitalize(prefix + "FirstSimpleController") + StringUtils.capitalize(suffix),
+                codegen.toApiFilename("FirstSimpleController"));
+        codegen.setFileNaming(TypeScriptFetchClientCodegen.CAMEL_CASE);
+        Assert.assertEquals(StringUtils.uncapitalize(prefix + "FirstSimpleController") + StringUtils.capitalize(suffix),
+                codegen.toApiFilename("FirstSimpleController"));
+        codegen.setFileNaming(TypeScriptFetchClientCodegen.KEBAB_CASE);
+        Assert.assertEquals((prefix.isBlank() ? "" : (StringUtils.lowerCase(suffix) + "-")) + "first-simple-controller" + (suffix.isBlank() ? "" : ("-" + StringUtils.lowerCase(suffix))),
+                codegen.toApiFilename("FirstSimpleController"));
+    }
+
+    @Test(description = "Verify names of files generated in kebab-case and imports")
+    public void testGeneratedFilenamesInKebabCase() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("fileNaming", TypeScriptFetchClientCodegen.KEBAB_CASE);
+
+        File output = generate(properties);
+
+        Path pet = Paths.get(output + "/models/pet.ts");
+        TestUtils.assertFileExists(pet);
+        TestUtils.assertFileContains(pet, "} from './pet-category';");
+        TestUtils.assertFileExists(Paths.get(output + "/models/pet-category.ts"));
+        TestUtils.assertFileExists(Paths.get(output + "/apis/pet-controller-api.ts"));
+    }
+
+    @Test(description = "Verify names of files generated in camelCase and imports")
+    public void testGeneratedFilenamesInCamelCase() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("fileNaming", TypeScriptFetchClientCodegen.CAMEL_CASE);
+
+        File output = generate(properties);
+
+        Path pet = Paths.get(output + "/models/pet.ts");
+        TestUtils.assertFileExists(pet);
+        TestUtils.assertFileContains(pet, "} from './petCategory';");
+        TestUtils.assertFileExists(Paths.get(output + "/models/petCategory.ts"));
+        TestUtils.assertFileExists(Paths.get(output + "/apis/petControllerApi.ts"));
+    }
+
+    private static File generate(Map<String, Object> properties) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_0/typescript-fetch/example-for-file-naming-option.yaml")
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        return output;
     }
 }

@@ -9,6 +9,6 @@ additionalProperties:
   useCompareNetObjects: true 
   disallowAdditionalPropertiesIfNotPresent: false
   useSourceGeneration: true
-  packageName: UseSourceGeneration
   equatable: true
   targetFramework: net8.0
+  modelPropertySorting: alphabetical

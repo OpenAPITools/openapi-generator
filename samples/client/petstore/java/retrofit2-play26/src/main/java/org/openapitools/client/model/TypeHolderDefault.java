@@ -39,7 +39,7 @@ import jakarta.validation.Valid;
   TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class TypeHolderDefault {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem = "what";
@@ -65,10 +65,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get stringItem
    * @return stringItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -86,17 +86,16 @@ public class TypeHolderDefault {
     this.stringItem = stringItem;
   }
 
-
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
     
     this.numberItem = numberItem;
     return this;
   }
 
-   /**
+  /**
    * Get numberItem
    * @return numberItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
   @Valid
@@ -115,17 +114,16 @@ public class TypeHolderDefault {
     this.numberItem = numberItem;
   }
 
-
   public TypeHolderDefault integerItem(Integer integerItem) {
     
     this.integerItem = integerItem;
     return this;
   }
 
-   /**
+  /**
    * Get integerItem
    * @return integerItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -143,17 +141,16 @@ public class TypeHolderDefault {
     this.integerItem = integerItem;
   }
 
-
   public TypeHolderDefault boolItem(Boolean boolItem) {
     
     this.boolItem = boolItem;
     return this;
   }
 
-   /**
+  /**
    * Get boolItem
    * @return boolItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -171,7 +168,6 @@ public class TypeHolderDefault {
     this.boolItem = boolItem;
   }
 
-
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
     
     this.arrayItem = arrayItem;
@@ -186,10 +182,10 @@ public class TypeHolderDefault {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItem
    * @return arrayItem
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 

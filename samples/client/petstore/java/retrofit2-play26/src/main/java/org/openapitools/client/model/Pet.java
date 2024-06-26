@@ -44,7 +44,7 @@ import jakarta.validation.Valid;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -110,10 +110,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ID)
@@ -130,17 +130,16 @@ public class Pet {
     this.id = id;
   }
 
-
   public Pet category(Category category) {
     
     this.category = category;
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -158,17 +157,16 @@ public class Pet {
     this.category = category;
   }
 
-
   public Pet name(String name) {
     
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -186,7 +184,6 @@ public class Pet {
     this.name = name;
   }
 
-
   public Pet photoUrls(Set<String> photoUrls) {
     
     this.photoUrls = photoUrls;
@@ -201,10 +198,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @jakarta.annotation.Nonnull
   @NotNull
 
@@ -223,7 +220,6 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-
   public Pet tags(List<@Valid Tag> tags) {
     
     this.tags = tags;
@@ -238,10 +234,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @jakarta.annotation.Nullable
   @Valid
 
@@ -259,17 +255,16 @@ public class Pet {
     this.tags = tags;
   }
 
-
   public Pet status(StatusEnum status) {
     
     this.status = status;
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_STATUS)

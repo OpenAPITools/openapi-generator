@@ -106,32 +106,32 @@ Accept: application/json
 
 ### List project cards
 ## List project cards
-GET https://api.github.com/projects/columns/{{column_id}}/cards
+GET https://api.github.com/projects/columns/{{column_id}}/cards?archivedState={{archivedState}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List project collaborators
 ## List project collaborators
-GET https://api.github.com/projects/{{project_id}}/collaborators
+GET https://api.github.com/projects/{{project_id}}/collaborators?affiliation={{affiliation}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List project columns
 ## List project columns
-GET https://api.github.com/projects/{{project_id}}/columns
+GET https://api.github.com/projects/{{project_id}}/columns?perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List organization projects
 ## List organization projects
-GET https://api.github.com/orgs/{{org}}/projects
+GET https://api.github.com/orgs/{{org}}/projects?state={{state}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List repository projects
 ## List repository projects
-GET https://api.github.com/repos/{{owner}}/{{repo}}/projects
+GET https://api.github.com/repos/{{owner}}/{{repo}}/projects?state={{state}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### List user projects
 ## List user projects
-GET https://api.github.com/users/{{username}}/projects
+GET https://api.github.com/users/{{username}}/projects?state={{state}}&perPage={{perPage}}&page={{page}}
 Accept: application/json
 
 ### Move a project card

@@ -22,7 +22,7 @@ print(TestErrorResponsesWithModel400Response.to_json())
 # convert the object into a dict
 test_error_responses_with_model400_response_dict = test_error_responses_with_model400_response_instance.to_dict()
 # create an instance of TestErrorResponsesWithModel400Response from a dict
-test_error_responses_with_model400_response_form_dict = test_error_responses_with_model400_response.from_dict(test_error_responses_with_model400_response_dict)
+test_error_responses_with_model400_response_from_dict = TestErrorResponsesWithModel400Response.from_dict(test_error_responses_with_model400_response_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

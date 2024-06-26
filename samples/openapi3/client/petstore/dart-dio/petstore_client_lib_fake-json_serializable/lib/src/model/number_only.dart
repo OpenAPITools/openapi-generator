@@ -33,13 +33,15 @@ class NumberOnly {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is NumberOnly &&
-     other.justNumber == justNumber;
 
-  @override
-  int get hashCode =>
-    justNumber.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is NumberOnly &&
+      other.justNumber == justNumber;
+
+    @override
+    int get hashCode =>
+        justNumber.hashCode;
 
   factory NumberOnly.fromJson(Map<String, dynamic> json) => _$NumberOnlyFromJson(json);
 

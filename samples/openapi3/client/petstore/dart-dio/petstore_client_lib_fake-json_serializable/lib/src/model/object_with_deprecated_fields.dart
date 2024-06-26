@@ -79,19 +79,21 @@ class ObjectWithDeprecatedFields {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ObjectWithDeprecatedFields &&
-     other.uuid == uuid &&
-     other.id == id &&
-     other.deprecatedRef == deprecatedRef &&
-     other.bars == bars;
 
-  @override
-  int get hashCode =>
-    uuid.hashCode +
-    id.hashCode +
-    deprecatedRef.hashCode +
-    bars.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ObjectWithDeprecatedFields &&
+      other.uuid == uuid &&
+      other.id == id &&
+      other.deprecatedRef == deprecatedRef &&
+      other.bars == bars;
+
+    @override
+    int get hashCode =>
+        uuid.hashCode +
+        id.hashCode +
+        deprecatedRef.hashCode +
+        bars.hashCode;
 
   factory ObjectWithDeprecatedFields.fromJson(Map<String, dynamic> json) => _$ObjectWithDeprecatedFieldsFromJson(json);
 

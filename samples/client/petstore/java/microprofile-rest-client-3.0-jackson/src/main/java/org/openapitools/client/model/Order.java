@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 /**
   * An order for a pets from the pet store
- **/
+  */
 
 public class Order  {
   
@@ -85,8 +85,8 @@ public class Order  {
 
   public static final String JSON_PROPERTY_STATUS = "status";
  /**
-   * Order Status
-  **/
+  * Order Status
+  */
   
   private StatusEnum status;
 
@@ -94,10 +94,10 @@ public class Order  {
   
   private Boolean complete = false;
 
- /**
+  /**
    * Get id
    * @return id
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
@@ -105,8 +105,8 @@ public class Order  {
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(Long id) {
@@ -118,10 +118,10 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get petId
    * @return petId
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getPetId() {
@@ -129,8 +129,8 @@ public class Order  {
   }
 
   /**
-    * Set petId
-  **/
+   * Set petId
+   */
   @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPetId(Long petId) {
@@ -142,10 +142,10 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get quantity
    * @return quantity
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getQuantity() {
@@ -153,8 +153,8 @@ public class Order  {
   }
 
   /**
-    * Set quantity
-  **/
+   * Set quantity
+   */
   @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setQuantity(Integer quantity) {
@@ -166,10 +166,10 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get shipDate
    * @return shipDate
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Date getShipDate() {
@@ -177,8 +177,8 @@ public class Order  {
   }
 
   /**
-    * Set shipDate
-  **/
+   * Set shipDate
+   */
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setShipDate(Date shipDate) {
@@ -190,10 +190,10 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Order Status
    * @return status
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public StatusEnum getStatus() {
@@ -201,8 +201,8 @@ public class Order  {
   }
 
   /**
-    * Set status
-  **/
+   * Set status
+   */
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(StatusEnum status) {
@@ -214,10 +214,10 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get complete
    * @return complete
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getComplete() {
@@ -225,8 +225,8 @@ public class Order  {
   }
 
   /**
-    * Set complete
-  **/
+   * Set complete
+   */
   @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setComplete(Boolean complete) {
@@ -240,8 +240,8 @@ public class Order  {
 
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -268,3 +268,4 @@ public class Order  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -61,17 +61,19 @@ class OuterComposite {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&
-     other.myNumber == myNumber &&
-     other.myString == myString &&
-     other.myBoolean == myBoolean;
 
-  @override
-  int get hashCode =>
-    myNumber.hashCode +
-    myString.hashCode +
-    myBoolean.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&
+      other.myNumber == myNumber &&
+      other.myString == myString &&
+      other.myBoolean == myBoolean;
+
+    @override
+    int get hashCode =>
+        myNumber.hashCode +
+        myString.hashCode +
+        myBoolean.hashCode;
 
   factory OuterComposite.fromJson(Map<String, dynamic> json) => _$OuterCompositeFromJson(json);
 

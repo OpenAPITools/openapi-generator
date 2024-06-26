@@ -265,7 +265,7 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
     {{/authMethods}}
 
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("{{httpMethod}}"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
-    .then([=](web::http::http_response localVarResponse)
+    .then([=, this](web::http::http_response localVarResponse)
     {
         if (m_ApiClient->getResponseHandler())
         {
@@ -299,7 +299,7 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
         {{#vendorExtensions.x-codegen-response-ishttpcontent}}
         return localVarResponse.extract_vector();
     })
-    .then([=](std::vector<unsigned char> localVarResponse)
+    .then([=, this](std::vector<unsigned char> localVarResponse)
     {
         {{{returnType}}} localVarResult = std::make_shared<HttpContent>();
         std::shared_ptr<std::stringstream> stream = std::make_shared<std::stringstream>(std::string(localVarResponse.begin(), localVarResponse.end()));
@@ -309,7 +309,7 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
         {{^vendorExtensions.x-codegen-response-ishttpcontent}}
         return localVarResponse.extract_string();
     })
-    .then([=](utility::string_t localVarResponse)
+    .then([=, this](utility::string_t localVarResponse)
     {
         {{^returnType}}
         return void();

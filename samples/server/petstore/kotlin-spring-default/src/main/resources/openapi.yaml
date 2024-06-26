@@ -702,6 +702,8 @@ components:
           description: User Status
           format: int32
           type: integer
+      required:
+      - username
       title: a User
       type: object
       xml:
@@ -800,6 +802,28 @@ components:
           format: uuid
           type: string
       type: object
+    UserOrPet:
+      oneOf:
+      - $ref: '#/components/schemas/User'
+      - $ref: '#/components/schemas/Pet'
+    UserOrPetOrArrayString:
+      oneOf:
+      - $ref: '#/components/schemas/User'
+      - $ref: '#/components/schemas/Pet'
+      - items:
+          type: string
+        type: array
+    AnyOfUserOrPet:
+      anyOf:
+      - $ref: '#/components/schemas/User'
+      - $ref: '#/components/schemas/Pet'
+    AnyOfUserOrPetOrArrayString:
+      anyOf:
+      - $ref: '#/components/schemas/User'
+      - $ref: '#/components/schemas/Pet'
+      - items:
+          type: string
+        type: array
     updatePetWithForm_request:
       properties:
         name:

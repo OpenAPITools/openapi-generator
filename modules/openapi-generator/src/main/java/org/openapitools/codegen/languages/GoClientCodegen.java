@@ -19,9 +19,9 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Iterables;
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -37,8 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -47,7 +45,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class GoClientCodegen extends AbstractGoCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String modelFileFolder = null;
@@ -57,9 +55,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public static final String GENERATE_INTERFACES = "generateInterfaces";
     public static final String MODEL_FILE_FOLDER = "modelFileFolder";
     public static final String WITH_GO_MOD = "withGoMod";
-    protected String goImportAlias = "openapiclient";
+    @Setter protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
@@ -150,6 +148,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
         cliOptions.add(CliOption.newBoolean(WITH_GO_MOD, "Generate go.mod and go.sum", true));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_MARSHAL_JSON, CodegenConstants.GENERATE_MARSHAL_JSON_DESC, true));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_UNMARSHAL_JSON, CodegenConstants.GENERATE_UNMARSHAL_JSON_DESC, true));
         this.setWithGoMod(true);
     }
 
@@ -168,7 +167,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
      * Configures the type of generator.
      *
      * @return the CodegenType for this generator
-     * @see org.openapitools.codegen.CodegenType
+     * @see CodegenType
      */
     @Override
     public CodegenType getTag() {
@@ -287,6 +286,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
             setGenerateMarshalJSON(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.GENERATE_MARSHAL_JSON).toString()));
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_UNMARSHAL_JSON)) {
+            setGenerateUnmarshalJSON(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.GENERATE_UNMARSHAL_JSON).toString()));
+        }
+
+
         // add lambda for mustache templates to handle oneOf/anyOf naming
         // e.g. []string => ArrayOfString
         additionalProperties.put("lambda.type-to-name", (Mustache.Lambda) (fragment, writer) -> writer.write(typeToName(fragment.execute())));
@@ -306,20 +310,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
     }
 
-    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
-        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
-    }
-
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
-    }
-
-    public void setGoImportAlias(String goImportAlias) {
-        this.goImportAlias = goImportAlias;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
     }
 
     public void setIsGoSubmodule(boolean isGoSubmodule) {
@@ -369,12 +361,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-
-    @Override
     public String toModelName(String name) {
         if (schemaKeyToModelNameCache.containsKey(name)) {
             return schemaKeyToModelNameCache.get(name);
@@ -386,6 +372,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return camelizedName;
     }
 
+    @Override
     public String escapeReservedWord(String name) {
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
@@ -418,7 +405,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     /**
      * Determines if at least one of the allOf pieces of a schema are of type string
      *
-     * @param p
+     * @param schema
      * @return
      */
     private boolean isAllOfStringSchema(Schema schema) {

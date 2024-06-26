@@ -2,11 +2,11 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -48,17 +48,17 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public static final String PUB_PUBLISH_TO = "pubPublishTo";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
 
-    protected String pubLibrary = "openapi.api";
-    protected String pubName = "openapi";
-    protected String pubVersion = "1.0.0";
-    protected String pubDescription = "OpenAPI API client";
-    protected String pubAuthor = "Author";
-    protected String pubAuthorEmail = "author@homepage";
-    protected String pubHomepage = "homepage";
-    protected String pubRepository = null;
-    protected String pubPublishTo = null;
-    protected boolean useEnumExtension = false;
-    protected String sourceFolder = "src";
+    @Setter protected String pubLibrary = "openapi.api";
+    @Setter protected String pubName = "openapi";
+    @Setter protected String pubVersion = "1.0.0";
+    @Setter protected String pubDescription = "OpenAPI API client";
+    @Setter protected String pubAuthor = "Author";
+    @Setter protected String pubAuthorEmail = "author@homepage";
+    @Setter protected String pubHomepage = "homepage";
+    @Setter protected String pubRepository = null;
+    @Setter protected String pubPublishTo = null;
+    @Setter protected boolean useEnumExtension = false;
+    @Setter protected String sourceFolder = "src";
     protected String libPath = "lib" + File.separator;
     protected String apiDocPath = "doc/";
     protected String modelDocPath = "doc/";
@@ -212,7 +212,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart 2.x client library.";
+        return "Generates a Dart client library.";
     }
 
     @Override
@@ -372,10 +372,17 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String toVarName(String name) {
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         // replace - with _ e.g. created-at => created_at
         name = name.replace("-", "_");
 
         // always need to replace leading underscores first
+        if (name.equals("_")) {
+            return "underscore";
+        }
         name = name.replaceAll("^_", "");
 
         // if it's all upper case, do nothing
@@ -408,12 +415,20 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String toParamName(String name) {
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // should be the same as variable name
         return toVarName(name);
     }
 
     @Override
     public String toModelName(final String name) {
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         String sanitizedName = sanitizeName(name);
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
@@ -512,7 +527,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            Schema<?> items = ModelUtils.getSchemaItems(schema);
             return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
         }
         if (ModelUtils.isMapSchema(target)) {
@@ -762,50 +777,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         }
 
         return operationId;
-    }
-
-    public void setPubLibrary(String pubLibrary) {
-        this.pubLibrary = pubLibrary;
-    }
-
-    public void setPubName(String pubName) {
-        this.pubName = pubName;
-    }
-
-    public void setPubVersion(String pubVersion) {
-        this.pubVersion = pubVersion;
-    }
-
-    public void setPubDescription(String pubDescription) {
-        this.pubDescription = pubDescription;
-    }
-
-    public void setPubAuthor(String pubAuthor) {
-        this.pubAuthor = pubAuthor;
-    }
-
-    public void setPubAuthorEmail(String pubAuthorEmail) {
-        this.pubAuthorEmail = pubAuthorEmail;
-    }
-
-    public void setPubHomepage(String pubHomepage) {
-        this.pubHomepage = pubHomepage;
-    }
-
-    public void setPubRepository(String pubRepository) {
-        this.pubRepository = pubRepository;
-    }
-
-    public void setPubPublishTo(String pubPublishTo) {
-        this.pubPublishTo = pubPublishTo;
-    }
-
-    public void setUseEnumExtension(boolean useEnumExtension) {
-        this.useEnumExtension = useEnumExtension;
-    }
-
-    public void setSourceFolder(String sourceFolder) {
-        this.sourceFolder = sourceFolder;
     }
 
     @Override

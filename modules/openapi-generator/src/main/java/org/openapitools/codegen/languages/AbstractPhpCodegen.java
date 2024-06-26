@@ -16,9 +16,10 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -48,15 +49,17 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_NAME = "packageName";
     public static final String SRC_BASE_PATH = "srcBasePath";
+    @Getter @Setter
     protected String invokerPackage = "php";
+    @Getter @Setter
     protected String packageName = "php-base";
-    protected String artifactVersion = null;
-    protected String artifactUrl = "https://openapi-generator.tech";
-    protected String licenseName = "unlicense";
-    protected String developerOrganization = "OpenAPI";
-    protected String developerOrganizationUrl = "https://openapi-generator.tech";
-    protected String srcBasePath = "lib";
-    protected String testBasePath = "test";
+    @Setter protected String artifactVersion = null;
+    @Setter protected String artifactUrl = "https://openapi-generator.tech";
+    @Setter protected String licenseName = "unlicense";
+    @Setter protected String developerOrganization = "OpenAPI";
+    @Setter protected String developerOrganizationUrl = "https://openapi-generator.tech";
+    @Setter protected String srcBasePath = "lib";
+    @Setter protected String testBasePath = "test";
     protected String docsBasePath = "docs";
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
@@ -282,10 +285,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
-    public String getPackageName() {
-        return packageName;
-    }
-
     public String toSrcPath(final String packageName, final String basePath) {
         String modifiedPackageName = packageName.replace(invokerPackage, "");
         String modifiedBasePath = basePath;
@@ -355,11 +354,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             if (inner == null) {
                 LOGGER.warn("{}(array property) does not have a proper inner type defined.Default to string",
-                        ap.getName());
+                        p.getName());
                 inner = new StringSchema().description("TODO default missing array inner type to string");
             }
             return getTypeDeclaration(inner) + "[]";
@@ -416,46 +414,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         return toModelName(type);
-    }
-
-    public String getInvokerPackage() {
-        return invokerPackage;
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
-    }
-
-    public void setArtifactVersion(String artifactVersion) {
-        this.artifactVersion = artifactVersion;
-    }
-
-    public void setArtifactUrl(String artifactUrl) {
-        this.artifactUrl = artifactUrl;
-    }
-
-    public void setLicenseName(String licenseName) {
-        this.licenseName = licenseName;
-    }
-
-    public void setDeveloperOrganization(String developerOrganization) {
-        this.developerOrganization = developerOrganization;
-    }
-
-    public void setDeveloperOrganizationUrl(String developerOrganizationUrl) {
-        this.developerOrganizationUrl = developerOrganizationUrl;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setSrcBasePath(String srcBasePath) {
-        this.srcBasePath = srcBasePath;
-    }
-
-    public void setTestBasePath(String testBasePath) {
-        this.testBasePath = testBasePath;
     }
 
     public void setParameterNamingConvention(String variableNamingConvention) {

@@ -1660,6 +1660,8 @@ components:
           description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
           type: string
           pattern: '/^image_\d{1,3}$/i'
+        array_ref:
+          $ref: '#/components/schemas/ArrayRef'
     EnumClass:
       type: string
       default: '-efg'
@@ -2061,3 +2063,7 @@ components:
       enum:
         - admin
         - user
+    ArrayRef:
+      type: array
+      items:
+        type: string

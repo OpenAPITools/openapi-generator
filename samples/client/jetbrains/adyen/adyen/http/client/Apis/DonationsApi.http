@@ -5,6 +5,7 @@
 POST https://checkout-test.adyen.com/v71/donations
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
@@ -30,6 +31,7 @@ X-API-Key: {{apiKey}}
 POST https://checkout-test.adyen.com/v71/donations
 Content-Type: application/json
 Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 

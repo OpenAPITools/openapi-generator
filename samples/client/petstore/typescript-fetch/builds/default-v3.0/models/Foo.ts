@@ -30,7 +30,7 @@ export interface Foo {
 /**
  * Check if a given object implements the Foo interface.
  */
-export function instanceOfFoo(value: object): boolean {
+export function instanceOfFoo(value: object): value is Foo {
     return true;
 }
 

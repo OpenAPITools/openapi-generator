@@ -21,7 +21,7 @@ print InnerDictWithProperty.to_json()
 # convert the object into a dict
 inner_dict_with_property_dict = inner_dict_with_property_instance.to_dict()
 # create an instance of InnerDictWithProperty from a dict
-inner_dict_with_property_form_dict = inner_dict_with_property.from_dict(inner_dict_with_property_dict)
+inner_dict_with_property_from_dict = InnerDictWithProperty.from_dict(inner_dict_with_property_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

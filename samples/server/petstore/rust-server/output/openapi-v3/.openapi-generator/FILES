@@ -37,12 +37,15 @@ docs/XmlObject.md
 docs/default_api.md
 docs/repo_api.md
 examples/ca.pem
+examples/client/client_auth.rs
 examples/client/main.rs
 examples/client/server.rs
 examples/server-chain.pem
 examples/server-key.pem
 examples/server/main.rs
 examples/server/server.rs
+examples/server/server_auth.rs
+src/auth.rs
 src/client/callbacks.rs
 src/client/mod.rs
 src/context.rs
@@ -51,3 +54,4 @@ src/lib.rs
 src/models.rs
 src/server/callbacks.rs
 src/server/mod.rs
+src/server/server_auth.rs
