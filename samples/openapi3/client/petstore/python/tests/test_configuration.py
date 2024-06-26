@@ -58,6 +58,18 @@ class TestConfiguration(unittest.TestCase):
         c1 = petstore_api.Configuration(access_token="12345")
         self.assertEqual(c1.access_token, "12345")
 
+    def test_ignore_operation_servers(self):
+        self.config.ignore_operation_servers = True
+        self.assertTrue(self.config.ignore_operation_servers)
+        self.config.ignore_operation_servers = False
+        self.assertFalse(self.config.ignore_operation_servers)
+
+        c1 = petstore_api.Configuration(ignore_operation_servers=True)
+        self.assertTrue(c1.ignore_operation_servers)
+
+        c2 = petstore_api.Configuration()
+        self.assertFalse(c2.ignore_operation_servers)
+
     def test_get_host_settings(self):
         host_settings = self.config.get_host_settings()
 
