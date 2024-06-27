@@ -730,7 +730,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
 
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, this, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<{{prefix}}HttpRequestWorker*>().count() == 0){
             Q_EMIT allPendingRequestsCompleted();
         }
