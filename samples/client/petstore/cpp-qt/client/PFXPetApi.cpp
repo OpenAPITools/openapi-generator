@@ -695,7 +695,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
 
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::findPetsByStatusCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, this, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             Q_EMIT allPendingRequestsCompleted();
         }
