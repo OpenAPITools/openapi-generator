@@ -11,10 +11,8 @@ import { HttpFile } from '../http/http{{importFileExtension}}';
 * {{{.}}}
 */
 {{/description}}
-{{#oneOf}}{{#-first}}{{>model/modelOneOf}}{{/-first}}{{/oneOf}}
-{{^oneOf}}
 {{^isEnum}}
-export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
+{{#oneOf}}{{#-first}}{{>model/modelOneOf}}{{/-first}}{{/oneOf}}{{^oneOf}}export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#description}}
     /**
@@ -68,7 +66,7 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
         {{/discriminatorName}}
     }
 }
-
+{{/oneOf}}
 {{#hasEnums}}
 
 {{#vars}}
@@ -94,6 +92,5 @@ export enum {{classname}} {
     {{/allowableValues}}
 }
 {{/isEnum}}
-{{/oneOf}}
 {{/model}}
 {{/models}}
