@@ -93,7 +93,7 @@ public class StoreServiceImpl implements StoreService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the deleteOrder operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -121,7 +121,7 @@ public class StoreServiceImpl implements StoreService {
         record $404() {
 
             /**
-             * Factory method creating a result for the status 404 result
+             * Creates a result for the status 404 result
              * for the deleteOrder operation, accepting all the required result values.
              *
              * @return new result data for status 404
@@ -165,10 +165,9 @@ public class StoreServiceImpl implements StoreService {
         record $200(Map<String, Integer> response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the getInventory operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -214,10 +213,9 @@ public class StoreServiceImpl implements StoreService {
         record $200(Order response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the getOrderById operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -247,7 +245,7 @@ public class StoreServiceImpl implements StoreService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the getOrderById operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -275,7 +273,7 @@ public class StoreServiceImpl implements StoreService {
         record $404() {
 
             /**
-             * Factory method creating a result for the status 404 result
+             * Creates a result for the status 404 result
              * for the getOrderById operation, accepting all the required result values.
              *
              * @return new result data for status 404
@@ -319,10 +317,9 @@ public class StoreServiceImpl implements StoreService {
         record $200(Order response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the placeOrder operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -352,7 +349,7 @@ public class StoreServiceImpl implements StoreService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the placeOrder operation, accepting all the required result values.
              *
              * @return new result data for status 400

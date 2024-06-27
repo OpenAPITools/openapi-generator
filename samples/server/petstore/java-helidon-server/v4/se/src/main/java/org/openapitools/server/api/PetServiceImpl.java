@@ -200,7 +200,7 @@ public class PetServiceImpl implements PetService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the addPet operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -228,7 +228,7 @@ public class PetServiceImpl implements PetService {
         record $405() {
 
             /**
-             * Factory method creating a result for the status 405 result
+             * Creates a result for the status 405 result
              * for the addPet operation, accepting all the required result values.
              *
              * @return new result data for status 405
@@ -270,7 +270,7 @@ public class PetServiceImpl implements PetService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the deletePet operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -298,7 +298,7 @@ public class PetServiceImpl implements PetService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the deletePet operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -342,10 +342,9 @@ public class PetServiceImpl implements PetService {
         record $200(List<Pet> response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the findPetsByStatus operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -375,7 +374,7 @@ public class PetServiceImpl implements PetService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the findPetsByStatus operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -419,10 +418,9 @@ public class PetServiceImpl implements PetService {
         record $200(Set<Pet> response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the findPetsByTags operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -452,7 +450,7 @@ public class PetServiceImpl implements PetService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the findPetsByTags operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -496,10 +494,9 @@ public class PetServiceImpl implements PetService {
         record $200(Pet response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the getPetById operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -529,7 +526,7 @@ public class PetServiceImpl implements PetService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the getPetById operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -557,7 +554,7 @@ public class PetServiceImpl implements PetService {
         record $404() {
 
             /**
-             * Factory method creating a result for the status 404 result
+             * Creates a result for the status 404 result
              * for the getPetById operation, accepting all the required result values.
              *
              * @return new result data for status 404
@@ -599,7 +596,7 @@ public class PetServiceImpl implements PetService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the updatePet operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -627,7 +624,7 @@ public class PetServiceImpl implements PetService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the updatePet operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -655,7 +652,7 @@ public class PetServiceImpl implements PetService {
         record $404() {
 
             /**
-             * Factory method creating a result for the status 404 result
+             * Creates a result for the status 404 result
              * for the updatePet operation, accepting all the required result values.
              *
              * @return new result data for status 404
@@ -683,7 +680,7 @@ public class PetServiceImpl implements PetService {
         record $405() {
 
             /**
-             * Factory method creating a result for the status 405 result
+             * Creates a result for the status 405 result
              * for the updatePet operation, accepting all the required result values.
              *
              * @return new result data for status 405
@@ -725,7 +722,7 @@ public class PetServiceImpl implements PetService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the updatePetWithForm operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -753,7 +750,7 @@ public class PetServiceImpl implements PetService {
         record $405() {
 
             /**
-             * Factory method creating a result for the status 405 result
+             * Creates a result for the status 405 result
              * for the updatePetWithForm operation, accepting all the required result values.
              *
              * @return new result data for status 405
@@ -797,10 +794,9 @@ public class PetServiceImpl implements PetService {
         record $200(ModelApiResponse response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the uploadFile operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -846,10 +842,9 @@ public class PetServiceImpl implements PetService {
         record $200(ModelApiResponse response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the uploadFileWithRequiredFile operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {

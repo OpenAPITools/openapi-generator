@@ -56,14 +56,26 @@ public class DefaultServiceImpl implements DefaultService {
         record Default(Status status,FooGetDefaultResponse response) {
 
             /**
-             * Factory method creating a result for the default result
+             * Creates a result for the default result
              * for the fooGet operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 0
              */
             static Default create(Status status) {
                 return new Default(statusnull);
+            }
+
+           /**
+            * Constructor for a result for the default result
+            * for the fooGet operation, verifying non-null values for required return data.
+            *
+            * @param response returned entity
+            */
+            public Default(Status status,FooGetDefaultResponse response) {
+                ValidatorUtils.Validator validator = ValidatorUtils.validator(System.getLogger(FooGetResult.class.getName());
+                validator.require("status for default response", status);
+                this.status = status;
+                validator.execute();
             }
 
             /**

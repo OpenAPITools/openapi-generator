@@ -512,10 +512,9 @@ public class FakeServiceImpl implements FakeService {
         record $200(FakeBigDecimalMap200Response response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the fakeBigDecimalMap operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -561,10 +560,9 @@ public class FakeServiceImpl implements FakeService {
         record $200(HealthCheckResult response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the fakeHealthGet operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -608,7 +606,7 @@ public class FakeServiceImpl implements FakeService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the fakeHttpSignatureTest operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -652,10 +650,9 @@ public class FakeServiceImpl implements FakeService {
         record $200(Boolean response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the fakeOuterBooleanSerialize operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -701,10 +698,9 @@ public class FakeServiceImpl implements FakeService {
         record $200(OuterComposite response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the fakeOuterCompositeSerialize operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -750,10 +746,9 @@ public class FakeServiceImpl implements FakeService {
         record $200(BigDecimal response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the fakeOuterNumberSerialize operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -799,10 +794,9 @@ public class FakeServiceImpl implements FakeService {
         record $200(String response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the fakeOuterStringSerialize operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -848,10 +842,9 @@ public class FakeServiceImpl implements FakeService {
         record $200(OuterObjectWithEnumProperty response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the fakePropertyEnumIntegerSerialize operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -895,7 +888,7 @@ public class FakeServiceImpl implements FakeService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the testAdditionalPropertiesReference operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -937,7 +930,7 @@ public class FakeServiceImpl implements FakeService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the testBodyWithBinary operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -979,7 +972,7 @@ public class FakeServiceImpl implements FakeService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the testBodyWithFileSchema operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -1021,7 +1014,7 @@ public class FakeServiceImpl implements FakeService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the testBodyWithQueryParams operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -1065,10 +1058,9 @@ public class FakeServiceImpl implements FakeService {
         record $200(Client response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the testClientModel operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -1112,7 +1104,7 @@ public class FakeServiceImpl implements FakeService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the testEndpointParameters operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -1140,7 +1132,7 @@ public class FakeServiceImpl implements FakeService {
         record $404() {
 
             /**
-             * Factory method creating a result for the status 404 result
+             * Creates a result for the status 404 result
              * for the testEndpointParameters operation, accepting all the required result values.
              *
              * @return new result data for status 404
@@ -1182,7 +1174,7 @@ public class FakeServiceImpl implements FakeService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the testEnumParameters operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -1210,7 +1202,7 @@ public class FakeServiceImpl implements FakeService {
         record $404() {
 
             /**
-             * Factory method creating a result for the status 404 result
+             * Creates a result for the status 404 result
              * for the testEnumParameters operation, accepting all the required result values.
              *
              * @return new result data for status 404
@@ -1252,7 +1244,7 @@ public class FakeServiceImpl implements FakeService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the testGroupParameters operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -1294,7 +1286,7 @@ public class FakeServiceImpl implements FakeService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the testInlineAdditionalProperties operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -1336,7 +1328,7 @@ public class FakeServiceImpl implements FakeService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the testInlineFreeformAdditionalProperties operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -1378,7 +1370,7 @@ public class FakeServiceImpl implements FakeService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the testJsonFormData operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -1420,7 +1412,7 @@ public class FakeServiceImpl implements FakeService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the testNullable operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -1462,7 +1454,7 @@ public class FakeServiceImpl implements FakeService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the testQueryParameterCollectionFormat operation, accepting all the required result values.
              *
              * @return new result data for status 200
@@ -1504,7 +1496,7 @@ public class FakeServiceImpl implements FakeService {
         record $200() {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the testStringMapReference operation, accepting all the required result values.
              *
              * @return new result data for status 200

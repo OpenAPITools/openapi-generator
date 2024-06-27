@@ -31,11 +31,11 @@
 }}) {
 
             /**
-             * Factory method creating a result for the {{#isDefault}}default{{/isDefault}}{{^isDefault}}status {{code}}{{/isDefault}} result
+             * Creates a result for the {{#isDefault}}default{{/isDefault}}{{^isDefault}}status {{code}}{{/isDefault}} result
              * for the {{operationId}} operation, accepting all the required result values.
              *{{!
-}}{{#vendorExtensions.x-helidon-allResponseProps}}
-             * @param {{name}} returned {{#isHeader}}header{{/isHeader}}{{^isHeader}}entity{{/isHeader}}{{/vendorExtensions.x-helidon-allResponseProps}}
+}}{{#vendorExtensions.x-helidon-requiredResponseProps}}
+             * @param {{name}} returned {{#isHeader}}header{{/isHeader}}{{^isHeader}}entity{{/isHeader}}{{/vendorExtensions.x-helidon-requiredResponseProps}}
              * @return new result data for status {{code}}
              */
             static {{> resultRecordTypeName }} create({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasRequiredResponseProps}},{{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{!
@@ -45,29 +45,12 @@
 }}{{/isDefault}}{{#vendorExtensions.x-helidon-allResponseProps}}{{^-first}},
                         {{/-first}}{{#required}}{{name}}{{/required}}{{^required}}{{#isContainer}}{{containerTypeMapped}}.of(){{/isContainer}}{{^isContainer}}null{{/isContainer}}{{/required}}{{/vendorExtensions.x-helidon-allResponseProps}});
             }
-
 {{#vendorExtensions.x-helidon-hasRequiredResponseProps}}
-            /**
-             * Constructor for a result for the {{#isDefault}}default{{/isDefault}}{{^isDefault}}status {{code}}{{/isDefault}} result
-             * for the {{operationId}} operation, verifying non-null values for required return data.
-             *{{!
-}}{{#vendorExtensions.x-helidon-allResponseProps}}
-             * @param {{name}} returned {{#isHeader}}header{{/isHeader}}{{^isHeader}}entity{{/isHeader}}{{/vendorExtensions.x-helidon-allResponseProps}}
-             * @return new result data for status {{code}}
-             */
-            public {{> resultRecordTypeName }}({{#isDefault}}Status status{{#vendorExtensions.x-helidon-hasResponseProps}},{{/vendorExtensions.x-helidon-hasResponseProps}}{{!
-}}{{/isDefault}}{{#vendorExtensions.x-helidon-allResponseProps}}{{^-first}},
-                          {{/-first}}{{> opResultParamDecl }}{{/vendorExtensions.x-helidon-allResponseProps}}) {
-                ValidatorUtils.Validator validator = ValidatorUtils.validator(System.getLogger({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Result.getClass().getName());
-{{#isDefault}}
-                validator.require("status for default response", status);{{!
-}}{{/isDefault}}{{!
-}}{{#vendorExtensions.x-helidon-requiredResponseProps}}
-                validator.require("required result {{#isHeader}}header{{/isHeader}}{{^isHeader}}entity{{/isHeader}} {{name}}", {{name}});{{/vendorExtensions.x-helidon-requiredResponseProps}}{{!
-}}              validator.execute();
-            }
-
-{{/vendorExtensions.x-helidon-hasRequiredResponseProps}}
+{{> opResultRecordCtor }}{{!
+}}{{/vendorExtensions.x-helidon-hasRequiredResponseProps}}{{!
+}}{{^vendorExtensions.x-helidon-hasRequiredResponseProps}}{{#isDefault}}
+{{> opResultRecordCtor }}{{!
+}}{{/isDefault}}{{/vendorExtensions.x-helidon-hasRequiredResponseProps}}
             /**
              * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
              * HTTP status, any response headers, and any response entity.

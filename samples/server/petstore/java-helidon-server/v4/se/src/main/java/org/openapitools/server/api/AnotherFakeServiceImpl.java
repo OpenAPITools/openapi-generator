@@ -57,10 +57,9 @@ public class AnotherFakeServiceImpl implements AnotherFakeService {
         record $200(Client response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the call123testSpecialTags operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {

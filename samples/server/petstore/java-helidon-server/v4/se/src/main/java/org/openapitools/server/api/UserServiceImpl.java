@@ -152,13 +152,25 @@ public class UserServiceImpl implements UserService {
         record Default(Status status) {
 
             /**
-             * Factory method creating a result for the default result
+             * Creates a result for the default result
              * for the createUser operation, accepting all the required result values.
              *
              * @return new result data for status 0
              */
             static Default create(Status status) {
                 return new Default(status);
+            }
+
+           /**
+            * Constructor for a result for the default result
+            * for the createUser operation, verifying non-null values for required return data.
+            *
+            */
+            public Default(Status status) {
+                ValidatorUtils.Validator validator = ValidatorUtils.validator(System.getLogger(CreateUserResult.class.getName());
+                validator.require("status for default response", status);
+                this.status = status;
+                validator.execute();
             }
 
             /**
@@ -196,13 +208,25 @@ public class UserServiceImpl implements UserService {
         record Default(Status status) {
 
             /**
-             * Factory method creating a result for the default result
+             * Creates a result for the default result
              * for the createUsersWithArrayInput operation, accepting all the required result values.
              *
              * @return new result data for status 0
              */
             static Default create(Status status) {
                 return new Default(status);
+            }
+
+           /**
+            * Constructor for a result for the default result
+            * for the createUsersWithArrayInput operation, verifying non-null values for required return data.
+            *
+            */
+            public Default(Status status) {
+                ValidatorUtils.Validator validator = ValidatorUtils.validator(System.getLogger(CreateUsersWithArrayInputResult.class.getName());
+                validator.require("status for default response", status);
+                this.status = status;
+                validator.execute();
             }
 
             /**
@@ -240,13 +264,25 @@ public class UserServiceImpl implements UserService {
         record Default(Status status) {
 
             /**
-             * Factory method creating a result for the default result
+             * Creates a result for the default result
              * for the createUsersWithListInput operation, accepting all the required result values.
              *
              * @return new result data for status 0
              */
             static Default create(Status status) {
                 return new Default(status);
+            }
+
+           /**
+            * Constructor for a result for the default result
+            * for the createUsersWithListInput operation, verifying non-null values for required return data.
+            *
+            */
+            public Default(Status status) {
+                ValidatorUtils.Validator validator = ValidatorUtils.validator(System.getLogger(CreateUsersWithListInputResult.class.getName());
+                validator.require("status for default response", status);
+                this.status = status;
+                validator.execute();
             }
 
             /**
@@ -282,7 +318,7 @@ public class UserServiceImpl implements UserService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the deleteUser operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -310,7 +346,7 @@ public class UserServiceImpl implements UserService {
         record $404() {
 
             /**
-             * Factory method creating a result for the status 404 result
+             * Creates a result for the status 404 result
              * for the deleteUser operation, accepting all the required result values.
              *
              * @return new result data for status 404
@@ -354,10 +390,9 @@ public class UserServiceImpl implements UserService {
         record $200(User response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the getUserByName operation, accepting all the required result values.
              *
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -387,7 +422,7 @@ public class UserServiceImpl implements UserService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the getUserByName operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -415,7 +450,7 @@ public class UserServiceImpl implements UserService {
         record $404() {
 
             /**
-             * Factory method creating a result for the status 404 result
+             * Creates a result for the status 404 result
              * for the getUserByName operation, accepting all the required result values.
              *
              * @return new result data for status 404
@@ -463,12 +498,9 @@ public class UserServiceImpl implements UserService {
                     String response) {
 
             /**
-             * Factory method creating a result for the status 200 result
+             * Creates a result for the status 200 result
              * for the loginUser operation, accepting all the required result values.
              *
-             * @param xRateLimit returned entity
-             * @param xExpiresAfter returned entity
-             * @param response returned entity
              * @return new result data for status 200
              */
             static $200 create() {
@@ -506,7 +538,7 @@ public class UserServiceImpl implements UserService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the loginUser operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -550,13 +582,25 @@ public class UserServiceImpl implements UserService {
         record Default(Status status) {
 
             /**
-             * Factory method creating a result for the default result
+             * Creates a result for the default result
              * for the logoutUser operation, accepting all the required result values.
              *
              * @return new result data for status 0
              */
             static Default create(Status status) {
                 return new Default(status);
+            }
+
+           /**
+            * Constructor for a result for the default result
+            * for the logoutUser operation, verifying non-null values for required return data.
+            *
+            */
+            public Default(Status status) {
+                ValidatorUtils.Validator validator = ValidatorUtils.validator(System.getLogger(LogoutUserResult.class.getName());
+                validator.require("status for default response", status);
+                this.status = status;
+                validator.execute();
             }
 
             /**
@@ -592,7 +636,7 @@ public class UserServiceImpl implements UserService {
         record $400() {
 
             /**
-             * Factory method creating a result for the status 400 result
+             * Creates a result for the status 400 result
              * for the updateUser operation, accepting all the required result values.
              *
              * @return new result data for status 400
@@ -620,7 +664,7 @@ public class UserServiceImpl implements UserService {
         record $404() {
 
             /**
-             * Factory method creating a result for the status 404 result
+             * Creates a result for the status 404 result
              * for the updateUser operation, accepting all the required result values.
              *
              * @return new result data for status 404
