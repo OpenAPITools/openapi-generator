@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import java.util.Optional;
+import io.helidon.http.Status;
 import org.openapitools.server.model.User;
 
 import io.helidon.webserver.http.HttpRules;

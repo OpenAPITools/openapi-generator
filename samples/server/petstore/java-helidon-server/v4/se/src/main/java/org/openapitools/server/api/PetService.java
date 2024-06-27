@@ -11,6 +11,7 @@ import java.util.Optional;
 import io.helidon.common.parameters.Parameters;
 import org.openapitools.server.model.Pet;
 import java.util.Set;
+import io.helidon.http.Status;
 import io.helidon.common.mapper.Value;
 
 import io.helidon.webserver.http.HttpRules;

@@ -2,6 +2,7 @@ package org.openapitools.server.api;
 
 import org.openapitools.server.model.FooGetDefaultResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.helidon.http.Status;
 
 import io.helidon.webserver.http.HttpRules;
 import io.helidon.webserver.http.ServerRequest;

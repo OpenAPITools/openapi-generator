@@ -54,8 +54,7 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
                 // TODO: Insert user-implemented handling of multipart data here.
         });
 {{/isMultipart}}{{!
-}}        Errors.Collector errorsCollector = Errors.collector();
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+}}        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
 
 {{#allParams}}{{!
 }}{{#isMap}}
@@ -66,20 +65,24 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
     We handle form parameters separately here because we handle multipart separate from single part form params.
 
 }}{{^isFormParam}}{{!
-}}        {{>paramDecl}} = {{#isBodyParam}}{{>bodyParamValue}}{{/isBodyParam}}{{^isBodyParam}}{{>paramValue}}{{/isBodyParam}};
-
-{{/isFormParam}}{{!
-}}{{#isFormParam}}{{^isMultipart}}{{!
-}}        {{>paramDecl}} = {{>paramValue}};
-
-{{/isMultipart}}{{/isFormParam}}{{!
+}}{{^isBodyParam}}
+        {{>paramDecl}} = {{>paramValue}};{{!
+}}{{/isBodyParam}}{{!
+}}{{#isBodyParam}}{{!
+}}{{^isFile}}
+        {{>paramDecl}} = {{>bodyParamValue}};{{!
+}}{{/isFile}}{{!
+}}{{#isFile}}
+        Supplier<InputStream> {{paramName}} = request.content()::inputStream;{{!
+}}{{/isFile}}
+{{/isBodyParam}}{{!
+}}{{/isFormParam}}{{!
+}}{{#isFormParam}}{{^isMultipart}}
+        {{>paramDecl}} = {{>paramValue}};{{!
+}}{{/isMultipart}}{{/isFormParam}}{{!
 }}{{/isMap}}{{!
 }}{{/allParams}}
-        Errors errors = errorsCollector.collect();
-        errors.log(LOGGER);
-        if (errors.hasFatal()) {
-            throw new ValidationException("Validation errors: " + errors);
-        }
+        validator.execute();
 {{/x-helidon-v3}}
 {{/useAbstractClass}}
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -97,7 +100,30 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
     public void afterStop() {
         System.out.println("Service {{classname}} is down. Goodbye!");
     }
-{{/x-helidon-v3}}
+
+{{#bodyParam}}{{#isFile}}
+    /**
+     * Convenience method to transfer an {@link InputStream} (typically the request body content) to a temporary file that will
+     * be deleted upon JVM exit.
+     *
+     * @param inputStream the input stream to copy into a temp file
+     * @return {@link java.nio.file.Path} to which the data was written
+     */
+    static Path toTempFile(InputStream inputStream) {
+        try {
+            Path tempFilePath = Files.createTempFile("large-file", ".tmp");
+            Files.copy(inputStream, tempFilePath, StandardCopyOption.REPLACE_EXISTING);
+            tempFilePath.toFile().deleteOnExit();
+            return tempFilePath;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }{{/isFile}}{{/bodyParam}}{{!
+}}{{/x-helidon-v3}}
 {{/useAbstractClass}}
+
+{{^x-helidon-v3}}{{#operation}}
+{{> opResult }}
+{{/operation}}{{/x-helidon-v3}}
 }
 {{/operations}}

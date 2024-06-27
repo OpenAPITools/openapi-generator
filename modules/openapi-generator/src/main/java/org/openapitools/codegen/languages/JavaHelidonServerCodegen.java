@@ -25,9 +25,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Stream;
 
+import com.google.common.collect.Streams;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.Getter;
 import org.openapitools.codegen.CliOption;
@@ -35,6 +38,7 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -129,11 +133,19 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+        importMapping.put("InputStream", "java.io.InputStream");
         if (helidonMajorVersion > 3) {
             importMapping.put("HeaderNames", "io.helidon.http.HeaderNames");
             importMapping.put("Parameters", "io.helidon.common.parameters.Parameters");
             importMapping.put("Value", "io.helidon.common.mapper.Value");
             importMapping.put("MultiPart", "io.helidon.http.media.multipart.MultiPart");
+            importMapping.put("Supplier", "java.util.function.Supplier");
+            importMapping.put("Path", "java.nio.file.Path");
+            importMapping.put("Files", "java.nio.file.Files");
+            importMapping.put("StandardCopyOption", "java.nio.file.StandardCopyOption");
+            importMapping.put("UncheckedIOException", "java.io.UncheckedIOException");
+            importMapping.put("Status", "io.helidon.http.Status");
+            importMapping.put("Objects", "java.util.Objects");
         }
         supportingFiles.clear();
         dateLibrary = "java8";
@@ -201,7 +213,6 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             if (useAbstractClass) {
                 importMapping.put("Map", "java.util.Map");
                 importMapping.put("HashMap", "java.util.HashMap");
-                importMapping.put("InputStream", "java.io.InputStream");
                 importMapping.put("ReadableBodyPart", "io.helidon.media.multipart.ReadableBodyPart");
                 importMapping.put("ArrayList", "java.util.ArrayList");
                 importMapping.put("ByteArrayOutputStream", "java.io.ByteArrayOutputStream");
@@ -274,12 +285,26 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                 codegenOperation.imports.add("Jsonb");
                 codegenOperation.imports.add("JsonbBuilder");
             }
-            if (codegenOperation.getHasBodyParam() && helidonMajorVersion == 3) {
-                codegenOperation.imports.add("Handler");
+            if (helidonMajorVersion > 3) {
+                codegenOperation.imports.add("Status");
             }
-            if (codegenOperation.getHasBodyParam() && codegenOperation.bodyParam.isContainer) {
-                if (helidonMajorVersion > 3) {
-                    codegenOperation.imports.add("GenericType");
+            if (codegenOperation.getHasBodyParam()) {
+                if (helidonMajorVersion == 3) {
+                    codegenOperation.imports.add("Handler");
+                } else {
+                    if (codegenOperation.bodyParam.isContainer) {
+                        codegenOperation.imports.add("GenericType");
+                    }
+                    if (codegenOperation.bodyParam.isFile) {
+                        codegenOperation.imports.add("Supplier");
+                        codegenOperation.imports.add("InputStream");
+                        codegenOperation.imports.add("Path");
+                        codegenOperation.imports.add("Files");
+                        codegenOperation.imports.add("IOException");
+                        codegenOperation.imports.add("UncheckedIOException");
+                        codegenOperation.imports.add("Status");
+                        codegenOperation.imports.add("Objects");
+                    }
                 }
             }
             if (codegenOperation.getHasHeaderParams()) {

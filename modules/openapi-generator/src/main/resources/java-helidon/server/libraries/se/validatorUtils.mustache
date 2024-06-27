@@ -193,7 +193,7 @@ public final class ValidatorUtils {
             return paramValues;
         }
 
-        void close() {
+        void execute() {
             Errors errors = errorsCollector.collect();
             if (errors.hasFatal()) {
                 throw new ValidationException("Validation errors: " + errors);

@@ -11,6 +11,7 @@ import java.util.Optional;
 import io.helidon.common.parameters.Parameters;
 import org.openapitools.server.model.Pet;
 import java.util.Set;
+import io.helidon.http.Status;
 import io.helidon.common.mapper.Value;
 import 
 import io.helidon.common.Errors;
@@ -29,23 +30,18 @@ public class PetServiceImpl implements PetService {
 
 
     public void addPet(ServerRequest request, ServerResponse response) {
-        Errors.Collector errorsCollector = Errors.collector();
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+
 
         Pet pet = request.content().as(Pet.class);
 
-
-        Errors errors = errorsCollector.collect();
-        errors.log(LOGGER);
-        if (errors.hasFatal()) {
-            throw new ValidationException("Validation errors: " + errors);
-        }
+        validator.execute();
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
     public void deletePet(ServerRequest request, ServerResponse response) {
-        Errors.Collector errorsCollector = Errors.collector();
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+
 
         Long petId = request.path()
                 .pathParameters()
@@ -53,23 +49,16 @@ public class PetServiceImpl implements PetService {
                 .map(v -> validator.require("petId", v))
                 .map(Long::valueOf)
                 .orElse(null);
-
         Optional<String> apiKey = request.headers()
                 .first(HeaderNames.create("api_key"))
                 .or(Optional::empty);
-
-
-        Errors errors = errorsCollector.collect();
-        errors.log(LOGGER);
-        if (errors.hasFatal()) {
-            throw new ValidationException("Validation errors: " + errors);
-        }
+        validator.execute();
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
     public void findPetsByStatus(ServerRequest request, ServerResponse response) {
-        Errors.Collector errorsCollector = Errors.collector();
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+
 
         List<String> status = request.query()
                 .all("status")
@@ -82,19 +71,13 @@ public class PetServiceImpl implements PetService {
                              "sold")))
                 .collect(HCollectors.toRequiredList("status",
                                                     validator);
-
-
-        Errors errors = errorsCollector.collect();
-        errors.log(LOGGER);
-        if (errors.hasFatal()) {
-            throw new ValidationException("Validation errors: " + errors);
-        }
+        validator.execute();
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
     public void findPetsByTags(ServerRequest request, ServerResponse response) {
-        Errors.Collector errorsCollector = Errors.collector();
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+
 
         Set<String> tags = request.query()
                 .all("tags")
@@ -102,19 +85,13 @@ public class PetServiceImpl implements PetService {
                 .map(String::valueOf)
                 .collect(HCollectors.toRequiredList("tags",
                                                     validator);
-
-
-        Errors errors = errorsCollector.collect();
-        errors.log(LOGGER);
-        if (errors.hasFatal()) {
-            throw new ValidationException("Validation errors: " + errors);
-        }
+        validator.execute();
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
     public void getPetById(ServerRequest request, ServerResponse response) {
-        Errors.Collector errorsCollector = Errors.collector();
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+
 
         Long petId = request.path()
                 .pathParameters()
@@ -122,36 +99,25 @@ public class PetServiceImpl implements PetService {
                 .map(v -> validator.require("petId", v))
                 .map(Long::valueOf)
                 .orElse(null);
-
-
-        Errors errors = errorsCollector.collect();
-        errors.log(LOGGER);
-        if (errors.hasFatal()) {
-            throw new ValidationException("Validation errors: " + errors);
-        }
+        validator.execute();
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
     public void updatePet(ServerRequest request, ServerResponse response) {
-        Errors.Collector errorsCollector = Errors.collector();
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+
 
         Pet pet = request.content().as(Pet.class);
 
-
-        Errors errors = errorsCollector.collect();
-        errors.log(LOGGER);
-        if (errors.hasFatal()) {
-            throw new ValidationException("Validation errors: " + errors);
-        }
+        validator.execute();
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
     public void updatePetWithForm(ServerRequest request, ServerResponse response) {
         Parameters formParams = request.content().as(Parameters.class);
 
-        Errors.Collector errorsCollector = Errors.collector();
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+
 
         Long petId = request.path()
                 .pathParameters()
@@ -159,23 +125,15 @@ public class PetServiceImpl implements PetService {
                 .map(v -> validator.require("petId", v))
                 .map(Long::valueOf)
                 .orElse(null);
-
         Optional<String> name = formParams
                 .first("name")
                 .asOptional()
                 .or(Optional::empty);
-
         Optional<String> status = formParams
                 .first("status")
                 .asOptional()
                 .or(Optional::empty);
-
-
-        Errors errors = errorsCollector.collect();
-        errors.log(LOGGER);
-        if (errors.hasFatal()) {
-            throw new ValidationException("Validation errors: " + errors);
-        }
+        validator.execute();
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
@@ -184,8 +142,8 @@ public class PetServiceImpl implements PetService {
         multiPart.forEachRemaining(part -> {
                 // TODO: Insert user-implemented handling of multipart data here.
         });
-        Errors.Collector errorsCollector = Errors.collector();
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+
 
         Long petId = request.path()
                 .pathParameters()
@@ -193,13 +151,7 @@ public class PetServiceImpl implements PetService {
                 .map(v -> validator.require("petId", v))
                 .map(Long::valueOf)
                 .orElse(null);
-
-
-        Errors errors = errorsCollector.collect();
-        errors.log(LOGGER);
-        if (errors.hasFatal()) {
-            throw new ValidationException("Validation errors: " + errors);
-        }
+        validator.execute();
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
@@ -208,8 +160,8 @@ public class PetServiceImpl implements PetService {
         multiPart.forEachRemaining(part -> {
                 // TODO: Insert user-implemented handling of multipart data here.
         });
-        Errors.Collector errorsCollector = Errors.collector();
-        ValidatorUtils.Validator validator = ValidatorUtils.validator();
+        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
+
 
         Long petId = request.path()
                 .pathParameters()
@@ -217,13 +169,7 @@ public class PetServiceImpl implements PetService {
                 .map(v -> validator.require("petId", v))
                 .map(Long::valueOf)
                 .orElse(null);
-
-
-        Errors errors = errorsCollector.collect();
-        errors.log(LOGGER);
-        if (errors.hasFatal()) {
-            throw new ValidationException("Validation errors: " + errors);
-        }
+        validator.execute();
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
@@ -231,4 +177,701 @@ public class PetServiceImpl implements PetService {
     public void afterStop() {
         System.out.println("Service PetService is down. Goodbye!");
     }
+
+
+
+
+    /**
+     * Responses for operation {@code addPet } organized by response status.
+     * <p>
+     *     Once your code determines which (if any) response to send, it can use the static {@code create} method and pass
+     *     the required elements of the response, then assign any optional response elements using the record fields.
+     * <p>
+     *     Finally, invoke the {@code apply} method, passing the original {@link ServerResponse}; the method sets any headers
+     *     you have assigned, sets the correct status in the response, and sends the response including any appropriate
+     *     entity.
+     * </p>
+     */
+    interface AddPetResult {
+
+        /**
+         * Result for HTTP status 200.
+         */
+        record $200() {
+
+            /**
+             * Factory method creating a result for the status 200 result
+             * for the addPet operation, accepting all the required result values.
+             *
+             * @return new result data for status 200
+             */
+            static $200 create() {
+                return new $200();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status 405.
+         */
+        record $405() {
+
+            /**
+             * Factory method creating a result for the status 405 result
+             * for the addPet operation, accepting all the required result values.
+             *
+             * @return new result data for status 405
+             */
+            static $405 create() {
+                return new $405();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(405));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+    }
+
+    /**
+     * Responses for operation {@code deletePet } organized by response status.
+     * <p>
+     *     Once your code determines which (if any) response to send, it can use the static {@code create} method and pass
+     *     the required elements of the response, then assign any optional response elements using the record fields.
+     * <p>
+     *     Finally, invoke the {@code apply} method, passing the original {@link ServerResponse}; the method sets any headers
+     *     you have assigned, sets the correct status in the response, and sends the response including any appropriate
+     *     entity.
+     * </p>
+     */
+    interface DeletePetResult {
+
+        /**
+         * Result for HTTP status 200.
+         */
+        record $200() {
+
+            /**
+             * Factory method creating a result for the status 200 result
+             * for the deletePet operation, accepting all the required result values.
+             *
+             * @return new result data for status 200
+             */
+            static $200 create() {
+                return new $200();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status 400.
+         */
+        record $400() {
+
+            /**
+             * Factory method creating a result for the status 400 result
+             * for the deletePet operation, accepting all the required result values.
+             *
+             * @return new result data for status 400
+             */
+            static $400 create() {
+                return new $400();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(400));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+    }
+
+    /**
+     * Responses for operation {@code findPetsByStatus } organized by response status.
+     * <p>
+     *     Once your code determines which (if any) response to send, it can use the static {@code create} method and pass
+     *     the required elements of the response, then assign any optional response elements using the record fields.
+     * <p>
+     *     Finally, invoke the {@code apply} method, passing the original {@link ServerResponse}; the method sets any headers
+     *     you have assigned, sets the correct status in the response, and sends the response including any appropriate
+     *     entity.
+     * </p>
+     */
+    interface FindPetsByStatusResult {
+
+        /**
+         * Result for HTTP status 200.
+         *
+         * @param response 
+         */
+        record $200(List<Pet> response) {
+
+            /**
+             * Factory method creating a result for the status 200 result
+             * for the findPetsByStatus operation, accepting all the required result values.
+             *
+             * @param response returned entity
+             * @return new result data for status 200
+             */
+            static $200 create() {
+                return new $200(List.of());
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                if (response != null) { 
+                    serverResponse.send(response);
+                } else {
+                    serverResponse.send();
+                }
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status 400.
+         */
+        record $400() {
+
+            /**
+             * Factory method creating a result for the status 400 result
+             * for the findPetsByStatus operation, accepting all the required result values.
+             *
+             * @return new result data for status 400
+             */
+            static $400 create() {
+                return new $400();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(400));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+    }
+
+    /**
+     * Responses for operation {@code findPetsByTags } organized by response status.
+     * <p>
+     *     Once your code determines which (if any) response to send, it can use the static {@code create} method and pass
+     *     the required elements of the response, then assign any optional response elements using the record fields.
+     * <p>
+     *     Finally, invoke the {@code apply} method, passing the original {@link ServerResponse}; the method sets any headers
+     *     you have assigned, sets the correct status in the response, and sends the response including any appropriate
+     *     entity.
+     * </p>
+     */
+    interface FindPetsByTagsResult {
+
+        /**
+         * Result for HTTP status 200.
+         *
+         * @param response 
+         */
+        record $200(Set<Pet> response) {
+
+            /**
+             * Factory method creating a result for the status 200 result
+             * for the findPetsByTags operation, accepting all the required result values.
+             *
+             * @param response returned entity
+             * @return new result data for status 200
+             */
+            static $200 create() {
+                return new $200(Set.of());
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                if (response != null) { 
+                    serverResponse.send(response);
+                } else {
+                    serverResponse.send();
+                }
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status 400.
+         */
+        record $400() {
+
+            /**
+             * Factory method creating a result for the status 400 result
+             * for the findPetsByTags operation, accepting all the required result values.
+             *
+             * @return new result data for status 400
+             */
+            static $400 create() {
+                return new $400();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(400));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+    }
+
+    /**
+     * Responses for operation {@code getPetById } organized by response status.
+     * <p>
+     *     Once your code determines which (if any) response to send, it can use the static {@code create} method and pass
+     *     the required elements of the response, then assign any optional response elements using the record fields.
+     * <p>
+     *     Finally, invoke the {@code apply} method, passing the original {@link ServerResponse}; the method sets any headers
+     *     you have assigned, sets the correct status in the response, and sends the response including any appropriate
+     *     entity.
+     * </p>
+     */
+    interface GetPetByIdResult {
+
+        /**
+         * Result for HTTP status 200.
+         *
+         * @param response 
+         */
+        record $200(Pet response) {
+
+            /**
+             * Factory method creating a result for the status 200 result
+             * for the getPetById operation, accepting all the required result values.
+             *
+             * @param response returned entity
+             * @return new result data for status 200
+             */
+            static $200 create() {
+                return new $200(null);
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                if (response != null) { 
+                    serverResponse.send(response);
+                } else {
+                    serverResponse.send();
+                }
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status 400.
+         */
+        record $400() {
+
+            /**
+             * Factory method creating a result for the status 400 result
+             * for the getPetById operation, accepting all the required result values.
+             *
+             * @return new result data for status 400
+             */
+            static $400 create() {
+                return new $400();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(400));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status 404.
+         */
+        record $404() {
+
+            /**
+             * Factory method creating a result for the status 404 result
+             * for the getPetById operation, accepting all the required result values.
+             *
+             * @return new result data for status 404
+             */
+            static $404 create() {
+                return new $404();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(404));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+    }
+
+    /**
+     * Responses for operation {@code updatePet } organized by response status.
+     * <p>
+     *     Once your code determines which (if any) response to send, it can use the static {@code create} method and pass
+     *     the required elements of the response, then assign any optional response elements using the record fields.
+     * <p>
+     *     Finally, invoke the {@code apply} method, passing the original {@link ServerResponse}; the method sets any headers
+     *     you have assigned, sets the correct status in the response, and sends the response including any appropriate
+     *     entity.
+     * </p>
+     */
+    interface UpdatePetResult {
+
+        /**
+         * Result for HTTP status 200.
+         */
+        record $200() {
+
+            /**
+             * Factory method creating a result for the status 200 result
+             * for the updatePet operation, accepting all the required result values.
+             *
+             * @return new result data for status 200
+             */
+            static $200 create() {
+                return new $200();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status 400.
+         */
+        record $400() {
+
+            /**
+             * Factory method creating a result for the status 400 result
+             * for the updatePet operation, accepting all the required result values.
+             *
+             * @return new result data for status 400
+             */
+            static $400 create() {
+                return new $400();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(400));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status 404.
+         */
+        record $404() {
+
+            /**
+             * Factory method creating a result for the status 404 result
+             * for the updatePet operation, accepting all the required result values.
+             *
+             * @return new result data for status 404
+             */
+            static $404 create() {
+                return new $404();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(404));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status 405.
+         */
+        record $405() {
+
+            /**
+             * Factory method creating a result for the status 405 result
+             * for the updatePet operation, accepting all the required result values.
+             *
+             * @return new result data for status 405
+             */
+            static $405 create() {
+                return new $405();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(405));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+    }
+
+    /**
+     * Responses for operation {@code updatePetWithForm } organized by response status.
+     * <p>
+     *     Once your code determines which (if any) response to send, it can use the static {@code create} method and pass
+     *     the required elements of the response, then assign any optional response elements using the record fields.
+     * <p>
+     *     Finally, invoke the {@code apply} method, passing the original {@link ServerResponse}; the method sets any headers
+     *     you have assigned, sets the correct status in the response, and sends the response including any appropriate
+     *     entity.
+     * </p>
+     */
+    interface UpdatePetWithFormResult {
+
+        /**
+         * Result for HTTP status 200.
+         */
+        record $200() {
+
+            /**
+             * Factory method creating a result for the status 200 result
+             * for the updatePetWithForm operation, accepting all the required result values.
+             *
+             * @return new result data for status 200
+             */
+            static $200 create() {
+                return new $200();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+
+        /**
+         * Result for HTTP status 405.
+         */
+        record $405() {
+
+            /**
+             * Factory method creating a result for the status 405 result
+             * for the updatePetWithForm operation, accepting all the required result values.
+             *
+             * @return new result data for status 405
+             */
+            static $405 create() {
+                return new $405();
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(405));
+                serverResponse.send();
+                return serverResponse;
+            }
+        }
+    }
+
+    /**
+     * Responses for operation {@code uploadFile } organized by response status.
+     * <p>
+     *     Once your code determines which (if any) response to send, it can use the static {@code create} method and pass
+     *     the required elements of the response, then assign any optional response elements using the record fields.
+     * <p>
+     *     Finally, invoke the {@code apply} method, passing the original {@link ServerResponse}; the method sets any headers
+     *     you have assigned, sets the correct status in the response, and sends the response including any appropriate
+     *     entity.
+     * </p>
+     */
+    interface UploadFileResult {
+
+        /**
+         * Result for HTTP status 200.
+         *
+         * @param response 
+         */
+        record $200(ModelApiResponse response) {
+
+            /**
+             * Factory method creating a result for the status 200 result
+             * for the uploadFile operation, accepting all the required result values.
+             *
+             * @param response returned entity
+             * @return new result data for status 200
+             */
+            static $200 create() {
+                return new $200(null);
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                if (response != null) { 
+                    serverResponse.send(response);
+                } else {
+                    serverResponse.send();
+                }
+                return serverResponse;
+            }
+        }
+    }
+
+    /**
+     * Responses for operation {@code uploadFileWithRequiredFile } organized by response status.
+     * <p>
+     *     Once your code determines which (if any) response to send, it can use the static {@code create} method and pass
+     *     the required elements of the response, then assign any optional response elements using the record fields.
+     * <p>
+     *     Finally, invoke the {@code apply} method, passing the original {@link ServerResponse}; the method sets any headers
+     *     you have assigned, sets the correct status in the response, and sends the response including any appropriate
+     *     entity.
+     * </p>
+     */
+    interface UploadFileWithRequiredFileResult {
+
+        /**
+         * Result for HTTP status 200.
+         *
+         * @param response 
+         */
+        record $200(ModelApiResponse response) {
+
+            /**
+             * Factory method creating a result for the status 200 result
+             * for the uploadFileWithRequiredFile operation, accepting all the required result values.
+             *
+             * @param response returned entity
+             * @return new result data for status 200
+             */
+            static $200 create() {
+                return new $200(null);
+            }
+
+            /**
+             * Applies this result data to the specified {@link io.helidon.webserver.http.ServerResponse}, assigning the
+             * HTTP status, any response headers, and any response entity.
+             * @param serverResponse the server response to which to apply these result values
+             * @return the updated server response
+             */
+            ServerResponse apply(ServerResponse serverResponse) {
+                serverResponse.status(Status.create(200));
+                if (response != null) { 
+                    serverResponse.send(response);
+                } else {
+                    serverResponse.send();
+                }
+                return serverResponse;
+            }
+        }
+    }
+
 }

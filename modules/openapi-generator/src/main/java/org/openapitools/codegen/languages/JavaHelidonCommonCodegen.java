@@ -41,9 +41,11 @@ import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.Getter;
 import org.eclipse.aether.util.version.GenericVersionScheme;
@@ -55,6 +57,8 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
@@ -82,6 +86,10 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     static final String MICROPROFILE_ROOT_DEP_PREFIX = "x-helidon-rootJavaEEDepPrefix";
     static final String X_USE_MP_TESTING = "x-helidon-useMpTesting";
     static final String X_USE_SMALLRYE_JANDEX_PLUGIN = "x-helidon-useSmallRyeJandexPlugin";
+    static final String X_HAS_RESPONSE_PROPS = "x-helidon-hasResponseProps";
+    static final String X_ALL_RESPONSE_PROPS = "x-helidon-allResponseProps";
+    static final String X_OPTIONAL_RESPONSE_PROPS = "x-helidon-optionalResponseProps";
+    static final String X_HAS_REQUIRED_RESPONSE_PROPS = "x-helidon-hasRequiredResponseProps";
     static final String X_HAS_RETURN_TYPE = "x-helidon-hasReturnType";
     static final String X_RETURN_TYPE_EXAMPLE_VALUE = "x-helidon-exampleReturnTypeValue";
     static final String X_MEDIA_SUPPORT_PACKAGE_PREFIX = "x-helidon-media-support-package-prefix";
@@ -161,6 +169,10 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
         importMapping.put("Headers", helidonMajorVersion == 3 ? "io.helidon.http.common.Headers" : "io.helidon.http.Headers");
         importMapping.put("Optional", "java.util.Optional");
+        if (helidonMajorVersion > 3) {
+            importMapping.put("Status", "io.helidon.http.Status");
+        }
+
 
         String userHelidonVersion = "";
         String userParentVersion = "";
@@ -218,6 +230,25 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         }
         return result;
     }
+
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+        CodegenResponse result = super.fromResponse(responseCode, response);
+        result.vendorExtensions.put(X_HAS_RESPONSE_PROPS, result.hasHeaders || result.dataType != null);
+        List<CodegenProperty> allResponseProps = new ArrayList<>(result.headers);
+        if (result.returnProperty != null) {
+            allResponseProps.add(result.returnProperty);
+        }
+        result.vendorExtensions.put(X_ALL_RESPONSE_PROPS, allResponseProps);
+        List<CodegenProperty> optionalResponseProps = allResponseProps.stream()
+                .filter(p -> !p.required)
+                .collect(Collectors.toList());
+        result.vendorExtensions.put(X_OPTIONAL_RESPONSE_PROPS, optionalResponseProps);
+        result.vendorExtensions.put(X_HAS_REQUIRED_RESPONSE_PROPS, !allResponseProps.equals(optionalResponseProps));
+        return result;
+    }
+
+
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {

@@ -1,0 +1,14 @@
+{{!
+    Generates a record to contain the output information for an operation response.
+}}    record {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Result{{^isDefault}}_{{code}}{{/isDefault}}({{#isDefault}}Status status,
+            {{/isDefault}}{{#headers}}{{^-first}},
+            {{/-first}}{{dataType}} {{name}}{{/headers}}) {
+
+        @Override
+        void apply(ServerResponse response) {
+            request.status
+
+        {{^isDefault}}public Status status() {
+            return Status.create({{code}});
+        }{{/isDefault}}
+    }
