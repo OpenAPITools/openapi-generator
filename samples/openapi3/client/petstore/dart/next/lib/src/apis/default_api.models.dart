@@ -45,11 +45,26 @@ part of 'default_api.dart';
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
+    var headers = CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
     });
+
+    var contentType = headers['content-type'];
+    if (contentType != null) {
+      var parsedContentType = MediaType.parse(contentType).fillDefaults();
+      if (parsedContentType.type == 'multipart' && parsedContentType.parameters['boundary'] == null) {
+        parsedContentType = parsedContentType.change(
+          parameters: {
+            ...parsedContentType.parameters,
+            'boundary': MultiPartBodySerializer.getRandomBoundaryString(Random()),
+          }
+        );
+      }
+      headers['content-type'] = parsedContentType.toString();
+    }
+    return headers;
   }
 
 
@@ -126,11 +141,26 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse {
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
+    var headers = CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
     });
+
+    var contentType = headers['content-type'];
+    if (contentType != null) {
+      var parsedContentType = MediaType.parse(contentType).fillDefaults();
+      if (parsedContentType.type == 'multipart' && parsedContentType.parameters['boundary'] == null) {
+        parsedContentType = parsedContentType.change(
+          parameters: {
+            ...parsedContentType.parameters,
+            'boundary': MultiPartBodySerializer.getRandomBoundaryString(Random()),
+          }
+        );
+      }
+      headers['content-type'] = parsedContentType.toString();
+    }
+    return headers;
   }
 
 
@@ -207,11 +237,26 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse {
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
+    var headers = CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
     });
+
+    var contentType = headers['content-type'];
+    if (contentType != null) {
+      var parsedContentType = MediaType.parse(contentType).fillDefaults();
+      if (parsedContentType.type == 'multipart' && parsedContentType.parameters['boundary'] == null) {
+        parsedContentType = parsedContentType.change(
+          parameters: {
+            ...parsedContentType.parameters,
+            'boundary': MultiPartBodySerializer.getRandomBoundaryString(Random()),
+          }
+        );
+      }
+      headers['content-type'] = parsedContentType.toString();
+    }
+    return headers;
   }
 
 
@@ -298,17 +343,32 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
-      'Content-Type': contentType,
+    var headers = CaseInsensitiveMap<String>.from(<String,String>{
+      'Content-Type': this.contentType,
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
     });
+
+    var contentType = headers['content-type'];
+    if (contentType != null) {
+      var parsedContentType = MediaType.parse(contentType).fillDefaults();
+      if (parsedContentType.type == 'multipart' && parsedContentType.parameters['boundary'] == null) {
+        parsedContentType = parsedContentType.change(
+          parameters: {
+            ...parsedContentType.parameters,
+            'boundary': MultiPartBodySerializer.getRandomBoundaryString(Random()),
+          }
+        );
+      }
+      headers['content-type'] = parsedContentType.toString();
+    }
+    return headers;
   }
 
 
   Stream<List<int>> getResolvedBody({
-    required MediaType resolvedMediaType,
+    required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   });
 
@@ -325,13 +385,11 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
-    final contentType = headers['Content-Type']!;
-    final parsedContentType = MediaType.parse(contentType).fillDefaults();
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, resolvedMediaType: parsedContentType),
+      bodyBytesStream: getResolvedBody(context: context, headers: headers),
       context: context,
     );
   }
@@ -354,7 +412,7 @@ class DefaultApiPetsMulticontentTestPostRequestUnsafe extends DefaultApiPetsMult
   });
 
   Stream<List<int>> getResolvedBody({
-    required MediaType resolvedMediaType,
+    required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
     final body = this.body;
@@ -386,34 +444,64 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
 
   @override
   Stream<List<int>> getResolvedBody({
-    required MediaType resolvedMediaType,
+    required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) {
     //TODO: serialize model, then encode it according to media type.
+    final contentType = headers['Content-Type']!;
+    final resolvedMediaType = MediaType.parse(contentType);
+
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
     final encoding = Encoding.getByName(charset) ?? utf8;
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
+    final encodingRules = <String, Map<String,dynamic>>{
+      
+    };
+
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        var serialized = v.serialize();
-        //_stringResult();
-        break;
+        if (serialized is! Map<String, dynamic>) {
+          return _stringResult(serialized.toString());
+        }
+        var result = Uri();
+
+        for (var e in serialized.entries) {
+          final rule = encodingRules[e.key];
+          final style = rule?['style'] ?? 'form';
+          final explode = rule?['explode'] ?? (style == 'form');
+          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
+        }
+        var resultString = result.query.toString();
+        if (resultString.startsWith('?')) {
+          resultString= resultString.substring(1);
+        }
+        return _stringResult(resultString);
       case MediaType(type: 'application', subtype: 'xml'):
         break;
       case MediaType(type: 'application', subtype: 'octet-stream'):
         break;
       case MediaType(type: 'multipart'):
         List<HttpPacketMixin> parts;
+        if (serialized is! Map<String, dynamic>) {
+          throw ArgumentError('The serialized data must be a map in a multipart request.');
+        }
         if (resolvedMediaType.subtype == 'form-data') {
-          //final memberEncodings = {name=CodegenEncoding{contentType=application/json, headers=[], style=form, explode=false, allowReserved=false, vendorExtensions={}}};
+          final fields = <String, String>{};
+          final files = <MultiPartFormDataFileHttpPacket>[];
+          for (final e in serialized.entries) {
+            final rule = encodingRules[e.key];
+            final headers = rule?['headers'];
+            final contentType = rule?['contentType'];
+          }
+          //vars []
           parts = MultiPartBodySerializer.getFormDataParts(
             fields: {
             },
@@ -423,19 +511,17 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
           parts = [];
         }
         final bodySerializer = MultiPartBodySerializer(
+          boundary: resolvedMediaType.parameters['boundary'],
           parts: parts,
         );
         return bodySerializer.bodyBytesStream;
-        break;
       default:
-
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
     //final encoded = json.encode(serialized);
     //final bytes = ;
   }
-
 }
 
 class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApiPetsMulticontentTestPostRequest {
@@ -458,34 +544,64 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
 
   @override
   Stream<List<int>> getResolvedBody({
-    required MediaType resolvedMediaType,
+    required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) {
     //TODO: serialize model, then encode it according to media type.
+    final contentType = headers['Content-Type']!;
+    final resolvedMediaType = MediaType.parse(contentType);
+
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
     final encoding = Encoding.getByName(charset) ?? utf8;
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
+    final encodingRules = <String, Map<String,dynamic>>{
+      
+    };
+
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        var serialized = v.serialize();
-        //_stringResult();
-        break;
+        if (serialized is! Map<String, dynamic>) {
+          return _stringResult(serialized.toString());
+        }
+        var result = Uri();
+
+        for (var e in serialized.entries) {
+          final rule = encodingRules[e.key];
+          final style = rule?['style'] ?? 'form';
+          final explode = rule?['explode'] ?? (style == 'form');
+          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
+        }
+        var resultString = result.query.toString();
+        if (resultString.startsWith('?')) {
+          resultString= resultString.substring(1);
+        }
+        return _stringResult(resultString);
       case MediaType(type: 'application', subtype: 'xml'):
         break;
       case MediaType(type: 'application', subtype: 'octet-stream'):
         break;
       case MediaType(type: 'multipart'):
         List<HttpPacketMixin> parts;
+        if (serialized is! Map<String, dynamic>) {
+          throw ArgumentError('The serialized data must be a map in a multipart request.');
+        }
         if (resolvedMediaType.subtype == 'form-data') {
-          //final memberEncodings = ;
+          final fields = <String, String>{};
+          final files = <MultiPartFormDataFileHttpPacket>[];
+          for (final e in serialized.entries) {
+            final rule = encodingRules[e.key];
+            final headers = rule?['headers'];
+            final contentType = rule?['contentType'];
+          }
+          //vars []
           parts = MultiPartBodySerializer.getFormDataParts(
             fields: {
             },
@@ -495,19 +611,17 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
           parts = [];
         }
         final bodySerializer = MultiPartBodySerializer(
+          boundary: resolvedMediaType.parameters['boundary'],
           parts: parts,
         );
         return bodySerializer.bodyBytesStream;
-        break;
       default:
-
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
     //final encoded = serialized;
     //final bytes = ;
   }
-
 }
 
 class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded extends DefaultApiPetsMulticontentTestPostRequest {
@@ -517,7 +631,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
   String get contentType => specMediaType;
 
   final 
-            ShapeInterface
+            Triangle
  data;
 
   const DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded({
@@ -530,34 +644,71 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
 
   @override
   Stream<List<int>> getResolvedBody({
-    required MediaType resolvedMediaType,
+    required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) {
     //TODO: serialize model, then encode it according to media type.
+    final contentType = headers['Content-Type']!;
+    final resolvedMediaType = MediaType.parse(contentType);
+
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
     final encoding = Encoding.getByName(charset) ?? utf8;
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
+    final encodingRules = <String, Map<String,dynamic>>{
+      
+      r'name': {
+        'style': r'form',
+        'explode': CodegenEncoding{contentType&#x3D;null, headers&#x3D;[], style&#x3D;form, explode&#x3D;true, allowReserved&#x3D;false, vendorExtensions&#x3D;{}},
+        
+        
+      }
+      
+    };
+
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        var serialized = v.serialize();
-        //_stringResult();
-        break;
+        if (serialized is! Map<String, dynamic>) {
+          return _stringResult(serialized.toString());
+        }
+        var result = Uri();
+
+        for (var e in serialized.entries) {
+          final rule = encodingRules[e.key];
+          final style = rule?['style'] ?? 'form';
+          final explode = rule?['explode'] ?? (style == 'form');
+          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
+        }
+        var resultString = result.query.toString();
+        if (resultString.startsWith('?')) {
+          resultString= resultString.substring(1);
+        }
+        return _stringResult(resultString);
       case MediaType(type: 'application', subtype: 'xml'):
         break;
       case MediaType(type: 'application', subtype: 'octet-stream'):
         break;
       case MediaType(type: 'multipart'):
         List<HttpPacketMixin> parts;
+        if (serialized is! Map<String, dynamic>) {
+          throw ArgumentError('The serialized data must be a map in a multipart request.');
+        }
         if (resolvedMediaType.subtype == 'form-data') {
-          //final memberEncodings = ;
+          final fields = <String, String>{};
+          final files = <MultiPartFormDataFileHttpPacket>[];
+          for (final e in serialized.entries) {
+            final rule = encodingRules[e.key];
+            final headers = rule?['headers'];
+            final contentType = rule?['contentType'];
+          }
+          //vars []
           parts = MultiPartBodySerializer.getFormDataParts(
             fields: {
             },
@@ -567,19 +718,17 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
           parts = [];
         }
         final bodySerializer = MultiPartBodySerializer(
+          boundary: resolvedMediaType.parameters['boundary'],
           parts: parts,
         );
         return bodySerializer.bodyBytesStream;
-        break;
       default:
-
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
     //final encoded = serialized;
     //final bytes = ;
   }
-
 }
 
 class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsMulticontentTestPostRequest {
@@ -602,34 +751,64 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
 
   @override
   Stream<List<int>> getResolvedBody({
-    required MediaType resolvedMediaType,
+    required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) {
     //TODO: serialize model, then encode it according to media type.
+    final contentType = headers['Content-Type']!;
+    final resolvedMediaType = MediaType.parse(contentType);
+
     final v = data;
     var serialized = v;
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
     final encoding = Encoding.getByName(charset) ?? utf8;
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
+    final encodingRules = <String, Map<String,dynamic>>{
+      
+    };
+
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        var serialized = v;
-        //_stringResult();
-        break;
+        if (serialized is! Map<String, dynamic>) {
+          return _stringResult(serialized.toString());
+        }
+        var result = Uri();
+
+        for (var e in serialized.entries) {
+          final rule = encodingRules[e.key];
+          final style = rule?['style'] ?? 'form';
+          final explode = rule?['explode'] ?? (style == 'form');
+          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
+        }
+        var resultString = result.query.toString();
+        if (resultString.startsWith('?')) {
+          resultString= resultString.substring(1);
+        }
+        return _stringResult(resultString);
       case MediaType(type: 'application', subtype: 'xml'):
         break;
       case MediaType(type: 'application', subtype: 'octet-stream'):
         break;
       case MediaType(type: 'multipart'):
         List<HttpPacketMixin> parts;
+        if (serialized is! Map<String, dynamic>) {
+          throw ArgumentError('The serialized data must be a map in a multipart request.');
+        }
         if (resolvedMediaType.subtype == 'form-data') {
-          //final memberEncodings = ;
+          final fields = <String, String>{};
+          final files = <MultiPartFormDataFileHttpPacket>[];
+          for (final e in serialized.entries) {
+            final rule = encodingRules[e.key];
+            final headers = rule?['headers'];
+            final contentType = rule?['contentType'];
+          }
+          //vars []
           parts = MultiPartBodySerializer.getFormDataParts(
             fields: {
             },
@@ -639,19 +818,17 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
           parts = [];
         }
         final bodySerializer = MultiPartBodySerializer(
+          boundary: resolvedMediaType.parameters['boundary'],
           parts: parts,
         );
         return bodySerializer.bodyBytesStream;
-        break;
       default:
-
     }
     //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
     //final encoded = serialized;
     //final bytes = ;
   }
-
 }
 
 class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMulticontentTestPostRequest {
@@ -673,34 +850,64 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
 
   @override
   Stream<List<int>> getResolvedBody({
-    required MediaType resolvedMediaType,
+    required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) {
     //TODO: serialize model, then encode it according to media type.
+    final contentType = headers['Content-Type']!;
+    final resolvedMediaType = MediaType.parse(contentType);
+
     final v = data;
     var serialized = v;
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
     final encoding = Encoding.getByName(charset) ?? utf8;
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
+    final encodingRules = <String, Map<String,dynamic>>{
+      
+    };
+
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        var serialized = v;
-        //_stringResult();
-        break;
+        if (serialized is! Map<String, dynamic>) {
+          return _stringResult(serialized.toString());
+        }
+        var result = Uri();
+
+        for (var e in serialized.entries) {
+          final rule = encodingRules[e.key];
+          final style = rule?['style'] ?? 'form';
+          final explode = rule?['explode'] ?? (style == 'form');
+          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
+        }
+        var resultString = result.query.toString();
+        if (resultString.startsWith('?')) {
+          resultString= resultString.substring(1);
+        }
+        return _stringResult(resultString);
       case MediaType(type: 'application', subtype: 'xml'):
         break;
       case MediaType(type: 'application', subtype: 'octet-stream'):
         break;
       case MediaType(type: 'multipart'):
         List<HttpPacketMixin> parts;
+        if (serialized is! Map<String, dynamic>) {
+          throw ArgumentError('The serialized data must be a map in a multipart request.');
+        }
         if (resolvedMediaType.subtype == 'form-data') {
-          //final memberEncodings = ;
+          final fields = <String, String>{};
+          final files = <MultiPartFormDataFileHttpPacket>[];
+          for (final e in serialized.entries) {
+            final rule = encodingRules[e.key];
+            final headers = rule?['headers'];
+            final contentType = rule?['contentType'];
+          }
+          //vars []
           parts = MultiPartBodySerializer.getFormDataParts(
             fields: {
             },
@@ -710,19 +917,17 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
           parts = [];
         }
         final bodySerializer = MultiPartBodySerializer(
+          boundary: resolvedMediaType.parameters['boundary'],
           parts: parts,
         );
         return bodySerializer.bodyBytesStream;
-        break;
       default:
-
     }
     //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
     //final encoded = serialized;
     //final bytes = ;
   }
-
 }
 
 class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMulticontentTestPostRequest {
@@ -745,34 +950,64 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
 
   @override
   Stream<List<int>> getResolvedBody({
-    required MediaType resolvedMediaType,
+    required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) {
     //TODO: serialize model, then encode it according to media type.
+    final contentType = headers['Content-Type']!;
+    final resolvedMediaType = MediaType.parse(contentType);
+
     final v = data;
     var serialized = v;
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
     final encoding = Encoding.getByName(charset) ?? utf8;
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
+    final encodingRules = <String, Map<String,dynamic>>{
+      
+    };
+
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        var serialized = v;
-        //_stringResult();
-        break;
+        if (serialized is! Map<String, dynamic>) {
+          return _stringResult(serialized.toString());
+        }
+        var result = Uri();
+
+        for (var e in serialized.entries) {
+          final rule = encodingRules[e.key];
+          final style = rule?['style'] ?? 'form';
+          final explode = rule?['explode'] ?? (style == 'form');
+          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
+        }
+        var resultString = result.query.toString();
+        if (resultString.startsWith('?')) {
+          resultString= resultString.substring(1);
+        }
+        return _stringResult(resultString);
       case MediaType(type: 'application', subtype: 'xml'):
         break;
       case MediaType(type: 'application', subtype: 'octet-stream'):
         break;
       case MediaType(type: 'multipart'):
         List<HttpPacketMixin> parts;
+        if (serialized is! Map<String, dynamic>) {
+          throw ArgumentError('The serialized data must be a map in a multipart request.');
+        }
         if (resolvedMediaType.subtype == 'form-data') {
-          //final memberEncodings = ;
+          final fields = <String, String>{};
+          final files = <MultiPartFormDataFileHttpPacket>[];
+          for (final e in serialized.entries) {
+            final rule = encodingRules[e.key];
+            final headers = rule?['headers'];
+            final contentType = rule?['contentType'];
+          }
+          //vars []
           parts = MultiPartBodySerializer.getFormDataParts(
             fields: {
             },
@@ -782,19 +1017,17 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
           parts = [];
         }
         final bodySerializer = MultiPartBodySerializer(
+          boundary: resolvedMediaType.parameters['boundary'],
           parts: parts,
         );
         return bodySerializer.bodyBytesStream;
-        break;
       default:
-
     }
     //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
     //final encoded = serialized;
     //final bytes = ;
   }
-
 }
 
 class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends DefaultApiPetsMulticontentTestPostRequest {
@@ -817,34 +1050,90 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
 
   @override
   Stream<List<int>> getResolvedBody({
-    required MediaType resolvedMediaType,
+    required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) {
     //TODO: serialize model, then encode it according to media type.
+    final contentType = headers['Content-Type']!;
+    final resolvedMediaType = MediaType.parse(contentType);
+
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
     final encoding = Encoding.getByName(charset) ?? utf8;
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
+    final encodingRules = <String, Map<String,dynamic>>{
+      
+      r'address': {
+        'style': r'form',
+        
+        
+        'contentType': r'application/json',
+      }
+      r'profileImages': {
+        'style': r'form',
+        
+        
+        
+          'headers': <String, String>{
+          //r'address': CodegenEncoding{contentType=application/json, headers=[], style=form, explode=false, allowReserved=false, vendorExtensions={}},r'profileImages': CodegenEncoding{contentType=null, headers=[CodegenParameter{isFormParam=false, isQueryParam=false, isPathParam=false, isHeaderParam=true, isCookieParam=false, isBodyParam=false, isContainer=false, isCollectionFormatMulti=false, isPrimitiveType=true, isModel=false, isExplode=false, baseName='hello', paramName='hello', dataType='String', datatypeWithEnum='null', dataFormat='null', collectionFormat='null', description='null', unescapedDescription='null', baseType='null', containerType='null', containerTypeMapped='null', defaultValue='null', enumDefaultValue='null', enumName='null', style='simple', deepObject='false', isMatrix='false', allowEmptyValue='false', example='hello_example', examples='null', jsonSchema='{
+  "name" : "hello",
+  "in" : "header",
+  "style" : "simple",
+  "explode" : false,
+  "schema" : {
+    "type" : "string"
+  }
+}', isString=true, isNumeric=false, isInteger=false, isShort=false, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isPassword=false, isFreeFormObject=false, isAnyType=false, isArray=false, isMap=false, isOptional=false, isFile=false, isEnum=false, isEnumRef=false, _enum=null, allowableValues=null, items=null, mostInnerItems=null, additionalProperties=null, vars=[], requiredVars=[], vendorExtensions={}, hasValidation=false, maxProperties=null, minProperties=null, isNullable=false, isDeprecated=false, required=false, maximum='null', exclusiveMaximum=false, minimum='null', exclusiveMinimum=false, maxLength=null, minLength=null, pattern='null', maxItems=null, minItems=null, uniqueItems=false, uniqueItemsBoolean=null, contentType=null, multipleOf=null, isNull=false, isVoid=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, schema=CodegenProperty{openApiType='string', baseName='hello', complexType='null', getter='getHello', setter='setHello', description='null', dataType='String', datatypeWithEnum='String', dataFormat='null', name='hello', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.hello;', baseType='String', containerType='null', containerTypeMapped='null', title='null', unescapedDescription='null', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
+  "type" : "string"
+}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=true, isModel=false, isContainer=false, isString=true, isNumeric=false, isInteger=false, isShort=false, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isPassword=false, isFreeFormObject=false, isArray=false, isMap=false, isOptional=false, isEnum=false, isInnerEnum=false, isEnumRef=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, isNew=false, isOverridden=null, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='hello', nameInPascalCase='Hello', nameInSnakeCase='HELLO', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, uniqueItemsBoolean=null, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, isVoid=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false, isBooleanSchemaTrue=false, isBooleanSchemaFalse=false, format=null, dependentRequired=null, contains=null}, content=null, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false}], style=form, explode=false, allowReserved=false, vendorExtensions={}},
+          }
+      }
+      
+    };
+
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        var serialized = v.serialize();
-        //_stringResult();
-        break;
+        if (serialized is! Map<String, dynamic>) {
+          return _stringResult(serialized.toString());
+        }
+        var result = Uri();
+
+        for (var e in serialized.entries) {
+          final rule = encodingRules[e.key];
+          final style = rule?['style'] ?? 'form';
+          final explode = rule?['explode'] ?? (style == 'form');
+          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
+        }
+        var resultString = result.query.toString();
+        if (resultString.startsWith('?')) {
+          resultString= resultString.substring(1);
+        }
+        return _stringResult(resultString);
       case MediaType(type: 'application', subtype: 'xml'):
         break;
       case MediaType(type: 'application', subtype: 'octet-stream'):
         break;
       case MediaType(type: 'multipart'):
         List<HttpPacketMixin> parts;
+        if (serialized is! Map<String, dynamic>) {
+          throw ArgumentError('The serialized data must be a map in a multipart request.');
+        }
         if (resolvedMediaType.subtype == 'form-data') {
-          //final memberEncodings = {address=CodegenEncoding{contentType=application/json, headers=[], style=form, explode=false, allowReserved=false, vendorExtensions={}}};
+          final fields = <String, String>{};
+          final files = <MultiPartFormDataFileHttpPacket>[];
+          for (final e in serialized.entries) {
+            final rule = encodingRules[e.key];
+            final headers = rule?['headers'];
+            final contentType = rule?['contentType'];
+          }
+          //vars []
           parts = MultiPartBodySerializer.getFormDataParts(
             fields: {
             },
@@ -854,19 +1143,17 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
           parts = [];
         }
         final bodySerializer = MultiPartBodySerializer(
+          boundary: resolvedMediaType.parameters['boundary'],
           parts: parts,
         );
         return bodySerializer.bodyBytesStream;
-        break;
       default:
-
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
     //final encoded = serialized;
     //final bytes = ;
   }
-
 }
 
 

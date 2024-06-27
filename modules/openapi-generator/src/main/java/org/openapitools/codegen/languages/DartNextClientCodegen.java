@@ -49,6 +49,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
+import com.samskivert.mustache.DefaultCollector;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Compiler;
 
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Setter;
@@ -272,6 +275,42 @@ public class DartNextClientCodegen extends DefaultCodegen {
         addOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums",
                 String.valueOf(useEnumExtension));
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
+    }
+
+    @Override
+    public Compiler processCompiler(Compiler compiler) {
+
+        // see https://github.com/samskivert/jmustache/issues/82#issuecomment-226284364
+        return super.processCompiler(compiler).withCollector(new DefaultCollector() {
+            @Override
+            public Mustache.VariableFetcher createFetcher(Object ctx, String name) {
+                if (ctx instanceof Map<?, ?> && name.equals("entrySet")) {
+                    return new Mustache.VariableFetcher() {
+                        public Object get(Object ctx, String name) throws Exception {
+                            return ((Map<?, ?>) ctx).entrySet();
+                        }
+                    };
+                } else if (ctx instanceof Map.Entry<?, ?>) {
+                    if (name.equals("key")) {
+                        return new Mustache.VariableFetcher() {
+                            public Object get(Object ctx, String name) throws Exception {
+                                return ((Map.Entry<?, ?>) ctx).getKey();
+                            }
+                        };
+                    } else if (name.equals("value")) {
+                        return new Mustache.VariableFetcher() {
+                            public Object get(Object ctx, String name) throws Exception {
+                                return ((Map.Entry<?, ?>) ctx).getValue();
+                            }
+                        };
+                    } else {
+                        return super.createFetcher(ctx, name);
+                    }
+                } else {
+                    return super.createFetcher(ctx, name);
+                }
+            }
+        });
     }
 
     @Override
@@ -644,40 +683,52 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     // private void addSharedInfrastructureFiles() {
 
-    //     String sharedInfrastructureFolder = "shared_infrastructure" + File.separator;
+    // String sharedInfrastructureFolder = "shared_infrastructure" + File.separator;
 
-    //     String libFolder = sharedInfrastructureFolder + "lib" + File.separator;
-    //     String srcFolder = libFolder + "src" + File.separator;
-    //     String networkingFolder = srcFolder + "networking" + File.separator;
-    //     String serializationFolder = srcFolder + "serialization" + File.separator;
-    //     supportingFiles.add(new SupportingFile(sharedInfrastructureFolder + "pubspec.mustache", sharedInfrastructureFolder,
-    //             "pubspec.yaml"));
-    //     supportingFiles.add(
-    //             new SupportingFile(libFolder + "shared_infrastructure.dart", libFolder, "shared_infrastructure.dart"));
-    //     // Networking
-    //     supportingFiles.add(
-    //             new SupportingFile(networkingFolder + "_exports.mustache", networkingFolder, "_exports.dart"));
-    //     supportingFiles.add(
-    //             new SupportingFile(networkingFolder + "client.mustache", networkingFolder, "client.dart"));
-    //     supportingFiles.add(
-    //             new SupportingFile(networkingFolder + "helpers.mustache", networkingFolder, "helpers.dart"));
-    //     supportingFiles.add(
-    //             new SupportingFile(networkingFolder + "http_packets.mustache", networkingFolder, "http_packets.dart"));
-    //     supportingFiles.add(
-    //             new SupportingFile(networkingFolder + "request.mustache", networkingFolder, "request.dart"));
-    //     supportingFiles.add(
-    //             new SupportingFile(networkingFolder + "request.multipart.mustache", networkingFolder, "request.multipart.dart"));
-    //     supportingFiles.add(
-    //             new SupportingFile(networkingFolder + "response.mustache", networkingFolder, "response.dart"));
+    // String libFolder = sharedInfrastructureFolder + "lib" + File.separator;
+    // String srcFolder = libFolder + "src" + File.separator;
+    // String networkingFolder = srcFolder + "networking" + File.separator;
+    // String serializationFolder = srcFolder + "serialization" + File.separator;
+    // supportingFiles.add(new SupportingFile(sharedInfrastructureFolder +
+    // "pubspec.mustache", sharedInfrastructureFolder,
+    // "pubspec.yaml"));
+    // supportingFiles.add(
+    // new SupportingFile(libFolder + "shared_infrastructure.dart", libFolder,
+    // "shared_infrastructure.dart"));
+    // // Networking
+    // supportingFiles.add(
+    // new SupportingFile(networkingFolder + "_exports.mustache", networkingFolder,
+    // "_exports.dart"));
+    // supportingFiles.add(
+    // new SupportingFile(networkingFolder + "client.mustache", networkingFolder,
+    // "client.dart"));
+    // supportingFiles.add(
+    // new SupportingFile(networkingFolder + "helpers.mustache", networkingFolder,
+    // "helpers.dart"));
+    // supportingFiles.add(
+    // new SupportingFile(networkingFolder + "http_packets.mustache",
+    // networkingFolder, "http_packets.dart"));
+    // supportingFiles.add(
+    // new SupportingFile(networkingFolder + "request.mustache", networkingFolder,
+    // "request.dart"));
+    // supportingFiles.add(
+    // new SupportingFile(networkingFolder + "request.multipart.mustache",
+    // networkingFolder, "request.multipart.dart"));
+    // supportingFiles.add(
+    // new SupportingFile(networkingFolder + "response.mustache", networkingFolder,
+    // "response.dart"));
 
-    //     // Serialization
-    //     supportingFiles.add(
-    //             new SupportingFile(serializationFolder + "_exports.mustache", serializationFolder, "_exports.dart"));
-    //     supportingFiles.add(
-    //             new SupportingFile(serializationFolder + "helpers.mustache", serializationFolder, "helpers.dart"));
-    //     supportingFiles.add(
-    //             new SupportingFile(serializationFolder + "undefined_wrapper.mustache", serializationFolder,
-    //                     "undefined_wrapper.dart"));
+    // // Serialization
+    // supportingFiles.add(
+    // new SupportingFile(serializationFolder + "_exports.mustache",
+    // serializationFolder, "_exports.dart"));
+    // supportingFiles.add(
+    // new SupportingFile(serializationFolder + "helpers.mustache",
+    // serializationFolder, "helpers.dart"));
+    // supportingFiles.add(
+    // new SupportingFile(serializationFolder + "undefined_wrapper.mustache",
+    // serializationFolder,
+    // "undefined_wrapper.dart"));
 
     // }
 
@@ -956,18 +1007,19 @@ public class DartNextClientCodegen extends DefaultCodegen {
 
     // @Override
     // public CodegenProperty fromProperty(String name, Schema p, boolean required,
-    //         boolean schemaIsFromAdditionalProperties) {
-    //     var result = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
-    //     // Fix for DefaultGenerator setting isModel to false when it has both
-    //     // properties + additionalProperties.
-    //     Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
-    //     if (referencedSchema != null && !result.isModel &&
-    //             ModelUtils.isModel(referencedSchema) &&
-    //             referencedSchema.getProperties() != null &&
-    //             !referencedSchema.getProperties().isEmpty()) {
-    //         result.isModel = true;
-    //     }
-    //     return result;
+    // boolean schemaIsFromAdditionalProperties) {
+    // var result = super.fromProperty(name, p, required,
+    // schemaIsFromAdditionalProperties);
+    // // Fix for DefaultGenerator setting isModel to false when it has both
+    // // properties + additionalProperties.
+    // Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+    // if (referencedSchema != null && !result.isModel &&
+    // ModelUtils.isModel(referencedSchema) &&
+    // referencedSchema.getProperties() != null &&
+    // !referencedSchema.getProperties().isEmpty()) {
+    // result.isModel = true;
+    // }
+    // return result;
     // }
 
     @Override

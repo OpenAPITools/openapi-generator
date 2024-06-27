@@ -45,11 +45,26 @@ part of 'values_api.dart';
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
+    var headers = CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
     });
+
+    var contentType = headers['content-type'];
+    if (contentType != null) {
+      var parsedContentType = MediaType.parse(contentType).fillDefaults();
+      if (parsedContentType.type == 'multipart' && parsedContentType.parameters['boundary'] == null) {
+        parsedContentType = parsedContentType.change(
+          parameters: {
+            ...parsedContentType.parameters,
+            'boundary': MultiPartBodySerializer.getRandomBoundaryString(Random()),
+          }
+        );
+      }
+      headers['content-type'] = parsedContentType.toString();
+    }
+    return headers;
   }
 
 

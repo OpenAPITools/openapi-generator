@@ -16,7 +16,7 @@ class OASNetworkingUtils {
       case null:
         //a null value is equal to an empty stream.
         return true;
-      case
+      //case
     }
   }
   static Stream<Uint8List> _doEncodeToBytes(Object? value, MediaType mimeType) async* {

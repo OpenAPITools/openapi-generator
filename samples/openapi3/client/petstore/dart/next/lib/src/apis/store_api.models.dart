@@ -56,11 +56,26 @@ part of 'store_api.dart';
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
+    var headers = CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
     });
+
+    var contentType = headers['content-type'];
+    if (contentType != null) {
+      var parsedContentType = MediaType.parse(contentType).fillDefaults();
+      if (parsedContentType.type == 'multipart' && parsedContentType.parameters['boundary'] == null) {
+        parsedContentType = parsedContentType.change(
+          parameters: {
+            ...parsedContentType.parameters,
+            'boundary': MultiPartBodySerializer.getRandomBoundaryString(Random()),
+          }
+        );
+      }
+      headers['content-type'] = parsedContentType.toString();
+    }
+    return headers;
   }
 
 
@@ -137,11 +152,26 @@ class StoreApiDeleteOrderResponse {
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
+    var headers = CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
     });
+
+    var contentType = headers['content-type'];
+    if (contentType != null) {
+      var parsedContentType = MediaType.parse(contentType).fillDefaults();
+      if (parsedContentType.type == 'multipart' && parsedContentType.parameters['boundary'] == null) {
+        parsedContentType = parsedContentType.change(
+          parameters: {
+            ...parsedContentType.parameters,
+            'boundary': MultiPartBodySerializer.getRandomBoundaryString(Random()),
+          }
+        );
+      }
+      headers['content-type'] = parsedContentType.toString();
+    }
+    return headers;
   }
 
 
@@ -229,11 +259,26 @@ class StoreApiGetInventoryResponse {
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
+    var headers = CaseInsensitiveMap<String>.from(<String,String>{
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
     });
+
+    var contentType = headers['content-type'];
+    if (contentType != null) {
+      var parsedContentType = MediaType.parse(contentType).fillDefaults();
+      if (parsedContentType.type == 'multipart' && parsedContentType.parameters['boundary'] == null) {
+        parsedContentType = parsedContentType.change(
+          parameters: {
+            ...parsedContentType.parameters,
+            'boundary': MultiPartBodySerializer.getRandomBoundaryString(Random()),
+          }
+        );
+      }
+      headers['content-type'] = parsedContentType.toString();
+    }
+    return headers;
   }
 
 
@@ -320,17 +365,32 @@ abstract class StoreApiPlaceOrderRequest {
       ...extraCookies,
     };
 
-    return CaseInsensitiveMap<String>.from(<String,String>{
-      'Content-Type': contentType,
+    var headers = CaseInsensitiveMap<String>.from(<String,String>{
+      'Content-Type': this.contentType,
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       ...extraHeaders,
     });
+
+    var contentType = headers['content-type'];
+    if (contentType != null) {
+      var parsedContentType = MediaType.parse(contentType).fillDefaults();
+      if (parsedContentType.type == 'multipart' && parsedContentType.parameters['boundary'] == null) {
+        parsedContentType = parsedContentType.change(
+          parameters: {
+            ...parsedContentType.parameters,
+            'boundary': MultiPartBodySerializer.getRandomBoundaryString(Random()),
+          }
+        );
+      }
+      headers['content-type'] = parsedContentType.toString();
+    }
+    return headers;
   }
 
 
   Stream<List<int>> getResolvedBody({
-    required MediaType resolvedMediaType,
+    required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   });
 
@@ -347,13 +407,11 @@ abstract class StoreApiPlaceOrderRequest {
     ];
     final futureResults = await Future.wait(futures);
     final headers = futureResults[1] as Map<String, String>;
-    final contentType = headers['Content-Type']!;
-    final parsedContentType = MediaType.parse(contentType).fillDefaults();
     return HttpRequestBase.stream(
       url: futureResults[0] as Uri,
       headers: headers,
       method: method,
-      bodyBytesStream: getResolvedBody(context: context, resolvedMediaType: parsedContentType),
+      bodyBytesStream: getResolvedBody(context: context, headers: headers),
       context: context,
     );
   }
@@ -376,7 +434,7 @@ class StoreApiPlaceOrderRequestUnsafe extends StoreApiPlaceOrderRequest {
   });
 
   Stream<List<int>> getResolvedBody({
-    required MediaType resolvedMediaType,
+    required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) async* {
     final body = this.body;
@@ -408,34 +466,64 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
 
   @override
   Stream<List<int>> getResolvedBody({
-    required MediaType resolvedMediaType,
+    required Map<String, String> headers,
     Map<String, dynamic> context = const {},
   }) {
     //TODO: serialize model, then encode it according to media type.
+    final contentType = headers['Content-Type']!;
+    final resolvedMediaType = MediaType.parse(contentType);
+
     final v = data;
     var serialized = v.serialize();
-    final charset = resolvedMediaType.parameters['charset'] ?? 'utf8';
+    final charset = resolvedMediaType.parameters['charset'] ?? 'utf-8';
     final encoding = Encoding.getByName(charset) ?? utf8;
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
+    final encodingRules = <String, Map<String,dynamic>>{
+      
+    };
+
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        var serialized = v.serialize();
-        //_stringResult();
-        break;
+        if (serialized is! Map<String, dynamic>) {
+          return _stringResult(serialized.toString());
+        }
+        var result = Uri();
+
+        for (var e in serialized.entries) {
+          final rule = encodingRules[e.key];
+          final style = rule?['style'] ?? 'form';
+          final explode = rule?['explode'] ?? (style == 'form');
+          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
+        }
+        var resultString = result.query.toString();
+        if (resultString.startsWith('?')) {
+          resultString= resultString.substring(1);
+        }
+        return _stringResult(resultString);
       case MediaType(type: 'application', subtype: 'xml'):
         break;
       case MediaType(type: 'application', subtype: 'octet-stream'):
         break;
       case MediaType(type: 'multipart'):
         List<HttpPacketMixin> parts;
+        if (serialized is! Map<String, dynamic>) {
+          throw ArgumentError('The serialized data must be a map in a multipart request.');
+        }
         if (resolvedMediaType.subtype == 'form-data') {
-          //final memberEncodings = ;
+          final fields = <String, String>{};
+          final files = <MultiPartFormDataFileHttpPacket>[];
+          for (final e in serialized.entries) {
+            final rule = encodingRules[e.key];
+            final headers = rule?['headers'];
+            final contentType = rule?['contentType'];
+          }
+          //vars []
           parts = MultiPartBodySerializer.getFormDataParts(
             fields: {
             },
@@ -445,19 +533,17 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
           parts = [];
         }
         final bodySerializer = MultiPartBodySerializer(
+          boundary: resolvedMediaType.parameters['boundary'],
           parts: parts,
         );
         return bodySerializer.bodyBytesStream;
-        break;
       default:
-
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
     //final encoded = json.encode(serialized);
     //final bytes = ;
   }
-
 }
 
 
