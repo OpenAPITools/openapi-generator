@@ -76,7 +76,6 @@ export class Pet {
     }
 }
 
-
 export enum PetStatusEnum {
     Available = 'available',
     Pending = 'pending',

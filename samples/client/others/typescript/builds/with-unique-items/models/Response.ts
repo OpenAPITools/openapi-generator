@@ -39,4 +39,3 @@ export class Response {
     public constructor() {
     }
 }
-
