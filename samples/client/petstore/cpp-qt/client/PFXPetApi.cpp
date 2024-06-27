@@ -1399,7 +1399,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
 
     connect(_latestWorker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPetApi::uploadFileCallback);
     connect(this, &PFXPetApi::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
-    connect(_latestWorker, &QObject::destroyed, this, [this](){
+    connect(_latestWorker, &QObject::destroyed, this, [this] {
         if(findChildren<PFXHttpRequestWorker*>().count() == 0){
             Q_EMIT allPendingRequestsCompleted();
         }
