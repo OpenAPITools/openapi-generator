@@ -381,7 +381,7 @@ void {{prefix}}HttpRequestWorker::execute({{prefix}}HttpRequestInput *input) {
         });
     }
     if (timeOutTimer.interval() > 0) {
-        QObject::connect(&timeOutTimer, &QTimer::timeout, this, [this, reply] () {
+        QObject::connect(&timeOutTimer, &QTimer::timeout, this, [this, reply] {
             on_reply_timeout(reply);
         });
         timeOutTimer.start();
