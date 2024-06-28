@@ -2,8 +2,8 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-{{^useAbstractClass}}
-import {{#x-helidon-v3}}java.util.logging.Logger;
+{{^useAbstractClass}}{{#x-helidon-v3}}
+import java.util.logging.Logger;
 {{/x-helidon-v3}}{{/useAbstractClass}}
 {{^x-helidon-v3}}
 import io.helidon.common.Errors;
@@ -55,10 +55,9 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
         });
 {{/isMultipart}}{{!
 }}        ValidatorUtils.Validator validator = ValidatorUtils.validator(LOGGER);
-
 {{#allParams}}{{!
 }}{{#isMap}}
-        // TODO - user code needed to handle Map for parameter {{paramName}}.{{/isMap}}{{!
+        // TODO - user code needed to handle Map for {{#isHeaderParam}}header{{/isHeaderParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isFormParam}}form{{/isFormParam}}{{#isBodyParam}}body{{/isBodyParam}}{{#isCookieParam}}cookie{{/isCookieParam}} parameter {{paramName}}.{{/isMap}}{{!
 }}{{^isMap}}{{!
 }}{{!
 
@@ -73,7 +72,7 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
         {{>paramDecl}} = {{>bodyParamValue}};{{!
 }}{{/isFile}}{{!
 }}{{#isFile}}
-        Supplier<InputStream> {{paramName}} = request.content()::inputStream;{{!
+        InputStream {{paramName}} = request.content().inputStream;{{!
 }}{{/isFile}}
 {{/isBodyParam}}{{!
 }}{{/isFormParam}}{{!
@@ -83,6 +82,9 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
 }}{{/isMap}}{{!
 }}{{/allParams}}
         validator.execute();
+
+        handle{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}(request, response{{#allParams}},
+                    {{paramName}}{{/allParams}});
 {{/x-helidon-v3}}
 {{/useAbstractClass}}
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -122,8 +124,14 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
 }}{{/x-helidon-v3}}
 {{/useAbstractClass}}
 
-{{^x-helidon-v3}}{{#operation}}
+{{^x-helidon-v3}}{{!
+}}{{#operation}}
 {{> opResult }}
+{{/operation}}{{!
+}}{{#operation}}
+    @Override
+
 {{/operation}}{{/x-helidon-v3}}
+
 }
 {{/operations}}

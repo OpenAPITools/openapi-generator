@@ -26,7 +26,7 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
 {{^useAbstractClass}}public interface {{classname}} extends {{^x-helidon-v3}}Http{{/x-helidon-v3}}Service { {{/useAbstractClass}}
 {{#useAbstractClass}}public abstract class {{classname}} implements {{^x-helidon-v3}}Http{{/x-helidon-v3}}Service {
 
-    protected static final Logger LOGGER = Logger.getLogger({{classname}}.class.getName());
+    protected static final {{^x-helidon-v3}}System.{{/x-helidon-v3}}Logger LOGGER = {{^x-helidon-v3}}System{{/x-helidon-v3}}{{#x-helidon-v3}}Logger{{/x-helidon-v3}}.getLogger({{classname}}.class.getName());
 {{#jackson}}
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();{{/jackson}}
 {{#jsonb}}
@@ -104,7 +104,15 @@ import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
     public void afterStop() {
     System.out.println("Service {{classname}} is down. Goodbye!");
     }
-{{/x-helidon-v3}}
-{{/useAbstractClass}}
+{{/x-helidon-v3}}{{!
+}}{{/useAbstractClass}}{{!
+}}{{^x-helidon-v3}}{{!
+}}{{#operation}}
+    {{#useAbstractClass}}protected abstract {{/useAbstractClass}}void handle{{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}(ServerRequest serverRequest, ServerResponse serverResponse{{!
+}}{{#allParams}},
+                {{> paramDecl }}{{/allParams}});
+{{/operation}}{{!
+}}{{/x-helidon-v3}}
+
 }
 {{/operations}}

@@ -1,7 +1,7 @@
 {{!
     Declares an inner interface for each operation which collects the records which define the possible results of the operation.
 }}    /**
-     * Responses for operation {@code {{operationId}} } organized by response status.
+     * Responses for operation {{=<% %>=}}{@code <%operationId%>}<%={{ }}=%> organized by response status.
      * <p>
      *     Once your code determines which (if any) response to send, it can use the static {@code create} method and pass
      *     the required elements of the response, then assign any optional response elements using the record fields.
@@ -15,7 +15,7 @@
 {{#responses}}
 
         /**
-         * {{#isDefault}}Default result{{/isDefault}}{{^isDefault}}Result for HTTP status {{code}}{{/isDefault}}.{{!
+         * {{#isDefault}}Default result{{/isDefault}}{{^isDefault}}Result for HTTP status code {{=<% %>=}}{@code <%code%>}<%={{ }}=%>{{/isDefault}}.{{!
 }}{{#isDefault}}
          *
          * @param status (required) Status value to be sent with this default result{{/isDefault}}{{!
@@ -31,7 +31,7 @@
 }}) {
 
             /**
-             * Creates a result for the {{#isDefault}}default{{/isDefault}}{{^isDefault}}status {{code}}{{/isDefault}} result
+             * Creates a result for the {{#isDefault}}default{{/isDefault}}{{^isDefault}}status {{=<% %>=}}{@code <%code%>}<%={{ }}=%>{{/isDefault}} result
              * for the {{operationId}} operation, accepting all the required result values.
              *{{!
 }}{{#vendorExtensions.x-helidon-requiredResponseProps}}

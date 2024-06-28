@@ -139,7 +139,6 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             importMapping.put("Parameters", "io.helidon.common.parameters.Parameters");
             importMapping.put("Value", "io.helidon.common.mapper.Value");
             importMapping.put("MultiPart", "io.helidon.http.media.multipart.MultiPart");
-            importMapping.put("Supplier", "java.util.function.Supplier");
             importMapping.put("Path", "java.nio.file.Path");
             importMapping.put("Files", "java.nio.file.Files");
             importMapping.put("StandardCopyOption", "java.nio.file.StandardCopyOption");
@@ -296,7 +295,6 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                         codegenOperation.imports.add("GenericType");
                     }
                     if (codegenOperation.bodyParam.isFile) {
-                        codegenOperation.imports.add("Supplier");
                         codegenOperation.imports.add("InputStream");
                         codegenOperation.imports.add("Path");
                         codegenOperation.imports.add("Files");
