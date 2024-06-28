@@ -160,6 +160,7 @@ public class OpenAPINormalizer {
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
         rules.put(SIMPLIFY_BOOLEAN_ENUM, true);
+        rules.put(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY, true); // default to true since v7.7.0
 
         processRules(inputRules);
 

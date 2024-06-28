@@ -12,13 +12,13 @@ part 'bar_ref.g.dart';
 /// BarRef
 ///
 /// Properties:
-/// * [name] - Name of the related entity.
-/// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
+/// * [name] - Name of the related entity.
+/// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
 @BuiltValue()
 abstract class BarRef implements EntityRef, Built<BarRef, BarRefBuilder> {
   BarRef._();

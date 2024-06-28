@@ -13,14 +13,14 @@ part 'bar.g.dart';
 /// Bar
 ///
 /// Properties:
-/// * [id] 
-/// * [barPropA] 
-/// * [fooPropB] 
-/// * [foo] 
 /// * [href] - Hyperlink reference
+/// * [id] 
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
+/// * [barPropA] 
+/// * [fooPropB] 
+/// * [foo] 
 @BuiltValue()
 abstract class Bar implements Entity, Built<Bar, BarBuilder> {
   @BuiltValueField(wireName: r'foo')

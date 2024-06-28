@@ -1,5 +1,4 @@
 # Org.OpenAPITools.Model.Child
-A representation of a child
 
 ## Properties
 
