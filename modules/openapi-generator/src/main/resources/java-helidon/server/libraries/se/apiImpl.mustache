@@ -2,8 +2,8 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
-{{^useAbstractClass}}{{#x-helidon-v3}}
-import java.util.logging.Logger;
+{{^useAbstractClass}}{{#x-helidon-v3}}{{!
+}}import java.util.logging.Logger;
 {{/x-helidon-v3}}{{/useAbstractClass}}
 {{^x-helidon-v3}}
 import io.helidon.common.Errors;
@@ -121,17 +121,10 @@ public class {{classname}}Impl {{^useAbstractClass}}implements{{/useAbstractClas
             throw new UncheckedIOException(e);
         }
     }{{/isFile}}{{/bodyParam}}{{!
-}}{{/x-helidon-v3}}
-{{/useAbstractClass}}
-
-{{^x-helidon-v3}}{{!
-}}{{#operation}}
+}}{{/x-helidon-v3}}{{!
+}}{{/useAbstractClass}}{{!
+}}{{^x-helidon-v3}}{{#operation}}
 {{> opResult }}
-{{/operation}}{{!
-}}{{#operation}}
-    @Override
-
-{{/operation}}{{/x-helidon-v3}}
-
-}
+{{/operation}}{{/x-helidon-v3}}{{!
+}}}
 {{/operations}}
