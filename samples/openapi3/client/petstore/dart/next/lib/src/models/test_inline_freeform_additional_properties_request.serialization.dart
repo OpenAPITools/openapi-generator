@@ -88,7 +88,7 @@ bool _$TestInlineFreeformAdditionalPropertiesRequestCanDeserialize(Object? src) 
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$TestInlineFreeformAdditionalPropertiesRequestSerialize(TestInlineFreeformAdditionalPropertiesRequest src) {
+Map<String,dynamic> _$TestInlineFreeformAdditionalPropertiesRequestSerialize(TestInlineFreeformAdditionalPropertiesRequest src) {
   
   return src.toMap();
   

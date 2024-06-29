@@ -149,7 +149,7 @@ bool _$DogCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$DogSerialize(Dog src) {
+Map<String,dynamic> _$DogSerialize(Dog src) {
   
   return src.toMap();
   

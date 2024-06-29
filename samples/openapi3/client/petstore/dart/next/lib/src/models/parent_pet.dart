@@ -86,7 +86,7 @@ ParentPetMixin {
     return _$ParentPetCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$ParentPetSerialize(this);
   }
 }

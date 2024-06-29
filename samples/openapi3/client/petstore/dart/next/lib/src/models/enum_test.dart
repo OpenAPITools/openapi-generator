@@ -197,7 +197,7 @@ required  this.enumStringRequired     ,
     return _$EnumTestCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$EnumTestSerialize(this);
   }
 }

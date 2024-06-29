@@ -148,7 +148,7 @@ bool _$ApiResponseCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ApiResponseSerialize(ApiResponse src) {
+Map<String,dynamic> _$ApiResponseSerialize(ApiResponse src) {
   
   return src.toMap();
   

@@ -167,7 +167,7 @@ bool _$ArrayOfInlineAllOfCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ArrayOfInlineAllOfSerialize(ArrayOfInlineAllOf src) {
+Map<String,dynamic> _$ArrayOfInlineAllOfSerialize(ArrayOfInlineAllOf src) {
   
   return src.toMap();
   

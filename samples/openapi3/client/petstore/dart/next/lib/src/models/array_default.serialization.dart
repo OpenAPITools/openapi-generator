@@ -158,7 +158,7 @@ bool _$ArrayDefaultCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ArrayDefaultSerialize(ArrayDefault src) {
+Map<String,dynamic> _$ArrayDefaultSerialize(ArrayDefault src) {
   
   return src.toMap();
   

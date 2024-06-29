@@ -141,7 +141,7 @@ DrawingMixin {
     return _$DrawingCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$DrawingSerialize(this);
   }
 }

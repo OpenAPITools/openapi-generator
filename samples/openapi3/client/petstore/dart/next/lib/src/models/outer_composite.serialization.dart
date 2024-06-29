@@ -148,7 +148,7 @@ bool _$OuterCompositeCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$OuterCompositeSerialize(OuterComposite src) {
+Map<String,dynamic> _$OuterCompositeSerialize(OuterComposite src) {
   
   return src.toMap();
   

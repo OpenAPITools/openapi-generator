@@ -125,7 +125,7 @@ required  this.name     ,
     return _$ArrayOfInlineAllOfCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$ArrayOfInlineAllOfSerialize(this);
   }
 }

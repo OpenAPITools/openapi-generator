@@ -116,7 +116,7 @@ bool _$ModelWithOneOfAnyOfPropertiesCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ModelWithOneOfAnyOfPropertiesSerialize(ModelWithOneOfAnyOfProperties src) {
+Map<String,dynamic> _$ModelWithOneOfAnyOfPropertiesSerialize(ModelWithOneOfAnyOfProperties src) {
   
   return src.toMap();
   

@@ -126,7 +126,7 @@ $OpenApiObjectMixin,
     return _${{classname}}CanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  {{#allVars}}{{#-first}}Map<String,dynamic>{{/-first}}{{/allVars}}{{^allVars}}Object?{{/allVars}} serialize() {
     return _${{classname}}Serialize(this);
   }
 }

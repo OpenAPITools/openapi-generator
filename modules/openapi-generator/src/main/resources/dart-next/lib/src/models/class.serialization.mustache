@@ -134,7 +134,7 @@ bool _${{classname}}CanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _${{classname}}Serialize({{classname}} src) {
+{{#allVars}}{{#-first}}Map<String,dynamic>{{/-first}}{{/allVars}}{{^allVars}}Object?{{/allVars}} _${{classname}}Serialize({{classname}} src) {
   {{#allVars}}{{#-first}}
   return src.toMap();
   {{/-first}}{{/allVars}}

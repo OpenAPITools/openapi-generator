@@ -88,7 +88,7 @@ bool _$TriangleInterfaceCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$TriangleInterfaceSerialize(TriangleInterface src) {
+Map<String,dynamic> _$TriangleInterfaceSerialize(TriangleInterface src) {
   
   return src.toMap();
   

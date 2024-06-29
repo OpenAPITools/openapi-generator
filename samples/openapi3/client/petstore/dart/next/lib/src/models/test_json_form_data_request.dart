@@ -104,7 +104,7 @@ required  this.param2     ,
     return _$TestJsonFormDataRequestCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$TestJsonFormDataRequestSerialize(this);
   }
 }

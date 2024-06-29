@@ -118,7 +118,7 @@ bool _$ReadOnlyFirstCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ReadOnlyFirstSerialize(ReadOnlyFirst src) {
+Map<String,dynamic> _$ReadOnlyFirstSerialize(ReadOnlyFirst src) {
   
   return src.toMap();
   

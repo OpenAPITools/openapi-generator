@@ -87,7 +87,7 @@ bool _$FooGetDefaultResponseCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$FooGetDefaultResponseSerialize(FooGetDefaultResponse src) {
+Map<String,dynamic> _$FooGetDefaultResponseSerialize(FooGetDefaultResponse src) {
   
   return src.toMap();
   

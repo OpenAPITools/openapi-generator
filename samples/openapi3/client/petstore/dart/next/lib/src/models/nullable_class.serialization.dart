@@ -485,7 +485,7 @@ bool _$NullableClassCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$NullableClassSerialize(NullableClass src) {
+Map<String,dynamic> _$NullableClassSerialize(NullableClass src) {
   
   return src.toMap();
   

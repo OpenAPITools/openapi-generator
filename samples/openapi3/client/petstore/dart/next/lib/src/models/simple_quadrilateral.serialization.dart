@@ -119,7 +119,7 @@ bool _$SimpleQuadrilateralCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$SimpleQuadrilateralSerialize(SimpleQuadrilateral src) {
+Map<String,dynamic> _$SimpleQuadrilateralSerialize(SimpleQuadrilateral src) {
   
   return src.toMap();
   

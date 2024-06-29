@@ -93,6 +93,7 @@ part of 'fake_api.dart';
 }
 
 
+
 class FakeApiFakeGetFreeFormObjectGetResponse {
 }
 
@@ -117,7 +118,7 @@ abstract class FakeApiFakeOuterBooleanSerializeRequest {
   }) = FakeApiFakeOuterBooleanSerializeRequestUnsafe;
 
   const FakeApiFakeOuterBooleanSerializeRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -242,6 +243,7 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
             bool
  data;
 
+
   const FakeApiFakeOuterBooleanSerializeRequestApplicationJson({
     required this.data,
     
@@ -275,55 +277,8 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -331,7 +286,6 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
     //final bytes = ;
   }
 }
-
 
 class FakeApiFakeOuterBooleanSerializeResponse {
 }
@@ -357,7 +311,7 @@ abstract class FakeApiFakeOuterCompositeSerializeRequest {
   }) = FakeApiFakeOuterCompositeSerializeRequestUnsafe;
 
   const FakeApiFakeOuterCompositeSerializeRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -482,6 +436,7 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
             OuterComposite
  data;
 
+
   const FakeApiFakeOuterCompositeSerializeRequestApplicationJson({
     required this.data,
     
@@ -515,55 +470,8 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -571,7 +479,6 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
     //final bytes = ;
   }
 }
-
 
 class FakeApiFakeOuterCompositeSerializeResponse {
 }
@@ -597,7 +504,7 @@ abstract class FakeApiFakeOuterNumberSerializeRequest {
   }) = FakeApiFakeOuterNumberSerializeRequestUnsafe;
 
   const FakeApiFakeOuterNumberSerializeRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -722,6 +629,7 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
             num
  data;
 
+
   const FakeApiFakeOuterNumberSerializeRequestApplicationJson({
     required this.data,
     
@@ -755,55 +663,8 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -811,7 +672,6 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
     //final bytes = ;
   }
 }
-
 
 class FakeApiFakeOuterNumberSerializeResponse {
 }
@@ -837,7 +697,7 @@ abstract class FakeApiFakeOuterStringSerializeRequest {
   }) = FakeApiFakeOuterStringSerializeRequestUnsafe;
 
   const FakeApiFakeOuterStringSerializeRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -962,6 +822,7 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
             String
  data;
 
+
   const FakeApiFakeOuterStringSerializeRequestApplicationJson({
     required this.data,
     
@@ -995,55 +856,8 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -1051,7 +865,6 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
     //final bytes = ;
   }
 }
-
 
 class FakeApiFakeOuterStringSerializeResponse {
 }
@@ -1089,11 +902,11 @@ abstract class FakeApiFakeUploadRefRequestBodiesRequest {
   }) = FakeApiFakeUploadRefRequestBodiesRequestUnsafe;
 
   const FakeApiFakeUploadRefRequestBodiesRequest({
-
+    
     required this.petId    ,
-
-
-
+    
+    
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1310,6 +1123,7 @@ class FakeApiFakeUploadRefRequestBodiesResponse {
 }
 
 
+
 class FakeApiGetFakeArrayofenumsResponse {
 }
 
@@ -1406,6 +1220,7 @@ class FakeApiGetFakeArrayofenumsResponse {
 }
 
 
+
 class FakeApiGetFakeHealthResponse {
 }
 
@@ -1442,15 +1257,15 @@ class FakeApiGetFakeHealthResponse {
 
 
   const FakeApiGetParameterNameMappingRequest({
-
+    
     required this.$type    ,
-
-
+    
+    
     required this.type    ,
-
-
+    
+    
     required this.type$    ,
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1489,9 +1304,9 @@ class FakeApiGetFakeHealthResponse {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       
-        r'_type': OpenApiParameterSerializationHeader(parameterName: r'_type',explode: false).serialize($type),
+  r'_type': OpenApiParameterSerializationHeader(parameterName: r'_type',explode: false).serialize($type),
       
-        r'type_': OpenApiParameterSerializationHeader(parameterName: r'type_',explode: false).serialize(type$),
+  r'type_': OpenApiParameterSerializationHeader(parameterName: r'type_',explode: false).serialize(type$),
       ...extraHeaders,
     });
 
@@ -1537,6 +1352,7 @@ class FakeApiGetFakeHealthResponse {
 }
 
 
+
 class FakeApiGetParameterNameMappingResponse {
 }
 
@@ -1561,7 +1377,7 @@ abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
   }) = FakeApiTestAdditionalPropertiesReferenceRequestUnsafe;
 
   const FakeApiTestAdditionalPropertiesReferenceRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1688,6 +1504,7 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
 ?>
  data;
 
+
   const FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson({
     required this.data,
     
@@ -1721,55 +1538,8 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -1777,7 +1547,6 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
     //final bytes = ;
   }
 }
-
 
 class FakeApiTestAdditionalPropertiesReferenceResponse {
 }
@@ -1803,7 +1572,7 @@ abstract class FakeApiTestBodyWithFileSchemaRequest {
   }) = FakeApiTestBodyWithFileSchemaRequestUnsafe;
 
   const FakeApiTestBodyWithFileSchemaRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1928,6 +1697,7 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
             FileSchemaTestClass
  data;
 
+
   const FakeApiTestBodyWithFileSchemaRequestApplicationJson({
     required this.data,
     
@@ -1961,55 +1731,8 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -2017,7 +1740,6 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
     //final bytes = ;
   }
 }
-
 
 class FakeApiTestBodyWithFileSchemaResponse {
 }
@@ -2054,10 +1776,10 @@ abstract class FakeApiTestBodyWithQueryParamsRequest {
   }) = FakeApiTestBodyWithQueryParamsRequestUnsafe;
 
   const FakeApiTestBodyWithQueryParamsRequest({
-
+    
     required this.query    ,
-
-
+    
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -2186,6 +1908,7 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
             User
  data;
 
+
   const FakeApiTestBodyWithQueryParamsRequestApplicationJson({
     required this.data,
     
@@ -2222,55 +1945,8 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -2278,7 +1954,6 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
     //final bytes = ;
   }
 }
-
 
 class FakeApiTestBodyWithQueryParamsResponse {
 }
@@ -2304,7 +1979,7 @@ abstract class FakeApiTestClientModelRequest {
   }) = FakeApiTestClientModelRequestUnsafe;
 
   const FakeApiTestClientModelRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -2429,6 +2104,7 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
             Client
  data;
 
+
   const FakeApiTestClientModelRequestApplicationJson({
     required this.data,
     
@@ -2462,55 +2138,8 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -2518,7 +2147,6 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
     //final bytes = ;
   }
 }
-
 
 class FakeApiTestClientModelResponse {
 }
@@ -2557,20 +2185,20 @@ abstract class FakeApiTestEndpointParametersRequest {
   }) = FakeApiTestEndpointParametersRequestUnsafe;
 
   const FakeApiTestEndpointParametersRequest({
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -2764,12 +2392,12 @@ class FakeApiTestEndpointParametersResponse {
 
 
   const FakeApiTestEnumParametersRequest({
-
+    
      this.enumHeaderStringArray= const UndefinedWrapper
         .undefined()
 ,
-
-
+    
+    
      this.enumHeaderString= const UndefinedWrapper
     (
         EnumHeaderStringEnum.$unsafe('-efg')
@@ -2777,13 +2405,13 @@ class FakeApiTestEndpointParametersResponse {
     )
     
 ,
-
-
+    
+    
      this.enumQueryStringArray= const UndefinedWrapper
         .undefined()
 ,
-
-
+    
+    
      this.enumQueryString= const UndefinedWrapper
     (
         EnumQueryStringEnum.$unsafe('-efg')
@@ -2791,19 +2419,19 @@ class FakeApiTestEndpointParametersResponse {
     )
     
 ,
-
-
+    
+    
      this.enumQueryInteger= const UndefinedWrapper
         .undefined()
 ,
-
-
+    
+    
      this.enumQueryDouble= const UndefinedWrapper
         .undefined()
 ,
-
-
-
+    
+    
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -2853,9 +2481,9 @@ class FakeApiTestEndpointParametersResponse {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       if (enumHeaderStringArray.isDefined)
-        r'enum_header_string_array': OpenApiParameterSerializationHeader(parameterName: r'enum_header_string_array',explode: false).serialize(enumHeaderStringArray.valueRequired),
+  r'enum_header_string_array': OpenApiParameterSerializationHeader(parameterName: r'enum_header_string_array',explode: false).serialize(enumHeaderStringArray.valueRequired),
       if (enumHeaderString.isDefined)
-        r'enum_header_string': OpenApiParameterSerializationHeader(parameterName: r'enum_header_string',explode: false).serialize(enumHeaderString.valueRequired),
+  r'enum_header_string': OpenApiParameterSerializationHeader(parameterName: r'enum_header_string',explode: false).serialize(enumHeaderString.valueRequired),
       ...extraHeaders,
     });
 
@@ -2899,6 +2527,7 @@ class FakeApiTestEndpointParametersResponse {
     );
   }
 }
+
 
 
 class FakeApiTestEnumParametersResponse {
@@ -2958,30 +2587,30 @@ class FakeApiTestEnumParametersResponse {
 
 
   const FakeApiTestGroupParametersRequest({
-
+    
     required this.requiredStringGroup    ,
-
-
+    
+    
     required this.requiredBooleanGroup    ,
-
-
+    
+    
     required this.requiredInt64Group    ,
-
-
+    
+    
      this.stringGroup= const UndefinedWrapper
         .undefined()
 ,
-
-
+    
+    
      this.booleanGroup= const UndefinedWrapper
         .undefined()
 ,
-
-
+    
+    
      this.int64Group= const UndefinedWrapper
         .undefined()
 ,
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -3027,9 +2656,9 @@ class FakeApiTestEnumParametersResponse {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       
-        r'required_boolean_group': OpenApiParameterSerializationHeader(parameterName: r'required_boolean_group',explode: false).serialize(requiredBooleanGroup),
+  r'required_boolean_group': OpenApiParameterSerializationHeader(parameterName: r'required_boolean_group',explode: false).serialize(requiredBooleanGroup),
       if (booleanGroup.isDefined)
-        r'boolean_group': OpenApiParameterSerializationHeader(parameterName: r'boolean_group',explode: false).serialize(booleanGroup.valueRequired),
+  r'boolean_group': OpenApiParameterSerializationHeader(parameterName: r'boolean_group',explode: false).serialize(booleanGroup.valueRequired),
       ...extraHeaders,
     });
 
@@ -3075,6 +2704,7 @@ class FakeApiTestEnumParametersResponse {
 }
 
 
+
 class FakeApiTestGroupParametersResponse {
 }
 
@@ -3099,7 +2729,7 @@ abstract class FakeApiTestInlineAdditionalPropertiesRequest {
   }) = FakeApiTestInlineAdditionalPropertiesRequestUnsafe;
 
   const FakeApiTestInlineAdditionalPropertiesRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -3227,6 +2857,7 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
 >
  data;
 
+
   const FakeApiTestInlineAdditionalPropertiesRequestApplicationJson({
     required this.data,
     
@@ -3260,55 +2891,8 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.map((k,v) => MapEntry(k, v));
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -3316,7 +2900,6 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
     //final bytes = ;
   }
 }
-
 
 class FakeApiTestInlineAdditionalPropertiesResponse {
 }
@@ -3342,7 +2925,7 @@ abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
   }) = FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe;
 
   const FakeApiTestInlineFreeformAdditionalPropertiesRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -3467,6 +3050,7 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
             TestInlineFreeformAdditionalPropertiesRequest
  data;
 
+
   const FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson({
     required this.data,
     
@@ -3500,55 +3084,8 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -3556,7 +3093,6 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
     //final bytes = ;
   }
 }
-
 
 class FakeApiTestInlineFreeformAdditionalPropertiesResponse {
 }
@@ -3575,8 +3111,8 @@ class FakeApiTestInlineFreeformAdditionalPropertiesResponse {
 
 
   const FakeApiTestJsonFormDataRequest({
-
-
+    
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -3656,6 +3192,7 @@ class FakeApiTestInlineFreeformAdditionalPropertiesResponse {
     );
   }
 }
+
 
 
 class FakeApiTestJsonFormDataResponse {
@@ -3766,21 +3303,21 @@ abstract class FakeApiTestQueryParameterCollectionFormatRequest {
   }) = FakeApiTestQueryParameterCollectionFormatRequestUnsafe;
 
   const FakeApiTestQueryParameterCollectionFormatRequest({
-
+    
     required this.pipe    ,
-
-
+    
+    
     required this.ioutil    ,
-
-
+    
+    
     required this.http    ,
-
-
+    
+    
     required this.url    ,
-
-
+    
+    
     required this.context    ,
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -3939,7 +3476,7 @@ abstract class FakeApiTestStringMapReferenceRequest {
   }) = FakeApiTestStringMapReferenceRequestUnsafe;
 
   const FakeApiTestStringMapReferenceRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -4067,6 +3604,7 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
 >
  data;
 
+
   const FakeApiTestStringMapReferenceRequestApplicationJson({
     required this.data,
     
@@ -4100,55 +3638,8 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.map((k,v) => MapEntry(k, v));
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -4156,7 +3647,6 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
     //final bytes = ;
   }
 }
-
 
 class FakeApiTestStringMapReferenceResponse {
 }

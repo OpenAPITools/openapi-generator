@@ -93,6 +93,7 @@ part of 'default_api.dart';
 }
 
 
+
 class DefaultApiFakeAnyOfWIthSameErasureGetResponse {
 }
 
@@ -187,6 +188,7 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse {
     );
   }
 }
+
 
 
 class DefaultApiFakeOneOfWIthSameErasureGetResponse {
@@ -285,6 +287,7 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse {
 }
 
 
+
 class DefaultApiFooGetResponse {
 }
 
@@ -309,7 +312,7 @@ abstract class DefaultApiPetsMulticontentTestPostRequest {
   }) = DefaultApiPetsMulticontentTestPostRequestUnsafe;
 
   const DefaultApiPetsMulticontentTestPostRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -434,6 +437,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
             Pet
  data;
 
+
   const DefaultApiPetsMulticontentTestPostRequestApplicationJson({
     required this.data,
     
@@ -467,55 +471,8 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -523,7 +480,6 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
     //final bytes = ;
   }
 }
-
 class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'application/xml';
 
@@ -533,6 +489,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
   final 
             NewPet
  data;
+
 
   const DefaultApiPetsMulticontentTestPostRequestApplicationXml({
     required this.data,
@@ -565,57 +522,10 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
       case MediaType(type: 'application', subtype: 'xml'):
         break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -623,7 +533,6 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
     //final bytes = ;
   }
 }
-
 class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'application/x-www-form-urlencoded';
 
@@ -633,6 +542,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
   final 
             Triangle
  data;
+
 
   const DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded({
     required this.data,
@@ -662,18 +572,17 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
       
       r'name': {
         'style': r'form',
-        'explode': CodegenEncoding{contentType&#x3D;null, headers&#x3D;[], style&#x3D;form, explode&#x3D;true, allowReserved&#x3D;false, vendorExtensions&#x3D;{}},
+        'explode': true,
         
         
-      }
+        
+      },
       
     };
 
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
         if (serialized is! Map<String, dynamic>) {
           return _stringResult(serialized.toString());
@@ -691,38 +600,8 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
           resultString= resultString.substring(1);
         }
         return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -730,7 +609,6 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
     //final bytes = ;
   }
 }
-
 class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'text/plain';
 
@@ -740,6 +618,7 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
   final 
             int
  data;
+
 
   const DefaultApiPetsMulticontentTestPostRequestTextPlain({
     required this.data,
@@ -772,57 +651,8 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -830,7 +660,6 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
     //final bytes = ;
   }
 }
-
 class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'*/*';
 
@@ -839,6 +668,7 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
 
   final Object
 ? data;
+
 
   const DefaultApiPetsMulticontentTestPostRequestAnyAny({
     required this.data,
@@ -871,57 +701,8 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -929,7 +710,6 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
     //final bytes = ;
   }
 }
-
 class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'text/*';
 
@@ -939,6 +719,7 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
   final 
             String
  data;
+
 
   const DefaultApiPetsMulticontentTestPostRequestTextAny({
     required this.data,
@@ -971,57 +752,8 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v;
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -1029,7 +761,6 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
     //final bytes = ;
   }
 }
-
 class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'multipart/form-data';
 
@@ -1040,8 +771,15 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
             PetsMulticontentTestPostRequest
  data;
 
+  final UndefinedWrapper<
+            String
+> profileImagesHelloHeader;
+
   const DefaultApiPetsMulticontentTestPostRequestMultipartFormData({
     required this.data,
+     this.profileImagesHelloHeader= const UndefinedWrapper
+        .undefined()
+,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -1070,56 +808,27 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
         'style': r'form',
         
         
-        'contentType': r'application/json',
-      }
+        'contentType': MediaType.parse(r'application/json'),
+        
+      },
       r'profileImages': {
         'style': r'form',
         
         
         
-          'headers': <String, String>{
-          //r'address': CodegenEncoding{contentType=application/json, headers=[], style=form, explode=false, allowReserved=false, vendorExtensions={}},r'profileImages': CodegenEncoding{contentType=null, headers=[CodegenParameter{isFormParam=false, isQueryParam=false, isPathParam=false, isHeaderParam=true, isCookieParam=false, isBodyParam=false, isContainer=false, isCollectionFormatMulti=false, isPrimitiveType=true, isModel=false, isExplode=false, baseName='hello', paramName='hello', dataType='String', datatypeWithEnum='null', dataFormat='null', collectionFormat='null', description='null', unescapedDescription='null', baseType='null', containerType='null', containerTypeMapped='null', defaultValue='null', enumDefaultValue='null', enumName='null', style='simple', deepObject='false', isMatrix='false', allowEmptyValue='false', example='hello_example', examples='null', jsonSchema='{
-  "name" : "hello",
-  "in" : "header",
-  "style" : "simple",
-  "explode" : false,
-  "schema" : {
-    "type" : "string"
-  }
-}', isString=true, isNumeric=false, isInteger=false, isShort=false, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isPassword=false, isFreeFormObject=false, isAnyType=false, isArray=false, isMap=false, isOptional=false, isFile=false, isEnum=false, isEnumRef=false, _enum=null, allowableValues=null, items=null, mostInnerItems=null, additionalProperties=null, vars=[], requiredVars=[], vendorExtensions={}, hasValidation=false, maxProperties=null, minProperties=null, isNullable=false, isDeprecated=false, required=false, maximum='null', exclusiveMaximum=false, minimum='null', exclusiveMinimum=false, maxLength=null, minLength=null, pattern='null', maxItems=null, minItems=null, uniqueItems=false, uniqueItemsBoolean=null, contentType=null, multipleOf=null, isNull=false, isVoid=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, schema=CodegenProperty{openApiType='string', baseName='hello', complexType='null', getter='getHello', setter='setHello', description='null', dataType='String', datatypeWithEnum='String', dataFormat='null', name='hello', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.hello;', baseType='String', containerType='null', containerTypeMapped='null', title='null', unescapedDescription='null', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
-  "type" : "string"
-}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=true, isModel=false, isContainer=false, isString=true, isNumeric=false, isInteger=false, isShort=false, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isPassword=false, isFreeFormObject=false, isArray=false, isMap=false, isOptional=false, isEnum=false, isInnerEnum=false, isEnumRef=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, isNew=false, isOverridden=null, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='hello', nameInPascalCase='Hello', nameInSnakeCase='HELLO', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, uniqueItemsBoolean=null, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, isVoid=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false, isBooleanSchemaTrue=false, isBooleanSchemaFalse=false, format=null, dependentRequired=null, contains=null}, content=null, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false}], style=form, explode=false, allowReserved=false, vendorExtensions={}},
-          }
-      }
+        
+        'headers': <String, String>{
+        if (profileImagesHelloHeader.isDefined)
+  r'hello': OpenApiParameterSerializationHeader(parameterName: r'hello',explode: false).serialize(profileImagesHelloHeader.valueRequired),
+        },
+        
+      },
       
     };
 
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
-      case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
       case MediaType(type: 'multipart'):
         List<HttpPacketMixin> parts;
         if (serialized is! Map<String, dynamic>) {
@@ -1131,9 +840,10 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
           for (final e in serialized.entries) {
             final rule = encodingRules[e.key];
             final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
+            final contentType = rule?['contentType'] as MediaType?;
+            if (contentType != null) {
+            }
           }
-          //vars []
           parts = MultiPartBodySerializer.getFormDataParts(
             fields: {
             },
@@ -1148,6 +858,7 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
         );
         return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -1155,7 +866,6 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
     //final bytes = ;
   }
 }
-
 
 class DefaultApiPetsMulticontentTestPostResponse {
 }

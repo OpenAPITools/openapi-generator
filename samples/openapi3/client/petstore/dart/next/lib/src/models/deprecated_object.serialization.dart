@@ -88,7 +88,7 @@ bool _$DeprecatedObjectCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$DeprecatedObjectSerialize(DeprecatedObject src) {
+Map<String,dynamic> _$DeprecatedObjectSerialize(DeprecatedObject src) {
   
   return src.toMap();
   

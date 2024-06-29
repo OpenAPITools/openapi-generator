@@ -355,7 +355,7 @@ bool _$AdditionalPropertiesClassCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$AdditionalPropertiesClassSerialize(AdditionalPropertiesClass src) {
+Map<String,dynamic> _$AdditionalPropertiesClassSerialize(AdditionalPropertiesClass src) {
   
   return src.toMap();
   

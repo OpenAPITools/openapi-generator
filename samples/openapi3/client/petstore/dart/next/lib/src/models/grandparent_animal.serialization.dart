@@ -88,7 +88,7 @@ bool _$GrandparentAnimalCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$GrandparentAnimalSerialize(GrandparentAnimal src) {
+Map<String,dynamic> _$GrandparentAnimalSerialize(GrandparentAnimal src) {
   
   return src.toMap();
   

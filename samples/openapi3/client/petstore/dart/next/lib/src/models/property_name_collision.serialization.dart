@@ -148,7 +148,7 @@ bool _$PropertyNameCollisionCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$PropertyNameCollisionSerialize(PropertyNameCollision src) {
+Map<String,dynamic> _$PropertyNameCollisionSerialize(PropertyNameCollision src) {
   
   return src.toMap();
   

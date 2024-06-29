@@ -112,7 +112,7 @@ bool _$GmFruitCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$GmFruitSerialize(GmFruit src) {
+Map<String,dynamic> _$GmFruitSerialize(GmFruit src) {
   
   return src.toMap();
   

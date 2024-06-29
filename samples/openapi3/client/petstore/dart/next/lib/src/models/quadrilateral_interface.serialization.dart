@@ -88,7 +88,7 @@ bool _$QuadrilateralInterfaceCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$QuadrilateralInterfaceSerialize(QuadrilateralInterface src) {
+Map<String,dynamic> _$QuadrilateralInterfaceSerialize(QuadrilateralInterface src) {
   
   return src.toMap();
   

@@ -119,7 +119,7 @@ bool _$ScaleneTriangleCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ScaleneTriangleSerialize(ScaleneTriangle src) {
+Map<String,dynamic> _$ScaleneTriangleSerialize(ScaleneTriangle src) {
   
   return src.toMap();
   

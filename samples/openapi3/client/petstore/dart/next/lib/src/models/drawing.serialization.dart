@@ -202,7 +202,7 @@ bool _$DrawingCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$DrawingSerialize(Drawing src) {
+Map<String,dynamic> _$DrawingSerialize(Drawing src) {
   
   return src.toMap();
   

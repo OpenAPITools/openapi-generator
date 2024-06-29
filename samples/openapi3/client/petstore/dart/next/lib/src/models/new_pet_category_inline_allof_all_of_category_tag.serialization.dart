@@ -118,7 +118,7 @@ bool _$NewPetCategoryInlineAllofAllOfCategoryTagCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$NewPetCategoryInlineAllofAllOfCategoryTagSerialize(NewPetCategoryInlineAllofAllOfCategoryTag src) {
+Map<String,dynamic> _$NewPetCategoryInlineAllofAllOfCategoryTagSerialize(NewPetCategoryInlineAllofAllOfCategoryTag src) {
   
   return src.toMap();
   

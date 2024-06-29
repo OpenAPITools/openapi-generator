@@ -97,7 +97,7 @@ required  this.triangleType     ,
     return _$IsoscelesTriangleCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$IsoscelesTriangleSerialize(this);
   }
 }

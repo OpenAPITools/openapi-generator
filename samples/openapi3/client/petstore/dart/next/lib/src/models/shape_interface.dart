@@ -93,7 +93,7 @@ ShapeInterfaceMixin {
     return _$ShapeInterfaceCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$ShapeInterfaceSerialize(this);
   }
 }

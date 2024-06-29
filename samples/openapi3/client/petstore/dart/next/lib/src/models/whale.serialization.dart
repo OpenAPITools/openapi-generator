@@ -148,7 +148,7 @@ bool _$WhaleCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$WhaleSerialize(Whale src) {
+Map<String,dynamic> _$WhaleSerialize(Whale src) {
   
   return src.toMap();
   

@@ -119,7 +119,7 @@ bool _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerSerialize(ArrayOfInlineAllOfArrayAllofDogPropertyInner src) {
+Map<String,dynamic> _$ArrayOfInlineAllOfArrayAllofDogPropertyInnerSerialize(ArrayOfInlineAllOfArrayAllofDogPropertyInner src) {
   
   return src.toMap();
   

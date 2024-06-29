@@ -108,7 +108,7 @@ $200ResponseMixin {
     return _$$200ResponseCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$$200ResponseSerialize(this);
   }
 }

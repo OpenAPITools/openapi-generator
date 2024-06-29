@@ -118,7 +118,7 @@ bool _$$200ResponseCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$$200ResponseSerialize($200Response src) {
+Map<String,dynamic> _$$200ResponseSerialize($200Response src) {
   
   return src.toMap();
   

@@ -118,7 +118,7 @@ bool _$SpecialModelNameCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$SpecialModelNameSerialize(SpecialModelName src) {
+Map<String,dynamic> _$SpecialModelNameSerialize(SpecialModelName src) {
   
   return src.toMap();
   

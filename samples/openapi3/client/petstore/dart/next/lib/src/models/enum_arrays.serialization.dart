@@ -138,7 +138,7 @@ bool _$EnumArraysCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$EnumArraysSerialize(EnumArrays src) {
+Map<String,dynamic> _$EnumArraysSerialize(EnumArrays src) {
   
   return src.toMap();
   

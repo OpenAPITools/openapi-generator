@@ -178,7 +178,7 @@ bool _$NameCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$NameSerialize(Name src) {
+Map<String,dynamic> _$NameSerialize(Name src) {
   
   return src.toMap();
   

@@ -138,7 +138,7 @@ bool _$TestEnumParametersRequestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$TestEnumParametersRequestSerialize(TestEnumParametersRequest src) {
+Map<String,dynamic> _$TestEnumParametersRequestSerialize(TestEnumParametersRequest src) {
   
   return src.toMap();
   

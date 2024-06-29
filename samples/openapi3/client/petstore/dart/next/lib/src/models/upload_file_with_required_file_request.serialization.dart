@@ -118,7 +118,7 @@ bool _$UploadFileWithRequiredFileRequestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$UploadFileWithRequiredFileRequestSerialize(UploadFileWithRequiredFileRequest src) {
+Map<String,dynamic> _$UploadFileWithRequiredFileRequestSerialize(UploadFileWithRequiredFileRequest src) {
   
   return src.toMap();
   

@@ -328,7 +328,7 @@ bool _$EnumTestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$EnumTestSerialize(EnumTest src) {
+Map<String,dynamic> _$EnumTestSerialize(EnumTest src) {
   
   return src.toMap();
   

@@ -21,7 +21,7 @@ abstract class UserApiCreateUserRequest {
   }) = UserApiCreateUserRequestUnsafe;
 
   const UserApiCreateUserRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -146,6 +146,7 @@ class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
             User
  data;
 
+
   const UserApiCreateUserRequestApplicationJson({
     required this.data,
     
@@ -179,55 +180,8 @@ class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -235,7 +189,6 @@ class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
     //final bytes = ;
   }
 }
-
 
 class UserApiCreateUserResponse {
 }
@@ -261,7 +214,7 @@ abstract class UserApiCreateUsersWithArrayInputRequest {
   }) = UserApiCreateUsersWithArrayInputRequestUnsafe;
 
   const UserApiCreateUsersWithArrayInputRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -389,6 +342,7 @@ class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCrea
 >
  data;
 
+
   const UserApiCreateUsersWithArrayInputRequestApplicationJson({
     required this.data,
     
@@ -422,55 +376,8 @@ class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCrea
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.map((v) => v.serialize()).toList();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -478,7 +385,6 @@ class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCrea
     //final bytes = ;
   }
 }
-
 
 class UserApiCreateUsersWithArrayInputResponse {
 }
@@ -504,7 +410,7 @@ abstract class UserApiCreateUsersWithListInputRequest {
   }) = UserApiCreateUsersWithListInputRequestUnsafe;
 
   const UserApiCreateUsersWithListInputRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -632,6 +538,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
 >
  data;
 
+
   const UserApiCreateUsersWithListInputRequestApplicationJson({
     required this.data,
     
@@ -665,55 +572,8 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.map((v) => v.serialize()).toList();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -721,7 +581,6 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
     //final bytes = ;
   }
 }
-
 
 class UserApiCreateUsersWithListInputResponse {
 }
@@ -745,9 +604,9 @@ class UserApiCreateUsersWithListInputResponse {
 
 
   const UserApiDeleteUserRequest({
-
+    
     required this.username    ,
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -828,6 +687,7 @@ class UserApiCreateUsersWithListInputResponse {
     );
   }
 }
+
 
 
 class UserApiDeleteUserResponse {
@@ -852,9 +712,9 @@ class UserApiDeleteUserResponse {
 
 
   const UserApiGetUserByNameRequest({
-
+    
     required this.username    ,
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -935,6 +795,7 @@ class UserApiDeleteUserResponse {
     );
   }
 }
+
 
 
 class UserApiGetUserByNameResponse {
@@ -966,12 +827,12 @@ class UserApiGetUserByNameResponse {
 
 
   const UserApiLoginUserRequest({
-
+    
     required this.username    ,
-
-
+    
+    
     required this.password    ,
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1053,6 +914,7 @@ class UserApiGetUserByNameResponse {
     );
   }
 }
+
 
 
 class UserApiLoginUserResponse {
@@ -1151,6 +1013,7 @@ class UserApiLoginUserResponse {
 }
 
 
+
 class UserApiLogoutUserResponse {
 }
 
@@ -1186,10 +1049,10 @@ abstract class UserApiUpdateUserRequest {
   }) = UserApiUpdateUserRequestUnsafe;
 
   const UserApiUpdateUserRequest({
-
+    
     required this.username    ,
-
-
+    
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -1318,6 +1181,7 @@ class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
             User
  data;
 
+
   const UserApiUpdateUserRequestApplicationJson({
     required this.data,
     
@@ -1354,55 +1218,8 @@ class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -1410,7 +1227,6 @@ class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
     //final bytes = ;
   }
 }
-
 
 class UserApiUpdateUserResponse {
 }

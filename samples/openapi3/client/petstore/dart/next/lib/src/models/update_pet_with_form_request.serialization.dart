@@ -118,7 +118,7 @@ bool _$UpdatePetWithFormRequestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$UpdatePetWithFormRequestSerialize(UpdatePetWithFormRequest src) {
+Map<String,dynamic> _$UpdatePetWithFormRequestSerialize(UpdatePetWithFormRequest src) {
   
   return src.toMap();
   

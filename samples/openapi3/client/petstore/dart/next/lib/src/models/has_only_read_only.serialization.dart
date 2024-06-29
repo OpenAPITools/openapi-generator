@@ -118,7 +118,7 @@ bool _$HasOnlyReadOnlyCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$HasOnlyReadOnlySerialize(HasOnlyReadOnly src) {
+Map<String,dynamic> _$HasOnlyReadOnlySerialize(HasOnlyReadOnly src) {
   
   return src.toMap();
   

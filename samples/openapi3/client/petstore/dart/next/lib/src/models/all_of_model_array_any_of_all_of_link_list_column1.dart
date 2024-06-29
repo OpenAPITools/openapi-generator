@@ -99,7 +99,7 @@ AllOfModelArrayAnyOfAllOfLinkListColumn1Mixin {
     return _$AllOfModelArrayAnyOfAllOfLinkListColumn1CanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$AllOfModelArrayAnyOfAllOfLinkListColumn1Serialize(this);
   }
 }

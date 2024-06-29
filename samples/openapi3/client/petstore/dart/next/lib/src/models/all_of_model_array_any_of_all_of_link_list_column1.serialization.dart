@@ -107,7 +107,7 @@ bool _$AllOfModelArrayAnyOfAllOfLinkListColumn1CanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$AllOfModelArrayAnyOfAllOfLinkListColumn1Serialize(AllOfModelArrayAnyOfAllOfLinkListColumn1 src) {
+Map<String,dynamic> _$AllOfModelArrayAnyOfAllOfLinkListColumn1Serialize(AllOfModelArrayAnyOfAllOfLinkListColumn1 src) {
   
   return src.toMap();
   

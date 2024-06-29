@@ -117,7 +117,7 @@ bool _$FreeFormObjectTestClassCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$FreeFormObjectTestClassSerialize(FreeFormObjectTestClass src) {
+Map<String,dynamic> _$FreeFormObjectTestClassSerialize(FreeFormObjectTestClass src) {
   
   return src.toMap();
   

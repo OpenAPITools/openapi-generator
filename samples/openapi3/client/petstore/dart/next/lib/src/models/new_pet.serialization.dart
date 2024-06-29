@@ -305,7 +305,7 @@ bool _$NewPetCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$NewPetSerialize(NewPet src) {
+Map<String,dynamic> _$NewPetSerialize(NewPet src) {
   
   return src.toMap();
   

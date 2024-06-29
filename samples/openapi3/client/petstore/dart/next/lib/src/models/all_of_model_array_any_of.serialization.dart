@@ -177,7 +177,7 @@ bool _$AllOfModelArrayAnyOfCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$AllOfModelArrayAnyOfSerialize(AllOfModelArrayAnyOf src) {
+Map<String,dynamic> _$AllOfModelArrayAnyOfSerialize(AllOfModelArrayAnyOf src) {
   
   return src.toMap();
   

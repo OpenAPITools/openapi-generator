@@ -88,7 +88,7 @@ bool _$DanishPigCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$DanishPigSerialize(DanishPig src) {
+Map<String,dynamic> _$DanishPigSerialize(DanishPig src) {
   
   return src.toMap();
   

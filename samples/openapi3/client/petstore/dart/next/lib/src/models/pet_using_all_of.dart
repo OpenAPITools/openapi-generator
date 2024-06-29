@@ -168,7 +168,7 @@ required  this.photoUrls     ,
     return _$PetUsingAllOfCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$PetUsingAllOfSerialize(this);
   }
 }

@@ -117,7 +117,7 @@ required  this.className     ,
     return _$DogCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$DogSerialize(this);
   }
 }

@@ -93,7 +93,7 @@ EnumStringDiscriminatorMixin {
     return _$EnumStringDiscriminatorCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$EnumStringDiscriminatorSerialize(this);
   }
 }

@@ -128,7 +128,7 @@ bool _$ArrayOfArrayOfNumberOnlyCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ArrayOfArrayOfNumberOnlySerialize(ArrayOfArrayOfNumberOnly src) {
+Map<String,dynamic> _$ArrayOfArrayOfNumberOnlySerialize(ArrayOfArrayOfNumberOnly src) {
   
   return src.toMap();
   

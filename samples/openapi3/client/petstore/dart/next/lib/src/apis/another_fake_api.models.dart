@@ -21,7 +21,7 @@ abstract class AnotherFakeApi$123testSpecialTagsRequest {
   }) = AnotherFakeApi$123testSpecialTagsRequestUnsafe;
 
   const AnotherFakeApi$123testSpecialTagsRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -146,6 +146,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
             Client
  data;
 
+
   const AnotherFakeApi$123testSpecialTagsRequestApplicationJson({
     required this.data,
     
@@ -179,55 +180,8 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -235,7 +189,6 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
     //final bytes = ;
   }
 }
-
 
 class AnotherFakeApi$123testSpecialTagsResponse {
 }
@@ -262,13 +215,13 @@ class AnotherFakeApi$123testSpecialTagsResponse {
 
 
   const AnotherFakeApiGetParameterArrayNumberRequest({
-
+    
      this.array    =
         const
         [1]
         
 ,
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -306,7 +259,7 @@ class AnotherFakeApi$123testSpecialTagsResponse {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       
-        r'array': OpenApiParameterSerializationHeader(parameterName: r'array',explode: false).serialize(array),
+  r'array': OpenApiParameterSerializationHeader(parameterName: r'array',explode: false).serialize(array),
       ...extraHeaders,
     });
 
@@ -350,6 +303,7 @@ class AnotherFakeApi$123testSpecialTagsResponse {
     );
   }
 }
+
 
 
 class AnotherFakeApiGetParameterArrayNumberResponse {
@@ -374,9 +328,9 @@ class AnotherFakeApiGetParameterArrayNumberResponse {
 
 
   const AnotherFakeApiGetParameterStringNumberRequest({
-
+    
     required this.stringNumber    ,
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -414,7 +368,7 @@ class AnotherFakeApiGetParameterArrayNumberResponse {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       
-        r'string_number': OpenApiParameterSerializationHeader(parameterName: r'string_number',explode: false).serialize(stringNumber),
+  r'string_number': OpenApiParameterSerializationHeader(parameterName: r'string_number',explode: false).serialize(stringNumber),
       ...extraHeaders,
     });
 
@@ -458,6 +412,7 @@ class AnotherFakeApiGetParameterArrayNumberResponse {
     );
   }
 }
+
 
 
 class AnotherFakeApiGetParameterStringNumberResponse {
@@ -483,12 +438,12 @@ class AnotherFakeApiGetParameterStringNumberResponse {
 
 
   const AnotherFakeApiNullRequestBodyRequest({
-
+    
      this.acceptLanguage= const UndefinedWrapper
         .undefined()
 ,
-
-
+    
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -526,7 +481,7 @@ class AnotherFakeApiGetParameterStringNumberResponse {
       if (cookieParts.isNotEmpty)
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       if (acceptLanguage.isDefined)
-        r'Accept-Language': OpenApiParameterSerializationHeader(parameterName: r'Accept-Language',explode: false).serialize(acceptLanguage.valueRequired),
+  r'Accept-Language': OpenApiParameterSerializationHeader(parameterName: r'Accept-Language',explode: false).serialize(acceptLanguage.valueRequired),
       ...extraHeaders,
     });
 
@@ -570,6 +525,7 @@ class AnotherFakeApiGetParameterStringNumberResponse {
     );
   }
 }
+
 
 
 class AnotherFakeApiNullRequestBodyResponse {

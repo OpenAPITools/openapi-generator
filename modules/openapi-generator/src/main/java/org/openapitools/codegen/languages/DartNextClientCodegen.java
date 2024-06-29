@@ -26,6 +26,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
@@ -303,12 +304,9 @@ public class DartNextClientCodegen extends DefaultCodegen {
                                 return ((Map.Entry<?, ?>) ctx).getValue();
                             }
                         };
-                    } else {
-                        return super.createFetcher(ctx, name);
                     }
-                } else {
-                    return super.createFetcher(ctx, name);
                 }
+                return super.createFetcher(ctx, name);
             }
         });
     }
@@ -764,7 +762,28 @@ public class DartNextClientCodegen extends DefaultCodegen {
                     betterConsume.putAll(originalConsume);
                 }
                 betterConsume.put("key", key);
+                var mimePatternList = key.toLowerCase().split(";")[0].split("/");
+                betterConsume.put("is_mime_"+mimePatternList[0], true);
+                betterConsume.put("is_mime_"+mimePatternList[0] + "_" + mimePatternList[1], true);
                 betterConsume.put("content", resultContent);
+                var extraParameters = new ArrayList<CodegenParameter>();
+                if (resultContent != null && resultContent.getEncoding() != null) {
+                    for (var propEncoding : resultContent.getEncoding().entrySet()) {
+                        if (propEncoding.getValue() == null || propEncoding.getValue().getHeaders() == null) {
+                            continue;
+                        }
+                        var propBaseName = propEncoding.getKey();
+                        var headers = propEncoding.getValue().getHeaders();
+                        for (var header : headers) {
+                            if (header.paramName != null) {
+                                header.paramName = toParamName(propBaseName + "_" + header.paramName + "_header");
+                            }
+                            extraParameters.add(header);
+                        }
+                    }
+                }
+
+                betterConsume.put("extraParameters", extraParameters);
                 betterConsumes.add(betterConsume);
             }
             operation.vendorExtensions.put("better-consumes", betterConsumes);
@@ -1003,6 +1022,13 @@ public class DartNextClientCodegen extends DefaultCodegen {
         }
         return null;
 
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required,
+            boolean schemaIsFromAdditionalProperties) {
+        // TODO Auto-generated method stub
+        return super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
     }
 
     // @Override

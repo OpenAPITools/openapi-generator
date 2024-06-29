@@ -19,9 +19,9 @@ part of 'store_api.dart';
 
 
   const StoreApiDeleteOrderRequest({
-
+    
     required this.orderId    ,
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -102,6 +102,7 @@ part of 'store_api.dart';
     );
   }
 }
+
 
 
 class StoreApiDeleteOrderResponse {
@@ -200,6 +201,7 @@ class StoreApiDeleteOrderResponse {
 }
 
 
+
 class StoreApiGetInventoryResponse {
 }
 
@@ -222,9 +224,9 @@ class StoreApiGetInventoryResponse {
 
 
   const StoreApiGetOrderByIdRequest({
-
+    
     required this.orderId    ,
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -307,6 +309,7 @@ class StoreApiGetInventoryResponse {
 }
 
 
+
 class StoreApiGetOrderByIdResponse {
 }
 
@@ -331,7 +334,7 @@ abstract class StoreApiPlaceOrderRequest {
   }) = StoreApiPlaceOrderRequestUnsafe;
 
   const StoreApiPlaceOrderRequest({
-
+    
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -456,6 +459,7 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
             Order
  data;
 
+
   const StoreApiPlaceOrderRequestApplicationJson({
     required this.data,
     
@@ -489,55 +493,8 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
-      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
-        if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
-        }
-        var result = Uri();
-
-        for (var e in serialized.entries) {
-          final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
-          result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
-        }
-        var resultString = result.query.toString();
-        if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
-        }
-        return _stringResult(resultString);
-      case MediaType(type: 'application', subtype: 'xml'):
-        break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
-      case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
-        if (serialized is! Map<String, dynamic>) {
-          throw ArgumentError('The serialized data must be a map in a multipart request.');
-        }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
-          }
-          //vars []
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
-        }
-        final bodySerializer = MultiPartBodySerializer(
-          boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
-        );
-        return bodySerializer.bodyBytesStream;
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = v.serialize();
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
@@ -545,7 +502,6 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
     //final bytes = ;
   }
 }
-
 
 class StoreApiPlaceOrderResponse {
 }

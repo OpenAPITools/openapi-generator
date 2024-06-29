@@ -88,7 +88,7 @@ bool _$$ListCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$$ListSerialize($List src) {
+Map<String,dynamic> _$$ListSerialize($List src) {
   
   return src.toMap();
   

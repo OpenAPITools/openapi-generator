@@ -256,7 +256,7 @@ required  this.byte     ,
     return _$TestEndpointParametersRequestCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$TestEndpointParametersRequestSerialize(this);
   }
 }

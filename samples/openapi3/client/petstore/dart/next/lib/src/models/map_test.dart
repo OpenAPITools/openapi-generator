@@ -164,7 +164,7 @@ MapTestMixin {
     return _$MapTestCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$MapTestSerialize(this);
   }
 }

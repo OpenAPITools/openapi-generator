@@ -598,7 +598,7 @@ bool _$FormatTestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$FormatTestSerialize(FormatTest src) {
+Map<String,dynamic> _$FormatTestSerialize(FormatTest src) {
   
   return src.toMap();
   

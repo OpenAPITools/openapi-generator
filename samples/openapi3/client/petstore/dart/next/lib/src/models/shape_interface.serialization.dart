@@ -88,7 +88,7 @@ bool _$ShapeInterfaceCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ShapeInterfaceSerialize(ShapeInterface src) {
+Map<String,dynamic> _$ShapeInterfaceSerialize(ShapeInterface src) {
   
   return src.toMap();
   

@@ -119,7 +119,7 @@ bool _$EquilateralTriangleCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$EquilateralTriangleSerialize(EquilateralTriangle src) {
+Map<String,dynamic> _$EquilateralTriangleSerialize(EquilateralTriangle src) {
   
   return src.toMap();
   

@@ -118,7 +118,7 @@ bool _$AppleCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$AppleSerialize(Apple src) {
+Map<String,dynamic> _$AppleSerialize(Apple src) {
   
   return src.toMap();
   

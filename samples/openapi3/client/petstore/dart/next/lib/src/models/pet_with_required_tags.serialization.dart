@@ -276,7 +276,7 @@ bool _$PetWithRequiredTagsCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$PetWithRequiredTagsSerialize(PetWithRequiredTags src) {
+Map<String,dynamic> _$PetWithRequiredTagsSerialize(PetWithRequiredTags src) {
   
   return src.toMap();
   

@@ -247,7 +247,7 @@ bool _$ArrayTestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ArrayTestSerialize(ArrayTest src) {
+Map<String,dynamic> _$ArrayTestSerialize(ArrayTest src) {
   
   return src.toMap();
   

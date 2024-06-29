@@ -127,7 +127,7 @@ PetsMulticontentTestPostRequestMixin {
     return _$PetsMulticontentTestPostRequestCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$PetsMulticontentTestPostRequestSerialize(this);
   }
 }

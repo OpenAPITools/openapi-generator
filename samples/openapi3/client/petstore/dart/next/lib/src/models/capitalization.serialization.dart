@@ -238,7 +238,7 @@ bool _$CapitalizationCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$CapitalizationSerialize(Capitalization src) {
+Map<String,dynamic> _$CapitalizationSerialize(Capitalization src) {
   
   return src.toMap();
   

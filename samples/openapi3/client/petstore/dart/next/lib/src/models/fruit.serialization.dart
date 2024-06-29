@@ -114,7 +114,7 @@ bool _$FruitCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$FruitSerialize(Fruit src) {
+Map<String,dynamic> _$FruitSerialize(Fruit src) {
   
   return src.toMap();
   

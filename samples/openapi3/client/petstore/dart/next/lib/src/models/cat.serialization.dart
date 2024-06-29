@@ -149,7 +149,7 @@ bool _$CatCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$CatSerialize(Cat src) {
+Map<String,dynamic> _$CatSerialize(Cat src) {
   
   return src.toMap();
   

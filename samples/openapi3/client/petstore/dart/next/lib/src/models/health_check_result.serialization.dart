@@ -88,7 +88,7 @@ bool _$HealthCheckResultCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$HealthCheckResultSerialize(HealthCheckResult src) {
+Map<String,dynamic> _$HealthCheckResultSerialize(HealthCheckResult src) {
   
   return src.toMap();
   

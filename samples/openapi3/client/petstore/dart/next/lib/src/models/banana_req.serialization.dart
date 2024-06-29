@@ -107,7 +107,7 @@ bool _$BananaReqCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$BananaReqSerialize(BananaReq src) {
+Map<String,dynamic> _$BananaReqSerialize(BananaReq src) {
   
   return src.toMap();
   

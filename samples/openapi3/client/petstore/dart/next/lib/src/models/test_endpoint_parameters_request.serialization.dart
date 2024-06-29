@@ -478,7 +478,7 @@ bool _$TestEndpointParametersRequestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$TestEndpointParametersRequestSerialize(TestEndpointParametersRequest src) {
+Map<String,dynamic> _$TestEndpointParametersRequestSerialize(TestEndpointParametersRequest src) {
   
   return src.toMap();
   

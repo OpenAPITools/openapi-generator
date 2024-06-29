@@ -136,7 +136,7 @@ bool _$FileSchemaTestClassCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$FileSchemaTestClassSerialize(FileSchemaTestClass src) {
+Map<String,dynamic> _$FileSchemaTestClassSerialize(FileSchemaTestClass src) {
   
   return src.toMap();
   

@@ -17,7 +17,7 @@ part of '{{classFilename}}.dart';
   final Map<String, String> extraCookies;
   final Map<String, Object /* String | List<String> */> extraQueryParameters;
 
-{{! add path / header / query / cookie params }}
+  {{! add path / header / query / cookie params }}
   {{#allParams}}
   {{^isFormParam}}{{^isBodyParam}}
   /// {{{description}}}
@@ -39,11 +39,11 @@ part of '{{classFilename}}.dart';
   {{/bodyAllowed}}
 
   const {{classname}}{{operationIdCamelCase}}Request({
-{{#allParams}}
-{{^isFormParam}}{{^isBodyParam}}
+    {{#allParams}}
+    {{^isFormParam}}{{^isBodyParam}}
     {{>types/required_ctor}} this.{{paramName}}{{>types/default}},
-{{/isBodyParam}}{{/isFormParam}}
-{{/allParams}}
+    {{/isBodyParam}}{{/isFormParam}}
+    {{/allParams}}
     this.extraHeaders = const {},
     this.extraQueryParameters = const {},
     this.extraCookies = const {},
@@ -104,8 +104,7 @@ part of '{{classFilename}}.dart';
         'Cookie': cookieParts.entries.map((e) => '${e.key}=${e.value}').join('; '),
       {{! then headers to override the cookie if necessary }}
       {{#headerParams}}
-      {{^required}}if ({{paramName}}.isDefined){{/required}}
-        r'{{baseName}}': OpenApiParameterSerializationHeader(parameterName: r'{{baseName}}',explode: {{isExplode}}).serialize({{paramName}}{{^required}}.valueRequired{{/required}}),
+      {{>lib/src/apis/request/header_param}}
       {{/headerParams}}
       ...extraHeaders,
     });
@@ -199,8 +198,15 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
 
   final {{>types/variable_recursive}} data;
 
+  {{#extraParameters}}
+  final {{>types/param}} {{paramName}};
+  {{/extraParameters}}
+
   const {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}}({
     required this.data,
+    {{#extraParameters}}
+    {{>types/required_ctor}} this.{{paramName}}{{>types/default}},
+    {{/extraParameters}}
     {{#allParams}}
     {{^isFormParam}}{{^isBodyParam}}
     {{>types/required_ctor}} super.{{paramName}},
@@ -231,16 +237,18 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
       {{#content}}{{#encoding}}
       {{#entrySet}}
       r'{{{key}}}': {{#value}}{
-        {{#style}}'style': r'{{{.}}}',{{/style}}
-        {{#explode}}'explode': {{.}},{{/explode}}
-        {{#allowReserved}}'allowReserved': {{.}},{{/allowReserved}}
-        {{#contentType}}'contentType': r'{{{.}}}',{{/contentType}}
-        {{#headers}}
-          'headers': <String, String>{
-          //{{#entrySet}}r'{{{key}}}': {{{value}}},{{/entrySet}}
-          }
-        {{/headers}}
-      }{{/value}}
+        {{#style}}'style': r'{{{style}}}',{{/style}}
+        {{#explode}}'explode': {{explode}},{{/explode}}
+        {{#allowReserved}}'allowReserved': {{allowReserved}},{{/allowReserved}}
+        {{#contentType}}'contentType': MediaType.parse(r'{{{contentType}}}'),{{/contentType}}
+        {{#headers}}{{#-first}}
+        'headers': <String, String>{
+        {{/-first}}
+        {{>lib/src/apis/request/header_param}}
+        {{#-last}}
+        },
+        {{/-last}}{{/headers}}
+      },{{/value}}
       {{/entrySet}}
       {{/encoding}}{{/content}}
     };
@@ -248,8 +256,11 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
     // Since the user can override mime type at runtime, we need to check the
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
+      {{#is_mime_application_json}}
       case MediaType(type: 'application', subtype: 'json'):
         return _stringResult(json.encode(serialized));
+      {{/is_mime_application_json}}
+      {{#is_mime_application_x-www-form-urlencoded}}
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
         if (serialized is! Map<String, dynamic>) {
           return _stringResult(serialized.toString());
@@ -267,10 +278,12 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
           resultString= resultString.substring(1);
         }
         return _stringResult(resultString);
+      {{/is_mime_application_x-www-form-urlencoded}}
+      {{#is_mime_application_xml}}
       case MediaType(type: 'application', subtype: 'xml'):
         break;
-      case MediaType(type: 'application', subtype: 'octet-stream'):
-        break;
+      {{/is_mime_application_xml}}
+      {{#is_mime_multipart}}
       case MediaType(type: 'multipart'):
         List<HttpPacketMixin> parts;
         if (serialized is! Map<String, dynamic>) {
@@ -282,9 +295,10 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
           for (final e in serialized.entries) {
             final rule = encodingRules[e.key];
             final headers = rule?['headers'];
-            final contentType = rule?['contentType'];
+            final contentType = rule?['contentType'] as MediaType?;
+            if (contentType != null) {
+            }
           }
-          //vars {{{vars}}}
           parts = MultiPartBodySerializer.getFormDataParts(
             fields: {
             },
@@ -298,16 +312,29 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
           parts: parts,
         );
         return bodySerializer.bodyBytesStream;
+      {{/is_mime_multipart}}
+      {{#is_mime_application_octet-stream}}
+      case MediaType(type: 'application', subtype: 'octet-stream'):
+        if (v is Stream<List<int>>) {
+          return v;
+        }
+        if (v is List<int>) {
+          return Stream.value(v);
+        }
+        if (v is XFile) {
+          return v.openRead();
+        }
+        return _stringResult(v.toString());
+      {{/is_mime_application_octet-stream}}
       default:
+        return _stringResult(v.toString());
     }
     //var serialized = {{>types/serialize_recursive}};
     // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
     //final encoded = {{#isJson}}json.encode(serialized){{/isJson}}{{^isJson}}serialized{{/isJson}};
     //final bytes = ;
   }
-}
-{{/schema}}{{/content}}{{/better-consumes}}{{/vendorExtensions}}
-{{/bodyAllowed}}
+}{{/schema}}{{/content}}{{/better-consumes}}{{/vendorExtensions}}{{/bodyAllowed}}
 
 {{#isDeprecated}}
 @Deprecated('This operation has been deprecated')

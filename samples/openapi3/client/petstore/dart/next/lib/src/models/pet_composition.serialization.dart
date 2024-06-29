@@ -277,7 +277,7 @@ bool _$PetCompositionCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$PetCompositionSerialize(PetComposition src) {
+Map<String,dynamic> _$PetCompositionSerialize(PetComposition src) {
   
   return src.toMap();
   

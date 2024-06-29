@@ -238,7 +238,7 @@ bool _$OrderCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$OrderSerialize(Order src) {
+Map<String,dynamic> _$OrderSerialize(Order src) {
   
   return src.toMap();
   

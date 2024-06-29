@@ -278,7 +278,7 @@ bool _$MapTestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$MapTestSerialize(MapTest src) {
+Map<String,dynamic> _$MapTestSerialize(MapTest src) {
   
   return src.toMap();
   

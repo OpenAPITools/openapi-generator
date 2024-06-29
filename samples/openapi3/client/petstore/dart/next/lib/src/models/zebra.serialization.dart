@@ -118,7 +118,7 @@ bool _$ZebraCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ZebraSerialize(Zebra src) {
+Map<String,dynamic> _$ZebraSerialize(Zebra src) {
   
   return src.toMap();
   

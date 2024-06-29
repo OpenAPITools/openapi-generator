@@ -118,7 +118,7 @@ bool _$CategoryCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$CategorySerialize(Category src) {
+Map<String,dynamic> _$CategorySerialize(Category src) {
   
   return src.toMap();
   

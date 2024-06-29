@@ -124,7 +124,7 @@ ArrayDefaultMixin {
     return _$ArrayDefaultCanDeserialize(src);
   }
   /// Serializes to a primitive Object (num, String, List, Map).
-  Object? serialize() {
+  Map<String,dynamic> serialize() {
     return _$ArrayDefaultSerialize(this);
   }
 }

@@ -88,7 +88,7 @@ bool _$BasquePigCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$BasquePigSerialize(BasquePig src) {
+Map<String,dynamic> _$BasquePigSerialize(BasquePig src) {
   
   return src.toMap();
   

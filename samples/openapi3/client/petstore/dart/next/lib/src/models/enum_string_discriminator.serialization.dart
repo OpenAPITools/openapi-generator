@@ -88,7 +88,7 @@ bool _$EnumStringDiscriminatorCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$EnumStringDiscriminatorSerialize(EnumStringDiscriminator src) {
+Map<String,dynamic> _$EnumStringDiscriminatorSerialize(EnumStringDiscriminator src) {
   
   return src.toMap();
   

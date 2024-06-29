@@ -118,7 +118,7 @@ bool _$PetsMulticontentTestPostRequestAddressCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$PetsMulticontentTestPostRequestAddressSerialize(PetsMulticontentTestPostRequestAddress src) {
+Map<String,dynamic> _$PetsMulticontentTestPostRequestAddressSerialize(PetsMulticontentTestPostRequestAddress src) {
   
   return src.toMap();
   

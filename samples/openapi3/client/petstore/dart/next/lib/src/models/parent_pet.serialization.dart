@@ -89,7 +89,7 @@ bool _$ParentPetCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ParentPetSerialize(ParentPet src) {
+Map<String,dynamic> _$ParentPetSerialize(ParentPet src) {
   
   return src.toMap();
   

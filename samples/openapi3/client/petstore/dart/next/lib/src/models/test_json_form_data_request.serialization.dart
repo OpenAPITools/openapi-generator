@@ -118,7 +118,7 @@ bool _$TestJsonFormDataRequestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$TestJsonFormDataRequestSerialize(TestJsonFormDataRequest src) {
+Map<String,dynamic> _$TestJsonFormDataRequestSerialize(TestJsonFormDataRequest src) {
   
   return src.toMap();
   

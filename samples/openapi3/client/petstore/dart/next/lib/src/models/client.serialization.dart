@@ -88,7 +88,7 @@ bool _$ClientCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$ClientSerialize(Client src) {
+Map<String,dynamic> _$ClientSerialize(Client src) {
   
   return src.toMap();
   

@@ -276,7 +276,7 @@ bool _$PetRefCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$PetRefSerialize(PetRef src) {
+Map<String,dynamic> _$PetRefSerialize(PetRef src) {
   
   return src.toMap();
   

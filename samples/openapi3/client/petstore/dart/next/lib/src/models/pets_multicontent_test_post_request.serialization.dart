@@ -167,7 +167,7 @@ bool _$PetsMulticontentTestPostRequestCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$PetsMulticontentTestPostRequestSerialize(PetsMulticontentTestPostRequest src) {
+Map<String,dynamic> _$PetsMulticontentTestPostRequestSerialize(PetsMulticontentTestPostRequest src) {
   
   return src.toMap();
   

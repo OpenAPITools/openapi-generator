@@ -118,7 +118,7 @@ bool _$AnimalCanDeserialize(Object? src) {
 }
 
 /// Serializes to a primitive Object (num, String, List, Map).
-Object? _$AnimalSerialize(Animal src) {
+Map<String,dynamic> _$AnimalSerialize(Animal src) {
   
   return src.toMap();
   
