@@ -3,17 +3,22 @@ import 'package:openapi_infrastructure/openapi_infrastructure.dart';
 import 'apis/_exports.dart';
 
 /// A facade class as an entry point to the generated APIs
-class OpenApiPetStore {
+class {{clientName}} {
+  static final defaultBaseUrl = Uri.parse(r'{{{basePath}}}');
+
   final NetworkingClientBase networkingClient;
   final Uri baseUrl;
 
-  OpenApiPetStore({
+  {{clientName}}({
     required this.networkingClient,
-    required this.baseUrl,
-  });
+    Uri? baseUrl,
+  }) : baseUrl = defaultBaseUrl;
 
-  late final PetsApi petsApi = PetsApi(
+
+  {{#apiInfo}}{{#apis}}
+  late final {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} = {{classname}}(
     networkingClient: networkingClient,
     baseUrl: baseUrl,
   );
+  {{/apis}}{{/apiInfo}}
 }

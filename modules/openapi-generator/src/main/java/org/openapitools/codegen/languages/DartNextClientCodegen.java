@@ -55,6 +55,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
 import lombok.Setter;
 
 public class DartNextClientCodegen extends DefaultCodegen {
@@ -72,7 +73,10 @@ public class DartNextClientCodegen extends DefaultCodegen {
     public static final String PUB_REPOSITORY = "pubRepository";
     public static final String PUB_PUBLISH_TO = "pubPublishTo";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
+    private static final String CLIENT_NAME = "clientName";
 
+    @Getter @Setter
+    private String clientName;
     @Setter
     protected String pubLibrary = "openapi.api";
     @Setter
@@ -414,6 +418,13 @@ public class DartNextClientCodegen extends DefaultCodegen {
             this.setSourceFolder(srcFolder.replace('/', File.separatorChar));
         }
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
+
+        if (!additionalProperties.containsKey(CLIENT_NAME)) {
+            final String name = org.openapitools.codegen.utils.StringUtils.camelize(pubName);
+            additionalProperties.put(CLIENT_NAME, name);
+            LOGGER.debug("Client name not set, using default {}", name);
+        }
+        setClientName(additionalProperties.get(CLIENT_NAME).toString());
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocFolder);
