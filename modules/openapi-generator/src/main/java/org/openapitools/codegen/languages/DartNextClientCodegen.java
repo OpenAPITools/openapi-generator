@@ -75,7 +75,8 @@ public class DartNextClientCodegen extends DefaultCodegen {
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
     private static final String CLIENT_NAME = "clientName";
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String clientName;
     @Setter
     protected String pubLibrary = "openapi.api";
@@ -463,6 +464,11 @@ public class DartNextClientCodegen extends DefaultCodegen {
         supportingFiles
                 .add(new SupportingFile(networkingMustache + "helpers.mustache", networkingPath(), "helpers.dart"));
         supportingFiles
+                .add(new SupportingFile(networkingMustache + "property_encoding_rule.mustache", networkingPath(),
+                        "property_encoding_rule.dart"));
+        supportingFiles
+                .add(new SupportingFile(networkingMustache + "multipart.mustache", networkingPath(), "multipart.dart"));
+        supportingFiles
                 .add(new SupportingFile(networkingMustache + "package_http_client.mustache", networkingPath(),
                         "package_http_client.dart"));
 
@@ -775,8 +781,8 @@ public class DartNextClientCodegen extends DefaultCodegen {
                 }
                 betterConsume.put("key", key);
                 var mimePatternList = key.toLowerCase(Locale.ROOT).split(";")[0].split("/");
-                betterConsume.put("is_mime_"+mimePatternList[0], true);
-                betterConsume.put("is_mime_"+mimePatternList[0] + "_" + mimePatternList[1], true);
+                betterConsume.put("is_mime_" + mimePatternList[0], true);
+                betterConsume.put("is_mime_" + mimePatternList[0] + "_" + mimePatternList[1], true);
                 betterConsume.put("content", resultContent);
                 var extraParameters = new ArrayList<CodegenParameter>();
                 if (resultContent != null && resultContent.getEncoding() != null) {
@@ -799,6 +805,30 @@ public class DartNextClientCodegen extends DefaultCodegen {
                 betterConsumes.add(betterConsume);
             }
             operation.vendorExtensions.put("better-consumes", betterConsumes);
+        }
+        for (var operation : operations.getOperation()) {
+            if (operation.responses == null) {
+                continue;
+            }
+            for (var response : operation.responses) {
+                if (response.getContent() == null) {
+                    continue;
+                }
+                for (var content : response.getContent().entrySet()) {
+                    var key = content.getKey();
+                    var value = content.getValue();
+                    if (value == null) {
+                        continue;
+                    }
+
+                    var mimePatternList = key.toLowerCase(Locale.ROOT).split(";")[0].split("/");
+                    value.vendorExtensions.put("is_mime_" + mimePatternList[0], true);
+                    value.vendorExtensions.put("is_mime_" + mimePatternList[0] + "_" + mimePatternList[1], true);
+                    if (value.getSchema() != null) {
+                        value.getSchema().vendorExtensions.putAll(value.vendorExtensions);
+                    }
+                }
+            }
         }
         return result;
     }

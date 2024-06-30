@@ -9,13 +9,195 @@ part of '{{classFilename}}.dart';
 @Deprecated('This operation has been deprecated')
 {{/isDeprecated}}
 class {{classname}}{{operationIdCamelCase}}Response {
-  {{classname}}{{operationIdCamelCase}}Response();
+  {{classname}}{{operationIdCamelCase}}Response({
+    required this.headers,
+    required this.statusCode,
+    required this.reasonPhrase,
+    required this.context,
+    this.bodyBytesStream,
+  });
 
+  final Map<String, String> headers;
+  final int statusCode;
+  final String? reasonPhrase;
+  final Map<String, dynamic> context;
+  /// This variable is only assigned if other response classes fail to read the response.
+  /// Thus, handing the responsibility of reading the response to the user.
+  final Stream<List<int>>? bodyBytesStream;
+
+  T split<T>({
+    {{#responses}}
+    required T Function({{classname}}{{operationIdCamelCase}}Response{{code}} response) on{{code}},
+    {{/responses}}
+    required T Function({{classname}}{{operationIdCamelCase}}Response response) other,
+  }) {
+    return switch (this) {
+      {{#responses}}
+      {{classname}}{{operationIdCamelCase}}Response{{code}} response => on{{code}}(response),
+      {{/responses}}
+      _ => other(this),
+    };
+  }
 
   static Future<{{classname}}{{operationIdCamelCase}}Response> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    return {{classname}}{{operationIdCamelCase}}Response();
+    {{#responses}}
+    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'{{code}}')) {
+      return {{classname}}{{operationIdCamelCase}}Response{{code}}.fromResponse(response, context: context);
+    }
+    {{/responses}}
+    return {{classname}}{{operationIdCamelCase}}Response(
+      headers: response.headers,
+      statusCode: response.statusCode,
+      reasonPhrase: response.reasonPhrase,
+      context: context,
+      bodyBytesStream: response.bodyBytesStream,
+    );
   }
 }
+
+{{#responses}}
+{{! generate a class per response code }}
+{{#isDeprecated}}
+@Deprecated('This operation has been deprecated')
+{{/isDeprecated}}
+class {{classname}}{{operationIdCamelCase}}Response{{code}} extends {{classname}}{{operationIdCamelCase}}Response {
+  {{classname}}{{operationIdCamelCase}}Response{{code}}({
+    required super.headers,
+    required super.statusCode,
+    required super.reasonPhrase,
+    required super.context,
+    super.bodyBytesStream,
+  });
+
+  {{#content}}
+  T split{{code}}<T>({
+    {{#entrySet}}{{#value}}{{#schema}}
+    required T Function({{classname}}{{operationIdCamelCase}}Response{{code}}{{nameInPascalCase}} response) on{{nameInPascalCase}},
+    {{/schema}}{{/value}}{{/entrySet}}
+    required T Function({{classname}}{{operationIdCamelCase}}Response{{code}} response) other,
+  }) {
+    return switch (this) {
+      {{#entrySet}}{{#value}}{{#schema}}
+      {{classname}}{{operationIdCamelCase}}Response{{code}}{{nameInPascalCase}} response => on{{nameInPascalCase}}(response),
+      {{/schema}}{{/value}}{{/entrySet}}
+      _ => other(this),
+    };
+  }{{/content}}
+
+  static Future<{{classname}}{{operationIdCamelCase}}Response{{code}}> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+    {{#content}}
+    final headers = response.headers;
+    final contentTypeRaw = headers['Content-Type'];
+    final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
+    if (contentTypeParsed != null) {
+      {{#entrySet}}
+      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'{{key}}'))) {
+        return {{classname}}{{operationIdCamelCase}}Response{{code}}{{#value}}{{#schema}}{{nameInPascalCase}}{{/schema}}{{/value}}.fromResponse(response, contentType: contentTypeParsed, context: context);
+      }
+      {{/entrySet}}
+    }
+    {{/content}}
+    return {{classname}}{{operationIdCamelCase}}Response{{code}}(
+      headers: response.headers,
+      statusCode: response.statusCode,
+      reasonPhrase: response.reasonPhrase,
+      context: context,
+      bodyBytesStream: response.bodyBytesStream,
+    );
+  }
+}
+
+
+{{#content}}{{#entrySet}}{{#value}}{{#schema}}
+{{! generate a class per content per response code }}
+/// Represent the response when content-type is {{key}}.
+{{#isDeprecated}}
+@Deprecated('This operation has been deprecated')
+{{/isDeprecated}}
+class {{classname}}{{operationIdCamelCase}}Response{{code}}{{nameInPascalCase}} extends {{classname}}{{operationIdCamelCase}}Response{{code}} {
+  final {{>types/variable}} body;
+
+  {{#vendorExtensions}}
+  {{#is_mime_application_json}}
+  /// The raw result of calling jsonDecode
+  final Object? rawJson;
+  {{/is_mime_application_json}}
+  {{#is_mime_application_xml}}
+  /// The raw result of calling XmlDocument.parse
+  final XmlDocument? rawXml;
+  {{/is_mime_application_xml}}
+  {{/vendorExtensions}}
+
+  {{classname}}{{operationIdCamelCase}}Response{{code}}{{baseName}}({
+    {{>types/required_ctor}} this.body {{>types/default}},
+    required super.headers,
+    required super.statusCode,
+    required super.reasonPhrase,
+    required super.context,
+    super.bodyBytesStream,
+    {{#vendorExtensions}}
+    {{#is_mime_application_json}}
+    this.rawJson,
+    {{/is_mime_application_json}}
+    {{#is_mime_application_xml}}
+    this.rawXml,
+    {{/is_mime_application_xml}}
+    {{/vendorExtensions}}
+  });
+
+  static Future<{{classname}}{{operationIdCamelCase}}Response{{code}}{{nameInPascalCase}}> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> context}) async {
+    final charset = contentType.parameters['charset'] ?? 'utf-8';
+    final encoding = Encoding.getByName(charset) ?? utf8;
+    switch (contentType) {
+      {{#vendorExtensions}}{{#is_mime_application_json}}
+      case MediaType(type: 'application', subtype: 'json'):
+        final serialized = await encoding.decodeStream(response.bodyBytesStream);
+        final v = jsonDecode(serialized);
+        if ({{>types/can_deserialize_recursive}}) {
+          final res = {{>types/deserialize_recursive}};
+          return {{classname}}{{operationIdCamelCase}}Response{{code}}{{nameInPascalCase}}(
+            headers: response.headers,
+            statusCode: response.statusCode,
+            reasonPhrase: response.reasonPhrase,
+            context: context,
+            body: {{^required}}UndefinedWrapper({{/required}}res{{^required}}){{/required}},
+          );
+        } else {
+          // since we consumed the stream, we need to publish our read result.
+          return {{classname}}{{operationIdCamelCase}}Response{{code}}{{nameInPascalCase}}(
+            headers: response.headers,
+            statusCode: response.statusCode,
+            reasonPhrase: response.reasonPhrase,
+            context: context,
+            rawJson: v,
+          );
+        }
+      {{/is_mime_application_json}}{{/vendorExtensions}}
+      {{#vendorExtensions}}{{#is_mime_application_xml}}
+      case MediaType(type: 'application', subtype: 'xml'):
+        final serialized = await encoding.decodeStream(response.bodyBytesStream);
+        final v = XmlDocument.parse(serialized);
+        // check if v can be deserialized to xml
+        return {{classname}}{{operationIdCamelCase}}Response{{code}}{{nameInPascalCase}}(
+          headers: response.headers,
+          statusCode: response.statusCode,
+          reasonPhrase: response.reasonPhrase,
+          context: context,
+          rawXml: v,
+        );
+      {{/is_mime_application_xml}}{{/vendorExtensions}}
+    }
+    return {{classname}}{{operationIdCamelCase}}Response{{code}}{{nameInPascalCase}}(
+      headers: response.headers,
+      statusCode: response.statusCode,
+      reasonPhrase: response.reasonPhrase,
+      context: context,
+      bodyBytesStream: response.bodyBytesStream,
+    );
+  }
+}
+{{/schema}}{{/value}}{{/entrySet}}{{/content}}
+{{/responses}}
 {{/operation}}{{/operations}}
 
 

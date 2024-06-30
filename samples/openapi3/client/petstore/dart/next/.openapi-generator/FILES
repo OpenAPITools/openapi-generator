@@ -359,7 +359,9 @@ lib/src/models/zebra.serialization.dart
 lib/src/networking/_exports.dart
 lib/src/networking/_internal.dart
 lib/src/networking/helpers.dart
+lib/src/networking/multipart.dart
 lib/src/networking/package_http_client.dart
+lib/src/networking/property_encoding_rule.dart
 lib/src/serialization/_exports.dart
 lib/src/serialization/_internal.dart
 lib/src/serialization/additional_properties.dart

@@ -1,2 +1,3 @@
 export 'package_http_client.dart';
-export 'helpers.dart';
+export 'property_encoding_rule.dart';
+export 'multipart.dart';
