@@ -166,7 +166,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public Quadrilateral() {
         super("oneOf", Boolean.FALSE);
@@ -246,7 +246,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return Quadrilateral.schemas;
     }
 

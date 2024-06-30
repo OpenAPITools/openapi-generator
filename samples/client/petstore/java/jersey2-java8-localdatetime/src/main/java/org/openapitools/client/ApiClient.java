@@ -733,9 +733,9 @@ public class ApiClient extends JavaTimeFormatter {
       return formatDate((Date) param);
     } else if (param instanceof OffsetDateTime) {
       return formatOffsetDateTime((OffsetDateTime) param);
-    } else if (param instanceof Collection) {
+    } else if (param instanceof Collection<?>) {
       StringBuilder b = new StringBuilder();
-      for(Object o : (Collection)param) {
+      for(Object o : (Collection<?>)param) {
         if(b.length() > 0) {
           b.append(',');
         }
@@ -761,9 +761,9 @@ public class ApiClient extends JavaTimeFormatter {
     // preconditions
     if (name == null || name.isEmpty() || value == null) return params;
 
-    Collection valueCollection;
-    if (value instanceof Collection) {
-      valueCollection = (Collection) value;
+    Collection<?> valueCollection;
+    if (value instanceof Collection<?>) {
+      valueCollection = (Collection<?>) value;
     } else {
       params.add(new Pair(name, parameterToString(value)));
       return params;

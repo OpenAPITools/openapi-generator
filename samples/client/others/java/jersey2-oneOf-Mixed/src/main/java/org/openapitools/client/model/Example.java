@@ -135,7 +135,7 @@ public class Example extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public Example() {
         super("oneOf", Boolean.FALSE);
@@ -160,7 +160,7 @@ public class Example extends AbstractOpenApiSchema {
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return Example.schemas;
     }
 

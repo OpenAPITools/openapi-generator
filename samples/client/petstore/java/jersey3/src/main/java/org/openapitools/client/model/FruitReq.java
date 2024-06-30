@@ -144,7 +144,7 @@ public class FruitReq extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<>();
+    public static final Map<String, GenericType<?>> schemas = new HashMap<>();
 
     public FruitReq() {
         super("oneOf", Boolean.TRUE);
@@ -169,7 +169,7 @@ public class FruitReq extends AbstractOpenApiSchema {
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, GenericType<?>> getSchemas() {
         return FruitReq.schemas;
     }
 
