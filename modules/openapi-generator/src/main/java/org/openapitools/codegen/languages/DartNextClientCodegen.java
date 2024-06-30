@@ -774,7 +774,7 @@ public class DartNextClientCodegen extends DefaultCodegen {
                     betterConsume.putAll(originalConsume);
                 }
                 betterConsume.put("key", key);
-                var mimePatternList = key.toLowerCase().split(";")[0].split("/");
+                var mimePatternList = key.toLowerCase(Locale.ROOT).split(";")[0].split("/");
                 betterConsume.put("is_mime_"+mimePatternList[0], true);
                 betterConsume.put("is_mime_"+mimePatternList[0] + "_" + mimePatternList[1], true);
                 betterConsume.put("content", resultContent);
