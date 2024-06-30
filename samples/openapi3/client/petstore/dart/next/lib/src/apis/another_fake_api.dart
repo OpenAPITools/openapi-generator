@@ -1,6 +1,7 @@
 import 'package:openapi/_internal.dart';
 
-part 'another_fake_api.models.dart';
+part 'another_fake_api.requests.dart';
+part 'another_fake_api.responses.dart';
 
 class AnotherFakeApi {
   final NetworkingClientBase networkingClient;

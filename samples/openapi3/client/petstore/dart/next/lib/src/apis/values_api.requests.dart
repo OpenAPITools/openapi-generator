@@ -1,4 +1,9 @@
+// ignore_for_file: unnecessary_type_check
+
 part of 'values_api.dart';
+
+
+
 
 
  class ValuesApiGetSomeValuesRequest {
@@ -93,7 +98,4 @@ part of 'values_api.dart';
 }
 
 
-
-class ValuesApiGetSomeValuesResponse {
-}
 

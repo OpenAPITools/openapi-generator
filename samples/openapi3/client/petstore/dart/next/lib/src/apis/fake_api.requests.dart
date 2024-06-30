@@ -1,4 +1,9 @@
+// ignore_for_file: unnecessary_type_check
+
 part of 'fake_api.dart';
+
+
+
 
 
  class FakeApiFakeGetFreeFormObjectGetRequest {
@@ -94,8 +99,8 @@ part of 'fake_api.dart';
 
 
 
-class FakeApiFakeGetFreeFormObjectGetResponse {
-}
+
+
 
 
 abstract class FakeApiFakeOuterBooleanSerializeRequest {
@@ -233,6 +238,8 @@ class FakeApiFakeOuterBooleanSerializeRequestUnsafe extends FakeApiFakeOuterBool
 }
 
 
+
+
 class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFakeOuterBooleanSerializeRequest {
   static const specMediaType = r'application/json';
 
@@ -243,9 +250,17 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
             bool
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const FakeApiFakeOuterBooleanSerializeRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -256,7 +271,7 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -268,7 +283,7 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -276,19 +291,20 @@ class FakeApiFakeOuterBooleanSerializeRequestApplicationJson extends FakeApiFake
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v;
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class FakeApiFakeOuterBooleanSerializeResponse {
-}
+
+
 
 
 abstract class FakeApiFakeOuterCompositeSerializeRequest {
@@ -426,6 +442,8 @@ class FakeApiFakeOuterCompositeSerializeRequestUnsafe extends FakeApiFakeOuterCo
 }
 
 
+
+
 class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFakeOuterCompositeSerializeRequest {
   static const specMediaType = r'application/json';
 
@@ -436,9 +454,17 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
             OuterComposite
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const FakeApiFakeOuterCompositeSerializeRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -449,7 +475,7 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -461,7 +487,7 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -469,19 +495,20 @@ class FakeApiFakeOuterCompositeSerializeRequestApplicationJson extends FakeApiFa
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class FakeApiFakeOuterCompositeSerializeResponse {
-}
+
+
 
 
 abstract class FakeApiFakeOuterNumberSerializeRequest {
@@ -619,6 +646,8 @@ class FakeApiFakeOuterNumberSerializeRequestUnsafe extends FakeApiFakeOuterNumbe
 }
 
 
+
+
 class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeOuterNumberSerializeRequest {
   static const specMediaType = r'application/json';
 
@@ -629,9 +658,17 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
             num
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const FakeApiFakeOuterNumberSerializeRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -642,7 +679,7 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -654,7 +691,7 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -662,19 +699,20 @@ class FakeApiFakeOuterNumberSerializeRequestApplicationJson extends FakeApiFakeO
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v;
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class FakeApiFakeOuterNumberSerializeResponse {
-}
+
+
 
 
 abstract class FakeApiFakeOuterStringSerializeRequest {
@@ -812,6 +850,8 @@ class FakeApiFakeOuterStringSerializeRequestUnsafe extends FakeApiFakeOuterStrin
 }
 
 
+
+
 class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeOuterStringSerializeRequest {
   static const specMediaType = r'application/json';
 
@@ -822,9 +862,17 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
             String
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const FakeApiFakeOuterStringSerializeRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -835,7 +883,7 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -847,7 +895,7 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -855,19 +903,20 @@ class FakeApiFakeOuterStringSerializeRequestApplicationJson extends FakeApiFakeO
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v;
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class FakeApiFakeOuterStringSerializeResponse {
-}
+
+
 
 
 abstract class FakeApiFakeUploadRefRequestBodiesRequest {
@@ -1027,8 +1076,10 @@ class FakeApiFakeUploadRefRequestBodiesRequestUnsafe extends FakeApiFakeUploadRe
 
 
 
-class FakeApiFakeUploadRefRequestBodiesResponse {
-}
+
+
+
+
 
 
  class FakeApiGetFakeArrayofenumsRequest {
@@ -1124,8 +1175,8 @@ class FakeApiFakeUploadRefRequestBodiesResponse {
 
 
 
-class FakeApiGetFakeArrayofenumsResponse {
-}
+
+
 
 
  class FakeApiGetFakeHealthRequest {
@@ -1221,8 +1272,8 @@ class FakeApiGetFakeArrayofenumsResponse {
 
 
 
-class FakeApiGetFakeHealthResponse {
-}
+
+
 
 
  class FakeApiGetParameterNameMappingRequest {
@@ -1353,8 +1404,8 @@ class FakeApiGetFakeHealthResponse {
 
 
 
-class FakeApiGetParameterNameMappingResponse {
-}
+
+
 
 
 abstract class FakeApiTestAdditionalPropertiesReferenceRequest {
@@ -1492,6 +1543,8 @@ class FakeApiTestAdditionalPropertiesReferenceRequestUnsafe extends FakeApiTestA
 }
 
 
+
+
 class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends FakeApiTestAdditionalPropertiesReferenceRequest {
   static const specMediaType = r'application/json';
 
@@ -1504,9 +1557,17 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
 ?>
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -1517,7 +1578,7 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -1529,7 +1590,7 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -1537,19 +1598,20 @@ class FakeApiTestAdditionalPropertiesReferenceRequestApplicationJson extends Fak
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v;
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class FakeApiTestAdditionalPropertiesReferenceResponse {
-}
+
+
 
 
 abstract class FakeApiTestBodyWithFileSchemaRequest {
@@ -1687,6 +1749,8 @@ class FakeApiTestBodyWithFileSchemaRequestUnsafe extends FakeApiTestBodyWithFile
 }
 
 
+
+
 class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBodyWithFileSchemaRequest {
   static const specMediaType = r'application/json';
 
@@ -1697,9 +1761,17 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
             FileSchemaTestClass
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const FakeApiTestBodyWithFileSchemaRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -1710,7 +1782,7 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -1722,7 +1794,7 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -1730,19 +1802,20 @@ class FakeApiTestBodyWithFileSchemaRequestApplicationJson extends FakeApiTestBod
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class FakeApiTestBodyWithFileSchemaResponse {
-}
+
+
 
 
 abstract class FakeApiTestBodyWithQueryParamsRequest {
@@ -1898,6 +1971,8 @@ class FakeApiTestBodyWithQueryParamsRequestUnsafe extends FakeApiTestBodyWithQue
 }
 
 
+
+
 class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBodyWithQueryParamsRequest {
   static const specMediaType = r'application/json';
 
@@ -1908,11 +1983,19 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
             User
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const FakeApiTestBodyWithQueryParamsRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
     
     required super.query,
+    
     
     
     super.extraHeaders,
@@ -1924,7 +2007,7 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -1936,7 +2019,7 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -1944,19 +2027,20 @@ class FakeApiTestBodyWithQueryParamsRequestApplicationJson extends FakeApiTestBo
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class FakeApiTestBodyWithQueryParamsResponse {
-}
+
+
 
 
 abstract class FakeApiTestClientModelRequest {
@@ -2094,6 +2178,8 @@ class FakeApiTestClientModelRequestUnsafe extends FakeApiTestClientModelRequest 
 }
 
 
+
+
 class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientModelRequest {
   static const specMediaType = r'application/json';
 
@@ -2104,9 +2190,17 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
             Client
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const FakeApiTestClientModelRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -2117,7 +2211,7 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -2129,7 +2223,7 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -2137,19 +2231,20 @@ class FakeApiTestClientModelRequestApplicationJson extends FakeApiTestClientMode
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class FakeApiTestClientModelResponse {
-}
+
+
 
 
 abstract class FakeApiTestEndpointParametersRequest {
@@ -2327,7 +2422,226 @@ class FakeApiTestEndpointParametersRequestUnsafe extends FakeApiTestEndpointPara
 
 
 
-class FakeApiTestEndpointParametersResponse {
+
+
+
+
+
+extension type const EnumHeaderStringArrayEnum._(String value) {
+  /// Header parameter enum test (string array)
+      const EnumHeaderStringArrayEnum.greaterThan() : this._(r'>');
+  /// Header parameter enum test (string array)
+      const EnumHeaderStringArrayEnum.value() : this._(r'$');
+
+  /// Creates a [EnumHeaderStringArrayEnum] enum from a value and safely checking if it exists.
+  factory EnumHeaderStringArrayEnum.$safe(String value) {
+    final res = values.where((element) => element.value == value).firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res;
+  }
+
+  /// Creates a [EnumHeaderStringArrayEnum] enum from a value without checking if it exists.
+  const EnumHeaderStringArrayEnum.$unsafe(String value) : this._(value);
+
+  /// All possible values of the enum.
+  static const List<EnumHeaderStringArrayEnum> values = [
+    EnumHeaderStringArrayEnum.greaterThan(),
+    EnumHeaderStringArrayEnum.value(),
+    
+  ];
+}
+
+extension type const EnumHeaderStringEnum._(String value) {
+  /// Header parameter enum test (string)
+      const EnumHeaderStringEnum.abc() : this._(r'_abc');
+  /// Header parameter enum test (string)
+      const EnumHeaderStringEnum.efg() : this._(r'-efg');
+  /// Header parameter enum test (string)
+      const EnumHeaderStringEnum.xyz() : this._(r'(xyz)');
+
+  /// Creates a [EnumHeaderStringEnum] enum from a value and safely checking if it exists.
+  factory EnumHeaderStringEnum.$safe(String value) {
+    final res = values.where((element) => element.value == value).firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res;
+  }
+
+  /// Creates a [EnumHeaderStringEnum] enum from a value without checking if it exists.
+  const EnumHeaderStringEnum.$unsafe(String value) : this._(value);
+
+  /// All possible values of the enum.
+  static const List<EnumHeaderStringEnum> values = [
+    EnumHeaderStringEnum.abc(),
+    EnumHeaderStringEnum.efg(),
+    EnumHeaderStringEnum.xyz(),
+    
+  ];
+}
+
+extension type const EnumQueryStringArrayEnum._(String value) {
+  /// Query parameter enum test (string array)
+      const EnumQueryStringArrayEnum.greaterThan() : this._(r'>');
+  /// Query parameter enum test (string array)
+      const EnumQueryStringArrayEnum.value() : this._(r'$');
+
+  /// Creates a [EnumQueryStringArrayEnum] enum from a value and safely checking if it exists.
+  factory EnumQueryStringArrayEnum.$safe(String value) {
+    final res = values.where((element) => element.value == value).firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res;
+  }
+
+  /// Creates a [EnumQueryStringArrayEnum] enum from a value without checking if it exists.
+  const EnumQueryStringArrayEnum.$unsafe(String value) : this._(value);
+
+  /// All possible values of the enum.
+  static const List<EnumQueryStringArrayEnum> values = [
+    EnumQueryStringArrayEnum.greaterThan(),
+    EnumQueryStringArrayEnum.value(),
+    
+  ];
+}
+
+extension type const EnumQueryStringEnum._(String value) {
+  /// Query parameter enum test (string)
+      const EnumQueryStringEnum.abc() : this._(r'_abc');
+  /// Query parameter enum test (string)
+      const EnumQueryStringEnum.efg() : this._(r'-efg');
+  /// Query parameter enum test (string)
+      const EnumQueryStringEnum.xyz() : this._(r'(xyz)');
+
+  /// Creates a [EnumQueryStringEnum] enum from a value and safely checking if it exists.
+  factory EnumQueryStringEnum.$safe(String value) {
+    final res = values.where((element) => element.value == value).firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res;
+  }
+
+  /// Creates a [EnumQueryStringEnum] enum from a value without checking if it exists.
+  const EnumQueryStringEnum.$unsafe(String value) : this._(value);
+
+  /// All possible values of the enum.
+  static const List<EnumQueryStringEnum> values = [
+    EnumQueryStringEnum.abc(),
+    EnumQueryStringEnum.efg(),
+    EnumQueryStringEnum.xyz(),
+    
+  ];
+}
+
+extension type const EnumQueryIntegerEnum._(int value) {
+  /// Query parameter enum test (double)
+      const EnumQueryIntegerEnum.number1() : this._(1);
+  /// Query parameter enum test (double)
+      const EnumQueryIntegerEnum.numberNegative2() : this._(-2);
+
+  /// Creates a [EnumQueryIntegerEnum] enum from a value and safely checking if it exists.
+  factory EnumQueryIntegerEnum.$safe(int value) {
+    final res = values.where((element) => element.value == value).firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res;
+  }
+
+  /// Creates a [EnumQueryIntegerEnum] enum from a value without checking if it exists.
+  const EnumQueryIntegerEnum.$unsafe(int value) : this._(value);
+
+  /// All possible values of the enum.
+  static const List<EnumQueryIntegerEnum> values = [
+    EnumQueryIntegerEnum.number1(),
+    EnumQueryIntegerEnum.numberNegative2(),
+    
+  ];
+}
+
+extension type const EnumQueryDoubleEnum._(double value) {
+  /// Query parameter enum test (double)
+      const EnumQueryDoubleEnum.number11() : this._(1.1);
+  /// Query parameter enum test (double)
+      const EnumQueryDoubleEnum.numberNegative12() : this._(-1.2);
+
+  /// Creates a [EnumQueryDoubleEnum] enum from a value and safely checking if it exists.
+  factory EnumQueryDoubleEnum.$safe(double value) {
+    final res = values.where((element) => element.value == value).firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res;
+  }
+
+  /// Creates a [EnumQueryDoubleEnum] enum from a value without checking if it exists.
+  const EnumQueryDoubleEnum.$unsafe(double value) : this._(value);
+
+  /// All possible values of the enum.
+  static const List<EnumQueryDoubleEnum> values = [
+    EnumQueryDoubleEnum.number11(),
+    EnumQueryDoubleEnum.numberNegative12(),
+    
+  ];
+}
+
+extension type const EnumFormStringArrayEnum._(String value) {
+  /// Form parameter enum test (string array)
+      const EnumFormStringArrayEnum.greaterThan() : this._(r'>');
+  /// Form parameter enum test (string array)
+      const EnumFormStringArrayEnum.value() : this._(r'$');
+
+  /// Creates a [EnumFormStringArrayEnum] enum from a value and safely checking if it exists.
+  factory EnumFormStringArrayEnum.$safe(String value) {
+    final res = values.where((element) => element.value == value).firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res;
+  }
+
+  /// Creates a [EnumFormStringArrayEnum] enum from a value without checking if it exists.
+  const EnumFormStringArrayEnum.$unsafe(String value) : this._(value);
+
+  /// All possible values of the enum.
+  static const List<EnumFormStringArrayEnum> values = [
+    EnumFormStringArrayEnum.greaterThan(),
+    EnumFormStringArrayEnum.value(),
+    
+  ];
+}
+
+extension type const EnumFormStringEnum._(String value) {
+  /// Form parameter enum test (string)
+      const EnumFormStringEnum.abc() : this._(r'_abc');
+  /// Form parameter enum test (string)
+      const EnumFormStringEnum.efg() : this._(r'-efg');
+  /// Form parameter enum test (string)
+      const EnumFormStringEnum.xyz() : this._(r'(xyz)');
+
+  /// Creates a [EnumFormStringEnum] enum from a value and safely checking if it exists.
+  factory EnumFormStringEnum.$safe(String value) {
+    final res = values.where((element) => element.value == value).firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res;
+  }
+
+  /// Creates a [EnumFormStringEnum] enum from a value without checking if it exists.
+  const EnumFormStringEnum.$unsafe(String value) : this._(value);
+
+  /// All possible values of the enum.
+  static const List<EnumFormStringEnum> values = [
+    EnumFormStringEnum.abc(),
+    EnumFormStringEnum.efg(),
+    EnumFormStringEnum.xyz(),
+    
+  ];
 }
 
 
@@ -2530,8 +2844,8 @@ class FakeApiTestEndpointParametersResponse {
 
 
 
-class FakeApiTestEnumParametersResponse {
-}
+
+
 
 
  class FakeApiTestGroupParametersRequest {
@@ -2705,8 +3019,8 @@ class FakeApiTestEnumParametersResponse {
 
 
 
-class FakeApiTestGroupParametersResponse {
-}
+
+
 
 
 abstract class FakeApiTestInlineAdditionalPropertiesRequest {
@@ -2844,6 +3158,8 @@ class FakeApiTestInlineAdditionalPropertiesRequestUnsafe extends FakeApiTestInli
 }
 
 
+
+
 class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeApiTestInlineAdditionalPropertiesRequest {
   static const specMediaType = r'application/json';
 
@@ -2857,9 +3173,17 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
 >
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const FakeApiTestInlineAdditionalPropertiesRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -2870,7 +3194,7 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -2882,7 +3206,7 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -2890,19 +3214,20 @@ class FakeApiTestInlineAdditionalPropertiesRequestApplicationJson extends FakeAp
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.map((k,v) => MapEntry(k, v));
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class FakeApiTestInlineAdditionalPropertiesResponse {
-}
+
+
 
 
 abstract class FakeApiTestInlineFreeformAdditionalPropertiesRequest {
@@ -3040,6 +3365,8 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestUnsafe extends FakeApi
 }
 
 
+
+
 class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extends FakeApiTestInlineFreeformAdditionalPropertiesRequest {
   static const specMediaType = r'application/json';
 
@@ -3050,9 +3377,17 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
             TestInlineFreeformAdditionalPropertiesRequest
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -3063,7 +3398,7 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -3075,7 +3410,7 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -3083,19 +3418,20 @@ class FakeApiTestInlineFreeformAdditionalPropertiesRequestApplicationJson extend
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v;
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class FakeApiTestInlineFreeformAdditionalPropertiesResponse {
-}
+
+
 
 
  class FakeApiTestJsonFormDataRequest {
@@ -3195,8 +3531,8 @@ class FakeApiTestInlineFreeformAdditionalPropertiesResponse {
 
 
 
-class FakeApiTestJsonFormDataResponse {
-}
+
+
 
 
 abstract class FakeApiTestQueryParameterCollectionFormatRequest {
@@ -3452,8 +3788,10 @@ class FakeApiTestQueryParameterCollectionFormatRequestUnsafe extends FakeApiTest
 
 
 
-class FakeApiTestQueryParameterCollectionFormatResponse {
-}
+
+
+
+
 
 
 abstract class FakeApiTestStringMapReferenceRequest {
@@ -3591,6 +3929,8 @@ class FakeApiTestStringMapReferenceRequestUnsafe extends FakeApiTestStringMapRef
 }
 
 
+
+
 class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStringMapReferenceRequest {
   static const specMediaType = r'application/json';
 
@@ -3604,9 +3944,17 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
 >
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const FakeApiTestStringMapReferenceRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -3617,7 +3965,7 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -3629,7 +3977,7 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -3637,17 +3985,15 @@ class FakeApiTestStringMapReferenceRequestApplicationJson extends FakeApiTestStr
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.map((k,v) => MapEntry(k, v));
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
-}
-
-class FakeApiTestStringMapReferenceResponse {
 }
 

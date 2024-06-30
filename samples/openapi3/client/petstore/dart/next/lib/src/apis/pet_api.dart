@@ -1,6 +1,7 @@
 import 'package:openapi/_internal.dart';
 
-part 'pet_api.models.dart';
+part 'pet_api.requests.dart';
+part 'pet_api.responses.dart';
 
 class PetApi {
   final NetworkingClientBase networkingClient;

@@ -432,7 +432,8 @@ public class DartNextClientCodegen extends DefaultCodegen {
         modelTemplateFiles.put(modelsMustache + "model.serialization.mustache", ".serialization.dart");
 
         apiTemplateFiles.put(apisMustache + "api.mustache", ".dart");
-        apiTemplateFiles.put(apisMustache + "api_models.mustache", ".models.dart");
+        apiTemplateFiles.put(apisMustache + "api_requests.mustache", ".requests.dart");
+        apiTemplateFiles.put(apisMustache + "api_responses.mustache", ".responses.dart");
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml").doNotOverwrite());

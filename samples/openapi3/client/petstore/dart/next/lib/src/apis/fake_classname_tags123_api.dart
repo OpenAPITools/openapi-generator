@@ -1,6 +1,7 @@
 import 'package:openapi/_internal.dart';
 
-part 'fake_classname_tags123_api.models.dart';
+part 'fake_classname_tags123_api.requests.dart';
+part 'fake_classname_tags123_api.responses.dart';
 
 class FakeClassnameTags123Api {
   final NetworkingClientBase networkingClient;

@@ -1,4 +1,9 @@
+// ignore_for_file: unnecessary_type_check
+
 part of 'store_api.dart';
+
+
+
 
 
  class StoreApiDeleteOrderRequest {
@@ -105,8 +110,8 @@ part of 'store_api.dart';
 
 
 
-class StoreApiDeleteOrderResponse {
-}
+
+
 
 
  class StoreApiGetInventoryRequest {
@@ -202,8 +207,8 @@ class StoreApiDeleteOrderResponse {
 
 
 
-class StoreApiGetInventoryResponse {
-}
+
+
 
 
  class StoreApiGetOrderByIdRequest {
@@ -310,8 +315,8 @@ class StoreApiGetInventoryResponse {
 
 
 
-class StoreApiGetOrderByIdResponse {
-}
+
+
 
 
 abstract class StoreApiPlaceOrderRequest {
@@ -449,6 +454,8 @@ class StoreApiPlaceOrderRequestUnsafe extends StoreApiPlaceOrderRequest {
 }
 
 
+
+
 class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest {
   static const specMediaType = r'application/json';
 
@@ -459,9 +466,17 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
             Order
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const StoreApiPlaceOrderRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -472,7 +487,7 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -484,7 +499,7 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -492,17 +507,15 @@ class StoreApiPlaceOrderRequestApplicationJson extends StoreApiPlaceOrderRequest
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
-}
-
-class StoreApiPlaceOrderResponse {
 }
 

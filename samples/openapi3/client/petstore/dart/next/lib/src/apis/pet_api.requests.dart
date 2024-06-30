@@ -1,4 +1,9 @@
+// ignore_for_file: unnecessary_type_check
+
 part of 'pet_api.dart';
+
+
+
 
 
 abstract class PetApiAddPetRequest {
@@ -136,6 +141,8 @@ class PetApiAddPetRequestUnsafe extends PetApiAddPetRequest {
 }
 
 
+
+
 class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
   static const specMediaType = r'application/json';
 
@@ -146,9 +153,17 @@ class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
             Pet
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const PetApiAddPetRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -159,7 +174,7 @@ class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -171,7 +186,7 @@ class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -179,14 +194,15 @@ class PetApiAddPetRequestApplicationJson extends PetApiAddPetRequest {
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
@@ -199,9 +215,17 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
             Pet
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const PetApiAddPetRequestApplicationXml({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -212,7 +236,7 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -224,7 +248,7 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -234,17 +258,18 @@ class PetApiAddPetRequestApplicationXml extends PetApiAddPetRequest {
       case MediaType(type: 'application', subtype: 'xml'):
         break;
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = serialized;
-    //final bytes = ;
   }
 }
 
-class PetApiAddPetResponse {
-}
+
+
 
 
  class PetApiDeletePetRequest {
@@ -365,7 +390,36 @@ class PetApiAddPetResponse {
 
 
 
-class PetApiDeletePetResponse {
+
+
+
+extension type const StatusEnum._(String value) {
+  /// Status values that need to be considered for filter
+      const StatusEnum.available() : this._(r'available');
+  /// Status values that need to be considered for filter
+      const StatusEnum.pending() : this._(r'pending');
+  /// Status values that need to be considered for filter
+      const StatusEnum.sold() : this._(r'sold');
+
+  /// Creates a [StatusEnum] enum from a value and safely checking if it exists.
+  factory StatusEnum.$safe(String value) {
+    final res = values.where((element) => element.value == value).firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res;
+  }
+
+  /// Creates a [StatusEnum] enum from a value without checking if it exists.
+  const StatusEnum.$unsafe(String value) : this._(value);
+
+  /// All possible values of the enum.
+  static const List<StatusEnum> values = [
+    StatusEnum.available(),
+    StatusEnum.pending(),
+    StatusEnum.sold(),
+    
+  ];
 }
 
 
@@ -476,8 +530,8 @@ class PetApiDeletePetResponse {
 
 
 
-class PetApiFindPetsByStatusResponse {
-}
+
+
 
 
 @Deprecated('This operation has been deprecated')
@@ -588,9 +642,8 @@ class PetApiFindPetsByStatusResponse {
 
 
 
-@Deprecated('This operation has been deprecated')
-class PetApiFindPetsByTagsResponse {
-}
+
+
 
 
  class PetApiGetPetByIdRequest {
@@ -697,8 +750,8 @@ class PetApiFindPetsByTagsResponse {
 
 
 
-class PetApiGetPetByIdResponse {
-}
+
+
 
 
 abstract class PetApiUpdatePetRequest {
@@ -836,6 +889,8 @@ class PetApiUpdatePetRequestUnsafe extends PetApiUpdatePetRequest {
 }
 
 
+
+
 class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
   static const specMediaType = r'application/json';
 
@@ -846,9 +901,17 @@ class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
             Pet
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const PetApiUpdatePetRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -859,7 +922,7 @@ class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -871,7 +934,7 @@ class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -879,14 +942,15 @@ class PetApiUpdatePetRequestApplicationJson extends PetApiUpdatePetRequest {
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
@@ -899,9 +963,17 @@ class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
             Pet
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const PetApiUpdatePetRequestApplicationXml({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -912,7 +984,7 @@ class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -924,7 +996,7 @@ class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -934,17 +1006,18 @@ class PetApiUpdatePetRequestApplicationXml extends PetApiUpdatePetRequest {
       case MediaType(type: 'application', subtype: 'xml'):
         break;
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = serialized;
-    //final bytes = ;
   }
 }
 
-class PetApiUpdatePetResponse {
-}
+
+
 
 
 abstract class PetApiUpdatePetWithFormRequest {
@@ -1104,8 +1177,10 @@ class PetApiUpdatePetWithFormRequestUnsafe extends PetApiUpdatePetWithFormReques
 
 
 
-class PetApiUpdatePetWithFormResponse {
-}
+
+
+
+
 
 
 abstract class PetApiUploadFileRequest {
@@ -1265,8 +1340,10 @@ class PetApiUploadFileRequestUnsafe extends PetApiUploadFileRequest {
 
 
 
-class PetApiUploadFileResponse {
-}
+
+
+
+
 
 
 abstract class PetApiUploadFileWithRequiredFileRequest {
@@ -1426,6 +1503,5 @@ class PetApiUploadFileWithRequiredFileRequestUnsafe extends PetApiUploadFileWith
 
 
 
-class PetApiUploadFileWithRequiredFileResponse {
-}
+
 

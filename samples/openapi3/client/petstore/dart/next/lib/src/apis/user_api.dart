@@ -1,6 +1,7 @@
 import 'package:openapi/_internal.dart';
 
-part 'user_api.models.dart';
+part 'user_api.requests.dart';
+part 'user_api.responses.dart';
 
 class UserApi {
   final NetworkingClientBase networkingClient;

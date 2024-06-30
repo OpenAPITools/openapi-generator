@@ -1,0 +1,21 @@
+// ignore_for_file: unnecessary_type_check
+
+{{#operations}}
+part of '{{classFilename}}.dart';
+{{/operations}}
+
+{{#operations}}{{#operation}}
+{{#isDeprecated}}
+@Deprecated('This operation has been deprecated')
+{{/isDeprecated}}
+class {{classname}}{{operationIdCamelCase}}Response {
+  {{classname}}{{operationIdCamelCase}}Response();
+
+
+  static Future<{{classname}}{{operationIdCamelCase}}Response> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+    return {{classname}}{{operationIdCamelCase}}Response();
+  }
+}
+{{/operation}}{{/operations}}
+
+

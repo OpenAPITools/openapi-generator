@@ -1,6 +1,7 @@
 import 'package:openapi/_internal.dart';
 
-part 'store_api.models.dart';
+part 'store_api.requests.dart';
+part 'store_api.responses.dart';
 
 class StoreApi {
   final NetworkingClientBase networkingClient;

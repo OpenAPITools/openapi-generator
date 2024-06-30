@@ -1,8 +1,15 @@
+// ignore_for_file: unnecessary_type_check
+
 {{#operations}}
 part of '{{classFilename}}.dart';
 {{/operations}}
 
 {{#operations}}{{#operation}}
+
+{{#allParams}}{{^isModel}}{{#enumName}}
+{{>lib/src/models/enum_inline}}
+{{/enumName}}{{/isModel}}{{/allParams}}
+
 {{#isDeprecated}}
 @Deprecated('This operation has been deprecated')
 {{/isDeprecated}}
@@ -189,6 +196,8 @@ class {{classname}}{{operationIdCamelCase}}RequestUnsafe extends {{classname}}{{
   }
 }
 
+
+
 {{#vendorExtensions}}{{#better-consumes}}{{#content}}{{#schema}}
 class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {{classname}}{{operationIdCamelCase}}Request {
   static const specMediaType = r'{{{key}}}';
@@ -198,12 +207,36 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
 
   final {{>types/variable_recursive}} data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+  {{#is_mime_multipart_form-data}}
+  /// Pass this to handle serialization of unkown form data values yourself.
+  /// A value can result in one or more parts.
+  /// returning an empty iterable will skip the field entirely.
+  ///
+  /// The default behavior is to call [defaultAppendFormDataPart] which will call `.toString`
+  /// to stringify the value.
+  final AppendFormDataPartHandler? appendUnkownFormDataPart;
+  {{/is_mime_multipart_form-data}}
+
+  {{^is_mime_multipart_form-data}}{{#is_mime_multipart}}
+  /// Pass this to handle serialization of unkown parts yourself.
+  /// A value can result in one or more parts.
+  /// returning an empty iterable will skip the part entirely.
+  ///
+  /// The default behavior is to call [defaultAppendPart] which will call `jsonEncode`
+  /// to stringify the value.
+  final AppendPartHandler? appendUnkownPart;
+  {{/is_mime_multipart}}{{/is_mime_multipart_form-data}}
+
   {{#extraParameters}}
   final {{>types/param}} {{paramName}};
   {{/extraParameters}}
 
   const {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}}({
     required this.data,
+    this.handleUnkownMediaType,
     {{#extraParameters}}
     {{>types/required_ctor}} this.{{paramName}}{{>types/default}},
     {{/extraParameters}}
@@ -212,6 +245,12 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
     {{>types/required_ctor}} super.{{paramName}},
     {{/isBodyParam}}{{/isFormParam}}
     {{/allParams}}
+    {{#is_mime_multipart_form-data}}
+    this.appendUnkownFormDataPart,
+    {{/is_mime_multipart_form-data}}
+    {{^is_mime_multipart_form-data}}{{#is_mime_multipart}}
+    this.appendUnkownPart,
+    {{/is_mime_multipart}}{{/is_mime_multipart_form-data}}
     super.extraHeaders,
     super.extraQueryParameters,
     super.extraCookies,
@@ -221,7 +260,7 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -233,22 +272,22 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       {{#content}}{{#encoding}}
       {{#entrySet}}
-      r'{{{key}}}': {{#value}}{
-        {{#style}}'style': r'{{{style}}}',{{/style}}
-        {{#explode}}'explode': {{explode}},{{/explode}}
-        {{#allowReserved}}'allowReserved': {{allowReserved}},{{/allowReserved}}
-        {{#contentType}}'contentType': MediaType.parse(r'{{{contentType}}}'),{{/contentType}}
+      r'{{{key}}}': {{#value}}PropertyEncodingRule(
+        {{#style}}style: r'{{{style}}}',{{/style}}
+        {{#explode}}explode: {{explode}},{{/explode}}
+        {{#allowReserved}}allowReserved: {{allowReserved}},{{/allowReserved}}
+        {{#contentType}}contentType: MediaType.parse(r'{{{contentType}}}'),{{/contentType}}
         {{#headers}}{{#-first}}
-        'headers': <String, String>{
+        headers: <String, String>{
         {{/-first}}
         {{>lib/src/apis/request/header_param}}
         {{#-last}}
         },
         {{/-last}}{{/headers}}
-      },{{/value}}
+      ),{{/value}}
       {{/entrySet}}
       {{/encoding}}{{/content}}
     };
@@ -258,26 +297,27 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
     switch (resolvedMediaType) {
       {{#is_mime_application_json}}
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       {{/is_mime_application_json}}
       {{#is_mime_application_x-www-form-urlencoded}}
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
         if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
+          yield* _stringResult(serialized.toString());
+          return;
         }
         var result = Uri();
 
         for (var e in serialized.entries) {
           final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
+          final style = rule?.style ?? 'form';
+          final explode = rule?.explode ?? (style == 'form');
           result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
         }
         var resultString = result.query.toString();
         if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
+          resultString = resultString.substring(1);
         }
-        return _stringResult(resultString);
+        yield* _stringResult(resultString);
       {{/is_mime_application_x-www-form-urlencoded}}
       {{#is_mime_application_xml}}
       case MediaType(type: 'application', subtype: 'xml'):
@@ -285,61 +325,70 @@ class {{classname}}{{operationIdCamelCase}}Request{{nameInPascalCase}} extends {
       {{/is_mime_application_xml}}
       {{#is_mime_multipart}}
       case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
         if (serialized is! Map<String, dynamic>) {
           throw ArgumentError('The serialized data must be a map in a multipart request.');
         }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'] as MediaType?;
-            if (contentType != null) {
-            }
+
+        Stream<HttpPacketMixin> getParts() async* {
+          switch (resolvedMediaType.subtype) {
+            {{#is_mime_multipart_form-data}}
+            case 'form-data':
+              for (final e in serialized.entries) {
+                final fieldName = e.key;
+                final rule = encodingRules[e.key];
+                final value = e.value;
+                final contentType = rule?.contentType;
+                final headers = rule?.headers;
+                yield* appendFormDataValue(fieldName, value, contentType, headers, unkownHandler: this.appendUnkownFormDataPart ?? defaultAppendFormDataPart);
+              }
+            {{/is_mime_multipart_form-data}}
+            default:
+            {{^is_mime_multipart_form-data}}{{#is_mime_multipart}}
+              for (final e in serialized.entries) {
+                final key = e.key;
+                final value = e.value;
+                final rule = encodingRules[key];
+                final contentType = rule?.contentType;
+                final headers = rule?.headers;
+                //key is meaningless here
+                yield* appendPartValue(value, contentType, headers, unkownHandler: this.appendUnkownPart ?? defaultAppendPart);
+              }
+            {{/is_mime_multipart}}{{/is_mime_multipart_form-data}}
           }
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
         }
+
         final bodySerializer = MultiPartBodySerializer(
           boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
+          parts: getParts(),
         );
-        return bodySerializer.bodyBytesStream;
+        final result = await bodySerializer.serialize();
+        yield* result.bodyBytesStream;
       {{/is_mime_multipart}}
       {{#is_mime_application_octet-stream}}
       case MediaType(type: 'application', subtype: 'octet-stream'):
-        if (v is Stream<List<int>>) {
-          return v;
+        if (serialized is Stream<List<int>>) {
+          yield* serialized;
+          return;
         }
-        if (v is List<int>) {
-          return Stream.value(v);
+        if (serialized is List<int>) {
+          yield* Stream.value(serialized);
+          return;
         }
-        if (v is XFile) {
-          return v.openRead();
+        if (serialized is XFile) {
+          yield* serialized.openRead();
+          return;
         }
-        return _stringResult(v.toString());
+        yield* _stringResult(serialized.toString());
       {{/is_mime_application_octet-stream}}
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = {{>types/serialize_recursive}};
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = {{#isJson}}json.encode(serialized){{/isJson}}{{^isJson}}serialized{{/isJson}};
-    //final bytes = ;
   }
 }{{/schema}}{{/content}}{{/better-consumes}}{{/vendorExtensions}}{{/bodyAllowed}}
-
-{{#isDeprecated}}
-@Deprecated('This operation has been deprecated')
-{{/isDeprecated}}
-class {{classname}}{{operationIdCamelCase}}Response {
-}
 
 {{/operation}}{{/operations}}

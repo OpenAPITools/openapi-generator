@@ -1,4 +1,9 @@
+// ignore_for_file: unnecessary_type_check
+
 part of 'default_api.dart';
+
+
+
 
 
  class DefaultApiFakeAnyOfWIthSameErasureGetRequest {
@@ -94,8 +99,8 @@ part of 'default_api.dart';
 
 
 
-class DefaultApiFakeAnyOfWIthSameErasureGetResponse {
-}
+
+
 
 
  class DefaultApiFakeOneOfWIthSameErasureGetRequest {
@@ -191,8 +196,8 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse {
 
 
 
-class DefaultApiFakeOneOfWIthSameErasureGetResponse {
-}
+
+
 
 
  class DefaultApiFooGetRequest {
@@ -288,8 +293,8 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse {
 
 
 
-class DefaultApiFooGetResponse {
-}
+
+
 
 
 abstract class DefaultApiPetsMulticontentTestPostRequest {
@@ -427,6 +432,8 @@ class DefaultApiPetsMulticontentTestPostRequestUnsafe extends DefaultApiPetsMult
 }
 
 
+
+
 class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultApiPetsMulticontentTestPostRequest {
   static const specMediaType = r'application/json';
 
@@ -437,9 +444,17 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
             Pet
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const DefaultApiPetsMulticontentTestPostRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -450,7 +465,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -462,7 +477,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -470,14 +485,15 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationJson extends DefaultAp
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApiPetsMulticontentTestPostRequest {
@@ -490,9 +506,17 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
             NewPet
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const DefaultApiPetsMulticontentTestPostRequestApplicationXml({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -503,7 +527,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -515,7 +539,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -525,12 +549,13 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXml extends DefaultApi
       case MediaType(type: 'application', subtype: 'xml'):
         break;
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = serialized;
-    //final bytes = ;
   }
 }
 class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded extends DefaultApiPetsMulticontentTestPostRequest {
@@ -543,9 +568,17 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
             Triangle
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -556,7 +589,7 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -568,15 +601,15 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
-      r'name': {
-        'style': r'form',
-        'explode': true,
+      r'name': PropertyEncodingRule(
+        style: r'form',
+        explode: true,
         
         
         
-      },
+      ),
       
     };
 
@@ -585,28 +618,30 @@ class DefaultApiPetsMulticontentTestPostRequestApplicationXWwwFormUrlencoded ext
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
         if (serialized is! Map<String, dynamic>) {
-          return _stringResult(serialized.toString());
+          yield* _stringResult(serialized.toString());
+          return;
         }
         var result = Uri();
 
         for (var e in serialized.entries) {
           final rule = encodingRules[e.key];
-          final style = rule?['style'] ?? 'form';
-          final explode = rule?['explode'] ?? (style == 'form');
+          final style = rule?.style ?? 'form';
+          final explode = rule?.explode ?? (style == 'form');
           result = OpenApiParameterSerializationQuery.fromStyle(style, explode: explode, parameterName: e.key, allowEmptyValue: false,).expandUri(result, e.value);
         }
         var resultString = result.query.toString();
         if (resultString.startsWith('?')) {
-          resultString= resultString.substring(1);
+          resultString = resultString.substring(1);
         }
-        return _stringResult(resultString);
+        yield* _stringResult(resultString);
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = serialized;
-    //final bytes = ;
   }
 }
 class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsMulticontentTestPostRequest {
@@ -619,9 +654,17 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
             int
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const DefaultApiPetsMulticontentTestPostRequestTextPlain({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -632,7 +675,7 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -644,7 +687,7 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -652,12 +695,13 @@ class DefaultApiPetsMulticontentTestPostRequestTextPlain extends DefaultApiPetsM
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v;
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = serialized;
-    //final bytes = ;
   }
 }
 class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMulticontentTestPostRequest {
@@ -669,9 +713,17 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
   final Object
 ? data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const DefaultApiPetsMulticontentTestPostRequestAnyAny({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -682,7 +734,7 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -694,7 +746,7 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -702,12 +754,13 @@ class DefaultApiPetsMulticontentTestPostRequestAnyAny extends DefaultApiPetsMult
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v;
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = serialized;
-    //final bytes = ;
   }
 }
 class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMulticontentTestPostRequest {
@@ -720,9 +773,17 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
             String
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const DefaultApiPetsMulticontentTestPostRequestTextAny({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -733,7 +794,7 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -745,7 +806,7 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -753,12 +814,13 @@ class DefaultApiPetsMulticontentTestPostRequestTextAny extends DefaultApiPetsMul
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v;
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = serialized;
-    //final bytes = ;
   }
 }
 class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends DefaultApiPetsMulticontentTestPostRequest {
@@ -771,15 +833,31 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
             PetsMulticontentTestPostRequest
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+  /// Pass this to handle serialization of unkown form data values yourself.
+  /// A value can result in one or more parts.
+  /// returning an empty iterable will skip the field entirely.
+  ///
+  /// The default behavior is to call [defaultAppendFormDataPart] which will call `.toString`
+  /// to stringify the value.
+  final AppendFormDataPartHandler? appendUnkownFormDataPart;
+
+  
+
   final UndefinedWrapper<
             String
 > profileImagesHelloHeader;
 
   const DefaultApiPetsMulticontentTestPostRequestMultipartFormData({
     required this.data,
+    this.handleUnkownMediaType,
      this.profileImagesHelloHeader= const UndefinedWrapper
         .undefined()
 ,
+    
+    this.appendUnkownFormDataPart,
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -790,7 +868,7 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -802,27 +880,27 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
-      r'address': {
-        'style': r'form',
+      r'address': PropertyEncodingRule(
+        style: r'form',
         
         
-        'contentType': MediaType.parse(r'application/json'),
+        contentType: MediaType.parse(r'application/json'),
         
-      },
-      r'profileImages': {
-        'style': r'form',
-        
-        
+      ),
+      r'profileImages': PropertyEncodingRule(
+        style: r'form',
         
         
-        'headers': <String, String>{
+        
+        
+        headers: <String, String>{
         if (profileImagesHelloHeader.isDefined)
   r'hello': OpenApiParameterSerializationHeader(parameterName: r'hello',explode: false).serialize(profileImagesHelloHeader.valueRequired),
         },
         
-      },
+      ),
       
     };
 
@@ -830,43 +908,40 @@ class DefaultApiPetsMulticontentTestPostRequestMultipartFormData extends Default
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'multipart'):
-        List<HttpPacketMixin> parts;
         if (serialized is! Map<String, dynamic>) {
           throw ArgumentError('The serialized data must be a map in a multipart request.');
         }
-        if (resolvedMediaType.subtype == 'form-data') {
-          final fields = <String, String>{};
-          final files = <MultiPartFormDataFileHttpPacket>[];
-          for (final e in serialized.entries) {
-            final rule = encodingRules[e.key];
-            final headers = rule?['headers'];
-            final contentType = rule?['contentType'] as MediaType?;
-            if (contentType != null) {
-            }
+
+        Stream<HttpPacketMixin> getParts() async* {
+          switch (resolvedMediaType.subtype) {
+            case 'form-data':
+              for (final e in serialized.entries) {
+                final fieldName = e.key;
+                final rule = encodingRules[e.key];
+                final value = e.value;
+                final contentType = rule?.contentType;
+                final headers = rule?.headers;
+                yield* appendFormDataValue(fieldName, value, contentType, headers, unkownHandler: this.appendUnkownFormDataPart ?? defaultAppendFormDataPart);
+              }
+            default:
+            
           }
-          parts = MultiPartBodySerializer.getFormDataParts(
-            fields: {
-            },
-            files: []
-          );
-        } else {
-          parts = [];
         }
+
         final bodySerializer = MultiPartBodySerializer(
           boundary: resolvedMediaType.parameters['boundary'],
-          parts: parts,
+          parts: getParts(),
         );
-        return bodySerializer.bodyBytesStream;
+        final result = await bodySerializer.serialize();
+        yield* result.bodyBytesStream;
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = serialized;
-    //final bytes = ;
   }
-}
-
-class DefaultApiPetsMulticontentTestPostResponse {
 }
 

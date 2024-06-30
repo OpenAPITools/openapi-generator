@@ -1,4 +1,9 @@
+// ignore_for_file: unnecessary_type_check
+
 part of 'another_fake_api.dart';
+
+
+
 
 
 abstract class AnotherFakeApi$123testSpecialTagsRequest {
@@ -136,6 +141,8 @@ class AnotherFakeApi$123testSpecialTagsRequestUnsafe extends AnotherFakeApi$123t
 }
 
 
+
+
 class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFakeApi$123testSpecialTagsRequest {
   static const specMediaType = r'application/json';
 
@@ -146,9 +153,17 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
             Client
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const AnotherFakeApi$123testSpecialTagsRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -159,7 +174,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -171,7 +186,7 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -179,19 +194,20 @@ class AnotherFakeApi$123testSpecialTagsRequestApplicationJson extends AnotherFak
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class AnotherFakeApi$123testSpecialTagsResponse {
-}
+
+
 
 
  class AnotherFakeApiGetParameterArrayNumberRequest {
@@ -306,8 +322,8 @@ class AnotherFakeApi$123testSpecialTagsResponse {
 
 
 
-class AnotherFakeApiGetParameterArrayNumberResponse {
-}
+
+
 
 
  class AnotherFakeApiGetParameterStringNumberRequest {
@@ -415,8 +431,8 @@ class AnotherFakeApiGetParameterArrayNumberResponse {
 
 
 
-class AnotherFakeApiGetParameterStringNumberResponse {
-}
+
+
 
 
  class AnotherFakeApiNullRequestBodyRequest {
@@ -527,7 +543,4 @@ class AnotherFakeApiGetParameterStringNumberResponse {
 }
 
 
-
-class AnotherFakeApiNullRequestBodyResponse {
-}
 

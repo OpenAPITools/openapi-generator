@@ -1,6 +1,7 @@
 import 'package:openapi/_internal.dart';
 
-part 'values_api.models.dart';
+part 'values_api.requests.dart';
+part 'values_api.responses.dart';
 
 class ValuesApi {
   final NetworkingClientBase networkingClient;

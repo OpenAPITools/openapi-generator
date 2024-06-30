@@ -1,4 +1,9 @@
+// ignore_for_file: unnecessary_type_check
+
 part of 'user_api.dart';
+
+
+
 
 
 abstract class UserApiCreateUserRequest {
@@ -136,6 +141,8 @@ class UserApiCreateUserRequestUnsafe extends UserApiCreateUserRequest {
 }
 
 
+
+
 class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
   static const specMediaType = r'application/json';
 
@@ -146,9 +153,17 @@ class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
             User
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const UserApiCreateUserRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -159,7 +174,7 @@ class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -171,7 +186,7 @@ class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -179,19 +194,20 @@ class UserApiCreateUserRequestApplicationJson extends UserApiCreateUserRequest {
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class UserApiCreateUserResponse {
-}
+
+
 
 
 abstract class UserApiCreateUsersWithArrayInputRequest {
@@ -329,6 +345,8 @@ class UserApiCreateUsersWithArrayInputRequestUnsafe extends UserApiCreateUsersWi
 }
 
 
+
+
 class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCreateUsersWithArrayInputRequest {
   static const specMediaType = r'application/json';
 
@@ -342,9 +360,17 @@ class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCrea
 >
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const UserApiCreateUsersWithArrayInputRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -355,7 +381,7 @@ class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCrea
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -367,7 +393,7 @@ class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCrea
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -375,19 +401,20 @@ class UserApiCreateUsersWithArrayInputRequestApplicationJson extends UserApiCrea
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.map((v) => v.serialize()).toList();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class UserApiCreateUsersWithArrayInputResponse {
-}
+
+
 
 
 abstract class UserApiCreateUsersWithListInputRequest {
@@ -525,6 +552,8 @@ class UserApiCreateUsersWithListInputRequestUnsafe extends UserApiCreateUsersWit
 }
 
 
+
+
 class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreateUsersWithListInputRequest {
   static const specMediaType = r'application/json';
 
@@ -538,9 +567,17 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
 >
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const UserApiCreateUsersWithListInputRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
+    
     
     super.extraHeaders,
     super.extraQueryParameters,
@@ -551,7 +588,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -563,7 +600,7 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -571,19 +608,20 @@ class UserApiCreateUsersWithListInputRequestApplicationJson extends UserApiCreat
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.map((v) => v.serialize()).toList();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
 }
 
-class UserApiCreateUsersWithListInputResponse {
-}
+
+
 
 
  class UserApiDeleteUserRequest {
@@ -690,8 +728,8 @@ class UserApiCreateUsersWithListInputResponse {
 
 
 
-class UserApiDeleteUserResponse {
-}
+
+
 
 
  class UserApiGetUserByNameRequest {
@@ -798,8 +836,8 @@ class UserApiDeleteUserResponse {
 
 
 
-class UserApiGetUserByNameResponse {
-}
+
+
 
 
  class UserApiLoginUserRequest {
@@ -917,8 +955,8 @@ class UserApiGetUserByNameResponse {
 
 
 
-class UserApiLoginUserResponse {
-}
+
+
 
 
  class UserApiLogoutUserRequest {
@@ -1014,8 +1052,8 @@ class UserApiLoginUserResponse {
 
 
 
-class UserApiLogoutUserResponse {
-}
+
+
 
 
 abstract class UserApiUpdateUserRequest {
@@ -1171,6 +1209,8 @@ class UserApiUpdateUserRequestUnsafe extends UserApiUpdateUserRequest {
 }
 
 
+
+
 class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
   static const specMediaType = r'application/json';
 
@@ -1181,11 +1221,19 @@ class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
             User
  data;
 
+  /// Pass this to handle serialization and encoding of unkown media types yourself.
+  final UnknownMediaTypeHandler? handleUnkownMediaType;
+
+
+  
+
 
   const UserApiUpdateUserRequestApplicationJson({
     required this.data,
+    this.handleUnkownMediaType,
     
     required super.username,
+    
     
     
     super.extraHeaders,
@@ -1197,7 +1245,7 @@ class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
   Stream<List<int>> getResolvedBody({
     required Map<String, String> headers,
     Map<String, dynamic> context = const {},
-  }) {
+  }) async* {
     //TODO: serialize model, then encode it according to media type.
     final contentType = headers['Content-Type']!;
     final resolvedMediaType = MediaType.parse(contentType);
@@ -1209,7 +1257,7 @@ class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
     Stream<List<int>> _stringResult(String src) {
       return encoding.encoder.bind(Stream.value(src));
     }
-    final encodingRules = <String, Map<String,dynamic>>{
+    final encodingRules = <String, PropertyEncodingRule>{
       
     };
 
@@ -1217,17 +1265,15 @@ class UserApiUpdateUserRequestApplicationJson extends UserApiUpdateUserRequest {
     // mime type and serialize the model accordingly.
     switch (resolvedMediaType) {
       case MediaType(type: 'application', subtype: 'json'):
-        return _stringResult(json.encode(serialized));
+        yield* _stringResult(json.encode(serialized));
       default:
-        return _stringResult(v.toString());
+        final handleUnkownMediaType = this.handleUnkownMediaType;
+        if (handleUnkownMediaType!=null) {
+          yield* handleUnkownMediaType(resolvedMediaType, serialized, encoding, encodingRules);
+          return;
+        }
+        yield* _stringResult(serialized.toString());
     }
-    //var serialized = v.serialize();
-    // serialized is guaranteed to be a dart primitive (String, int, List, Map, Uint8List, XFile, XMLElement, etc...)
-    //final encoded = json.encode(serialized);
-    //final bytes = ;
   }
-}
-
-class UserApiUpdateUserResponse {
 }
 
