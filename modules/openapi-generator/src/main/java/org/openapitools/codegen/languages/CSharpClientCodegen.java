@@ -125,8 +125,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         ALPHABETICAL,
         LEGACY
     }
-    private SortingMethod operationParameterSorting = SortingMethod.LEGACY;
-    private SortingMethod modelPropertySorting = SortingMethod.LEGACY;
+    private SortingMethod operationParameterSorting = SortingMethod.DEFAULT;
+    private SortingMethod modelPropertySorting = SortingMethod.DEFAULT;
 
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
     protected String releaseNote = "Minor update";
@@ -229,11 +229,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 null);
 
         addOption(CSharpClientCodegen.OPERATION_PARAMETER_SORTING_KEY,
-                "One of legacy, alphabetical, default (only `generichost` library supports this option).",
+                "One of legacy, alphabetical, default.",
                 this.operationParameterSorting.toString().toLowerCase(Locale.ROOT));
 
         addOption(CSharpClientCodegen.MODEL_PROPERTY_SORTING_KEY,
-                "One of legacy, alphabetical, default (only `generichost` library supports this option).",
+                "One of legacy, alphabetical, default.",
                 this.modelPropertySorting.toString().toLowerCase(Locale.ROOT));
 
         CliOption framework = new CliOption(
@@ -467,6 +467,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 }
             }
         }
+
+        // TODO: remove the library check by adding alphabetical and default options for other libraries
 
         // avoid breaking changes
         if (GENERICHOST.equals(getLibrary()) && codegenModel != null) {
@@ -925,6 +927,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                                           Operation operation,
                                           List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+
+        // TODO: remove the library check by adding alphabetical and default options for other libraries
 
         if (!GENERICHOST.equals(getLibrary())) {
             return op;
