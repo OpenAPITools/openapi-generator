@@ -1,0 +1,18 @@
+version: '3.3'
+
+services:
+  restapi.postgres:
+    container_name: koa-ts
+    image: postgres:13
+    volumes:
+      - postgres:/var/lib/postgres
+    restart: always
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    env_file:
+      - ./.env
+    labels:
+      com.startupteam.description: "postgres container for koa-ts"
+
+volumes:
+  postgres: {}
