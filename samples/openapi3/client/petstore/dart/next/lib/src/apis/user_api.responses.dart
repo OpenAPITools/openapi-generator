@@ -31,8 +31,14 @@ class UserApiCreateUserResponse {
   }
 
   static Future<UserApiCreateUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'0')) {
-      return UserApiCreateUserResponse0.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<UserApiCreateUserResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'0'),
+      () => UserApiCreateUserResponse0.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return UserApiCreateUserResponse(
       headers: response.headers,
@@ -97,8 +103,14 @@ class UserApiCreateUsersWithArrayInputResponse {
   }
 
   static Future<UserApiCreateUsersWithArrayInputResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'0')) {
-      return UserApiCreateUsersWithArrayInputResponse0.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<UserApiCreateUsersWithArrayInputResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'0'),
+      () => UserApiCreateUsersWithArrayInputResponse0.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return UserApiCreateUsersWithArrayInputResponse(
       headers: response.headers,
@@ -163,8 +175,14 @@ class UserApiCreateUsersWithListInputResponse {
   }
 
   static Future<UserApiCreateUsersWithListInputResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'0')) {
-      return UserApiCreateUsersWithListInputResponse0.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<UserApiCreateUsersWithListInputResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'0'),
+      () => UserApiCreateUsersWithListInputResponse0.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return UserApiCreateUsersWithListInputResponse(
       headers: response.headers,
@@ -231,11 +249,18 @@ class UserApiDeleteUserResponse {
   }
 
   static Future<UserApiDeleteUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return UserApiDeleteUserResponse400.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'404')) {
-      return UserApiDeleteUserResponse404.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<UserApiDeleteUserResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => UserApiDeleteUserResponse400.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
+      () => UserApiDeleteUserResponse404.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return UserApiDeleteUserResponse(
       headers: response.headers,
@@ -328,14 +353,22 @@ class UserApiGetUserByNameResponse {
   }
 
   static Future<UserApiGetUserByNameResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return UserApiGetUserByNameResponse200.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return UserApiGetUserByNameResponse400.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'404')) {
-      return UserApiGetUserByNameResponse404.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<UserApiGetUserByNameResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => UserApiGetUserByNameResponse200.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => UserApiGetUserByNameResponse400.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
+      () => UserApiGetUserByNameResponse404.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return UserApiGetUserByNameResponse(
       headers: response.headers,
@@ -379,11 +412,18 @@ class UserApiGetUserByNameResponse200 extends UserApiGetUserByNameResponse {
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml'))) {
-        return UserApiGetUserByNameResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context);
-      }
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return UserApiGetUserByNameResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<UserApiGetUserByNameResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
+        () => UserApiGetUserByNameResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => UserApiGetUserByNameResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return UserApiGetUserByNameResponse200(
@@ -604,11 +644,18 @@ class UserApiLoginUserResponse {
   }
 
   static Future<UserApiLoginUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return UserApiLoginUserResponse200.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return UserApiLoginUserResponse400.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<UserApiLoginUserResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => UserApiLoginUserResponse200.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => UserApiLoginUserResponse400.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return UserApiLoginUserResponse(
       headers: response.headers,
@@ -652,11 +699,18 @@ class UserApiLoginUserResponse200 extends UserApiLoginUserResponse {
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml'))) {
-        return UserApiLoginUserResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context);
-      }
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return UserApiLoginUserResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<UserApiLoginUserResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
+        () => UserApiLoginUserResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => UserApiLoginUserResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return UserApiLoginUserResponse200(
@@ -852,8 +906,14 @@ class UserApiLogoutUserResponse {
   }
 
   static Future<UserApiLogoutUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'0')) {
-      return UserApiLogoutUserResponse0.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<UserApiLogoutUserResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'0'),
+      () => UserApiLogoutUserResponse0.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return UserApiLogoutUserResponse(
       headers: response.headers,
@@ -920,11 +980,18 @@ class UserApiUpdateUserResponse {
   }
 
   static Future<UserApiUpdateUserResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return UserApiUpdateUserResponse400.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'404')) {
-      return UserApiUpdateUserResponse404.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<UserApiUpdateUserResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => UserApiUpdateUserResponse400.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
+      () => UserApiUpdateUserResponse404.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return UserApiUpdateUserResponse(
       headers: response.headers,

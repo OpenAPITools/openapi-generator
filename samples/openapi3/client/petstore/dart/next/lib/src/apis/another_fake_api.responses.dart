@@ -31,8 +31,14 @@ class AnotherFakeApi$123testSpecialTagsResponse {
   }
 
   static Future<AnotherFakeApi$123testSpecialTagsResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return AnotherFakeApi$123testSpecialTagsResponse200.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<AnotherFakeApi$123testSpecialTagsResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => AnotherFakeApi$123testSpecialTagsResponse200.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return AnotherFakeApi$123testSpecialTagsResponse(
       headers: response.headers,
@@ -72,8 +78,14 @@ class AnotherFakeApi$123testSpecialTagsResponse200 extends AnotherFakeApi$123tes
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<AnotherFakeApi$123testSpecialTagsResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => AnotherFakeApi$123testSpecialTagsResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return AnotherFakeApi$123testSpecialTagsResponse200(
@@ -194,8 +206,14 @@ class AnotherFakeApiGetParameterArrayNumberResponse {
   }
 
   static Future<AnotherFakeApiGetParameterArrayNumberResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return AnotherFakeApiGetParameterArrayNumberResponse200.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<AnotherFakeApiGetParameterArrayNumberResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => AnotherFakeApiGetParameterArrayNumberResponse200.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return AnotherFakeApiGetParameterArrayNumberResponse(
       headers: response.headers,
@@ -260,8 +278,14 @@ class AnotherFakeApiGetParameterStringNumberResponse {
   }
 
   static Future<AnotherFakeApiGetParameterStringNumberResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return AnotherFakeApiGetParameterStringNumberResponse200.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<AnotherFakeApiGetParameterStringNumberResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => AnotherFakeApiGetParameterStringNumberResponse200.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return AnotherFakeApiGetParameterStringNumberResponse(
       headers: response.headers,
@@ -326,8 +350,14 @@ class AnotherFakeApiNullRequestBodyResponse {
   }
 
   static Future<AnotherFakeApiNullRequestBodyResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return AnotherFakeApiNullRequestBodyResponse200.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<AnotherFakeApiNullRequestBodyResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => AnotherFakeApiNullRequestBodyResponse200.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return AnotherFakeApiNullRequestBodyResponse(
       headers: response.headers,

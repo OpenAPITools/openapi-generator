@@ -31,8 +31,14 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse {
   }
 
   static Future<DefaultApiFakeAnyOfWIthSameErasureGetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return DefaultApiFakeAnyOfWIthSameErasureGetResponse200.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<DefaultApiFakeAnyOfWIthSameErasureGetResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => DefaultApiFakeAnyOfWIthSameErasureGetResponse200.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return DefaultApiFakeAnyOfWIthSameErasureGetResponse(
       headers: response.headers,
@@ -72,8 +78,14 @@ class DefaultApiFakeAnyOfWIthSameErasureGetResponse200 extends DefaultApiFakeAny
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<DefaultApiFakeAnyOfWIthSameErasureGetResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => DefaultApiFakeAnyOfWIthSameErasureGetResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return DefaultApiFakeAnyOfWIthSameErasureGetResponse200(
@@ -194,8 +206,14 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse {
   }
 
   static Future<DefaultApiFakeOneOfWIthSameErasureGetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return DefaultApiFakeOneOfWIthSameErasureGetResponse200.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<DefaultApiFakeOneOfWIthSameErasureGetResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => DefaultApiFakeOneOfWIthSameErasureGetResponse200.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return DefaultApiFakeOneOfWIthSameErasureGetResponse(
       headers: response.headers,
@@ -235,8 +253,14 @@ class DefaultApiFakeOneOfWIthSameErasureGetResponse200 extends DefaultApiFakeOne
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<DefaultApiFakeOneOfWIthSameErasureGetResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => DefaultApiFakeOneOfWIthSameErasureGetResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return DefaultApiFakeOneOfWIthSameErasureGetResponse200(
@@ -357,8 +381,14 @@ class DefaultApiFooGetResponse {
   }
 
   static Future<DefaultApiFooGetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'0')) {
-      return DefaultApiFooGetResponse0.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<DefaultApiFooGetResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'0'),
+      () => DefaultApiFooGetResponse0.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return DefaultApiFooGetResponse(
       headers: response.headers,
@@ -398,8 +428,14 @@ class DefaultApiFooGetResponse0 extends DefaultApiFooGetResponse {
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return DefaultApiFooGetResponse0ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<DefaultApiFooGetResponse0> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => DefaultApiFooGetResponse0ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return DefaultApiFooGetResponse0(
@@ -520,8 +556,14 @@ class DefaultApiPetsMulticontentTestPostResponse {
   }
 
   static Future<DefaultApiPetsMulticontentTestPostResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'201')) {
-      return DefaultApiPetsMulticontentTestPostResponse201.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<DefaultApiPetsMulticontentTestPostResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'201'),
+      () => DefaultApiPetsMulticontentTestPostResponse201.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return DefaultApiPetsMulticontentTestPostResponse(
       headers: response.headers,

@@ -31,8 +31,14 @@ class FakeClassnameTags123ApiTestClassnameResponse {
   }
 
   static Future<FakeClassnameTags123ApiTestClassnameResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return FakeClassnameTags123ApiTestClassnameResponse200.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<FakeClassnameTags123ApiTestClassnameResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => FakeClassnameTags123ApiTestClassnameResponse200.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return FakeClassnameTags123ApiTestClassnameResponse(
       headers: response.headers,
@@ -72,8 +78,14 @@ class FakeClassnameTags123ApiTestClassnameResponse200 extends FakeClassnameTags1
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<FakeClassnameTags123ApiTestClassnameResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => FakeClassnameTags123ApiTestClassnameResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return FakeClassnameTags123ApiTestClassnameResponse200(

@@ -33,11 +33,18 @@ class StoreApiDeleteOrderResponse {
   }
 
   static Future<StoreApiDeleteOrderResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return StoreApiDeleteOrderResponse400.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'404')) {
-      return StoreApiDeleteOrderResponse404.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<StoreApiDeleteOrderResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => StoreApiDeleteOrderResponse400.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
+      () => StoreApiDeleteOrderResponse404.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return StoreApiDeleteOrderResponse(
       headers: response.headers,
@@ -126,8 +133,14 @@ class StoreApiGetInventoryResponse {
   }
 
   static Future<StoreApiGetInventoryResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return StoreApiGetInventoryResponse200.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<StoreApiGetInventoryResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => StoreApiGetInventoryResponse200.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return StoreApiGetInventoryResponse(
       headers: response.headers,
@@ -167,8 +180,14 @@ class StoreApiGetInventoryResponse200 extends StoreApiGetInventoryResponse {
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return StoreApiGetInventoryResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<StoreApiGetInventoryResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => StoreApiGetInventoryResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return StoreApiGetInventoryResponse200(
@@ -314,14 +333,22 @@ class StoreApiGetOrderByIdResponse {
   }
 
   static Future<StoreApiGetOrderByIdResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return StoreApiGetOrderByIdResponse200.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return StoreApiGetOrderByIdResponse400.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'404')) {
-      return StoreApiGetOrderByIdResponse404.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<StoreApiGetOrderByIdResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => StoreApiGetOrderByIdResponse200.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => StoreApiGetOrderByIdResponse400.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
+      () => StoreApiGetOrderByIdResponse404.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return StoreApiGetOrderByIdResponse(
       headers: response.headers,
@@ -365,11 +392,18 @@ class StoreApiGetOrderByIdResponse200 extends StoreApiGetOrderByIdResponse {
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml'))) {
-        return StoreApiGetOrderByIdResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context);
-      }
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return StoreApiGetOrderByIdResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<StoreApiGetOrderByIdResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
+        () => StoreApiGetOrderByIdResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => StoreApiGetOrderByIdResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return StoreApiGetOrderByIdResponse200(
@@ -590,11 +624,18 @@ class StoreApiPlaceOrderResponse {
   }
 
   static Future<StoreApiPlaceOrderResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return StoreApiPlaceOrderResponse200.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return StoreApiPlaceOrderResponse400.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<StoreApiPlaceOrderResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => StoreApiPlaceOrderResponse200.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => StoreApiPlaceOrderResponse400.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return StoreApiPlaceOrderResponse(
       headers: response.headers,
@@ -638,11 +679,18 @@ class StoreApiPlaceOrderResponse200 extends StoreApiPlaceOrderResponse {
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml'))) {
-        return StoreApiPlaceOrderResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context);
-      }
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return StoreApiPlaceOrderResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<StoreApiPlaceOrderResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
+        () => StoreApiPlaceOrderResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => StoreApiPlaceOrderResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return StoreApiPlaceOrderResponse200(

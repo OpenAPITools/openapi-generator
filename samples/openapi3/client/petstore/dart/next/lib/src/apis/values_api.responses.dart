@@ -33,11 +33,18 @@ class ValuesApiGetSomeValuesResponse {
   }
 
   static Future<ValuesApiGetSomeValuesResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return ValuesApiGetSomeValuesResponse200.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return ValuesApiGetSomeValuesResponse400.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<ValuesApiGetSomeValuesResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => ValuesApiGetSomeValuesResponse200.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => ValuesApiGetSomeValuesResponse400.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return ValuesApiGetSomeValuesResponse(
       headers: response.headers,
@@ -77,8 +84,14 @@ class ValuesApiGetSomeValuesResponse200 extends ValuesApiGetSomeValuesResponse {
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return ValuesApiGetSomeValuesResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<ValuesApiGetSomeValuesResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => ValuesApiGetSomeValuesResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return ValuesApiGetSomeValuesResponse200(

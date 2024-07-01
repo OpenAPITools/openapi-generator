@@ -31,8 +31,14 @@ class PetApiAddPetResponse {
   }
 
   static Future<PetApiAddPetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'405')) {
-      return PetApiAddPetResponse405.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<PetApiAddPetResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'405'),
+      () => PetApiAddPetResponse405.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return PetApiAddPetResponse(
       headers: response.headers,
@@ -97,8 +103,14 @@ class PetApiDeletePetResponse {
   }
 
   static Future<PetApiDeletePetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return PetApiDeletePetResponse400.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<PetApiDeletePetResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => PetApiDeletePetResponse400.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return PetApiDeletePetResponse(
       headers: response.headers,
@@ -165,11 +177,18 @@ class PetApiFindPetsByStatusResponse {
   }
 
   static Future<PetApiFindPetsByStatusResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return PetApiFindPetsByStatusResponse200.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return PetApiFindPetsByStatusResponse400.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<PetApiFindPetsByStatusResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => PetApiFindPetsByStatusResponse200.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => PetApiFindPetsByStatusResponse400.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return PetApiFindPetsByStatusResponse(
       headers: response.headers,
@@ -213,11 +232,18 @@ class PetApiFindPetsByStatusResponse200 extends PetApiFindPetsByStatusResponse {
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml'))) {
-        return PetApiFindPetsByStatusResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context);
-      }
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return PetApiFindPetsByStatusResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<PetApiFindPetsByStatusResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
+        () => PetApiFindPetsByStatusResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => PetApiFindPetsByStatusResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return PetApiFindPetsByStatusResponse200(
@@ -438,11 +464,18 @@ class PetApiFindPetsByTagsResponse {
   }
 
   static Future<PetApiFindPetsByTagsResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return PetApiFindPetsByTagsResponse200.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return PetApiFindPetsByTagsResponse400.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<PetApiFindPetsByTagsResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => PetApiFindPetsByTagsResponse200.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => PetApiFindPetsByTagsResponse400.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return PetApiFindPetsByTagsResponse(
       headers: response.headers,
@@ -487,11 +520,18 @@ class PetApiFindPetsByTagsResponse200 extends PetApiFindPetsByTagsResponse {
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml'))) {
-        return PetApiFindPetsByTagsResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context);
-      }
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return PetApiFindPetsByTagsResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<PetApiFindPetsByTagsResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
+        () => PetApiFindPetsByTagsResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => PetApiFindPetsByTagsResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return PetApiFindPetsByTagsResponse200(
@@ -716,14 +756,22 @@ class PetApiGetPetByIdResponse {
   }
 
   static Future<PetApiGetPetByIdResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return PetApiGetPetByIdResponse200.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return PetApiGetPetByIdResponse400.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'404')) {
-      return PetApiGetPetByIdResponse404.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<PetApiGetPetByIdResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => PetApiGetPetByIdResponse200.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => PetApiGetPetByIdResponse400.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
+      () => PetApiGetPetByIdResponse404.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return PetApiGetPetByIdResponse(
       headers: response.headers,
@@ -767,11 +815,18 @@ class PetApiGetPetByIdResponse200 extends PetApiGetPetByIdResponse {
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml'))) {
-        return PetApiGetPetByIdResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context);
-      }
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return PetApiGetPetByIdResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<PetApiGetPetByIdResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/xml')),
+        () => PetApiGetPetByIdResponse200ApplicationXml.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => PetApiGetPetByIdResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return PetApiGetPetByIdResponse200(
@@ -994,14 +1049,22 @@ class PetApiUpdatePetResponse {
   }
 
   static Future<PetApiUpdatePetResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'400')) {
-      return PetApiUpdatePetResponse400.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'404')) {
-      return PetApiUpdatePetResponse404.fromResponse(response, context: context);
-    }
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'405')) {
-      return PetApiUpdatePetResponse405.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<PetApiUpdatePetResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'400'),
+      () => PetApiUpdatePetResponse400.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'404'),
+      () => PetApiUpdatePetResponse404.fromResponse(response, context: context)
+    ),
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'405'),
+      () => PetApiUpdatePetResponse405.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return PetApiUpdatePetResponse(
       headers: response.headers,
@@ -1114,8 +1177,14 @@ class PetApiUpdatePetWithFormResponse {
   }
 
   static Future<PetApiUpdatePetWithFormResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'405')) {
-      return PetApiUpdatePetWithFormResponse405.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<PetApiUpdatePetWithFormResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'405'),
+      () => PetApiUpdatePetWithFormResponse405.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return PetApiUpdatePetWithFormResponse(
       headers: response.headers,
@@ -1180,8 +1249,14 @@ class PetApiUploadFileResponse {
   }
 
   static Future<PetApiUploadFileResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return PetApiUploadFileResponse200.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<PetApiUploadFileResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => PetApiUploadFileResponse200.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return PetApiUploadFileResponse(
       headers: response.headers,
@@ -1221,8 +1296,14 @@ class PetApiUploadFileResponse200 extends PetApiUploadFileResponse {
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return PetApiUploadFileResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<PetApiUploadFileResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => PetApiUploadFileResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return PetApiUploadFileResponse200(
@@ -1343,8 +1424,14 @@ class PetApiUploadFileWithRequiredFileResponse {
   }
 
   static Future<PetApiUploadFileWithRequiredFileResponse> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'200')) {
-      return PetApiUploadFileWithRequiredFileResponse200.fromResponse(response, context: context);
+    final matchedResponse = <(PatternMatchResult, Future<PetApiUploadFileWithRequiredFileResponse> Function())> [
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'200'),
+      () => PetApiUploadFileWithRequiredFileResponse200.fromResponse(response, context: context)
+    ),
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
     }
     return PetApiUploadFileWithRequiredFileResponse(
       headers: response.headers,
@@ -1384,8 +1471,14 @@ class PetApiUploadFileWithRequiredFileResponse200 extends PetApiUploadFileWithRe
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json'))) {
-        return PetApiUploadFileWithRequiredFileResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context);
+      final matchedResponse = <(PatternMatchResult, Future<PetApiUploadFileWithRequiredFileResponse200> Function())>[
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'application/json')),
+        () => PetApiUploadFileWithRequiredFileResponse200ApplicationJson.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
       }
     }
     return PetApiUploadFileWithRequiredFileResponse200(

@@ -40,11 +40,17 @@ class {{classname}}{{operationIdCamelCase}}Response {
   }
 
   static Future<{{classname}}{{operationIdCamelCase}}Response> fromResponse(HttpResponseBase response, {required Map<String,dynamic> context}) async {
+    final matchedResponse = <(PatternMatchResult, Future<{{classname}}{{operationIdCamelCase}}Response> Function())> [
     {{#responses}}
-    if (OASNetworkingUtils.matchesStatsuCodePattern(response.statusCode, r'{{code}}')) {
-      return {{classname}}{{operationIdCamelCase}}Response{{code}}.fromResponse(response, context: context);
-    }
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, r'{{code}}'),
+      () => {{classname}}{{operationIdCamelCase}}Response{{code}}.fromResponse(response, context: context)
+    ),
     {{/responses}}
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
+    }
     return {{classname}}{{operationIdCamelCase}}Response(
       headers: response.headers,
       statusCode: response.statusCode,
@@ -90,11 +96,17 @@ class {{classname}}{{operationIdCamelCase}}Response{{code}} extends {{classname}
     final contentTypeRaw = headers['Content-Type'];
     final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
     if (contentTypeParsed != null) {
+      final matchedResponse = <(PatternMatchResult, Future<{{classname}}{{operationIdCamelCase}}Response{{code}}> Function())>[
       {{#entrySet}}
-      if (OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'{{key}}'))) {
-        return {{classname}}{{operationIdCamelCase}}Response{{code}}{{#value}}{{#schema}}{{nameInPascalCase}}{{/schema}}{{/value}}.fromResponse(response, contentType: contentTypeParsed, context: context);
-      }
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'{{key}}')),
+        () => {{classname}}{{operationIdCamelCase}}Response{{code}}{{#value}}{{#schema}}{{nameInPascalCase}}{{/schema}}{{/value}}.fromResponse(response, contentType: contentTypeParsed, context: context)
+      ),
       {{/entrySet}}
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
+      }
     }
     {{/content}}
     return {{classname}}{{operationIdCamelCase}}Response{{code}}(
