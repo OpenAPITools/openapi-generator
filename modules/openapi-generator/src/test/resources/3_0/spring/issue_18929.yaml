@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info:
+  title: oneOf within oneOf
+  version: 7.7.0-SNAPSHOT
+paths:
+  /oneOf-within-oneOf-test:
+    post:
+      operationId: 'oneOfWithinOneOfTest'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/RequestTwoSchema'
+                - $ref: '#/components/schemas/RequestOneSchema'
+      responses:
+        '201':
+          description: The request was successful and the resource has been created.
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    AbstractNestedSchema:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          NESTED_ONE: '#/components/schemas/NestedOneSchema'
+          NESTED_TWO: '#/components/schemas/NestedTwoSchema'
+      required:
+        - type
+      properties:
+        type:
+          type: string
+    NestedOneSchema:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/AbstractNestedSchema'
+    AbstractRequestSchema:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          REQUEST_ONE: '#/components/schemas/RequestOneSchema'
+          REQUEST_TWO: '#/components/schemas/RequestTwoSchema'
+      required:
+        - type
+      properties:
+        type:
+          type: string
+    RequestTwoSchema:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/AbstractRequestSchema'
+      required:
+        - nested
+      properties:
+        nested:
+          oneOf:
+            - $ref: '#/components/schemas/NestedTwoSchema'
+            - $ref: '#/components/schemas/NestedOneSchema'
+    RequestOneSchema:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/AbstractRequestSchema'
+    NestedTwoSchema:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/AbstractNestedSchema'

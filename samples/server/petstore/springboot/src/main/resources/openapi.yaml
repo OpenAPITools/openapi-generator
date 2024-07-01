@@ -1284,6 +1284,30 @@ paths:
       - application/json
       x-tags:
       - tag: pet
+  /fake/one-of-within-one-of-park-persons:
+    post:
+      operationId: createParkPerson
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createParkPerson_request'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Park Person created
+      summary: Create a Park Person
+      tags:
+      - PerkPerson
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: PerkPerson
 components:
   requestBodies:
     UserArray:
@@ -2274,6 +2298,54 @@ components:
           nullable: true
           type: object
       type: object
+    OneOfWithinOneOfAbstractAnimal:
+      discriminator:
+        mapping:
+          CAT: '#/components/schemas/OneOfWithinOneOfCat'
+          DOG: '#/components/schemas/OneOfWithinOneOfDog'
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+      type: object
+    OneOfWithinOneOfCat:
+      allOf:
+      - $ref: '#/components/schemas/OneOfWithinOneOfAbstractAnimal'
+      type: object
+    AbstractCreateParkPerson:
+      discriminator:
+        mapping:
+          VISITOR: '#/components/schemas/CreateParkVisitorPerson'
+          ANIMAL_CARER: '#/components/schemas/CreateParkAnimalCarerPerson'
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+      - type
+      type: object
+    CreateParkAnimalCarerPerson:
+      allOf:
+      - $ref: '#/components/schemas/AbstractCreateParkPerson'
+      properties:
+        responsibleFor:
+          oneOf:
+          - $ref: '#/components/schemas/OneOfWithinOneOfDog'
+          - $ref: '#/components/schemas/OneOfWithinOneOfCat'
+          x-one-of-name: CreateParkAnimalCarerPersonResponsibleForDtoOneOfDto
+      required:
+      - responsibleFor
+      type: object
+    CreateParkVisitorPerson:
+      allOf:
+      - $ref: '#/components/schemas/AbstractCreateParkPerson'
+      type: object
+    OneOfWithinOneOfDog:
+      allOf:
+      - $ref: '#/components/schemas/OneOfWithinOneOfAbstractAnimal'
+      type: object
     updatePetWithForm_request:
       properties:
         name:
@@ -2409,6 +2481,11 @@ components:
       required:
       - requiredFile
       type: object
+    createParkPerson_request:
+      oneOf:
+      - $ref: '#/components/schemas/CreateParkAnimalCarerPerson'
+      - $ref: '#/components/schemas/CreateParkVisitorPerson'
+      x-one-of-name: CreateParkPersonRequestDto
   securitySchemes:
     petstore_auth:
       flows:

@@ -12,6 +12,7 @@ src/main/java/org/openapitools/virtualan/api/FakeClassnameTestApi.java
 src/main/java/org/openapitools/virtualan/api/PetApi.java
 src/main/java/org/openapitools/virtualan/api/StoreApi.java
 src/main/java/org/openapitools/virtualan/api/UserApi.java
+src/main/java/org/openapitools/virtualan/model/AbstractCreateParkPerson.java
 src/main/java/org/openapitools/virtualan/model/AdditionalPropertiesAnyType.java
 src/main/java/org/openapitools/virtualan/model/AdditionalPropertiesArray.java
 src/main/java/org/openapitools/virtualan/model/AdditionalPropertiesBoolean.java
@@ -32,6 +33,10 @@ src/main/java/org/openapitools/virtualan/model/ChildWithNullable.java
 src/main/java/org/openapitools/virtualan/model/ClassModel.java
 src/main/java/org/openapitools/virtualan/model/Client.java
 src/main/java/org/openapitools/virtualan/model/ContainerDefaultValue.java
+src/main/java/org/openapitools/virtualan/model/CreateParkAnimalCarerPerson.java
+src/main/java/org/openapitools/virtualan/model/CreateParkAnimalCarerPersonResponsibleForOneOf.java
+src/main/java/org/openapitools/virtualan/model/CreateParkPersonRequest.java
+src/main/java/org/openapitools/virtualan/model/CreateParkVisitorPerson.java
 src/main/java/org/openapitools/virtualan/model/Dog.java
 src/main/java/org/openapitools/virtualan/model/EnumArrays.java
 src/main/java/org/openapitools/virtualan/model/EnumClass.java
@@ -49,6 +54,9 @@ src/main/java/org/openapitools/virtualan/model/ModelReturn.java
 src/main/java/org/openapitools/virtualan/model/Name.java
 src/main/java/org/openapitools/virtualan/model/NullableMapProperty.java
 src/main/java/org/openapitools/virtualan/model/NumberOnly.java
+src/main/java/org/openapitools/virtualan/model/OneOfWithinOneOfAbstractAnimal.java
+src/main/java/org/openapitools/virtualan/model/OneOfWithinOneOfCat.java
+src/main/java/org/openapitools/virtualan/model/OneOfWithinOneOfDog.java
 src/main/java/org/openapitools/virtualan/model/Order.java
 src/main/java/org/openapitools/virtualan/model/OuterComposite.java
 src/main/java/org/openapitools/virtualan/model/OuterEnum.java

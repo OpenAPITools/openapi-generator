@@ -12,6 +12,7 @@ src/main/java/org/openapitools/api/UserApi.java
 src/main/java/org/openapitools/configuration/EnumConverterConfiguration.java
 src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/configuration/SpringFoxConfiguration.java
+src/main/java/org/openapitools/model/AbstractCreateParkPersonDto.java
 src/main/java/org/openapitools/model/AdditionalPropertiesAnyTypeDto.java
 src/main/java/org/openapitools/model/AdditionalPropertiesArrayDto.java
 src/main/java/org/openapitools/model/AdditionalPropertiesBooleanDto.java
@@ -33,6 +34,10 @@ src/main/java/org/openapitools/model/ChildWithNullableDto.java
 src/main/java/org/openapitools/model/ClassModelDto.java
 src/main/java/org/openapitools/model/ClientDto.java
 src/main/java/org/openapitools/model/ContainerDefaultValueDto.java
+src/main/java/org/openapitools/model/CreateParkAnimalCarerPersonDto.java
+src/main/java/org/openapitools/model/CreateParkAnimalCarerPersonResponsibleForDtoOneOfDtoDto.java
+src/main/java/org/openapitools/model/CreateParkPersonRequestDto.java
+src/main/java/org/openapitools/model/CreateParkVisitorPersonDto.java
 src/main/java/org/openapitools/model/DogDto.java
 src/main/java/org/openapitools/model/EnumArraysDto.java
 src/main/java/org/openapitools/model/EnumClassDto.java
@@ -48,6 +53,9 @@ src/main/java/org/openapitools/model/Model200ResponseDto.java
 src/main/java/org/openapitools/model/NameDto.java
 src/main/java/org/openapitools/model/NullableMapPropertyDto.java
 src/main/java/org/openapitools/model/NumberOnlyDto.java
+src/main/java/org/openapitools/model/OneOfWithinOneOfAbstractAnimalDto.java
+src/main/java/org/openapitools/model/OneOfWithinOneOfCatDto.java
+src/main/java/org/openapitools/model/OneOfWithinOneOfDogDto.java
 src/main/java/org/openapitools/model/OrderDto.java
 src/main/java/org/openapitools/model/OuterCompositeDto.java
 src/main/java/org/openapitools/model/OuterEnumDto.java
