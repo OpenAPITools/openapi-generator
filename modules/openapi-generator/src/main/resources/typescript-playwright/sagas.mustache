@@ -1,0 +1,244 @@
+/* tslint:disable */
+/* eslint-disable */
+{{>licenseInfo}}
+
+import {Api} from './index{{importFileExtension}}';
+import {List} from 'immutable';
+import {all, fork, put, takeLatest} from "redux-saga/effects";
+import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords{{importFileExtension}}";
+import {Action} from "redux-ts-simple";
+
+{{#imports.0}}
+import {
+    {{#imports}}
+    {{className}},
+    {{className}}Record,
+    {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils,
+    {{/imports}}
+    {{#passthroughImports}}
+    {{.}},
+    {{/passthroughImports}}
+} from '../models/index{{importFileExtension}}';
+{{/imports.0}}
+{{#hasEnums}}
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isEnum}}
+
+import {
+    {{operationIdCamelCase}}{{enumName}},
+} from './{{classname}}{{importFileExtension}}';
+{{/isEnum}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+{{/hasEnums}}
+
+const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}"});
+
+export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}SagaMap = new Map<string, () => Generator<any, any, any>>([
+{{#operations}}
+    {{#operation}}
+        ["{{nickname}}", {{nickname}}Saga],
+    {{/operation}}
+{{/operations}}
+    ]
+);
+
+export function *{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}AllSagas() {
+    yield all([...{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}SagaMap.values()].map(actionSaga => fork(actionSaga)));
+}
+
+{{#operations}}
+{{#operation}}
+//region {{nickname}}
+
+{{#returnTypeSupportsEntities}}
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BaseEntitySupportPayloadApiAction {
+}
+{{/returnTypeSupportsEntities}}
+{{^returnTypeSupportsEntities}}
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}} extends {{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request, {{/allParams.0}}BasePayloadApiAction {
+}
+{{/returnTypeSupportsEntities}}
+
+{{#allParams.0}}
+export interface Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request {
+{{#allParams}}
+    {{paramName}}{{^required}}?{{/required}}: {{{dataTypeAlternate}}};
+{{/allParams}}
+}
+{{/allParams.0}}
+
+export const {{nickname}}Request = createSagaAction<{{#allParams.0}}Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}Request{{/allParams.0}}{{^allParams.0}}void{{/allParams.0}}>("{{nickname}}Request");
+{{#returnType}}
+export const {{nickname}}Success = createSagaAction<{{#hasReturnPassthroughVoid}}void{{/hasReturnPassthroughVoid}}{{^hasReturnPassthroughVoid}}{{{returnTypeAlternate}}}{{/hasReturnPassthroughVoid}}>("{{nickname}}Success");
+{{#returnTypeSupportsEntities}}
+export const {{nickname}}Success_Entities = createSagaAction<NormalizedRecordEntities>("{{nickname}}Success_Entities");
+{{/returnTypeSupportsEntities}}
+{{/returnType}}
+{{^returnType}}
+export const {{nickname}}Success = createSagaAction<void>("{{nickname}}Success");
+{{/returnType}}
+export const {{nickname}}Failure = createSagaAction<{error: any, requestPayload: Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}}>("{{nickname}}Failure");
+
+export const {{nickname}} = createSagaAction<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>("{{nickname}}");
+
+export function *{{nickname}}Saga() {
+    yield takeLatest({{nickname}}, {{nickname}}SagaImp);
+}
+
+export function *{{nickname}}SagaImp(_action_: Action<Payload{{#lambda.titlecase}}{{#lambda.camelcase}}{{nickname}}{{/lambda.camelcase}}{{/lambda.titlecase}}>) {
+    const {markErrorsAsHandled, ..._payloadRest_} = _action_.payload;
+    try {
+{{#returnTypeSupportsEntities}}
+        const {toEntities, toInlined = !toEntities, ...requestPayload} = _payloadRest_;
+{{/returnTypeSupportsEntities}}
+{{#allParams.0}}
+        const {
+{{#allParams}}
+            {{paramName}},
+{{/allParams}}
+        } = _payloadRest_;
+{{/allParams.0}}
+
+        yield put({{nickname}}Request({{#allParams.0}}{{#returnTypeSupportsEntities}}requestPayload{{/returnTypeSupportsEntities}}{{^returnTypeSupportsEntities}}_action_.payload{{/returnTypeSupportsEntities}}{{/allParams.0}}));
+
+        const response{{#returnType}}: Required<{{{returnType}}}>{{/returnType}} = yield apiCall(Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}, Api.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}['{{nickname}}'],
+{{#allParams.0}}
+{{#allParams}}
+{{#isUniqueId}}
+{{#isArray}}
+{{#items.isArray}}
+            {{^required}}{{paramName}} ? {{/required}}{{paramName}}.map(p => p.toArray().map(p2 => (p2 ? parseFloat(p2) : null) as number)).toArray(){{^required}} : undefined{{/required}},
+{{/items.isArray}}
+{{^items.isArray}}
+            {{^required}}{{paramName}} ? {{/required}}{{paramName}}.map(p => (p ? parseFloat(p) : null) as number ).toArray(){{^required}} : undefined{{/required}},
+{{/items.isArray}}
+{{/isArray}}
+{{^isArray}}
+            {{^required}}{{paramName}} ? {{/required}}parseFloat({{paramName}}){{^required}} : undefined{{/required}},
+{{/isArray}}
+{{/isUniqueId}}
+{{^isUniqueId}}
+{{#isArray}}
+{{#items.isModel}}
+            {{^required}}{{paramName}} ? {{/required}}{{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.toApiArray({{paramName}}){{^required}} : undefined{{/required}},
+{{/items.isModel}}
+{{^items.isModel}}
+            {{^required}}{{paramName}} ? {{/required}}{{paramName}}.toJS(){{^required}} : undefined{{/required}},
+{{/items.isModel}}
+{{/isArray}}
+{{#isModel}}
+            {{^required}}{{paramName}} ? {{/required}}{{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.toApi({{paramName}}){{^required}} : undefined{{/required}},
+{{/isModel}}
+{{^isArray}}
+{{^isModel}}
+            {{paramName}},
+{{/isModel}}
+{{/isArray}}
+{{/isUniqueId}}
+{{/allParams}}
+{{/allParams.0}}
+        );
+
+{{#returnType}}
+{{^hasReturnPassthroughVoid}}
+        let successReturnValue: any = undefined;
+{{/hasReturnPassthroughVoid}}
+{{/returnType}}
+{{#returnTypeSupportsEntities}}
+        if (toEntities) {
+{{#returnPassthrough}}
+            successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApiPassthroughAsEntities(response);
+{{/returnPassthrough}}
+{{^hasReturnPassthroughVoid}}
+{{^returnPassthrough}}
+{{#returnTypeIsArray}}
+{{#returnTypeAlternate}}
+            successReturnValue = {{#lambda.camelcase}}{{returnBaseTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArrayAsEntities(response);
+{{/returnTypeAlternate}}
+{{/returnTypeIsArray}}
+{{#returnTypeIsModel}}
+            successReturnValue = {{#lambda.camelcase}}{{returnTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArrayAsEntities([response]);
+{{/returnTypeIsModel}}
+{{/returnPassthrough}}
+{{/hasReturnPassthroughVoid}}
+            yield put(normalizedEntities(successReturnValue));
+            yield put({{nickname}}Success_Entities(successReturnValue));
+        }
+        if (toInlined) {
+{{/returnTypeSupportsEntities}}
+{{#returnType}}
+{{#returnPassthrough}}
+            successReturnValue = {{#lambda.camelcase}}{{{returnType}}}{{/lambda.camelcase}}RecordUtils.fromApiPassthrough(response);
+            yield put({{nickname}}Success(successReturnValue));
+{{/returnPassthrough}}
+{{#hasReturnPassthroughVoid}}
+            yield put({{nickname}}Success());
+{{/hasReturnPassthroughVoid}}
+{{^hasReturnPassthroughVoid}}
+{{^returnPassthrough}}
+{{#returnTypeIsArray}}
+{{#returnTypeAlternate}}
+            successReturnValue = {{#lambda.camelcase}}{{returnBaseTypeAlternate}}{{/lambda.camelcase}}Utils.fromApiArray(response);
+            yield put({{nickname}}Success(successReturnValue));
+{{/returnTypeAlternate}}
+{{/returnTypeIsArray}}
+{{#returnTypeIsModel}}
+            successReturnValue = {{#lambda.camelcase}}{{returnTypeAlternate}}{{/lambda.camelcase}}Utils.fromApi(response);
+            yield put({{nickname}}Success(successReturnValue));
+{{/returnTypeIsModel}}
+{{^returnTypeIsArray}}
+{{^returnTypeIsModel}}
+            yield put({{nickname}}Success(response));
+{{/returnTypeIsModel}}
+{{/returnTypeIsArray}}
+{{/returnPassthrough}}
+{{/hasReturnPassthroughVoid}}
+{{/returnType}}
+{{^returnType}}
+            yield put({{nickname}}Success());
+{{/returnType}}
+{{#returnTypeSupportsEntities}}
+        }
+{{/returnTypeSupportsEntities}}
+
+{{#returnType}}
+{{#returnPassthrough}}
+        return successReturnValue;
+{{/returnPassthrough}}
+{{#hasReturnPassthroughVoid}}
+        return undefined;
+{{/hasReturnPassthroughVoid}}
+{{^hasReturnPassthroughVoid}}
+{{^returnPassthrough}}
+{{#returnTypeIsArray}}
+{{#returnTypeAlternate}}
+        return successReturnValue;
+{{/returnTypeAlternate}}
+{{/returnTypeIsArray}}
+{{#returnTypeIsModel}}
+        return successReturnValue;
+{{/returnTypeIsModel}}
+{{^returnTypeIsArray}}
+{{^returnTypeIsModel}}
+        return response;
+{{/returnTypeIsModel}}
+{{/returnTypeIsArray}}
+{{/returnPassthrough}}
+{{/hasReturnPassthroughVoid}}
+{{/returnType}}
+{{^returnType}}
+        return undefined;
+{{/returnType}}
+    } catch (error) {
+        if (markErrorsAsHandled) {error.wasHandled = true; }
+        yield put({{nickname}}Failure({error, requestPayload: _action_.payload}));
+        return error;
+    }
+}
+//endregion
+{{/operation}}
+{{/operations}}
