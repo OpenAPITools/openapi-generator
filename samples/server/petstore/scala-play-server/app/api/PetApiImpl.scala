@@ -7,7 +7,7 @@ import play.api.libs.Files.TemporaryFile
 /**
   * Provides a default implementation for [[PetApi]].
   */
-
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), comments = "Generator version: 7.5.0-SNAPSHOT")
 class PetApiImpl extends PetApi {
   /**
     * @inheritdoc

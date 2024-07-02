@@ -31,7 +31,7 @@ object StoreApi {
 
   def deleteOrder(host: String, orderId: String): Task[Unit] = {
     val path = "/store/order/{orderId}".replaceAll("\\{" + "orderId" + "\\}",escape(orderId.toString))
-    
+
     val httpMethod = Method.DELETE
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -47,12 +47,12 @@ object StoreApi {
 
     } yield resp
   }
-  
+
   def getInventory(host: String): Task[Map[String, Integer]] = {
     implicit val returnTypeDecoder: EntityDecoder[Map[String, Integer]] = jsonOf[Map[String, Integer]]
 
     val path = "/store/inventory"
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -68,12 +68,12 @@ object StoreApi {
 
     } yield resp
   }
-  
+
   def getOrderById(host: String, orderId: Long): Task[Order] = {
     implicit val returnTypeDecoder: EntityDecoder[Order] = jsonOf[Order]
 
     val path = "/store/order/{orderId}".replaceAll("\\{" + "orderId" + "\\}",escape(orderId.toString))
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -89,12 +89,12 @@ object StoreApi {
 
     } yield resp
   }
-  
+
   def placeOrder(host: String, order: Order): Task[Order] = {
     implicit val returnTypeDecoder: EntityDecoder[Order] = jsonOf[Order]
 
     val path = "/store/order"
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -110,7 +110,7 @@ object StoreApi {
 
     } yield resp
   }
-  
+
 }
 
 class HttpServiceStoreApi(service: HttpService) {
@@ -120,7 +120,7 @@ class HttpServiceStoreApi(service: HttpService) {
 
   def deleteOrder(orderId: String): Task[Unit] = {
     val path = "/store/order/{orderId}".replaceAll("\\{" + "orderId" + "\\}",escape(orderId.toString))
-    
+
     val httpMethod = Method.DELETE
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -136,12 +136,12 @@ class HttpServiceStoreApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def getInventory(): Task[Map[String, Integer]] = {
     implicit val returnTypeDecoder: EntityDecoder[Map[String, Integer]] = jsonOf[Map[String, Integer]]
 
     val path = "/store/inventory"
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -157,12 +157,12 @@ class HttpServiceStoreApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def getOrderById(orderId: Long): Task[Order] = {
     implicit val returnTypeDecoder: EntityDecoder[Order] = jsonOf[Order]
 
     val path = "/store/order/{orderId}".replaceAll("\\{" + "orderId" + "\\}",escape(orderId.toString))
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -178,12 +178,12 @@ class HttpServiceStoreApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def placeOrder(order: Order): Task[Order] = {
     implicit val returnTypeDecoder: EntityDecoder[Order] = jsonOf[Order]
 
     val path = "/store/order"
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -199,5 +199,5 @@ class HttpServiceStoreApi(service: HttpService) {
 
     } yield resp
   }
-  
+
 }

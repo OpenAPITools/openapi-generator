@@ -1,8 +1,9 @@
 package api
 
+import play.api.libs.json._
 import model.Order
 
-
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), comments = "Generator version: 7.5.0-SNAPSHOT")
 trait StoreApi {
   /**
     * Delete purchase order by ID
@@ -26,6 +27,7 @@ trait StoreApi {
 
   /**
     * Place an order for a pet
+    * 
     * @param order order placed for purchasing the pet
     */
   def placeOrder(order: Order): Order

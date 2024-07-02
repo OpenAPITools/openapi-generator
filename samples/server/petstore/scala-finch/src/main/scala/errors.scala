@@ -24,4 +24,3 @@ case class MissingIdentifier(message: String) extends CommonError(message)
  * @param message An error message
  */
 case class RecordNotFound(message: String) extends CommonError(message)
-

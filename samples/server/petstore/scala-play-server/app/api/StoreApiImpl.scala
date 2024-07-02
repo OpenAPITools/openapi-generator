@@ -5,7 +5,7 @@ import model.Order
 /**
   * Provides a default implementation for [[StoreApi]].
   */
-
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), comments = "Generator version: 7.5.0-SNAPSHOT")
 class StoreApiImpl extends StoreApi {
   /**
     * @inheritdoc

@@ -4,9 +4,10 @@ import org.openapitools.OpenApiExceptions
 import javax.inject.{Inject, Singleton}
 import play.api.libs.json._
 import play.api.mvc._
+import java.time.OffsetDateTime
 import model.User
 
-
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), comments = "Generator version: 7.5.0-SNAPSHOT")
 @Singleton
 class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extends AbstractController(cc) {
   /**
@@ -90,10 +91,12 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
         .getOrElse {
           throw new OpenApiExceptions.MissingRequiredParameterException("username", "query string")
         }
+        
       val password = request.getQueryString("password")
         .getOrElse {
           throw new OpenApiExceptions.MissingRequiredParameterException("password", "query string")
         }
+        
       api.loginUser(username, password)
     }
 

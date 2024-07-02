@@ -1,8 +1,10 @@
 package api
 
+import play.api.libs.json._
+import java.time.OffsetDateTime
 import model.User
 
-
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), comments = "Generator version: 7.5.0-SNAPSHOT")
 trait UserApi {
   /**
     * Create user
@@ -13,12 +15,14 @@ trait UserApi {
 
   /**
     * Creates list of users with given input array
+    * 
     * @param user List of user object
     */
   def createUsersWithArrayInput(user: List[User]): Unit
 
   /**
     * Creates list of users with given input array
+    * 
     * @param user List of user object
     */
   def createUsersWithListInput(user: List[User]): Unit
@@ -32,12 +36,14 @@ trait UserApi {
 
   /**
     * Get user by user name
+    * 
     * @param username The name that needs to be fetched. Use user1 for testing.
     */
   def getUserByName(username: String): User
 
   /**
     * Logs user into the system
+    * 
     * @param username The user name for login
     * @param password The password for login in clear text
     */
@@ -45,6 +51,7 @@ trait UserApi {
 
   /**
     * Logs out current logged in user session
+    * 
     */
   def logoutUser(): Unit
 

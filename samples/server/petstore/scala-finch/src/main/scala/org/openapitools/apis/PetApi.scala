@@ -6,6 +6,7 @@ import org.openapitools.models._
 import org.openapitools.models.ApiResponse
 import java.io.File
 import org.openapitools.models.Pet
+import scala.collection.immutable.Seq
 import io.finch.circe._
 import io.circe.generic.semiauto._
 import com.twitter.concurrent.AsyncStream
