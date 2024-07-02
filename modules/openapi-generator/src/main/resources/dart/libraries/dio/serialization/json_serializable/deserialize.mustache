@@ -60,5 +60,5 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           }
           break;
     } 
-    throw Exception('Cannot deserialize');
+    throw Exception(message: 'Cannot deserialize');
   }
