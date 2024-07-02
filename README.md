@@ -932,6 +932,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2023-06-28 - [Generate API contract using OpenAPI Generator Maven plugin](https://huongdanjava.com/generate-api-contract-using-openapi-generator-maven-plugin.html) by [Khanh Nguyen](https://huongdanjava.com/)
 - 2023-06-30 - [Generate Client SDKs with OpenApi Generator in Springboot](https://medium.com/@ramavathvinayak/generate-client-sdks-with-openapi-generator-in-springboot-f9f012e73c0b) by [Vinayak Ramavath](https://medium.com/@ramavathvinayak)
 - 2023-12-10 - [UnityでOpenAPI Generatorを使う](https://www.youtube.com/watch?v=CbNwKVV5LRM) by [Soup Tori](https://www.youtube.com/@souptori8417)
+- 2024-01-24 - [Comment générer des stubs wiremock avec openapi generator](https://www.youtube.com/watch?v=0jhONfBrcKw) by [Alexis Couvreur](https://github.com/acouvreur)
 - 2024-03-04 - [Generating TypeScript Types with OpenAPI for REST API Consumption](https://www.pullrequest.com/blog/generating-typescript-types-with-openapi-for-rest-api-consumption/) by [PullRequest](https://www.pullrequest.com/)
 - 2024-03-07 - [Fully typed Web Apps with OpenAPI (Part 1)](https://medium.com/@gfox1984/fully-typed-web-apps-with-openapi-part-1-595d55766670) by [Guillaume Renard](https://medium.com/@gfox1984)
 - 2024-03-08 - [Laravel OpenAPIによる "辛くない" スキーマ駆動開発](https://fortee.jp/phperkaigi-2024/proposal/9e2e6c38-d078-4efa-99b4-83ebf9033b34) by [KentarouTakeda](https://twitter.com/KentarouTakeda)
@@ -1084,6 +1085,7 @@ Here is a list of template creators:
    * Java Vert.x: @lwlee2608
    * Java Micronaut: @andriy-dmytruk
    * Java Helidon: @spericas @tjquinno @tvallin
+   * Java WireMock: [@acouvreur](https://github.com/acouvreur)
    * JAX-RS RestEasy: @chameleon82
    * JAX-RS CXF: @hiveship
    * JAX-RS CXF (CDI): @nickcmaynard
