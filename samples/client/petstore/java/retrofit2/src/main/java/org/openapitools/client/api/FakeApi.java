@@ -35,7 +35,7 @@ public interface FakeApi {
   @Headers({
     "Content-Type:application/xml"
   })
-  @POST("fake/create_xml_item")
+  @HTTP(method = "POST", path = "fake/create_xml_item", hasBody = true)
   Call<Void> createXmlItem(
     @retrofit2.http.Body XmlItem xmlItem
   );
@@ -46,7 +46,7 @@ public interface FakeApi {
    * @param body Input boolean as post body (optional)
    * @return Call&lt;Boolean&gt;
    */
-  @POST("fake/outer/boolean")
+  @HTTP(method = "POST", path = "fake/outer/boolean", hasBody = true)
   Call<Boolean> fakeOuterBooleanSerialize(
     @retrofit2.http.Body Boolean body
   );
@@ -57,7 +57,7 @@ public interface FakeApi {
    * @param body Input composite as post body (optional)
    * @return Call&lt;OuterComposite&gt;
    */
-  @POST("fake/outer/composite")
+  @HTTP(method = "POST", path = "fake/outer/composite", hasBody = true)
   Call<OuterComposite> fakeOuterCompositeSerialize(
     @retrofit2.http.Body OuterComposite body
   );
@@ -68,7 +68,7 @@ public interface FakeApi {
    * @param body Input number as post body (optional)
    * @return Call&lt;BigDecimal&gt;
    */
-  @POST("fake/outer/number")
+  @HTTP(method = "POST", path = "fake/outer/number", hasBody = true)
   Call<BigDecimal> fakeOuterNumberSerialize(
     @retrofit2.http.Body BigDecimal body
   );
@@ -79,7 +79,7 @@ public interface FakeApi {
    * @param body Input string as post body (optional)
    * @return Call&lt;String&gt;
    */
-  @POST("fake/outer/string")
+  @HTTP(method = "POST", path = "fake/outer/string", hasBody = true)
   Call<String> fakeOuterStringSerialize(
     @retrofit2.http.Body String body
   );
@@ -93,7 +93,7 @@ public interface FakeApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @PUT("fake/body-with-file-schema")
+  @HTTP(method = "PUT", path = "fake/body-with-file-schema", hasBody = true)
   Call<Void> testBodyWithFileSchema(
     @retrofit2.http.Body FileSchemaTestClass body
   );
@@ -108,7 +108,7 @@ public interface FakeApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @PUT("fake/body-with-query-params")
+  @HTTP(method = "PUT", path = "fake/body-with-query-params", hasBody = true)
   Call<Void> testBodyWithQueryParams(
     @retrofit2.http.Query("query") String query, @retrofit2.http.Body User body
   );
@@ -122,7 +122,7 @@ public interface FakeApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @PATCH("fake")
+  @HTTP(method = "PATCH", path = "fake", hasBody = true)
   Call<Client> testClientModel(
     @retrofit2.http.Body Client body
   );
@@ -147,7 +147,7 @@ public interface FakeApi {
    * @return Call&lt;Void&gt;
    */
   @retrofit2.http.FormUrlEncoded
-  @POST("fake")
+  @HTTP(method = "POST", path = "fake")
   Call<Void> testEndpointParameters(
     @retrofit2.http.Field("number") BigDecimal number, @retrofit2.http.Field("double") Double _double, @retrofit2.http.Field("pattern_without_delimiter") String patternWithoutDelimiter, @retrofit2.http.Field("byte") byte[] _byte, @retrofit2.http.Field("integer") Integer integer, @retrofit2.http.Field("int32") Integer int32, @retrofit2.http.Field("int64") Long int64, @retrofit2.http.Field("float") Float _float, @retrofit2.http.Field("string") String string, @retrofit2.http.Field("binary") MultipartBody.Part binary, @retrofit2.http.Field("date") LocalDate date, @retrofit2.http.Field("dateTime") OffsetDateTime dateTime, @retrofit2.http.Field("password") String password, @retrofit2.http.Field("callback") String paramCallback
   );
@@ -166,7 +166,7 @@ public interface FakeApi {
    * @return Call&lt;Void&gt;
    */
   @retrofit2.http.FormUrlEncoded
-  @GET("fake")
+  @HTTP(method = "GET", path = "fake")
   Call<Void> testEnumParameters(
     @retrofit2.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit2.http.Header("enum_header_string") String enumHeaderString, @retrofit2.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit2.http.Query("enum_query_string") String enumQueryString, @retrofit2.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit2.http.Query("enum_query_double") Double enumQueryDouble, @retrofit2.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit2.http.Field("enum_form_string") String enumFormString
   );
@@ -182,7 +182,7 @@ public interface FakeApi {
    * @param int64Group Integer in group parameters (optional)
    * @return Call&lt;Void&gt;
    */
-  @DELETE("fake")
+  @HTTP(method = "DELETE", path = "fake")
   Call<Void> testGroupParameters(
     @retrofit2.http.Query("required_string_group") Integer requiredStringGroup, @retrofit2.http.Header("required_boolean_group") Boolean requiredBooleanGroup, @retrofit2.http.Query("required_int64_group") Long requiredInt64Group, @retrofit2.http.Query("string_group") Integer stringGroup, @retrofit2.http.Header("boolean_group") Boolean booleanGroup, @retrofit2.http.Query("int64_group") Long int64Group
   );
@@ -196,7 +196,7 @@ public interface FakeApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @POST("fake/inline-additionalProperties")
+  @HTTP(method = "POST", path = "fake/inline-additionalProperties", hasBody = true)
   Call<Void> testInlineAdditionalProperties(
     @retrofit2.http.Body Map<String, String> param
   );
@@ -209,7 +209,7 @@ public interface FakeApi {
    * @return Call&lt;Void&gt;
    */
   @retrofit2.http.FormUrlEncoded
-  @GET("fake/jsonFormData")
+  @HTTP(method = "GET", path = "fake/jsonFormData")
   Call<Void> testJsonFormData(
     @retrofit2.http.Field("param") String param, @retrofit2.http.Field("param2") String param2
   );
@@ -224,7 +224,7 @@ public interface FakeApi {
    * @param context  (required)
    * @return Call&lt;Void&gt;
    */
-  @PUT("fake/test-query-parameters")
+  @HTTP(method = "PUT", path = "fake/test-query-parameters")
   Call<Void> testQueryParameterCollectionFormat(
     @retrofit2.http.Query("pipe") CSVParams pipe, @retrofit2.http.Query("ioutil") CSVParams ioutil, @retrofit2.http.Query("http") SSVParams http, @retrofit2.http.Query("url") CSVParams url, @retrofit2.http.Query("context") List<String> context
   );

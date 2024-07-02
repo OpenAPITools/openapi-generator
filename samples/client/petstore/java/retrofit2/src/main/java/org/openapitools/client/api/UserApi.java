@@ -25,7 +25,7 @@ public interface UserApi {
    * @param body Created user object (required)
    * @return Call&lt;Void&gt;
    */
-  @POST("user")
+  @HTTP(method = "POST", path = "user", hasBody = true)
   Call<Void> createUser(
     @retrofit2.http.Body User body
   );
@@ -36,7 +36,7 @@ public interface UserApi {
    * @param body List of user object (required)
    * @return Call&lt;Void&gt;
    */
-  @POST("user/createWithArray")
+  @HTTP(method = "POST", path = "user/createWithArray", hasBody = true)
   Call<Void> createUsersWithArrayInput(
     @retrofit2.http.Body List<User> body
   );
@@ -47,7 +47,7 @@ public interface UserApi {
    * @param body List of user object (required)
    * @return Call&lt;Void&gt;
    */
-  @POST("user/createWithList")
+  @HTTP(method = "POST", path = "user/createWithList", hasBody = true)
   Call<Void> createUsersWithListInput(
     @retrofit2.http.Body List<User> body
   );
@@ -58,7 +58,7 @@ public interface UserApi {
    * @param username The name that needs to be deleted (required)
    * @return Call&lt;Void&gt;
    */
-  @DELETE("user/{username}")
+  @HTTP(method = "DELETE", path = "user/{username}")
   Call<Void> deleteUser(
     @retrofit2.http.Path("username") String username
   );
@@ -69,7 +69,7 @@ public interface UserApi {
    * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return Call&lt;User&gt;
    */
-  @GET("user/{username}")
+  @HTTP(method = "GET", path = "user/{username}")
   Call<User> getUserByName(
     @retrofit2.http.Path("username") String username
   );
@@ -81,7 +81,7 @@ public interface UserApi {
    * @param password The password for login in clear text (required)
    * @return Call&lt;String&gt;
    */
-  @GET("user/login")
+  @HTTP(method = "GET", path = "user/login")
   Call<String> loginUser(
     @retrofit2.http.Query("username") String username, @retrofit2.http.Query("password") String password
   );
@@ -91,7 +91,7 @@ public interface UserApi {
    * 
    * @return Call&lt;Void&gt;
    */
-  @GET("user/logout")
+  @HTTP(method = "GET", path = "user/logout")
   Call<Void> logoutUser();
     
 
@@ -102,7 +102,7 @@ public interface UserApi {
    * @param body Updated user object (required)
    * @return Call&lt;Void&gt;
    */
-  @PUT("user/{username}")
+  @HTTP(method = "PUT", path = "user/{username}", hasBody = true)
   Call<Void> updateUser(
     @retrofit2.http.Path("username") String username, @retrofit2.http.Body User body
   );
