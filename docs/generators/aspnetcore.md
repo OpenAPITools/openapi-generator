@@ -18,7 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|aspnetCoreVersion|ASP.NET Core version: 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)|<dl><dt>**2.0**</dt><dd>ASP.NET Core 2.0</dd><dt>**2.1**</dt><dd>ASP.NET Core 2.1</dd><dt>**2.2**</dt><dd>ASP.NET Core 2.2</dd><dt>**3.0**</dt><dd>ASP.NET Core 3.0</dd><dt>**3.1**</dt><dd>ASP.NET Core 3.1</dd><dt>**5.0**</dt><dd>ASP.NET Core 5.0</dd><dt>**6.0**</dt><dd>ASP.NET Core 6.0</dd></dl>|3.1|
+|aspnetCoreVersion|ASP.NET Core version: 6.0, 5.0, 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)|<dl><dt>**2.0**</dt><dd>ASP.NET Core 2.0</dd><dt>**2.1**</dt><dd>ASP.NET Core 2.1</dd><dt>**2.2**</dt><dd>ASP.NET Core 2.2</dd><dt>**3.0**</dt><dd>ASP.NET Core 3.0</dd><dt>**3.1**</dt><dd>ASP.NET Core 3.1</dd><dt>**5.0**</dt><dd>ASP.NET Core 5.0</dd><dt>**6.0**</dt><dd>ASP.NET Core 6.0</dd><dt>**7.0**</dt><dd>ASP.NET Core 7.0</dd><dt>**8.0**</dt><dd>ASP.NET Core 8.0</dd></dl>|8.0|
 |buildTarget|Target to build an application or library|<dl><dt>**program**</dt><dd>Generate code for a standalone server</dd><dt>**library**</dt><dd>Generate code for a server abstract class library</dd></dl>|program|
 |classModifier|Class Modifier for controller classes: Empty string or abstract.| ||
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|
