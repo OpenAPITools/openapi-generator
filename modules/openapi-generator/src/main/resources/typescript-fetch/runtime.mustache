@@ -310,8 +310,8 @@ function querystringSingleKey(key: string, value: string | number | null | undef
     const fullKey = keyPrefix + (keyPrefix.length ? `[${key}]` : key);
     if (value instanceof Array) {
         const multiValue = value.map(singleValue => encodeURIComponent(String(singleValue)))
-            .join(`&${encodeURIComponent(fullKey)}=`);
-        return `${encodeURIComponent(fullKey)}=${multiValue}`;
+            .join(`&${fullKey}=`);
+        return `${fullKey}=${multiValue}`;
     }
     if (value instanceof Set) {
         const valueAsArray = Array.from(value);
