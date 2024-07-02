@@ -252,6 +252,10 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isArray}}
         {{^isArray}}
         if (requestParameters['{{paramName}}'] != null) {
+            {{#isDateTimeType}}
+            formParams.append('{{baseName}}', (requestParameters['{{paramName}}'] as any).toISOString());
+            {{/isDateTimeType}}
+            {{^isDateTimeType}}
             {{#isPrimitiveType}}
             formParams.append('{{baseName}}', requestParameters['{{paramName}}'] as any);
             {{/isPrimitiveType}}
@@ -262,6 +266,7 @@ export class {{classname}} extends runtime.BaseAPI {
             formParams.append('{{baseName}}', new Blob([JSON.stringify(requestParameters['{{paramName}}'])], { type: "application/json", }));
             {{/withoutRuntimeChecks}}
             {{/isPrimitiveType}}
+            {{/isDateTimeType}}
         }
 
         {{/isArray}}
