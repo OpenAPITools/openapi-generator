@@ -148,9 +148,6 @@ public class ApiClient extends JavaTimeFormatter {
 
   private Map<String, Authentication> authentications;
 
-  private int statusCode;
-  private Map<String, List<String>> responseHeaders;
-
   private DateFormat dateFormat;
 
   // Methods that can have a request body
@@ -291,23 +288,6 @@ public class ApiClient extends JavaTimeFormatter {
   public ApiClient setServerVariables(Map<String, String> serverVariables) {
     this.serverVariables = serverVariables;
     return this;
-  }
-
-  /**
-   * Gets the status code of the previous request
-   *
-   * @return Status code
-   */
-  public int getStatusCode() {
-    return statusCode;
-  }
-
-  /**
-   * Gets the response headers of the previous request
-   * @return Response headers
-   */
-  public Map<String, List<String>> getResponseHeaders() {
-    return responseHeaders;
   }
 
   /**
@@ -874,6 +854,7 @@ public class ApiClient extends JavaTimeFormatter {
       // convert input stream to string
       return (T) EntityUtils.toString(entity);
     } else {
+      Map<String, List<String>> responseHeaders = transformResponseHeaders(response.getHeaders());
       throw new ApiException(
           "Deserialization for content type '" + mimeType + "' not supported for type '" + valueType + "'",
           response.getCode(),
@@ -1019,16 +1000,16 @@ public class ApiClient extends JavaTimeFormatter {
   }
 
   protected <T> T processResponse(CloseableHttpResponse response, TypeReference<T> returnType) throws ApiException, IOException, ParseException {
-    statusCode = response.getCode();
+    int statusCode = response.getCode();
     if (statusCode == HttpStatus.SC_NO_CONTENT) {
       return null;
     }
 
-    responseHeaders = transformResponseHeaders(response.getHeaders());
     if (isSuccessfulStatus(statusCode)) {
       return this.deserialize(response, returnType);
     } else {
       String message = EntityUtils.toString(response.getEntity());
+      Map<String, List<String>> responseHeaders = transformResponseHeaders(response.getHeaders());
       throw new ApiException(message, statusCode, responseHeaders, message);
     }
   }
