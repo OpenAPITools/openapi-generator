@@ -119,6 +119,9 @@ export class ObjectSerializer {
             }
             return transformedData;
         } else if (type === "Date") {
+            if (typeof data === "string") {
+                return new Date(data).toISOString();
+            }
             return data.toISOString();
         } else {
             if (enumsMap[type]) {
