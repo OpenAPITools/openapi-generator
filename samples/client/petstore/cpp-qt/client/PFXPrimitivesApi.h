@@ -96,6 +96,7 @@ Q_SIGNALS:
     void primitivesIntegerPostSignal();
     void primitivesNumberPutSignal();
 
+
     void primitivesIntegerPostSignalFull(PFXHttpRequestWorker *worker);
     void primitivesNumberPutSignalFull(PFXHttpRequestWorker *worker);
 

@@ -237,6 +237,7 @@ void PFXPrimitivesApi::primitivesIntegerPost(const ::test_namespace::OptionalPar
     }
 #endif
 
+
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPrimitivesApi::primitivesIntegerPostCallback);
     connect(this, &PFXPrimitivesApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
@@ -314,6 +315,7 @@ void PFXPrimitivesApi::primitivesNumberPut(const ::test_namespace::OptionalParam
         input.headers.insert(key, _defaultHeaders[key]);
     }
 #endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXPrimitivesApi::primitivesNumberPutCallback);
     connect(this, &PFXPrimitivesApi::abortRequestsSignal, worker, &QObject::deleteLater);

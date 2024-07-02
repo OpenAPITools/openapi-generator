@@ -139,6 +139,7 @@ Q_SIGNALS:
     void logoutUserSignal();
     void updateUserSignal();
 
+
     void createUserSignalFull(PFXHttpRequestWorker *worker);
     void createUsersWithArrayInputSignalFull(PFXHttpRequestWorker *worker);
     void createUsersWithListInputSignalFull(PFXHttpRequestWorker *worker);
