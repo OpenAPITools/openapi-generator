@@ -1,0 +1,8 @@
+generatorName: java
+outputDir: samples/client/petstore/java/microprofile-rest-client-outer-enum
+library: microprofile
+inputSpec: modules/openapi-generator/src/test/resources/3_0/outerEnum.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: microprofile-rest-client
+  configKeyFromClassName: true
