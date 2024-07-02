@@ -29,6 +29,7 @@ PFXStoreApi::~PFXStoreApi() {
 
 void PFXStoreApi::initializeServerConfigs() {
     //Default server
+    // comment to test ci
     QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
     //varying endpoint server
     defaultConf.append(PFXServerConfiguration(

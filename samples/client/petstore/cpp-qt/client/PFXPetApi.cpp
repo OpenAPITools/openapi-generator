@@ -29,6 +29,7 @@ PFXPetApi::~PFXPetApi() {
 
 void PFXPetApi::initializeServerConfigs() {
     //Default server
+    // comment to test ci
     QList<PFXServerConfiguration> defaultConf = QList<PFXServerConfiguration>();
     //varying endpoint server
     defaultConf.append(PFXServerConfiguration(
