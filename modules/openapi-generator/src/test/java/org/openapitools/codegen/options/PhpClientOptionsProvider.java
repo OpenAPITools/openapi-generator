@@ -43,6 +43,7 @@ public class PhpClientOptionsProvider implements OptionsProvider {
     public static final String DEVELOPER_ORGANIZATION_VALUE = "openapi generator contributors";
     public static final String COMPOSER_PACKAGE_NAME_VALUE = "package/name";
     public static final String LIBRARY_VALUE = "psr-18";
+    public static final String REMOVE_ENUM_VALUE_PREFIX_VALUE = "true";
 
     @Override
     public String getLanguage() {
@@ -74,6 +75,7 @@ public class PhpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.DEVELOPER_ORGANIZATION, DEVELOPER_ORGANIZATION_VALUE)
                 .put(CodegenConstants.COMPOSER_PACKAGE_NAME, COMPOSER_PACKAGE_NAME_VALUE)
                 .put(CodegenConstants.LIBRARY, LIBRARY_VALUE)
+                .put(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX, REMOVE_ENUM_VALUE_PREFIX_VALUE)
                 .build();
     }
 

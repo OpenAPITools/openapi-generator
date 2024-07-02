@@ -35,6 +35,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |packageName|The main package name for classes. e.g. GeneratedPetstore| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |psr7Implementation|Slim 4 provides its own PSR-7 implementation so that it works out of the box. However, you are free to replace Slim&rsquo;s default PSR-7 objects with a third-party implementation. Ref: https://www.slimframework.com/docs/v4/concepts/value-objects.html|<dl><dt>**slim-psr7**</dt><dd>Slim PSR-7 Message implementation</dd><dt>**nyholm-psr7**</dt><dd>Nyholm PSR-7 Message implementation</dd><dt>**guzzle-psr7**</dt><dd>Guzzle PSR-7 Message implementation</dd><dt>**zend-diactoros**</dt><dd>Zend Diactoros PSR-7 Message implementation</dd></dl>|slim-psr7|
+|removeEnumValuePrefix|Remove the common prefix of enum values|<dl><dt>**false**</dt><dd>No changes to the enum's are made.</dd><dt>**true**</dt><dd>With this option disabled, each enum will have the common prefix between them removed. This is the default option.</dd></dl>|true|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |srcBasePath|The directory to serve as source root.| |null|

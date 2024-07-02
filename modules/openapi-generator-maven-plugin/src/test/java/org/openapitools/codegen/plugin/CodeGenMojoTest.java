@@ -34,6 +34,7 @@ import org.eclipse.aether.repository.LocalRepository;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -249,6 +250,16 @@ public class CodeGenMojoTest extends BaseTestCase {
             Files.readString(hashFile), currentHash, "Checksum should not be the same after external file change"
         );         
         assertTrue("Src directory should have been regenerated", Files.exists(generatedDir.resolve("src")));
+    }
+
+    public void test_configOptions_removeEnumValuePrefix_issue18889() throws Exception {
+        final Path tempDir = newTempFolder();
+        final CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/issue-18889", null);
+        mojo.execute();
+        String fileContent = FileUtils.readFileToString(tempDir.resolve("target/generated-sources/issue-18889/src/main/java/org/openapitools/client/model/PetType.java").toFile(), StandardCharsets.UTF_8);
+        assertTrue("File content does not contain PET_CAT", fileContent.contains("PET_CAT(\"PET_CAT\"),"));
+        assertTrue("File content does not contain PET_DOG", fileContent.contains("PET_DOG(\"PET_DOG\"),"));
+        assertTrue("File content does not contain PET_LIZARD", fileContent.contains("PET_LIZARD(\"PET_LIZARD\");"));
     }
 
     protected CodeGenMojo loadMojo(Path temporaryFolder, String projectRoot, String profile) throws Exception {

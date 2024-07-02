@@ -37,6 +37,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |library|HTTP library template (sub-template) to use|<dl><dt>**faraday**</dt><dd>Faraday &gt;= 1.0.1 (https://github.com/lostisland/faraday)</dd><dt>**httpx**</dt><dd>HTTPX &gt;= 1.0.0 (https://gitlab.com/os85/httpx)</dd><dt>**typhoeus**</dt><dd>Typhoeus &gt;= 1.0.1 (https://github.com/typhoeus/typhoeus)</dd></dl>|typhoeus|
 |moduleName|top module name (convention: CamelCase, usually corresponding to gem name).| |OpenAPIClient|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|removeEnumValuePrefix|Remove the common prefix of enum values|<dl><dt>**false**</dt><dd>No changes to the enum's are made.</dd><dt>**true**</dt><dd>With this option disabled, each enum will have the common prefix between them removed. This is the default option.</dd></dl>|true|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |useAutoload|Use autoload instead of require to load modules.| |false|
