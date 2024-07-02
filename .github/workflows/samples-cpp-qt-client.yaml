@@ -16,9 +16,6 @@ jobs:
     name: Build cpp qt client
     strategy:
       matrix:
-        qt-version:
-          - "5.15.2"
-          - "6.5.3"
         os:
           - ubuntu-latest
           - macOS-latest
@@ -29,7 +26,7 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
-          version: ${{ matrix.qt-version }}
+          version: "6.7.1"
           target: "desktop"
       - name: Build
         working-directory: "samples/client/petstore/cpp-qt"
